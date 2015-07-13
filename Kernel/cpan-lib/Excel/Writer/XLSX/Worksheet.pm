@@ -7,7 +7,7 @@ package Excel::Writer::XLSX::Worksheet;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -23,11 +23,14 @@ use List::Util qw(max min);
 use Excel::Writer::XLSX::Format;
 use Excel::Writer::XLSX::Drawing;
 use Excel::Writer::XLSX::Package::XMLwriter;
-use Excel::Writer::XLSX::Utility
-  qw(xl_cell_to_rowcol xl_rowcol_to_cell xl_col_to_name xl_range);
+use Excel::Writer::XLSX::Utility qw(xl_cell_to_rowcol
+                                    xl_rowcol_to_cell
+                                    xl_col_to_name
+                                    xl_range
+                                    quote_sheetname);
 
 our @ISA     = qw(Excel::Writer::XLSX::Package::XMLwriter);
-our $VERSION = '0.79';
+our $VERSION = '0.84';
 
 
 ###############################################################################
@@ -206,6 +209,9 @@ sub new {
     $self->{_shape_hash}             = {};
     $self->{_has_shapes}             = 0;
     $self->{_drawing}                = 0;
+
+    $self->{_horizontal_dpi} = 0;
+    $self->{_vertical_dpi}   = 0;
 
     $self->{_rstring}      = '';
     $self->{_previous_row} = 0;
@@ -1137,7 +1143,7 @@ sub repeat_rows {
     my $area = '$' . $row_min . ':' . '$' . $row_max;
 
     # Build up the print titles "Sheet1!$1:$2"
-    my $sheetname = $self->_quote_sheetname( $self->{_name} );
+    my $sheetname = quote_sheetname( $self->{_name} );
     $area = $sheetname . "!" . $area;
 
     $self->{_repeat_rows} = $area;
@@ -1174,7 +1180,7 @@ sub repeat_columns {
     my $area = $col_min . ':' . $col_max;
 
     # Build up the print area range "=Sheet2!C1:C2"
-    my $sheetname = $self->_quote_sheetname( $self->{_name} );
+    my $sheetname = quote_sheetname( $self->{_name} );
     $area = $sheetname . "!" . $area;
 
     $self->{_repeat_cols} = $area;
@@ -1614,7 +1620,7 @@ sub _convert_name_area {
     }
 
     # Build up the print area range "Sheet1!$A$1:$C$13".
-    my $sheetname = $self->_quote_sheetname( $self->{_name} );
+    my $sheetname = quote_sheetname( $self->{_name} );
     $area = $sheetname . "!" . $area;
 
     return $area;
@@ -1768,6 +1774,20 @@ sub set_print_scale {
 
 ###############################################################################
 #
+# print_black_and_white()
+#
+# Set the option to print the worksheet in black and white.
+#
+sub print_black_and_white {
+
+    my $self = shift;
+
+    $self->{_black_white} = 1;
+}
+
+
+###############################################################################
+#
 # keep_leading_zeros()
 #
 # Causes the write() method to treat integers with a leading zero as a string.
@@ -1875,7 +1895,6 @@ sub set_start_page {
     return unless defined $_[0];
 
     $self->{_page_start}   = $_[0];
-    $self->{_custom_start} = 1;
 }
 
 
@@ -4115,8 +4134,10 @@ sub add_table {
 
                     );
 
+                    my $value = $user_data->{total_value} || 0;
+
                     $self->write_formula( $row2, $col_num, $formula,
-                        $user_data->{format} );
+                        $user_data->{format}, $value );
 
                 }
                 elsif ( $user_data->{total_string} ) {
@@ -4290,7 +4311,7 @@ sub add_sparkline {
 
 
     # Get the worksheet name for the range conversion below.
-    my $sheetname = $self->_quote_sheetname( $self->{_name} );
+    my $sheetname = quote_sheetname( $self->{_name} );
 
     # Cleanup the input ranges.
     for my $range ( @{ $sparkline->{_ranges} } ) {
@@ -4402,6 +4423,26 @@ sub insert_button {
 
 ###############################################################################
 #
+# set_vba_name()
+#
+# Set the VBA name for the worksheet.
+#
+sub set_vba_name {
+
+    my $self         = shift;
+    my $vba_codemame = shift;
+
+    if ( $vba_codemame ) {
+        $self->{_vba_codename} = $vba_codemame;
+    }
+    else {
+        $self->{_vba_codename} = $self->{_name};
+    }
+}
+
+
+###############################################################################
+#
 # Internal methods.
 #
 ###############################################################################
@@ -4488,28 +4529,6 @@ sub _get_palette_color {
     my @rgb = @{ $palette->[$index] };
 
     return sprintf "FF%02X%02X%02X", @rgb;
-}
-
-
-###############################################################################
-#
-# _quote_sheetname()
-#
-# Sheetnames used in references should be quoted if they contain any spaces,
-# special characters or if the look like something that isn't a sheet name.
-# TODO. We need to handle more special cases.
-#
-sub _quote_sheetname {
-
-    my $self      = shift;
-    my $sheetname = $_[0];
-
-    if ( $sheetname =~ /^Sheet\d+$/ ) {
-        return $sheetname;
-    }
-    else {
-        return qq('$sheetname');
-    }
 }
 
 
@@ -5007,76 +5026,6 @@ sub _size_row {
 
 ###############################################################################
 #
-# _options_changed()
-#
-# Check to see if any of the worksheet options have changed.
-#
-sub _options_changed {
-
-    my $self = shift;
-
-    my $options_changed = 0;
-    my $print_changed   = 0;
-    my $setup_changed   = 0;
-
-
-    if (   $self->{_orientation} == 0
-        or $self->{_hcenter} == 1
-        or $self->{_vcenter} == 1
-        or $self->{_header} ne ''
-        or $self->{_footer} ne ''
-        or $self->{_margin_header} != 0.50
-        or $self->{_margin_footer} != 0.50
-        or $self->{_margin_left} != 0.75
-        or $self->{_margin_right} != 0.75
-        or $self->{_margin_top} != 1.00
-        or $self->{_margin_bottom} != 1.00 )
-    {
-        $setup_changed = 1;
-    }
-
-
-    # Special case for 1x1 page fit.
-    if ( $self->{_fit_width} == 1 and $self->{_fit_height} == 1 ) {
-        $options_changed     = 1;
-        $self->{_fit_width}  = 0;
-        $self->{_fit_height} = 0;
-    }
-
-
-    if (   $self->{_fit_width} > 1
-        or $self->{_fit_height} > 1
-        or $self->{_page_order} == 1
-        or $self->{_black_white} == 1
-        or $self->{_draft_quality} == 1
-        or $self->{_print_comments} == 1
-        or $self->{_paper_size} != 0
-        or $self->{_print_scale} != 100
-        or $self->{_print_gridlines} == 1
-        or $self->{_print_headers} == 1
-        or @{ $self->{_hbreaks} } > 0
-        or @{ $self->{_vbreaks} } > 0 )
-    {
-        $print_changed = 1;
-    }
-
-
-    if (   $print_changed
-        or $setup_changed )
-    {
-        $options_changed = 1;
-    }
-
-
-    $options_changed = 1 if $self->{_screen_gridlines} == 0;
-    $options_changed = 1 if $self->{_filter_on};
-
-    return ( $options_changed, $print_changed, $setup_changed );
-}
-
-
-###############################################################################
-#
 # _get_shared_string_index()
 #
 # Add a string to the shared string table, if it isn't already there, and
@@ -5136,6 +5085,21 @@ sub insert_chart {
         croak "Not a embedded style Chart object in insert_chart()"
           unless $chart->{_embedded};
 
+    }
+
+    # Ensure a chart isn't inserted more than once.
+    if (   $chart->{_already_inserted}
+        || $chart->{_combined} && $chart->{_combined}->{_already_inserted} )
+    {
+        carp "Chart cannot be inserted in a worksheet more than once";
+        return;
+    }
+    else {
+        $chart->{_already_inserted} = 1;
+
+        if ( $chart->{_combined} ) {
+            $chart->{_combined}->{_already_inserted} = 1;
+        }
     }
 
     # Use the values set with $chart->set_size(), if any.
@@ -6960,6 +6924,18 @@ sub _write_cell {
     my $xf       = $cell->[2];
     my $xf_index = 0;
 
+    my %error_codes = (
+        '#DIV/0!' => 1,
+        '#N/A'    => 1,
+        '#NAME?'  => 1,
+        '#NULL!'  => 1,
+        '#NUM!'   => 1,
+        '#REF!'   => 1,
+        '#VALUE!' => 1,
+    );
+
+    my %boolean = ( 'TRUE' => 1, 'FALSE' => 0 );
+
     # Get the format index.
     if ( ref( $xf ) ) {
         $xf_index = $xf->get_xf_index();
@@ -7028,11 +7004,19 @@ sub _write_cell {
         if (   $value
             && $value !~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ )
         {
-            push @attributes, ( 't' => 'str' );
-            $value =
-              Excel::Writer::XLSX::Package::XMLwriter::_escape_data( $value );
+            if ( exists $boolean{$value} ) {
+                push @attributes, ( 't' => 'b' );
+                $value = $boolean{$value};
+            }
+            elsif ( exists $error_codes{$value} ) {
+                push @attributes, ( 't' => 'e' );
+            }
+            else {
+                push @attributes, ( 't' => 'str' );
+                $value = Excel::Writer::XLSX::Package::XMLwriter::_escape_data(
+                    $value );
+            }
         }
-
 
         $self->xml_formula_element( $token, $value, @attributes );
 
@@ -7215,6 +7199,11 @@ sub _write_page_setup {
         push @attributes, ( 'pageOrder' => "overThenDown" );
     }
 
+    # Set start page.
+    if ( $self->{_page_start} > 1 ) {
+        push @attributes, ( 'firstPageNumber' => $self->{_page_start} );
+    }
+
     # Set page orientation.
     if ( $self->{_orientation} == 0 ) {
         push @attributes, ( 'orientation' => 'landscape' );
@@ -7223,10 +7212,25 @@ sub _write_page_setup {
         push @attributes, ( 'orientation' => 'portrait' );
     }
 
+    # Set print in black and white option.
+    if ( $self->{_black_white} ) {
+        push @attributes, ( 'blackAndWhite' => 1 );
+    }
+
     # Set start page.
     if ( $self->{_page_start} != 0 ) {
-        push @attributes, ( 'useFirstPageNumber' => $self->{_page_start} );
+        push @attributes, ( 'useFirstPageNumber' => 1 );
     }
+
+    # Set the DPI. Mainly only for testing.
+    if ( $self->{_horizontal_dpi} ) {
+        push @attributes, ( 'horizontalDpi' => $self->{_horizontal_dpi} );
+    }
+
+    if ( $self->{_vertical_dpi} ) {
+        push @attributes, ( 'verticalDpi' => $self->{_vertical_dpi} );
+    }
+
 
     $self->xml_empty_tag( 'pageSetup', @attributes );
 }
@@ -9205,6 +9209,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXIIII, John McNamara.
+(c) MM-MMXV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

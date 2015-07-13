@@ -7,7 +7,7 @@ package Excel::Writer::XLSX::Workbook;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -33,7 +33,7 @@ use Excel::Writer::XLSX::Package::XMLwriter;
 use Excel::Writer::XLSX::Utility qw(xl_cell_to_rowcol xl_rowcol_to_cell);
 
 our @ISA     = qw(Excel::Writer::XLSX::Package::XMLwriter);
-our $VERSION = '0.79';
+our $VERSION = '0.84';
 
 
 ###############################################################################
@@ -860,6 +860,26 @@ sub add_vba_project {
 
 ###############################################################################
 #
+# set_vba_name()
+#
+# Set the VBA name for the workbook.
+#
+sub set_vba_name {
+
+    my $self         = shift;
+    my $vba_codemame = shift;
+
+    if ( $vba_codemame ) {
+        $self->{_vba_codename} = $vba_codemame;
+    }
+    else {
+        $self->{_vba_codename} = 'ThisWorkbook';
+    }
+}
+
+
+###############################################################################
+#
 # set_calc_mode()
 #
 # Set the Excel caclcuation mode for the workbook.
@@ -1603,15 +1623,21 @@ sub _prepare_drawings {
         }
     }
 
+
+    # Remove charts that were created but not inserted into worksheets.
+    my @chart_data;
+
+    for my $chart ( @{ $self->{_charts} } ) {
+        if ( $chart->{_id} != -1 ) {
+            push @chart_data, $chart;
+        }
+    }
+
     # Sort the workbook charts references into the order that the were
     # written from the worksheets above.
-    my @chart_data = @{ $self->{_charts} };
-
     @chart_data = sort { $a->{_id} <=> $b->{_id} } @chart_data;
 
     $self->{_charts} = \@chart_data;
-
-
     $self->{_drawing_count} = $drawing_id;
 }
 
@@ -1632,6 +1658,7 @@ sub _prepare_vml_objects {
     my $vml_shape_id   = 1024;
     my $vml_files      = 0;
     my $comment_files  = 0;
+    my $has_button     = 0;
 
     for my $sheet ( @{ $self->{_worksheets} } ) {
 
@@ -1661,6 +1688,17 @@ sub _prepare_vml_objects {
             $sheet->_prepare_header_vml_objects( $vml_header_id,
                 $vml_drawing_id );
         }
+
+        # Set the sheet vba_codename if it has a button and the workbook
+        # has a vbaProject binary.
+        if ( $sheet->{_buttons_array} ) {
+            $has_button = 1;
+
+            if ( $self->{_vba_project} && !$sheet->{_vba_codename} ) {
+                $sheet->set_vba_name();
+            }
+        }
+
     }
 
     $self->{_num_vml_files}     = $vml_files;
@@ -1680,6 +1718,12 @@ sub _prepare_vml_objects {
         $format->get_xf_index();
 
         push @{ $self->{_formats} }, $format;
+    }
+
+    # Set the workbook vba_codename if one of the sheets has a button and
+    # the workbook has a vbaProject binary.
+    if ( $has_button && $self->{_vba_project} && !$self->{_vba_codename} ) {
+        $self->set_vba_name();
     }
 }
 
@@ -1720,14 +1764,25 @@ sub _add_chart_data {
     my $self = shift;
     my %worksheets;
     my %seen_ranges;
+    my @charts;
 
     # Map worksheet names to worksheet objects.
     for my $worksheet ( @{ $self->{_worksheets} } ) {
         $worksheets{ $worksheet->{_name} } = $worksheet;
     }
 
-    CHART:
+    # Build an array of the worksheet charts including any combined charts.
     for my $chart ( @{ $self->{_charts} } ) {
+        push @charts, $chart;
+
+        if ($chart->{_combined}) {
+            push @charts, $chart->{_combined};
+        }
+    }
+
+
+    CHART:
+    for my $chart ( @charts ) {
 
         RANGE:
         while ( my ( $range, $id ) = each %{ $chart->{_formula_ids} } ) {
@@ -2534,6 +2589,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXIIII, John McNamara.
+(c) MM-MMXV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

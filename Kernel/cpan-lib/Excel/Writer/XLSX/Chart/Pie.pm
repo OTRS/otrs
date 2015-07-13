@@ -8,7 +8,7 @@ package Excel::Writer::XLSX::Chart::Pie;
 #
 # See formatting note in Excel::Writer::XLSX::Chart.
 #
-# Copyright 2000-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -22,7 +22,7 @@ use Carp;
 use Excel::Writer::XLSX::Chart;
 
 our @ISA     = qw(Excel::Writer::XLSX::Chart);
-our $VERSION = '0.79';
+our $VERSION = '0.84';
 
 
 ###############################################################################
@@ -37,6 +37,15 @@ sub new {
 
     $self->{_vary_data_color} = 1;
     $self->{_rotation}        = 0;
+
+    # Set the available data label positions for this chart type.
+    $self->{_label_position_default} = 'best_fit';
+    $self->{_label_positions} = {
+        center      => 'ctr',
+        inside_end  => 'inEnd',
+        outside_end => 'outEnd',
+        best_fit    => 'bestFit',
+    };
 
     bless $self, $class;
     return $self;
@@ -103,6 +112,22 @@ sub _write_pie_chart {
     $self->_write_first_slice_ang();
 
     $self->xml_end_tag( 'c:pieChart' );
+}
+
+
+###############################################################################
+#
+# combine()
+#
+# Override parent method to add a warning.
+#
+sub combine {
+
+    my $self  = shift;
+    my $chart = shift;
+
+    carp "Combined chart not currently supported for Pie charts";
+    return;
 }
 
 
@@ -470,6 +495,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-Copyright MM-MMXIIII, John McNamara.
+Copyright MM-MMXV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

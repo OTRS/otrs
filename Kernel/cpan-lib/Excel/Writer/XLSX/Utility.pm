@@ -7,7 +7,7 @@ package Excel::Writer::XLSX::Utility;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -21,7 +21,7 @@ use warnings;
 use autouse 'Date::Calc'  => qw(Delta_DHMS Decode_Date_EU Decode_Date_US);
 use autouse 'Date::Manip' => qw(ParseDate Date_Init);
 
-our $VERSION = '0.79';
+our $VERSION = '0.84';
 
 # Row and column functions
 my @rowcol = qw(
@@ -49,7 +49,7 @@ my @dates = qw(
 
 our @ISA         = qw(Exporter);
 our @EXPORT_OK   = ();
-our @EXPORT      = ( @rowcol, @dates );
+our @EXPORT      = ( @rowcol, @dates, 'quote_sheetname' );
 our %EXPORT_TAGS = (
     rowcol => \@rowcol,
     dates  => \@dates
@@ -172,16 +172,34 @@ sub xl_range_formula {
 
     my ( $sheetname, $row_1, $row_2, $col_1, $col_2 ) = @_;
 
+    $sheetname = quote_sheetname( $sheetname );
+
+    my $range = xl_range( $row_1, $row_2, $col_1, $col_2, 1, 1, 1, 1 );
+
+    return '=' . $sheetname . '!' . $range
+}
+
+
+###############################################################################
+#
+# quote_sheetname()
+#
+# Sheetnames used in references should be quoted if they contain any spaces,
+# special characters or if they look like something that isn't a sheet name.
+#
+sub quote_sheetname {
+
+    my $sheetname = $_[0];
+
     # Use Excel's conventions and quote the sheet name if it contains any
     # non-word character or if it isn't already quoted.
     if ( $sheetname =~ /\W/ && $sheetname !~ /^'/ ) {
+        # Double quote any single quotes.
+        $sheetname =~ s/'/''/g;
         $sheetname = q(') . $sheetname . q(');
     }
 
-    my $range1 = xl_rowcol_to_cell( $row_1, $col_1, 1, 1 );
-    my $range2 = xl_rowcol_to_cell( $row_2, $col_2, 1, 1 );
-
-    return '=' . $sheetname . '!' . $range1 . ':' . $range2;
+    return $sheetname;
 }
 
 
@@ -886,7 +904,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-Copyright MM-MMXIIII, John McNamara.
+Copyright MM-MMXV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

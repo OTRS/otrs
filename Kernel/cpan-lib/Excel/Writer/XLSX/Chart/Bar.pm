@@ -8,7 +8,7 @@ package Excel::Writer::XLSX::Chart::Bar;
 #
 # See formatting note in Excel::Writer::XLSX::Chart.
 #
-# Copyright 2000-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -22,7 +22,7 @@ use Carp;
 use Excel::Writer::XLSX::Chart;
 
 our @ISA     = qw(Excel::Writer::XLSX::Chart);
-our $VERSION = '0.79';
+our $VERSION = '0.84';
 
 
 ###############################################################################
@@ -53,8 +53,38 @@ sub new {
     $self->set_x_axis();
     $self->set_y_axis();
 
+    # Set the available data label positions for this chart type.
+    $self->{_label_position_default} = 'outside_end';
+    $self->{_label_positions} = {
+        center      => 'ctr',
+        inside_base => 'inBase',
+        inside_end  => 'inEnd',
+        outside_end => 'outEnd',
+    };
+
     bless $self, $class;
     return $self;
+}
+
+
+###############################################################################
+#
+# combine()
+#
+# Override parent method to add an extra check that is required for Bar
+# charts to ensure that their combined chart is on a secondary axis.
+#
+sub combine {
+
+    my $self  = shift;
+    my $chart = shift;
+
+    if (!$chart->{_is_secondary}) {
+        carp 'Charts combined with Bar charts must be on a secondary axis';
+        return;
+    }
+
+    $self->{_combined} = $chart;
 }
 
 
@@ -112,8 +142,8 @@ sub _write_bar_chart {
 
     # Set a default overlap for stacked charts.
     if ($self->{_subtype} =~ /stacked/) {
-        if (!defined $self->{_series_overlap}) {
-            $self->{_series_overlap} = 100;
+        if (!defined $self->{_series_overlap_1}) {
+            $self->{_series_overlap_1} = 100;
         }
     }
 
@@ -131,11 +161,20 @@ sub _write_bar_chart {
     # Write the c:marker element.
     $self->_write_marker_value();
 
-    # Write the c:gapWidth element.
-    $self->_write_gap_width( $self->{_series_gap} );
+    if ( $args{primary_axes} ) {
+        # Write the c:gapWidth element.
+        $self->_write_gap_width( $self->{_series_gap_1} );
 
-    # Write the c:overlap element.
-    $self->_write_overlap( $self->{_series_overlap} );
+        # Write the c:overlap element.
+        $self->_write_overlap( $self->{_series_overlap_1} );
+    }
+    else {
+        # Write the c:gapWidth element.
+        $self->_write_gap_width( $self->{_series_gap_2} );
+
+        # Write the c:overlap element.
+        $self->_write_overlap( $self->{_series_overlap_2} );
+    }
 
     # Write the c:axId elements
     $self->_write_axis_ids( %args );
@@ -310,7 +349,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-Copyright MM-MMXIIII, John McNamara.
+Copyright MM-MMXV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 
