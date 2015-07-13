@@ -33,7 +33,6 @@ SuSE series: ap
 %build
 # copy config file
 cp Kernel/Config.pm.dist Kernel/Config.pm
-cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
 # copy all crontab dist files
 for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
 # copy all .dist files
