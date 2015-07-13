@@ -1,7 +1,7 @@
 package Encode::Locale;
 
 use strict;
-our $VERSION = "1.03";
+our $VERSION = "1.05";
 
 use base 'Exporter';
 our @EXPORT_OK = qw(
@@ -26,9 +26,14 @@ sub _init {
 	    # Try to obtain what the Windows ANSI code page is
 	    eval {
 		unless (defined &GetACP) {
+		    require Win32;
+                    eval { Win32::GetACP() };
+		    *GetACP = sub { &Win32::GetACP } unless $@;
+		}
+		unless (defined &GetACP) {
 		    require Win32::API;
 		    Win32::API->Import('kernel32', 'int GetACP()');
-		};
+		}
 		if (defined &GetACP) {
 		    my $cp = GetACP();
 		    $ENCODING_LOCALE = "cp$cp" if $cp;
@@ -37,19 +42,40 @@ sub _init {
 	}
 
 	unless ($ENCODING_CONSOLE_IN) {
-	    # If we have the Win32::Console module installed we can ask
-	    # it for the code set to use
-	    eval {
-		require Win32::Console;
-		my $cp = Win32::Console::InputCP();
-		$ENCODING_CONSOLE_IN = "cp$cp" if $cp;
-		$cp = Win32::Console::OutputCP();
-		$ENCODING_CONSOLE_OUT = "cp$cp" if $cp;
-	    };
-	    # Invoking the 'chcp' program might also work
-	    if (!$ENCODING_CONSOLE_IN && (qx(chcp) || '') =~ /^Active code page: (\d+)/) {
-		$ENCODING_CONSOLE_IN = "cp$1";
+            # only test one since set together
+            unless (defined &GetInputCP) {
+                eval {
+                    require Win32;
+                    eval { Win32::GetConsoleCP() };
+                    # manually "import" it since Win32->import refuses
+                    *GetInputCP = sub { &Win32::GetConsoleCP } unless $@;
+                    *GetOutputCP = sub { &Win32::GetConsoleOutputCP } unless $@;
+                };
+                unless (defined &GetInputCP) {
+                    eval {
+                        # try Win32::Console module for codepage to use
+                        require Win32::Console;
+                        eval { Win32::Console::InputCP() };
+                        *GetInputCP = sub { &Win32::Console::InputCP }
+                            unless $@;
+                        *GetOutputCP = sub { &Win32::Console::OutputCP }
+                            unless $@;
+                    };
+                }
+                unless (defined &GetInputCP) {
+                    # final fallback
+                    *GetInputCP = *GetOutputCP = sub {
+                        # another fallback that could work is:
+                        # reg query HKLM\System\CurrentControlSet\Control\Nls\CodePage /v ACP
+                        ((qx(chcp) || '') =~ /^Active code page: (\d+)/)
+                            ? $1 : ();
+                    };
+                }
 	    }
+            my $cp = GetInputCP();
+            $ENCODING_CONSOLE_IN = "cp$cp" if $cp;
+            $cp = GetOutputCP();
+            $ENCODING_CONSOLE_OUT = "cp$cp" if $cp;
 	}
     }
 
@@ -206,8 +232,7 @@ C<Encode::Locale> will do that if available and make these encodings known
 under the C<Encode> aliases "console_in" and "console_out".  For systems where
 we can't determine the terminal encoding these will be aliased as the same
 encoding as "locale".  The advice is to use "console_in" for input known to
-come from the terminal and "console_out" for output known to go from the
-terminal.
+come from the terminal and "console_out" for output to the terminal.
 
 In addition to arranging for various Encode aliases the following functions and
 variables are provided:
@@ -266,7 +291,7 @@ L<Encode> know this encoding as "locale".
 
 =item $ENCODING_LOCALE_FS
 
-The encoding name determined to be suiteable for file system interfaces
+The encoding name determined to be suitable for file system interfaces
 involving file names.
 L<Encode> know this encoding as "locale_fs".
 
@@ -336,7 +361,7 @@ Users are advised to always specify UTF-8 as the locale charset.
 
 =head1 SEE ALSO
 
-L<I18N::Langinfo>, L<Encode>
+L<I18N::Langinfo>, L<Encode>, L<Term::Encoding>
 
 =head1 AUTHOR
 

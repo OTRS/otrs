@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module Encode::Locale to version 1.05.
  - 2015-07-13 Updated CPAN module Email::Valid to version 1.196.
  - 2015-07-13 Updated CPAN module Algorithm::Diff to version 1.19_03.
  - 2015-07-10 Updated CPAN module CGI to version 4.21.
