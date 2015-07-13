@@ -49,7 +49,7 @@
 %dir /opt/otrs/var/log/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
-%/opt/otrs/var/cron/*.dist
+/opt/otrs/var/cron/*.dist
 %dir /opt/otrs/var/tmp/
 %dir /opt/otrs/var/stats/
 /opt/otrs/var/stats/*.xml
