@@ -2,7 +2,8 @@
 # like versions <= 0.59 used to.
 # $Revision: 1.3 $
 
-package Algorithm::DiffOld;
+package # don't index
+    Algorithm::DiffOld;
 use strict;
 use vars qw($VERSION @EXPORT_OK @ISA @EXPORT);
 use integer;		# see below in _replaceNextLargerWith() for mod to make
@@ -30,7 +31,7 @@ interface, which uses a comparison function rather than a key generating
 function.
 
 Because each of the lines in one array have to be compared with each 
-of the lines in the other array, this does M*N comparisions. This can
+of the lines in the other array, this does M*N comparisons. This can
 be very slow. I clocked it at taking 18 times as long as the stock
 version of Algorithm::Diff for a 4000-line file. It will get worse
 quadratically as array sizes increase.

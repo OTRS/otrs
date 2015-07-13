@@ -5,7 +5,7 @@ use strict;
 use integer;    # see below in _replaceNextLargerWith() for mod to make
                 # if you don't use this
 use vars qw( $VERSION @EXPORT_OK );
-$VERSION = 1.19_02;
+$VERSION = 1.19_03;
 #          ^ ^^ ^^-- Incremented at will
 #          | \+----- Incremented for non-trivial changes to features
 #          \-------- Incremented for fundamental changes
@@ -885,7 +885,7 @@ items:
 and you want to find the longest sequence of items that is present in
 both original sequences in the same order.  That is, you want to find
 a new sequence I<S> which can be obtained from the first sequence by
-deleting some items, and from the secend sequence by deleting other
+deleting some items, and from the second sequence by deleting other
 items.  You also want I<S> to be as long as possible.  In this case I<S>
 is
 
@@ -1057,7 +1057,7 @@ C<< $diff->Reset()->Next(-1) >> to get the number of hunks.
 
     $copy = $diff->Copy( $newPos, $newBase );
 
-C<Copy> returns a copy of the object.  The copy and the orignal object
+C<Copy> returns a copy of the object.  The copy and the original object
 share most of their data, so making copies takes very little memory.
 The copy maintains its own position (separate from the original), which
 is the main purpose of copies.  It also maintains its own base.
@@ -1129,7 +1129,7 @@ Neither sequence 1 nor 2 contain changed items so neither the 1 nor the
 
 C<Same> returns a true value iff the current hunk contains items that
 are the same in both sequences.  It actually returns the list of items
-if they are the same or an emty list if they aren't.  In a scalar
+if they are the same or an empty list if they aren't.  In a scalar
 context, it returns the size of the list.
 
 =item C<Items>
@@ -1141,9 +1141,9 @@ C<Items> returns the (number of) items from the specified sequence that
 are part of the current hunk.
 
 If the current hunk contains only insertions, then
-C<< $diff->Items(1) >> will return an empty list (0 in a scalar conext).
+C<< $diff->Items(1) >> will return an empty list (0 in a scalar context).
 If the current hunk contains only deletions, then C<< $diff->Items(2) >>
-will return an empty list (0 in a scalar conext).
+will return an empty list (0 in a scalar context).
 
 If the hunk contains replacements, then both C<< $diff->Items(1) >> and
 C<< $diff->Items(2) >> will return different, non-empty lists.
@@ -1483,7 +1483,7 @@ sequence A, and arrow B points to an element of the sequence B.
 Initially, the arrows point to the first elements of the respective
 sequences.  C<traverse_sequences> will advance the arrows through the
 sequences one element at a time, calling an appropriate user-specified
-callback function before each advance.  It willadvance the arrows in
+callback function before each advance.  It will advance the arrows in
 such a way that if there are equal elements C<$A[$i]> and C<$B[$j]>
 which are equal and which are part of the LCS, there will be some moment
 during the execution of C<traverse_sequences> when arrow A is pointing
@@ -1559,7 +1559,7 @@ uses a different algorithm to iterate through the entries in the
 computed LCS. Instead of sticking to one side and showing element changes
 as insertions and deletions only, it will jump back and forth between
 the two sequences and report I<changes> occurring as deletions on one
-side followed immediatly by an insertion on the other side.
+side followed immediately by an insertion on the other side.
 
 In addition to the C<DISCARD_A>, C<DISCARD_B>, and C<MATCH> callbacks
 supported by C<traverse_sequences>, C<traverse_balanced> supports
@@ -1580,7 +1580,7 @@ therefore resulting in a similar behaviour as C<traverse_sequences>
 with different order of events.
 
 C<traverse_balanced> might be a bit slower than C<traverse_sequences>,
-noticable only while processing huge amounts of data.
+noticeable only while processing huge amounts of data.
 
 The C<sdiff> function of this module 
 is implemented as call to C<traverse_balanced>.
