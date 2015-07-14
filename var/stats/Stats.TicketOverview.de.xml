@@ -2,6 +2,11 @@
 <otrs_stats>
 <Cache>0</Cache>
 <Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.</Description>
+<Format>CSV</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Format>Excel</Format>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>

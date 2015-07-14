@@ -8,6 +8,7 @@ Sortiert nach Alter.
 HINWEIS: Bitte prüfen Sie den Output der Statistik und deren Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Ändern Sie die Konfiguration der Statistik ggf. ab, bevor Sie diese produktiv einsetzen!</Description>
 <File></File>
 <Format>CSV</Format>
+<Format>Excel</Format>
 <Format>Print</Format>
 <GraphSize></GraphSize>
 <Object>TicketList</Object>

@@ -2,6 +2,11 @@
 <otrs_stats>
 <Cache>1</Cache>
 <Description>Monthly overview, which reports status changes per day of a selected month.</Description>
+<Format>CSV</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Format>Excel</Format>
 <Format>Print</Format>
 <Object></Object>
 <ObjectModule>Kernel::System::Stats::Static::StateAction</ObjectModule>

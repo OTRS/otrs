@@ -3,6 +3,11 @@
 <Cache>0</Cache>
 <Title>Overview about all tickets in the system</Title>
 <Description>Current state of all tickets in the system without time restrictions.</Description>
+<Format>CSV</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Format>Excel</Format>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
