@@ -12,7 +12,6 @@ package Kernel::System::UnitTest::Selenium;
 use strict;
 use warnings;
 
-use base qw(Selenium::Remote::Driver);
 use MIME::Base64();
 use File::Temp();
 
@@ -82,6 +81,8 @@ sub new {
             die "SeleniumTestsConfig must provide $Needed!";
         }
     }
+
+    $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver');
 
     my $Self = $Class->SUPER::new(%SeleniumTestsConfig);
     $Self->{UnitTestObject}      = $Param{UnitTestObject};
