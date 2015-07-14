@@ -7,7 +7,7 @@
 # --
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate('Statistics') | html %] &raquo; [% Translate("Overview") | html %]</h1>
+    <h1>[% Translate("Statistics » Overview") | html %]</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">

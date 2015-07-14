@@ -8,7 +8,7 @@
 
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate('Statistics') | html %] &raquo; [% Translate("Edit Statistic \"%s\" (%s%s)", Data.Title, Config('Stats::StatsHook'), Data.StatNumber) | html %]</h1>
+    <h1>[% Translate("Statistics » Edit %s%s — %s", Config('Stats::StatsHook'), Data.StatNumber, Data.Title) | html %]</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">

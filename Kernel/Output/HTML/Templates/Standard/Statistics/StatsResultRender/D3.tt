@@ -10,7 +10,7 @@
 
 <div class="MainBox AriaRoleMain">
     <h1 class="Center SpacingBottom">
-        [% Data.Title | html %] ([% Translate(Config("Stats::StatsHook")) | html %][% Data.StatNumber | html %])
+        [% Config("Stats::StatsHook") | html %][% Data.StatNumber | html %] — [% Data.Title | html %]
     </h1>
 
     <div id="svg-container">
