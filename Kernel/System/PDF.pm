@@ -11,6 +11,8 @@ package Kernel::System::PDF;
 use strict;
 use warnings;
 
+use PDF::API2;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -39,8 +41,8 @@ create an object. Do not use it directly, instead use:
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
-C<undef> will be returned when the config option C<PDF> is not set,
-or when the L<PDF::API2> is not installed or has an unsupported version.
+Please note that currently you should only create one PDF object per instance of
+this class.
 
 =cut
 
@@ -56,15 +58,6 @@ sub new {
         Type => 'PDF',
         Key  => 'CacheStringWidth',
     ) || {};
-
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('PDF::API2') ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "Could not load module PDF::API2!"
-        );
-        return;
-    }
 
     return $Self;
 }
@@ -127,7 +120,7 @@ sub DocumentNew {
     if ( !$Self->{PDF} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Can not create new Document!',
+            Message  => 'Can not create new Document: $!',
         );
         return;
     }
