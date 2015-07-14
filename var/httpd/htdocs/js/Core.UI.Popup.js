@@ -167,7 +167,7 @@ Core.UI.Popup = (function (TargetNS) {
      */
     TargetNS.CurrentIsPopupWindow = function () {
         return CurrentIsPopupWindow();
-    }
+    };
 
     /**
      * @name ProfileAdd
