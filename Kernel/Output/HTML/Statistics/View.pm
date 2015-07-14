@@ -1839,7 +1839,7 @@ sub _Timeoutput {
     $Timeoutput{TimeScaleUnit} = $LayoutObject->BuildSelection(
         %TimeScale,
         Name       => $Element,
-        SelectedID => $Param{SelectedValues}[0],
+        SelectedID => $Param{SelectedValues}[0] // 'Day',
     );
 
     $Timeoutput{TimeRelativeUnit} = $LayoutObject->BuildSelection(
