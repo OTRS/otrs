@@ -249,10 +249,10 @@
     [% IF DisableButton.Restrictions %]disabled="disabled"[% END %]
     data-configuration-type="Restrictions"
     data-configuration-limit=""
-    data-dialog-title="[% Translate('Configure Restrictions') | html %]">
+    data-dialog-title="[% Translate('Configure Filter') | html %]">
     <span>
         <i class="fa fa-filter"></i>
-        [% Translate('Data restrictions') | html %]
+        [% Translate('Filter') | html %]
     </span>
 </button>
 <div id="RestrictionsFormFields" class="Hidden"></div>

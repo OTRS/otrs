@@ -189,9 +189,9 @@ sub StatsParamsWidget {
     # get dynamic attributes
     elsif ( $Stat->{StatType} eq 'dynamic' ) {
         my %Name = (
-            UseAsXvalue      => 'X-axis',
-            UseAsValueSeries => 'Y-axis',
-            UseAsRestriction => 'Data restrictions',
+            UseAsXvalue      => Translatable('X-axis'),
+            UseAsValueSeries => Translatable('Y-axis'),
+            UseAsRestriction => Translatable('Filter'),
         );
 
         for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
