@@ -84,7 +84,7 @@ sub new {
 
     $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver');
 
-    my $Self = $Class->SUPER::new(%SeleniumTestsConfig);
+    my $Self = $Class->Selenium::Remote::Driver::new(%SeleniumTestsConfig);
     $Self->{UnitTestObject}      = $Param{UnitTestObject};
     $Self->{SeleniumTestsActive} = 1;
 
