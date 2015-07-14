@@ -34,7 +34,7 @@ sub new {
     }
 
     # AccessRw controls the adding/editing of statistics.
-    for my $Param (qw( AccessRw RequestedURL)) {
+    for my $Param (qw( AccessRw RequestedURL LastStatsOverview)) {
         if ( $Param{$Param} ) {
             $Self->{$Param} = $Param{$Param};
         }
@@ -93,6 +93,13 @@ sub OverviewScreen {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastStatsOverview',
+        Value     => $Self->{RequestedURL},
+        StoreData => 1,
+    );
 
     # Get Params
     $Param{SearchPageShown} = $ConfigObject->Get('Stats::SearchPageShown') || 50;
@@ -647,7 +654,7 @@ sub EditAction {
     );
 
     if ( $ParamObject->GetParam( Param => 'SaveAndFinish' ) ) {
-        return $LayoutObject->Redirect( OP => 'Action=AgentStatistics;Subaction=Overview' );
+        return $LayoutObject->Redirect( OP => $Self->{LastStatsOverview} );
     }
 
     return $Self->EditScreen(

@@ -80,7 +80,7 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                            <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">
                                 [% Translate('Cancel') | html %]
                             </a>
                         </div>

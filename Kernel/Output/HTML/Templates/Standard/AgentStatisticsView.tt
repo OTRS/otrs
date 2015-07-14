@@ -19,7 +19,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     [% IF Data.AccessRw %]
                         <li>
@@ -56,7 +56,7 @@
                                     <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
                                 </button>
                                 or
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">Cancel</a>
+                                <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">Cancel</a>
                             </div>
                         </fieldset>
 
