@@ -65,13 +65,12 @@ sub StatsParamsWidget {
     return if !$Param{Stat}->{Valid};
 
     # Check if there are any configuration errors that must be corrected by the stats admin
-    if (
-        !$Self->StatsConfigurationValidate(
-            Stat   => $Param{Stat},
-            Errors => {}
-        )
-        )
-    {
+    my $StatsConfigurationValid = $Self->StatsConfigurationValidate(
+        Stat   => $Param{Stat},
+        Errors => {},
+    );
+
+    if ( !$StatsConfigurationValid ) {
         return;
     }
 
@@ -131,14 +130,17 @@ sub StatsParamsWidget {
             Data => \%Frontend,
         );
     }
-    else {
+    elsif ( keys %SelectFormat == 1 ) {
         $LayoutObject->Block(
             Name => 'FormatFixed',
             Data => {
-                Format    => $Format->{ $Stat->{Format}->[0] },
+                Format    => ( values %SelectFormat )[0],
                 FormatKey => $Stat->{Format}->[0],
             },
         );
+    }
+    else {
+        return;    # no possible output format
     }
 
     if ( $ConfigObject->Get('Stats::ExchangeAxis') ) {
@@ -1506,7 +1508,6 @@ sub StatsConfigurationValidate {
         }
     }
 
-    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
