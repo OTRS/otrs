@@ -1118,7 +1118,9 @@ sub StatsParamsGet {
         $GetParam{Month} = $M;
         $GetParam{Day}   = $D;
 
-        my $Params = $Self->GetParams( StatID => $Param{StatID} );
+        my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams(
+            StatID => $Stat->{StatID},
+        );
 
         PARAMITEM:
         for my $ParamItem ( @{$Params} ) {
