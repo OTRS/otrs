@@ -143,8 +143,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
             if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
                 $('a.MasterActionLink').bind('click', function () {
-                    window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: this.href });
-                    window.close();
+                    var that = this;
+                    Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+                        WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: that.href });
+                    });
+                    Core.UI.Popup.ClosePopup();
                     return false;
                 });
             }

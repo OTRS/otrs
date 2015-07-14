@@ -69,8 +69,11 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('a.LinkZoomView').bind('click', function () {
-        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
-        window.close();
+        var that = this;
+        Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+            WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: $(that).attr('href')});
+        });
+        Core.UI.Popup.ClosePopup();
     });
 //]]></script>
 [% END %]

@@ -25,7 +25,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 // Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.
-if (window.opener) {
+if (Core.UI.Popup.CurrentIsPopupWindow()) {
     $('a.LinkObjectLink').attr('target', '_blank');
 }
 //]]></script>

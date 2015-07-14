@@ -158,6 +158,18 @@ Core.UI.Popup = (function (TargetNS) {
     }
 
     /**
+     * @name CurrentIsPopupWindow
+     * @memberof Core.UI.Popup
+     * @function
+     * @returns {String} Returns the type of popup if one, undefined otherwise.
+     * @description
+     *      Checks if current window is an OTRS popup.
+     */
+    TargetNS.CurrentIsPopupWindow = function () {
+        return CurrentIsPopupWindow();
+    }
+
+    /**
      * @name ProfileAdd
      * @memberof Core.UI.Popup
      * @function
@@ -573,6 +585,40 @@ Core.UI.Popup = (function (TargetNS) {
         }
 
         CheckOpenPopups();
+    };
+
+    /**
+     * @name ExecuteInParentWindow
+     * @memberof Core.UI.Popup
+     * @function
+     * @param {Function} FunctionToExecute - The callback function to execute in the parent window.
+     * @param {Array} [FunctionParameters] - Optional function parameters as array.
+     * @description
+     *      Takes a callback function and hands it over to the parent window (to be executed there).
+     *      This is needed to call a function in the parent window from the popup window. The popup window
+     *      can be a real popup or an iframe, so it is not as easy as calling window.opener.
+     *      IMPORTANT: The FunctionToExecute always needs the ParentWindowObject as first Parameter,
+     *      which is used inside this function.
+     */
+    TargetNS.ExecuteInParentWindow = function (FunctionToExecute, FunctionParameters) {
+        var ParentWindow = GetWindowParentObject();
+
+        if (typeof ParentWindow === 'undefined' || ParentWindow === null) {
+            return;
+        }
+
+        if (typeof FunctionParameters === 'undefined') {
+            FunctionParameters = [ParentWindow];
+        }
+        else {
+            FunctionParameters.unshift(ParentWindow);
+        }
+
+        if (typeof FunctionToExecute !== 'undefined' && $.isFunction(FunctionToExecute)) {
+            // call the function with a new this context (first param)
+            // and additional params where the first one is also the parent window object (for use within the function)
+            FunctionToExecute.apply(ParentWindow, FunctionParameters);
+        }
     };
 
     /**

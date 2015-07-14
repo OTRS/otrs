@@ -9,14 +9,11 @@
 [% RenderBlockStart("LoadParentURLAndClose") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-if (window.name.match(/OTRSPopup_.+/) &&
-    window.opener &&
-    window.opener.Core &&
-    window.opener.Core.UI &&
-    window.opener.Core.UI.Popup
-) {
-    window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' });
-    window.close();
+if (Core.UI.Popup.CurrentIsPopupWindow()) {
+    Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+        WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' });
+    });
+    Core.UI.Popup.ClosePopup();
 }
 else {
     window.location.href = '[% Env("Baselink") %][% Data.URL %]';
@@ -28,10 +25,10 @@ else {
 [% RenderBlockStart("ReloadParentAndClose") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-if (window.opener) {
-    window.opener.Core.UI.Popup.FirePopupEvent('Reload');
-    window.close();
-}
+Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+    WindowObject.Core.UI.Popup.FirePopupEvent('Reload');
+});
+Core.UI.Popup.ClosePopup();
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ReloadParentAndClose") %]

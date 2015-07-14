@@ -50,8 +50,8 @@ $('#GoBack').bind('click', function (Event) {
     }
 
     // if we're in a popup window, close it
-    if (window.opener !== null) {
-        window.close();
+    if (Core.UI.Popup.CurrentIsPopupWindow()) {
+        Core.UI.Popup.ClosePopup();
         return false;
     }
 

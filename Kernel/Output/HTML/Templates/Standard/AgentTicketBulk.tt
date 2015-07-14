@@ -257,7 +257,9 @@ $('#MergeTo').bind('blur', function() {
 [% RenderBlockStart("ParentReload") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' });
+Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+    WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' });
+});
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ParentReload") %]
