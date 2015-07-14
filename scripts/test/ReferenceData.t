@@ -37,7 +37,7 @@ $Self->True(
 
 # let's assume these countries don't go anywhere
 
-my @CountryList = ( 'Netherlands', 'Germany', 'Switzerland', 'United States', 'Japan' );
+my @CountryList = ( 'Netherlands', 'Germany', 'Switzerland', 'United States of America', 'Japan' );
 
 for my $Country (@CountryList) {
     $Self->True(
