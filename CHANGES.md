@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module Date::Pcalc to version 6.1.
  - 2015-07-13 Added possibility to define a time difference for pending states during ticket create or update, using the  generic ticket connector (GenericInterface), thanks to Frederic Van Espen.
  - 2015-07-13 Updated CPAN module parent to version 0.234.
  - 2015-07-13 Updated CPAN module YAML to version 1.15.
