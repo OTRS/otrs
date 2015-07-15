@@ -21,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Scheduler',
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
@@ -365,6 +366,26 @@ sub Run {
             );
             return;
         }
+
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+        # execution in 20 seconds
+        my $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
+            SystemTime => ( $TimeObject->SystemTime() + 20 ),
+        );
+
+        # add a asychronous executor scheduler task to count the concurrent user
+        $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
+            ExecutionTime            => $ExecutionTime,
+            Type                     => 'AsynchronousExecutor',
+            Name                     => 'PluginAsynchronous::ConcurrentUser',
+            MaximumParallelInstances => 1,
+            Data                     => {
+                Object   => 'Kernel::System::SupportDataCollector::PluginAsynchronous::OTRS::ConcurrentUsers',
+                Function => 'RunAsynchronous',
+            },
+        );
 
         # set time zone offset if TimeZoneFeature is active
         if (
