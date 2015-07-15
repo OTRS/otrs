@@ -38,8 +38,13 @@ background using the separate process OTRS Scheduler Daemon.
 creates a scheduler daemon task to execute a function asynchronously.
 
     my $Success = $Object->AsyncCall(
-        'Function',  # the name of the function to execute
-        %Params      # a hash with the required parameters for the function
+        FunctionName             => 'MyFunction',       # the name of the function to execute
+        FunctionParams           => \%MyParams,         # a ref with the required parameters for the function
+        Attempts                 => 3,                  # optional, default: 1, number of tries to lock the
+                                                        #   task by the scheduler
+        MaximumParallelInstances => 1,                  # optional, default: 0 (unlimited), number of same
+                                                        #   function calls form the same object that can be
+                                                        #   executed at the the same time
     );
 
 Returns:
@@ -49,7 +54,9 @@ Returns:
 =cut
 
 sub AsyncCall {
-    my ( $Self, $FunctionName, %Param ) = @_;
+    my ( $Self, %Param ) = @_;
+
+    my $FunctionName = $Param{FunctionName};
 
     if ( !IsStringWithData($FunctionName) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -100,13 +107,14 @@ sub AsyncCall {
 
     # create a new task
     my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
-        Type     => 'AsynchronousExecutor',
-        Name     => $TaskName,
-        Attempts => 1,
-        Data     => {
+        Type                     => 'AsynchronousExecutor',
+        Name                     => $TaskName,
+        Attempts                 => $Param{Attempts} || 1,
+        MaximumParallelInstances => $Param{MaximumParallelInstances} || 0,
+        Data                     => {
             Object   => $ObjectName,
             Function => $FunctionName,
-            Params   => \%Param,
+            Params   => $Param{FunctionParams},
         },
     );
 

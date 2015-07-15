@@ -79,7 +79,12 @@ sub ExecuteAsyc {
     my ( $Self, %Param ) = @_;
 
     # create a new task for the scheduler daemon
-    $Self->AsyncCall('Execute', %Param);
+    $Self->AsyncCall(
+        FunctionName             => 'Execute',
+        FunctionParams           => \%Param,
+        Attempts                 => 3,
+        MaximumParallelInstances => 1,
+    );
 
     return 1;
 }
