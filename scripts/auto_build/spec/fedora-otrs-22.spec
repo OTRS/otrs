@@ -20,7 +20,11 @@ BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
-<DESCRIPTION>
+OTRS is an Open source Ticket Request System with many features to manage
+customer telephone calls and e-mails. It is distributed under the GNU
+AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
+FreeBSD, OpenBSD and Mac OS. Do you receive many e-mails and want to
+answer them with a team of agents? You're going to love OTRS!
 
 %prep
 %setup
@@ -101,4 +105,60 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config /etc/httpd/conf.d/zzz_otrs.conf
-<FILES>
+
+%config(noreplace) /opt/otrs/Kernel/Config.pm
+%config(noreplace) /opt/otrs/var/log/TicketCounter.log
+%config(noreplace) /opt/otrs/.procmailrc
+%config(noreplace) /opt/otrs/.fetchmailrc
+%config(noreplace) /opt/otrs/.mailfilter
+
+%dir /opt/otrs/
+/opt/otrs/RELEASE
+/opt/otrs/ARCHIVE
+/opt/otrs/.procmailrc.dist
+/opt/otrs/.fetchmailrc.dist
+/opt/otrs/.mailfilter.dist
+
+%dir /opt/otrs/Custom/
+/opt/otrs/Custom/README
+
+%dir /opt/otrs/Kernel/
+
+%dir /opt/otrs/Kernel/Config/
+/opt/otrs/Kernel/Config.pm.dist
+/opt/otrs/Kernel/Config/Files/
+/opt/otrs/Kernel/Config/Defaults.pm
+
+/opt/otrs/Kernel/GenericInterface*
+
+/opt/otrs/Kernel/Language.pm
+%dir /opt/otrs/Kernel/Language/
+/opt/otrs/Kernel/Language/*.pm
+
+/opt/otrs/bin*
+/opt/otrs/Kernel/Modules*
+/opt/otrs/Kernel/Output*
+/opt/otrs/Kernel/System*
+/opt/otrs/scripts*
+/opt/otrs/i18n/otrs/*
+
+%dir /opt/otrs/var/
+%dir /opt/otrs/var/article/
+/opt/otrs/var/fonts/
+/opt/otrs/var/httpd/
+/opt/otrs/var/logo-otrs.png
+%dir /opt/otrs/var/cron/
+%dir /opt/otrs/var/log/
+%dir /opt/otrs/var/sessions/
+%dir /opt/otrs/var/spool/
+/opt/otrs/var/cron/*
+%dir /opt/otrs/var/tmp/
+%dir /opt/otrs/var/stats/
+/opt/otrs/var/stats/*.xml
+
+/opt/otrs/Kernel/cpan-lib*
+
+%doc /opt/otrs/*.md
+%doc /opt/otrs/COPYING
+%doc /opt/otrs/COPYING-Third-Party
+%doc /opt/otrs/doc*

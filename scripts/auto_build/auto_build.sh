@@ -158,11 +158,7 @@ function CreateRPM() {
 
     specfile=$PACKAGE_TMP_SPEC
     # replace version and release
-    cat $ARCHIVE_DIR/scripts/auto_build/spec/$SpecfileName | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
-    # replace sourced files
-    perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
-    # replace package description
-    perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
+    cat $ARCHIVE_DIR/scripts/auto_build/spec/$SpecfileName | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile
     $RPM_BUILD -ba --clean $specfile || exit 1;
     rm $specfile || exit 1;
 
