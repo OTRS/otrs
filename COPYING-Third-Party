@@ -180,11 +180,6 @@ o Name:    CPAN JavaScript::Minifier
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    Copyright (C) 2007 by Peter Michaux
 
-o Name:    CPAN Proc::Daemon
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright (C) 1997-2011 by Earl Hood and Detlef Pilzecker
-
 o Name:    CPAN YAML
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

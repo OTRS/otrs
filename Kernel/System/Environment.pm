@@ -296,7 +296,7 @@ sub PerlInfoGet {
             Net::IMAP::Simple
             Net::HTTP
             Net::SSLGlue
-            Proc::Daemon
+            PDF::API2
             SOAP::Lite
             Sys::Hostname::Long
             Text::CSV
