@@ -290,17 +290,12 @@ JAVASCRIPT
                 "//a[contains(\@href, \'Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
             )->click();
 
-            # get stats object
-            $Kernel::OM->ObjectParamAdd(
-                'Kernel::System::Stats' => {
-                    UserID => 1,
-                    }
-            );
             my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
             # get stats IDs
             my $StatsIDs = $StatsObject->GetStatsList(
                 AccessRw => 1,
+                UserID => 1,
             );
 
             my $Count       = scalar @{$StatsIDs};

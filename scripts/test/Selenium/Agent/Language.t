@@ -56,11 +56,11 @@ $Selenium->RunTest(
                 UserLanguage => $Language,
             );
 
-            $Element = $Selenium->find_element( '.MainBox h1', 'css' );
+            $Element = $Selenium->find_element( 'Label[for=UserLanguage]', 'css' );
             $Self->Is(
-                $Element->get_text(),
-                $LanguageObject->Get('Edit your preferences'),
-                "Heading translation in $Language",
+                substr($Element->get_text(), 0, -1),
+                $LanguageObject->Get('Language'),
+                "String 'Language' in $Language",
             );
 
             $Self->True(
