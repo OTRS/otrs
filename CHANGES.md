@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-15 Added possibility of opening new process ticket screen with a preselected process to CustomerTicketProcess (taken from AgentTicketProcess).
  - 2015-07-13 Updated CPAN module Date::Pcalc to version 6.1.
  - 2015-07-13 Added possibility to define a time difference for pending states during ticket create or update, using the  generic ticket connector (GenericInterface), thanks to Frederic Van Espen.
  - 2015-07-13 Updated CPAN module parent to version 0.234.

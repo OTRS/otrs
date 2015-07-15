@@ -130,4 +130,9 @@
         return false;
     });
 //]]></script>
+[% RenderBlockStart("PreSelectProcess") %]
+<script type="text/javascript">//<![CDATA[
+$('#ProcessEntityID').val('[% Data.ProcessID | html %]').trigger('change');
+//]]></script>
+[% RenderBlockEnd("PreSelectProcess") %]
 [% END %]
