@@ -258,7 +258,7 @@ Starts a database transaction (in order to isolate the test from the static data
 sub BeginWork {
     my ( $Self, %Param ) = @_;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    $DBObject->Connect;
+    $DBObject->Connect();
     $DBObject->{dbh}->begin_work()
 }
 
@@ -273,12 +273,12 @@ Rolls back the current database transaction.
 sub Rollback {
     my ( $Self, %Param ) = @_;
     my $Dbh = $Kernel::OM->Get('Kernel::System::DB')->{dbh};
+
     # if there is no database handle, there's nothing to rollback
-    if ( $Dbh ) {
+    if ($Dbh) {
         $Dbh->rollback();
     }
 }
-
 
 my $FixedTime;
 
@@ -418,7 +418,8 @@ sub DESTROY {
                 UserID => $TestUser,
             );
 
-            if ( ! $User{UserID} ) {
+            if ( !$User{UserID} ) {
+
                 # if no such user exists, there is no need to set it to invalid;
                 # happens when the test user is created inside a transaction
                 # that is later rolled back.
