@@ -19,7 +19,7 @@
                     [% IF Data.AccessRw %]
                     [% IF Data.ReportsFrontendPermission %]
                     <li>
-                        <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]" class="CallForAction Fullsize Center"><span><i class="fa fa-line-chart"></i> [% Translate("Statistics Reports") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AgentStatisticsReports;Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-line-chart"></i> [% Translate("Statistics Reports") | html %]</span></a>
                     </li>
                     [% END %]
                     <li>
