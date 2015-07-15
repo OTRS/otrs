@@ -1384,8 +1384,8 @@ CREATE TABLE pm_entity_sync (
 CREATE TABLE scheduler_task (
     id bigserial NOT NULL,
     ident BIGINT NOT NULL,
-    name VARCHAR (200) NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NULL,
+    task_type VARCHAR (150) NOT NULL,
     task_data TEXT NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -1404,8 +1404,8 @@ CREATE TABLE scheduler_future_task (
     id bigserial NOT NULL,
     ident BIGINT NOT NULL,
     execution_time timestamp(0) NOT NULL,
-    name VARCHAR (200) NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NULL,
+    task_type VARCHAR (150) NOT NULL,
     task_data TEXT NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -1421,8 +1421,8 @@ CREATE INDEX scheduler_future_task_lock_key_id ON scheduler_future_task (lock_ke
 -- ----------------------------------------------------------
 CREATE TABLE scheduler_recurrent_task (
     id bigserial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NOT NULL,
+    task_type VARCHAR (150) NOT NULL,
     last_execution_time timestamp(0) NOT NULL,
     last_worker_task_id BIGINT NULL,
     last_worker_status SMALLINT NULL,

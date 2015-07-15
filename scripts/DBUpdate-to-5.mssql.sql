@@ -9,8 +9,8 @@ CREATE INDEX link_relation_list_target ON link_relation (target_object_id, targe
 CREATE TABLE scheduler_task (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     ident BIGINT NOT NULL,
-    name NVARCHAR (200) NULL,
-    task_type NVARCHAR (200) NOT NULL,
+    name NVARCHAR (150) NULL,
+    task_type NVARCHAR (150) NOT NULL,
     task_data NVARCHAR (MAX) NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -29,8 +29,8 @@ CREATE TABLE scheduler_future_task (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     ident BIGINT NOT NULL,
     execution_time DATETIME NOT NULL,
-    name NVARCHAR (200) NULL,
-    task_type NVARCHAR (200) NOT NULL,
+    name NVARCHAR (150) NULL,
+    task_type NVARCHAR (150) NOT NULL,
     task_data NVARCHAR (MAX) NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -46,8 +46,8 @@ CREATE INDEX scheduler_future_task_lock_key_id ON scheduler_future_task (lock_ke
 -- ----------------------------------------------------------
 CREATE TABLE scheduler_recurrent_task (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    name NVARCHAR (200) NOT NULL,
-    task_type NVARCHAR (200) NOT NULL,
+    name NVARCHAR (150) NOT NULL,
+    task_type NVARCHAR (150) NOT NULL,
     last_execution_time DATETIME NOT NULL,
     last_worker_task_id BIGINT NULL,
     last_worker_status SMALLINT NULL,

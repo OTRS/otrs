@@ -2101,8 +2101,8 @@
 <Table Name="scheduler_task">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="ident" Required="true" Type="BIGINT"/>
-    <Column Name="name" Required="false" Size="200" Type="VARCHAR"/>
-    <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="task_type" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="task_data" Required="true" Type="LONGBLOB"/>
     <Column Name="attempts" Required="true" Type="SMALLINT"/>
     <Column Name="lock_key" Required="true" Type="BIGINT"/>
@@ -2126,8 +2126,8 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="ident" Required="true" Type="BIGINT"/>
     <Column Name="execution_time" Required="true" Type="DATE"/>
-    <Column Name="name" Required="false" Size="200" Type="VARCHAR"/>
-    <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="task_type" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="task_data" Required="true" Type="LONGBLOB"/>
     <Column Name="attempts" Required="true" Type="SMALLINT"/>
     <Column Name="lock_key" Required="true" Type="BIGINT"/>
@@ -2148,8 +2148,8 @@
 
 <Table Name="scheduler_recurrent_task">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="task_type" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="last_execution_time" Required="true" Type="DATE"/>
     <Column Name="last_worker_task_id" Required="fasle" Type="BIGINT"/>
     <Column Name="last_worker_status" Required="false" Type="SMALLINT"/>

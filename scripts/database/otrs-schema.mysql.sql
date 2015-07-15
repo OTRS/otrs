@@ -1383,8 +1383,8 @@ CREATE TABLE pm_entity_sync (
 CREATE TABLE scheduler_task (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ident BIGINT NOT NULL,
-    name VARCHAR (200) NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NULL,
+    task_type VARCHAR (150) NOT NULL,
     task_data LONGBLOB NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -1403,8 +1403,8 @@ CREATE TABLE scheduler_future_task (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ident BIGINT NOT NULL,
     execution_time DATETIME NOT NULL,
-    name VARCHAR (200) NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NULL,
+    task_type VARCHAR (150) NOT NULL,
     task_data LONGBLOB NOT NULL,
     attempts SMALLINT NOT NULL,
     lock_key BIGINT NOT NULL,
@@ -1420,8 +1420,8 @@ CREATE TABLE scheduler_future_task (
 # ----------------------------------------------------------
 CREATE TABLE scheduler_recurrent_task (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    task_type VARCHAR (200) NOT NULL,
+    name VARCHAR (150) NOT NULL,
+    task_type VARCHAR (150) NOT NULL,
     last_execution_time DATETIME NOT NULL,
     last_worker_task_id BIGINT NULL,
     last_worker_status SMALLINT NULL,
