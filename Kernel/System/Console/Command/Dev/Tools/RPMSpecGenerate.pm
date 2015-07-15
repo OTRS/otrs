@@ -28,8 +28,6 @@ sub Configure {
     return;
 }
 
-my $BreakLineAfterChars = 60;
-
 sub Run {
     my ( $Self, %Param ) = @_;
 
