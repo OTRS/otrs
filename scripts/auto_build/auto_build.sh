@@ -173,8 +173,9 @@ CreateRPM "SuSE 10.0" "suse-otrs-10.0.spec" "suse/10.0/"
 CreateRPM "Fedora 20" "fedora-otrs-20.spec" "fedora/20/"
 CreateRPM "Fedora 21" "fedora-otrs-21.spec" "fedora/21/"
 CreateRPM "Fedora 22" "fedora-otrs-22.spec" "fedora/22/"
-CreateRPM "RHEL6"     "rhel6-otrs.spec"     "rhel/6"
-CreateRPM "RHEL7"     "rhel7-otrs.spec"     "rhel/7"
+CreateRPM "CentOS 7"  "centos7-otrs.spec"   "centos/7"
+CreateRPM "RHEL 6"    "rhel6-otrs.spec"     "rhel/6"
+CreateRPM "RHEL 7"    "rhel7-otrs.spec"     "rhel/7"
 
 echo "-----------------------------------------------------------------";
 echo "You will find your tar.gz, RPMs and SRPMs in $PACKAGE_DEST_DIR";
