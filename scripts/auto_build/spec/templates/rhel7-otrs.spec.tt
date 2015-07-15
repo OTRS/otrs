@@ -7,7 +7,6 @@
         'perl(Crypt::SSLeay)',
         'perl(Date::Format)',
         'perl(DBI)',
-        'perl(Digest::SHA)',
         'perl(IO::Socket::SSL)',
         'perl(LWP::UserAgent)',
         'perl(Net::DNS)',
