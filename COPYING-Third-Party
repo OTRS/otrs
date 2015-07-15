@@ -30,11 +30,6 @@ o Name:    CPAN Algorithm::Diff
   Note:    # Parts Copyright (c) 2000-2004 Ned Konz. All rights reserved. Parts
            # by Tye McQueen.
 
-o Name:    CPAN Authen::SASL
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 1998-2005 Graham Barr. All rights reserved.
-
 o Name:    CPAN CGI::Emulate::PSGI
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

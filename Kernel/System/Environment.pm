@@ -273,7 +273,6 @@ sub PerlInfoGet {
             parent
             Algorithm::Diff
             Apache::DBI
-            Authen::SASL
             CGI
             Class::Inspector
             Crypt::PasswdMD5
