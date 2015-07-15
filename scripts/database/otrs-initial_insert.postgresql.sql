@@ -830,24 +830,37 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 INSERT INTO ticket (tn, queue_id, ticket_lock_id, user_id, responsible_user_id, ticket_priority_id, ticket_state_id, title, create_time_unix, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, create_by, create_time, change_by, change_time)
     VALUES
-    ('2010080210123456', 2, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1280750400, 0, 0, 0, 0, 0, 0, 1, current_timestamp, 1, current_timestamp);
+    ('2015071510123456', 2, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1436949030, 0, 0, 0, 0, 0, 0, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
 INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!
+    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
 
-Thank you for installing OTRS.
+Thank you for installing OTRS, the world’s most popular service management software available in 34 languages and used by 150,000 users worldwide.
 
-You can find updates and patches at http://www.otrs.com/software/open-source/.
-Online documentation is available at http://otrs.github.io/doc/.
-You can also use our mailing lists http://lists.otrs.org/.
+You can find updates and patches for OTRS Free at
+https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-Best regards,
+Please be aware that we do not offer official vendor support for OTRS Free. In case of questions, please use our:
 
-The OTRS Project
-', '<007@localhost>', 1280750400, '2010/08/02', 1, 1, current_timestamp, 1, current_timestamp);
+- online documentation available at http://otrs.github.io/doc/
+- mailing lists available at http://lists.otrs.org/
+- webinars at https://www.otrs.com/category/webinar/
+
+To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
+
+- exclusive business features like chat, integration of data from external databases etc.
+- included professional updates & services
+- implementation and configuration by our experts
+
+Find more information about it at https://www.otrs.com/solutions/.
+
+Best regards and ((enjoy)) OTRS,
+
+Your OTRS Group
+', '<007@localhost>', 1436949030, '2015/07/15', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_plain
 -- ----------------------------------------------------------
@@ -857,24 +870,37 @@ INSERT INTO article_plain (article_id, body, create_by, create_time, change_by, 
 To: Your OTRS System <otrs@localhost>
 Subject: Welcome to OTRS!
 
-Welcome!
+Welcome to OTRS!
 
-Thank you for installing OTRS.
+Thank you for installing OTRS, the world’s most popular service management software available in 34 languages and used by 150,000 users worldwide.
 
-You can find updates and patches at http://www.otrs.com/software/open-source/.
-Online documentation is available at http://otrs.github.io/doc/.
-You can also use our mailing lists http://lists.otrs.org/.
+You can find updates and patches for OTRS Free at
+https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-Best regards,
+Please be aware that we do not offer official vendor support for OTRS Free. In case of questions, please use our:
 
-The OTRS Project
+- online documentation available at http://otrs.github.io/doc/
+- mailing lists available at http://lists.otrs.org/
+- webinars at https://www.otrs.com/category/webinar/
+
+To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
+
+- exclusive business features like chat, integration of data from external databases etc.
+- included professional updates & services
+- implementation and configuration by our experts
+
+Find more information about it at https://www.otrs.com/solutions/.
+
+Best regards and ((enjoy)) OTRS,
+
+Your OTRS Group
 ', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_history
 -- ----------------------------------------------------------
 INSERT INTO ticket_history (name, history_type_id, ticket_id, type_id, article_id, priority_id, owner_id, state_id, queue_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('New Ticket [2010080210123456] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('New Ticket [2015071510123456] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table notification_event
 -- ----------------------------------------------------------
