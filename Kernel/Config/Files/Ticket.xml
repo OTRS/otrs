@@ -2681,7 +2681,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Note") | html %]</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Body" Required="0" Valid="1">
@@ -2821,7 +2821,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Phone call") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Body" Required="1" Valid="1">
@@ -2910,7 +2910,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Phone call") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###Body" Required="1" Valid="1">
@@ -3428,7 +3428,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Close") | html %]</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Body" Required="0" Valid="1">
@@ -3698,7 +3698,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Note") | html %]</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Body" Required="0" Valid="1">
@@ -3967,7 +3967,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Owner Update") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Body" Required="0" Valid="1">
@@ -4234,7 +4234,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Pending") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Body" Required="0" Valid="1">
@@ -4503,7 +4503,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Priority Update") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Body" Required="0" Valid="1">
@@ -4772,7 +4772,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Responsible Update") | html %]!</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Body" Required="0" Valid="1">
@@ -8397,7 +8397,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
-            <String Regex="">[% Translate("Change Queue") | html %]</String>
+            <String Regex=""></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMove###Body" Required="0" Valid="1">
