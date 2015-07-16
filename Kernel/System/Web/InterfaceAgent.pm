@@ -219,14 +219,19 @@ sub Run {
             Param => 'Password',
             Raw   => 1
         ) || '';
+        my $PostTwoFactorToken = $ParamObject->GetParam(
+            Param => 'TwoFactorToken',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
         # check submitted data
         my $User = $AuthObject->Auth(
-            User => $PostUser,
-            Pw   => $PostPw
+            User           => $PostUser,
+            Pw             => $PostPw,
+            TwoFactorToken => $PostTwoFactorToken,
         );
 
         # login is invalid

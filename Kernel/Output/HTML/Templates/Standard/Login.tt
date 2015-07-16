@@ -199,6 +199,18 @@ X-OTRS-Login: [% Env("Baselink") %]
                                 </div>
                                 <div class="Clear"></div>
 
+[% RenderBlockStart("AuthTwoFactor") %]
+                                <label for="TwoFactorToken" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                        [% Translate("2 Factor Token") | html %]:
+                                </label>
+                                <div class="Field">
+                                    <input type="password" id="TwoFactorToken" name="TwoFactorToken" class="W75pc Validate_Required" />
+                                    <div id="TwoFactorTokenError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+[% RenderBlockEnd("AuthTwoFactor") %]
+
 <!--
 # TODO: Implement
 #                                <div class="Field">

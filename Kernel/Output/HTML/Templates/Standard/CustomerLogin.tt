@@ -69,6 +69,14 @@
                         </div>
 [% RenderBlockEnd("LostPasswordLink") %]
                     </div>
+
+[% RenderBlockStart("AuthTwoFactor") %]
+                    <div>
+                        <label for="TwoFactorToken">[% Translate("2 Factor Token") | html %]</label>
+                        <input title="[% Translate("Your 2 Factor Token") | html %]" type="password" name="TwoFactorToken" id="TwoFactorToken" />
+                    </div>
+[% RenderBlockEnd("AuthTwoFactor") %]
+
                     <div>
                         <button type="submit" value="[% Translate("Log In") | html %]" disabled="disabled">[% Translate("Log In") | html %]</button>
                     </div>

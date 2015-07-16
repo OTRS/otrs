@@ -810,10 +810,25 @@ sub Login {
 
     # if not in PreLogin mode, show normal login form
     else {
+
         $Self->Block(
             Name => 'LoginBox',
             Data => \%Param,
         );
+
+        # show 2 factor password input if we have at least one backend enabled
+        COUNT:
+        for my $Count ( '', 1 .. 10 ) {
+
+            my $GenericModule = $ConfigObject->Get("AuthTwoFactorModule$Count");
+            next COUNT if !$GenericModule;
+
+            $Self->Block(
+                Name => 'AuthTwoFactor',
+                Data => \%Param,
+            );
+            last COUNT;
+        }
 
         # get lost password
         if (
@@ -3406,6 +3421,20 @@ sub CustomerLogin {
             Name => 'LoginBox',
             Data => \%Param,
         );
+
+        # show 2 factor password input if we have at least one backend enabled
+        COUNT:
+        for my $Count ( '', 1 .. 10 ) {
+
+            my $GenericModule = $ConfigObject->Get("Customer::AuthTwoFactorModule$Count");
+            next COUNT if !$GenericModule;
+
+            $Self->Block(
+                Name => 'AuthTwoFactor',
+                Data => \%Param,
+            );
+            last COUNT;
+        }
 
         # get lost password output
         if (

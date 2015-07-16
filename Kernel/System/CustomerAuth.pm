@@ -55,7 +55,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-    # load generator auth module
+    # load auth modules
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
         my $GenericModule = $ConfigObject->Get("Customer::AuthModule$Count");
@@ -65,6 +65,18 @@ sub new {
             $MainObject->Die("Can't load backend module $GenericModule! $@");
         }
         $Self->{"Backend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+    }
+
+    # load 2factor auth modules
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        my $GenericModule = $ConfigObject->Get("Customer::AuthTwoFactorModule$Count");
+        next SOURCE if !$GenericModule;
+
+        if ( !$MainObject->Require($GenericModule) ) {
+            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        }
+        $Self->{"AuthTwoFactorBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     # Initialize last error message
@@ -119,6 +131,34 @@ sub Auth {
 
         # check auth backend
         $User = $Self->{"Backend$_"}->Auth(%Param);
+
+        # next on no success
+        next COUNT if !$User;
+
+        # check 2factor auth backends
+        my $TwoFactorAuth;
+        TWOFACTORSOURCE:
+        for my $Count ( '', 1 .. 10 ) {
+
+            # return on no config setting
+            next TWOFACTORSOURCE if !$Self->{"AuthTwoFactorBackend$Count"};
+
+            # 2factor backend
+            my $AuthOk = $Self->{"AuthTwoFactorBackend$Count"}->Auth(
+                TwoFactorToken => $Param{TwoFactorToken},
+                User           => $User,
+            );
+            $TwoFactorAuth = $AuthOk ? 'passed' : 'failed';
+
+            last TWOFACTORSOURCE if $AuthOk;
+        }
+
+        # if at least one 2factor auth backend was checked but none was successful,
+        # it counts as a failed login
+        if ( $TwoFactorAuth && $TwoFactorAuth ne 'passed' ) {
+            $User = undef;
+            last COUNT;
+        }
 
         # remember auth backend
         if ($User) {
