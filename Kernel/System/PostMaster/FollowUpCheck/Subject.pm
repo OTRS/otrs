@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::PostMaster::Filter::CheckFollowUpInSubject;
+package Kernel::System::PostMaster::FollowUpCheck::Subject;
 
 use strict;
 use warnings;

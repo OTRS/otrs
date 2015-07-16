@@ -9591,7 +9591,7 @@
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
@@ -10014,23 +10014,53 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-InSubject" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="1" Valid="1">
         <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::System::PostMaster::Filter::CheckFollowUpInSubject</Item>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Subject</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-InReferences" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="1" Valid="1">
         <Description Translatable="1">Executes follow up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::System::PostMaster::Filter::CheckFollowUpInReferences</Item>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::References</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0300-Body" Required="1" Valid="1">
+        <Description Translatable="1">Executes follow up checks on email body for mails that don't have a ticket number in the subject.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Body</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0400-Attachments" Required="1" Valid="1">
+        <Description Translatable="1">Executes follow up checks on attachment contents for mails that don't have a ticket number in the subject.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Attachments</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0500-RawEmail" Required="1" Valid="1">
+        <Description Translatable="1">Executes follow up checks on the raw source email for mails that don't have a ticket number in the subject.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::RawEmail</Item>
             </Hash>
         </Setting>
     </ConfigItem>

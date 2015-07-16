@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::PostMaster::Filter::CheckFollowUpInReferences;
+package Kernel::System::PostMaster::FollowUpCheck::References;
 
 use strict;
 use warnings;
@@ -36,7 +36,6 @@ sub Run {
     }
 
     my @References = $Self->{ParserObject}->GetReferences();
-
     return if !@References;
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
