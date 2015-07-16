@@ -835,7 +835,7 @@ INSERT INTO ticket (id, tn, queue_id, ticket_lock_id, user_id, responsible_user_
 # ----------------------------------------------------------
 INSERT INTO article (id, ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
+    (1, 1, 1, 3, 'OTRS Feedback <marketing@otrs.com>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
 
 Thank you for installing OTRS, the world’s most popular service management software available in 34 languages and used by 150,000 users worldwide.
 
@@ -865,7 +865,7 @@ Your OTRS Group
 # ----------------------------------------------------------
 INSERT INTO article_plain (id, article_id, body, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'From: OTRS Feedback <feedback@otrs.org>
+    (1, 1, 'From: OTRS Feedback <marketing@otrs.com>
 To: Your OTRS System <otrs@localhost>
 Subject: Welcome to OTRS!
 

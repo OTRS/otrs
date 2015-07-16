@@ -1357,7 +1357,7 @@ Your OTRS Team
         <Data Key="ticket_id">1</Data>
         <Data Key="article_type_id">1</Data>
         <Data Key="article_sender_type_id">3</Data>
-        <Data Key="a_from" Type="Quote">OTRS Feedback &lt;feedback@otrs.org&gt;</Data>
+        <Data Key="a_from" Type="Quote">OTRS Feedback &lt;marketing@otrs.com&gt;</Data>
         <Data Key="a_to" Type="Quote">Your OTRS System &lt;otrs@localhost&gt;</Data>
         <Data Key="a_subject" Type="Quote">Welcome to OTRS!</Data>
         <Data Key="a_body" Type="Quote">Welcome to OTRS!
@@ -1398,7 +1398,7 @@ Your OTRS Group
     <Insert Table="article_plain">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="article_id">1</Data>
-        <Data Key="body" Type="Quote">From: OTRS Feedback &lt;feedback@otrs.org&gt;
+        <Data Key="body" Type="Quote">From: OTRS Feedback &lt;marketing@otrs.com&gt;
 To: Your OTRS System &lt;otrs@localhost&gt;
 Subject: Welcome to OTRS!
 
