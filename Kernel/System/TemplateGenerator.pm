@@ -1114,11 +1114,17 @@ sub _Replace {
             }
         }
 
+        # use notification recipient
+        my $RecipientTag = 'NOTIFICATION_RECIPIENT_';
+
         # replace it
         ATTRIBUTE:
         for my $Attribute ( sort keys %Recipient ) {
             next ATTRIBUTE if !defined $Recipient{$Attribute};
             $Param{Text} =~ s/$Tag$Attribute$End/$Recipient{$Attribute}/gi;
+
+            # include more readable tag
+            $Param{Text} =~ s/$RecipientTag$Attribute$End/$Recipient{$Attribute}/gi;
         }
     }
 

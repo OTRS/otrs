@@ -1452,7 +1452,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">1</Data>
-        <Data Key="name" Type="Quote">New ticket created</Data>
+        <Data Key="name" Type="Quote">Ticket create notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1493,7 +1493,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">Follow-up on an unlocked ticket</Data>
+        <Data Key="name" Type="Quote">Ticket follow up unlock notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1549,7 +1549,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">Follow-up on a locked ticket</Data>
+        <Data Key="name" Type="Quote">Ticket follow up lock notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1600,7 +1600,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">4</Data>
-        <Data Key="name" Type="Quote">Automatic ticket unlock</Data>
+        <Data Key="name" Type="Quote">Ticket lock timeout notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1636,7 +1636,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">5</Data>
-        <Data Key="name" Type="Quote">Ticket owner update</Data>
+        <Data Key="name" Type="Quote">Ticket owner update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1662,7 +1662,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">6</Data>
-        <Data Key="name" Type="Quote">Ticket responsible update</Data>
+        <Data Key="name" Type="Quote">Ticket responsible update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1688,7 +1688,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">7</Data>
-        <Data Key="name" Type="Quote">Note added to ticket</Data>
+        <Data Key="name" Type="Quote">Ticket new note notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1724,7 +1724,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">8</Data>
-        <Data Key="name" Type="Quote">Ticket moved</Data>
+        <Data Key="name" Type="Quote">Ticket queue update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1760,7 +1760,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">9</Data>
-        <Data Key="name" Type="Quote">Reminder time passed for a locked ticket</Data>
+        <Data Key="name" Type="Quote">Ticket pending reminder lock notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1801,7 +1801,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">10</Data>
-        <Data Key="name" Type="Quote">Reminder time passed for an unlocked ticket</Data>
+        <Data Key="name" Type="Quote">Ticket pending reminder unlock notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1847,7 +1847,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">11</Data>
-        <Data Key="name" Type="Quote">Ticket has escalated</Data>
+        <Data Key="name" Type="Quote">Ticket escalation notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1883,7 +1883,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">12</Data>
-        <Data Key="name" Type="Quote">Ticket will soon escalate</Data>
+        <Data Key="name" Type="Quote">Ticket escalation warning notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1919,7 +1919,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">13</Data>
-        <Data Key="name" Type="Quote">Ticket service update</Data>
+        <Data Key="name" Type="Quote">Ticket service update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1960,268 +1960,199 @@ Your OTRS Group
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Created: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-There is a new ticket in &lt;OTRS_TICKET_Queue&gt;!
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been created in queue &lt;OTRS_TICKET_Queue&gt;.
 
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Follow Up Unlock: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-You've got a follow up!
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now unlocked.
 
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Follow Up Lock: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-You've got a follow up!
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now locked.
 
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Lock Timeout: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-The lock timeout period on [&lt;OTRS_TICKET_TicketNumber&gt;] has been reached, it is now unlocked.
-
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has reached its lock timeout period and is now unlocked.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Owner Update to You: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
-
-Comment:
-
-&lt;OTRS_COMMENT&gt;
+the owner of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] is updated to &lt;OTRS_TICKET_OWNER_UserFullname&gt; by &lt;OTRS_CURRENT_UserFullname&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Responsible Update to You: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
-
-Comment:
-
-&lt;OTRS_COMMENT&gt;
+the responsible agent of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to &lt;OTRS_TICKET_RESPONSIBLE_UserFullname&gt; by &lt;OTRS_CURRENT_UserFullname&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Note: &lt;OTRS_AGENT_SUBJECT[24]&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
-
-Note:
-&lt;OTRS_CUSTOMER_BODY&gt;
+&lt;OTRS_CURRENT_UserFullname&gt; wrote:
+&lt;OTRS_AGENT_BODY[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">8</Data>
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Moved ticket in &lt;OTRS_CUSTOMER_QUEUE&gt; queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Queue Update to &lt;OTRS_TICKET_Queue&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into &lt;OTRS_CUSTOMER_QUEUE&gt;.
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to queue &lt;OTRS_TICKET_Queue&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">9</Data>
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached Lock: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] has reached its reminder time!
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Please have a look at:
+the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and is now locked.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">10</Data>
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached Unlock: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] has reached its reminder time!
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Please have a look at:
+the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and is now unlocked.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">11</Data>
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Escalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Escalation! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is escalated!
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] is escalated!
 
-Escalated at:    &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Escalated at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Escalated since: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Please have a look at:
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">12</Data>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Escalation Warning! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Escalation Warning! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] will escalate!
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] will escalate!
 
 Escalation at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Escalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Please have a look at:
-
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master</Data>
+
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">13</Data>
         <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Updated service to &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Service Update to &lt;OTRS_TICKET_Service&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; updated a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and changed the service to &lt;OTRS_TICKET_Service&gt;
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+the service of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to &lt;OTRS_TICKET_Service&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Your OTRS Notification Master
-        </Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
 
     <!-- notification_event_message - de -->
@@ -2230,20 +2161,17 @@ Your OTRS Notification Master
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Neues Ticket! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Ticket erstellt!: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-es ist ein neues Ticket in &lt;OTRS_TICKET_Queue&gt;!
+das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde in der Queue &lt;OTRS_TICKET_Queue&gt; erstellt.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schrieb:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">15</Data>
@@ -2251,19 +2179,16 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-Sie haben eine Nachfrage bekommen!
+zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schrieb:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">16</Data>
@@ -2271,226 +2196,166 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-Sie haben eine Nachfrage bekommen!
+zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schrieb:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">17</Data>
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Ticketsperre aufgehoben! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-Aufhebung der Sperre auf Dein gesperrtes Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+die Sperrzeit des Tickets [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] ist abgelaufen. Es ist jetzt entsperrt.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schrieb:
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">18</Data>
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Aenderung des Ticket-Besitzers auf Sie! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-Der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; uebertragen.
-
-Kommentar:
-
-&lt;OTRS_COMMENT&gt;
+der Besitzer des Tickets [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geaendert auf &lt;OTRS_TICKET_OWNER_UserFullname&gt; von &lt;OTRS_CURRENT_UserFullname&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">19</Data>
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Verantwortung uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_RESPONSIBLE_UserFirstname&gt; &lt;OTRS_RESPONSIBLE_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Aenderung des Ticket-Verantwortlichen auf Sie! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-Die Verantwortung des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; uebertragen.
-
-Kommentar:
-
-&lt;OTRS_COMMENT&gt;
+der Verantwortliche für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geändert auf &lt;OTRS_TICKET_RESPONSIBLE_UserFullname&gt; von &lt;OTRS_CURRENT_UserFullname&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">20</Data>
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_AGENT_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
-
-Notiz:
-&lt;OTRS_CUSTOMER_BODY&gt;
+&lt;OTRS_CURRENT_UserFullname&gt; schrieb:
+&lt;OTRS_AGENT_BODY[30]&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">21</Data>
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Queue Aenderung &lt;OTRS_TICKET_Queue&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde in die Queue &lt;OTRS_TICKET_Queue&gt; verschoben.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">22</Data>
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] hat die Erinnerungszeit erreicht!
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-schrieb:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Bitte um weitere Bearbeitung:
+die Erinnerungszeit für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">23</Data>
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] hat die Erinnerungszeit erreicht!
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-schrieb:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Bitte um weitere Bearbeitung:
+die Erinnerungszeit für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">24</Data>
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Eskalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Eskalation! &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] ist eskaliert!
+das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] ist eskaliert!
 
-Eskaliert am:   &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Eskaliert am: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Eskaliert seit: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
-
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-schrieb:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Bitte um Bearbeitung:
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">25</Data>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_TICKET_Title&gt;)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] wird bald eskalieren!
+das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wird bald eskalieren!
+
 
 Eskalation um: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
 Eskalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 
-&lt;OTRS_CUSTOMER_FROM&gt;
-
-schrieb:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-Bitte um Bearbeitung:
-
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">26</Data>
         <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Service aktualisiert zu &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote">Ticket Service aktualisiert zu &lt;OTRS_TICKET_Service&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; aktualisierte Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and änderte den Service zu &lt;OTRS_TICKET_Service&gt;
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
+der Service von Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geaendert zu &lt;OTRS_TICKET_Service&gt;.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-Ihr OTRS Benachrichtigungs-Master</Data>
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
     </Insert>
 
     <!-- notification_event_message - nl -->
