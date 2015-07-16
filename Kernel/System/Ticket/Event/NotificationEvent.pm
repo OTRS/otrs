@@ -875,7 +875,7 @@ sub _SendRecipientNotification {
         my $LastNotificationHistory = first {
             $_->{HistoryType} eq 'SendAgentNotification'
                 && $_->{Name} eq
-                "\%\%$Param{Notification}->{Name}\%\%$Param{Transport}\%\%$Param{Recipient}->{UserLogin}"
+                "\%\%$Param{Notification}->{Name}\%\%$Param{Recipient}->{UserLogin}\%\%$Param{Transport}"
         }
         reverse @HistoryLines;
 
@@ -934,7 +934,7 @@ sub _SendRecipientNotification {
         $TicketObject->HistoryAdd(
             TicketID     => $Param{TicketID},
             HistoryType  => 'SendAgentNotification',
-            Name         => "\%\%$Param{Notification}->{Name}\%\%$Param{Transport}\%\%$Param{Recipient}->{UserLogin}",
+            Name         => "\%\%$Param{Notification}->{Name}\%\%$Param{Recipient}->{UserLogin}\%\%$Param{Transport}",
             CreateUserID => $Param{UserID},
         );
     }
