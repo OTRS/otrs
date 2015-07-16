@@ -79,6 +79,10 @@ strong {
     outline: none;
 }
 
+.RTL #Header { 
+    text-align: left;
+} 
+
 #Header #Logo {
     position: absolute;
     top: 6px;
