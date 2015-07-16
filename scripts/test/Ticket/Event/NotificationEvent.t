@@ -840,7 +840,7 @@ my $SetTicketHistory = sub {
     my $Success = $TicketObject->HistoryAdd(
         TicketID     => $TicketID,
         HistoryType  => 'SendAgentNotification',
-        Name         => "\%\%$Param{NotificationName}\%\%Email\%\%$Param{UserLogin}",
+        Name         => "\%\%$Param{NotificationName}\%\%$Param{UserLogin}\%\%Email",
         CreateUserID => $Param{UserID},
     );
 
