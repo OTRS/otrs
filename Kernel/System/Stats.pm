@@ -13,7 +13,7 @@ use warnings;
 
 use MIME::Base64;
 
-use Date::Pcalc qw(Add_Delta_YMD Add_Delta_DHMS Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
+use Date::Pcalc qw(Add_Delta_YMD Add_Delta_DHMS Add_Delta_Days Days_in_Month Day_of_Week Day_of_Week_Abbreviation Day_of_Week_to_Text Monday_of_Week Week_of_Year);
 use Storable qw();
 
 use Kernel::System::VariableCheck qw(:all);
