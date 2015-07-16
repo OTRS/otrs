@@ -35,6 +35,9 @@ Core.Agent = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
         return false;
     }
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.InputFields', 'Core.UI.InputFields')) {
+        return false;
+    }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.TreeSelection', 'Core.UI.TreeSelection')) {
         return false;
     }
@@ -556,6 +559,7 @@ Core.Agent = (function (TargetNS) {
         Core.UI.InitMessageBoxClose();
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
+        Core.UI.InputFields.Init();
         Core.UI.TreeSelection.InitTreeSelection();
         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
         // late execution of accessibility code

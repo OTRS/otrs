@@ -1,0 +1,540 @@
+/**
+ * @project     OTRS (http: //www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http: //www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Input Fields
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  General
+ */
+div.InputField_InputContainer {
+    position: relative;
+    display: inline-block;
+    line-height: 11px;
+}
+
+.InputField_Search::-ms-clear {
+    display: none;
+    width : 0;
+    height: 0;
+}
+
+.InputField_Search,
+.InputField_Autocomplete {
+    min-width: 200px;
+}
+
+.InputField_Search[disabled="disabled"] {
+    color: #aaa;
+}
+
+a.InputField_Action {
+    position: absolute;
+    display: block;
+    color: #000;
+    top: 5px;
+}
+
+a.InputField_Action:hover {
+    color: #f92;
+}
+
+div.InputField_Selection {
+    display: none;
+    position: absolute;
+    top: 4px;
+    height: 17px;
+    line-height: 11px;
+}
+
+div.InputField_Selection div {
+    display: inline-block;
+    font-size: 11px;
+}
+
+div.InputField_Selection div.Text {
+    background: #ddd;
+    padding: 2px 4px;
+}
+
+div.InputField_Selection div.Remove {
+    background: #bbb;
+    color: #fff;
+    cursor: pointer;
+}
+
+div.InputField_Selection div.Remove a {
+    color: #fff;
+    padding: 2px 4px;
+    display: block;
+}
+
+div.InputField_More {
+    position: absolute;
+    white-space: nowrap;
+    top: 6px;
+}
+
+div.InputField_Container {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+}
+
+div.InputField_TreeContainer {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 90px;
+    overflow-y: auto;
+    box-sizing: content-box;
+    line-height: 18px;
+}
+
+div.InputField_ToolbarContainer {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-top: none;
+    line-height: 21px;
+    box-sizing: content-box;
+    min-height: 21px;
+}
+
+.div.InputField_ToolbarContainer ul {
+    width:100%;
+}
+
+div.InputField_ToolbarContainer ul li {
+    display: table-cell;
+    width: 1%;
+    text-align: center;
+}
+
+div.InputField_ToolbarContainer ul li:after {
+    color: #bbb;
+    content: " | ";
+    display: block;
+    float: right;
+    cursor: default;
+}
+
+div.InputField_ToolbarContainer ul li:last-child:after {
+    display: none;
+}
+
+div.InputField_ToolbarContainer ul li a {
+    color: #000;
+    padding: 5px 2px;
+    font-size: 11px;
+}
+
+div.InputField_ToolbarContainer ul li a:hover {
+    border-bottom: 2px solid #f92;
+    padding-bottom: 0;
+}
+
+.InputField_Loading {
+    background-image: url('../img/loader.gif');
+    background-position: 99.5% center;
+    background-position: right 3px center;
+    background-repeat: no-repeat;
+}
+
+.InputField_Filters.Active {
+    font-weight: bold;
+}
+
+.InputField_FiltersList {
+    display: none;
+    background: #fff;
+    white-space: nowrap;
+    border-top: 1px solid #ccc;
+    z-index: 1500;
+    line-height: 1.5em;
+    width: 100%;
+    font-size: 11px;
+}   
+
+.InputField_FiltersList span {
+    margin-right: 5px;
+    vertical-align: 15%;
+    cursor: default;
+}
+
+.InputField_FiltersList input[disabled="disabled"] + span {
+    font-style: italic;
+    color: #aaa;
+}
+
+/**
+ * @subsection  jsTree theme
+ */
+.jstree-InputField {
+    font-size: 11px !important;
+    overflow-x: hidden !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.jstree-InputField .jstree-node,
+.jstree-InputField .jstree-children,
+.jstree-InputField .jstree-container-ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    list-style-image: none;
+}
+
+.jstree-InputField .jstree-node {
+    white-space: nowrap;
+}
+
+.jstree-InputField .jstree-anchor {
+    display: inline-block;
+    color: black;
+    white-space: nowrap;
+    padding: 0 4px 0 1px; 
+    margin: 0;
+    vertical-align: top;
+}
+
+.jstree-InputField .jstree-anchor:focus {
+    outline: 0;
+    background: transparent !important;
+}
+
+.jstree-InputField .jstree-anchor,
+.jstree-InputField .jstree-anchor:link,
+.jstree-InputField .jstree-anchor:visited,
+.jstree-InputField .jstree-anchor:hover,
+.jstree-InputField .jstree-anchor:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+.jstree-InputField .jstree-icon {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-icon:empty {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-leaf > .jstree-ocl {
+    cursor: default;
+}
+
+.jstree-InputField .jstree .jstree-open > .jstree-children {
+    display: block;
+}
+
+.jstree-InputField .jstree .jstree-closed > .jstree-children,
+.jstree-InputField .jstree .jstree-leaf > .jstree-children {
+    display: none;
+}
+
+.jstree-InputField .jstree-anchor > .jstree-themeicon {
+    margin-right: 2px;
+}
+
+.jstree-InputField .jstree-no-icons .jstree-themeicon,
+.jstree-InputField .jstree-anchor > .jstree-themeicon-hidden {
+    display: none;
+}
+
+.jstree-InputField .jstree-rtl .jstree-anchor {
+    padding: 0 1px 0 4px;
+}
+
+.jstree-InputField .jstree-rtl .jstree-anchor > .jstree-themeicon {
+    margin-left: 2px;
+    margin-right: 0;
+}
+
+.jstree-InputField .jstree-rtl .jstree-node {
+    margin-left: 0;
+}
+
+.jstree-InputField .jstree-rtl .jstree-container-ul > .jstree-node {
+    margin-right: 0;
+}
+
+.jstree-InputField .jstree-hovered {
+    background-color: transparent !important;
+}
+
+.jstree-InputField .Disabled > .jstree-anchor {
+    color: #aaa !important;
+    font-style: italic;
+    cursor: default;
+}
+
+.jstree-InputField .jstree-open,
+.jstree-InputField .jstree-closed {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul {
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-leaf > .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-anchor,
+.jstree-InputField .jstree-wholerow-ul .jstree-icon {
+    position: relative;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow {
+    width: 100%;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background-color: #ddd;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: #f92;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow-clicked {
+    background-color: #f72;
+}
+
+.jstree-InputField .Disabled > .jstree-wholerow:hover,
+.jstree-InputField .Disabled > .jstree-wholerow-hovered {
+    background-color: #eee;
+    cursor: default;
+}
+
+.jstree-InputField .Disabled.jstree-open > .jstree-anchor,
+.jstree-InputField .Disabled.jstree-closed > .jstree-anchor {
+    cursor: pointer !important;
+}
+
+.jstree-InputField .jstree-clicked {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 4px 0 1px !important;
+}
+
+.jstree-InputField.jstree-rtl .jstree-node {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAACAQMAAAB49I5GAAAABlBMVEUAAAAdHRvEkCwcAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjAAMOBgAAGAAJMwQHdQAAAABJRU5ErkJggg==");
+    background-position: 100% 1px;
+    background-repeat: repeat-y;
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField.jstree-rtl .jstree-open > .jstree-ocl {
+    background-position: -135px -39px;
+}
+
+.jstree-InputField.jstree-rtl .jstree-closed > .jstree-ocl {
+    background-position: -103px -39px;
+}
+
+.jstree-InputField.jstree-rtl .jstree-leaf > .jstree-ocl {
+    background-position: -71px -39px;
+}
+
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-node,
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-open > .jstree-ocl {
+    background-position: -39px -39px;
+}
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-closed > .jstree-ocl {
+    background-position: -7px -39px;
+}
+
+.jstree-InputField .jstree-themeicon-custom {
+    background-color: transparent;
+    background-image: none;
+    background-position: 0 0;
+}
+
+.jstree-InputField > .jstree-container-ul .jstree-loading > .jstree-ocl {
+    background: url('../img/loader.gif') center center no-repeat;
+}
+
+.jstree-InputField.jstree-rtl .jstree-node {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAACAQMAAABv1h6PAAAABlBMVEUAAAAdHRvEkCwcAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjAAMHBgAAiABBI4gz9AAAAABJRU5ErkJggg==');
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-search {
+    font-style: italic;
+}
+
+.jstree-InputField .jstree-no-match .jstree-ocl {
+    display: none;
+}
+
+.jstree-InputField .jstree-no-match {
+    margin-left: 2px !important;
+}
+
+.jstree-InputField.jstree-rtl .jstree-no-match {
+    margin-right: 2px !important;
+}
+
+/**
+ * @subsection  jsTree theme - Tree variant
+ */
+.jstree-InputField-Tree > .jstree-container-ul > .jstree-node {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.jstree-InputField-Tree .jstree-node {
+    min-height: 18px;
+    line-height: 18px;
+    margin-left: 18px;
+    min-width: 18px;
+}
+
+.jstree-InputField-Tree .jstree-anchor {
+    height: 18px;
+    line-height: 19px;
+    overflow-y: hidden;
+}
+
+.jstree-InputField-Tree .jstree-icon {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.jstree-InputField-Tree .jstree-icon:empty {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.jstree-InputField-Tree.jstree-rtl .jstree-node {
+    margin-right: 18px;
+}
+
+.jstree-InputField-Tree .jstree-wholerow {
+    height: 18px;
+}
+
+.jstree-InputField-Tree .jstree-node,
+.jstree-InputField-Tree .jstree-icon {
+    background-image: url('../img/inputfield_tree.png');
+}
+
+.jstree-InputField-Tree .jstree-node {
+    background-position: -295px -7px;
+    background-repeat: repeat-y;
+}
+
+.jstree-InputField-Tree .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField-Tree .jstree-open > .jstree-ocl {
+    background-position: -135px -7px;
+}
+
+.jstree-InputField-Tree .jstree-closed > .jstree-ocl {
+    background-position: -103px -7px;
+}
+
+.jstree-InputField-Tree .jstree-leaf > .jstree-ocl {
+    background-position: -71px -7px;
+}
+
+.jstree-InputField-Tree .jstree-themeicon {
+    background-position: -263px -7px;
+}
+
+.jstree-InputField-Tree > .jstree-no-dots .jstree-node,
+.jstree-InputField-Tree > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+.jstree-InputField-Tree > .jstree-no-dots .jstree-open > .jstree-ocl {
+    background-position: -39px -7px;
+}
+
+.jstree-InputField-Tree > .jstree-no-dots .jstree-closed > .jstree-ocl {
+    background-position: -7px -7px;
+}
+
+/**
+ * @subsection  jsTree theme - No Tree variant
+ */
+.jstree-InputField-NoTree .jstree-node {
+    min-height: 18px;
+    line-height: 18px;
+    margin-left: 2px;
+    min-width: 18px;
+}
+
+.jstree-InputField-NoTree .jstree-anchor {
+    height: 18px;
+    line-height: 19px;
+    overflow-y: hidden;
+}
+
+.jstree-InputField-NoTree .jstree-icon {
+    display: none;
+}
+
+.jstree-InputField-NoTree.jstree-rtl .jstree-node {
+    margin-right: 2px;
+}
+
+.jstree-InputField-NoTree .jstree-wholerow {
+    height: 18px;
+}
+
+} /* end @media */

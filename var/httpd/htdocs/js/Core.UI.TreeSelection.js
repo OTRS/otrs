@@ -73,7 +73,6 @@ Core.UI.TreeSelection = (function (TargetNS) {
     }
 
     /**
-     * @private
      * @name BuildElementsArray
      * @memberof Core.UI.TreeSelection
      * @function
@@ -85,7 +84,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
      *      javascript object from it which contains all the elements
      *      and their children.
      */
-    function BuildElementsArray($Element) {
+    TargetNS.BuildElementsArray = function($Element) {
         var Elements = [],
             Level,
             HighestLevel = 0;
@@ -183,8 +182,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Elements = CollectElements(Elements, Level);
         }
 
+        Elements.HighestLevel = HighestLevel;
+
         return Elements;
-    }
+    };
 
     /**
      * @name ShowTreeSelection
@@ -243,7 +244,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             return false;
         }
 
-        Elements = BuildElementsArray($SelectObj);
+        Elements = Core.UI.TreeSelection.BuildElementsArray($SelectObj);
 
         // Set StyleSheetURL in order to correctly load the CSS for treeview
         StyleSheetURL = Core.Config.Get('WebPath') + 'skins/Agent/default/css/thirdparty/jstree-theme/default/style.css';

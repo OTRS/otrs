@@ -91,7 +91,7 @@ Core.Form.Validate = (function (TargetNS) {
         }
 
         // Add error class to field and its label
-        $Element.addClass(Options.ErrorClass);
+        $Element.addClass(Options.ErrorClass).trigger('error.InputField');
         $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").addClass(Options.ErrorLabelClass);
 
         // mark field as invalid for screenreader users
@@ -129,6 +129,13 @@ Core.Form.Validate = (function (TargetNS) {
             window.setTimeout(function () {
                 $Element.focus();
             }, 0);
+        }
+
+        // if the element is an Input Field, than manually trigger the focus event
+        if (Core.UI.InputFields.IsEnabled($Element)) {
+            window.setTimeout(function () {
+                $('#' + Core.UI.InputFields.IsEnabled($Element)).focus();
+            }, 100);
         }
 
         // if the element is within a collapsed widget, expand that widget to show the error message to the user
@@ -170,7 +177,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         if (RemoveError) {
             // remove error classes from element and its label
-            $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass);
+            $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass).trigger('error.InputField');
             if (Element.id && Element.id.length) {
                 $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").removeClass(Options.ErrorLabelClass);
             }

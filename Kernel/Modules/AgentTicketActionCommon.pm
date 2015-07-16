@@ -223,8 +223,8 @@ sub Run {
     for my $Key (
         qw(
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
-        Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
-        TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
+        Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
+        Expand ReplyToArticle StandardTemplateID CreateArticle
         )
         )
     {
@@ -403,11 +403,8 @@ sub Run {
 
             # check owner
             if ( $Config->{Owner} && $Config->{OwnerMandatory} ) {
-                if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
+                if ( !$GetParam{NewOwnerID} ) {
                     $Error{'NewOwnerInvalid'} = 'ServerError';
-                }
-                elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
-                    $Error{'OldOwnerInvalid'} = 'ServerError';
                 }
             }
 
@@ -646,26 +643,7 @@ sub Run {
             my $BodyText = $LayoutObject->RichText2Ascii(
                 String => $GetParam{Body} || '',
             );
-            if ( $GetParam{NewOwnerType} eq 'Old' && $GetParam{OldOwnerID} ) {
-                $TicketObject->TicketLockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID},
-                );
-                my $Success = $TicketObject->TicketOwnerSet(
-                    TicketID  => $Self->{TicketID},
-                    UserID    => $Self->{UserID},
-                    NewUserID => $GetParam{OldOwnerID},
-                    Comment   => $BodyText,
-                );
-                $UnlockOnAway = 0;
-
-                # remember to not notify owner twice
-                if ( $Success && $Success eq 1 ) {
-                    push @NotifyDone, $GetParam{OldOwnerID};
-                }
-            }
-            elsif ( $GetParam{NewOwnerType} eq 'New' && $GetParam{NewOwnerID} ) {
+            if ( $GetParam{NewOwnerID} ) {
                 $TicketObject->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
@@ -1200,14 +1178,6 @@ sub Run {
                     Max          => 100,
                 },
                 {
-                    Name         => 'OldOwnerID',
-                    Data         => $OldOwners,
-                    SelectedID   => $GetParam{OldOwnerID},
-                    Translation  => 0,
-                    PossibleNone => 1,
-                    Max          => 100,
-                },
-                {
                     Name         => 'NewResponsibleID',
                     Data         => $ResponsibleUsers,
                     SelectedID   => $GetParam{NewResponsibleID},
@@ -1509,7 +1479,7 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Class => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Class => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
             Data  => \%Type,
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -1543,7 +1513,7 @@ sub _Mask {
                 Data         => $Services,
                 Name         => 'ServiceID',
                 SelectedID   => $Param{ServiceID},
-                Class        => 'Validate_Required ' . ( $Param{ServiceInvalid} || ' ' ),
+                Class        => 'Validate_Required Modernize ' . ( $Param{ServiceInvalid} || ' ' ),
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Sort         => 'TreeView',
@@ -1562,7 +1532,7 @@ sub _Mask {
                 Data         => $Services,
                 Name         => 'ServiceID',
                 SelectedID   => $Param{ServiceID},
-                Class        => $Param{ServiceInvalid} || ' ',
+                Class        => 'Modernize ' . $Param{ServiceInvalid} || ' ',
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Sort         => 'TreeView',
@@ -1588,7 +1558,7 @@ sub _Mask {
                 Data         => \%SLA,
                 Name         => 'SLAID',
                 SelectedID   => $Param{SLAID},
-                Class        => 'Validate_Required ' . ( $Param{SLAInvalid} || ' ' ),
+                Class        => 'Validate_Required Modernize ' . ( $Param{SLAInvalid} || ' ' ),
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 0,
@@ -1606,6 +1576,7 @@ sub _Mask {
                 Data         => \%SLA,
                 Name         => 'SLAID',
                 SelectedID   => $Param{SLAID},
+                Class        => 'Modernize',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 0,
@@ -1634,7 +1605,7 @@ sub _Mask {
             Data           => { %MoveQueues, '' => '-' },
             Multiple       => 0,
             Size           => 0,
-            Class          => 'NewQueueID',
+            Class          => 'NewQueueID Modernize',
             Name           => 'NewQueueID',
             SelectedID     => $Param{NewQueueID},
             TreeView       => $TreeView,
@@ -1689,14 +1660,6 @@ sub _Mask {
 
         # get old owner
         my @OldUserInfo = $TicketObject->TicketOwnerList( TicketID => $Self->{TicketID} );
-        $Param{OwnerStrg} = $LayoutObject->BuildSelection(
-            Data         => \%ShownUsers,
-            SelectedID   => $Param{NewOwnerID},
-            Name         => 'NewOwnerID',
-            Class        => $Param{NewOwnerInvalid} || ' ',
-            Size         => 1,
-            PossibleNone => 1,
-        );
         my @OldOwners;
         my %OldOwnersShown;
         my %SeenOldOwner;
@@ -1740,23 +1703,25 @@ sub _Mask {
         }
 
         # build string
-        $Param{OldOwnerStrg} = $LayoutObject->BuildSelection(
-            Data         => \%OldOwnersShown,
-            SelectedID   => $OldOwnerSelectedID,
-            Name         => 'OldOwnerID',
-            Class        => $Param{OldOwnerInvalid} || ' ',
+        $Param{OwnerStrg} = $LayoutObject->BuildSelection(
+            Data       => \%ShownUsers,
+            SelectedID => $Param{NewOwnerID},
+            Name       => 'NewOwnerID',
+            Class      => 'Modernize '
+                . ( $Config->{OwnerMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{NewOwnerInvalid} || '' ),
+            Size         => 1,
             PossibleNone => 1,
+            Filters      => {
+                OldOwners => {
+                    Name   => $LayoutObject->{LanguageObject}->Translate('Previous Owner'),
+                    Values => \%OldOwnersShown,
+                },
+            },
         );
 
-        if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
-            $Param{'NewOwnerType::Old'} = 'checked = "checked"';
-        }
-        else {
-            $Param{'NewOwnerType::New'} = 'checked = "checked"';
-        }
-
         $LayoutObject->Block(
-            Name => 'Owner',
+            Name => $Config->{OwnerMandatory} ? 'OwnerMandatory' : 'Owner',
             Data => \%Param,
         );
     }
@@ -1800,6 +1765,7 @@ sub _Mask {
             Data         => \%ShownUsers,
             SelectedID   => $Param{NewResponsibleID},
             Name         => 'NewResponsibleID',
+            Class        => 'Modernize',
             PossibleNone => 1,
             Size         => 1,
         );
@@ -1830,6 +1796,7 @@ sub _Mask {
         $Param{StateStrg} = $LayoutObject->BuildSelection(
             Data         => \%StateList,
             Name         => 'NewStateID',
+            Class        => 'Modernize',
             PossibleNone => $Config->{StateDefault} ? 0 : 1,
             %State,
         );
@@ -1896,8 +1863,9 @@ sub _Mask {
         }
         $Priority{SelectedID} ||= $Param{PriorityID};
         $Param{PriorityStrg} = $LayoutObject->BuildSelection(
-            Data => \%PriorityList,
-            Name => 'NewPriorityID',
+            Data  => \%PriorityList,
+            Name  => 'NewPriorityID',
+            Class => 'Modernize',
             %Priority,
         );
         $LayoutObject->Block(
@@ -2116,6 +2084,7 @@ sub _Mask {
                 Data       => \@InvolvedAgents,
                 SelectedID => \@InvolvedUserID,
                 Name       => 'InvolvedUserID',
+                Class      => 'Modernize',
                 Multiple   => 1,
                 Size       => $InvolvedAgentSize,
             );
@@ -2146,6 +2115,7 @@ sub _Mask {
                 Data       => \%ShownUsers,
                 SelectedID => \@InformUserID,
                 Name       => 'InformUserID',
+                Class      => 'Modernize',
                 Multiple   => 1,
                 Size       => $InformAgentSize,
             );
@@ -2269,6 +2239,7 @@ sub _Mask {
                 Data       => $QueueStandardTemplates    || {},
                 Name       => 'StandardTemplateID',
                 SelectedID => $Param{StandardTemplateID} || '',
+                Class      => 'Modernize',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 1,
@@ -2323,8 +2294,9 @@ sub _Mask {
             }
 
             $Param{ArticleTypeStrg} = $LayoutObject->BuildSelection(
-                Data => \%NoteTypes,
-                Name => 'ArticleTypeID',
+                Data  => \%NoteTypes,
+                Name  => 'ArticleTypeID',
+                Class => 'Modernize',
                 %ArticleType,
             );
             $LayoutObject->Block(
@@ -2582,7 +2554,7 @@ sub _GetFieldsToUpdate {
     # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields = qw(
-            TypeID ServiceID SLAID NewOwnerID OldOwnerID NewResponsibleID NewStateID
+            TypeID ServiceID SLAID NewOwnerID NewResponsibleID NewStateID
             NewPriorityID
         );
     }

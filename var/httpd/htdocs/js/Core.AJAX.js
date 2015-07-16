@@ -301,6 +301,12 @@ Core.AJAX = (function (TargetNS) {
                     $Element.append(NewOption);
 
                 });
+
+                // Trigger custom redraw event for InputFields
+                if ($Element.hasClass('Modernize')) {
+                    $Element.trigger('redraw.InputField');
+                }
+
                 return;
             }
 
@@ -312,6 +318,11 @@ Core.AJAX = (function (TargetNS) {
 
             // Other form elements
             $Element.val(DataValue);
+
+            // Trigger custom redraw event for InputFields
+            if ($Element.hasClass('Modernize')) {
+                $Element.trigger('redraw.InputField');
+            }
         });
     }
 

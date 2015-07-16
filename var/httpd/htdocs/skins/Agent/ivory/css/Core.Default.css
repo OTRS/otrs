@@ -127,4 +127,24 @@ textarea.Focus  {
     background-image: url(../img/dialog_alert.png);
 }
 
+/**
+ * @subsection  Input Fields
+ */
+a.InputField_Action:hover {
+    color: #69BFCC;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: #82CED8;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow-clicked {
+    background-color: #69BFCC;
+}
+
+
 } /* end @media */

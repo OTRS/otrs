@@ -354,10 +354,12 @@ EOF
     }
 
     # check mobile devices to disable richtext support
-    if (   $Self->{IsMobile}
+    if (
+        $Self->{IsMobile}
         && $Self->{Platform} ne 'iOS'
         && $Self->{Platform} ne 'Android'
-        && $Self->{Platform} ne 'Windows Phone' )
+        && $Self->{Platform} ne 'Windows Phone'
+        )
     {
         $Self->{BrowserRichText} = 0;
     }
@@ -1924,7 +1926,7 @@ build a HTML option element based on given data
         ID              => 'HTMLID',              # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
         Multiple        => 0,                     # (optional) default 0 (0|1)
         Size            => 1,                     # (optional) default 1 element size
-        Class           => 'class',               # (optional) a css class
+        Class           => 'class',               # (optional) a css class, include 'Modernize' to activate InputFields
         Disabled        => 0,                     # (optional) default 0 (0|1) disable the element
         AutoComplete    => 'off',                 # (optional)
         OnChange        => 'javascript',          # (optional)
@@ -1947,6 +1949,21 @@ build a HTML option element based on given data
         HTMLQuote      => 0,                 # (optional) default 1 (0|1) disable html quote
         Title          => 'Tooltip Text',    # (optional) string will be shown as Tooltip on mouseover
         OptionTitle    => 1,                 # (optional) default 0 (0|1) show title attribute (the option value) on every option element
+
+        Filters => {                         # (optional) filter data, used by InputFields
+            LastOwners => {                  # filter id
+                Name   => 'Last owners',     # name of the filter
+                Values => {                  # filtered data structure
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                },
+            },
+            InvolvedAgents => {
+                Name   => 'Involved in this ticket',
+                Values => \%HashWithData,
+            },
+        },
     );
 
     my $HashRef = {
@@ -2045,13 +2062,125 @@ sub BuildSelection {
         OptionRef    => $OptionRef,
     );
 
+    # create FiltersRef
+    my @Filters;
+    if ( $Param{Filters} ) {
+        for my $Filter ( sort keys %{ $Param{Filters} } ) {
+            if (
+                $Param{Filters}->{$Filter}->{Name}
+                && $Param{Filters}->{$Filter}->{Values}
+                )
+            {
+                my $FilterData = $Self->_BuildSelectionDataRefCreate(
+                    Data         => $Param{Filters}->{$Filter}->{Values},
+                    AttributeRef => $AttributeRef,
+                    OptionRef    => $OptionRef,
+                );
+                push @Filters, {
+                    Name => $Param{Filters}->{$Filter}->{Name},
+                    Data => $FilterData,
+                };
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Each Filter must provide Name and Values!',
+                );
+                $Self->FatalError();
+            }
+        }
+        @Filters = sort { $a->{Name} cmp $b->{Name} } @Filters;
+    }
+
     # generate output
     my $String = $Self->_BuildSelectionOutput(
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
         OptionTitle  => $Param{OptionTitle},
         TreeView     => $Param{TreeView},
+        FiltersRef   => \@Filters,
     );
+    return $String;
+}
+
+=item BuildAutocomplete()
+
+build a text input element with autocomplete capabilities (InputFields)
+
+    my $InputField = $LayoutObject->BuildAutocomplete(
+        Name      => 'TheName',           # name of element
+        ID        => 'HTMLID',            # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
+        Class     => 'Class,              # (optional) a CSS class
+        URL       => '/index.pl',         # address for AJAX call
+        Action    => 'AgentAutocomplete', # (optional) Action parameter for AJAX call
+        Subaction => 'GetDate',           # (optional) Subaction parameter for AJAX call
+        Params    => {                    # (optional) Additional params supplied to AJAX call
+            Key1 => 'Value1',
+            Key2 => 'Value2',
+            Key3 => 'Value3',
+        },
+    );
+
+    # Data structure expected by AJAX call
+    # Text is optional, it will used only if supplied, otherwise Value is used
+    my @AutocompleteData = (
+        {
+            Value => "Quick brown fox jumps over the lazy dog.",
+            Text  => "Quick brown fox jumps over the lazy dog.",
+        },
+        {
+            Value => "Pack my box with five dozen liquor jugs.",
+            Text  => "Pack my box with five dozen liquor jugs.",
+        },
+        {
+            Value => "Jack, love my big wad of sphinx quartz!",
+            Text  => "Jack, love my big wad of sphinx quartz!",
+        },
+    );
+
+=cut
+
+sub BuildAutocomplete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Name URL)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+            return;
+        }
+    }
+
+    # generate HTML
+    my $String = '<input type="text" name="' . $Param{Name} . '"';
+    if ( $Param{ID} ) {
+        $String .= ' id="' . $Param{ID} . '"';
+    }
+    else {
+        $String .= ' id="' . $Param{Name} . '"';
+    }
+    $String .= ' class="Modernize' . ( $Param{Class} ? ' ' . $Param{Class} : '' ) . '"';
+    $String .= ' data-url="' . $Param{URL} . '"';
+    if ( $Param{Action} ) {
+        $String .= ' data-action="' . $Param{Action} . '"';
+    }
+    if ( $Param{Subaction} ) {
+        $String .= ' data-subaction="' . $Param{Subaction} . '"';
+    }
+    if ( $Param{Params} ) {
+        my $JSON = $Self->JSONEncode(
+            Data => {
+                Params => $Param{Params},
+            },
+            NoQuotes => 1,
+        );
+        $String .= " data-params='$JSON'";
+    }
+    $String .= ' />';
+
     return $String;
 }
 
@@ -4958,6 +5087,18 @@ sub _BuildSelectionOutput {
                 $String .= " $Key";
             }
         }
+
+        # add filters if defined
+        if ( $Param{FiltersRef} && scalar @{ $Param{FiltersRef} } > 0 ) {
+            my $JSON = $Self->JSONEncode(
+                Data => {
+                    Filters => $Param{FiltersRef},
+                },
+                NoQuotes => 1,
+            );
+            $String .= " data-filters='$JSON'";
+        }
+
         $String .= ">\n";
 
         # generate <option> rows

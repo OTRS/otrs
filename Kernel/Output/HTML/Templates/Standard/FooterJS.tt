@@ -72,7 +72,18 @@ Core.App.Ready(function () {
         BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
         BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
         ViewModeSwitchMobile:  [% Translate("Switch to mobile mode") | JSON %],
-        ViewModeSwitchDesktop: [% Translate("Switch to desktop mode") | JSON %]
+        ViewModeSwitchDesktop: [% Translate("Switch to desktop mode") | JSON %],
+        InputFieldsActivated: parseInt('[% Config("ModernizeFormFields") %]', 10),
+        InputFieldsNotAvailable: [% Translate("Not available") | JSON %],
+        InputFieldsNoMatchMsg: [% Translate("No matches found.") | JSON %],
+        InputFieldsSelectAll: [% Translate("Select all") | JSON %],
+        InputFieldsClearAll: [% Translate("Clear all") | JSON %],
+        InputFieldsClearSearch: [% Translate("Clear search") | JSON %],
+        InputFieldsRemoveSelection: [% Translate("Remove selection") | JSON %],
+        InputFieldsSelection: [% Translate("%s selection(s)...") | JSON %],
+        InputFieldsMore: [% Translate("and %s more...") | JSON %],
+        InputFieldsFilters: [% Translate("Filters") | JSON %],
+        InputFieldsConfirm: [% Translate("Confirm") | JSON %]
     });
 
     Core.Agent.Init();

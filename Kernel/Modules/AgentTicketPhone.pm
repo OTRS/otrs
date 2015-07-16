@@ -2187,6 +2187,7 @@ sub _MaskPhoneNew {
     $Param{OptionStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{Users},
         SelectedID   => $Param{UserSelected},
+        Class        => 'Modernize',
         Translation  => 0,
         Name         => 'NewUserID',
         PossibleNone => 1,
@@ -2198,6 +2199,7 @@ sub _MaskPhoneNew {
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data          => $Param{NextStates},
         Name          => 'NextStateID',
+        Class         => 'Modernize',
         Translation   => 1,
         SelectedValue => $Param{NextState} || $Config->{StateDefault},
     );
@@ -2211,7 +2213,7 @@ sub _MaskPhoneNew {
     }
     if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
-            Class          => 'Validate_Required',
+            Class          => 'Validate_Required Modernize',
             Data           => \%NewTo,
             Multiple       => 0,
             Size           => 0,
@@ -2223,7 +2225,7 @@ sub _MaskPhoneNew {
     }
     else {
         $Param{ToStrg} = $LayoutObject->BuildSelection(
-            Class       => 'Validate_Required',
+            Class       => 'Validate_Required Modernize',
             Data        => \%NewTo,
             Name        => 'Dest',
             TreeView    => $TreeView,
@@ -2325,7 +2327,7 @@ sub _MaskPhoneNew {
     # build type string
     if ( $ConfigObject->Get('Ticket::Type') ) {
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Class => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Class => 'Modernize Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
             Data  => $Param{Types},
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -2346,7 +2348,7 @@ sub _MaskPhoneNew {
             $Param{ServiceStrg} = $LayoutObject->BuildSelection(
                 Data         => $Param{Services},
                 Name         => 'ServiceID',
-                Class        => 'Validate_Required ' . ( $Param{Errors}->{ServiceInvalid} || ' ' ),
+                Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{ServiceInvalid} || ' ' ),
                 SelectedID   => $Param{ServiceID},
                 PossibleNone => 1,
                 TreeView     => $TreeView,
@@ -2363,7 +2365,7 @@ sub _MaskPhoneNew {
             $Param{ServiceStrg} = $LayoutObject->BuildSelection(
                 Data         => $Param{Services},
                 Name         => 'ServiceID',
-                Class        => $Param{Errors}->{ServiceInvalid} || ' ',
+                Class        => 'Modernize ' . ( $Param{Errors}->{ServiceInvalid} || ' ' ),
                 SelectedID   => $Param{ServiceID},
                 PossibleNone => 1,
                 TreeView     => $TreeView,
@@ -2382,7 +2384,7 @@ sub _MaskPhoneNew {
                 Data         => $Param{SLAs},
                 Name         => 'SLAID',
                 SelectedID   => $Param{SLAID},
-                Class        => 'Validate_Required ' . ( $Param{Errors}->{SLAInvalid} || ' ' ),
+                Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{SLAInvalid} || ' ' ),
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 0,
@@ -2398,6 +2400,7 @@ sub _MaskPhoneNew {
                 Data         => $Param{SLAs},
                 Name         => 'SLAID',
                 SelectedID   => $Param{SLAID},
+                Class        => 'Modernize',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 0,
@@ -2422,6 +2425,7 @@ sub _MaskPhoneNew {
             Data       => $Param{StandardTemplates}  || {},
             Name       => 'StandardTemplateID',
             SelectedID => $Param{StandardTemplateID} || '',
+            Class      => 'Modernize',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 1,
@@ -2442,6 +2446,7 @@ sub _MaskPhoneNew {
         Name          => 'PriorityID',
         SelectedID    => $Param{PriorityID},
         SelectedValue => $Param{Priority},
+        Class         => 'Modernize',
         Translation   => 1,
     );
 
@@ -2476,6 +2481,7 @@ sub _MaskPhoneNew {
             Data       => $Param{ResponsibleUsers},
             SelectedID => $Param{ResponsibleUserSelected},
             Name       => 'NewResponsibleID',
+            Class      => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'ResponsibleSelection',
