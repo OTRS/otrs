@@ -819,14 +819,32 @@ sub Login {
         # show 2 factor password input if we have at least one backend enabled
         COUNT:
         for my $Count ( '', 1 .. 10 ) {
+            next COUNT if !$ConfigObject->Get("AuthTwoFactorModule$Count");
 
-            my $GenericModule = $ConfigObject->Get("AuthTwoFactorModule$Count");
-            next COUNT if !$GenericModule;
+            # if no empty shared secrets are allowed, input is mandatory
+            my %MandatoryOptions;
+            if ( !$ConfigObject->Get("AuthTwoFactorModule${Count}::AllowEmptySecret") ) {
+                %MandatoryOptions = (
+                    MandatoryClass   => 'Mandatory',
+                    ValidateRequired => 'Validate_Required',
+                );
+            }
 
             $Self->Block(
                 Name => 'AuthTwoFactor',
-                Data => \%Param,
+                Data => {
+                    %Param,
+                    %MandatoryOptions,
+                },
             );
+
+            if (%MandatoryOptions) {
+                $Self->Block(
+                    Name => 'AuthTwoFactorMandatory',
+                    Data => \%Param,
+                );
+            }
+
             last COUNT;
         }
 
@@ -3425,9 +3443,7 @@ sub CustomerLogin {
         # show 2 factor password input if we have at least one backend enabled
         COUNT:
         for my $Count ( '', 1 .. 10 ) {
-
-            my $GenericModule = $ConfigObject->Get("Customer::AuthTwoFactorModule$Count");
-            next COUNT if !$GenericModule;
+            next COUNT if !$ConfigObject->Get("Customer::AuthTwoFactorModule$Count");
 
             $Self->Block(
                 Name => 'AuthTwoFactor',

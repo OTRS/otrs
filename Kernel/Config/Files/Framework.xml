@@ -3446,6 +3446,44 @@ You can log in via the following URL:
             <String Regex="">25</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="AuthTwoFactorModule" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the two-factor module to authenticate agents.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option Location="Kernel/System/Auth/TwoFactor/*.pm" SelectedID="Kernel::System::Auth::TwoFactor::GoogleAuthenticator"></Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AuthTwoFactorModule::SecretPreferencesKey" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the agent preferences key where the shared secret key is stored.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <String Regex="">UserGoogleAuthenticatorSecretKey</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AuthTwoFactorModule::AllowEmptySecret" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AuthTwoFactorModule::AllowPreviousToken" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
         <Description Translatable="1">Defines the name of the table, where the customer preferences are stored.</Description>
         <Group>Framework</Group>
@@ -3509,6 +3547,24 @@ You can log in via the following URL:
                 <Item Key="PasswordNeedDigit">0</Item>
                 <Item Key="PasswordMaxLoginFailed">0</Item>
                 <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="Column">User Profile</Item>
+                <Item Key="Label" Translatable="1">Google Authenticator</Item>
+                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
+                <Item Key="Key" Translatable="1">Shared Secret</Item>
+                <Item Key="Block">Input</Item>
+                <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
+                <Item Key="Prio">0600</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4212,6 +4268,44 @@ via the Preferences button after logging in.
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Customer::AuthTwoFactorModule" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the two-factor module to authenticate customers.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option Location="Kernel/System/CustomerAuth/TwoFactor/*.pm" SelectedID="Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator"></Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthTwoFactorModule::SecretPreferencesKey" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the customer preferences key where the shared secret key is stored.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <String Regex="">UserGoogleAuthenticatorSecretKey</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthTwoFactorModule::AllowEmptySecret" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthTwoFactorModule::AllowPreviousToken" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth::TwoFactor</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerPreferences" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the parameters for the customer preferences table.</Description>
         <Group>Framework</Group>
@@ -4259,6 +4353,23 @@ via the Preferences button after logging in.
                 <Item Key="PasswordMin2Characters">0</Item>
                 <Item Key="PasswordNeedDigit">0</Item>
                 <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Label" Translatable="1">Google Authenticator</Item>
+                <Item Key="Key" Translatable="1">Shared Secret</Item>
+                <Item Key="Block">Input</Item>
+                <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
+                <Item Key="Prio">1100</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>

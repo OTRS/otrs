@@ -37,7 +37,7 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(TwoFactorToken User UserID)) {
+    for my $Needed (qw(User UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -62,9 +62,25 @@ sub Auth {
         UserID => $Param{UserID},
     );
     if ( !$UserPreferences{$SecretPreferencesKey} ) {
+
+        # if login without a stored secret key is permitted, this counts as passed
+        if ( $ConfigObject->Get("AuthTwoFactorModule$Self->{Count}::AllowEmptySecret") ) {
+            return 1;
+        }
+
+        # otherwise login counts as failed
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Found no SecretPreferencesKey for user $Param{User}.",
+        );
+        return;
+    }
+
+    # if we get to here (user has preference), we need a passed token
+    if ( !$Param{TwoFactorToken} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TwoFactorToken!"
         );
         return;
     }
@@ -82,7 +98,7 @@ sub Auth {
 
         # try again with previous otp (from 30 seconds ago)
         $OTP = $Self->_GenerateOTP(
-            Secret => $UserPreferences{$SecretPreferencesKey},
+            Secret   => $UserPreferences{$SecretPreferencesKey},
             Previous => 1,
         );
         return if $Param{TwoFactorToken} ne $OTP;
@@ -116,8 +132,8 @@ sub _GenerateOTP {
 
     # encrypt timestamp with secret
     my $PackedTimeStamp = pack 'H*', $PaddedTimeStamp;
-    my $Base32Secret = $Self->DecodeBase32( Secret => $Param{Secret} );
-    my $HMAC = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1);
+    my $Base32Secret = $Self->_DecodeBase32( Secret => $Param{Secret} );
+    my $HMAC = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1 );
 
     # now treat hmac to get 6 numerical digits
 
@@ -132,11 +148,14 @@ sub _GenerateOTP {
     return sprintf( "%06d", $Token );
 }
 
-sub DecodeBase32 {
+sub _DecodeBase32 {
     my ( $Self, %Param ) = @_;
 
     # based on RfC 3548, code inspired by MIME::Base32
-    my $Key = $Param{Secret};
+
+    # convert all characters to upper case and remove whitespace (not allowed for base32)
+    my $Key = uc $Param{Secret};
+    $Key =~ s{ [ ]+ }{}xmsg;
 
     # turn into binary characters
     $Key =~ tr|A-Z2-7|\0-\37|;

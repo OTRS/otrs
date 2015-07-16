@@ -432,7 +432,10 @@ sub LoadDefaults {
 #    $Self->{'AuthTwoFactorModule'} = 'Kernel::System::Auth::TwoFactor::GoogleAuthenticator';
 
     # defines user preference where the secret key is stored
-#    $Self->{'AuthTwoFactorModule::SecretPreferencesKey'} = 'GoogleAuthenticatorSecretKey';
+#    $Self->{'AuthTwoFactorModule::SecretPreferencesKey'} = 'UserGoogleAuthenticatorSecretKey';
+
+    # defines if users can login without a 2 factor authentication if they have no stored shared secret
+#    $Self->{'AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
     # helpful to account for timimg issues (server and entry based)
@@ -1331,7 +1334,10 @@ via the Preferences button after logging in.
 #    $Self->{'Customer::AuthTwoFactorModule'} = 'Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator';
 
     # defines user preference where the secret key is stored
-#    $Self->{'Customer::AuthTwoFactorModule::SecretPreferencesKey'} = 'GoogleAuthenticatorSecretKey';
+#    $Self->{'Customer::AuthTwoFactorModule::SecretPreferencesKey'} = 'UserGoogleAuthenticatorSecretKey';
+
+    # defines if users can login without a 2 factor authentication if they have no stored shared secret
+#    $Self->{'Customer::AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
     # helpful to account for timimg issues (server and entry based)
