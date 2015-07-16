@@ -29,7 +29,7 @@ sub Run {
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    my $Subject = $Param{Subject} || '';
+    my $Subject = $Param{GetParam}->{Subject} || '';
 
     my $Tn = $TicketObject->GetTNByString($Subject);
     return if !$Tn;

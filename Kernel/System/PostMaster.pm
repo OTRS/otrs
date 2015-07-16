@@ -155,7 +155,7 @@ sub Run {
     my $GetParam = $Self->GetEmailParams();
 
     # check if follow up
-    my ( $Tn, $TicketID ) = $Self->CheckFollowUp( %{$GetParam} );
+    my ( $Tn, $TicketID ) = $Self->CheckFollowUp( GetParam => $GetParam );
 
     # get config objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -217,7 +217,7 @@ sub Run {
     # ----------------------
 
     # check if follow up (again, with new GetParam)
-    ( $Tn, $TicketID ) = $Self->CheckFollowUp( %{$GetParam} );
+    ( $Tn, $TicketID ) = $Self->CheckFollowUp( GetParam => $GetParam );
 
     # check if it's a follow up ...
     if ( $Tn && $TicketID ) {
@@ -473,7 +473,9 @@ sub CheckFollowUp {
                     TicketID      => $TicketID,
                     DynamicFields => 0,
                 );
-                return ( $Ticket{TicketNumber}, $TicketID );
+                if (%Ticket) {
+                    return ( $Ticket{TicketNumber}, $TicketID );
+                }
             }
         }
     }
