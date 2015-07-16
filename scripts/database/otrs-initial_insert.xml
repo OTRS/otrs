@@ -1960,199 +1960,199 @@ Your OTRS Group
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Created: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Created: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been created in queue &lt;OTRS_TICKET_Queue&gt;.
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been created in queue <OTRS_TICKET_Queue>.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> wrote:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Follow Up: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now unlocked.
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now unlocked.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> wrote:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Follow Up: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now locked.
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now locked.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> wrote:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Lock Timeout: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Lock Timeout: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has reached its lock timeout period and is now unlocked.
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has reached its lock timeout period and is now unlocked.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Owner Update to You: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Owner Update to You: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the owner of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] is updated to &lt;OTRS_TICKET_OWNER_UserFullname&gt; by &lt;OTRS_CURRENT_UserFullname&gt;.
+the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Responsible Update to You: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Responsible Update to You: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the responsible agent of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to &lt;OTRS_TICKET_RESPONSIBLE_UserFullname&gt; by &lt;OTRS_CURRENT_UserFullname&gt;.
+the responsible agent of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Note: &lt;OTRS_AGENT_SUBJECT[24]&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Note: <OTRS_AGENT_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-&lt;OTRS_CURRENT_UserFullname&gt; wrote:
-&lt;OTRS_AGENT_BODY[30]&gt;
+<OTRS_CURRENT_UserFullname> wrote:
+<OTRS_AGENT_BODY[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">8</Data>
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Queue Update to &lt;OTRS_TICKET_Queue&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Queue Update to <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to queue &lt;OTRS_TICKET_Queue&gt;.
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to queue <OTRS_TICKET_Queue>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">9</Data>
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and it is now locked.
+the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now locked.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">10</Data>
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and it is now unlocked.
+the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now unlocked.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">11</Data>
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Escalation! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Escalation! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] is escalated!
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is escalated!
 
-Escalated at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Escalated since: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+Escalated at: <OTRS_TICKET_EscalationDestinationDate>
+Escalated since: <OTRS_TICKET_EscalationDestinationIn>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">12</Data>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Escalation Warning! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Escalation Warning! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] will escalate!
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] will escalate!
 
-Escalation at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Escalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+Escalation at: <OTRS_TICKET_EscalationDestinationDate>
+Escalation in: <OTRS_TICKET_EscalationDestinationIn>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">13</Data>
         <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Service Update to &lt;OTRS_TICKET_Service&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Service Update to <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the service of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been updated to &lt;OTRS_TICKET_Service&gt;.
+the service of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_Service>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
 
     <!-- notification_event_message - de -->
@@ -2161,200 +2161,200 @@ the service of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumbe
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket erstellt!: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket erstellt!: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde in der Queue &lt;OTRS_TICKET_Queue&gt; erstellt.
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> schrieb:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">15</Data>
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum freigegebenen Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
+zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> schrieb:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">16</Data>
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum gesperrten Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
+zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
-&lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
-&lt;OTRS_CUSTOMER_Body[30]&gt;
+<OTRS_CUSTOMER_REALNAME> schrieb:
+<OTRS_CUSTOMER_Body[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">17</Data>
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticketsperre aufgehoben! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticketsperre aufgehoben! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Sperrzeit des Tickets [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] ist abgelaufen. Es ist jetzt entsperrt.
+die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt entsperrt.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">18</Data>
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Aenderung des Ticket-Besitzers auf Sie! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Aenderung des Ticket-Besitzers auf Sie! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Besitzer des Tickets [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geaendert auf &lt;OTRS_TICKET_OWNER_UserFullname&gt; von &lt;OTRS_CURRENT_UserFullname&gt;.
+der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert auf <OTRS_TICKET_OWNER_UserFullname> von <OTRS_CURRENT_UserFullname>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">19</Data>
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Aenderung des Ticket-Verantwortlichen auf Sie! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Aenderung des Ticket-Verantwortlichen auf Sie! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Verantwortliche für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geändert auf &lt;OTRS_TICKET_RESPONSIBLE_UserFullname&gt; von &lt;OTRS_CURRENT_UserFullname&gt;.
+der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname> von <OTRS_CURRENT_UserFullname>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">20</Data>
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_AGENT_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Neue Notiz! (<OTRS_AGENT_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-&lt;OTRS_CURRENT_UserFullname&gt; schrieb:
-&lt;OTRS_AGENT_BODY[30]&gt;
+<OTRS_CURRENT_UserFullname> schrieb:
+<OTRS_AGENT_BODY[30]>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">21</Data>
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Queue Aenderung &lt;OTRS_TICKET_Queue&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Queue Aenderung <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde in die Queue &lt;OTRS_TICKET_Queue&gt; verschoben.
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in die Queue <OTRS_TICKET_Queue> verschoben.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">22</Data>
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit erreicht! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das gesperrte Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
+die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">23</Data>
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit erreicht! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das freigegebene Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
+die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">24</Data>
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Eskalation! &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Eskalation! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] ist eskaliert!
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist eskaliert!
 
-Eskaliert am: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Eskaliert seit: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+Eskaliert am: <OTRS_TICKET_EscalationDestinationDate>
+Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">25</Data>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_TICKET_Title&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Eskalations-Warnung! (<OTRS_TICKET_Title>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wird bald eskalieren!
-
-
-Eskalation um: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Eskalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
-
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wird bald eskalieren!
 
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+Eskalation um: <OTRS_TICKET_EscalationDestinationDate>
+Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">26</Data>
         <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket Service aktualisiert zu &lt;OTRS_TICKET_Service&gt;: &lt;OTRS_TICKET_Title&gt;</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Service aktualisiert zu <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Service von Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde geaendert zu &lt;OTRS_TICKET_Service&gt;.
+der Service von Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert zu <OTRS_TICKET_Service>.
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- &lt;OTRS_CONFIG_NotificationSenderName&gt;</Data>
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
 
     <!-- notification_event_message - nl -->
@@ -2363,215 +2363,215 @@ der Service von Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumb
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Nieuw ticket (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Nieuw ticket (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Er is een nieuw ticket aangemaakt in &lt;OTRS_TICKET_Queue&gt;!
+Er is een nieuw ticket aangemaakt in <OTRS_TICKET_Queue>!
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">28</Data>
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Reactie ontvangen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Reactie ontvangen (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
 Er is een reactie ontvangen op onderstaand ticket.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">29</Data>
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Reactie ontvangen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Reactie ontvangen (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
 Er is een reactie ontvangen op onderstaand ticket.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">30</Data>
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Ticket ontgrendeld (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket ontgrendeld (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-De bewerkingstijd van ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is overschreden, het ticket is nu ontgrendeld.
+De bewerkingstijd van ticket [<OTRS_TICKET_TicketNumber>] is overschreden, het ticket is nu ontgrendeld.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">31</Data>
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Ticket toegewezen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket toegewezen (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is aan jou toegewezen door &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
+Ticket [<OTRS_TICKET_TicketNumber>] is aan jou toegewezen door <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>.
 
 Opmerking:
 
-&lt;OTRS_COMMENT&gt;
+<OTRS_COMMENT>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">32</Data>
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Verantwoordelijkheid bijgewerkt (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Verantwoordelijkheid bijgewerkt (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_RESPONSIBLE_UserFirstname>,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft je geregistreerd als verantwoordelijke voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft je geregistreerd als verantwoordelijke voor ticket [<OTRS_TICKET_TicketNumber>].
 
 Opmerking:
 
-&lt;OTRS_COMMENT&gt;
+<OTRS_COMMENT>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">33</Data>
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Nieuwe notitie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Nieuwe notitie (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft een nieuwe notitie toegevoegd aan [&lt;OTRS_TICKET_TicketNumber&gt;].
+<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft een nieuwe notitie toegevoegd aan [<OTRS_TICKET_TicketNumber>].
 
 Notitie:
-&lt;OTRS_CUSTOMER_BODY&gt;
+<OTRS_CUSTOMER_BODY>
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">34</Data>
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Ticket verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt; (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket verplaatst naar <OTRS_CUSTOMER_QUEUE> (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft [&lt;OTRS_TICKET_TicketNumber&gt;] verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt;.
+<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft [<OTRS_TICKET_TicketNumber>] verplaatst naar <OTRS_CUSTOMER_QUEUE>.
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">35</Data>
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Herinnering (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Herinnering (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
+Het herinnermoment voor ticket [<OTRS_TICKET_TicketNumber>] is bereikt.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">36</Data>
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Herinnering (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Herinnering (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
+Het herinnermoment voor ticket [<OTRS_TICKET_TicketNumber>] is bereikt.
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">37</Data>
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Escalatie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Escalatie (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Het ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is geëscaleerd!
+Het ticket [<OTRS_TICKET_TicketNumber>] is geëscaleerd!
 
-Geëscaleerd op:    &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Geëscaleerd sinds: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+Geëscaleerd op:    <OTRS_TICKET_EscalationDestinationDate>
+Geëscaleerd sinds: <OTRS_TICKET_EscalationDestinationIn>
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
     <Insert Table="notification_event_message">
         <Data Key="id" Type="AutoIncrement">38</Data>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">nl</Data>
-        <Data Key="subject" Type="Quote">Ticket gaat escaleren (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket gaat escaleren (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Beste <OTRS_UserFirstname>,
 
-Het ticket [&lt;OTRS_TICKET_TicketNumber&gt;] gaat escaleren!
+Het ticket [<OTRS_TICKET_TicketNumber>] gaat escaleren!
 
-Escalatie op:   &lt;OTRS_TICKET_EscalationDestinationDate&gt;
-Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+Escalatie op:   <OTRS_TICKET_EscalationDestinationDate>
+Escalatie over: <OTRS_TICKET_EscalationDestinationIn>
 
-&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+<OTRS_CUSTOMER_FROM> schreef:
 
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+<OTRS_CUSTOMER_EMAIL[30]>
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-        </Data>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+        ]]></Data>
     </Insert>
 
     <!-- Internal dynamic fields for ProcessManagement -->
