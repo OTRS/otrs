@@ -187,6 +187,55 @@ END;
 --;
 CREATE INDEX notification_event_message_lb8 ON notification_event_message (language);
 CREATE INDEX notification_event_message_n1c ON notification_event_message (notification_id);
+-- ----------------------------------------------------------
+--  create table cloud_service_config
+-- ----------------------------------------------------------
+CREATE TABLE cloud_service_config (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT cloud_service_config_config_39 UNIQUE (config_md5),
+    CONSTRAINT cloud_service_config_name UNIQUE (name)
+);
+ALTER TABLE cloud_service_config ADD CONSTRAINT PK_cloud_service_config PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_cloud_service_config';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_cloud_service_config
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_cloud_service_config_t
+BEFORE INSERT ON cloud_service_config
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_cloud_service_config.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_cloud_service_config_chane1 ON cloud_service_config (change_by);
+CREATE INDEX FK_cloud_service_config_crea30 ON cloud_service_config (create_by);
+CREATE INDEX FK_cloud_service_config_valib2 ON cloud_service_config (valid_id);
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE notification_event_message ADD CONSTRAINT FK_notification_event_messag16 FOREIGN KEY (notification_id) REFERENCES notification_event (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_creafe FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_chan63 FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_vali9c FOREIGN KEY (valid_id) REFERENCES valid (id);

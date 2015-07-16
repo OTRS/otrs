@@ -81,4 +81,24 @@ CREATE TABLE notification_event_message (
     INDEX notification_event_message_language (language),
     INDEX notification_event_message_notification_id (notification_id)
 );
+# ----------------------------------------------------------
+#  create table cloud_service_config
+# ----------------------------------------------------------
+CREATE TABLE cloud_service_config (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    config LONGBLOB NOT NULL,
+    config_md5 VARCHAR (32) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX cloud_service_config_config_md5 (config_md5),
+    UNIQUE INDEX cloud_service_config_name (name)
+);
 ALTER TABLE notification_event_message ADD CONSTRAINT FK_notification_event_message_notification_id_id FOREIGN KEY (notification_id) REFERENCES notification_event (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);

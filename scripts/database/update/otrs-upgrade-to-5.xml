@@ -118,4 +118,30 @@
         </Unique>
     </TableCreate>
 
+    <!-- cloud service config table -->
+    <TableCreate Name="cloud_service_config">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="config" Required="true" Type="LONGBLOB"/>
+        <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique Name="cloud_service_config_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <Unique Name="cloud_service_config_config_md5">
+            <UniqueColumn Name="config_md5"/>
+        </Unique>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
 </database>
