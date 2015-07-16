@@ -862,6 +862,7 @@ sub LoadDefaults {
         'Core.TicketDetail.css',
         'Core.Tooltip.css',
         'Core.Dialog.css',
+        'Core.InputFields.css',
         'Core.Print.css',
         'thirdparty/fontawesome/font-awesome.css',
     ];
@@ -935,6 +936,7 @@ sub LoadDefaults {
         'Core.UI.Popup.js',
         'Core.UI.TreeSelection.js',
         'Core.UI.Autocomplete.js',
+        'Core.UI.InputFields.js',
         'Core.Form.js',
         'Core.Form.ErrorTooltips.js',
         'Core.Form.Validate.js',
