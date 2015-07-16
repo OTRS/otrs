@@ -9,7 +9,7 @@ Authors:
   Christian Schoepplein <cs at otrs.de>
   Franz Breu <breu.franz at bogen.net>
   Fred van Dijk <fvandijk at marklin.nl>
-  Lars MÜLLER <lars at m5r.de>
+  Lars MÃœLLER <lars at m5r.de>
   Nicolas Goralski <ngoralski at oceanet-technology.com>
   Richard Kammermayer <rk at otrs.de>
   Stefan Rother <sr at otrs.de>
