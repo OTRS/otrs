@@ -297,10 +297,14 @@ sub AgentPreferencesForm {
             );
             for my $ParamItem (@Params) {
                 if ( ref $ParamItem->{Data} eq 'HASH' || ref $Preference{Data} eq 'HASH' ) {
-                    $ParamItem->{Option} = $LayoutObject->BuildSelection(
+                    my %BuildSelectionParams = (
                         %Preference,
                         %{$ParamItem},
                         OptionTitle => 1,
+                    );
+                    $BuildSelectionParams{Class} = join(' ', $BuildSelectionParams{Class}, 'Modernize');
+                    $ParamItem->{Option} = $LayoutObject->BuildSelection(
+                        %BuildSelectionParams,
                     );
                 }
                 $LayoutObject->Block(

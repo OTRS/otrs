@@ -73,6 +73,7 @@ sub Param {
                 Data               => \%QueueData,
                 Size               => 10,
                 Name               => 'QueueID',
+                Class              => 'Modernize',
                 SelectedIDRefArray => \@CustomQueueIDs,
                 Multiple           => 1,
                 Translation        => 0,
