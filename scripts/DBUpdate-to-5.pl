@@ -60,8 +60,8 @@ EOF
         exit 1;
     }
 
-    # UID check if not on Windows
-    if ( $^O ne 'MSWin32' && $> == 0 ) {    # $EFFECTIVE_USER_ID
+    # UID check
+    if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
         die "
 Cannot run this program as root.
 Please run it as the 'otrs' user or with the help of su:
@@ -70,7 +70,7 @@ Please run it as the 'otrs' user or with the help of su:
     }
 
     # enable auto-flushing of STDOUT
-    $| = 1;                                 ## no critic
+    $| = 1;             ## no critic
 
     # define tasks and their messages
     my @Tasks = (

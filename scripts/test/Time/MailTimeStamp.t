@@ -13,16 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# this test only works in *nix
-if ( $^O eq 'MSWin32' ) {
-
-    $Self->True(
-        1,
-        'Can not specify local time zone via env on Win32, skipping tests.',
-    );
-    return 1;
-}
-
 my @Tests = (
     {
         Name      => 'Europe/Berlin',

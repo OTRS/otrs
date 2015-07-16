@@ -27,20 +27,6 @@ sub Run {
     my $Version = sprintf "%vd", $^V;
     my $OS = $^O;
 
-    # ActivePerl detection
-    if ( $^O =~ /win32/i ) {
-        $Kernel::OM->Get('Kernel::System::Main')->Require('Win32');
-
-        # Win32::BuildNumber() is only available on ActivePerl, NOT on Strawberry.
-        no strict 'refs';    ## no critic
-        if ( defined &Win32::BuildNumber ) {
-            $Version .= ' (ActiveState build ' . Win32::BuildNumber() . ')';
-        }
-        else {
-            $Version .= ' (StrawberryPerl)';
-        }
-    }
-
     $Self->AddResultInformation(
         Label => 'Perl Version',
         Value => "$Version ($OS)",

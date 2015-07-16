@@ -30,17 +30,6 @@ use lib dirname($RealBin) . '/Custom';
 use Kernel::System::Environment;
 use Kernel::System::VariableCheck qw( :all );
 
-# on Windows, we only have ANSI support if Win32::Console::ANSI is present
-# turn off colors if it is not available
-BEGIN {
-    if ( $^O eq 'MSWin32' ) {
-        ## no critic
-        eval 'use Win32::Console::ANSI';
-        ## use critic
-        $ENV{nocolors} = 1 if $@;
-    }
-}
-
 use Linux::Distribution;
 use ExtUtils::MakeMaker;
 use File::Path;
@@ -106,18 +95,9 @@ our %DistToInstType = (
 
     # zypper
     suse => 'zypper',
-
-    # ppm
-    win32as => 'ppm',
 );
 
 our $OSDist = Linux::Distribution::distribution_name() || '';
-
-# set win32as if active state perl is installed on windows.
-# for windows installations without active state perl we use the default.
-if ( _CheckActiveStatePerl() ) {
-    $OSDist = 'win32as';
-}
 
 my $AllModules;
 my $PackageList;
@@ -161,7 +141,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libapache-dbi-perl',
             emerge => 'dev-perl/Apache-DBI',
-            ppm    => 'Apache-DBI',
             zypper => 'perl-Apache-DBI',
         },
     },
@@ -172,7 +151,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libapache2-mod-perl2',
             emerge => 'dev-perl/Apache-Reload',
-            ppm    => 'mod_perl-2.0',
             zypper => 'apache2-mod_perl',
         },
     },
@@ -203,7 +181,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libcrypt-eksblowfish-perl',
             emerge => 'dev-perl/Crypt-Eksblowfish',
-            ppm    => 'Crypt-Eksblowfish',
             zypper => 'perl-Crypt-Eksblowfish',
         },
     },
@@ -214,7 +191,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libcrypt-ssleay-perl',
             emerge => 'dev-perl/Crypt-SSLeay',
-            ppm    => 'Crypt-SSLeay',
             zypper => 'perl-Crypt-SSLeay',
         },
     },
@@ -224,7 +200,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libtimedate-perl',
             emerge => 'dev-perl/TimeDate',
-            ppm    => 'TimeDate',
             zypper => 'perl-TimeDate',
         },
     },
@@ -234,7 +209,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbi-perl',
             emerge => 'dev-perl/DBI',
-            ppm    => 'DBI',
             zypper => 'perl-DBI'
         },
     },
@@ -245,7 +219,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
-            ppm    => 'DBD-mysql',
             zypper => 'perl-DBD-mysql'
         },
     },
@@ -263,7 +236,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
-            ppm    => 'DBD-ODBC',
             yum    => undef,
             zypper => undef,
         },
@@ -275,7 +247,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,
             emerge => undef,
-            ppm    => 'DBD-Oracle',
             yum    => undef,
             zypper => undef,
         },
@@ -287,7 +258,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbd-pg-perl',
             emerge => 'dev-perl/DBD-Pg',
-            ppm    => 'DBD-Pg',
             zypper => 'perl-DBD-Pg',
         },
     },
@@ -309,7 +279,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libio-socket-ssl-perl',
             emerge => 'dev-perl/IO-Socket-SSL',
-            ppm    => 'IO-Socket-SSL',
             zypper => 'perl-IO-Socket-SSL',
         },
     },
@@ -320,7 +289,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libjson-xs-perl',
             emerge => 'dev-perl/JSON-XS',
-            ppm    => 'JSON-XS',
             zypper => 'perl-JSON-XS',
         },
     },
@@ -332,7 +300,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libscalar-list-utils-perl',
             emerge => 'perl-core/Scalar-List-Utils',
-            ppm    => 'List-UtilsBy-XS',
             zypper => 'perl-Scalar-List-Utils',
         },
     },
@@ -342,7 +309,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libwww-perl',
             emerge => 'dev-perl/libwww-perl',
-            ppm    => 'libwww-perl',
             zypper => 'perl-libwww-perl',
         },
     },
@@ -354,7 +320,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libmail-imapclient-perl',
             emerge => 'dev-perl/Mail-IMAPClient',
-            ppm    => 'Mail-IMAPClient',
             zypper => 'perl-Mail-IMAPClient',
         },
         Depends => [
@@ -365,7 +330,6 @@ my @NeededModules = (
                 InstTypes => {
                     aptget => 'libio-socket-ssl-perl',
                     emerge => 'dev-perl/IO-Socket-SSL',
-                    ppm    => 'IO-Socket-SSL',
                     zypper => 'perl-IO-Socket-SSL',
                 },
             },
@@ -394,7 +358,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libnet-dns-perl',
             emerge => 'dev-perl/Net-DNS',
-            ppm    => 'Net-DNS',
             zypper => 'perl-Net-DNS',
         },
     },
@@ -405,7 +368,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libnet-ldap-perl',
             emerge => 'dev-perl/perl-ldap',
-            ppm    => 'Net-LDAP',
             zypper => 'perl-ldap',
         },
     },
@@ -416,7 +378,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libtemplate-perl',
             emerge => 'dev-perl/Template-Toolkit',
-            ppm    => 'Template-Toolkit',
             zypper => 'perl-Template-Toolkit',
         },
     },
@@ -427,7 +388,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libtemplate-perl',
             emerge => 'dev-perl/Template-Toolkit',
-            ppm    => 'Template-Toolkit',
             zypper => 'perl-Template-Toolkit',
         },
     },
@@ -438,7 +398,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libtext-csv-xs-perl',
             emerge => 'dev-perl/Text-CSV_XS',
-            ppm    => 'Text-CSV_XS',
             zypper => 'perl-Text-CSV_XS',
         },
     },
@@ -449,7 +408,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'perl',
             emerge => 'perl-core/Time-HiRes',
-            ppm    => 'Time-HiRes',
             zypper => 'perl-Time-HiRes',
         },
     },
@@ -465,7 +423,6 @@ my @NeededModules = (
         Comment   => 'Required for Generic Interface XSLT mapping module.',
         InstTypes => {
             aptget => 'libxml-libxml-perl',
-            ppm    => 'XML-LibXML',
             zypper => 'perl-XML-LibXML',
         },
     },
@@ -475,7 +432,6 @@ my @NeededModules = (
         Comment   => 'Required for Generic Interface XSLT mapping module.',
         InstTypes => {
             aptget => 'libxml-libxslt-perl',
-            ppm    => 'XML-LibXSLT',
             zypper => 'perl-XML-LibXSLT',
         },
     },
@@ -486,7 +442,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libxml-parser-perl',
             emerge => 'dev-perl/XML-Parser',
-            ppm    => 'XML-Parser',
             zypper => 'perl-XML-Parser',
         },
     },
@@ -497,7 +452,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
-            ppm    => 'YAML-XS',
             zypper => 'perl-YAML-LibYAML',
         },
     },
@@ -549,12 +503,6 @@ else {
 
 sub _Check {
     my ( $Module, $Depends, $NoColors ) = @_;
-
-    # if we're on Windows we don't need to see Apache + mod_perl modules
-    if ( $^O eq 'MSWin32' ) {
-        return if $Module->{Module} =~ m{\A Apache }xms;
-        return if $Module->{Module} =~ m{\A ModPerl }xms;
-    }
 
     print "  " x ( $Depends + 1 );
     print "o $Module->{Module}";
@@ -699,10 +647,6 @@ sub _PackageList {
     # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
     for my $Module ( @{$PackageList} ) {
-        if ( $^O eq 'MSWin32' ) {
-            return if $Module->{Module} =~ m{\A Apache }xms;
-            return if $Module->{Module} =~ m{\A ModPerl }xms;
-        }
 
         my $Required = $Module->{Required};
         my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
@@ -813,16 +757,6 @@ sub _GetInstallCommand {
         SubCMD  => $SubCMD,
         Package => $Package,
     );
-}
-
-sub _CheckActiveStatePerl {
-
-    # checks if active state perl on windows is activated
-    ## no critic
-    my $ActiveStatePerl = eval 'use Win32; return Win32::BuildNumber();';
-    ## use critic
-
-    return $ActiveStatePerl ? 1 : 0;
 }
 
 exit 0;

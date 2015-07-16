@@ -106,7 +106,7 @@ sub Run {
         exit 0;
     }
 
-    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
+    if ( $> != 0 ) {    # $EFFECTIVE_USER_ID
         print STDERR "ERROR: Please run this script as superuser (root).\n";
         exit 1;
     }

@@ -131,27 +131,6 @@ sub OSInfoGet {
 
         $OSName = 'MacOSX ' . $MacVersion;
     }
-    elsif ( $^O eq 'MSWin32' ) {
-
-        if ( $MainObject->Require('Win32') ) {
-
-            my @WinVersion;
-            no strict 'refs';    ## no critic
-
-            if ( defined &Win32::GetOSDisplayName ) {
-                @WinVersion = Win32::GetOSDisplayName();
-            }
-            else {
-                @WinVersion = Win32::GetOSName();
-            }
-
-            use strict;
-            $OSName = join ' ', @WinVersion;
-        }
-        else {
-            $OSName = "Unknown Windows version";
-        }
-    }
     elsif ( $^O eq 'freebsd' ) {
         $OSName = `uname -r`;
     }
@@ -163,7 +142,6 @@ sub OSInfoGet {
         linux   => 'Linux',
         freebsd => 'FreeBSD',
         darwin  => 'MacOSX',
-        MSWin32 => 'Windows',
     );
 
     # collect OS data

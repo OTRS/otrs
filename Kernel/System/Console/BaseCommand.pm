@@ -65,13 +65,6 @@ sub new {
     # Force creation of the EncodeObject as it initialzes STDOUT/STDERR for unicode output.
     $Kernel::OM->Get('Kernel::System::Encode');
 
-    # On Windows, we only have ANSI support if Win32::Console::ANSI is present.
-    # Turn off colors if it is not available.
-    if ( $^O eq 'MSWin32' ) {
-        eval 'use Win32::Console::ANSI();';    ## no critic
-        $Self->{ANSI} = 0 if $@;
-    }
-
     # Call object specific configure method. We use an eval to trap any exceptions
     #   that might occur here. Only if everything was ok we set the _ConfigureSuccessful
     #   flag.

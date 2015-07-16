@@ -11,7 +11,6 @@ package Kernel::System::UnitTest;
 use strict;
 use warnings;
 
-use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 use SOAP::Lite;
 
