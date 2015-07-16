@@ -119,10 +119,11 @@ div.InputField_ToolbarContainer ul li {
 
 div.InputField_ToolbarContainer ul li:after {
     color: #bbb;
-    content: " | ";
-    display: block;
+    content: "|";
+    display: inline-block;
     float: right;
     cursor: default;
+    width: 0;
 }
 
 div.InputField_ToolbarContainer ul li:last-child:after {
@@ -131,13 +132,16 @@ div.InputField_ToolbarContainer ul li:last-child:after {
 
 div.InputField_ToolbarContainer ul li a {
     color: #000;
-    padding: 5px 2px;
+    display: inline-block;
+    width: 100%;
+    margin: 2px 0;
     font-size: 11px;
+    line-height: 15px;
 }
 
 div.InputField_ToolbarContainer ul li a:hover {
     border-bottom: 2px solid #f92;
-    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .InputField_Loading {
@@ -147,6 +151,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     background-repeat: no-repeat;
 }
 
+.InputField_Confirm,
 .InputField_Filters.Active {
     font-weight: bold;
 }

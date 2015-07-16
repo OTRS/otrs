@@ -1690,6 +1690,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::InvolvedAgentMaxSize" Required="1" Valid="1">
+        <Description Translatable="1">Max size (in rows) of the involved agents box in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="3">
+                <Item Key="3">03</Item>
+                <Item Key="5">05</Item>
+                <Item Key="10">10</Item>
+                <Item Key="15">15</Item>
+                <Item Key="20">20</Item>
+                <Item Key="25">25</Item>
+                <Item Key="30">30</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
         <Description Translatable="1">Shows the customer user information (phone and email) in the compose screen.</Description>
         <Group>Ticket</Group>

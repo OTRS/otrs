@@ -134,6 +134,10 @@ a.InputField_Action:hover {
     color: #69BFCC;
 }
 
+div.InputField_ToolbarContainer ul li a:hover {
+    border-bottom-color: #69BFCC;
+}
+
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
