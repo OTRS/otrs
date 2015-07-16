@@ -105,6 +105,11 @@
     font-size: 10px;
 }
 
+.RTL .Header .Small { 
+    right: auto; 
+    left: 0px; 
+} 
+
 /**
  * specific min-height for AdminNavigationBar rows
  */

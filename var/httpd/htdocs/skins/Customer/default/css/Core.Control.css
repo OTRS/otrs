@@ -113,6 +113,15 @@
     background-image: none;
 }
 
+.RTL #Navigation > ul > li > ul {
+    min-width: 120px;
+}
+
+.RTL #Navigation > ul > li > ul a {
+    padding: 4px 6px 4px 15px;
+    white-space: normal;
+}
+
 #Navigation li:active {
     background: #949494;
 }
