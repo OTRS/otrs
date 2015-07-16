@@ -947,7 +947,7 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 # ----------------------------------------------------------
 INSERT INTO notification_event (id, name, valid_id, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'Ticket follow up unlock notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+    (2, 'Ticket follow up notification (unlocked)', 1, '', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table notification_event_item
 # ----------------------------------------------------------
@@ -1007,7 +1007,7 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 # ----------------------------------------------------------
 INSERT INTO notification_event (id, name, valid_id, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'Ticket follow up lock notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+    (3, 'Ticket follow up notification (locked)', 1, '', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table notification_event_item
 # ----------------------------------------------------------
@@ -1217,7 +1217,7 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 # ----------------------------------------------------------
 INSERT INTO notification_event (id, name, valid_id, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (9, 'Ticket pending reminder lock notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+    (9, 'Ticket pending reminder notification (locked)', 1, '', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table notification_event_item
 # ----------------------------------------------------------
@@ -1259,7 +1259,7 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 # ----------------------------------------------------------
 INSERT INTO notification_event (id, name, valid_id, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (10, 'Ticket pending reminder unlock notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+    (10, 'Ticket pending reminder notification (unlocked)', 1, '', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table notification_event_item
 # ----------------------------------------------------------
@@ -1430,7 +1430,7 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been created in 
 # ----------------------------------------------------------
 INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
     VALUES
-    (2, 2, 'text/plain', 'en', 'Ticket Follow Up Unlock: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+    (2, 2, 'text/plain', 'en', 'Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
 ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now unlocked.
 
@@ -1445,7 +1445,7 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up
 # ----------------------------------------------------------
 INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
     VALUES
-    (3, 3, 'text/plain', 'en', 'Ticket Follow Up Lock: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+    (3, 3, 'text/plain', 'en', 'Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
 ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now locked.
 
@@ -1521,9 +1521,9 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to 
 # ----------------------------------------------------------
 INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
     VALUES
-    (9, 9, 'text/plain', 'en', 'Ticket Pending Reminder Time Reached Lock: <OTRS_TICKET_Title>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+    (9, 9, 'text/plain', 'en', 'Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and is now locked.
+the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now locked.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
 
@@ -1533,9 +1533,9 @@ the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_Ticket
 # ----------------------------------------------------------
 INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
     VALUES
-    (10, 10, 'text/plain', 'en', 'Ticket Pending Reminder Time Reached Unlock: <OTRS_TICKET_Title>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+    (10, 10, 'text/plain', 'en', 'Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and is now unlocked.
+the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now unlocked.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
 
@@ -1605,7 +1605,7 @@ INSERT INTO notification_event_message (id, notification_id, content_type, langu
     VALUES
     (15, 2, 'text/plain', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_Body[30]>
@@ -1620,7 +1620,7 @@ INSERT INTO notification_event_message (id, notification_id, content_type, langu
     VALUES
     (16, 3, 'text/plain', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_Body[30]>
@@ -1636,7 +1636,6 @@ INSERT INTO notification_event_message (id, notification_id, content_type, langu
     (17, 4, 'text/plain', 'de', 'Ticketsperre aufgehoben! <OTRS_TICKET_Title>', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt entsperrt.
-
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
 
@@ -1697,7 +1696,7 @@ INSERT INTO notification_event_message (id, notification_id, content_type, langu
     VALUES
     (22, 9, 'text/plain', 'de', 'Erinnerungszeit erreicht! <OTRS_TICKET_Title>', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
+die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
 
@@ -1709,7 +1708,7 @@ INSERT INTO notification_event_message (id, notification_id, content_type, langu
     VALUES
     (23, 10, 'text/plain', 'de', 'Erinnerungszeit erreicht! <OTRS_TICKET_Title>', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
+die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
 

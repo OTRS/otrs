@@ -1493,7 +1493,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">Ticket follow up unlock notification</Data>
+        <Data Key="name" Type="Quote">Ticket follow up notification (unlocked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1549,7 +1549,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">Ticket follow up lock notification</Data>
+        <Data Key="name" Type="Quote">Ticket follow up notification (locked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1760,7 +1760,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">9</Data>
-        <Data Key="name" Type="Quote">Ticket pending reminder lock notification</Data>
+        <Data Key="name" Type="Quote">Ticket pending reminder notification (locked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1801,7 +1801,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">10</Data>
-        <Data Key="name" Type="Quote">Ticket pending reminder unlock notification</Data>
+        <Data Key="name" Type="Quote">Ticket pending reminder notification (unlocked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1977,7 +1977,7 @@ ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Follow Up Unlock: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
+        <Data Key="subject" Type="Quote">Ticket Follow Up: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
 ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now unlocked.
@@ -1994,7 +1994,7 @@ ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Follow Up Lock: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
+        <Data Key="subject" Type="Quote">Ticket Follow Up: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
 ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] received a follow up and is now locked.
@@ -2082,10 +2082,10 @@ ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached Lock: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached: &lt;OTRS_TICKET_Title&gt;</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and is now locked.
+the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and it is now locked.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
@@ -2096,10 +2096,10 @@ the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICK
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached Unlock: &lt;OTRS_TICKET_Title&gt;</Data>
+        <Data Key="subject" Type="Quote">Ticket Pending Reminder Time Reached: &lt;OTRS_TICKET_Title&gt;</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and is now unlocked.
+the pending reminder time of ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been reached and it is now unlocked.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
@@ -2181,7 +2181,7 @@ das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurd
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
+zum freigegebenen Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
 
 &lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
 &lt;OTRS_CUSTOMER_Body[30]&gt;
@@ -2198,7 +2198,7 @@ zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
+zum gesperrten Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt es eine Nachfrage.
 
 &lt;OTRS_CUSTOMER_REALNAME&gt; schrieb:
 &lt;OTRS_CUSTOMER_Body[30]&gt;
@@ -2216,7 +2216,6 @@ zum Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] gibt
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
 die Sperrzeit des Tickets [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] ist abgelaufen. Es ist jetzt entsperrt.
-
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
@@ -2287,7 +2286,7 @@ das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurd
         <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-die Erinnerungszeit für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
+die Erinnerungszeit für das gesperrte Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
@@ -2301,7 +2300,7 @@ die Erinnerungszeit für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICK
         <Data Key="subject" Type="Quote">Erinnerungszeit erreicht! &lt;OTRS_TICKET_Title&gt;</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt; &lt;OTRS_NOTIFICATION_RECIPIENT_UserLastname&gt;,
 
-die Erinnerungszeit für das Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
+die Erinnerungszeit für das freigegebene Ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] wurde erreicht.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
