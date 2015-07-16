@@ -4690,7 +4690,7 @@ sub _BuildSelectionDataRefCreate {
                     delete $List{$Key};
                 }
             }
-            push @SortKeys, sort { $a cmp $b } ( values %List );
+            push @SortKeys, sort { lc $a cmp lc $b } ( values %List );
         }
 
         # translate value
@@ -4717,7 +4717,7 @@ sub _BuildSelectionDataRefCreate {
             for ( sort keys %{$DataLocal} ) {
                 $SortHash{$_} = $DataLocal->{$_} . '::';
             }
-            @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
+            @SortKeys = sort { lc $SortHash{$a} cmp lc $SortHash{$b} } ( keys %SortHash );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
             my %List = %{$DataLocal};
@@ -4727,14 +4727,14 @@ sub _BuildSelectionDataRefCreate {
                     delete $List{$Key};
                 }
             }
-            push @SortKeys, sort { $List{$a} cmp $List{$b} } ( keys %List );
+            push @SortKeys, sort { lc $List{$a} cmp lc $List{$b} } ( keys %List );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
 
             # already done before the translation
         }
         else {
-            @SortKeys = sort { $DataLocal->{$a} cmp $DataLocal->{$b} } ( keys %{$DataLocal} );
+            @SortKeys = sort { lc $DataLocal->{$a} cmp lc $DataLocal->{$b} } ( keys %{$DataLocal} );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 

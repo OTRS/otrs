@@ -1719,6 +1719,58 @@ my @Tests = (
             ],
         },
     },
+    {
+        Name       => 'Hash, case insensitive sorting',
+        Definition => {
+            Data => {
+                1 => 'Daniel de Gryter',
+                2 => 'Daniel Denner',
+                3 => 'Daniel Ewald',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'AlphanumericValue',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => undef,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Daniel de Gryter</option>
+  <option value="2">Daniel Denner</option>
+  <option value="3">Daniel Ewald</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Daniel de Gryter',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Daniel Denner',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '3', 'Daniel Ewald',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+            ],
+        },
+    },
 );
 
 for my $Test (@Tests) {

@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-16 Switched to case insensitive sorting for select fields.
  - 2015-07-16 Modernized input fields, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-07-15 Added possibility of opening new process ticket screen with a preselected process to CustomerTicketProcess (taken from AgentTicketProcess).
  - 2015-07-13 Added possibility to define a time difference for pending states during ticket create or update, using the  generic ticket connector (GenericInterface), thanks to Frederic Van Espen.
