@@ -395,6 +395,7 @@ sub _PreProcessTemplateContent {
                 # Load the template via the provider.
                 # We'll use SUPER::load here because we don't need the preprocessing twice.
                 my $TemplateContent = ($Self->SUPER::load($1))[0];
+                $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$TemplateContent);
 
                 # Remove commented lines already here because of problems when the InsertTemplate tag
                 #   is not on the beginning of the line.
