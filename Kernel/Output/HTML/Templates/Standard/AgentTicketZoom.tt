@@ -373,7 +373,7 @@
 [% RenderBlockStart("TicketMenu") %]
                             <li id="nav-[% Data.Name %]">
                             [% IF Data.Type == 'Cluster' %]
-                                <span class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %] <i class="fa fa-caret-down"></i></span>
+                                <span class="[% Data.Class %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %] <i class="fa fa-caret-down"></i></span>
                             [% ELSE %]
                                 <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
                             [% END %]
