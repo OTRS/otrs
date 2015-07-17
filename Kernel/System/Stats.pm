@@ -13,7 +13,8 @@ use warnings;
 
 use MIME::Base64;
 
-use Date::Pcalc qw(Add_Delta_YMD Add_Delta_DHMS Add_Delta_Days Days_in_Month Day_of_Week Day_of_Week_Abbreviation Day_of_Week_to_Text Monday_of_Week Week_of_Year);
+use Date::Pcalc
+    qw(Add_Delta_YMD Add_Delta_DHMS Add_Delta_Days Days_in_Month Day_of_Week Day_of_Week_Abbreviation Day_of_Week_to_Text Monday_of_Week Week_of_Year);
 use Storable qw();
 
 use Kernel::System::VariableCheck qw(:all);
@@ -2667,7 +2668,7 @@ sub _GenerateDynamicStats {
 
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -2692,7 +2693,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -2704,7 +2705,6 @@ sub _GenerateDynamicStats {
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
-                #                    if ($Count == 1) {
                 $ValueSeries{
                     $VSYear . '-'
                         . sprintf( "%02d", $VSMonth ) . ' '
@@ -2722,24 +2722,25 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Week' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
                 my @Monday = Monday_of_Week( Week_of_Year( $VSYear, $VSMonth, $VSDay ) );
 
                 $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", @Monday );
-                ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_Days( @Monday, 6 );
+                ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_Days( @Monday, $Count * 7 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
+                    $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0,
+                    0, 0, -1
+                );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
-                $ValueSeries{
-                    $VSYear . '-'
-                        . sprintf( "%02d", $VSMonth ) . ' '
-                        . $MonthArrayRef->[$VSMonth]
-                    } = {
+                $ValueSeries{ sprintf( "%04d-%02d-%02d", @Monday ) . ' - '
+                        . sprintf( "%04d-%02d-%02d", $ToYear, $ToMonth, $ToDay ) } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart
-                    };
+                        };
 
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = Add_Delta_DHMS(
                     $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
@@ -2749,7 +2750,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -2760,7 +2761,6 @@ sub _GenerateDynamicStats {
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
-                #                    if ($Count == 1) {
                 $ValueSeries{ sprintf( "%04d-%02d-%02d", $VSYear, $VSMonth, $VSDay ) } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart
@@ -2774,7 +2774,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -2802,7 +2802,7 @@ sub _GenerateDynamicStats {
 
         elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
             while (
-                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
+                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
