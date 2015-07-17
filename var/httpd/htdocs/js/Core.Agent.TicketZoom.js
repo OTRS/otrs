@@ -316,11 +316,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ZoomExpand = !$('div.ArticleView a.OneArticle').hasClass('Active');
         }
 
-        // Don't follow the link on Cluster main items
-        $('.Cluster .ClusterLink').on('click', function() {
-            return false;
-        });
-
         Core.UI.Resizable.Init($('#ArticleTableBody'), Options.ArticleTableHeight, function (Event, UI, Height) {
             // remember new height for next reload
             window.clearTimeout(ResizeTimeoutScroller);

@@ -372,7 +372,11 @@
                         <ul class="Actions">
 [% RenderBlockStart("TicketMenu") %]
                             <li id="nav-[% Data.Name %]">
-                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %][% IF Data.Type == 'Cluster' %] <i class="fa fa-caret-down"></i>[% END %]</a>
+                            [% IF Data.Type == 'Cluster' %]
+                                <span class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %] <i class="fa fa-caret-down"></i></span>
+                            [% ELSE %]
+                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                            [% END %]
 [% RenderBlockStart("TicketMenuSubContainer") %]
                                 <ul id="nav-[% Data.Name %]-container" class="[% Data.Class | html %]">
 [% RenderBlockStart("TicketMenuSubContainerItem") %]

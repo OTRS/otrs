@@ -22,6 +22,11 @@
     overflow: visible;
 }
 
+.ClusterLink:hover {
+    cursor: default;
+    border: 0px !important;
+}
+
 .Cluster ul ul {
     position: absolute;
     top: 25px;
