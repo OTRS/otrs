@@ -390,36 +390,31 @@ dd {
     padding: 10px;
     background: #eee;
     position: relative;
-    padding-left: 30px;
-    margin-right: 15px;
+    padding-left: 10px;
+    padding-right: 15px;
+    overflow: hidden;
 }
 
 .BreadCrumb li {
     display: inline-block;
     margin: 0px 2px 0px 2px;
+    padding-left: 35px;
     color: #777;
-}
-
-.BreadCrumb li:after {
-    content: "\2192";
-    display: inline-block;
-    margin-left: 2px;
-    color: #aaa;
+    position: relative;
 }
 
 .BreadCrumb li:first-child:after,
-.BreadCrumb li:last-child:after {
+.BreadCrumb li:first-child:before {
     display: none;
 }
 
 .BreadCrumb a {
     color: #000;
-    border-bottom: 2px solid #ccc;
     padding: 0px 2px;
 }
 
 .BreadCrumb a:hover {
-    border-color: #FF9922;
+    border-bottom: 2px solid #FF9922;
 }
 
 .BreadCrumb:before,
@@ -431,8 +426,8 @@ dd {
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-width: 15px;
-    margin-top: -15px;
+    border-width: 17px;
+    margin-top: -17px;
 }
 
 .BreadCrumb:before {
@@ -442,9 +437,36 @@ dd {
 }
 
 .BreadCrumb:after {
-    left: 100%;
+    right: -15px;
     border-color: rgba(238, 238, 238, 0);
     border-left-color: #eee;
+    background: #fff;
+}
+
+.BreadCrumb li:before,
+.BreadCrumb li:after {
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-width: 20px;
+    margin-top: -20px;
+}
+
+.BreadCrumb li:after {
+    left: 0px;
+    border-color: rgba(255, 255, 255, 0);
+    border-left-color: #fff;
+}
+
+.BreadCrumb li:before {
+    left: -5px;
+    border-color: rgba(238, 238, 238, 0);
+    border-left-color: #eee;
+    z-index: 99;
 }
 
 /**
