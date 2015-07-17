@@ -49,6 +49,10 @@ create an object.
     );
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
         DebuggerObject => $DebuggerObject,
+        Invoker        => 'TicketLock',            # the name of the invoker in the web service
+        InvokerType    => 'Nagios::TicketLock',    # the Invoker backend to use
+        Operation      => 'TicketCreate',          # the name of the operation in the web service
+        OperationType  => 'Ticket::TicketCreate',  # the local operation backend to use
         MappingConfig => {
             Type => 'MappingSimple',
             Config => {
@@ -77,6 +81,14 @@ sub new {
         }
 
         $Self->{$Needed} = $Param{$Needed};
+    }
+
+    # add optional params
+    OPTIONAL:
+    for my $Optional (qw(Invoker InvokerType Operation OperationType)) {
+        next OPTIONAL if !$Param{$Optional};
+
+        $Self->{$Optional} = $Param{$Optional};
     }
 
     # check config - we need at least a config type

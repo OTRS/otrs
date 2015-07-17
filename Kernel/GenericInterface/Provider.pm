@@ -204,6 +204,8 @@ sub Run {
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
+            Operation      => $Operation,
+            OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
@@ -247,6 +249,7 @@ sub Run {
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
         DebuggerObject => $DebuggerObject,
+        Operation      => $Operation,
         OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
         WebserviceID   => $WebserviceID,
     );
@@ -304,6 +307,8 @@ sub Run {
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
+            Operation      => $Operation,
+            OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );

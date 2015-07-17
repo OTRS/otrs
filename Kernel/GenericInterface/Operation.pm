@@ -53,6 +53,7 @@ create an object.
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
         DebuggerObject => $DebuggerObject,
+        Operation      => 'TicketCreate',            # the name of the operation in the web service
         OperationType  => 'Ticket::TicketCreate',    # the local operation backend to use
         WebserviceID   => $WebserviceID,             # ID of the currently used web service
     );
@@ -66,7 +67,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(DebuggerObject OperationType WebserviceID)) {
+    for my $Needed (qw(DebuggerObject Operation OperationType WebserviceID)) {
         if ( !$Param{$Needed} ) {
 
             return {

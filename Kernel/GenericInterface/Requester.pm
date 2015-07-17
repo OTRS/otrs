@@ -162,6 +162,10 @@ sub Run {
     # Create Invoker object and prepare the request on it.
     #
 
+    $DebuggerObject->Debug(
+        Summary => "Using invoker '$Param{Invoker}'",
+    );
+
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
         DebuggerObject => $DebuggerObject,
         Invoker        => $Param{Invoker},
@@ -221,6 +225,8 @@ sub Run {
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
+            Invoker        => $Param{Invoker},
+            InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
             MappingConfig =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
@@ -331,6 +337,8 @@ sub Run {
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
+            Invoker        => $Param{Invoker},
+            InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
             MappingConfig =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
