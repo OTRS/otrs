@@ -206,6 +206,34 @@ $('#Authentication').bind('change', function(){
                                 </fieldset>
                             </div>
 
+                            <label for="SSLProxy">[% Translate("Proxy Server") | html %]:</label>
+                            <div class="Field">
+                                <input id="SSLProxy" class="W50pc " type="text" maxlength="250" value="[% Data.SSLProxy | html %]" name="SSLProxy"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("URI of a proxy server to be used (if needed).") | html %]
+                                    <br/>
+                                    [% Translate("e.g. http://proxy_hostname:8080") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+                            <label for="SSLProxyUser">[% Translate("Proxy User") | html %]:</label>
+                            <div class="Field">
+                                <input id="SSLProxyUser" class="W50pc" type="text" maxlength="250" value="[% Data.SSLProxyUser | html %]" name="SSLProxyUser"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("The user name to be used to access the proxy server.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="SSLProxyPassword">[% Translate("Proxy Password") | html %]:</label>
+                            <div class="Field">
+                                <input id="SSLProxyPassword" class="W50pc " type="password" maxlength="250" value="[% Data.SSLProxyPassword | html %]" name="SSLProxyPassword"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("The password for the proxy user.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
                             <label  for="UseSSL">[% Translate("Use SSL Options") | html %]:</label>
                             <div class="Field">
                                 [% Data.UseSSLStrg %]
@@ -284,34 +312,6 @@ $('#UseSSL').bind('change', function(){
                                             [% Translate("The full path of the certification authority directory where the CA certificates are stored in the file system.") | html %]
                                             <br/>
                                             [% Translate("e.g. /opt/otrs/var/certificates/SOAP/CA") | html %]
-                                        </p>
-                                    </div>
-                                    <div class="Clear"></div>
-
-                                    <label for="SSLProxy">[% Translate("Proxy Server") | html %]:</label>
-                                    <div class="Field">
-                                        <input id="SSLProxy" class="W50pc " type="text" maxlength="250" value="[% Data.SSLProxy | html %]" name="SSLProxy"/>
-                                        <p class="FieldExplanation">
-                                            [% Translate("URI of a proxy server to be used (if needed).") | html %]
-                                            <br/>
-                                            [% Translate("e.g. http://proxy_hostname:8080") | html %]
-                                        </p>
-                                    </div>
-                                    <div class="Clear"></div>
-                                    <label for="SSLProxyUser">[% Translate("Proxy User") | html %]:</label>
-                                    <div class="Field">
-                                        <input id="SSLProxyUser" class="W50pc" type="text" maxlength="250" value="[% Data.SSLProxyUser | html %]" name="SSLProxyUser"/>
-                                        <p class="FieldExplanation">
-                                            [% Translate("The user name to be used to access the proxy server.") | html %]
-                                        </p>
-                                    </div>
-                                    <div class="Clear"></div>
-
-                                    <label for="SSLProxyPassword">[% Translate("Proxy Password") | html %]:</label>
-                                    <div class="Field">
-                                        <input id="SSLProxyPassword" class="W50pc " type="password" maxlength="250" value="[% Data.SSLProxyPassword | html %]" name="SSLProxyPassword"/>
-                                        <p class="FieldExplanation">
-                                            [% Translate("The password for the proxy user.") | html %]
                                         </p>
                                     </div>
                                     <div class="Clear"></div>

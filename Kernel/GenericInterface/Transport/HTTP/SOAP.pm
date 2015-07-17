@@ -522,20 +522,20 @@ sub RequesterPerformRequest {
             if ( IsStringWithData( $Config->{SSL}->{SSLCADir} ) ) {
                 $ENV{HTTPS_CA_DIR} = $Config->{SSL}->{SSLCADir};
             }
-
-            # add proxy
-            if ( IsStringWithData( $Config->{SSL}->{SSLProxy} ) ) {
-                $ENV{HTTPS_PROXY} = $Config->{SSL}->{SSLProxy};
-            }
-
-            # add proxy basic authentication
-            if ( IsStringWithData( $Config->{SSL}->{SSLProxyUser} ) ) {
-                $ENV{HTTPS_PROXY_USERNAME} = $Config->{SSL}->{SSLProxyUser};
-            }
-            if ( IsStringWithData( $Config->{SSL}->{SSLProxyPassword} ) ) {
-                $ENV{HTTPS_PROXY_PASSWORD} = $Config->{SSL}->{SSLProxyPassword};
-            }
         }
+    }
+
+    # add proxy
+    if ( IsStringWithData( $Config->{SSL}->{SSLProxy} ) ) {
+        $ENV{HTTPS_PROXY} = $Config->{SSL}->{SSLProxy};
+    }
+
+    # add proxy basic authentication
+    if ( IsStringWithData( $Config->{SSL}->{SSLProxyUser} ) ) {
+        $ENV{HTTPS_PROXY_USERNAME} = $Config->{SSL}->{SSLProxyUser};
+    }
+    if ( IsStringWithData( $Config->{SSL}->{SSLProxyPassword} ) ) {
+        $ENV{HTTPS_PROXY_PASSWORD} = $Config->{SSL}->{SSLProxyPassword};
     }
 
     # prepare connect

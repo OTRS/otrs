@@ -163,9 +163,6 @@ sub Run {
                 $TransportConfig->{SSL}->{SSLP12Password}    = $GetParam->{SSLP12Password};
                 $TransportConfig->{SSL}->{SSLCAFile}         = $GetParam->{SSLCAFile};
                 $TransportConfig->{SSL}->{SSLCADir}          = $GetParam->{SSLCADir};
-                $TransportConfig->{SSL}->{SSLProxy}          = $GetParam->{SSLProxy};
-                $TransportConfig->{SSL}->{SSLProxyUser}      = $GetParam->{SSLProxyUser};
-                $TransportConfig->{SSL}->{SSLProxyPassword}  = $GetParam->{SSLProxyPassword};
 
                 if ( !$GetParam->{SSLP12Certificate} ) {
 
@@ -179,6 +176,11 @@ sub Run {
                     $Error{'SSLP12PasswordServerError'} = 'ServerError';
                 }
             }
+
+            # get proxy options
+            $TransportConfig->{SSL}->{SSLProxy}         = $GetParam->{SSLProxy};
+            $TransportConfig->{SSL}->{SSLProxyUser}     = $GetParam->{SSLProxyUser};
+            $TransportConfig->{SSL}->{SSLProxyPassword} = $GetParam->{SSLProxyPassword};
         }
 
         # otherwise is provider
