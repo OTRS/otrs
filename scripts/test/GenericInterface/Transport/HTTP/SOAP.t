@@ -706,6 +706,61 @@ my @Tests = (
             },
         },
     },
+
+    {
+        Name           => 'Test 9',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: Namespace from SOAPAction"
+                . " 'http://otrs.org/InvalidSoapTestInterface/' does not match namespace"
+                . " from configuration 'http://otrs.org/SoapTestInterface/'",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for NameSpace validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/InvalidSoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
 );
 
 # create requester object

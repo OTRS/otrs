@@ -154,36 +154,35 @@ sub ProviderProcessRequest {
     }
 
     # do we have a soap action header?
-    my $NameSpaceFromHeader;
     my $OperationFromHeader;
     if ( $ENV{'HTTP_SOAPACTION'} ) {
-        my ($SOAPAction) = $ENV{'HTTP_SOAPACTION'} =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
-
-        # get name-space and operation from soap action
-        if ( IsStringWithData($SOAPAction) ) {
-            my ( $NameSpaceFromHeader, $OperationFromHeader ) = $ENV{'HTTP_SOAPACTION'} =~ m{
-                \A
-                ( .+? )
+        my ( $SOAPAction, $NameSpaceFromHeader );
+        ( $SOAPAction, $NameSpaceFromHeader, $OperationFromHeader ) = $ENV{'HTTP_SOAPACTION'} =~ m{
+             \A
+            ["']{0,1} # optional enclosing single or double quotes
+            (
+                ( .+? )     # namespace
                 [#/]
-                ( [^#/]+ )
-                \z
-            }xms;
-            if ( !$NameSpaceFromHeader || !$OperationFromHeader ) {
-                return $Self->_Error(
-                    Summary   => "Invalid SOAPAction '$SOAPAction'",
-                    HTTPError => 500,
-                );
-            }
-        }
-    }
+                ( [^#/]+? )  # operation
+            )
+            ["']{0,1} # optional enclosing single or double quotes
+            \z
+        }xms;
 
-    # check name-space for match to configuration
-    if ( $NameSpaceFromHeader && $NameSpaceFromHeader ne $Config->{NameSpace} ) {
-        $Self->{DebuggerObject}->Notice(
-            Summary =>
-                "Namespace from SOAPAction '$NameSpaceFromHeader' does not match namespace"
-                . " from configuration '$Config->{NameSpace}'",
-        );
+        if ( !$NameSpaceFromHeader || !$OperationFromHeader ) {
+            return $Self->_Error(
+                Summary => "Invalid SOAPAction '$SOAPAction'",
+            );
+        }
+
+        # check name-space for match to configuration
+        if ( $NameSpaceFromHeader ne $Config->{NameSpace} ) {
+            return $Self->_Error(
+                Summary =>
+                    "Namespace from SOAPAction '$NameSpaceFromHeader' does not match namespace"
+                    . " from configuration '$Config->{NameSpace}'",
+            );
+        }
     }
 
     # if no chunked transfer encoding was used, read request directly
@@ -201,7 +200,7 @@ sub ProviderProcessRequest {
 
     # convert charset if necessary
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A (.*) ;charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
+    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;charset= ["']{0,1} ( .+? ) ["']{0,1} \z }xmsi ) {
 
         # remember content type for the response
         $Self->{ContentType} = $1;
@@ -250,7 +249,7 @@ sub ProviderProcessRequest {
 
     # check operation against header
     if ( $OperationFromHeader && $Operation ne $OperationFromHeader ) {
-        $Self->{DebuggerObject}->Notice(
+        return $Self->_Error(
             Summary =>
                 "Operation from SOAP data '$Operation' does not match operation"
                 . " from SOAPAction '$OperationFromHeader'",
