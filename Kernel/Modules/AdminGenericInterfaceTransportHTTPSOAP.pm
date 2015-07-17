@@ -198,6 +198,11 @@ sub Run {
             }
         }
 
+        # add scheme options
+        for my $Param (qw(RequestNameFreeText ResponseNameFreeText RequestNameScheme ResponseNameScheme)) {
+            $TransportConfig->{$Param} = $GetParam->{$Param};
+        }
+
         # add sorting structure
         if ( $GetParam->{Sort} ) {
             my $SortStructure = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $GetParam->{Sort} );
@@ -263,23 +268,25 @@ sub _ShowEdit {
     my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
-    $Param{Endpoint}            = $TransportConfig->{Endpoint};
-    $Param{NameSpace}           = $TransportConfig->{NameSpace};
-    $Param{Encoding}            = $TransportConfig->{Encoding};
-    $Param{MaxLength}           = $TransportConfig->{MaxLength};
-    $Param{SOAPAction}          = $TransportConfig->{SOAPAction};
-    $Param{SOAPActionSeparator} = $TransportConfig->{SOAPActionSeparator};
-    $Param{Authentication}      = $TransportConfig->{Authentication}->{Type};
-    $Param{User}                = $TransportConfig->{Authentication}->{User};
-    $Param{Password}            = $TransportConfig->{Authentication}->{Password};
-    $Param{UseSSL}              = $TransportConfig->{SSL}->{UseSSL};
-    $Param{SSLP12Certificate}   = $TransportConfig->{SSL}->{SSLP12Certificate};
-    $Param{SSLP12Password}      = $TransportConfig->{SSL}->{SSLP12Password};
-    $Param{SSLCAFile}           = $TransportConfig->{SSL}->{SSLCAFile};
-    $Param{SSLCADir}            = $TransportConfig->{SSL}->{SSLCADir};
-    $Param{SSLProxy}            = $TransportConfig->{SSL}->{SSLProxy};
-    $Param{SSLProxyUser}        = $TransportConfig->{SSL}->{SSLProxyUser};
-    $Param{SSLProxyPassword}    = $TransportConfig->{SSL}->{SSLProxyPassword};
+    $Param{Endpoint}             = $TransportConfig->{Endpoint};
+    $Param{NameSpace}            = $TransportConfig->{NameSpace};
+    $Param{Encoding}             = $TransportConfig->{Encoding};
+    $Param{RequestNameFreeText}  = $TransportConfig->{RequestNameFreeText};
+    $Param{ResponseNameFreeText} = $TransportConfig->{ResponseNameFreeText};
+    $Param{MaxLength}            = $TransportConfig->{MaxLength};
+    $Param{SOAPAction}           = $TransportConfig->{SOAPAction};
+    $Param{SOAPActionSeparator}  = $TransportConfig->{SOAPActionSeparator};
+    $Param{Authentication}       = $TransportConfig->{Authentication}->{Type};
+    $Param{User}                 = $TransportConfig->{Authentication}->{User};
+    $Param{Password}             = $TransportConfig->{Authentication}->{Password};
+    $Param{UseSSL}               = $TransportConfig->{SSL}->{UseSSL};
+    $Param{SSLP12Certificate}    = $TransportConfig->{SSL}->{SSLP12Certificate};
+    $Param{SSLP12Password}       = $TransportConfig->{SSL}->{SSLP12Password};
+    $Param{SSLCAFile}            = $TransportConfig->{SSL}->{SSLCAFile};
+    $Param{SSLCADir}             = $TransportConfig->{SSL}->{SSLCADir};
+    $Param{SSLProxy}             = $TransportConfig->{SSL}->{SSLProxy};
+    $Param{SSLProxyUser}         = $TransportConfig->{SSL}->{SSLProxyUser};
+    $Param{SSLProxyPassword}     = $TransportConfig->{SSL}->{SSLProxyPassword};
 
     # get sorting structure
     if ( $TransportConfig->{Sort} ) {
@@ -316,6 +323,35 @@ sub _ShowEdit {
             Nav => '',
         },
     );
+
+    # create options for request and response name schemes
+    for my $Type (qw(Request Response)) {
+        my $TypeDefault = $Type eq 'Request' ? '' : 'Response';
+        my $SelectedID = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
+        my %Data = (
+            ''        => "<FunctionName>DATA</FunctionName>",
+            $Type     => "<FunctionName${Type}>DATA</FunctionName${Type}>",
+            'Append'  => "<FunctionNameFreeText>DATA</FunctionNameFreeText>",
+            'Replace' => '<FreeText>DATA</FreeText>',
+        );
+        if ( $Type eq 'Request' ) {
+            delete $Data{'Replace'};
+        }
+        $Param{ $Type . 'NameSchemeStrg' } = $LayoutObject->BuildSelection(
+            Data       => \%Data,
+            Name       => $Type . 'NameScheme',
+            SelectedID => $SelectedID,
+            Sort       => 'AlphaNumericValue',
+        );
+
+        # treat depending free text field based on current value
+        if ( $SelectedID ne 'Append' && $SelectedID ne 'Replace' ) {
+            $Param{"${Type}NameFreeTextHidden"} = 'Hidden';
+        }
+        else {
+            $Param{"${Type}NameFreeTextMandatory"} = 'Validate_Required';
+        }
+    }
 
     # check if communication type is not provider (requester)
     if ( $Param{CommunicationType} ne 'Provider' ) {
@@ -423,9 +459,10 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw(
-        Endpoint NameSpace Encoding SOAPAction MaxLength Authentication User Password
+        Endpoint NameSpace Encoding  SOAPAction MaxLength Authentication User Password
         SOAPAction SOAPActionSeparator UseSSL SSLP12Certificate SSLP12Password SSLCAFile SSLCADir
         SSLProxy SSLProxyUser SSLProxyPassword Sort
+        RequestNameFreeText ResponseNameFreeText RequestNameScheme ResponseNameScheme
         )
         )
     {

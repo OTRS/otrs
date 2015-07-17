@@ -761,6 +761,1241 @@ my @Tests = (
         },
     },
 
+    {
+        Name           => 'Test 10',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'WillBeOverwritten',
+                        ResponseNameScheme   => '',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 11',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'WillBeOverwritten',
+                        ResponseNameScheme   => 'Response',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 12',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'Test',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 13',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'PriorityIDNameResponse',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 14',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => '',
+                        ResponseNameScheme   => 'Append',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 15',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'Response',
+                        ResponseNameScheme   => 'Append',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 16',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameFreeText => 'Name',
+                        RequestNameScheme   => 'Append',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 17',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        RequestNameFreeText  => 'Test',
+                        RequestNameScheme    => 'Append',
+                        ResponseNameFreeText => 'PriorityIDNameTestResponse',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDNameTest => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 18',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDNameRequest' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDNameRequest => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 19',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength            => 10000000,
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint             => $RemoteSystem,
+                        RequestNameScheme    => 'Request',
+                        ResponseNameFreeText => 'PriorityIDNameRequestResponse',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDNameRequest => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 20',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for provider request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => '',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 21',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Encoding          => 'UTF-8',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 22',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Encoding          => 'UTF-8',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 23',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameFreeText => 'Request',
+                        RequestNameScheme   => 'Append',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 24',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'Request',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameFreeText => 'Test',
+                        RequestNameScheme   => 'Apppend',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 25',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'WillBeOverwritten',
+                        ResponseNameScheme   => '',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 26',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'WillBeOverwritten',
+                        ResponseNameScheme   => 'Response',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 27',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'Test',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 28',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'PriorityIDNameResponse',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 29',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => '',
+                        ResponseNameScheme   => 'Append',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 30',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        ResponseNameFreeText => 'Response',
+                        ResponseNameScheme   => 'Append',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 31',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameFreeText => 'Name',
+                        RequestNameScheme   => 'Append',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 32',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDNameTest => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        RequestNameFreeText  => 'Test',
+                        RequestNameScheme    => 'Append',
+                        ResponseNameFreeText => 'PriorityIDNameTestResponse',
+                        ResponseNameScheme   => 'Replace',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
 );
 
 # create requester object
@@ -789,9 +2024,10 @@ for my $Test (@Tests) {
     );
 
     # start requester with our webservice
+    my ($InvokerName) = keys %{ $Test->{WebserviceConfig}->{Requester}->{Invoker} };
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
-        Invoker      => 'PriorityIDName',
+        Invoker      => $InvokerName,
         Data         => $Test->{RequestData},
     );
 

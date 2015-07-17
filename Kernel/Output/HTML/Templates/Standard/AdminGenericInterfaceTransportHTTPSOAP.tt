@@ -87,6 +87,98 @@
                             </div>
                             <div class="Clear"></div>
 
+                            <label class="Mandatory" for="RequestNameScheme"><span class="Marker">*</span>[% Translate("Request name scheme") | html %]:</label>
+                            <div class="Field">
+                                [% Data.RequestNameSchemeStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Select how SOAP request function wrapper should be constructed.") | html %]
+                                    <br />
+                                    [% Translate("'FunctionName' is used as example for actual invoker/operation name.") | html %]
+                                    <br />
+                                    [% Translate("'FreeText' is used as example for actual configured value.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#RequestNameScheme').on('change', function(){
+    if ( $(this).val() === 'Append' || $(this).val() === 'Replace' ) {
+        $('.RequestNameFreeTextField').removeClass('Hidden');
+        $('#RequestNameFreeText').addClass('Validate_Required');
+    }
+    else {
+        $('.RequestNameFreeTextField').addClass('Hidden');
+        $('#RequestNameFreeText').removeClass('Validate_Required');
+    }
+});
+//]]></script>
+[% END %]
+                            <div class="Clear"></div>
+
+                            <div class="RequestNameFreeTextField [% Data.RequestNameFreeTextHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="RequestNameFreeText"><span class="Marker">*</span>[% Translate("Response name free text") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="RequestNameFreeText" class="W50pc [% Data.RequestNameFreeTextServerError | html %] [% Data.RequestNameFreeTextMandatory | html %]" type="text" maxlength="250" value="[% Data.RequestNameFreeText | html %]" name="RequestNameFreeText"/>
+                                        <div id="RequestNameFreeTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="RequestNameFreeTextServerError" class="TooltipErrorMessage"><p>[% Translate(Data.EndpointServerErrorMessage) | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("Text to be used to as function wrapper name suffix or replacement.") | html %]
+                                            <br />
+                                            [% Translate("Please consider XML element naming restrictions (e.g. don't use '<' and '&').") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                </fieldset>
+                            </div>
+
+                            <label class="Mandatory" for="ResponseNameScheme"><span class="Marker">*</span>[% Translate("Response name scheme") | html %]:</label>
+                            <div class="Field">
+                                [% Data.ResponseNameSchemeStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Select how SOAP response function wrapper should be constructed.") | html %]
+                                    <br />
+                                    [% Translate("'FunctionName' is used as example for actual invoker/operation name.") | html %]
+                                    <br />
+                                    [% Translate("'FreeText' is used as example for actual configured value.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#ResponseNameScheme').on('change', function(){
+    if ( $(this).val() === 'Append' || $(this).val() === 'Replace' ) {
+        $('.ResponseNameFreeTextField').removeClass('Hidden');
+        $('#ResponseNameFreeText').addClass('Validate_Required');
+    }
+    else {
+        $('.ResponseNameFreeTextField').addClass('Hidden')
+        $('#ResponseNameFreeText').removeClass('Validate_Required');
+    }
+});
+//]]></script>
+[% END %]
+                            <div class="Clear"></div>
+
+                            <div class="ResponseNameFreeTextField [% Data.ResponseNameFreeTextHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="ResponseNameFreeText"><span class="Marker">*</span>[% Translate("Response name free text") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="ResponseNameFreeText" class="W50pc [% Data.ResponseNameFreeTextServerError | html %] [% Data.ResponseNameFreeTextMandatory | html %]" type="text" maxlength="250" value="[% Data.ResponseNameFreeText | html %]" name="ResponseNameFreeText"/>
+                                        <div id="ResponseNameFreeTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="ResponseNameFreeTextServerError" class="TooltipErrorMessage"><p>[% Translate(Data.EndpointServerErrorMessage) | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("Text to be used to as function wrapper name suffix or replacement.") | html %]
+                                            <br />
+                                            [% Translate("Please consider XML element naming restrictions (e.g. don't use '<' and '&').") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                </fieldset>
+                            </div>
+
 [% RenderBlockStart("TransportProvider") %]
                             <label class="Mandatory" for="MaxLength"><span class="Marker">*</span>[% Translate("Maximum message length") | html %]:</label>
                             <div class="Field">
