@@ -136,6 +136,8 @@ case "$1" in
       echo ""
       echo "  -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
       echo $"Final start of $OTRS_PROG.. done"
+
+      touch /var/lock/subsys/otrs
     ;;
     # ------------------------------------------------------
     # stop
@@ -169,6 +171,7 @@ case "$1" in
       fi
 
       echo $"Final shutdown of $OTRS_PROG.. done"
+      rm /var/lock/subsys/otrs
     ;;
     # ------------------------------------------------------
     # restart
@@ -241,6 +244,14 @@ case "$1" in
           echo -n " (message:$i) found! "
       done
       echo "done."
+      
+      if [ -e /var/lock/subsys/otrs ]; then
+        # 0: program is running or service is OK
+        exit 0
+      else 
+        # 3: program is not running
+        exit 3
+      fi
     ;;
     *)
     echo "Usage: $0 {start|stop|status|restart|cleanup}"
@@ -248,4 +259,3 @@ case "$1" in
 esac
 
 # Inform the caller not only verbosely and set an exit status.
-
