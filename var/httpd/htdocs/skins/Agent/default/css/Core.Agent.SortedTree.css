@@ -15,7 +15,6 @@
     border: 1px solid #ddd;
     padding: 10px 10px 3px 10px;
     width: 80%;
-    border-radius: 5px 5px 0px 0px;
     background: #eee;
 }
 
@@ -30,7 +29,6 @@
 
 .SortableList li span {
     background-color: #ddd;
-    border-radius: 5px;
     font-size: 11px;
     line-height: 12px;
     margin-bottom: 5px;
@@ -48,6 +46,8 @@
     right: -26px;
     top: -1px;
     display: none;
+    background: none;
+    color: #000;
 }
 
 .SortableList li span:hover > span.Icon {
@@ -72,7 +72,6 @@
 
 .SortableList li span strong {
     background-color: #bbb;
-    border-radius: 0px 5px 5px 0px;
     color: #eee;
     cursor: pointer;
     display: block;
@@ -106,7 +105,6 @@ div.AddElement {
     padding: 3px 10px;
     width: 80%;
     margin-bottom: 10px;
-    border-radius: 0px 0px 5px 5px;
 }
 
 .SortableList .ElementTemplate {

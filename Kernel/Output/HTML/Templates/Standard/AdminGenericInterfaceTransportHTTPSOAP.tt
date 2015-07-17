@@ -421,7 +421,7 @@ $('#UseSSL').on('change', function(){
                                 <div class="AddElement">
                                     [% Translate("Add new first level element") | html %]:
                                     <input type="text" name="Element" title="Element" />
-                                    <button>[% Translate("Add") | html %]</button>
+                                    <button class="CallForAction"><span>[% Translate("Add") | html %]</span></button>
                                 </div>
                                 <p class="FieldExplanation">
                                     [% Translate("Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.") | html %]
