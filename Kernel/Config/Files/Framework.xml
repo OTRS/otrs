@@ -5457,17 +5457,41 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Statistics</Title>
                 <Group>stats</Group>
                 <GroupRo>stats</GroupRo>
-                <Description>Statistics</Description>
-                <NavBarName>Statistics</NavBarName>
+                <Description Translatable="1"></Description>
+                <NavBarName>Reports</NavBarName>
                 <NavBar>
-                    <Name Translatable="1">Statistics</Name>
+                    <Name Translatable="1">Reports</Name>
                     <Link>Action=AgentStatistics;Subaction=Overview</Link>
                     <LinkOption></LinkOption>
-                    <NavBar>Statistics</NavBar>
+                    <NavBar>Reports</NavBar>
                     <Type>Menu</Type>
                     <Description Translatable="1"></Description>
                     <Prio>8500</Prio>
                     <Block>ItemArea</Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <NavBar>
+                    <GroupRo>stats</GroupRo>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Reports (OTRS Business Solution™)</Name>
+                    <Link>Action=AgentStatisticsReports;Subaction=Overview</Link>
+                    <LinkOption>class="OTRSBusinessRequired"</LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Prio>100</Prio>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <NavBar>
+                    <GroupRo>stats</GroupRo>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Statistics</Name>
+                    <Link>Action=AgentStatistics;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Prio>200</Prio>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey></AccessKey>
                 </NavBar>
                 <Loader>

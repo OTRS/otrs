@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::OTRSBusiness',
     'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
     'Kernel::System::User',
@@ -1457,6 +1458,8 @@ sub Footer {
             Name => 'Banner',
         );
     }
+
+    $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
 
     # create & return output
     return $Self->Output(

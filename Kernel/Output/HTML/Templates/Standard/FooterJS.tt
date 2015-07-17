@@ -83,12 +83,24 @@ Core.App.Ready(function () {
         InputFieldsSelection: [% Translate("%s selection(s)...") | JSON %],
         InputFieldsMore: [% Translate("and %s more...") | JSON %],
         InputFieldsFilters: [% Translate("Filters") | JSON %],
-        InputFieldsConfirm: [% Translate("Confirm") | JSON %]
+        InputFieldsConfirm: [% Translate("Confirm") | JSON %],
+        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
     });
 
     Core.Agent.Init();
 
 [% InsertTemplate("Datepicker.tt") %]
+
+[% IF !Data.OTRSBusinessIsInstalled %]
+    $('.OTRSBusinessRequired').on('click', function() {
+        window.alert("[% Translate(
+            'This feature is part of %s. Please contact %s for more information.',
+            'OTRS Business Solution™',
+            'sales@otrs.com'
+        ) | html %]");
+        return false;
+    });
+[% END %]
 
 [% RenderBlockStart("NewTicketInNewWindow") %]
     $('#nav-Tickets-Newphoneticket a').attr('target', '_blank');
