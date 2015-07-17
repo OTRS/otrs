@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-17 Finished existing outbound element sorting for SOAP transport. Added graphical sorting functionality.
  - 2015-07-16 Added two factor authentication layer and google auth algorithm to agent and customer interface.
  - 2015-07-16 Switched to case insensitive sorting for select fields.
  - 2015-07-16 Modernized input fields, thanks to Dusan Vuckovic (Mühlbauer).

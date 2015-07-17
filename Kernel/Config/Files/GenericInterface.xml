@@ -155,6 +155,8 @@
                 <Title Translatable="1">GenericInterface TransportHTTPSOAP GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <CSS>Core.Agent.SortedTree.css</CSS>
+                    <JavaScript>Core.Agent.SortedTree.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

@@ -45,7 +45,7 @@
             </div>
             <div class="Content">
                 <h3>[% Translate("Properties") | html %]</h3>
-                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                <form id="TransportConfigForm" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                     <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
@@ -123,7 +123,7 @@
                             </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#SOAPAction').bind('change', function(){
+$('#SOAPAction').on('change', function(){
     if ( $(this).val() === 'Yes') {
         $('.SOAPActionField').removeClass('Hidden');
     }
@@ -163,7 +163,7 @@ $('#SOAPAction').bind('change', function(){
                             </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#Authentication').bind('change', function(){
+$('#Authentication').on('change', function(){
     if ( $(this).val() === 'BasicAuth') {
         $('.BasicAuthField').removeClass('Hidden');
         $('.BasicAuthField').find('#UserName').each(function(){
@@ -243,7 +243,7 @@ $('#Authentication').bind('change', function(){
                             </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#UseSSL').bind('change', function(){
+$('#UseSSL').on('change', function(){
     if ( $(this).val() === 'Yes') {
         $('.SSLField').removeClass('Hidden');
         $('.SSLField').find('#SSLP12Certificate').each(function(){
@@ -320,6 +320,29 @@ $('#UseSSL').bind('change', function(){
 
 [% RenderBlockEnd("TransportRequester") %]
 
+                            <label for="Sort">[% Translate("Sort options") | html %]:</label>
+                            <div class="Field">
+                                <ul class="SortableList">
+                                    <li class="ElementTemplate">
+                                        <span><i class="fa fa-ellipsis-v"></i><input type="text" class="Element" class="Element" value="ElementName" /><strong>x</strong><span class="Icon Add"><i class="fa fa-plus-square-o"></i></span></span>
+                                    </li>
+                                </ul>
+                                <div class="AddElement">
+                                    [% Translate("Add new first level element") | html %]:
+                                    <input type="text" name="Element" title="Element" />
+                                    <button>[% Translate("Add") | html %]</button>
+                                </div>
+                                <p class="FieldExplanation">
+                                    [% Translate("Outbound sort order for xml fields - see documentation for SOAP transport.") | html %]
+                                </p>
+                                <input type="hidden" name="Sort" id="Sort" value="" />
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.SortedTree.Init( $('.SortableList'), $('#TransportConfigForm'), $('#Sort'), [% Data.Sort | JSON %] );
+//]]></script>
+[% END %]
+
                             <div class="Field SpacingTop">
                                 <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
 [% RenderBlockStart("SaveAndFinishButton") %]
@@ -328,7 +351,7 @@ $('#UseSSL').bind('change', function(){
                                 <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').bind('click', function(){
+$('#SaveAndFinishButton').on('click', function(){
     $('#ReturnToWebservice').val(1);
 });
 //]]></script>

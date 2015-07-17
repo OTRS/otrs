@@ -340,6 +340,7 @@ sub ProviderGenerateResponse {
     if ( defined $Param{Data} && IsHashRefWithData( $Param{Data} ) ) {
         my $SOAPData = $Self->_SOAPOutputRecursion(
             Data => $Param{Data},
+            Sort => $Self->{TransportConfig}->{Config}->{Sort},
         );
 
         # check output of recursion
@@ -453,6 +454,7 @@ sub RequesterPerformRequest {
     if ( defined $Param{Data} && IsHashRefWithData( $Param{Data} ) ) {
         $SOAPData = $Self->_SOAPOutputRecursion(
             Data => $Param{Data},
+            Sort => $Config->{Sort},
         );
 
         # check output of recursion
@@ -1006,14 +1008,16 @@ sub _SOAPOutputRecursion {
     # process array ref
     if ( $Type{Data} eq 'ARRAYREF' ) {
         my @Result;
-        my @Sort = $Param{Sort} ? @{ $Param{Sort} } : ();
         KEY:
         for my $Key ( @{ $Param{Data} } ) {
+
+            # check how to handle sort key
+            my $SortKey = $Type{Sort} eq 'UNDEFINED' ? undef : $Param{Sort};
 
             # process key
             my $RecurseResult = $Self->_SOAPOutputRecursion(
                 Data => $Key,
-                Sort => @Sort ? shift @Sort : undef,
+                Sort => $SortKey,
             );
 
             # return on error

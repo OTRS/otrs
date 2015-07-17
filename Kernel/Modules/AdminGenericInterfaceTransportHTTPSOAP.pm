@@ -198,6 +198,12 @@ sub Run {
             }
         }
 
+        # add sorting structure
+        if ( $GetParam->{Sort} ) {
+            my $SortStructure = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $GetParam->{Sort} );
+            $TransportConfig->{Sort} = $Self->_PackStructure( Structure => $SortStructure );
+        }
+
         # set new configuration
         $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
 
@@ -274,6 +280,12 @@ sub _ShowEdit {
     $Param{SSLProxy}            = $TransportConfig->{SSL}->{SSLProxy};
     $Param{SSLProxyUser}        = $TransportConfig->{SSL}->{SSLProxyUser};
     $Param{SSLProxyPassword}    = $TransportConfig->{SSL}->{SSLProxyPassword};
+
+    # get sorting structure
+    if ( $TransportConfig->{Sort} ) {
+        my $SortStructure = $Self->_UnpackStructure( Structure => $TransportConfig->{Sort} );
+        $Param{Sort} = $Kernel::OM->Get('Kernel::System::JSON')->Encode( Data => $SortStructure );
+    }
 
     # call bread crumbs blocks
     $LayoutObject->Block(
@@ -413,7 +425,7 @@ sub _GetParams {
         qw(
         Endpoint NameSpace Encoding SOAPAction MaxLength Authentication User Password
         SOAPAction SOAPActionSeparator UseSSL SSLP12Certificate SSLP12Password SSLCAFile SSLCADir
-        SSLProxy SSLProxyUser SSLProxyPassword
+        SSLProxy SSLProxyUser SSLProxyPassword Sort
         )
         )
     {
@@ -421,4 +433,58 @@ sub _GetParams {
     }
     return $GetParam;
 }
+
+sub _UnpackStructure {
+    my ( $Self, %Param ) = @_;
+
+    if ( !defined $Param{Structure} ) {
+        return [];
+    }
+
+    # compatibility workaround
+    if ( ref $Param{Structure}->[0] eq 'ARRAY' ) {
+        $Param{Structure} = $Param{Structure}->[0];
+    }
+
+    my @Structure;
+    ARRAYELEMENT:
+    for my $ArrayElement ( @{ $Param{Structure} } ) {
+        my ($Key) = sort keys %{$ArrayElement};
+        push @Structure, $Key;
+        next ARRAYELEMENT if !defined $ArrayElement->{$Key};
+
+        push @Structure, $Self->_UnpackStructure( Structure => $ArrayElement->{$Key} );
+    }
+
+    return \@Structure;
+}
+
+sub _PackStructure {
+    my ( $Self, %Param ) = @_;
+
+    if ( !defined $Param{Structure} ) {
+        return [];
+    }
+
+    my @Structure;
+    ARRAYCOUNT:
+    for my $ArrayCount ( 0 .. scalar @{ $Param{Structure} } - 1 ) {
+        my $Key     = $Param{Structure}->[$ArrayCount];
+        my $NextKey = $Param{Structure}->[ $ArrayCount + 1 ];
+        my $Value   = undef;
+
+        # already processed previously
+        next ARRAYCOUNT if ref $Key eq 'ARRAY';
+
+        # check for substructure
+        if ( ref $NextKey eq 'ARRAY' ) {
+            $Value = $Self->_PackStructure( Structure => $NextKey );
+        }
+
+        push @Structure, { $Key => $Value };
+    }
+
+    return \@Structure;
+}
+
 1;

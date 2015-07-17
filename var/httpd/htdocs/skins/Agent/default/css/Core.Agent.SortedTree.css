@@ -1,0 +1,116 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     SortedTree
+ */
+
+@media screen,projection,tv,handheld {
+
+.SortableList {
+    border: 1px solid #ddd;
+    padding: 10px 10px 3px 10px;
+    width: 80%;
+    border-radius: 5px 5px 0px 0px;
+    background: #eee;
+}
+
+.SortableList li {
+    margin-bottom: 7px;
+}
+
+.SortableList li ul {
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+.SortableList li span {
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 11px;
+    line-height: 12px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 5px 25px 5px 15px;
+    position: relative;
+}
+
+.SortableList li span.Icon {
+    padding: 0px;
+    position: absolute;
+    cursor: pointer;
+    height: 25px;
+    width: 21px;
+    right: -26px;
+    top: -1px;
+    display: none;
+}
+
+.SortableList li span:hover > span.Icon {
+    display: block;
+}
+
+.SortableList li span input {
+    border: 0px;
+    font-size: 11px;
+    background-color: #ddd;
+    box-shadow: none;
+    color: #777;
+}
+
+.SortableList li span input:focus {
+    color: #000;
+}
+
+.SortableList li span em {
+    font-style: normal;
+}
+
+.SortableList li span strong {
+    background-color: #bbb;
+    border-radius: 0px 5px 5px 0px;
+    color: #eee;
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    font-weight: normal;
+    padding: 4px 6px 6px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.SortableList li span i {
+    color: #bbb;
+    font-size: 14px;
+    position: absolute;
+    left: 6px;
+    top: 5px;
+    cursor: pointer;
+    width: 10px;
+    display: block;
+}
+
+.SortableList li span:hover i {
+    color: #777;
+}
+
+div.AddElement {
+    background: #ddd;
+    border: 1px solid #ddd;
+    font-size: 11px;
+    padding: 3px 10px;
+    width: 80%;
+    margin-bottom: 10px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.SortableList .ElementTemplate {
+    display: none;
+}
+
+} /* end @media */

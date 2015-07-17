@@ -225,7 +225,6 @@ my @SoapTests = (
         Operation => 'MyOperation',
         Data      => {
             Var => [
-                1,
                 {
                     Hash => {
                         Key1 => [ 1, 2 ],
@@ -240,31 +239,27 @@ my @SoapTests = (
         Sort => [
             {
                 Var => [
-                    1,
-                    [
-                        {
-                            Hash => [
-                                {
-                                    Key3 => 1,
-                                },
-                                {
-                                    Key4 => [
-                                        {
-                                            Key5 => 'Hash',
-                                        },
-                                    ],
-                                },
-                                {
-                                    Key1 => [ 1, 2 ],
-                                },
-                            ],
-                        },
-                    ],
+                    {
+                        Hash => [
+                            {
+                                Key3 => undef,
+                            },
+                            {
+                                Key4 => [
+                                    {
+                                        Key5 => undef,
+                                    },
+                                ],
+                            },
+                            {
+                                Key1 => undef,
+                            },
+                        ],
+                    },
                 ],
             },
         ],
-        XML => '<Var>1</Var>'
-            . '<Var>'
+        XML => '<Var>'
             . '<Hash>'
             . '<Key3>1</Key3>'
             . '<Key4>'
