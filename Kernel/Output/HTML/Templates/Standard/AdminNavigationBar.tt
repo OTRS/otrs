@@ -7,7 +7,7 @@
 # --
 [% RenderBlockStart("AdminNavBar") %]
 <div class="MainBox ARIARoleMain Admin">
-    <h1>[% Translate("Admin") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Admin") | html %]</h1>
     <div id="Row1" class="LayoutGrid ColumnsWithSpacing">
         <div class="Size1of3">
             <div class="WidgetSimple">

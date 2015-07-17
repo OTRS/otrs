@@ -7,21 +7,20 @@
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPREST">
     <h1>[% Translate("GenericInterface Transport HTTP::REST for Web Service %s", Data.WebserviceName) | html %]</h1>
-    <div class="GenericInterfaceWebserviceConfigPath">
-        <h3>
+
+    <ul class="BreadCrumb">
+        <li>[% Translate("You are here:") | html %]</li>
 [% RenderBlockStart("WebservicePathElement") %]
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
-            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">
-                [% Data.Name | html %]
-            </a>
+        <li>
+            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">[% Data.Name | html %]</a>
+        </li>
 [% RenderBlockEnd("WebservicePathElement") %]
 [% RenderBlockStart("WebservicePathElementNoLink") %]
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        <li>
             [% Data.Name | html %]
+        </li>
 [% RenderBlockEnd("WebservicePathElementNoLink") %]
-
-        </h3>
-    </div>
+    </ul>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">

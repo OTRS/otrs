@@ -7,21 +7,22 @@
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingXSLT">
     <h1>[% Translate("GenericInterface Mapping XSLT for Web Service %s", Data.WebserviceName) | html %]</h1>
-    <div class="GenericInterfaceWebserviceConfigPath">
-        <h3>
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+
+    <ul class="BreadCrumb">
+        <li>[% Translate("You are here:") | html %]</li>
+        <li>
             <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
-
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        </li>
+        <li>
             <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
-
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        </li>
+        <li>
             <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Data.ActionType | html %] [% Data.Action | html %]</a>
-
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        </li>
+        <li>
             [% Translate(Data.MappingDirection) | html %]
-        </h3>
-    </div>
+        </li>
+    </ul>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">

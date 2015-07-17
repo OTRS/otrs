@@ -96,14 +96,6 @@
             <String Regex="">300</String><!-- default 5 min -->
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="GenericInterface::Webservice::Path::Separator" Required="1" Valid="1">
-        <Description Translatable="1">Webservice path separator.</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>GenericInterface::Webservice</SubGroup>
-        <Setting>
-            <String>»</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceDebugger" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>GenericInterface</Group>

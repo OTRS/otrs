@@ -16,17 +16,16 @@
  * @subsubsection     General
  */
 
-.MainBox > h1 {
-    text-indent: -9999px;
-    height: 1px;
-}
-
 .Admin .WidgetSimple > .Content {
     padding: 10px 0px 2px 2px;
 }
 
 .RTL .Admin .WidgetSimple > .Content {
     padding: 10px 2px 2px 0;
+}
+
+.MainBox.Admin {
+    padding-top: 20px;
 }
 
 .Admin .Size1of2 {

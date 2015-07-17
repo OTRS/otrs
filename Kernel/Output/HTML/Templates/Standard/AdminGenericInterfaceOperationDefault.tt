@@ -13,23 +13,24 @@
     <h1>[% Translate("Change Operation %s of Web Service %s", Data.Operation, Data.WebserviceName) | html %]</h1>
 [% RenderBlockEnd("TitleChange") %]
 <!-- breadcrumb -->
-    <div class="GenericInterfaceWebserviceConfigPath">
-        <h3>
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+
+    <ul class="BreadCrumb">
+        <li>[% Translate("You are here:") | html %]</li>
+        <li>
             <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
-
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        </li>
+        <li>
             <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
-
-            [% Config("GenericInterface::Webservice::Path::Separator") %]
+        </li>
+        <li>
 [% RenderBlockStart("NavigationAdd") %]
             [% Translate("Add new operation") | html %]
 [% RenderBlockEnd("NavigationAdd") %]
 [% RenderBlockStart("NavigationChange") %]
             [% Translate("Change operation %s", Data.Operation) | html %]
 [% RenderBlockEnd("NavigationChange") %]
-        </h3>
-    </div>
+        </li>
+    </ul>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">

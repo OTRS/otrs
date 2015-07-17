@@ -9,6 +9,8 @@
 [% RenderBlockStart("Body") %]
 <div class="MainBox ARIARoleMain PreferencesScreen">
 
+    <h1 class="InvisibleText">[% Translate("Edit your preferences") | html %]</h1>
+
     <div class="LayoutGrid ColumnsWithSpacing">
 
 [% RenderBlockStart("Column") %]

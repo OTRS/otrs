@@ -236,7 +236,7 @@ dd {
     display: inline-block;
     text-indent: -9999px;
     white-space: nowrap;
-    position: absolute;
+    position: absolute !important;
 }
 
 /**
@@ -378,6 +378,73 @@ dd {
     margin: 10px 0px;
     padding: 8px 11px 7px;
     position: relative;
+}
+
+/**
+ * @subsection  Bread crumb
+ */
+
+.BreadCrumb {
+    list-style-type: none;
+    margin: 0px 0px 15px 0px;
+    padding: 10px;
+    background: #eee;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 15px;
+}
+
+.BreadCrumb li {
+    display: inline-block;
+    margin: 0px 2px 0px 2px;
+    color: #777;
+}
+
+.BreadCrumb li:after {
+    content: "\2192";
+    display: inline-block;
+    margin-left: 2px;
+    color: #aaa;
+}
+
+.BreadCrumb li:first-child:after,
+.BreadCrumb li:last-child:after {
+    display: none;
+}
+
+.BreadCrumb a {
+    color: #000;
+    border-bottom: 2px solid #ccc;
+    padding: 0px 2px;
+}
+
+.BreadCrumb a:hover {
+    border-color: #FF9922;
+}
+
+.BreadCrumb:before,
+.BreadCrumb:after {
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-width: 15px;
+    margin-top: -15px;
+}
+
+.BreadCrumb:before {
+    left: 0px;
+    border-color: rgba(255, 255, 255, 0);
+    border-left-color: #fff;
+}
+
+.BreadCrumb:after {
+    left: 100%;
+    border-color: rgba(238, 238, 238, 0);
+    border-left-color: #eee;
 }
 
 /**
