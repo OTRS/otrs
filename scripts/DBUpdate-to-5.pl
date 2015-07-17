@@ -1572,15 +1572,15 @@ sub _AddZoomMenuClusters {
             'ClusterPriority' => 800,
         },
         '400-Owner' => {
-            'ClusterName'     => 'Persons',
+            'ClusterName'     => 'People',
             'ClusterPriority' => 430,
         },
         '410-Responsible' => {
-            'ClusterName'     => 'Persons',
+            'ClusterName'     => 'People',
             'ClusterPriority' => 430,
         },
         '420-Customer' => {
-            'ClusterName'     => 'Persons',
+            'ClusterName'     => 'People',
             'ClusterPriority' => 430,
         },
         '420-Note' => {

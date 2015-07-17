@@ -6130,7 +6130,7 @@
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
-                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterName" Translatable="1">People</Item>
                 <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
@@ -6148,7 +6148,7 @@
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
-                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterName" Translatable="1">People</Item>
                 <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
@@ -6166,7 +6166,7 @@
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
-                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterName" Translatable="1">People</Item>
                 <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
