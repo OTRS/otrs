@@ -72,7 +72,7 @@
 }
 
 .PreferencesScreen .Content form .Field.NoMargin select {
-    width: 100%;
+    width: 98%;
 }
 
 .PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {
@@ -101,6 +101,12 @@
 
 .PreferencesScreen .FieldExplanation {
     font-size: 11px;
+    line-height: 140%;
+}
+
+.PreferencesScreen .FieldExplanation.Language {
+    width: 70%;
+    margin: 5px auto;
 }
 
 .PreferencesScreen .FieldExplanation:empty {

@@ -70,6 +70,11 @@
                                         [% Data.Option %]
                                     </div>
                                     <div class="Clear"></div>
+                                [% IF Data.Label == 'Language' %]
+                                    <div class="FieldExplanation Language Center">
+                                        [% Translate("Did you know? You can help translating OTRS at %s.", '<a href="http://www.transifex.com/projects/p/otrs" target="_blank">Transifex</a>') %]
+                                    </div>
+                                [% END %]
 [% RenderBlockStart("OptionSingleBlock") %]
                                     <div class="Field ButtonOnly">
                                         <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
