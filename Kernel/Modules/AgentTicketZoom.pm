@@ -969,6 +969,9 @@ sub MaskAgentZoom {
     # run ticket menu modules
     if ( ref $ConfigObject->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
         my %Menus = %{ $ConfigObject->Get('Ticket::Frontend::MenuModule') };
+        my %MenuClusters;
+        my %ZoomMenuItems;
+
         MENU:
         for my $Menu ( sort keys %Menus ) {
 
@@ -994,10 +997,54 @@ sub MaskAgentZoom {
                 $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
             }
 
+            if ( !$Menus{$Menu}->{ClusterName} ) {
+
+                $ZoomMenuItems{$Menu} = $Item;
+            }
+            else {
+
+                # check the configured priority for this item. The lowest ClusterPriority
+                # within the same cluster wins.
+                my $Priority = $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority};
+                if ( $Priority !~ /^\d{3}$/ || $Priority > $Menus{$Menu}->{ClusterPriority}) {
+                    $Priority = $Menus{$Menu}->{ClusterPriority};
+                }
+                $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority} = $Priority;
+                $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Items}->{ $Menu } = $Item;
+            }
+        }
+
+        for my $Cluster ( sort keys %MenuClusters ) {
+            $ZoomMenuItems{ $MenuClusters{$Cluster}->{Priority} . $Cluster } = {
+                Name => $Cluster,
+                Type => 'Cluster',
+                Link => '#',
+                Class => 'ClusterLink',
+                Items => $MenuClusters{$Cluster}->{Items},
+            }
+        }
+
+        # display all items
+        for my $Item ( sort keys %ZoomMenuItems ) {
+
             $LayoutObject->Block(
                 Name => 'TicketMenu',
-                Data => $Item,
+                Data => $ZoomMenuItems{$Item},
             );
+
+            if ($ZoomMenuItems{$Item}->{Type} eq 'Cluster') {
+
+                $LayoutObject->Block(
+                    Name => 'TicketMenuSubContainer'
+                );
+
+                for my $SubItem ( sort keys %{ $ZoomMenuItems{$Item}->{Items} } ) {
+                    $LayoutObject->Block(
+                        Name => 'TicketMenuSubContainerItem',
+                        Data => $ZoomMenuItems{$Item}->{Items}->{$SubItem},
+                    );
+                }
+            }
         }
     }
 

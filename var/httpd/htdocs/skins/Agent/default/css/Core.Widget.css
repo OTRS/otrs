@@ -130,6 +130,10 @@ ul.Tablelike li.Header + li {
     /* END IE9 Hover Bug Workaround */
 }
 
+.WidgetSimple > .Content.OverflowVisible {
+    overflow: visible;
+}
+
 .WidgetSimple.QueueOverview > .Content {
     padding-bottom: 2px;
 }

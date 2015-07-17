@@ -111,6 +111,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_MigrateConfigs,
         },
         {
+            Message => 'Add TicketZoom menu cluster configurations',
+            Command => \&_AddZoomMenuClusters,
+        },
+        {
             Message => 'Uninstall Merged Feature Add-Ons',
             Command => \&_UninstallMergedFeatureAddOns,
         },
@@ -1520,6 +1524,98 @@ sub _MigrateConfigs {
             Valid => 1,
             Key   => 'Frontend::Output::FilterText###' . $FilterTextModule,
             Value => $Setting->{$FilterTextModule},
+        );
+    }
+
+    print "...done.\n";
+
+    return 1;
+}
+
+=item _AddZoomMenuClusters()
+
+Change zoom tool-bar configurations to receive the new cluster feature.
+
+    _AddZoomMenuClusters();
+
+=cut
+
+sub _AddZoomMenuClusters {
+
+    # get needed objects
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # Toolbar Modules
+    my $Setting = $ConfigObject->Get('Ticket::Frontend::MenuModule');
+
+    # collect icon data for toolbar items
+    my %ClusterData = (
+        '100-Lock' => {
+            'ClusterName'     => 'Miscellaneous',
+            'ClusterPriority' => 800,
+        },
+        '200-History' => {
+            'ClusterName'     => 'Miscellaneous',
+            'ClusterPriority' => 800,
+        },
+        '310-FreeText' => {
+            'ClusterName'     => 'Miscellaneous',
+            'ClusterPriority' => 800,
+        },
+        '320-Link' => {
+            'ClusterName'     => 'Miscellaneous',
+            'ClusterPriority' => 800,
+        },
+        '430-Merge' => {
+            'ClusterName'     => 'Miscellaneous',
+            'ClusterPriority' => 800,
+        },
+        '400-Owner' => {
+            'ClusterName'     => 'Persons',
+            'ClusterPriority' => 430,
+        },
+        '410-Responsible' => {
+            'ClusterName'     => 'Persons',
+            'ClusterPriority' => 430,
+        },
+        '420-Customer' => {
+            'ClusterName'     => 'Persons',
+            'ClusterPriority' => 430,
+        },
+        '420-Note' => {
+            'ClusterName'     => 'Communication',
+            'ClusterPriority' => 435,
+        },
+        '425-Phone Call Outbound' => {
+            'ClusterName'     => 'Communication',
+            'ClusterPriority' => 435,
+        },
+        '426-Phone Call Inbound' => {
+            'ClusterName'     => 'Communication',
+            'ClusterPriority' => 435,
+        },
+        '427-Email Outbound' => {
+            'ClusterName'     => 'Communication',
+            'ClusterPriority' => 435,
+        },
+    );
+
+    MENUMODULE:
+    for my $MenuModule ( sort keys %{$Setting} ) {
+
+        next MENUMODULE if !IsHashRefWithData( $Setting->{$MenuModule} );
+
+        # set cluster data
+        for my $Attribute ( sort keys %{ $ClusterData{$MenuModule} } ) {
+            $Setting->{$MenuModule}->{$Attribute} = $ClusterData{$MenuModule}->{$Attribute};
+        }
+
+        # save setting
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
+            Value => $Setting->{$MenuModule},
         );
     }
 

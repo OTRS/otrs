@@ -5993,52 +5993,59 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to go back in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to go back in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Back</Item>
-                <Item Key="Description" Translatable="1">Back</Item>
+                <Item Key="Description" Translatable="1">Go back</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">[% Env("LastScreenOverview") %];TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Lock</Item>
                 <Item Key="Name">Lock</Item>
+                <Item Key="Description" Translatable="1">Lock / unlock this ticket</Item>
                 <Item Key="Action">AgentTicketLock</Item>
                 <Item Key="Target"></Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">800</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to access the history of a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to access the history of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">History</Item>
-                <Item Key="Description" Translatable="1">Show the ticket history</Item>
+                <Item Key="Description" Translatable="1">Show the history for this ticket</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketHistory</Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">800</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6051,27 +6058,31 @@
                 <Item Key="LinkParam">target="print"</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Priority</Item>
-                <Item Key="Description" Translatable="1">Change the ticket priority</Item>
+                <Item Key="Description" Translatable="1">Change the priority for this ticket</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6083,11 +6094,13 @@
                 <Item Key="Link">Action=AgentTicketFreeText;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">800</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.  Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6099,11 +6112,13 @@
                 <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">800</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6115,27 +6130,31 @@
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###410-Responsible" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Responsible</Item>
                 <Item Key="Name">Responsible</Item>
-                <Item Key="Description" Translatable="1">Change the responsible person for this ticket</Item>
+                <Item Key="Description" Translatable="1">Change the responsible for this ticket</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Customer" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6147,11 +6166,13 @@
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Persons</Item>
+                <Item Key="ClusterPriority">430</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6163,75 +6184,85 @@
                 <Item Key="Link">Action=AgentTicketNote;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Communication</Item>
+                <Item Key="ClusterPriority">435</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###425-Phone Call Outbound" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Phone Call Outbound</Item>
-                <Item Key="Description" Translatable="1">Phone Call Outbound</Item>
+                <Item Key="Description" Translatable="1">Add an outbound phone call to this ticket</Item>
                 <Item Key="Action">AgentTicketPhoneOutbound</Item>
                 <Item Key="Link">Action=AgentTicketPhoneOutbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Communication</Item>
+                <Item Key="ClusterPriority">435</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###426-Phone Call Inbound" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Phone Call Inbound</Item>
-                <Item Key="Description" Translatable="1">Phone Call Inbound</Item>
+                <Item Key="Description" Translatable="1">Add an inbound phone call to this ticket</Item>
                 <Item Key="Action">AgentTicketPhoneInbound</Item>
                 <Item Key="Link">Action=AgentTicketPhoneInbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Communication</Item>
+                <Item Key="ClusterPriority">435</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###427-Email Outbound" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">E-Mail Outbound</Item>
-                <Item Key="Description" Translatable="1">Write a new, outgoing mail</Item>
+                <Item Key="Description" Translatable="1">Send new outgoing mail from this ticket</Item>
                 <Item Key="Action">AgentTicketEmailOutbound</Item>
                 <Item Key="Link">Action=AgentTicketEmailOutbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Communication</Item>
+                <Item Key="ClusterPriority">435</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu that allows merging tickets in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu that allows merging tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Merge</Item>
-                <Item Key="Description" Translatable="1">Merge into a different ticket</Item>
+                <Item Key="Description" Translatable="1">Merge this ticket and all articles into a another ticket</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">800</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6243,11 +6274,13 @@
                 <Item Key="Link">Action=AgentTicketPending;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###448-Watch" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6255,12 +6288,15 @@
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::TicketWatcher</Item>
                 <Item Key="Action">AgentTicketWatcher</Item>
                 <Item Key="Name">Watch</Item>
+                <Item Key="Description" Translatable="1">Watch this ticket</Item>
                 <Item Key="Target"></Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface.</Description>
+        <Description Translatable="1">Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6272,11 +6308,13 @@
                 <Item Key="Link">Action=AgentTicketClose;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###460-Delete" Required="0" Valid="0">
-        <Description Translatable="1">Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+        <Description Translatable="1">Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6288,11 +6326,13 @@
                 <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###470-Spam" Required="0" Valid="0">
-        <Description Translatable="1">Shows a link to set a ticket as spam in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###470-Junk" Required="0" Valid="0">
+        <Description Translatable="1">Shows a link to set a ticket as junk in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -6300,10 +6340,12 @@
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
-                <Item Key="Description" Translatable="1">Mark as Spam!</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
+                <Item Key="Description" Translatable="1">Mark this ticket as junk!</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Junk</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8270,6 +8312,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
+                    <CSS>Core.Agent.TicketMenuModuleCluster.css</CSS>
                     <JavaScript>thirdparty/jquery-tablesorter-2.0.5/jquery.tablesorter.js</JavaScript>
                     <JavaScript>Core.UI.Table.Sort.js</JavaScript>
                     <JavaScript>Core.Agent.TicketZoom.js</JavaScript>

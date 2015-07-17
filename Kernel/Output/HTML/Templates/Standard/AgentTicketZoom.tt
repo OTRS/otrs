@@ -366,14 +366,22 @@
 [% RenderBlockEnd("LinkTableSimple") %]
         </div>
         <div class="ContentColumn">
-
             <div class="WidgetSimple">
-                <div class="Content">
-                    <div class="ActionRow">
+                <div class="Content OverflowVisible">
+                    <div class="ActionRow Cluster">
                         <ul class="Actions">
 [% RenderBlockStart("TicketMenu") %]
-                            <li>
-                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                            <li id="nav-[% Data.Name %]">
+                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %][% IF Data.Type == 'Cluster' %] <i class="fa fa-caret-down"></i>[% END %]</a>
+[% RenderBlockStart("TicketMenuSubContainer") %]
+                                <ul id="nav-[% Data.Name %]-container" class="[% Data.Class | html %]">
+[% RenderBlockStart("TicketMenuSubContainerItem") %]
+                                    <li id="nav-[% Data.Name %]">
+                                        <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                                    </li>
+[% RenderBlockEnd("TicketMenuSubContainerItem") %]
+                                </ul>
+[% RenderBlockEnd("TicketMenuSubContainer") %]
                             </li>
 [% RenderBlockEnd("TicketMenu") %]
 [% RenderBlockStart("TicketMenuPhoneAsDropdown") %]

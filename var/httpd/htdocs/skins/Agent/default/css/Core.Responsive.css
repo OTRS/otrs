@@ -1008,6 +1008,44 @@
         border-top: 1px solid #ccc;
     }
 
+    /* Cluster */
+
+    .Cluster .ClusterLink {
+        display: none;
+    }
+
+    .Cluster ul ul {
+        opacity: 100;
+        visibility: visible;
+        display: inline;
+        position: static;
+        height: auto;
+        background: none;
+        box-shadow: none;
+        min-width: 0px;
+    }
+
+    .Cluster ul ul li {
+        display: inline-block;
+        border: 0px;
+    }
+
+    .Cluster ul ul li a {
+        display: inline-block;
+        padding: 5px 2px !important;
+    }
+
+    .Cluster ul ul li:after {
+        display: inline-block !important;
+        margin: 0px;
+    }
+
+    .Cluster ul ul li a:hover {
+        background: none;
+        border-bottom: 2px solid #ff9922;
+        padding-bottom: 0px !important;
+    }
+
 }
 
 /*  ~ Tablet landscape */

@@ -1,0 +1,87 @@
+/**
+ * This file containts the CSS Styles for the ticket menu
+ * module cluster navigation
+ *
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Header
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection      TicketMenu Level-0
+ */
+
+.Cluster {
+    overflow: visible;
+}
+
+.Cluster ul ul {
+    position: absolute;
+    top: 25px;
+    left: -9px;
+    background: #EDEDED;
+    z-index: 999;
+    min-width: 110%;
+    box-shadow: 1px 1px 3px #999;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.2s linear;
+}
+
+.Cluster ul li:hover ul {
+    height: auto;
+    visibility: visible;
+    opacity: 100;
+}
+
+.Cluster ul ul li {
+    display: block;
+    float: none;
+    padding: 0px !important;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+.Cluster ul ul li:last-child {
+    border-bottom: 0px;
+}
+
+.Cluster ul ul li a {
+    padding: 3px 10px !important;
+    display: block;
+}
+
+.Cluster a.ClusterLink i {
+    margin-left: 3px;
+}
+
+.Cluster ul ul li:first-child a {
+    padding-top: 4px;
+}
+
+.Cluster ul ul li:last-child a {
+    padding-bottom: 4px;
+}
+
+.Cluster ul ul li a:hover {
+    border: 0px;
+    background: #ddd;
+}
+
+.Cluster ul ul li:after {
+    display: none !important;
+}
+
+.Cluster > ul > li {
+    position: relative;
+}
+
+} /* end @media */
