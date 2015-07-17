@@ -425,7 +425,7 @@ $('#UseSSL').on('change', function(){
                                     <button>[% Translate("Add") | html %]</button>
                                 </div>
                                 <p class="FieldExplanation">
-                                    [% Translate("Outbound sort order for xml fields - see documentation for SOAP transport.") | html %]
+                                    [% Translate("Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.") | html %]
                                 </p>
                                 <input type="hidden" name="Sort" id="Sort" value="" />
                             </div>
