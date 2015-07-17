@@ -84,7 +84,7 @@ Core.Agent.SortedTree = (function (TargetNS) {
                     Target.push(CollectElements($(this).children('ul').first()));
                 }
             });
-            if ( Target.length ) {
+            if (Target.length) {
                 return Target;
             }
             else {
@@ -96,7 +96,7 @@ Core.Agent.SortedTree = (function (TargetNS) {
         $Element.on('click.RemoveElement', 'strong', function() {
 
             // elements which have children can't be removed
-            if ( $(this).parent().next('ul').length ) {
+            if ($(this).parent().next('ul').length) {
                 alert("This element has children elements and can currently not be removed.");
 //                alert([% Translate("This element has children elements and can currently not be removed.") | JSON %]);
                 return false;
@@ -104,7 +104,7 @@ Core.Agent.SortedTree = (function (TargetNS) {
 
             // if the current element is the last one on the current level, remove the entire list container,
             // otherwise only remove this list element
-            if ( !$(this).closest('ul').hasClass('SortableList') && $(this).closest('ul').find('li').length === 1 ) {
+            if (!$(this).closest('ul').hasClass('SortableList') && $(this).closest('ul').find('li').length === 1) {
                 $(this).closest('ul').fadeOut(function() {
                     $(this).remove();
                 });
@@ -183,7 +183,7 @@ Core.Agent.SortedTree = (function (TargetNS) {
         });
 
         // Initially fill the container with passed JSON data.
-        AddElement( Core.JSON.Parse(JSONData), $Element );
+        AddElement(Core.JSON.Parse(JSONData), $Element);
 
         // make existing items sortable
         $Element.sortable();
