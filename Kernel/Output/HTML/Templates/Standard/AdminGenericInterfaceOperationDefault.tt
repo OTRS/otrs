@@ -15,7 +15,7 @@
 <!-- breadcrumb -->
 
     <ul class="BreadCrumb">
-        <li>[% Translate("You are here") | html %]</li>
+        <li>[% Translate("You are here") | html %]:</li>
         <li>
             <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
         </li>

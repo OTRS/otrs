@@ -9,7 +9,7 @@
     <h1>[% Translate("GenericInterface Transport HTTP::REST for Web Service %s", Data.WebserviceName) | html %]</h1>
 
     <ul class="BreadCrumb">
-        <li>[% Translate("You are here") | html %]</li>
+        <li>[% Translate("You are here") | html %]:</li>
 [% RenderBlockStart("WebservicePathElement") %]
         <li>
             <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">[% Data.Name | html %]</a>

@@ -393,6 +393,7 @@ dd {
     padding-left: 10px;
     padding-right: 15px;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .RTL .BreadCrumb {
@@ -406,6 +407,10 @@ dd {
     padding-left: 35px;
     color: #777;
     position: relative;
+}
+
+.BreadCrumb li:first-child {
+    padding-left: 20px;
 }
 
 .RTL .BreadCrumb li {
