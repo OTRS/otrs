@@ -170,9 +170,8 @@ Directories & Files
     |
     |  (tools stuff)
     |--/scripts/
-    |   |----  /database/
-    |           |--- /otrs-schema.(mysql|postgresql|*).sql (create database script)
-    |           |--- /otrs-initial_insert.(mysql|postgresql|*).sql (all initial sql data - e. g.
-    |           |                                                   root user, queues, ...)
-    |           |--- /otrs-schema-post.(mysql|postgresql|*).sql (create foreign keys script)
-    |
+        |----  /database/
+                |--- /otrs-schema.(mysql|postgresql|*).sql (create database script)
+                |--- /otrs-initial_insert.(mysql|postgresql|*).sql (all initial sql data - e. g.
+                |                                                   root user, queues, ...)
+                |--- /otrs-schema-post.(mysql|postgresql|*).sql (create foreign keys script)
