@@ -130,11 +130,23 @@ sub ProviderProcessRequest {
         #       UserLogin => 'user',
         #       Password  => 'secret',
         #    );
-        %QueryParams = split /[&=]/, $QueryParamsStr;
+        for my $QueryParam ( split '&', $QueryParamsStr ) {
+            my ( $Key, $Value ) = split '=', $QueryParam;
 
-        # unscape URI strings in query parameters
-        for my $Param ( sort keys %QueryParams ) {
-            $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
+            # unscape URI strings in query parameters
+            $Key = URI::Escape::uri_unescape($Key);
+            $Value = URI::Escape::uri_unescape($Value);
+            if ( !defined $QueryParams{$Key} ) {
+                $QueryParams{$Key} = $Value || '';
+            }
+
+            # elements specified multiple times will be added as array reference
+            elsif ( ref $QueryParams{$Key} eq '' ) {
+                $QueryParams{$Key} = [ $QueryParams{$Key}, $Value ];
+            }
+            else {
+                push @{ $QueryParams{$Key} }, $Value;
+            }
         }
     }
 
