@@ -37,6 +37,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 my $OperationObject = Kernel::GenericInterface::Operation->new(
     DebuggerObject => $DebuggerObject,
     WebserviceID   => 1,
+    Operation      => 'Test',
     OperationType  => 'Test::Test',
 );
 $Self->Is(
