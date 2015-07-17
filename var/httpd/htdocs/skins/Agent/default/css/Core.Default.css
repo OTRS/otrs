@@ -395,12 +395,22 @@ dd {
     overflow: hidden;
 }
 
+.RTL .BreadCrumb {
+    padding-right: 10px;
+    padding-left: 15px;
+}
+
 .BreadCrumb li {
     display: inline-block;
     margin: 0px 2px 0px 2px;
     padding-left: 35px;
     color: #777;
     position: relative;
+}
+
+.RTL .BreadCrumb li {
+    padding-left: 0px;
+    padding-right: 35px;
 }
 
 .BreadCrumb li:first-child:after,
@@ -436,11 +446,25 @@ dd {
     border-left-color: #fff;
 }
 
+.RTL .BreadCrumb:before {
+    border-right-color: #fff;
+    border-left-color: transparent;
+    left: auto;
+    right: 0px;
+}
+
 .BreadCrumb:after {
     right: -15px;
     border-color: rgba(238, 238, 238, 0);
     border-left-color: #eee;
     background: #fff;
+}
+
+.RTL .BreadCrumb:after {
+    left: -15px;
+    right: auto;
+    border-right-color: #eee;
+    border-left-color: transparent;
 }
 
 .BreadCrumb li:before,
@@ -462,11 +486,25 @@ dd {
     border-left-color: #fff;
 }
 
+.RTL .BreadCrumb li:after {
+    border-left-color: transparent;
+    border-right-color: #fff;
+    left: auto;
+    right: 0px;
+}
+
 .BreadCrumb li:before {
     left: -5px;
     border-color: rgba(238, 238, 238, 0);
     border-left-color: #eee;
     z-index: 99;
+}
+
+.RTL .BreadCrumb li:before {
+    left: auto;
+    right: -5px;
+    border-right-color: #eee;
+    border-left-color: transparent;
 }
 
 /**
