@@ -439,6 +439,7 @@ sub LogDelete {
     }
     else {
         my $LogData = $Self->LogSearch(
+            Limit        => 1,
             WebserviceID => $Param{WebserviceID},
         );
         if ( !IsArrayRefWithData($LogData) ) {
@@ -526,6 +527,7 @@ when the parameter 'WithData' is set, the complete communication chains will be 
         CommunicationType => 'Provider',     # optional, 'Provider' or 'Requester'
         CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
         CreatedAtOrBefore => '2011-12-31 23:59:59', # optional
+        Limit             => 1000, # optional, default 100
         RemoteIP          => '192.168.0.1', # optional, must be valid IPv4 or IPv6 address
         WebserviceID      => 1, # optional
         WithData          => 0, # optional
@@ -560,7 +562,7 @@ sub LogSearch {
     # param check
     KEY:
     for my $Key (
-        qw(CommunicationID CommunicationType CreatedAtOrAfter CreatedAtOrBefore RemoteIP WebserviceID WithData)
+        qw(CommunicationID CommunicationType CreatedAtOrAfter CreatedAtOrBefore Limit RemoteIP WebserviceID WithData)
         )
     {
         next KEY if !defined $Param{$Key};
@@ -602,6 +604,13 @@ sub LogSearch {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "$Key '$Param{$Key}' is not valid!",
+        );
+        return;
+    }
+    if ( $Param{Limit} && !IsPositiveInteger( $Param{Limit} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Limit is not a positive integer!',
         );
         return;
     }
@@ -680,8 +689,9 @@ sub LogSearch {
 
     if (
         !$DBObject->Prepare(
-            SQL  => $SQL . $SQLExt,
-            Bind => \@Bind,
+            SQL   => $SQL . $SQLExt,
+            Bind  => \@Bind,
+            Limit => $Param{Limit} || 100,
         )
         )
     {

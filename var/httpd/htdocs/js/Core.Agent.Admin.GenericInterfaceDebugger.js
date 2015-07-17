@@ -80,6 +80,7 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
             Action: 'AdminGenericInterfaceDebugger',
             Subaction: 'GetRequestList',
             WebserviceID: TargetNS.WebserviceID,
+            FilterLimit: $('#FilterLimit').val() || '',
             FilterRemoteIP: $('#FilterRemoteIP').val() || '',
             FilterType: $('#FilterType').val() || ''
         };

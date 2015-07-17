@@ -87,6 +87,18 @@ sub _ShowScreen {
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
+    my $FilterLimitStrg = $LayoutObject->BuildSelection(
+        Data => [
+            '10',
+            '100',
+            '1000',
+        ],
+        Name          => 'FilterLimit',
+        PossibleNone  => 1,
+        SelectedValue => '100',
+        Translate     => 0,
+    );
+
     my $FilterTypeStrg = $LayoutObject->BuildSelection(
         Data => [
             'Provider',
@@ -110,10 +122,11 @@ sub _ShowScreen {
         TemplateFile => 'AdminGenericInterfaceDebugger',
         Data         => {
             %Param,
-            WebserviceName => $Param{WebserviceData}->{Name},
-            FilterTypeStrg => $FilterTypeStrg,
-            FilterFromStrg => $FilterFromStrg,
-            FilterToStrg   => $FilterToStrg,
+            WebserviceName  => $Param{WebserviceData}->{Name},
+            FilterLimitStrg => $FilterLimitStrg,
+            FilterTypeStrg  => $FilterTypeStrg,
+            FilterFromStrg  => $FilterFromStrg,
+            FilterToStrg    => $FilterToStrg,
         },
     );
 
@@ -142,6 +155,7 @@ sub _GetRequestList {
 
     $LogSearchParam{CreatedAtOrAfter}  = $ParamObject->GetParam( Param => 'FilterFrom' );
     $LogSearchParam{CreatedAtOrBefore} = $ParamObject->GetParam( Param => 'FilterTo' );
+    $LogSearchParam{Limit}             = $ParamObject->GetParam( Param => 'FilterLimit' ) || undef;
 
     my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogSearch(%LogSearchParam);
 

@@ -100,6 +100,12 @@
                             </div>
                             <div class="Clear"></div>
 
+                            <label for="FilterLimit">[% Translate("Limit") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterLimitStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
                             <div class="Field">
                                 <button type="button" id="FilterRefresh" class="CallForAction" value="[% Translate("Refresh") | html %]"><span><i class="fa fa-refresh"></i> [% Translate("Refresh") | html %]</span></button>
                             </div>
