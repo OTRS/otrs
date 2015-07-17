@@ -111,6 +111,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_MigrateConfigs,
         },
         {
+            Message => 'Uninstall Merged Feature Add-Ons',
+            Command => \&_UninstallMergedFeatureAddOns,
+        },
+        {
             Message => 'Clean up the cache',
             Command => sub {
                 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
@@ -1637,6 +1641,47 @@ sub _MigrateSettings {
 
     return 1;
 }
+
+=item _UninstallMergedFeatureAddOns()
+
+Safely uninstall packages from the database.
+
+    UninstallMergedFeatureAddOns($CommonObject);
+
+=cut
+
+sub _UninstallMergedFeatureAddOns {
+    my $PackageObject = Kernel::System::Package->new();
+
+    # Purge relevant caches before uninstalling to avoid errors because of
+    #   inconsistent states.
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'RepositoryList',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'RepositoryGet',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'XMLParse',
+    );
+
+    # Uninstall FeatureAddons that were merged, keeping the DB structures intact.
+    for my $PackageName (
+        qw( OTRSGenericInterfaceMappingXSLT )
+        )
+    {
+        my $Success = $PackageObject->_PackageUninstallMerged(
+            Name => $PackageName,
+        );
+        if ( !$Success ) {
+            print STDERR "There was an error uninstalling package $PackageName\n";
+            return;
+        }
+    }
+
+    return 1;
+}
+
 
 =item _NewAgentNotificationsLanguageGet()
 
