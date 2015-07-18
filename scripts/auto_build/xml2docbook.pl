@@ -90,6 +90,7 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
             my %Item = $CommonObject{SysConfigObject}->ConfigItemGet( Name => $Name );
             my $Link = $Name;
             $Link =~ s/###/_/g;
+            $Link =~ s/[ ]/_/g;
             $Link =~ s/\///g;
             print <<EOF;
 <section id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc"><title>$Name</title>
