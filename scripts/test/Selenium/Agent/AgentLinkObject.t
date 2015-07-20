@@ -79,6 +79,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
+        # hover on menu bar on the misc cluster
+        $Selenium->WaitFor( JavaScript => 'return $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });' );
+
         # click on 'Link'
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
 

@@ -75,6 +75,8 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->WaitFor( JavaScript => 'return $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });' );
+
         # click on 'Note' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
