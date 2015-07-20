@@ -1244,6 +1244,7 @@ sub AgentMove {
         SelectedID   => $Param{NewStateID},
         Translation  => 1,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
 
     # build next priority string
@@ -1253,6 +1254,7 @@ sub AgentMove {
         SelectedID   => $Param{NewPriorityID},
         Translation  => 1,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
 
     # build owner string
@@ -1463,6 +1465,7 @@ sub AgentMove {
                 Sort         => 'AlphanumericValue',
                 Translation  => 1,
                 Max          => 200,
+                Class        => 'Modernize',
             );
             $LayoutObject->Block(
                 Name => 'StandardTemplate',
