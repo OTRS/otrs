@@ -657,6 +657,7 @@ sub _Overview {
             Data       => { %CustomerSource, },
             Name       => 'Source',
             SelectedID => $Param{Source} || '',
+            Class      => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -883,7 +884,7 @@ sub _Edit {
                 Name        => $Entry->[0],
                 Translation => 1,
                 SelectedID  => $Param{ $Entry->[0] },
-                Class       => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class       => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
@@ -899,7 +900,7 @@ sub _Edit {
                 Data       => { $Kernel::OM->Get('Kernel::System::Valid')->ValidList(), },
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
-                Class      => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif (
@@ -932,7 +933,7 @@ sub _Edit {
                 Name       => $Entry->[0],
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
-                Class      => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
@@ -1076,10 +1077,18 @@ sub _Edit {
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {
+                                my %BuildSelectionParams = (
+                                    %Preference,
+                                    %{$ParamItem},
+                                );
+                                $BuildSelectionParams{Class}
+                                    = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
+
                                 $ParamItem->{Option} = $LayoutObject->BuildSelection(
-                                    %Preference, %{$ParamItem},
+                                    %BuildSelectionParams,
                                 );
                             }
+
                             $LayoutObject->Block(
                                 Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
                                 Data => {

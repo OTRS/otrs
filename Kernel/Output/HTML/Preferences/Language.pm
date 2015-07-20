@@ -41,16 +41,18 @@ sub Param {
     my $DefaultUsedLanguages = $ConfigObject->Get('DefaultUsedLanguages');
     my %Languages;
     LANGUAGE_ID:
-    for my $LanguageID (sort keys %{ $DefaultUsedLanguages // {} }) {
-        my $Text = $DefaultUsedLanguages->{$LanguageID};
+    for my $LanguageID ( sort keys %{ $DefaultUsedLanguages // {} } ) {
+        my $Text           = $DefaultUsedLanguages->{$LanguageID};
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $LanguageID,
         );
         next LANGUAGE_ID if !$LanguageObject;
         my $Completeness = $LanguageObject->{Completeness};
+
         # Mark all languages with < 25% coverage as "in process" (not for en_ variants).
-        if (defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx) {
-            $Text .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
+        if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
+            $Text
+                .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
         }
         $Languages{$LanguageID} = $Text;
     }
@@ -68,6 +70,7 @@ sub Param {
                 || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
                 || $ConfigObject->Get('DefaultLanguage'),
             Block => 'Option',
+            Class => 'Modernize',
             Max   => 200,
         },
     );
