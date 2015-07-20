@@ -736,12 +736,19 @@ sub WritePerlLanguageFile {
 
     my $Data;
 
+    my ($StringsTotal, $StringsTranslated);
+
     my $PreviousLocation = '';
     for my $String ( @{ $Param{TranslationStrings} } ) {
         if ( $PreviousLocation ne $String->{Location} ) {
             $Data .= "\n";
             $Data .= $Indent . "# $String->{Location}\n";
             $PreviousLocation = $String->{Location};
+        }
+
+        $StringsTotal++;
+        if ($String->{Translation}) {
+            $StringsTranslated++;
         }
 
         # Escape ' signs in strings
@@ -824,6 +831,10 @@ EOF
                     $NewOut .= "'$_', ";
                 }
                 $NewOut .= "];\n";
+                my $Completeness = 0;
+                if ($StringsTranslated) {
+                    $Completeness = $StringsTranslated / $StringsTotal;
+                }
                 $NewOut .= <<"EOF";
     # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Year;)
     \$Self->{DateFormat}          = '$LanguageCoreObject->{DateFormat}';
@@ -831,6 +842,7 @@ EOF
     \$Self->{DateFormatShort}     = '$LanguageCoreObject->{DateFormatShort}';
     \$Self->{DateInputFormat}     = '$LanguageCoreObject->{DateInputFormat}';
     \$Self->{DateInputFormatLong} = '$LanguageCoreObject->{DateInputFormatLong}';
+    \$Self->{Completeness}        = $Completeness;
 
     # csv separator
     \$Self->{Separator} = '$LanguageCoreObject->{Separator}';
