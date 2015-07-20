@@ -6,6 +6,8 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+/*eslint-disable no-window*/
+
 "use strict";
 
 var Core = Core || {};
@@ -1576,3 +1578,5 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
     return TargetNS;
 }(Core.Agent.Admin.ProcessManagement || {}));
+
+/*eslint-enable no-window*/

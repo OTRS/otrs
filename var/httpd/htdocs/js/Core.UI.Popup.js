@@ -6,6 +6,8 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+/*eslint-disable no-window*/
+
 "use strict";
 
 var Core = Core || {};
@@ -660,3 +662,5 @@ Core.UI.Popup = (function (TargetNS) {
 
     return TargetNS;
 }(Core.UI.Popup || {}));
+
+/*eslint-enable no-window*/
