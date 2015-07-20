@@ -2590,6 +2590,7 @@ sub _RenderArticle {
             Name       => 'InformUserID',
             Multiple   => 1,
             Size       => 3,
+            Class => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'rw:Article:InformAgent',
@@ -2846,7 +2847,7 @@ sub _RenderResponsible {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ResponsibleID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2865,7 +2866,7 @@ sub _RenderResponsible {
         Name         => 'ResponsibleID',
         Translation  => 1,
         SelectedID   => $SelectedID,
-        Class        => $ServerError,
+        Class        => "Modernize $ServerError",
         PossibleNone => $PossibleNone,
     );
 
@@ -3021,7 +3022,7 @@ sub _RenderOwner {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'OwnerID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3040,7 +3041,7 @@ sub _RenderOwner {
         Name         => 'OwnerID',
         Translation  => 1,
         SelectedID   => $SelectedID || '',
-        Class        => $ServerError,
+        Class        => "Modernize $ServerError",
         PossibleNone => $PossibleNone,
     );
 
@@ -3191,7 +3192,7 @@ sub _RenderSLA {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'SLAID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3204,7 +3205,7 @@ sub _RenderSLA {
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
         Translation   => 0,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         Max           => 200,
     );
 
@@ -3351,7 +3352,7 @@ sub _RenderService {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ServiceID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3366,7 +3367,7 @@ sub _RenderService {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         TreeView      => $TreeView,
@@ -3497,7 +3498,7 @@ sub _RenderLock {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'LockID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3508,7 +3509,7 @@ sub _RenderLock {
         Name          => 'LockID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3633,7 +3634,7 @@ sub _RenderPriority {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3644,7 +3645,7 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3769,7 +3770,7 @@ sub _RenderQueue {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'QueueID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3786,7 +3787,7 @@ sub _RenderQueue {
         Name          => 'QueueID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         PossibleNone  => 1,
@@ -3908,7 +3909,7 @@ sub _RenderState {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StateID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3919,7 +3920,7 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -4056,7 +4057,7 @@ sub _RenderType {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TypeID'} ) {
         $ServerError = 'ServerError';
     }
@@ -4065,7 +4066,7 @@ sub _RenderType {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Types,
         Name          => 'TypeID',
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
@@ -5023,7 +5024,7 @@ sub _DisplayProcessList {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $Param{ProcessList} = $LayoutObject->BuildSelection(
-        Class => 'Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
+        Class => 'Modernize Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
         Data  => $Param{ProcessList},
         Name  => 'ProcessEntityID',
         SelectedID   => $Param{ProcessEntityID},

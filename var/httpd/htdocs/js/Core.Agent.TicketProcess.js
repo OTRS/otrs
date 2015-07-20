@@ -90,6 +90,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                             $(this).remove();
                         });
                         $ElementToUpdate.fadeIn();
+                        Core.UI.InputFields.Activate($ElementToUpdate);
                         try {
                             /*eslint-disable no-eval */
                             eval(JavaScriptString);
