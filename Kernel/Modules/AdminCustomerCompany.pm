@@ -344,6 +344,7 @@ sub _Edit {
     $Param{'ValidOption'} = $LayoutObject->BuildSelection(
         Data       => { $ValidObject->ValidList(), },
         Name       => 'ValidID',
+        Class      => 'Modernize',
         SelectedID => $Param{ValidID},
     );
 
@@ -367,7 +368,7 @@ sub _Edit {
                         $ConfigObject->Get('CustomerCompany')->{Selections}
                         ->{ $Entry->[0] },
                     Name  => $Entry->[0],
-                    Class => $OptionRequired . ' ' .
+                    Class => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
                     Translation => 0,
                     SelectedID  => $Param{ $Entry->[0] },
@@ -390,7 +391,7 @@ sub _Edit {
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
                     Name         => $Entry->[0],
-                    Class        => $OptionRequired . ' ' .
+                    Class        => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 );
@@ -406,7 +407,7 @@ sub _Edit {
                 $Param{Option} = $LayoutObject->BuildSelection(
                     Data  => { $ValidObject->ValidList(), },
                     Name  => $Entry->[0],
-                    Class => $OptionRequired . ' ' .
+                    Class => "$OptionRequired Modernize " .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 );
@@ -500,6 +501,7 @@ sub _Overview {
             Data       => { %CustomerCompanySource, },
             Name       => 'Source',
             SelectedID => $Param{Source} || '',
+            Class      => 'Modernize',
         );
 
         $LayoutObject->Block(
