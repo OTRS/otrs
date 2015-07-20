@@ -608,6 +608,7 @@ sub LinkObjectSelectableObjectList {
     my $TargetObjectStrg = $LayoutObject->BuildSelection(
         Data     => \@SelectableObjectList,
         Name     => 'TargetIdentifier',
+        Class    => 'Modernize',
         TreeView => 1,
     );
 

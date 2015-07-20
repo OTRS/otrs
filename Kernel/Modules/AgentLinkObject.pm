@@ -654,6 +654,7 @@ sub Run {
             Data       => \@SelectableTypesList,
             Name       => 'TypeIdentifier',
             SelectedID => $TypeIdentifier || 'Normal::Source',
+            Class      => 'Modernize',
         );
 
         # create the link table
