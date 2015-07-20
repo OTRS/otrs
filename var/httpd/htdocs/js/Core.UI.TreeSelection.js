@@ -265,7 +265,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 }
             },
             search: {
-                show_only_matches: true
+                show_only_matches: true,
+                show_only_matches_children: true
             },
             plugins: [ 'search' ]
         })
