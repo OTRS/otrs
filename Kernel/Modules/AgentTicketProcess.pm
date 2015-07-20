@@ -5336,7 +5336,11 @@ sub _LookupValue {
     }
 
     # get appropriate object of field
-    my $FieldObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectName );
+    my $FieldObject;
+    if ($Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::' . $ObjectName, Silent => 1)) {
+        $FieldObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectName );
+    }
+
     my $Value;
 
     # check if the backend module has the needed *Lookup sub
