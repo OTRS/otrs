@@ -124,6 +124,7 @@ sub StatsParamsWidget {
             Data       => \%SelectFormat,
             SelectedID => $LocalGetParam->( Param => 'Format' ),
             Name       => 'Format',
+            Class      => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'Format',
@@ -151,7 +152,7 @@ sub StatsParamsWidget {
             },
             Name       => 'ExchangeAxis',
             SelectedID => $LocalGetParam->( Param => 'ExchangeAxis' ) // 0,
-            ,
+            Class      => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -170,7 +171,6 @@ sub StatsParamsWidget {
         );
         PARAMITEM:
         for my $ParamItem ( @{$Params} ) {
-            next PARAMITEM if $ParamItem->{Name} eq 'GraphSize';
             $LayoutObject->Block(
                 Name => 'ItemParam',
                 Data => {
@@ -182,6 +182,7 @@ sub StatsParamsWidget {
                         SelectedID => $LocalGetParam->( Param => $ParamItem->{Name} ) // $ParamItem->{SelectedID} || '',
                         Multiple => $ParamItem->{Multiple} || 0,
                         Size     => $ParamItem->{Size}     || '',
+                        Class    => 'Modernize',
                     ),
                 },
             );
@@ -330,9 +331,10 @@ sub StatsParamsWidget {
                             Size        => 5,
                             SelectedID  => @SelectedIDs ? [@SelectedIDs] : $ObjectAttribute->{SelectedValues},
                             Translation => $ObjectAttribute->{Translation},
-                            TreeView       => $ObjectAttribute->{TreeView}       || 0,
-                            Sort           => $ObjectAttribute->{Sort}           || undef,
-                            SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                            TreeView => $ObjectAttribute->{TreeView} || 0,
+                            Sort => scalar $ObjectAttribute->{Sort},
+                            SortIndividual => scalar $ObjectAttribute->{SortIndividual},
+                            Class          => 'Modernize',
                         );
                         $LayoutObject->Block(
                             Name => 'MultiSelectField',
@@ -346,9 +348,10 @@ sub StatsParamsWidget {
                             Name           => $ElementName,
                             Translation    => $ObjectAttribute->{Translation},
                             TreeView       => $ObjectAttribute->{TreeView} || 0,
-                            Sort           => $ObjectAttribute->{Sort} || undef,
-                            SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
-                            SelectedID     => $LocalGetArray->( Param => $ElementName ),
+                            Sort           => scalar $ObjectAttribute->{Sort},
+                            SortIndividual => scalar $ObjectAttribute->{SortIndividual},
+                            SelectedID     => [ $LocalGetArray->( Param => $ElementName ) ],
+                            Class          => 'Modernize',
                         );
                         $LayoutObject->Block(
                             Name => 'SelectField',
@@ -592,7 +595,8 @@ sub GeneralSpecificationsWidget {
                 1 => 'Yes'
             },
             SelectedID => $GetParam{$Key} // $Stat->{$Key} || 0,
-            Name => $Key,
+            Name       => $Key,
+            Class      => 'Modernize',
         );
     }
 
@@ -604,6 +608,7 @@ sub GeneralSpecificationsWidget {
             },
             SelectedID => 0,
             Name       => 'ShowAsDashboardWidget',
+            Class      => 'Modernize',
         );
     }
 
@@ -613,7 +618,8 @@ sub GeneralSpecificationsWidget {
             1 => 'valid',
         },
         SelectedID => $GetParam{Valid} // $Stat->{Valid},
-        Name => 'Valid',
+        Name       => 'Valid',
+        Class      => 'Modernize',
     );
 
     # Create a new statistic
@@ -649,9 +655,9 @@ sub GeneralSpecificationsWidget {
         if ( $Frontend{StatisticPreselection} eq 'Static' ) {
             $Frontend{StatType}         = 'static';
             $Frontend{SelectObjectType} = $LayoutObject->BuildSelection(
-                Data        => $ObjectModules{Static},
-                Name        => 'ObjectModule',
-                Class       => 'Validate_Required' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
+                Data  => $ObjectModules{Static},
+                Name  => 'ObjectModule',
+                Class => 'Modernize Validate_Required' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
                 Translation => 0,
                 SelectedID  => $GetParam{ObjectModule},
             );
@@ -662,7 +668,7 @@ sub GeneralSpecificationsWidget {
                 Data        => $ObjectModules{DynamicList},
                 Name        => 'ObjectModule',
                 Translation => 1,
-                Class       => ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
+                Class       => 'Modernize ' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
                 SelectedID => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
             );
         }
@@ -674,7 +680,7 @@ sub GeneralSpecificationsWidget {
                 Data        => $ObjectModules{DynamicMatrix},
                 Name        => 'ObjectModule',
                 Translation => 1,
-                Class       => ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
+                Class       => 'Modernize ' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
                 SelectedID => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
             );
 
@@ -685,7 +691,7 @@ sub GeneralSpecificationsWidget {
     my %Permission = (
         Data => { $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 ) },
         Name => 'Permission',
-        Class => 'Validate_Required' . ( $Errors{PermissionServerError} ? ' ServerError' : '' ),
+        Class => 'Modernize Validate_Required' . ( $Errors{PermissionServerError} ? ' ServerError' : '' ),
         Multiple    => 1,
         Size        => 5,
         Translation => 0,
@@ -704,7 +710,7 @@ sub GeneralSpecificationsWidget {
     $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
         Data     => $AvailableFormats,
         Name     => 'Format',
-        Class    => 'Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
+        Class    => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
         Multiple => 1,
         Size     => 5,
         SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
@@ -757,20 +763,19 @@ sub XAxisWidget {
         }
 
         if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
+            my $DFTreeClass = ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                ? 'DynamicFieldWithTreeView' : '';
             $BlockData{SelectField} = $LayoutObject->BuildSelection(
-                Data     => $ObjectAttribute->{Values},
-                Name     => 'XAxis' . $ObjectAttribute->{Element},
-                Multiple => 1,
-                Size     => 5,
-                Class =>
-                    ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
-                ? 'DynamicFieldWithTreeView'
-                : '',
+                Data           => $ObjectAttribute->{Values},
+                Name           => 'XAxis' . $ObjectAttribute->{Element},
+                Multiple       => 1,
+                Size           => 5,
+                Class          => "Modernize $DFTreeClass",
                 SelectedID     => $ObjectAttribute->{SelectedValues},
                 Translation    => $ObjectAttribute->{Translation},
                 TreeView       => $ObjectAttribute->{TreeView} || 0,
-                Sort           => $ObjectAttribute->{Sort} || undef,
-                SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                Sort           => scalar $ObjectAttribute->{Sort},
+                SortIndividual => scalar $ObjectAttribute->{SortIndividual},
             );
 
             if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
@@ -848,20 +853,19 @@ sub YAxisWidget {
         }
 
         if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
+            my $DFTreeClass = ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                ? 'DynamicFieldWithTreeView' : '';
             $BlockData{SelectField} = $LayoutObject->BuildSelection(
-                Data     => $ObjectAttribute->{Values},
-                Name     => 'YAxis' . $ObjectAttribute->{Element},
-                Multiple => 1,
-                Size     => 5,
-                Class =>
-                    ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
-                ? 'DynamicFieldWithTreeView'
-                : '',
+                Data           => $ObjectAttribute->{Values},
+                Name           => 'YAxis' . $ObjectAttribute->{Element},
+                Multiple       => 1,
+                Size           => 5,
+                Class          => "Modernize $DFTreeClass",
                 SelectedID     => $ObjectAttribute->{SelectedValues},
                 Translation    => $ObjectAttribute->{Translation},
                 TreeView       => $ObjectAttribute->{TreeView} || 0,
-                Sort           => $ObjectAttribute->{Sort} || undef,
-                SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                Sort           => scalar $ObjectAttribute->{Sort},
+                SortIndividual => scalar $ObjectAttribute->{SortIndividual},
                 OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
                     . $ObjectAttribute->{Element} . "')",
             );
@@ -978,20 +982,20 @@ sub RestrictionsWidget {
             || $ObjectAttribute->{Block} eq 'SelectField'
             )
         {
+            my $DFTreeClass = ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                ? 'DynamicFieldWithTreeView' : '';
+
             $BlockData{SelectField} = $LayoutObject->BuildSelection(
-                Data     => $ObjectAttribute->{Values},
-                Name     => 'Restrictions' . $ObjectAttribute->{Element},
-                Multiple => 1,
-                Size     => 5,
-                Class =>
-                    ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
-                ? 'DynamicFieldWithTreeView'
-                : '',
+                Data           => $ObjectAttribute->{Values},
+                Name           => 'Restrictions' . $ObjectAttribute->{Element},
+                Multiple       => 1,
+                Size           => 5,
+                Class          => "Modernize $DFTreeClass",
                 SelectedID     => $ObjectAttribute->{SelectedValues},
                 Translation    => $ObjectAttribute->{Translation},
                 TreeView       => $ObjectAttribute->{TreeView} || 0,
-                Sort           => $ObjectAttribute->{Sort} || undef,
-                SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                Sort           => scalar $ObjectAttribute->{Sort},
+                SortIndividual => scalar $ObjectAttribute->{SortIndividual},
             );
 
             if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {

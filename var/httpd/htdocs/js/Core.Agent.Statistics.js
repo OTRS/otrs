@@ -50,6 +50,7 @@ Core.Agent.Statistics = (function (TargetNS) {
 
                 Core.AJAX.FunctionCall(URL, Data, function(Response) {
                     $('#GeneralSpecifications .Content').removeClass('Center').html(Response);
+                    Core.UI.InputFields.Activate($('#GeneralSpecifications .Content'));
                     $('#SaveWidget').show();
                 }, 'html');
             });
@@ -131,6 +132,7 @@ Core.Agent.Statistics = (function (TargetNS) {
 
             if ($FormFieldsElement.children().length) {
                 $FormFieldsElement.children().clone().appendTo('#EditDialog .Fields');
+                Core.UI.InputFields.Activate($('#EditDialog .Fields'));
                 if (ConfigurationLimit && $('#EditDialog .Fields .Element').length >= ConfigurationLimit) {
                     $('#EditDialog .Add').hide();
                 }

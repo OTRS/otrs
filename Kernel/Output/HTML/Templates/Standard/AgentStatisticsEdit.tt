@@ -64,9 +64,6 @@
 
             <div class="WidgetSimple">
                 <div class="Header">
-                    <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
-                    </div>
                     <h2>[% Translate("Save statistic") | html %]</h2>
                 </div>
                 <div class="Content">

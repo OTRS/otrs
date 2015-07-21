@@ -222,4 +222,7 @@ fieldset legend a {
     width: 800px;
 }
 
+#EditDialog .InputField_Search {
+    min-width: 500px;
+}
 } /* end @media */
