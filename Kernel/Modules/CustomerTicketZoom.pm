@@ -1634,6 +1634,7 @@ sub _Mask {
                 Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
+                Class => 'Modernize',
             );
             $LayoutObject->Block(
                 Name => 'FollowUpState',
@@ -1659,6 +1660,7 @@ sub _Mask {
                 Data => $Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,
+                Class => 'Modernize',
             );
             $LayoutObject->Block(
                 Name => 'FollowUpPriority',

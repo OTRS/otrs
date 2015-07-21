@@ -98,6 +98,7 @@
                     $('#AJAXLoader').addClass('Hidden');
                     $('#AJAXDialog').val('1');
 
+                    Core.UI.InputFields.Activate($ElementToUpdate);
                     // Register event for tree selection dialog
                     Core.UI.TreeSelection.InitTreeSelection();
 

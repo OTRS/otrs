@@ -7877,7 +7877,7 @@
                 <Item Key="Key" Translatable="1">Refresh interval</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="" Translatable="1">off</Item>
+                        <Item Key="0" Translatable="1">off</Item>
                         <Item Key="2" Translatable="1"> 2 minutes</Item>
                         <Item Key="5" Translatable="1"> 5 minutes</Item>
                         <Item Key="7" Translatable="1"> 7 minutes</Item>

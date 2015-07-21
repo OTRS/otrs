@@ -240,9 +240,15 @@ sub CustomerPreferencesForm {
                 },
             );
             for my $ParamItem (@Params) {
+                my %BuildSelectionParams = (
+                    %Preference,
+                    %{$ParamItem},
+                );
+                $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
+
                 if ( ref $ParamItem->{Data} eq 'HASH' || ref $Preference{Data} eq 'HASH' ) {
                     $ParamItem->{Option} = $LayoutObject->BuildSelection(
-                        %Preference, %{$ParamItem},
+                        %BuildSelectionParams
                     );
                 }
                 $LayoutObject->Block(

@@ -1408,6 +1408,7 @@ sub MaskForm {
         },
         Name       => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
+        Class      => 'Modernize',
     );
     $Param{ProfilesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1420,6 +1421,7 @@ sub MaskForm {
         Translation => 0,
         Name        => 'Profile',
         SelectedID  => $Param{Profile},
+        Class       => 'Modernize',
     );
 
     # get service object
@@ -1445,6 +1447,7 @@ sub MaskForm {
         Size       => 5,
         SelectedID => $Param{ServiceIDs},
         TreeView   => $TreeView,
+        Class      => 'Modernize',
     );
     $Param{TypesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1457,6 +1460,7 @@ sub MaskForm {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{TypeIDs},
+        Class      => 'Modernize',
     );
     $Param{StatesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1469,6 +1473,7 @@ sub MaskForm {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{StateIDs},
+        Class      => 'Modernize',
     );
     $Param{StateTypeStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1478,6 +1483,7 @@ sub MaskForm {
         Name       => 'StateType',
         Size       => 5,
         SelectedID => $Param{StateType},
+        Class      => 'Modernize',
     );
     $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1490,6 +1496,7 @@ sub MaskForm {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{PriorityIDs},
+        Class      => 'Modernize',
     );
     $Param{TicketCreateTimePoint} = $LayoutObject->BuildSelection(
         Data => {
@@ -1615,6 +1622,7 @@ sub MaskForm {
             },
             Name       => 'SearchInArchive',
             SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
+            Class      => 'Modernize',
         );
 
         $LayoutObject->Block(

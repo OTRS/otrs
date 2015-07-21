@@ -2590,7 +2590,7 @@ sub _RenderArticle {
             Name       => 'InformUserID',
             Multiple   => 1,
             Size       => 3,
-            Class => 'Modernize',
+            Class      => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'rw:Article:InformAgent',
@@ -5338,18 +5338,14 @@ sub _LookupValue {
 
     # get appropriate object of field
     my $FieldObject;
-    if ($Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::' . $ObjectName, Silent => 1)) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::' . $ObjectName, Silent => 1 ) ) {
         $FieldObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectName );
     }
 
     my $Value;
 
     # check if the backend module has the needed *Lookup sub
-    if (
-        $FieldObject
-        && $FieldObject->can($FunctionName)
-        )
-    {
+    if ( $FieldObject && $FieldObject->can($FunctionName) ) {
 
         # call the *Lookup sub and get the value
         $Value = $FieldObject->$FunctionName(

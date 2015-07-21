@@ -2107,6 +2107,7 @@ sub _RenderArticle {
             Name       => 'InformUserID',
             Multiple   => 1,
             Size       => 3,
+            Class      => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'rw:Article:InformAgent',
@@ -2365,7 +2366,7 @@ sub _RenderSLA {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'SLAID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2378,7 +2379,7 @@ sub _RenderSLA {
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
         Translation   => 0,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         Max           => 200,
     );
 
@@ -2516,7 +2517,7 @@ sub _RenderService {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ServiceID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2531,7 +2532,7 @@ sub _RenderService {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         TreeView      => $TreeView,
@@ -2663,7 +2664,7 @@ sub _RenderPriority {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2674,7 +2675,7 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2799,7 +2800,7 @@ sub _RenderQueue {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'QueueID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2816,7 +2817,7 @@ sub _RenderQueue {
         Name          => 'QueueID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         PossibleNone  => 1,
@@ -2938,7 +2939,7 @@ sub _RenderState {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StateID'} ) {
         $ServerError = 'ServerError';
     }
@@ -2949,7 +2950,7 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3086,7 +3087,7 @@ sub _RenderType {
     }
 
     # set server errors
-    my $ServerError;
+    my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TypeID'} ) {
         $ServerError = 'ServerError';
     }
@@ -3095,7 +3096,7 @@ sub _RenderType {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Types,
         Name          => 'TypeID',
-        Class         => $ServerError,
+        Class         => "Modernize $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
@@ -3896,7 +3897,7 @@ sub _DisplayProcessList {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $Param{ProcessList} = $LayoutObject->BuildSelection(
-        Class => 'Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
+        Class => 'Modernize Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
         Data  => $Param{ProcessList},
         Name  => 'ProcessEntityID',
         SelectedID   => $Param{ProcessEntityID},
@@ -4164,29 +4165,29 @@ sub _LookupValue {
     # service and SLA lookup needs Name as parameter (While ServiceID an SLAID uses standard)
     if ( scalar grep { $Param{Field} eq $_ } qw( Service SLA ) ) {
         $LookupFieldName = 'Name';
-        $ObjectName      = $FieldWithoutID . 'Object';
+        $ObjectName      = $FieldWithoutID;
         $FunctionName    = $FieldWithoutID . 'Lookup';
     }
 
     # other fields can use standard parameter names as Priority or PriorityID
     else {
         $LookupFieldName = $Param{Field};
-        $ObjectName      = $FieldWithoutID . 'Object';
+        $ObjectName      = $FieldWithoutID;
         $FunctionName    = $FieldWithoutID . 'Lookup';
     }
 
     my $Value;
-    my $Object->{$ObjectName} = $Kernel::OM->Get( 'Kernel::System::' . $FieldWithoutID );
+
+    my $FieldObject;
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::' . $ObjectName, Silent => 1 ) ) {
+        $FieldObject = $Kernel::OM->Get( 'Kernel::System::' . $ObjectName );
+    }
 
     # check if the backend module has the needed *Lookup sub
-    if (
-        $Object->{$ObjectName}
-        && $Object->{$ObjectName}->can($FunctionName)
-        )
-    {
+    if ( $FieldObject && $FieldObject->can($FunctionName) ) {
 
         # call the *Lookup sub and get the value
-        $Value = $Object->{$ObjectName}->$FunctionName(
+        $Value = $FieldObject->$FunctionName(
             $LookupFieldName => $Param{Value},
         );
     }
