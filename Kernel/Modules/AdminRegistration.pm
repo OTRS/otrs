@@ -433,7 +433,7 @@ sub Run {
 
         # log change
         if ( $Result{Success} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message =>
                     "System Registration: User $Self->{UserID} changed Description: '$Description', Type: '$RegistrationType'.",
