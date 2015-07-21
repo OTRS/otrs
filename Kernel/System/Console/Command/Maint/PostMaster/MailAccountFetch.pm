@@ -24,6 +24,13 @@ sub Configure {
 
     $Self->Description('Fetch incoming emails from configured mail accounts.');
     $Self->AddOption(
+        Name        => 'mail-account-id',
+        Description => "Fetch mail only from this account (default: fetch from all).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr{^\d+$}smx,
+    );
+    $Self->AddOption(
         Name        => 'force-pid',
         Description => "Start even if another process is still registered in the database.",
         Required    => 0,
@@ -74,17 +81,38 @@ sub Run {
     $Self->Print("<yellow>Fetching incoming mails from mail accounts...</yellow>\n\n");
 
     my $MailAccountObject = $Kernel::OM->Get('Kernel::System::MailAccount');
+    my $MailAccountID = $Self->GetOption('mail-account-id');
 
     my %List = $MailAccountObject->MailAccountList( Valid => 1 );
+    my ($ErrorCount, $FetchedCount);
+
+    KEY:
     for my $Key ( sort keys %List ) {
+        next KEY if ($MailAccountID && $Key != $MailAccountID);
         my %Data = $MailAccountObject->MailAccountGet( ID => $Key );
         $Self->Print("<yellow>$Data{Host} ($Data{Type})...</yellow>\n");
-        $MailAccountObject->MailAccountFetch(
+        my $Status = $MailAccountObject->MailAccountFetch(
             %Data,
             Debug  => $Self->GetOption('debug'),
             CMD    => 1,
             UserID => 1,
         );
+        if ($Status) {
+            $FetchedCount++;
+        }
+        else {
+            $ErrorCount++;
+        }
+    }
+
+    if ($ErrorCount) {
+        # Error messages printed by backend
+        return $Self->ExitCodeError();
+    }
+
+    if (!$FetchedCount && $MailAccountID) {
+        $Self->PrintError("Could not find mail account $MailAccountID.");
+        return $Self->ExitCodeError();
     }
 
     $Self->Print("<green>Done.</green>\n");
