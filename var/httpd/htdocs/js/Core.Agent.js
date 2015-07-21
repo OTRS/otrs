@@ -224,38 +224,50 @@ Core.Agent = (function (TargetNS) {
             });
 
         // make the navigation items sortable (if enabled)
-        if (Core.Config.Get('MenuDragDropEnabled') === 1 && $('body').hasClass('Visible-ScreenXL')) {
-            Core.UI.DnD.Sortable(
-                $('#Navigation'),
-                {
-                    Items: 'li.CanDrag',
-                    Tolerance: 'pointer',
-                    Distance: 15,
-                    Opacity: 0.6,
-                    Helper: 'clone',
-                    Axis: 'x',
-                    Containment: $('#Navigation'),
-                    Update: function () {
+        if (Core.Config.Get('MenuDragDropEnabled') === 1) {
+            Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {
+                $('#NavigationContainer').css('height', '35px');
+                Core.UI.DnD.Sortable(
+                    $('#Navigation'),
+                    {
+                        Items: 'li.CanDrag',
+                        Tolerance: 'pointer',
+                        Distance: 15,
+                        Opacity: 0.6,
+                        Helper: 'clone',
+                        Axis: 'x',
+                        Containment: $('#Navigation'),
+                        Update: function () {
 
-                        // collect navigation bar items
-                        var Items = [];
-                        $.each($('#Navigation').children('li'), function() {
-                            Items.push($(this).attr('id'));
-                        });
+                            // collect navigation bar items
+                            var Items = [];
+                            $.each($('#Navigation').children('li'), function() {
+                                Items.push($(this).attr('id'));
+                            });
 
-                        // save the new order to the users preferences
-                        TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
+                            // save the new order to the users preferences
+                            TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
 
-                        $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
-                            $(this).delay(1500).fadeOut();
-                        });
+                            $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
+                                $(this).delay(1500).fadeOut();
+                            });
 
-                        // make sure to re-size the nav container to its initial height after
-                        // dragging is finished in case a sub menu was open when the user started dragging.
-                        $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                            // make sure to re-size the nav container to its initial height after
+                            // dragging is finished in case a sub menu was open when the user started dragging.
+                            // remember to remove this setting on smaller screens (see SmallerOrEqualScreenL below)
+                            $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                        }
                     }
+                );
+            });
+
+            // disable sortable on smaller screens
+            Core.App.Subscribe('Event.App.Responsive.SmallerOrEqualScreenL', function () {
+                if ($('#Navigation').sortable("instance")) {
+                    $('#Navigation').sortable("destroy");
+                    $('#NavigationContainer').css('height', '100%');
                 }
-            );
+            });
         }
 
         /*

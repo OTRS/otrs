@@ -92,7 +92,7 @@ Core.App.Ready(function () {
 [% InsertTemplate("Datepicker.tt") %]
 
 [% IF !Data.OTRSBusinessIsInstalled %]
-    $('.OTRSBusinessRequired').on('click', function() {
+    $('#Navigation').on('click', '.OTRSBusinessRequired', function() {
         window.alert("[% Translate(
             'This feature is part of %s. Please contact %s for more information.',
             'OTRS Business Solution™',
