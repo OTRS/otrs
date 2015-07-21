@@ -819,6 +819,7 @@ sub _Mask {
             Data       => \%NoteTypes,
             Name       => 'ArticleTypeID',
             SelectedID => $Param{ArticleTypeID},
+            Class      => 'Modernize',
         );
     }
     else {
@@ -826,6 +827,7 @@ sub _Mask {
             Data          => \%NoteTypes,
             Name          => 'ArticleTypeID',
             SelectedValue => $Config->{ArticleTypeDefault},
+            Class         => 'Modernize',
         );
     }
 
@@ -858,6 +860,7 @@ sub _Mask {
             Data => \%StateList,
             Name => 'StateID',
             %State,
+            Class => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'State',
@@ -899,6 +902,7 @@ sub _Mask {
             SelectedID   => $Param{TypeID},
             Sort         => 'AlphanumericValue',
             Translation  => 0,
+            Class        => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'Type',
@@ -945,6 +949,7 @@ sub _Mask {
             Translation  => 0,
             SelectedID   => $Param{OwnerID},
             PossibleNone => 1,
+            Class        => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'Owner',
@@ -988,6 +993,7 @@ sub _Mask {
             Name        => 'ResponsibleID',
             Translation => 0,
             SelectedID  => $Param{ResponsibleID},
+            Class       => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'Responsible',
@@ -1031,6 +1037,8 @@ sub _Mask {
             Data => \%PriorityList,
             Name => 'PriorityID',
             %Priority,
+            Class => 'Modernize',
+
         );
         $LayoutObject->Block(
             Name => 'Priority',
@@ -1085,12 +1093,14 @@ sub _Mask {
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'LinkTogether',
         SelectedID => $Param{LinkTogether} || 0,
+        Class      => 'Modernize',
     );
 
     $Param{UnlockYesNoOption} = $LayoutObject->BuildSelection(
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'Unlock',
         SelectedID => $Param{Unlock} || 1,
+        Class      => 'Modernize',
     );
 
     # show spell check
