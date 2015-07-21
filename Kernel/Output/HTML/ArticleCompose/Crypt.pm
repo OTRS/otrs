@@ -65,7 +65,7 @@ sub Run {
         @SearchAddress = Mail::Address->parse($Recipient);
     }
 
-    my $Class;
+    my $Class = '';
 
     # backend currently only supports one recipient
     if ( $#SearchAddress > 0 && $Param{CryptKeyID} ) {
