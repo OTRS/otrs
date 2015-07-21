@@ -1159,7 +1159,7 @@ sub AgentMove {
     if (
         ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
         ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} ) ||
+        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
         ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
         $Config->{Title} ||
         $Config->{Queue} ||
@@ -1288,7 +1288,7 @@ sub AgentMove {
         Data           => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
-        Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
+        Class          => 'Modernize Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
         TreeView       => $TreeView,

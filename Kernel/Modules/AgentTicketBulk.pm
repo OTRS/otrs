@@ -1013,6 +1013,7 @@ sub _Mask {
         Size           => 0,
         Name           => 'QueueID',
         OnChangeSubmit => 0,
+        Class          => 'Modernize',
     );
 
     # get priority

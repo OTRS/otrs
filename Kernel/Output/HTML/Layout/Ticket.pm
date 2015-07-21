@@ -227,8 +227,6 @@ sub AgentQueueListOption {
         $OnChangeSubmit = '';
     }
 
-    $Class .= ' Modernize';
-
     # set OnChange if AJAX is used
     if ( $Param{Ajax} ) {
 
