@@ -93,6 +93,7 @@ sub Check {
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
+        return $Message;
 
         my @Email = ();
         my @Lines = split( /\n/, $Message );
