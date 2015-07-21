@@ -81,7 +81,7 @@ sub Run {
         Data       => \%KeyList,
         Name       => 'CryptKeyID',
         SelectedID => $Param{CryptKeyID} || '',
-        Class      => $Class,
+        Class      => "$Class Modernize",
         Max        => 150,
     );
     $LayoutObject->Block(

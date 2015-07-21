@@ -1625,6 +1625,7 @@ sub _Mask {
         PossibleNone => 1,
         %State,
         %Param,
+        Class => 'Modernize',
     );
 
     # get ticket object
@@ -1655,6 +1656,7 @@ sub _Mask {
             Data => \%ArticleTypeList,
             Name => 'ArticleTypeID',
             %Selected,
+            Class => 'Modernize',
         );
 
         $LayoutObject->Block(

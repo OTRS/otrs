@@ -1108,6 +1108,7 @@ sub _MaskPhone {
         Data => $Param{NextStates},
         Name => 'NextStateID',
         %Selected,
+        Class => 'Modernize',
     );
 
     # customer info string
@@ -1138,6 +1139,7 @@ sub _MaskPhone {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
+            Class        => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'StandardTemplate',

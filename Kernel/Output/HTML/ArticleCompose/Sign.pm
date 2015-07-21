@@ -76,6 +76,7 @@ sub Run {
         Data       => \%KeyList,
         Name       => 'SignKeyID',
         SelectedID => $Param{SignKeyID},
+        Class      => 'Modernize',
     );
     $LayoutObject->Block(
         Name => 'Option',
