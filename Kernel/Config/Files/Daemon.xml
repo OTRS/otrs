@@ -422,7 +422,7 @@
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="TaskName">Custom8</Item>
+                <Item Key="TaskName">Custom9</Item>
                 <Item Key="Schedule">* * * * *</Item>
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
