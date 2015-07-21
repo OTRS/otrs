@@ -55,6 +55,7 @@ sub Run {
         Title      => $LayoutObject->{LanguageObject}->Translate('Search template'),
         SelectedID => '',
         Max        => $Param{Config}->{MaxWidth},
+        Class      => 'Modernize',
     );
 
     my $Priority = $Param{Config}->{'Priority'};

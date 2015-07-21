@@ -31,6 +31,11 @@ div.InputField_InputContainer {
     min-width: 200px;
 }
 
+#ToolBar .InputField_Search,
+.InputField_Autocomplete {
+    min-width: 65px;
+}
+
 .InputField_Search[disabled="disabled"] {
     color: #aaa;
 }
@@ -165,7 +170,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     line-height: 1.5em;
     width: 100%;
     font-size: 11px;
-}   
+}
 
 .InputField_FiltersList span {
     margin-right: 5px;
@@ -208,7 +213,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     display: inline-block;
     color: black;
     white-space: nowrap;
-    padding: 0 4px 0 1px; 
+    padding: 0 4px 0 1px;
     margin: 0;
     vertical-align: top;
 }
