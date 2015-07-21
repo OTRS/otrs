@@ -97,6 +97,7 @@ Core.Agent.Statistics = (function (TargetNS) {
                     $('#EditDialog .Add').hide();
                 }
                 RebuildEditDialogAddSelection();
+                Core.UI.InputFields.Activate($('#EditDialog .Fields'));
             }
 
             function EditDialogDelete(ElementName) {

@@ -33,15 +33,17 @@ Core.Agent.Search = (function (TargetNS) {
     TargetNS.AdditionalAttributeSelectionRebuild = function () {
 
         // get original selection with all possible fields and clone it
-        var $AttributeClone = $('#AttributeOrig').clone().attr('id', 'Attribute');
+        var $AttributeClone = $('#AttributeOrig option').clone(),
+            $AttributeSelection = $('#Attribute').empty();
 
         // strip all already used attributes
-        $AttributeClone.find('option').each(function () {
-            $('#SearchInsert label#' + 'Label' + $(this).attr('value')).remove();
+        $AttributeClone.each(function () {
+            if (!$('#SearchInsert label#Label' + $(this).attr('value')).length) {
+                $AttributeSelection.append($(this));
+            }
         });
 
-        // replace selection with original selection
-        $('#Attribute').replaceWith($AttributeClone);
+        $AttributeSelection.trigger('redraw.InputField');
 
         return true;
     };
@@ -77,6 +79,9 @@ Core.Agent.Search = (function (TargetNS) {
             // Register event for tree selection dialog
             Core.UI.TreeSelection.InitTreeSelection();
 
+            // Modernize fields
+            Core.UI.InputFields.Activate($('#SearchInsert'));
+
             // Initially display dynamic fields with TreeMode = 1 correctly
             Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
         }
@@ -96,36 +101,6 @@ Core.Agent.Search = (function (TargetNS) {
         $Element.prev().prev().remove();
         $Element.prev().remove();
         $Element.remove();
-    };
-
-    /**
-     * @name AdditionalAttributeSelectionRebuild
-     * @memberof Core.Agent.Search
-     * @function
-     * @returns {Boolean} Returns true.
-     * @description
-     *      This function rebuild attribute selection, only show available attributes.
-     */
-    TargetNS.AdditionalAttributeSelectionRebuild = function () {
-
-        // get original selection
-        var $AttributeClone = $('#AttributeOrig').clone();
-        $AttributeClone.attr('id', 'Attribute');
-
-        // strip all already used attributes
-        $AttributeClone.find('option').each(function () {
-            var $Attribute = $(this);
-            $('#SearchInsert label').each(function () {
-                if ($(this).attr('id') === 'Label' + $Attribute.attr('value')) {
-                    $Attribute.remove();
-                }
-            });
-        });
-
-        // replace selection with original selection
-        $('#Attribute').replaceWith($AttributeClone);
-
-        return true;
     };
 
     /**
@@ -169,7 +144,6 @@ Core.Agent.Search = (function (TargetNS) {
                 $Element,
                 $LabelElement = $(this),
                 $FieldElement = $LabelElement.next('.Field');
-
             // those with ID's are used for searching
             if ($(this).attr('id')) {
 
@@ -408,6 +382,8 @@ Core.Agent.Search = (function (TargetNS) {
                     $('#SaveProfile').prop('checked', false);
                 }
 
+                Core.UI.InputFields.Activate($('.Dialog:visible'));
+
                 // register add of attribute
                 $('.AddButton').bind('click', function () {
                     var Attribute = $('#Attribute').val();
@@ -511,7 +487,7 @@ Core.Agent.Search = (function (TargetNS) {
                     $Element1.text(ProfileName);
                     $Element1.attr('value', ProfileName);
                     $Element1.prop('selected', true);
-                    $('#SearchProfile').append($Element1);
+                    $('#SearchProfile').append($Element1).trigger('redraw.InputField');
 
                     // set input box to empty
                     $('#SearchProfileAddName').val('');
@@ -564,7 +540,7 @@ Core.Agent.Search = (function (TargetNS) {
                             // rebuild selection
                             TargetNS.AdditionalAttributeSelectionRebuild();
                         }
-                    });
+                    }).trigger('redraw.InputField');
 
                     if ($('#SearchProfile').val() && $('#SearchProfile').val() === 'last-search') {
 

@@ -1567,11 +1567,13 @@ sub Run {
             Data     => \@Attributes,
             Name     => 'Attribute',
             Multiple => 0,
+            Class    => 'Modernize',
         );
         $Param{AttributesOrigStrg} = $LayoutObject->BuildSelection(
             Data     => \@Attributes,
             Name     => 'AttributeOrig',
             Multiple => 0,
+            Class    => 'Modernize',
         );
 
         # get all users of own groups
@@ -1645,6 +1647,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{OwnerIDs},
+            Class      => 'Modernize',
         );
         $Param{CreatedUserStrg} = $LayoutObject->BuildSelection(
             Data       => \@ShownUsers,
@@ -1652,6 +1655,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{CreatedUserIDs},
+            Class      => 'Modernize',
         );
         if ( $ConfigObject->Get('Ticket::Watcher') ) {
             $Param{WatchUserStrg} = $LayoutObject->BuildSelection(
@@ -1660,6 +1664,7 @@ sub Run {
                 Multiple   => 1,
                 Size       => 5,
                 SelectedID => $GetParam{WatchUserIDs},
+                Class      => 'Modernize',
             );
         }
         if ( $ConfigObject->Get('Ticket::Responsible') ) {
@@ -1669,6 +1674,7 @@ sub Run {
                 Multiple   => 1,
                 Size       => 5,
                 SelectedID => $GetParam{ResponsibleIDs},
+                Class      => 'Modernize',
             );
         }
 
@@ -1689,6 +1695,7 @@ sub Run {
                 Multiple    => 1,
                 Translation => 0,
                 Max         => 200,
+                Class       => 'Modernize',
             );
             my %SLA = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
                 UserID => $Self->{UserID},
@@ -1702,6 +1709,7 @@ sub Run {
                 Multiple    => 1,
                 Translation => 0,
                 Max         => 200,
+                Class       => 'Modernize',
             );
         }
 
@@ -1714,6 +1722,7 @@ sub Run {
             },
             Name       => 'ResultForm',
             SelectedID => $GetParam{ResultForm} || 'Normal',
+            Class      => 'Modernize',
         );
 
         if ( $ConfigObject->Get('Ticket::ArchiveSystem') ) {
@@ -1726,6 +1735,7 @@ sub Run {
                 },
                 Name       => 'SearchInArchive',
                 SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',
+                Class      => 'Modernize',
             );
         }
 
@@ -1746,6 +1756,7 @@ sub Run {
             Name       => 'Profile',
             ID         => 'SearchProfile',
             SelectedID => $Profile,
+            Class      => 'Modernize',
         );
 
         $Param{StatesStrg} = $LayoutObject->BuildSelection(
@@ -1759,6 +1770,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{StateIDs},
+            Class      => 'Modernize',
         );
         my %AllQueues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues(
             UserID => $Self->{UserID},
@@ -1772,6 +1784,7 @@ sub Run {
             TreeView           => $TreeView,
             SelectedIDRefArray => $GetParam{QueueIDs},
             OnChangeSubmit     => 0,
+            Class              => 'Modernize',
         );
         $Param{CreatedQueuesStrg} = $LayoutObject->AgentQueueListOption(
             Data               => \%AllQueues,
@@ -1781,6 +1794,7 @@ sub Run {
             TreeView           => $TreeView,
             SelectedIDRefArray => $GetParam{CreatedQueueIDs},
             OnChangeSubmit     => 0,
+            Class              => 'Modernize',
         );
         $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
             Data => {
@@ -1793,6 +1807,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{PriorityIDs},
+            Class      => 'Modernize',
         );
         $Param{LocksStrg} = $LayoutObject->BuildSelection(
             Data => {
@@ -1805,6 +1820,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{LockIDs},
+            Class      => 'Modernize',
         );
 
         $Param{ArticleCreateTimePoint} = $LayoutObject->BuildSelection(
@@ -2053,6 +2069,7 @@ sub Run {
                 Size        => 3,
                 Multiple    => 1,
                 Translation => 0,
+                Class       => 'Modernize',
             );
         }
 
