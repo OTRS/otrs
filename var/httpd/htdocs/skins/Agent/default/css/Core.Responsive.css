@@ -12,6 +12,10 @@
         font-size: 12px;
     }
 
+    .WidgetSimple.MobileNotAvailableWidget {
+        display: block;
+    }
+
     html.NoScroll,
     html.NoScroll body {
         height: 100%;

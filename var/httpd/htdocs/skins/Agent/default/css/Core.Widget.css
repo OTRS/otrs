@@ -87,6 +87,10 @@ ul.Tablelike li.Header + li {
     background: #f5f5f5;
 }
 
+.WidgetSimple.MobileNotAvailableWidget {
+    display: none;
+}
+
 .WidgetSimple .WidgetSimple {
     background: #F2EFEF;
     border: 1px solid #ddd;

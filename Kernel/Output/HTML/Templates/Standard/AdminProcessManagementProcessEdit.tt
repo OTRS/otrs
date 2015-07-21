@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst ProcessManagementEditScreen">
     <h1>[% Translate("Edit Process") | html %] "[% Data.Name | html %]"</h1>
 
     <div class="SidebarColumn">
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="WidgetSimple">
+        <div class="WidgetSimple ScreenXL">
             <div class="Header">
                 <h2>[% Translate("Available Process Elements") | html %]</h2>
             </div>
@@ -166,7 +166,8 @@
 
     <div class="ContentColumn">
         <form action="[% Env("CGIHandle") %]" method="post" id="ProcessForm" class="Validate PreventMultipleSubmits">
-            <div class="WidgetSimple Expanded">
+
+            <div class="WidgetSimple Expanded ScreenXL">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
@@ -220,7 +221,7 @@
                 </div>
             </div>
 
-            <div class="WidgetSimple">
+            <div class="WidgetSimple ScreenXL">
                 <div class="Header Expanded">
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
@@ -240,7 +241,7 @@
                 </div>
             </div>
 
-            <div class="WidgetSimple">
+            <div class="WidgetSimple ScreenXL">
                 <div class="Header Expanded">
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Save settings") | html %]"></a>
@@ -260,6 +261,9 @@
                     </fieldset>
                 </div>
             </div>
+
+[% InsertTemplate("MobileNotAvailableWidget.tt") %]
+
         </form>
     </div>
     <div class="Clear"></div>
