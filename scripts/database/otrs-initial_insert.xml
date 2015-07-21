@@ -1401,6 +1401,8 @@ Your OTRS Group
         <Data Key="body" Type="Quote">From: OTRS Feedback &lt;marketing@otrs.com&gt;
 To: Your OTRS System &lt;otrs@localhost&gt;
 Subject: Welcome to OTRS!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
 Welcome to OTRS!
 

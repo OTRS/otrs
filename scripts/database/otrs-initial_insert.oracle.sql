@@ -870,6 +870,8 @@ INSERT INTO article_plain (article_id, body, create_by, create_time, change_by, 
     (1, 'From: OTRS Feedback <marketing@otrs.com>
 To: Your OTRS System <otrs@localhost>
 Subject: Welcome to OTRS!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
 Welcome to OTRS!
 
