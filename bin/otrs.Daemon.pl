@@ -44,11 +44,11 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 # Don't allow to run these scripts as root.
 if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
-    print STDERR "Error: You cannot run otrs.Damon.pl as root. Please run it as the 'otrs' user or with the help of su:\n";
+    print STDERR
+        "Error: You cannot run otrs.Damon.pl as root. Please run it as the 'otrs' user or with the help of su:\n";
     print STDERR "  su -c \"bin/otrs.Daemon.pl ...\" -s /bin/bash otrs\n";
     exit 1;
 }
-
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -145,8 +145,8 @@ sub Start {
     my $LockSuccess = _PIDLock();
 
     if ( !$LockSuccess ) {
-        print STDERR "Daemon already running!\n";
-        exit 1;
+        print "Daemon already running!\n";
+        exit 0;
     }
 
     # get daemon modules from sysconfig
@@ -392,7 +392,7 @@ sub _PIDLock {
                 Message  => "Can't create directory '$PIDDir': $!",
             );
 
-            return;
+            exit 1;
         }
     }
 
