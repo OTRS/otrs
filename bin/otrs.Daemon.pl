@@ -266,7 +266,9 @@ sub Start {
             }
             else {
 
-                print STDOUT "Registered Daemon $Module with PID $ChildPID\n";
+                if ($Debug) {
+                    print STDOUT "Registered Daemon $Module with PID $ChildPID\n";
+                }
 
                 $DaemonModules{$Module}->{PID} = $ChildPID;
             }
@@ -284,7 +286,9 @@ sub Start {
         next MODULE if !$Module;
         next MODULE if !$DaemonModules{$Module}->{PID};
 
-        print STDOUT "Send stop signal to $Module with PID $DaemonModules{$Module}->{PID}\n";
+        if ($Debug) {
+            print STDOUT "Send stop signal to $Module with PID $DaemonModules{$Module}->{PID}\n";
+        }
 
         kill 2, $DaemonModules{$Module}->{PID};
     }
@@ -310,7 +314,9 @@ sub Start {
 
                 $ProcessesStillRunning = 1;
 
-                print STDOUT "Waiting to stop $Module with PID $DaemonModules{$Module}->{PID}\n";
+                if ($Debug) {
+                    print STDOUT "Waiting to stop $Module with PID $DaemonModules{$Module}->{PID}\n";
+                }
             }
         }
 
