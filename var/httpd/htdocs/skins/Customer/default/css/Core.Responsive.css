@@ -195,6 +195,7 @@
 
     .TicketHeader,
     #Messages,
+    #NoArticles,
     #FollowUp {
         float: none;
         width: auto;
@@ -211,8 +212,8 @@
         min-width: 0px;
     }
 
-    .TicketCompose .Content, 
-    .Preferences .Content, 
+    .TicketCompose .Content,
+    .Preferences .Content,
     .Search .Content {
         padding: 5px 10px;
     }
@@ -271,15 +272,15 @@
 
 /*  ~ Tablet portrait */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-   
+
 }
 
 /*  ~ Smartphone landscape */
 @media only screen and (min-width: 320px) and (max-width: 479px) {
-    
+
 }
 
 /*  ~ Smartphone portrait */
 @media only screen and (max-width: 319px) {
-   
+
 }
