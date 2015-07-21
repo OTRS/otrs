@@ -1,5 +1,5 @@
 /**
- * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -24,7 +24,6 @@ div.Tooltip {
 div.Tooltip.TongueLeft {
     margin-left: -37px;
 }
-
 div.Tooltip.TongueRight {
     margin-left: -202px;
 }
@@ -33,7 +32,6 @@ div.Tooltip > div.Content {
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 5px;
-    margin-top: 15px;
     position: relative;
 }
 
@@ -42,9 +40,16 @@ div.Tooltip > div.Content p {
     color: #000;
 }
 
+div.Tooltip.TongueTop > div.Content {
+    margin-bottom: 15px;
+}
+
+div.Tooltip.TongueBottom > div.Content {
+    margin-top: 15px;
+}
+
 div.Tooltip > div.Content:after,
 div.Tooltip > div.Content:before {
-    bottom: 100%;
     left: 50%;
     border: solid transparent;
     content: " ";
@@ -54,6 +59,15 @@ div.Tooltip > div.Content:before {
     pointer-events: none;
 }
 
+div.Tooltip.TongueTop > div.Content:after, 
+div.Tooltip.TongueTop > div.Content:before {
+    top: 100%;
+}
+
+div.Tooltip.TongueBottom > div.Content:after, 
+div.Tooltip.TongueBottom > div.Content:before {
+    bottom: 100%;
+}
 div.Tooltip.TongueLeft > div.Content:after,
 div.Tooltip.TongueLeft > div.Content:before {
     left: 10%;
@@ -67,16 +81,33 @@ div.Tooltip.TongueRight > div.Content:before {
 
 div.Tooltip > div.Content:after {
     border-color: rgba(255, 255, 255, 0);
-    border-bottom-color: #fff;
     border-width: 6px;
     margin-left: -6px;
 }
 
 div.Tooltip > div.Content:before {
     border-color: rgba(204, 204, 204, 0);
+    margin-left: -7px;
+}
+
+div.Tooltip.TongueTop > div.Content:after {
+    border-top-color: #fff;
+    border-width: 6px;
+}
+
+div.Tooltip.TongueTop > div.Content:before {
+    border-top-color: #ccc;
+    border-width: 7px;
+}
+
+div.Tooltip.TongueBottom > div.Content:after {
+    border-bottom-color: #fff;
+    border-width: 6px;
+}
+
+div.Tooltip.TongueBottom > div.Content:before {
     border-bottom-color: #ccc;
     border-width: 7px;
-    margin-left: -7px;
 }
 
 } /* end @media */

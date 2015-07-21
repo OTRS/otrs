@@ -79,6 +79,7 @@ sub Param {
                 Translation        => 0,
                 OnChangeSubmit     => 0,
                 OptionTitle        => 1,
+                TreeView           => 1,
             ),
             Name => 'QueueID',
         },

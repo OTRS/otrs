@@ -267,6 +267,10 @@ fieldset .RichTextHolder {
     margin-top: 3px;
 }
 
+fieldset div.Field {
+    padding: 0 !important;
+}
+
 .Preferences .Content {
     padding: 5px 13px;
 }

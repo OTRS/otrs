@@ -59,7 +59,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#DestQueueID').bind('change', function (Event) {
         $('#NoSubmit').val('1');
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'OldUserID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
     });
 //]]></script>
 [% END %]
@@ -70,7 +70,6 @@
 [% RenderBlockStart("Owner") %]
                         <label for="NewUserID">[% Translate("New Owner") | html %]:</label>
                         <div class="Field">
-                            <input type="radio" title="[% Translate("New Owner") | html %]" name="UserSelection" value="New" [% Data.item("UserSelection::New") %]/>
                             [% Data.OwnerStrg %]
                             <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
                                 <span>[% Translate("Get all") | html %]</span>
@@ -87,31 +86,11 @@
     });
 
     $('#NewUserID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'OldUserID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-    $('#NewUserID').bind('click', function () {
-        Core.Agent.TicketAction.SelectRadioButton('New','UserSelection');
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
     });
 //]]></script>
 [% END %]
 
-                        </div>
-                        <div class="Clear"></div>
-                        <label for="OldUserID">[% Translate("Previous Owner") | html %]:</label>
-                        <div class="Field">
-                            <input type="radio" title="[% Translate("Previous Owner") | html %]" name="UserSelection" value="Old" [% Data.item("UserSelection::Old") %]/>
-                            [% Data.OldUserStrg %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#OldUserID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OldUserID', ['DestQueueID', 'NewUserID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-
-    $('#OldUserID').bind('click', function () {
-        Core.Agent.TicketAction.SelectRadioButton('Old','UserSelection');
-    });
-//]]></script>
-[% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Owner") %]
@@ -123,7 +102,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
     });
 //]]></script>
 [% END %]
@@ -149,7 +128,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewStateID' [% Data.DynamicFieldNamesStrg %]]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'NewStateID' [% Data.DynamicFieldNamesStrg %]]);
     });
 //]]></script>
 [% END %]

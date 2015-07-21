@@ -7358,7 +7358,7 @@
                 <Item Key="Key" Translatable="1">Screen</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="">CreateTicket</Item>
+                        <Item Key="0">CreateTicket</Item>
                         <Item Key="AgentTicketZoom">TicketZoom</Item>
                     </Hash>
                 </Item>

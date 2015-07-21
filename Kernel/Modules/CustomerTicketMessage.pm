@@ -1024,7 +1024,7 @@ sub _MaskNew {
             Multiple   => 0,
             Size       => 0,
             Name       => 'Dest',
-            Class      => "Validate_Required " . $Param{Errors}->{QueueInvalid},
+            Class      => "Validate_Required Modernize " . $Param{Errors}->{QueueInvalid},
             SelectedID => $Param{ToSelected} || $Param{QueueID},
             TreeView   => $TreeView,
         );
@@ -1057,8 +1057,9 @@ sub _MaskNew {
             $PrioritySelected{SelectedValue} = $Config->{PriorityDefault} || '3 normal';
         }
         $Param{PriorityStrg} = $LayoutObject->BuildSelection(
-            Data => \%Priorities,
-            Name => 'PriorityID',
+            Data  => \%Priorities,
+            Name  => 'PriorityID',
+            Class => 'Modernize',
             %PrioritySelected,
         );
         $LayoutObject->Block(
@@ -1087,7 +1088,7 @@ sub _MaskNew {
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
-            Class        => "Validate_Required " . ( $Param{Errors}->{TypeIDInvalid} || '' ),
+            Class        => "Validate_Required Modernize " . ( $Param{Errors}->{TypeIDInvalid} || '' ),
         );
         $LayoutObject->Block(
             Name => 'TicketType',
@@ -1114,7 +1115,7 @@ sub _MaskNew {
                 Data         => \%Services,
                 Name         => 'ServiceID',
                 SelectedID   => $Param{ServiceID},
-                Class        => "Validate_Required " . ( $Param{Errors}->{ServiceIDInvalid} || '' ),
+                Class        => "Validate_Required Modernize " . ( $Param{Errors}->{ServiceIDInvalid} || '' ),
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Sort         => 'TreeView',
@@ -1131,6 +1132,7 @@ sub _MaskNew {
                 Data         => \%Services,
                 Name         => 'ServiceID',
                 SelectedID   => $Param{ServiceID},
+                Class        => 'Modernize',
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Sort         => 'TreeView',
@@ -1162,7 +1164,7 @@ sub _MaskNew {
                     Data         => \%SLA,
                     Name         => 'SLAID',
                     SelectedID   => $Param{SLAID},
-                    Class        => "Validate_Required " . ( $Param{Errors}->{SLAIDInvalid} || '' ),
+                    Class        => "Validate_Required Modernize " . ( $Param{Errors}->{SLAIDInvalid} || '' ),
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
                     Translation  => 0,
@@ -1178,6 +1180,7 @@ sub _MaskNew {
                     Data         => \%SLA,
                     Name         => 'SLAID',
                     SelectedID   => $Param{SLAID},
+                    Class        => 'Modernize',
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
                     Translation  => 0,

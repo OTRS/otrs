@@ -175,6 +175,8 @@ Core.UI.InputFields = (function (TargetNS) {
             OffsetLeft = 0,
             OffsetRight = Config.SelectionBoxOffsetRight,
             MoreBox = false,
+            Multiple = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
+            PossibleNone = false,
             SelectionString = Core.Config.Get('InputFieldsSelection'),
             MoreString = Core.Config.Get('InputFieldsMore'),
             MaxWidth,
@@ -183,6 +185,13 @@ Core.UI.InputFields = (function (TargetNS) {
         // Remove any existing boxes in supplied container
         $InputContainerObj.find('.InputField_Selection').remove();
         $InputContainerObj.find('.InputField_More').remove();
+
+        $SelectObj.find('option').each(function (Index, Option) {
+            if ($(Option).attr('value') === '' || $(Option).attr('value') === '||-') {
+                PossibleNone = true;
+                return true;
+            }
+        });
 
         // Check if we have a selection at all
         if ($SelectObj.val()) {
@@ -241,27 +250,29 @@ Core.UI.InputFields = (function (TargetNS) {
                     });
 
                 // Remove button
-                $RemoveObj = $('<div />').appendTo($SelectionObj);
-                $RemoveObj.addClass('Remove')
-                    .append(
-                        $('<a />').attr('href', '#')
-                            .attr('title', Core.Config.Get('InputFieldsRemoveSelection'))
-                            .text('x')
-                            .attr('role', 'button')
-                            .attr('aria-label', Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text)
-                            .off('click.InputField').on('click.InputField', function () {
-                                var SelectedValue = $(this).parents('.InputField_Selection')
-                                    .data('value');
-                                Selection.splice(Selection.indexOf(SelectedValue), 1);
-                                $SelectObj.val(Selection);
-                                ShowSelectionBoxes($SelectObj, $InputContainerObj);
-                                setTimeout(function () {
-                                    $SelectObj.trigger('change');
-                                    Core.Form.Validate.ValidateElement($SelectObj);
-                                }, 50);
-                                return false;
-                            })
-                    );
+                if (PossibleNone || Multiple) {
+                    $RemoveObj = $('<div />').appendTo($SelectionObj);
+                    $RemoveObj.addClass('Remove')
+                        .append(
+                            $('<a />').attr('href', '#')
+                                .attr('title', Core.Config.Get('InputFieldsRemoveSelection'))
+                                .text('x')
+                                .attr('role', 'button')
+                                .attr('aria-label', Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text)
+                                .off('click.InputField').on('click.InputField', function () {
+                                    var SelectedValue = $(this).parents('.InputField_Selection')
+                                        .data('value');
+                                    Selection.splice(Selection.indexOf(SelectedValue), 1);
+                                    $SelectObj.val(Selection);
+                                    ShowSelectionBoxes($SelectObj, $InputContainerObj);
+                                    setTimeout(function () {
+                                        $SelectObj.trigger('change');
+                                        Core.Form.Validate.ValidateElement($SelectObj);
+                                    }, 50);
+                                    return false;
+                                })
+                        );
+                }
 
                 // Indent first box from the left
                 if (OffsetLeft === 0) {
@@ -272,8 +283,14 @@ Core.UI.InputFields = (function (TargetNS) {
                 if (OffsetLeft + $SelectionObj.outerWidth() < MaxWidth) {
 
                     // Offset the box and show it
-                    $SelectionObj.css('left', OffsetLeft + 'px')
-                        .show();
+                    if ($('body').hasClass('RTL')) {
+                        $SelectionObj.css('right', OffsetLeft + 'px')
+                            .show();
+                    }
+                    else {
+                        $SelectionObj.css('left', OffsetLeft + 'px')
+                            .show();
+                    }
 
                 } else {
 
@@ -464,7 +481,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         $SelectObj.empty();
 
-        if ($SelectObj.data('filtered') !== '0') {
+        if ($SelectObj.data('filtered') && $SelectObj.data('filtered') !== '0') {
             FilterIndex = parseInt($SelectObj.data('filtered'), 10) - 1;
 
             // Insert filtered data
@@ -494,8 +511,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 $ToolbarContainerObj.find('.InputField_Filters')
                     .removeClass('Active');
             }
-
-            $SelectObj.empty();
 
             // Restore original data
             $SelectObj.append($SelectObj.data('original'));
@@ -749,6 +764,11 @@ Core.UI.InputFields = (function (TargetNS) {
                         $SelectAllObj,
                         $ConfirmObj;
 
+                    if ($SearchObj.attr('readonly')) {
+                        $SearchObj.attr('disabled', 'disabled');
+                        return false;
+                    }
+
                     // Show error tooltip if needed
                     if ($SelectObj.attr('id')) {
                         if ($SelectObj.hasClass(Config.ErrorClass)) {
@@ -782,7 +802,8 @@ Core.UI.InputFields = (function (TargetNS) {
                     // Create main container
                     $ContainerObj = $('<div />').insertAfter($InputContainerObj);
                     $ContainerObj.addClass('InputField_Container')
-                        .attr('tabindex', '-1');
+                        .attr('tabindex', '-1')
+                        .css('left', $SearchObj.offset().left + 'px');
 
                     // Create container for jsTree code
                     $TreeContainerObj = $('<div />').appendTo($ContainerObj);
@@ -820,13 +841,14 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
 
                     // Initialize jsTree
+                    /* eslint-disable camelcase */
                     $TreeObj.jstree({
                         core: {
                             animation: 70,
                             data: Elements,
                             multiple: Multiple,
-                            'expand_selected_onload': true,
-                            'check_callback': true,
+                            expand_selected_onload: true,
+                            check_callback: true,
                             themes: {
                                 name: 'InputField',
                                 variant: (TreeView) ? 'Tree' : 'NoTree',
@@ -836,7 +858,8 @@ Core.UI.InputFields = (function (TargetNS) {
                             }
                         },
                         search: {
-                            'show_only_matches': true
+                            show_only_matches: true,
+                            show_only_matches_children: true
                         },
                         plugins: [ 'multiselect', 'search', 'wholerow' ]
                     })
@@ -1374,7 +1397,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 // to update values when changed via AJAX calls
                 $SelectObj.off('redraw.InputField').on('redraw.InputField', function () {
                     if (Filterable) {
-                        ApplyFilter($SelectObj, $ToolbarContainerObj);
+                        $SelectObj.data('original', $SelectObj.children());
+                        ApplyFilter($SelectObj, $ToolbarContainerObj, true);
                     }
                     CheckAvailability($SelectObj, $SearchObj);
                     $SearchObj.width($SelectObj.outerWidth())
@@ -1543,6 +1567,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     $TreeObj = $('<div id="' + TreeID + '"><ul></ul></div>');
 
                     // Initialize jsTree
+                    /* eslint-disable camelcase */
                     $TreeObj.jstree({
                         core: {
                             animation: 70,
@@ -1599,7 +1624,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                                 }));
                             },
-                            'check_callback': true,
+                            check_callback: true,
                             themes: {
                                 name: 'InputField',
                                 variant: 'NoTree',

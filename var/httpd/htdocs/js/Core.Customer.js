@@ -30,6 +30,9 @@ Core.Customer = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
         return false;
     }
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.InputFields', 'Core.UI.InputFields')) {
+        return false;
+    }
 
     /**
      * @name SupportedBrowser
@@ -87,6 +90,9 @@ Core.Customer = (function (TargetNS) {
         }
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
+
+        // Modernize input fields
+        Core.UI.InputFields.Init();
 
         // Init tree selection/tree view for dynamic fields
         Core.UI.TreeSelection.InitTreeSelection();

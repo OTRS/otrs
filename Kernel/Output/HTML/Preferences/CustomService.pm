@@ -68,7 +68,7 @@ sub Param {
             Option => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Data        => \%ServiceList,
                 Name        => 'ServiceID',
-                Class        => 'Modernize',
+                Class       => 'Modernize',
                 Multiple    => 1,
                 Size        => 10,
                 SelectedID  => \@CustomServiceIDs,

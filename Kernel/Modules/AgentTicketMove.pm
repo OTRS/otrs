@@ -124,8 +124,8 @@ sub Run {
     my %GetParam;
     for my $Parameter (
         qw(Subject Body
-        NewUserID OldUserID NewStateID NewPriorityID
-        UserSelection OwnerAll NoSubmit DestQueueID DestQueue
+        NewUserID NewStateID NewPriorityID
+        OwnerAll NoSubmit DestQueueID DestQueue
         StandardTemplateID CreateArticle
         )
         )
@@ -138,11 +138,9 @@ sub Run {
 
     # ACL compatibility translations
     my %ACLCompatGetParam;
-    $ACLCompatGetParam{NewOwnerType} = $GetParam{UserSelection};
-    $ACLCompatGetParam{NewOwnerID}   = $GetParam{NewUserID};
-    $ACLCompatGetParam{OldOwnerID}   = $GetParam{OldUserID};
-    $ACLCompatGetParam{QueueID}      = $GetParam{DestQueueID};
-    $ACLCompatGetParam{Queue}        = $GetParam{DestQueue};
+    $ACLCompatGetParam{NewOwnerID} = $GetParam{NewUserID};
+    $ACLCompatGetParam{QueueID}    = $GetParam{DestQueueID};
+    $ACLCompatGetParam{Queue}      = $GetParam{DestQueue};
 
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
@@ -238,17 +236,6 @@ sub Run {
         $Error{NoSubmit} = 1;
     }
 
-    # check new/old user selection
-    if ( $GetParam{UserSelection} && $GetParam{UserSelection} eq 'Old' ) {
-        $GetParam{'UserSelection::Old'} = 'checked="checked"';
-        if ( $GetParam{OldUserID} ) {
-            $GetParam{NewUserID} = $GetParam{OldUserID};
-        }
-    }
-    else {
-        $GetParam{'UserSelection::New'} = 'checked="checked"';
-    }
-
     # get form id
     my $FormID = $ParamObject->GetParam( Param => 'FormID' );
 
@@ -265,12 +252,6 @@ sub Run {
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
 
         my $NewUsers = $Self->_GetUsers(
-            %GetParam,
-            %ACLCompatGetParam,
-            QueueID  => $GetParam{DestQueueID},
-            AllUsers => $GetParam{OwnerAll},
-        );
-        my $OldOwners = $Self->_GetOldOwners(
             %GetParam,
             %ACLCompatGetParam,
             QueueID  => $GetParam{DestQueueID},
@@ -431,14 +412,6 @@ sub Run {
                     Name         => 'NewUserID',
                     Data         => $NewUsers,
                     SelectedID   => $GetParam{NewUserID},
-                    Translation  => 0,
-                    PossibleNone => 1,
-                    Max          => 100,
-                },
-                {
-                    Name         => 'OldUserID',
-                    Data         => $OldOwners,
-                    SelectedID   => $GetParam{OldUserID},
                     Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
@@ -832,6 +805,7 @@ sub Run {
             }
         }
         else {
+
             # show back link
             $LayoutObject->Block(
                 Name => 'TicketBack',
@@ -1185,7 +1159,7 @@ sub AgentMove {
     if (
         ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
         ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
+        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} ) ||
         ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
         $Config->{Title} ||
         $Config->{Queue} ||
@@ -1202,20 +1176,6 @@ sub AgentMove {
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;
     my %UsedData;
-    my %UserHash;
-    if ( $Param{OldUser} ) {
-        my $Counter = 1;
-        USER:
-        for my $User ( reverse @{ $Param{OldUser} } ) {
-            next USER if $UserHash{ $User->{UserID} };
-            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserFullname}";
-            $Counter++;
-        }
-    }
-    my $OldUserSelectedID = $Param{OldUserID};
-    if ( !$OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
-        $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
-    }
 
     my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
         OnlyDynamicFields => 1
@@ -1227,15 +1187,6 @@ sub AgentMove {
             $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
         }
     }
-
-    # build string
-    $Param{OldUserStrg} = $LayoutObject->BuildSelection(
-        Data         => \%UserHash,
-        SelectedID   => $OldUserSelectedID,
-        Name         => 'OldUserID',
-        Translation  => 0,
-        PossibleNone => 1,
-    );
 
     # build next states string
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
@@ -1267,6 +1218,16 @@ sub AgentMove {
         SelectedID   => $Param{NewUserID},
         Translation  => 0,
         PossibleNone => 1,
+        Class        => 'Modernize',
+        Filters      => {
+            OldOwners => {
+                Name   => $LayoutObject->{LanguageObject}->Translate('Previous Owner'),
+                Values => $Self->_GetOldOwners(
+                    QueueID  => $Param{DestQueueID},
+                    AllUsers => $Param{OwnerAll},
+                ),
+            },
+        },
     );
 
     $LayoutObject->Block(
@@ -1650,9 +1611,6 @@ sub _GetOldOwners {
             $Counter++;
         }
     }
-    if ( !%UserHash ) {
-        $UserHash{''} = '-';
-    }
 
     # workflow
     my $ACL = $TicketObject->TicketAcl(
@@ -1704,7 +1662,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updatable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
+        @UpdatableFields = qw( DestQueueID NewUserID NewStateID NewPriorityID );
     }
 
     # define the dynamic fields to show based on the object type

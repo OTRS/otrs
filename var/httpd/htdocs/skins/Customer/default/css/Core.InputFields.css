@@ -1,7 +1,7 @@
 /**
- * @project     OTRS (http: //www.otrs.org) - Agent Frontend
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
  * @copyright   OTRS AG
- * @license     AGPL (http: //www.gnu.org/licenses/agpl.txt)
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
 
 /**
@@ -14,6 +14,24 @@
 /**
  * @subsection  General
  */
+
+.InputField_InputContainer,
+.InputField_Container,
+fieldset div.InputField_InputContainer:first-child,
+fieldset div.InputField_Container:first-child,
+.InputField_InputContainer div:first-child,
+.InputField_Container div:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.InputField_InputContainer,
+.InputField_Container,
+.InputField_InputContainer div,
+.InputField_Container div {
+    padding: 0;
+}
+
 div.InputField_InputContainer {
     position: relative;
     display: inline-block;
@@ -29,11 +47,6 @@ div.InputField_InputContainer {
 .InputField_Search,
 .InputField_Autocomplete {
     min-width: 100px;
-}
-
-#ToolBar .InputField_Search,
-.InputField_Autocomplete {
-    min-width: 65px;
 }
 
 .InputField_Search[disabled="disabled"] {
@@ -183,7 +196,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     line-height: 1.5em;
     width: 100%;
     font-size: 11px;
-}
+}   
 
 .InputField_FiltersList span {
     margin-right: 5px;
@@ -226,7 +239,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     display: inline-block;
     color: black;
     white-space: nowrap;
-    padding: 0 4px 0 1px;
+    padding: 0 4px 0 1px; 
     margin: 0;
     vertical-align: top;
 }
