@@ -89,7 +89,7 @@ sub Run {
 
     # do some highlightings
     $Plain
-        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/<span class="Error">$1<\/span>/gmi;
+        =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company|Content-Type|Content-Transfer-Encoding):.*)/<span class="Error">$1<\/span>/gmi;
     $Plain =~ s/^(Date:.*)/<span class="Error">$1<\/span>/m;
     $Plain
         =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<span class="Error">$1<\/span>/gmi;
