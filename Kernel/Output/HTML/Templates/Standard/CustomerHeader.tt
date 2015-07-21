@@ -14,12 +14,12 @@
 <body class="NoJavaScript [% Data.BodyClass | html %]">
 <!-- start CI layout -->
     <div id="Header">
-        <h1 class="CompanyName">
-            <a href="#">[% Config("CustomerHeadline") %]</a>
-        </h1>
 [% RenderBlockStart("HeaderLogo") %]
         <div id="Logo"></div>
 [% RenderBlockEnd("HeaderLogo") %]
+        <h1 class="CompanyName">
+            <a href="#">[% Config("CustomerHeadline") %]</a>
+        </h1>
 [% RenderBlockStart("DebugRTLButton") %]
         <button onclick="Core.Debug.SimulateRTLPage();" type="button">Simulate RTL</button>
 [% RenderBlockEnd("DebugRTLButton") %]

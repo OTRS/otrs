@@ -122,6 +122,8 @@ Core.Customer.Responsive = (function (TargetNS) {
 
         // remove view mode switch
         $('#ViewModeSwitch').remove();
+
+        $('#ResponsiveSidebarHandle').remove();
     });
 
     return TargetNS;
