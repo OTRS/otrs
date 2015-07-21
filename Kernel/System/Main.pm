@@ -226,13 +226,15 @@ sub FilenameCleanUp {
         return;
     }
 
-    if ( $Param{Type} && $Param{Type} =~ /^md5/i ) {
+    my $Type = lc($Param{Type} || 'local');
+
+    if ( $Type eq 'md5' ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Filename} );
         $Param{Filename} = md5_hex( $Param{Filename} );
     }
 
     # replace invalid token for attachment file names
-    elsif ( $Param{Type} && $Param{Type} =~ /^attachment/i ) {
+    elsif ( $Type eq 'attachment' ) {
 
         # replace invalid token like < > ? " : ; | \ / or *
         $Param{Filename} =~ s/[ <>\?":\\\*\|\/;\[\]]/_/g;
