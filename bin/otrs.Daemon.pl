@@ -84,9 +84,29 @@ if ( !@ARGV ) {
 }
 
 # check for debug mode
+my %DebugDaemons;
 my $Debug;
 if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
     $Debug = 1;
+
+    # if no more arguments, then use debug mode for all daemons
+    if ( !$ARGV[2] ) {
+        $DebugDaemons{All} = 1;
+    }
+
+    # otherwise set debug mode specific for named daemons
+    else {
+
+        ARGINDEX:
+        for my $ArgIndex ( 2 .. 99 ) {
+
+            # stop checking if there are no more arguments
+            last ARGINDEX if !$ARGV[$ArgIndex];
+
+            # remember debug mode for each daemon
+            $DebugDaemons{ $ARGV[$ArgIndex] } = 1;
+        }
+    }
 }
 elsif ( $ARGV[1] ) {
     print STDERR "Invalid option: $ARGV[1]\n\n";
@@ -122,6 +142,10 @@ sub PrintUsage {
     $UsageText .= sprintf " %-30s - %s", 'stop', 'Stops the daemon process' . "\n";
     $UsageText .= sprintf " %-30s - %s", 'status', 'Shows daemon process current state' . "\n";
     $UsageText .= sprintf " %-30s - %s", 'help', 'Shows this help screen' . "\n";
+    $UsageText .= "\nNote:\n";
+    $UsageText
+        .= " In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
+    $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n";
 
     print STDOUT "$UsageText\n";
 
@@ -241,11 +265,17 @@ sub Start {
                     # create daemon object if not exists
                     eval {
 
-                        $Kernel::OM->ObjectParamAdd(
-                            $Module => {
-                                Debug => $Debug,
-                            },
-                        );
+                        if (
+                            !$DaemonObject
+                            && ( $DebugDaemons{All} || $DebugDaemons{ $DaemonModules{$Module}->{Name} } )
+                            )
+                        {
+                            $Kernel::OM->ObjectParamAdd(
+                                $Module => {
+                                    Debug => 1,
+                                },
+                            );
+                        }
 
                         $DaemonObject ||= $Kernel::OM->Get($Module);
                     };
