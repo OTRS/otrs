@@ -1495,7 +1495,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">Ticket follow up notification (unlocked)</Data>
+        <Data Key="name" Type="Quote">Ticket follow-up notification (unlocked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1511,7 +1511,7 @@ Your OTRS Group
     <Insert Table="notification_event_item">
         <Data Key="notification_id">2</Data>
         <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
-        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow up to an unlocked ticket which is in your "My Queues" or "My Services".</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">2</Data>
@@ -1551,7 +1551,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">Ticket follow up notification (locked)</Data>
+        <Data Key="name" Type="Quote">Ticket follow-up notification (locked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1567,7 +1567,7 @@ Your OTRS Group
     <Insert Table="notification_event_item">
         <Data Key="notification_id">3</Data>
         <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
-        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow up to a locked ticket of which you are the ticket owner or responsible.</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">3</Data>
@@ -1593,6 +1593,11 @@ Your OTRS Group
         <Data Key="notification_id">3</Data>
         <Data Key="event_key" Type="Quote">LockID</Data>
         <Data Key="event_value" Type="Quote">2</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">3</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">3</Data>
@@ -1797,6 +1802,11 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">3</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
@@ -1979,10 +1989,10 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been created in 
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Unlocked Ticket Follow-Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now unlocked.
+the unlocked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow-up.
 
 <OTRS_CUSTOMER_REALNAME> wrote:
 <OTRS_CUSTOMER_Body[30]>
@@ -1996,10 +2006,10 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Locked Ticket Follow-Up: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now locked.
+the locked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow-up.
 
 <OTRS_CUSTOMER_REALNAME> wrote:
 <OTRS_CUSTOMER_Body[30]>
@@ -2027,10 +2037,10 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has reached its lock
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Owner Update to You: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Owner Update to <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
+the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2041,7 +2051,7 @@ the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is upda
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Responsible Update to You: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket Responsible Update to <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
 the responsible agent of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
@@ -2084,10 +2094,10 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to 
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Locked Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now locked.
+the pending reminder time of the locked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2098,10 +2108,10 @@ the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_Ticket
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Unlocked Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now unlocked.
+the pending reminder time of the unlocked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2163,7 +2173,7 @@ the service of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has b
         <Data Key="notification_id">1</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket erstellt!: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket erstellt: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
@@ -2180,7 +2190,7 @@ das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in der Que
         <Data Key="notification_id">2</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage zum freigegebenen Ticket: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
@@ -2197,7 +2207,7 @@ zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gi
         <Data Key="notification_id">3</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Nachfrage zum gesperrten Ticket: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
@@ -2214,7 +2224,7 @@ zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt 
         <Data Key="notification_id">4</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticketsperre aufgehoben! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticketsperre aufgehoben: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt entsperrt.
@@ -2228,10 +2238,10 @@ die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] i
         <Data Key="notification_id">5</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Aenderung des Ticket-Besitzers auf Sie! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Änderung des Ticket-Besitzers auf <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert auf <OTRS_TICKET_OWNER_UserFullname> von <OTRS_CURRENT_UserFullname>.
+der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_OWNER_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2242,10 +2252,10 @@ der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wu
         <Data Key="notification_id">6</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Aenderung des Ticket-Verantwortlichen auf Sie! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Änderung des Ticket-Verantwortlichen auf <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname> von <OTRS_CURRENT_UserFullname>.
+der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2256,7 +2266,7 @@ der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_Ticket
         <Data Key="notification_id">7</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Neue Notiz! (<OTRS_AGENT_SUBJECT[24]>)]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket-Notiz: <OTRS_AGENT_SUBJECT[24]>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 <OTRS_CURRENT_UserFullname> schrieb:
@@ -2271,7 +2281,7 @@ der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_Ticket
         <Data Key="notification_id">8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Queue Aenderung <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket-Queue geändert zu <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in die Queue <OTRS_TICKET_Queue> verschoben.
@@ -2285,7 +2295,7 @@ das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in die Que
         <Data Key="notification_id">9</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit erreicht! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit des gesperrten Tickets erreicht: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
@@ -2299,7 +2309,7 @@ die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TIC
         <Data Key="notification_id">10</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit erreicht! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Erinnerungszeit des freigegebenen Tickets erreicht: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
@@ -2313,7 +2323,7 @@ die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_
         <Data Key="notification_id">11</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Eskalation! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket-Eskalation! <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist eskaliert!
@@ -2330,11 +2340,10 @@ Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
         <Data Key="notification_id">12</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Eskalations-Warnung! (<OTRS_TICKET_Title>)]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket-Eskalations-Warnung! <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wird bald eskalieren!
-
 
 Eskalation um: <OTRS_TICKET_EscalationDestinationDate>
 Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
@@ -2349,10 +2358,10 @@ Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
         <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote"><![CDATA[Ticket Service aktualisiert zu <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket-Service aktualisiert zu <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
         <Data Key="text" Type="Quote"><![CDATA[Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Service von Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert zu <OTRS_TICKET_Service>.
+der Service des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geändert zu <OTRS_TICKET_Service>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
