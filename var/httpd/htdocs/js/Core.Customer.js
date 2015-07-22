@@ -124,16 +124,5 @@ Core.Customer = (function (TargetNS) {
         $('body').removeClass('NoJavaScript').addClass('JavaScriptAvailable');
     };
 
-    /**
-     * @name InitFocus
-     * @memberof Core.Customer
-     * @function
-     * @description
-     *      Gives focus to the first text input field.
-     */
-    TargetNS.InitFocus = function(){
-        $('input[type="text"]').first().focus();
-    };
-
     return TargetNS;
 }(Core.Customer || {}));

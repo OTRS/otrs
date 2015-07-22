@@ -173,9 +173,4 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">
-    Core.Customer.InitFocus();
-</script>
-[% END %]
 [% RenderBlockEnd("Search") %]
