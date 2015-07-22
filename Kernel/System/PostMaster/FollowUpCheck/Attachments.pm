@@ -33,9 +33,6 @@ sub Run {
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # do body ticket number lookup
-    return if !$Kernel::OM->Get('Kernel::Config')->Get('PostmasterFollowUpSearchInAttachment');
-
     ATTACHMENT:
     for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
 

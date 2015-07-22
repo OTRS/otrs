@@ -31,10 +31,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('PostmasterFollowUpSearchInReferences') ) {
-        return;
-    }
-
     my @References = $Self->{ParserObject}->GetReferences();
     return if !@References;
 

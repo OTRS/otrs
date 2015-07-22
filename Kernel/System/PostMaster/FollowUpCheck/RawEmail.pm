@@ -33,9 +33,6 @@ sub Run {
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # do plain/raw ticket number lookup
-    return if !$Kernel::OM->Get('Kernel::Config')->Get('PostmasterFollowUpSearchInRaw');
-
     my $Tn = $TicketObject->GetTNByString( $Self->{ParserObject}->GetPlainEmail() );
     return if !$Tn;
 

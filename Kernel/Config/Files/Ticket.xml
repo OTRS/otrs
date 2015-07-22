@@ -41,7 +41,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectFormat" Required="1" Valid="1">
-        <Description Translatable="1">The format of the subject. 'Left' means '[TicketHook#:12345] Some Subject', 'Right' means 'Some Subject [TicketHook#:12345]', 'None' means 'Some Subject' and no ticket number. In the last case you should enable PostmasterFollowupSearchInRaw or PostmasterFollowUpSearchInReferences to recognize followups based on email headers and/or body.</Description>
+        <Description Translatable="1">The format of the subject. 'Left' means '[TicketHook#:12345] Some Subject', 'Right' means 'Some Subject [TicketHook#:12345]', 'None' means 'Some Subject' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -9645,50 +9645,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostmasterFollowUpSearchInReferences" Required="1" Valid="1">
-        <Description Translatable="1">Executes follow up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::PostMaster</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PostmasterFollowUpSearchInBody" Required="1" Valid="1">
-        <Description Translatable="1">Executes follow up mail body checks in mails that don't have a ticket number in the subject.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::PostMaster</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PostmasterFollowUpSearchInAttachment" Required="1" Valid="1">
-        <Description Translatable="1">Executes follow up mail attachments checks in  mails that don't have a ticket number in the subject.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::PostMaster</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PostmasterFollowUpSearchInRaw" Required="1" Valid="1">
-        <Description Translatable="1">Executes follow up plain/raw mail checks in mails that don't have a ticket number in the subject.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::PostMaster</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="PostmasterUserID" Required="1" Valid="1">
         <Description Translatable="1">Specifies user id of the postmaster data base.</Description>
         <Group>Ticket</Group>
@@ -10093,7 +10049,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0300-Body" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0300-Body" Required="0" Valid="0">
         <Description Translatable="1">Executes follow up checks on email body for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -10103,7 +10059,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0400-Attachments" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0400-Attachments" Required="0" Valid="0">
         <Description Translatable="1">Executes follow up checks on attachment contents for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -10113,7 +10069,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0500-RawEmail" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0500-RawEmail" Required="0" Valid="0">
         <Description Translatable="1">Executes follow up checks on the raw source email for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
