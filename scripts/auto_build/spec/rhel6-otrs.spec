@@ -104,7 +104,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/httpd/conf.d/zzz_otrs.conf
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
-%config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter

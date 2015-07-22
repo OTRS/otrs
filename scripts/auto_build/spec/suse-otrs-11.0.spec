@@ -108,7 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/apache2/conf.d/otrs.conf
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
-%config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter
