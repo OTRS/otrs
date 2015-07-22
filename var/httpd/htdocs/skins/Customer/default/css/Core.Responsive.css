@@ -51,6 +51,19 @@
         font-size: 1em;
     }
 
+    #Header {
+        height: 40px;
+        padding: 10px;
+    }
+
+    #Header #Logo {
+        height: 40px;
+        width: 110px;
+        position: static;
+        background-position: center;
+        background-size: 100%;
+    }
+
     h1.CompanyName {
         margin: 0px 50px;
         text-align: center;
@@ -82,7 +95,7 @@
 
     #ResponsiveNavigationHandle,
     #ResponsiveSidebarHandle {
-        position: absolute;
+        position: fixed;
         left: 21px;
         top: 19px;
         font-size: 1.7em;
