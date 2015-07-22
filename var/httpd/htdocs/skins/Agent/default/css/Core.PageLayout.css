@@ -24,6 +24,7 @@
      * @note    force own Block Formatting Context for nested floats
      */
     overflow: hidden;
+    min-height: 500px;
 }
 
 .LayoutFixedSidebar > .SidebarColumn {
