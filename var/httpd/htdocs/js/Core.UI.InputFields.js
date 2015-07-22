@@ -146,6 +146,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Disable the field, add the tooltip and dash string
             $SearchObj.attr('disabled', 'disabled')
+                .data('disabled', true)
                 .attr('title', Core.Config.Get('InputFieldsNotAvailable'))
                 .val(Config.SelectionNotAvailable);
         }
@@ -153,6 +154,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Enable the field, remove the tooltip and dash string
             $SearchObj.removeAttr('disabled')
+                .removeData('disabled')
                 .removeAttr('title')
                 .val('');
         }
@@ -298,7 +300,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     if (!MoreBox) {
                         $SelectionObj.after(
                             $('<div />').addClass('InputField_More')
-                            .css('left', OffsetLeft + 'px')
+                            .css(($('body').hasClass('RTL') ? 'right' : 'left'), OffsetLeft + 'px')
                             .text(
                                 (i > 0) ?
                                     MoreString.replace(/%s/, SelectionLength - i) :
@@ -751,6 +753,24 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Disable field if no selection available
                 CheckAvailability($SelectObj, $SearchObj);
 
+                // Handle form disabling
+                Core.App.Subscribe('Event.Form.DisableForm', function ($Form) {
+                    if ($Form.find($SearchObj).attr('readonly')) {
+                        $SearchObj.attr('disabled', 'disabled');
+                    }
+                });
+
+                // Handle form enabling
+                Core.App.Subscribe('Event.Form.EnableForm', function ($Form) {
+                    if (
+                        !$Form.find($SearchObj).attr('readonly')
+                        && !$SearchObj.data('disabled')
+                       )
+                    {
+                        $SearchObj.removeAttr('disabled');
+                    }
+                });
+
                 // Register handler for on focus event
                 $SearchObj.off('focus.InputField')
                     .on('focus.InputField', function () {
@@ -763,11 +783,6 @@ Core.UI.InputFields = (function (TargetNS) {
                         $ClearAllObj,
                         $SelectAllObj,
                         $ConfirmObj;
-
-                    if ($SearchObj.attr('readonly')) {
-                        $SearchObj.attr('disabled', 'disabled');
-                        return false;
-                    }
 
                     // Show error tooltip if needed
                     if ($SelectObj.attr('id')) {
@@ -865,8 +880,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle focus event for tree item
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('focus.jstree', '.jstree-anchor', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('focus.jstree', '.jstree-anchor', function () {
                         if (!SkipFocus) {
                             Focused = this;
                         } else {
@@ -875,8 +889,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle focus event for tree list
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('focus.jstree', function (Event, Selector) { //eslint-disable-line no-unused-vars
+                    .on('focus.jstree', function () {
                         if (!SkipFocus) {
                             Focused = this;
                         } else {
@@ -894,8 +907,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle blur event for tree item
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('blur.jstree', '.jstree-anchor', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('blur.jstree', '.jstree-anchor', function () {
                         Focused = null;
 
                         setTimeout(function () {
@@ -906,8 +918,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle blur event for tree list
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('blur.jstree', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('blur.jstree', function () {
                         Focused = null;
 
                         setTimeout(function () {
@@ -919,7 +930,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Handle node selection in tree list
                     // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('select_node.jstree', function (Node, Selected, Event) { //eslint-disable-line no-unused-vars
+                    .on('select_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
                         var $SelectedNode = $('#' + Selected.node.id),
                             SelectedNodesIDs;
 
@@ -1281,7 +1292,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             $ClearSearchObj.addClass('InputField_Action InputField_ClearSearch')
                                 .attr('href', '#')
                                 .attr('title', Core.Config.Get('InputFieldsClearSearch'))
-                                .css('right', Config.SelectionBoxOffsetRight + 'px')
+                                .css(($('body').hasClass('RTL') ? 'left' : 'right'), Config.SelectionBoxOffsetRight + 'px')
                                 .append($('<i />').addClass('fa fa-times-circle'))
                                 .attr('role', 'button')
                                 .attr('tabindex', '-1')
@@ -1321,8 +1332,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
-                // Skip eslint check on next line for unused vars (it's actually event)
-                .off('blur.InputField').on('blur.InputField', function (Event) { //eslint-disable-line no-unused-vars
+                .off('blur.InputField').on('blur.InputField', function () {
                     Focused = null;
                     setTimeout(function () {
                         if (!Focused) {
@@ -1637,8 +1647,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle focus event for tree item
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('focus.jstree', '.jstree-anchor', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('focus.jstree', '.jstree-anchor', function () {
                         if (!SkipFocus) {
                             Focused = this;
                         } else {
@@ -1647,8 +1656,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle focus event for tree list
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('focus.jstree', function (Event, Selector) { //eslint-disable-line no-unused-vars
+                    .on('focus.jstree', function () {
                         if (!SkipFocus) {
                             Focused = this;
                         } else {
@@ -1666,8 +1674,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle blur event for tree item
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('blur.jstree', '.jstree-anchor', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('blur.jstree', '.jstree-anchor', function () {
                         Focused = null;
 
                         setTimeout(function () {
@@ -1678,8 +1685,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle blur event for tree list
-                    // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('blur.jstree', function (Event) { //eslint-disable-line no-unused-vars
+                    .on('blur.jstree', function () {
                         Focused = null;
 
                         setTimeout(function () {
@@ -1746,8 +1752,7 @@ Core.UI.InputFields = (function (TargetNS) {
             })
 
             // Out of focus handler removes complete jsTree and action buttons
-            // Skip eslint check on next line for unused vars (it's actually event)
-            .off('blur.InputField').on('blur.InputField', function (Event) { //eslint-disable-line no-unused-vars
+            .off('blur.InputField').on('blur.InputField', function () {
                 Focused = null;
                 setTimeout(function () {
                     if (!Focused) {

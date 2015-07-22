@@ -64,6 +64,8 @@ Core.Form = (function (TargetNS) {
 
             // Add a speaking class to the form on DisableForm
             $Form.addClass('AlreadyDisabled');
+
+            Core.App.Publish('Event.Form.DisableForm', [$Form]);
         }
 
     };
@@ -108,6 +110,8 @@ Core.Form = (function (TargetNS) {
 
         // Remove the speaking class to the form on DisableForm
         $Form.removeClass('AlreadyDisabled');
+
+        Core.App.Publish('Event.Form.EnableForm', [$Form]);
     };
 
     /**

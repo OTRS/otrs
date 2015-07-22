@@ -28,11 +28,11 @@ div.InputField_InputContainer {
 
 .InputField_Search,
 .InputField_Autocomplete {
-    min-width: 100px;
+    min-width: 200px;
 }
 
 #ToolBar .InputField_Search,
-.InputField_Autocomplete {
+#ToolBar .InputField_Autocomplete {
     min-width: 65px;
 }
 
@@ -57,6 +57,7 @@ div.InputField_Selection {
     top: 4px;
     height: 17px;
     line-height: 11px;
+    text-shadow: none;
 }
 
 div.InputField_Selection div {
@@ -75,9 +76,14 @@ div.InputField_Selection div.Remove {
     cursor: pointer;
 }
 
-.AlreadyDisabled div.Remove {
-    display: none;
+.AlreadyDisabled div.InputField_Selection div.Text {
+    background: #f5f5f5;
+    cursor: default;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Remove {
     visibility: hidden;
+    display: none;
 }
 
 div.InputField_Selection div.Remove a {
@@ -96,6 +102,7 @@ div.InputField_Container {
     position: absolute;
     z-index: 1000;
     display: none;
+    text-shadow: none;
 }
 
 div.InputField_TreeContainer {

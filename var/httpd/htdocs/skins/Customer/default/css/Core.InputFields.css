@@ -17,6 +17,16 @@
 
 .InputField_InputContainer,
 .InputField_Container,
+.InputField_InputContainer div,
+.InputField_Container div,
+fieldset.Columns .Column .InputField_InputContainer,
+fieldset.Columns .Column .InputField_Container,
+fieldset.Columns .Column .InputField_InputContainer div,
+fieldset.Columns .Column .InputField_Container div {
+    padding: 0;
+    overflow: visible;
+}
+
 fieldset div.InputField_InputContainer:first-child,
 fieldset div.InputField_Container:first-child,
 .InputField_InputContainer div:first-child,
@@ -25,17 +35,11 @@ fieldset div.InputField_Container:first-child,
     padding-top: 0;
 }
 
-.InputField_InputContainer,
-.InputField_Container,
-.InputField_InputContainer div,
-.InputField_Container div {
-    padding: 0;
-}
-
 div.InputField_InputContainer {
     position: relative;
     display: inline-block;
     line-height: 11px;
+    text-shadow: none;
 }
 
 .InputField_Search::-ms-clear {
@@ -46,7 +50,13 @@ div.InputField_InputContainer {
 
 .InputField_Search,
 .InputField_Autocomplete {
+    min-width: 200px;
+}
+
+.ActionRow .InputField_Search,
+.ActionRow .InputField_Autocomplete {
     min-width: 100px;
+    box-shadow: none;
 }
 
 .InputField_Search[disabled="disabled"] {
@@ -79,7 +89,7 @@ div.InputField_Selection div {
 
 div.InputField_Selection div.Text {
     background: #ddd;
-    padding: 2px 4px;
+    padding: 2px 4px !important;
 }
 
 div.InputField_Selection div.Remove {
@@ -88,15 +98,21 @@ div.InputField_Selection div.Remove {
     cursor: pointer;
 }
 
-.AlreadyDisabled div.Remove {
-    display: none;
-    visibility: hidden;
+.AlreadyDisabled div.InputField_Selection div.Text {
+    background: #f5f5f5;
+    cursor: default;
 }
+
 
 div.InputField_Selection div.Remove a {
     color: #fff;
     padding: 2px 4px;
     display: block;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Remove {
+    visibility: hidden;
+    display: none;
 }
 
 div.InputField_More {
@@ -109,6 +125,7 @@ div.InputField_Container {
     position: absolute;
     z-index: 1000;
     display: none;
+    text-shadow: none;
 }
 
 div.InputField_TreeContainer {
@@ -116,7 +133,7 @@ div.InputField_TreeContainer {
     border: 1px solid #ccc;
     border-top: none;
     max-height: 90px;
-    overflow-y: auto;
+    overflow-y: auto !important;
     box-sizing: content-box;
     line-height: 18px;
 }
