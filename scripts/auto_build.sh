@@ -123,9 +123,8 @@ find -name ".keep" | xargs rm -f
 
 # mk ARCHIVE
 bin/otrs.CheckSum.pl -a create
-# Create needed files and directories
-echo > var/log/TicketCounter.log
-mkdir -p var/tmp var/article
+# Create needed directories
+mkdir -p var/tmp var/article var/log
 
 function CreateArchive() {
     SUFFIX=$1

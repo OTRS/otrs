@@ -1,7 +1,6 @@
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
 %config(noreplace) /opt/otrs/Kernel/Config/GenericAgent.pm
-%config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter
