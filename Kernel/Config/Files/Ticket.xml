@@ -7635,7 +7635,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">
-        <Description Translatable="1">Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.</Description>
+        <Description Translatable="1">Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -7689,7 +7689,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###PriorityDefault" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.</Description>
+        <Description Translatable="1">Defines the default priority of follow-up customer tickets in the ticket zoom screen in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
@@ -7709,7 +7709,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###StateDefault" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default next state for a ticket after customer follow up in the customer interface.</Description>
+        <Description Translatable="1">Defines the default next state for a ticket after customer follow-up in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
@@ -9954,7 +9954,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition1" Required="0" Valid="0">
-        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -9973,7 +9973,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition2" Required="0" Valid="0">
-        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -9992,7 +9992,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition3" Required="0" Valid="0">
-        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -10011,7 +10011,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition4" Required="0" Valid="0">
-        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -10040,7 +10040,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="1" Valid="1">
-        <Description Translatable="1">Executes follow up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
+        <Description Translatable="1">Executes follow-up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -10050,7 +10050,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::CheckFollowUpModule###0300-Body" Required="0" Valid="0">
-        <Description Translatable="1">Executes follow up checks on email body for mails that don't have a ticket number in the subject.</Description>
+        <Description Translatable="1">Executes follow-up checks on email body for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -10060,7 +10060,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::CheckFollowUpModule###0400-Attachments" Required="0" Valid="0">
-        <Description Translatable="1">Executes follow up checks on attachment contents for mails that don't have a ticket number in the subject.</Description>
+        <Description Translatable="1">Executes follow-up checks on attachment contents for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -10070,7 +10070,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::CheckFollowUpModule###0500-RawEmail" Required="0" Valid="0">
-        <Description Translatable="1">Executes follow up checks on the raw source email for mails that don't have a ticket number in the subject.</Description>
+        <Description Translatable="1">Executes follow-up checks on the raw source email for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>

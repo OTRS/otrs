@@ -219,19 +219,19 @@ INSERT INTO system_address (value0, value1, comments, valid_id, queue_id, create
 -- ----------------------------------------------------------
 INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('possible', 'Follow ups after closed(+|-) possible. Ticket will be reopen.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('possible', 'Follow-ups for closed tickets are possible. Ticket will be reopened.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table follow_up_possible
 -- ----------------------------------------------------------
 INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('reject', 'Follow ups after closed(+|-) not possible. No new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('reject', 'Follow-ups for closed tickets are not possible. No new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table follow_up_possible
 -- ----------------------------------------------------------
 INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('new ticket', 'Follow ups after closed(+|-) not possible. A new ticket will be created..', 1, 1, current_timestamp, 1, current_timestamp);
+    ('new ticket', 'Follow-ups for closed tickets are not possible. A new ticket will be created..', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
@@ -297,25 +297,25 @@ INSERT INTO queue_standard_template (queue_id, standard_template_id, create_by, 
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto reply', 'Auto reply which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reply', 'Automatic reply which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto reject', 'Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reject', 'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto follow up', 'Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto follow up', 'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto reply/new ticket', 'Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reply/new ticket', 'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
@@ -346,9 +346,9 @@ Your OTRS Team
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 1, 'default reject (after follow up and rejected of a closed ticket)', 'Your previous ticket is closed.
+    (2, 1, 'default reject (after follow-up and rejected of a closed ticket)', 'Your previous ticket is closed.
 
--- Your follow up has been rejected. --
+-- Your follow-up has been rejected. --
 
 Please create a new ticket.
 
@@ -359,7 +359,7 @@ Your OTRS Team
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up email
+    (3, 1, 'default follow-up (after a ticket follow-up has been added)', 'Thanks for your follow-up email
 
 You wrote:
 <OTRS_CUSTOMER_EMAIL[6]>
@@ -375,7 +375,7 @@ Your OTRS Team
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.
+    (4, 1, 'default reject/new ticket created (after closed follow-up with new ticket creation)', 'Your previous ticket is closed.
 
 -- A new ticket has been created for you. --
 

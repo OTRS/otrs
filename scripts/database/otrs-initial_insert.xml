@@ -357,7 +357,7 @@ Your Ticket-Team
     <Insert Table="follow_up_possible">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote" Translatable="1">possible</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Follow ups after closed(+|-) possible. Ticket will be reopen.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Follow-ups for closed tickets are possible. Ticket will be reopened.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -367,7 +367,7 @@ Your Ticket-Team
     <Insert Table="follow_up_possible">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote" Translatable="1">reject</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Follow ups after closed(+|-) not possible. No new ticket will be created.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Follow-ups for closed tickets are not possible. No new ticket will be created.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -377,7 +377,7 @@ Your Ticket-Team
     <Insert Table="follow_up_possible">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote" Translatable="1">new ticket</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Follow ups after closed(+|-) not possible. A new ticket will be created..</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Follow-ups for closed tickets are not possible. A new ticket will be created..</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -515,7 +515,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote" Translatable="1">auto reply</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Auto reply which will be sent out after a new ticket has been created.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Automatic reply which will be sent out after a new ticket has been created.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -525,7 +525,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote" Translatable="1">auto reject</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -535,7 +535,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote" Translatable="1">auto follow up</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -545,7 +545,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote" Translatable="1">auto reply/new ticket</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -595,10 +595,10 @@ Your OTRS Team
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="type_id">2</Data>
         <Data Key="system_address_id">1</Data>
-        <Data Key="name" Type="Quote" Translatable="1">default reject (after follow up and rejected of a closed ticket)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">default reject (after follow-up and rejected of a closed ticket)</Data>
         <Data Key="text0" Type="Quote">Your previous ticket is closed.
 
--- Your follow up has been rejected. --
+-- Your follow-up has been rejected. --
 
 Please create a new ticket.
 
@@ -617,8 +617,8 @@ Your OTRS Team
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="type_id">3</Data>
         <Data Key="system_address_id">1</Data>
-        <Data Key="name" Type="Quote" Translatable="1">default follow up (after a ticket follow up has been added)</Data>
-        <Data Key="text0" Type="Quote">Thanks for your follow up email
+        <Data Key="name" Type="Quote" Translatable="1">default follow-up (after a ticket follow-up has been added)</Data>
+        <Data Key="text0" Type="Quote">Thanks for your follow-up email
 
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
@@ -642,7 +642,7 @@ Your OTRS Team
         <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="type_id">4</Data>
         <Data Key="system_address_id">1</Data>
-        <Data Key="name" Type="Quote" Translatable="1">default reject/new ticket created (after closed follow up with new ticket creation)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">default reject/new ticket created (after closed follow-up with new ticket creation)</Data>
         <Data Key="text0" Type="Quote">Your previous ticket is closed.
 
 -- A new ticket has been created for you. --
