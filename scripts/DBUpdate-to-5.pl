@@ -857,7 +857,7 @@ sub _MigrateNotifications {
         ],
         'Agent::FollowUp' => [
             {
-                Name                   => 'Ticket follow up notification (unlocked)',
+                Name                   => 'Ticket follow-up notification (unlocked)',
                 VisibleForAgent        => [1],
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a customer sends a follow up to an unlocked ticket which is in your "My Queues" or "My Services".'
@@ -868,7 +868,7 @@ sub _MigrateNotifications {
                 Transports => ['Email'],
             },
             {
-                Name                   => 'Ticket follow up notification (locked)',
+                Name                   => 'Ticket follow-up notification (locked)',
                 VisibleForAgent        => [1],
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a customer sends a follow up to a locked ticket of which you are the ticket owner or responsible.'
@@ -931,7 +931,7 @@ sub _MigrateNotifications {
                 Events     => ['NotificationPendingReminder'],
                 Recipients => [ 'AgentOwner', 'AgentResponsible' ],
                 OncePerDay => [1],
-                LockID     => [2],                                           # locked
+                LockID     => [2],                                               # locked
                 Transports => ['Email'],
             },
             {
@@ -1047,7 +1047,7 @@ sub _MigrateNotifications {
             elsif (
                 $NotificationType eq 'Agent::FollowUp'
                 && $ConfigObject->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner')
-                && $NotificationName eq 'Ticket follow up notification (unlocked)'
+                && $NotificationName eq 'Ticket follow-up notification (unlocked)'
                 )
             {
                 $NotificationData->{Recipients} = ['AgentOwner'];
@@ -1778,7 +1778,6 @@ sub _UninstallMergedFeatureAddOns {
     return 1;
 }
 
-
 =item _NewAgentNotificationsLanguageGet()
 
 Retrieve the languages for each notification.
@@ -1791,364 +1790,23 @@ sub _NewAgentNotificationsLanguageGet {
 
     # notification languages container
     my %NotificationLanguages = (
-          'Ticket owner update notification' => {
-                                                  'nl' => {
-                                                          'Subject' => 'Ticket toegewezen (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                          'ContentType' => 'text/plain',
-                                                          'Body' => 'Beste <OTRS_UserFirstname>,
+        'Ticket create notification' => {
+            'de' => {
+                'Subject'     => 'Ticket erstellt: <OTRS_TICKET_Title>',
+                'ContentType' => 'text/plain',
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-Ticket [<OTRS_TICKET_TicketNumber>] is aan jou toegewezen door <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>.
-
-Opmerking:
-
-<OTRS_COMMENT>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                        },
-                                                  'en' => {
-                                                          'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                          'Subject' => 'Ticket Owner Update to You: <OTRS_TICKET_Title>',
-                                                          'ContentType' => 'text/plain'
-                                                        },
-                                                  'de' => {
-                                                          'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert auf <OTRS_TICKET_OWNER_UserFullname> von <OTRS_CURRENT_UserFullname>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                          'Subject' => 'Aenderung des Ticket-Besitzers auf Sie! <OTRS_TICKET_Title>',
-                                                          'ContentType' => 'text/plain'
-                                                        }
-                                                },
-          'Ticket follow up notification (locked)' => {
-                                                        'nl' => {
-                                                                'Subject' => 'Reactie ontvangen (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                'ContentType' => 'text/plain',
-                                                                'Body' => 'Beste <OTRS_UserFirstname>,
-
-Er is een reactie ontvangen op onderstaand ticket.
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                              },
-                                                        'en' => {
-                                                                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now locked.
-
-<OTRS_CUSTOMER_REALNAME> wrote:
-<OTRS_CUSTOMER_Body[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                                'ContentType' => 'text/plain',
-                                                                'Subject' => 'Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>'
-                                                              },
-                                                        'de' => {
-                                                                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_Body[30]>
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                                'ContentType' => 'text/plain',
-                                                                'Subject' => 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)'
-                                                              }
-                                                      },
-          'Ticket new note notification' => {
-                                              'nl' => {
-                                                      'ContentType' => 'text/plain',
-                                                      'Subject' => 'Nieuwe notitie (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                      'Body' => 'Beste <OTRS_UserFirstname>,
-
-<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft een nieuwe notitie toegevoegd aan [<OTRS_TICKET_TicketNumber>].
-
-Notitie:
-<OTRS_CUSTOMER_BODY>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                    },
-                                              'en' => {
-                                                      'ContentType' => 'text/plain',
-                                                      'Subject' => 'Ticket Note: <OTRS_AGENT_SUBJECT[24]>',
-                                                      'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-<OTRS_CURRENT_UserFullname> wrote:
-<OTRS_AGENT_BODY[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
 -- <OTRS_CONFIG_NotificationSenderName>'
-                                                    },
-                                              'de' => {
-                                                      'ContentType' => 'text/plain',
-                                                      'Subject' => 'Neue Notiz! (<OTRS_AGENT_SUBJECT[24]>)',
-                                                      'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-<OTRS_CURRENT_UserFullname> schrieb:
-<OTRS_AGENT_BODY[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                    }
-                                            },
-          'Ticket service update notification' => {
-                                                    'de' => {
-                                                            'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-der Service von Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geaendert zu <OTRS_TICKET_Service>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                            'Subject' => 'Ticket Service aktualisiert zu <OTRS_TICKET_Service>: <OTRS_TICKET_Title>',
-                                                            'ContentType' => 'text/plain'
-                                                          },
-                                                    'en' => {
-                                                            'Subject' => 'Ticket Service Update to <OTRS_TICKET_Service>: <OTRS_TICKET_Title>',
-                                                            'ContentType' => 'text/plain',
-                                                            'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-the service of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_Service>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                          }
-                                                  },
-          'Ticket escalation notification' => {
-                                                'de' => {
-                                                        'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist eskaliert!
-
-Eskaliert am: <OTRS_TICKET_EscalationDestinationDate>
-Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                        'Subject' => 'Ticket Eskalation! <OTRS_TICKET_Title>',
-                                                        'ContentType' => 'text/plain'
-                                                      },
-                                                'en' => {
-                                                        'Subject' => 'Ticket Escalation! <OTRS_TICKET_Title>',
-                                                        'ContentType' => 'text/plain',
-                                                        'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is escalated!
-
-Escalated at: <OTRS_TICKET_EscalationDestinationDate>
-Escalated since: <OTRS_TICKET_EscalationDestinationIn>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                      },
-                                                'nl' => {
-                                                        'Body' => "Beste <OTRS_UserFirstname>,
-
-Het ticket [<OTRS_TICKET_TicketNumber>] is geëscaleerd!
-
-Geëscaleerd op:    <OTRS_TICKET_EscalationDestinationDate>
-Geëscaleerd sinds: <OTRS_TICKET_EscalationDestinationIn>
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        ",
-                                                        'Subject' => 'Escalatie (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                        'ContentType' => 'text/plain'
-                                                      }
-                                              },
-          'Ticket responsible update notification' => {
-                                                        'nl' => {
-                                                                'ContentType' => 'text/plain',
-                                                                'Subject' => 'Verantwoordelijkheid bijgewerkt (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                'Body' => 'Beste <OTRS_RESPONSIBLE_UserFirstname>,
-
-<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft je geregistreerd als verantwoordelijke voor ticket [<OTRS_TICKET_TicketNumber>].
-
-Opmerking:
-
-<OTRS_COMMENT>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                              },
-                                                        'en' => {
-                                                                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-the responsible agent of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                                'ContentType' => 'text/plain',
-                                                                'Subject' => 'Ticket Responsible Update to You: <OTRS_TICKET_Title>'
-                                                              },
-                                                        'de' => {
-                                                                'Subject' => 'Aenderung des Ticket-Verantwortlichen auf Sie! <OTRS_TICKET_Title>',
-                                                                'ContentType' => 'text/plain',
-                                                                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname> von <OTRS_CURRENT_UserFullname>.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>"
-                                                              }
-                                                      },
-          'Ticket pending reminder notification (locked)' => {
-                                                               'en' => {
-                                                                       'Subject' => 'Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>',
-                                                                       'ContentType' => 'text/plain',
-                                                                       'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now locked.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                                     },
-                                                               'nl' => {
-                                                                       'ContentType' => 'text/plain',
-                                                                       'Subject' => 'Herinnering (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                       'Body' => 'Beste <OTRS_UserFirstname>,
-
-Het herinnermoment voor ticket [<OTRS_TICKET_TicketNumber>] is bereikt.
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                                     },
-                                                               'de' => {
-                                                                       'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>",
-                                                                       'ContentType' => 'text/plain',
-                                                                       'Subject' => 'Erinnerungszeit erreicht! <OTRS_TICKET_Title>'
-                                                                     }
-                                                             },
-          'Ticket lock timeout notification' => {
-                                                  'en' => {
-                                                          'ContentType' => 'text/plain',
-                                                          'Subject' => 'Ticket Lock Timeout: <OTRS_TICKET_Title>',
-                                                          'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has reached its lock timeout period and is now unlocked.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                        },
-                                                  'nl' => {
-                                                          'Body' => 'Beste <OTRS_UserFirstname>,
-
-De bewerkingstijd van ticket [<OTRS_TICKET_TicketNumber>] is overschreden, het ticket is nu ontgrendeld.
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        ',
-                                                          'ContentType' => 'text/plain',
-                                                          'Subject' => 'Ticket ontgrendeld (<OTRS_CUSTOMER_SUBJECT[24]>)'
-                                                        },
-                                                  'de' => {
-                                                          'ContentType' => 'text/plain',
-                                                          'Subject' => 'Ticketsperre aufgehoben! <OTRS_TICKET_Title>',
-                                                          'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt entsperrt.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                        }
-                                                },
-          'Ticket follow up notification (unlocked)' => {
-                                                          'de' => {
-                                                                  'ContentType' => 'text/plain',
-                                                                  'Subject' => 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                  'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
-
-<OTRS_CUSTOMER_REALNAME> schrieb:
-<OTRS_CUSTOMER_Body[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                                },
-                                                          'nl' => {
-                                                                  'Subject' => 'Reactie ontvangen (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                  'ContentType' => 'text/plain',
-                                                                  'Body' => 'Beste <OTRS_UserFirstname>,
-
-Er is een reactie ontvangen op onderstaand ticket.
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                                },
-                                                          'en' => {
-                                                                  'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow up and is now unlocked.
-
-<OTRS_CUSTOMER_REALNAME> wrote:
-<OTRS_CUSTOMER_Body[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                                  'Subject' => 'Ticket Follow Up: <OTRS_CUSTOMER_SUBJECT[24]>',
-                                                                  'ContentType' => 'text/plain'
-                                                                }
-                                                        },
-          'Ticket create notification' => {
-                                            'en' => {
-                                                    'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+            },
+            'en' => {
+                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
 ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been created in queue <OTRS_TICKET_Queue>.
 
@@ -2158,98 +1816,14 @@ ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been created in 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
 -- <OTRS_CONFIG_NotificationSenderName>',
-                                                    'Subject' => 'Ticket Created: <OTRS_TICKET_Title>',
-                                                    'ContentType' => 'text/plain'
-                                                  },
-                                            'nl' => {
-                                                    'Subject' => 'Nieuw ticket (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                    'ContentType' => 'text/plain',
-                                                    'Body' => 'Beste <OTRS_UserFirstname>,
-
-Er is een nieuw ticket aangemaakt in <OTRS_TICKET_Queue>!
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>'
-                                                  },
-                                            'de' => {
-                                                    'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
-
-<OTRS_CUSTOMER_REALNAME> schrieb:
-<OTRS_CUSTOMER_Body[30]>
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>',
-                                                    'Subject' => 'Ticket erstellt!: <OTRS_TICKET_Title>',
-                                                    'ContentType' => 'text/plain'
-                                                  }
-                                          },
-          'Ticket pending reminder notification (unlocked)' => {
-                                                                 'de' => {
-                                                                         'Subject' => 'Erinnerungszeit erreicht! <OTRS_TICKET_Title>',
-                                                                         'ContentType' => 'text/plain',
-                                                                         'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
-
-die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>"
-                                                                       },
-                                                                 'nl' => {
-                                                                         'ContentType' => 'text/plain',
-                                                                         'Subject' => 'Herinnering (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                                         'Body' => 'Beste <OTRS_UserFirstname>,
-
-Het herinnermoment voor ticket [<OTRS_TICKET_TicketNumber>] is bereikt.
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        '
-                                                                       },
-                                                                 'en' => {
-                                                                         'Subject' => 'Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>',
-                                                                         'ContentType' => 'text/plain',
-                                                                         'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
-
-the pending reminder time of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached and it is now unlocked.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-
--- <OTRS_CONFIG_NotificationSenderName>'
-                                                                       }
-                                                               },
-          'Ticket escalation warning notification' => {
-                                                        'nl' => {
-                                                                'Body' => 'Beste <OTRS_UserFirstname>,
-
-Het ticket [<OTRS_TICKET_TicketNumber>] gaat escaleren!
-
-Escalatie op:   <OTRS_TICKET_EscalationDestinationDate>
-Escalatie over: <OTRS_TICKET_EscalationDestinationIn>
-
-<OTRS_CUSTOMER_FROM> schreef:
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        ',
-                                                                'ContentType' => 'text/plain',
-                                                                'Subject' => 'Ticket gaat escaleren (<OTRS_CUSTOMER_SUBJECT[24]>)'
-                                                              },
-                                                        'en' => {
-                                                                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Ticket Created: <OTRS_TICKET_Title>'
+                }
+        },
+        'Ticket escalation warning notification' => {
+            'en' => {
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
 ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] will escalate!
 
@@ -2260,14 +1834,12 @@ Escalation in: <OTRS_TICKET_EscalationDestinationIn>
 
 
 -- <OTRS_CONFIG_NotificationSenderName>',
-                                                                'Subject' => 'Ticket Escalation Warning! <OTRS_TICKET_Title>',
-                                                                'ContentType' => 'text/plain'
-                                                              },
-                                                        'de' => {
-                                                                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+                'Subject' => 'Ticket Escalation Warning! <OTRS_TICKET_Title>'
+            },
+            'de' => {
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wird bald eskalieren!
-
 
 Eskalation um: <OTRS_TICKET_EscalationDestinationDate>
 Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
@@ -2276,48 +1848,296 @@ Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
 
 
 -- <OTRS_CONFIG_NotificationSenderName>',
-                                                                'Subject' => 'Ticket Eskalations-Warnung! (<OTRS_TICKET_Title>)',
-                                                                'ContentType' => 'text/plain'
-                                                              }
-                                                      },
-          'Ticket queue update notification' => {
-                                                  'en' => {
-                                                          'Subject' => 'Ticket Queue Update to <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>',
-                                                          'ContentType' => 'text/plain',
-                                                          'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Ticket-Eskalations-Warnung! <OTRS_TICKET_Title>'
+                }
+        },
+        'Ticket follow-up notification (locked)' => {
+            'de' => {
+                'ContentType' => 'text/plain',
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to queue <OTRS_TICKET_Queue>.
+zum gesperrten Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+
+<OTRS_CUSTOMER_REALNAME> schrieb:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'Subject' => 'Nachfrage zum gesperrten Ticket: <OTRS_CUSTOMER_SUBJECT[24]>'
+            },
+            'en' => {
+                'Subject'     => 'Locked Ticket Follow-Up: <OTRS_CUSTOMER_SUBJECT[24]>',
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the locked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow-up.
+
+<OTRS_CUSTOMER_REALNAME> wrote:
+<OTRS_CUSTOMER_Body[30]>
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
 -- <OTRS_CONFIG_NotificationSenderName>'
-                                                        },
-                                                  'nl' => {
-                                                          'Body' => 'Beste <OTRS_UserFirstname>,
+                }
+        },
+        'Ticket pending reminder notification (unlocked)' => {
+            'de' => {
+                'ContentType' => 'text/plain',
+                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft [<OTRS_TICKET_TicketNumber>] verplaatst naar <OTRS_CUSTOMER_QUEUE>.
-
-<OTRS_CUSTOMER_EMAIL[30]>
-(eerste 30 regels zijn weergegeven)
+die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
-        ',
-                                                          'Subject' => 'Ticket verplaatst naar <OTRS_CUSTOMER_QUEUE> (<OTRS_CUSTOMER_SUBJECT[24]>)',
-                                                          'ContentType' => 'text/plain'
-                                                        },
-                                                  'de' => {
-                                                          'Subject' => 'Ticket Queue Aenderung <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>',
-                                                          'ContentType' => 'text/plain',
-                                                          'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+-- <OTRS_CONFIG_NotificationSenderName>",
+                'Subject' => 'Erinnerungszeit des freigegebenen Tickets erreicht: <OTRS_TICKET_Title>'
+            },
+            'en' => {
+                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the pending reminder time of the unlocked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Unlocked Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>'
+                }
+        },
+        'Ticket follow-up notification (unlocked)' => {
+            'en' => {
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the unlocked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] received a follow-up.
+
+<OTRS_CUSTOMER_REALNAME> wrote:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'Subject' => 'Unlocked Ticket Follow-Up: <OTRS_CUSTOMER_SUBJECT[24]>'
+            },
+            'de' => {
+                'Subject'     => 'Nachfrage zum freigegebenen Ticket: <OTRS_CUSTOMER_SUBJECT[24]>',
+                'ContentType' => 'text/plain',
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+zum freigegebenen Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+
+<OTRS_CUSTOMER_REALNAME> schrieb:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>'
+                }
+        },
+        'Ticket service update notification' => {
+            'en' => {
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the service of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'Subject' => 'Ticket Service Update to <OTRS_TICKET_Service>: <OTRS_TICKET_Title>'
+            },
+            'de' => {
+                'Subject' => 'Ticket-Service aktualisiert zu <OTRS_TICKET_Service>: <OTRS_TICKET_Title>',
+                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+der Service des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde geändert zu <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>",
+                'ContentType' => 'text/plain'
+                }
+        },
+        'Ticket responsible update notification' => {
+            'en' => {
+                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the responsible agent of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Ticket Responsible Update to <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>'
+            },
+            'de' => {
+                'Subject' =>
+                    "Änderung des Ticket-Verantwortlichen auf <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>",
+                'ContentType' => 'text/plain',
+                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+der Verantwortliche für das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>"
+                }
+        },
+        'Ticket lock timeout notification' => {
+            'de' => {
+                'Subject' => 'Ticketsperre aufgehoben: <OTRS_TICKET_Title>',
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+die Sperrzeit des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt entsperrt.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain'
+            },
+            'en' => {
+                'Subject'     => 'Ticket Lock Timeout: <OTRS_TICKET_Title>',
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has reached its lock timeout period and is now unlocked.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>'
+                }
+        },
+        'Ticket pending reminder notification (locked)' => {
+            'en' => {
+                'Subject'     => 'Locked Ticket Pending Reminder Time Reached: <OTRS_TICKET_Title>',
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the pending reminder time of the locked ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been reached.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>'
+            },
+            'de' => {
+                'ContentType' => 'text/plain',
+                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde erreicht.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>",
+                'Subject' => 'Erinnerungszeit des gesperrten Tickets erreicht: <OTRS_TICKET_Title>'
+                }
+        },
+        'Ticket queue update notification' => {
+            'de' => {
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde in die Queue <OTRS_TICKET_Queue> verschoben.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => "Ticket-Queue geändert zu <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>"
+            },
+            'en' => {
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to queue <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'Subject' => 'Ticket Queue Update to <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>'
+                }
+        },
+        'Ticket owner update notification' => {
+            'de' => {
+                'ContentType' => 'text/plain',
+                'Body' => "Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+der Besitzer des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_OWNER_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>",
+                'Subject' => "Änderung des Ticket-Besitzers auf <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>"
+            },
+            'en' => {
+                'Subject' => 'Ticket Owner Update to <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>',
+                'Body'    => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+the owner of ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain'
+                }
+        },
+        'Ticket escalation notification' => {
+            'en' => {
+                'Subject'     => 'Ticket Escalation! <OTRS_TICKET_Title>',
+                'ContentType' => 'text/plain',
+                'Body'        => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] is escalated!
+
+Escalated at: <OTRS_TICKET_EscalationDestinationDate>
+Escalated since: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
 -- <OTRS_CONFIG_NotificationSenderName>'
-                                                        }
-                                                }
-);
+            },
+            'de' => {
+                'Subject'     => 'Ticket-Eskalation! <OTRS_TICKET_Title>',
+                'ContentType' => 'text/plain',
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+das Ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ist eskaliert!
+
+Eskaliert am: <OTRS_TICKET_EscalationDestinationDate>
+Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>'
+                }
+        },
+        'Ticket new note notification' => {
+            'de' => {
+                'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+<OTRS_CURRENT_UserFullname> schrieb:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Ticket-Notiz: <OTRS_AGENT_SUBJECT[24]>'
+            },
+            'en' => {
+                'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> wrote:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Ticket Note: <OTRS_AGENT_SUBJECT[24]>'
+                }
+            }
+    );
 
     return %NotificationLanguages;
 
