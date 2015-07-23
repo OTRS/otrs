@@ -12,8 +12,8 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     bash-completion cronie httpd perl perl(Archive::Zip) perl(Crypt::SSLeay) perl(Date::Format) perl(DBI) perl(IO::Socket::SSL) perl(LWP::UserAgent) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(URI) perl(XML::LibXML) perl(XML::LibXSLT) perl(XML::Parser) perl-core procmail
-Autoreqprov:  no
+Requires:     bash-completion cronie apache2 apache2-mod_perl perl perl-Archive-Zip perl-DBI perl-Crypt-Eksblowfish perl-Crypt-SSLeay perl-DBI perl-Encode-HanExtra perl-IO-Socket-SSL perl-JSON-XS perl-libwww-perl perl-Mail-IMAPClient perl-Net-DNS perl-ldap perl-Template-Toolkit perl-Text-CSV perl-Text-CSV_XS perl-URI perl-XML-LibXML perl-XML-LibXSLT perl-XML-Parser perl-YAML-LibYAMl procmail
+Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
 BuildArch:    noarch
@@ -25,6 +25,8 @@ customer telephone calls and e-mails. It is distributed under the GNU
 AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
 FreeBSD, OpenBSD and Mac OS. Do you receive many e-mails and want to
 answer them with a team of agents? You're going to love OTRS!
+
+SuSE series: ap
 
 %prep
 %setup
@@ -49,15 +51,15 @@ mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # configure apache
-install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
-install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
+install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
 
 # set permission
 export OTRSUSER=otrs
 useradd $OTRSUSER || :
-useradd apache || :
-groupadd apache || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
+useradd wwwrun || :
+groupadd www || :
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=www
 
 %pre
 # useradd
@@ -66,11 +68,11 @@ echo -n "Check OTRS user ... "
 if id $OTRSUSER >/dev/null 2>&1; then
     echo "$OTRSUSER exists."
     # update groups
-    usermod -g apache $OTRSUSER
+    usermod -g www $OTRSUSER
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
 else
-    useradd $OTRSUSER -d /opt/otrs/ -s /bin/bash -g apache -c 'OTRS System User' && echo "$OTRSUSER added."
+    useradd $OTRSUSER -d /opt/otrs/ -s /bin/bash -g www -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
 
 
@@ -86,12 +88,12 @@ HOST=`hostname -f`
 echo ""
 echo "Next steps: "
 echo ""
-echo "[httpd services]"
-echo " Restart httpd 'systemctl restart httpd.service'"
+echo "[start database and Apache]"
+echo " Restart httpd 'systemctl restart apache2.service'"
 echo ""
 echo "[install the OTRS database]"
 echo " Make sure your database server is running."
-echo " Use a web browser and open this link:"
+echo " Use a webbrowser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "((enjoy))"
@@ -103,7 +105,7 @@ echo ""
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%config /etc/httpd/conf.d/zzz_otrs.conf
+%config /etc/apache2/conf.d/otrs.conf
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
 %config(noreplace) /opt/otrs/.procmailrc

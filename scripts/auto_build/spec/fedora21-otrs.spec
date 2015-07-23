@@ -65,6 +65,8 @@ export OTRSUSER=otrs
 echo -n "Check OTRS user ... "
 if id $OTRSUSER >/dev/null 2>&1; then
     echo "$OTRSUSER exists."
+    # update groups
+    usermod -g apache $OTRSUSER
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
 else

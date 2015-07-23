@@ -1,0 +1,30 @@
+[% INCLUDE 'includes/suse-systemd-base.tt'
+    Requires = [
+        'bash-completion',
+        'cronie',
+        'apache2',
+        'apache2-mod_perl',
+        'perl',
+        'perl-Archive-Zip',
+        'perl-DBI',
+        'perl-Crypt-Eksblowfish',
+        'perl-Crypt-SSLeay',
+        'perl-DBI',
+        'perl-Encode-HanExtra',
+        'perl-IO-Socket-SSL',
+        'perl-JSON-XS'
+        'perl-libwww-perl',
+        'perl-Mail-IMAPClient'
+        'perl-Net-DNS',
+        'perl-ldap',
+        'perl-Template-Toolkit',
+        'perl-Text-CSV',
+        'perl-Text-CSV_XS',
+        'perl-URI',
+        'perl-XML-LibXML',
+        'perl-XML-LibXSLT',
+        'perl-XML-Parser',
+        'perl-YAML-LibYAMl',
+        'procmail',
+    ]
+-%]

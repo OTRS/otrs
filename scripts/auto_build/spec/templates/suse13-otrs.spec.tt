@@ -1,0 +1,1 @@
+[% INCLUDE 'suse12-otrs.spec.tt' -%]

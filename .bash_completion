@@ -17,6 +17,11 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+# This file will be automatically found and used for the 'otrs' user if you have the
+#   'bash-completion' package installed. Otherwise you can source it in your ~/.bashrc like this:
+#
+# source /opt/otrs/.bash_completion
+
 # Get path to current file, follow symlinks
 THIS_FILE=$BASH_SOURCE
 if [ -L $THIS_FILE ]; then

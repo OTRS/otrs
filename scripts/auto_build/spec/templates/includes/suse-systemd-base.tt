@@ -6,23 +6,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     [%
-    Requires = [
-        'apache2',
-        'apache2-mod_perl',
-        'perl',
-        'perl-Archive-Zip',
-        'perl-DBI',
-        'perl-Digest-MD5',
-        'perl-IO-Socket-SSL',
-        'perl-ldap',
-        'perl-libwww-perl',
-        'perl-Net-DNS',
-        'perl-Template-Toolkit',
-        'perl-TimeDate',
-        'procmail',
-    ]
-%][% Requires.join(' ') %]
+Requires:     [% Requires.join(' ') %]
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -87,20 +71,17 @@ HOST=`hostname -f`
 echo ""
 echo "Next steps: "
 echo ""
-echo "[SuSEconfig]"
-echo " Execute 'SuSEconfig' to configure the webserver."
-echo ""
 echo "[start database and Apache]"
-echo " Make sure your database is running and execute 'rcapache2 restart'."
+echo " Restart httpd 'systemctl restart apache2.service'"
 echo ""
 echo "[install the OTRS database]"
+echo " Make sure your database server is running."
 echo " Use a webbrowser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "((enjoy))"
 echo ""
 echo " Your OTRS Team"
-echo " http://otrs.org/"
 echo ""
 
 %clean
