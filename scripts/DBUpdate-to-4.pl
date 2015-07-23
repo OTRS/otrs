@@ -495,6 +495,26 @@ sub _MigrateProcessManagementEntityIDs {
         }
     }
 
+    # print EntityIDs migration table
+    my $Output = "\n Process EntityIDs Migration Reference\n";
+    for my $Part (qw(Process Activity ActivityDialog Transition TransitionAction)) {
+        my $DisplayPart = uc $Part;
+        if ( $Part eq 'ActivityDialog' ) {
+            $DisplayPart = 'ACTIVITY DIALOG';
+        }
+        elsif ( $Part eq 'TransitionAction' ) {
+            $DisplayPart = 'TRANSITION ACTION';
+        }
+        $Output .= "  $DisplayPart:\n";
+        for my $OldEntitiy ( sort keys %{ $EntityLookup{$Part} } ) {
+            $Output .= '   ' . sprintf '%-8s', $OldEntitiy;
+            $Output .= "$EntityLookup{$Part}->{$OldEntitiy}\n";
+        }
+        $Output .= "\n";
+    }
+    $Output .= "\n";
+    print $Output;
+
     my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
