@@ -1006,22 +1006,22 @@ sub MaskAgentZoom {
                 # check the configured priority for this item. The lowest ClusterPriority
                 # within the same cluster wins.
                 my $Priority = $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority};
-                if ( !$Priority || $Priority !~ /^\d{3}$/ || $Priority > $Menus{$Menu}->{ClusterPriority}) {
+                if ( !$Priority || $Priority !~ /^\d{3}$/ || $Priority > $Menus{$Menu}->{ClusterPriority} ) {
                     $Priority = $Menus{$Menu}->{ClusterPriority};
                 }
                 $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority} = $Priority;
-                $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Items}->{ $Menu } = $Item;
+                $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Items}->{$Menu} = $Item;
             }
         }
 
         for my $Cluster ( sort keys %MenuClusters ) {
             $ZoomMenuItems{ $MenuClusters{$Cluster}->{Priority} . $Cluster } = {
-                Name => $Cluster,
-                Type => 'Cluster',
-                Link => '#',
+                Name  => $Cluster,
+                Type  => 'Cluster',
+                Link  => '#',
                 Class => 'ClusterLink',
                 Items => $MenuClusters{$Cluster}->{Items},
-            }
+                }
         }
 
         # display all items
@@ -1032,7 +1032,7 @@ sub MaskAgentZoom {
                 Data => $ZoomMenuItems{$Item},
             );
 
-            if ($ZoomMenuItems{$Item}->{Type} eq 'Cluster') {
+            if ( $ZoomMenuItems{$Item}->{Type} eq 'Cluster' ) {
 
                 $LayoutObject->Block(
                     Name => 'TicketMenuSubContainer'
@@ -2319,6 +2319,16 @@ sub _ArticleTree {
             {
                 $Item->{HistoryType} = 'ChatInternal';
                 $Item->{Class}       = 'TypeInternal';
+            }
+            elsif (
+                $Item->{HistoryType} eq 'Forward'
+                && $Item->{ArticleID}
+                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
+                )
+            {
+
+                $Item->{Class} = 'TypeNoteInternal';
             }
             elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
                 $Item->{Class} = 'TypeTicketAction';
