@@ -19,8 +19,13 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-OTRS_CONSOLE_PATH=$(cd $(dirname $BASH_SOURCE); pwd);
+# Get path to current file, follow symlinks
+THIS_FILE=$BASH_SOURCE
+if [ -L $THIS_FILE ]; then
+    THIS_FILE=`readlink $THIS_FILE`;
+fi
+
 # Remove : from wordbreak delimiter because OTRS uses it in the command names
 COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
 # Configure bash completion
-complete -C "$OTRS_CONSOLE_PATH/otrs.Console.pl" otrs.Console.pl
+complete -C "$(dirname $THIS_FILE)/otrs.Console.pl" otrs.Console.pl
