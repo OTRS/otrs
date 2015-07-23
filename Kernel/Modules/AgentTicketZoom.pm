@@ -2263,6 +2263,15 @@ sub _ArticleTree {
                 $Item->{HistoryType} = 'ChatInternal';
                 $Item->{Class}       = 'TypeInternal';
             }
+            elsif (
+                $Item->{HistoryType} eq 'Forward'
+                && $Item->{ArticleID}
+                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
+                )
+            {
+                $Item->{Class} = 'TypeNoteInternal';
+            }
             elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
                 $Item->{Class} = 'TypeTicketAction';
             }
