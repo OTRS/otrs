@@ -1,4 +1,3 @@
-#!/bin/sh
 # --
 # bash-completion.sh - bash completion for otrs.Console.pl
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/

@@ -12,7 +12,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     cronie httpd mod_perl perl perl(Archive::Zip) perl(Crypt::Eksblowfish::Bcrypt) perl(Crypt::SSLeay) perl(Date::Format) perl(DBI) perl(Encode::HanExtra) perl(IO::Socket::SSL) perl(JSON::XS) perl(LWP::UserAgent) perl(Mail::IMAPClient) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(Text::CSV) perl(Text::CSV_XS) perl(URI) perl(XML::LibXML) perl(XML::LibXSLT) perl(XML::Parser) perl(YAML::XS) perl-core procmail
+Requires:     bash-completion cronie httpd mod_perl perl perl(Archive::Zip) perl(Crypt::Eksblowfish::Bcrypt) perl(Crypt::SSLeay) perl(Date::Format) perl(DBI) perl(Encode::HanExtra) perl(IO::Socket::SSL) perl(JSON::XS) perl(LWP::UserAgent) perl(Mail::IMAPClient) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(Text::CSV) perl(Text::CSV_XS) perl(URI) perl(XML::LibXML) perl(XML::LibXSLT) perl(XML::Parser) perl(YAML::XS) perl-core procmail
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -51,6 +51,9 @@ cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # configure apache
 install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
+# bash completion
+install -d -m 755 $RPM_BUILD_ROOT/etc/bash_completion.d
+ln -s /opt/otrs/bin/otrs.Console.bashrc /etc/bash_completion.d
 
 # set permission
 export OTRSUSER=otrs
@@ -102,6 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config /etc/httpd/conf.d/zzz_otrs.conf
+/etc/bash_completion.d/otrs.Console.bashrc
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
 %config(noreplace) /opt/otrs/.procmailrc
