@@ -118,6 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /opt/otrs/
 /opt/otrs/RELEASE
 /opt/otrs/ARCHIVE
+/opt/otrs/.bash_completion
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist

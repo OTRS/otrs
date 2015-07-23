@@ -51,9 +51,6 @@ cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # configure apache
 install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
-# bash completion
-install -d -m 755 $RPM_BUILD_ROOT/etc/bash_completion.d
-ln -s /opt/otrs/bin/otrs.Console.bashrc /etc/bash_completion.d
 
 # set permission
 export OTRSUSER=otrs
@@ -105,7 +102,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config /etc/httpd/conf.d/zzz_otrs.conf
-/etc/bash_completion.d/otrs.Console.bashrc
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
 %config(noreplace) /opt/otrs/.procmailrc
@@ -115,6 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /opt/otrs/
 /opt/otrs/RELEASE
 /opt/otrs/ARCHIVE
+/opt/otrs/.bash_completion
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist

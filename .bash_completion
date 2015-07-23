@@ -1,5 +1,4 @@
 # --
-# bash-completion.sh - bash completion for otrs.Console.pl
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -26,5 +25,6 @@ fi
 
 # Remove : from wordbreak delimiter because OTRS uses it in the command names
 COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
+
 # Configure bash completion
-complete -C "$(dirname $THIS_FILE)/otrs.Console.pl" otrs.Console.pl
+complete -C "$(dirname $THIS_FILE)/bin/otrs.Console.pl" otrs.Console.pl
