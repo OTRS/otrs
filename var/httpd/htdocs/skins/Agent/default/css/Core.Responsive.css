@@ -970,6 +970,10 @@
         width: auto;
     }
 
+    .LayoutPopup > .Header h1 {
+        white-space: normal;
+    }
+
     .LayoutPopup fieldset.TableLike.FixedLabel > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Value,
