@@ -96,6 +96,7 @@ mkdir -p $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
 cp -a $PATH_TO_CVS_SRC/.*rc.dist $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 cp -a $PATH_TO_CVS_SRC/.mailfilter.dist $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
+cp -a $PATH_TO_CVS_SRC/.bash_completion $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
 # --
