@@ -1122,6 +1122,13 @@ iframe.PopupIframe {
     z-index: 9999;
 }
 
+/* OTRS Business Solution Dialog */
+
+.OTRSBusinessRequiredDialog {
+    padding: 70px 20px 10px 20px;
+    background: url(../img/logo-business.png) no-repeat top center;
+}
+
 }
 
 /*
