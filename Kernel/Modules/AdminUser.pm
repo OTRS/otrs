@@ -500,6 +500,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Modernize',
     );
 
     $LayoutObject->Block(
@@ -613,7 +614,7 @@ sub _Edit {
                                 %Preference,
                                 %{$ParamItem},
                             );
-                            $BuildSelectionParams{Class} = join(' ', $BuildSelectionParams{Class} // '', 'Modernize');
+                            $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
 
                             $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
                                 %BuildSelectionParams,
