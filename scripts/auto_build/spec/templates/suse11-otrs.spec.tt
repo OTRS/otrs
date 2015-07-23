@@ -15,7 +15,6 @@ Requires:     [%
         'perl',
         'perl-Archive-Zip',
         'perl-DBI',
-        'perl-Crypt-Eksblowfish',
         'perl-Crypt-SSLeay',
         'perl-DBI',
         'perl-Encode-HanExtra',
