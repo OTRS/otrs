@@ -609,8 +609,14 @@ sub _Edit {
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {
+                            my %BuildSelectionParams = (
+                                %Preference,
+                                %{$ParamItem},
+                            );
+                            $BuildSelectionParams{Class} = join(' ', $BuildSelectionParams{Class} // '', 'Modernize');
+
                             $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
-                                %Preference, %{$ParamItem},
+                                %BuildSelectionParams,
                             );
                         }
                         $LayoutObject->Block(
