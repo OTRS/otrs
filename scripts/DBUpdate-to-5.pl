@@ -860,7 +860,7 @@ sub _MigrateNotifications {
                 Name                   => 'Ticket follow-up notification (unlocked)',
                 VisibleForAgent        => [1],
                 VisibleForAgentTooltip => [
-                    'You will receive a notification if a customer sends a follow up to an unlocked ticket which is in your "My Queues" or "My Services".'
+                    'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".'
                 ],
                 Events     => ['NotificationFollowUp'],
                 Recipients => [ 'AgentOwner', 'AgentWatcher', 'AgentMyQueues', 'AgentMyServices' ],
@@ -871,11 +871,11 @@ sub _MigrateNotifications {
                 Name                   => 'Ticket follow-up notification (locked)',
                 VisibleForAgent        => [1],
                 VisibleForAgentTooltip => [
-                    'You will receive a notification if a customer sends a follow up to a locked ticket of which you are the ticket owner or responsible.'
+                    'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.'
                 ],
                 Events     => ['NotificationFollowUp'],
                 Recipients => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
-                LockID     => [2],                                                                    # locked
+                LockID     => [2, 3],                                                                    # locked
                 Transports => ['Email'],
             },
         ],
@@ -931,7 +931,7 @@ sub _MigrateNotifications {
                 Events     => ['NotificationPendingReminder'],
                 Recipients => [ 'AgentOwner', 'AgentResponsible' ],
                 OncePerDay => [1],
-                LockID     => [2],                                               # locked
+                LockID     => [2, 3],                                               # locked
                 Transports => ['Email'],
             },
             {
