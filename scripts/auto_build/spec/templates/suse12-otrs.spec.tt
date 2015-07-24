@@ -8,11 +8,13 @@
         'perl-Archive-Zip',
         'perl-DBI',
         'perl-Crypt-SSLeay',
+        # 'perl-Crypt-Eksblowfish', # package in 'unstable'
         'perl-DBI',
         'perl-Encode-HanExtra',
         'perl-IO-Socket-SSL',
         'perl-JSON-XS'
         'perl-libwww-perl',
+        # 'perl-Mail-IMAPClient', # package in 'unstable'
         'perl-Net-DNS',
         'perl-ldap',
         'perl-Template-Toolkit',
