@@ -19,6 +19,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
 );
 
 sub GetDisplayPath {
@@ -34,28 +35,13 @@ sub Run {
     # get the NodeID from the SysConfig settings, this is used on High Availability systems.
     my $NodeID = $ConfigObject->Get('NodeID') || 1;
 
-    # get PID directory
-    my $PIDDir  = $ConfigObject->Get('Home') . '/var/run/';
-    my $PIDFile = $PIDDir . "Daemon-NodeID-$NodeID.pid";
+    # get running daemon cache
+    my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => 'DaemonRunning',
+        Key  => $NodeID,
+    );
 
-    my $RunningPID;
-
-    if ( -e $PIDFile ) {
-
-        # read existing PID file
-        open my $FH, '<', $PIDFile;    ## no critic
-        flock $FH, 1;
-        my $RegisteredPID = do { local $/; <$FH> };
-        close $FH;
-
-        if ($RegisteredPID) {
-
-            # check if process is running
-            $RunningPID = kill 0, $RegisteredPID;
-        }
-    }
-
-    if ($RunningPID) {
+    if ($Running) {
         $Self->AddResultOk(
             Label => Translatable('Daemon'),
             Value => 1,
