@@ -174,10 +174,13 @@ for my $UserCount ( 0 .. 2 ) {
     $UserIDByUserLogin{$UserLogin} = $UserID;
 }
 
-my @UserLogins = keys %UserIDByUserLogin;
-my @UserIDs    = keys { reverse %UserIDByUserLogin };
-my @GroupNames = keys %GroupIDByGroupName;
-my @GroupIDs   = keys { reverse %GroupIDByGroupName };
+my @UserLogins        = keys %UserIDByUserLogin;
+my %UserLoginByUserID = reverse %UserIDByUserLogin;
+my @UserIDs           = keys %UserLoginByUserID;
+
+my @GroupNames         = keys %GroupIDByGroupName;
+my %GroupNameByGroupID = reverse %GroupIDByGroupName;
+my @GroupIDs           = keys %GroupNameByGroupID;
 
 my @PermissionTests = (
     {
