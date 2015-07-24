@@ -1,1 +1,30 @@
-[% INCLUDE 'suse12-otrs.spec.tt' -%]
+[% INCLUDE 'includes/suse-systemd-base.tt'
+    Requires = [
+        'bash-completion',
+        'cronie',
+        'apache2',
+        'apache2-mod_perl',
+        'perl',
+        'perl(Archive::Zip)',
+        #'perl(Crypt::Eksblowfish::Bcrypt)', # package in 'unstable'
+        'perl(Crypt::SSLeay)',
+        'perl(Date::Format)',
+        'perl(DBI)',
+        'perl(Encode::HanExtra)',
+        'perl(IO::Socket::SSL)',
+        'perl(JSON::XS)',
+        'perl(LWP::UserAgent)',
+        #'perl(Mail::IMAPClient)', # package in 'unstable'
+        'perl(Net::DNS)',
+        'perl(Net::LDAP)',
+        'perl(Template)',
+        'perl(Text::CSV)',
+        'perl(Text::CSV_XS)',
+        'perl(URI)',
+        'perl(XML::LibXML)',
+        'perl(XML::LibXSLT)',
+        'perl(XML::Parser)',
+        'perl(YAML::XS)',
+        'procmail',
+    ]
+-%]
