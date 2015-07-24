@@ -15,12 +15,14 @@ use Kernel::System::ObjectManager;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -55,15 +57,15 @@ sub Run {
 
     if ($RunningPID) {
         $Self->AddResultOk(
-            Label => 'Daemon',
+            Label => Translatable('Daemon'),
             Value => 1,
         );
     }
     else {
         $Self->AddResultProblem(
-            Label   => 'Daemon',
+            Label   => Translatable('Daemon'),
             Value   => 0,
-            Message => 'Daemon is not running.',
+            Message => Translatable('Daemon is not running.'),
         );
     }
 

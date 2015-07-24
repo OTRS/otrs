@@ -13,10 +13,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return 'Webserver';
+    return Translatable('Webserver');
 }
 
 sub Run {
@@ -28,15 +30,15 @@ sub Run {
 
     if ($Version) {
         $Self->AddResultInformation(
-            Label => 'Webserver Version',
+            Label => Translatable('Webserver Version'),
             Value => $ENV{SERVER_SOFTWARE},
         );
     }
     else {
         $Self->AddResultProblem(
-            Label   => 'Webserver Version',
+            Label   => Translatable('Webserver Version'),
             Value   => '',
-            Message => 'Could not determine webserver version.'
+            Message => Translatable('Could not determine webserver version.')
         );
     }
 

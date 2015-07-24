@@ -13,10 +13,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return 'Webserver';
+    return Translatable('Webserver');
 }
 
 sub Run {
@@ -33,23 +35,23 @@ sub Run {
     if ( $ENV{MOD_PERL} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
-            Label      => 'CGI Accelerator Usage',
+            Label      => Translatable('CGI Accelerator Usage'),
             Value      => $ENV{MOD_PERL},
         );
     }
     elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
-            Label      => 'CGI Accelerator Usage',
+            Label      => Translatable('CGI Accelerator Usage'),
             Value      => 'fastcgi',
         );
     }
     else {
         $Self->AddResultWarning(
             Identifier => "CGIAcceleratorUsed",
-            Label      => 'CGI Accelerator Usage',
+            Label      => Translatable('CGI Accelerator Usage'),
             Value      => '',
-            Message    => 'You should use FastCGI or mod_perl to increase your performance.',
+            Message    => Translatable('You should use FastCGI or mod_perl to increase your performance.'),
         );
     }
 
@@ -60,16 +62,16 @@ sub Run {
         if ($ModDeflateLoaded) {
             $Self->AddResultOk(
                 Identifier => "ModDeflateLoaded",
-                Label      => 'mod_deflate Usage',
+                Label      => Translatable('mod_deflate Usage'),
                 Value      => 'active',
             );
         }
         else {
             $Self->AddResultWarning(
                 Identifier => "ModDeflateLoaded",
-                Label      => 'mod_deflate Usage',
+                Label      => Translatable('mod_deflate Usage'),
                 Value      => 'not active',
-                Message    => 'Please install mod_deflate to improve GUI speed.',
+                Message    => Translatable('Please install mod_deflate to improve GUI speed.'),
             );
         }
 
@@ -79,16 +81,16 @@ sub Run {
         if ($ModFilterLoaded) {
             $Self->AddResultOk(
                 Identifier => "ModFilterLoaded",
-                Label      => 'mod_filter Usage',
+                Label      => Translatable('mod_filter Usage'),
                 Value      => 'active',
             );
         }
         else {
             $Self->AddResultWarning(
                 Identifier => "ModFilterLoaded",
-                Label      => 'mod_filter Usage',
+                Label      => Translatable('mod_filter Usage'),
                 Value      => 'not active',
-                Message    => 'Please install mod_filter if mod_deflate is used.',
+                Message    => Translatable('Please install mod_filter if mod_deflate is used.'),
             );
         }
 
@@ -98,16 +100,16 @@ sub Run {
         if ($ModHeadersLoaded) {
             $Self->AddResultOk(
                 Identifier => "ModHeadersLoaded",
-                Label      => 'mod_headers Usage',
+                Label      => Translatable('mod_headers Usage'),
                 Value      => 'active',
             );
         }
         else {
             $Self->AddResultWarning(
                 Identifier => "ModHeadersLoaded",
-                Label      => 'mod_headers Usage',
+                Label      => Translatable('mod_headers Usage'),
                 Value      => 'not active',
-                Message    => 'Please install mod_headers to improve GUI speed.',
+                Message    => Translatable('Please install mod_headers to improve GUI speed.'),
             );
         }
 
@@ -124,17 +126,19 @@ sub Run {
         if ($ApacheReloadUsed) {
             $Self->AddResultOk(
                 Identifier => "ApacheReloadUsed",
-                Label      => 'Apache::Reload Usage',
+                Label      => Translatable('Apache::Reload Usage'),
                 Value      => 'active',
             );
         }
         else {
             $Self->AddResultWarning(
                 Identifier => "ApacheReloadUsed",
-                Label      => 'Apache::Reload Usage',
+                Label      => Translatable('Apache::Reload Usage'),
                 Value      => 'not active',
                 Message =>
-                    'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.',
+                    Translatable(
+                    'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.'
+                    ),
             );
         }
 
@@ -150,17 +154,19 @@ sub Run {
         if ($ApacheDBIUsed) {
             $Self->AddResultOk(
                 Identifier => "ApacheDBIUsed",
-                Label      => 'Apache2::DBI Usage',
+                Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'active',
             );
         }
         else {
             $Self->AddResultWarning(
                 Identifier => "ApacheDBIUsed",
-                Label      => 'Apache2::DBI Usage',
+                Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'not active',
                 Message =>
-                    'Apache2::DBI should be used to get a better performance  with pre-established database connections.',
+                    Translatable(
+                    'Apache2::DBI should be used to get a better performance  with pre-established database connections.'
+                    ),
             );
         }
 

@@ -13,6 +13,8 @@ use warnings;
 
 use Scalar::Util qw();
 
+use Kernel::Language qw(Translatable);
+
 our $StatusUnknown = 0;
 our $StatusInfo    = 1;
 our $StatusOK      = 2;
@@ -20,11 +22,11 @@ our $StatusWarning = 3;
 our $StatusProblem = 4;
 
 our %Status2Name = (
-    $StatusUnknown => 'Unknown',
-    $StatusOK      => 'OK',
-    $StatusWarning => 'Warning',
-    $StatusProblem => 'Problem',
-    $StatusInfo    => 'Information',
+    $StatusUnknown => Translatable('Unknown'),
+    $StatusOK      => Translatable('OK'),
+    $StatusWarning => Translatable('Warning'),
+    $StatusProblem => Translatable('Problem'),
+    $StatusInfo    => Translatable('Information'),
 );
 
 our @ObjectDependencies = ();

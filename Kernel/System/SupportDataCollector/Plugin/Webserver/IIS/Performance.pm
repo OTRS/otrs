@@ -13,10 +13,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return 'Webserver';
+    return Translatable('Webserver');
 }
 
 sub Run {
@@ -35,16 +37,16 @@ sub Run {
     if ( $ENV{'GATEWAY_INTERFACE'} && $ENV{'GATEWAY_INTERFACE'} =~ /^CGI-PerlEx/i ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
-            Label      => 'CGI Accelerator Usage',
+            Label      => Translatable('CGI Accelerator Usage'),
             Value      => 'PerlEx',
         );
     }
     else {
         $Self->AddResultWarning(
             Identifier => "CGIAcceleratorUsed",
-            Label      => 'CGI Accelerator Usage',
+            Label      => Translatable('CGI Accelerator Usage'),
             Value      => '',
-            Message    => 'You should use PerlEx to increase your performance.',
+            Message    => Translatable('You should use PerlEx to increase your performance.'),
         );
     }
 

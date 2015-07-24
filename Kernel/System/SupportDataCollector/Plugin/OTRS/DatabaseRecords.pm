@@ -13,6 +13,8 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
@@ -28,63 +30,63 @@ sub Run {
         {
             SQL        => "SELECT count(*) FROM ticket",
             Identifier => 'TicketCount',
-            Label      => "Tickets",
+            Label      => Translatable("Tickets"),
         },
         {
             SQL        => "SELECT count(*) FROM ticket_history",
             Identifier => 'TicketHistoryCount',
-            Label      => "Ticket History Entries",
+            Label      => Translatable("Ticket History Entries"),
         },
         {
             SQL        => "SELECT count(*) FROM article",
             Identifier => 'ArticleCount',
-            Label      => "Articles",
+            Label      => Translatable("Articles"),
         },
         {
             SQL =>
                 "SELECT count(*) from article_attachment WHERE content_type NOT LIKE 'text/html%'",
             Identifier => 'AttachmentCountDBNonHTML',
-            Label      => "Attachments (DB, Without HTML)",
+            Label      => Translatable("Attachments (DB, Without HTML)"),
         },
         {
             SQL        => "SELECT count(DISTINCT(customer_user_id)) FROM ticket",
             Identifier => 'DistinctTicketCustomerCount',
-            Label      => "Customers With At Least One Ticket",
+            Label      => Translatable("Customers With At Least One Ticket"),
         },
         {
             SQL        => "SELECT count(*) FROM queue",
             Identifier => 'QueueCount',
-            Label      => "Queues",
+            Label      => Translatable("Queues"),
         },
         {
             SQL        => "SELECT count(*) FROM users",
             Identifier => 'AgentCount',
-            Label      => "Agents",
+            Label      => Translatable("Agents"),
         },
         {
             SQL        => "SELECT count(*) FROM roles",
             Identifier => 'RoleCount',
-            Label      => "Roles",
+            Label      => Translatable("Roles"),
         },
         {
             SQL        => "SELECT count(*) FROM groups",
             Identifier => 'GroupCount',
-            Label      => "Groups",
+            Label      => Translatable("Groups"),
         },
         {
             SQL        => "SELECT count(*) FROM dynamic_field",
             Identifier => 'DynamicFieldCount',
-            Label      => "Dynamic Fields",
+            Label      => Translatable("Dynamic Fields"),
         },
         {
             SQL        => "SELECT count(*) FROM dynamic_field_value",
             Identifier => 'DynamicFieldValueCount',
-            Label      => "Dynamic Field Values",
+            Label      => Translatable("Dynamic Field Values"),
         },
         {
             SQL        => "SELECT count(*) FROM dynamic_field WHERE valid_id > 1",
             Identifier => 'InvalidDynamicFieldCount',
-            Label      => "Invalid Dynamic Fields",
+            Label      => Translatable("Invalid Dynamic Fields"),
         },
         {
             SQL => "
@@ -93,17 +95,17 @@ sub Run {
                     JOIN dynamic_field ON dynamic_field.id = dynamic_field_value.field_id
                 WHERE dynamic_field.valid_id > 1",
             Identifier => 'InvalidDynamicFieldValueCount',
-            Label      => "Invalid Dynamic Field Values",
+            Label      => Translatable("Invalid Dynamic Field Values"),
         },
         {
             SQL        => "SELECT count(*) FROM gi_webservice_config",
             Identifier => 'WebserviceCount',
-            Label      => "GenericInterface Webservices",
+            Label      => Translatable("GenericInterface Webservices"),
         },
         {
             SQL        => "SELECT count(*) FROM pm_process",
             Identifier => 'ProcessCount',
-            Label      => "Processes",
+            Label      => Translatable("Processes"),
         },
     );
 
@@ -130,7 +132,7 @@ sub Run {
                 Identifier => $Check->{Identifier},
                 Label      => $Check->{Label},
                 Value      => $Counts{ $Check->{Identifier} },
-                Message    => 'Could not determine value.',
+                Message    => Translatable('Could not determine value.'),
             );
         }
     }
@@ -150,12 +152,12 @@ sub Run {
 
     $Self->AddResultInformation(
         Identifier => 'TicketWindowTime',
-        Label      => 'Months Between First And Last Ticket',
+        Label      => Translatable('Months Between First And Last Ticket'),
         Value      => sprintf( "%.02f", $TicketWindowTime ),
     );
     $Self->AddResultInformation(
         Identifier => 'TicketsPerMonth',
-        Label      => 'Tickets Per Month (avg)',
+        Label      => Translatable('Tickets Per Month (avg)'),
         Value      => sprintf( "%.02f", $Counts{TicketCount} / $TicketWindowTime ),
     );
 

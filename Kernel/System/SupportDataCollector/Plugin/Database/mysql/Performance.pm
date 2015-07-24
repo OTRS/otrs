@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -42,16 +44,18 @@ sub Run {
         {
             $Self->AddResultWarning(
                 Identifier => 'QueryCacheSize',
-                Label      => 'Query Cache Size',
+                Label      => Translatable('Query Cache Size'),
                 Value      => $Row[1],
                 Message =>
-                    "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB).",
+                    Translatable(
+                    "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."
+                    ),
             );
         }
         else {
             $Self->AddResultOk(
                 Identifier => 'QueryCacheSize',
-                Label      => 'Query Cache Size',
+                Label      => Translatable('Query Cache Size'),
                 Value      => $Row[1],
             );
         }

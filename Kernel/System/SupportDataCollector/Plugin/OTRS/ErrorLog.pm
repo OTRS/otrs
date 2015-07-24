@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -35,14 +37,14 @@ sub Run {
 
     if (@ErrorLines) {
         $Self->AddResultInformation(
-            Label   => 'Error Log',
+            Label   => Translatable('Error Log'),
             Value   => join( "\n", @ErrorLines ),
-            Message => 'There are error reports in your system log.',
+            Message => Translatable('There are error reports in your system log.'),
         );
     }
     else {
         $Self->AddResultInformation(
-            Label => 'Error Log',
+            Label => Translatable('Error Log'),
             Value => '',
         );
     }

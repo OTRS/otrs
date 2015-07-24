@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -29,23 +31,23 @@ sub Run {
     # Do we have set our FQDN?
     if ( $FQDN eq 'yourhost.example.com' ) {
         $Self->AddResultProblem(
-            Label   => 'FQDN (domain name)',
+            Label   => Translatable('FQDN (domain name)'),
             Value   => $FQDN,
-            Message => 'Please configure your FQDN setting.',
+            Message => Translatable('Please configure your FQDN setting.'),
         );
     }
 
     # FQDN syntax check.
     elsif ( $FQDN !~ /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/ ) {
         $Self->AddResultProblem(
-            Label   => 'Domain Name',
+            Label   => Translatable('Domain Name'),
             Value   => $FQDN,
-            Message => 'Your FQDN setting is invalid.',
+            Message => Translatable('Your FQDN setting is invalid.'),
         );
     }
     else {
         $Self->AddResultOk(
-            Label => 'Domain Name',
+            Label => Translatable('Domain Name'),
             Value => $FQDN,
         );
     }

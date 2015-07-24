@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -34,32 +36,32 @@ sub Run {
     if ( $ENV{NLS_LANG} && $ENV{NLS_LANG} =~ m/al32utf-?8/i ) {
         $Self->AddResultOk(
             Identifier => 'NLS_LANG',
-            Label      => 'NLS_LANG Setting',
+            Label      => Translatable('NLS_LANG Setting'),
             Value      => $ENV{NLS_LANG},
         );
     }
     else {
         $Self->AddResultProblem(
             Identifier => 'NLS_LANG',
-            Label      => 'NLS_LANG Setting',
+            Label      => Translatable('NLS_LANG Setting'),
             Value      => $ENV{NLS_LANG},
-            Message    => 'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).',
+            Message    => Translatable('NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).'),
         );
     }
 
     if ( $ENV{NLS_DATE_FORMAT} && $ENV{NLS_DATE_FORMAT} eq "YYYY-MM-DD HH24:MI:SS" ) {
         $Self->AddResultOk(
             Identifier => 'NLS_DATE_FORMAT',
-            Label      => 'NLS_DATE_FORMAT Setting',
+            Label      => Translatable('NLS_DATE_FORMAT Setting'),
             Value      => $ENV{NLS_DATE_FORMAT},
         );
     }
     else {
         $Self->AddResultProblem(
             Identifier => 'NLS_DATE_FORMAT',
-            Label      => 'NLS_DATE_FORMAT Setting',
+            Label      => Translatable('NLS_DATE_FORMAT Setting'),
             Value      => $ENV{NLS_DATE_FORMAT},
-            Message    => "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'.",
+            Message    => Translatable("NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."),
         );
     }
 
@@ -79,16 +81,16 @@ sub Run {
     {
         $Self->AddResultOk(
             Identifier => 'NLS_DATE_FORMAT_SELECT',
-            Label      => 'NLS_DATE_FORMAT Setting SQL Check',
-            Value      => $ENV{NLS_DATE_FORMAT},                 # use environment variable to avoid different values
+            Label      => Translatable('NLS_DATE_FORMAT Setting SQL Check'),
+            Value => $ENV{NLS_DATE_FORMAT},    # use environment variable to avoid different values
         );
     }
     else {
         $Self->AddResultProblem(
             Identifier => 'NLS_DATE_FORMAT_SELECT',
-            Label      => 'NLS_DATE_FORMAT Setting SQL Check',
+            Label      => Translatable('NLS_DATE_FORMAT Setting SQL Check'),
             Value      => $CreateTime,
-            Message    => "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'.",
+            Message    => Translatable("NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."),
         );
     }
 

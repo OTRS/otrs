@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -40,15 +42,15 @@ sub Run {
             )
         {
             $Self->AddResultProblem(
-                Label => 'InnoDB Log File Size',
+                Label => Translatable('InnoDB Log File Size'),
                 Value => $Row[1] / 1024 / 1024 . ' MB',
                 Message =>
-                    "The setting innodb_log_file_size must be at least 256 MB.",
+                    Translatable("The setting innodb_log_file_size must be at least 256 MB."),
             );
         }
         else {
             $Self->AddResultOk(
-                Label => 'InnoDB Log File Size',
+                Label => Translatable('InnoDB Log File Size'),
                 Value => $Row[1] / 1024 / 1024 . ' MB',
             );
         }

@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -43,15 +45,15 @@ sub Run {
         # $Row[2] unallocated space
         if ( $Row[1] ) {
             $Self->AddResultInformation(
-                Label => 'Database Size',
+                Label => Translatable('Database Size'),
                 Value => $Row[1],
             );
         }
         else {
             $Self->AddResultProblem(
-                Label   => 'Database Size',
+                Label   => Translatable('Database Size'),
                 Value   => $Row[1],
-                Message => 'Could not determine database size.'
+                Message => Translatable('Could not determine database size.')
             );
         }
     }

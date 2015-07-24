@@ -13,6 +13,8 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
@@ -59,7 +61,7 @@ sub Run {
                 Identifier => $Setting,
                 Label      => $Setting,
                 Value      => $ConfigValue,
-                Message    => 'Could not determine value.',
+                Message    => Translatable('Could not determine value.'),
             );
         }
     }

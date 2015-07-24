@@ -13,13 +13,15 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -42,16 +44,18 @@ sub Run {
         if ($OrphanedTicketLockIndex) {
             $Self->AddResultWarning(
                 Identifier => 'TicketLockIndex',
-                Label      => 'Orphaned Records In ticket_lock_index Table',
+                Label      => Translatable('Orphaned Records In ticket_lock_index Table'),
                 Value      => $OrphanedTicketLockIndex,
                 Message =>
-                    'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.',
+                    Translatable(
+                    'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.'
+                    ),
             );
         }
         else {
             $Self->AddResultOk(
                 Identifier => 'TicketLockIndex',
-                Label      => 'Orphaned Records In ticket_lock_index Table',
+                Label      => Translatable('Orphaned Records In ticket_lock_index Table'),
                 Value      => $OrphanedTicketLockIndex || '0',
             );
         }
@@ -64,16 +68,18 @@ sub Run {
         if ($OrphanedTicketLockIndex) {
             $Self->AddResultWarning(
                 Identifier => 'TicketIndex',
-                Label      => 'Orphaned Records In ticket_index Table',
+                Label      => Translatable('Orphaned Records In ticket_index Table'),
                 Value      => $OrphanedTicketIndex,
                 Message =>
-                    'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.',
+                    Translatable(
+                    'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.'
+                    ),
             );
         }
         else {
             $Self->AddResultOk(
                 Identifier => 'TicketIndex',
-                Label      => 'Orphaned Records In ticket_index Table',
+                Label      => Translatable('Orphaned Records In ticket_index Table'),
                 Value      => $OrphanedTicketIndex || '0',
             );
         }

@@ -13,6 +13,8 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
@@ -21,7 +23,7 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -31,9 +33,9 @@ sub Run {
     my $File = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/database/otrs-schema.xml';
     if ( !-f $File ) {
         $Self->AddResultProblem(
-            Label   => 'Table Presence',
+            Label   => Translatable('Table Presence'),
             Value   => '',
-            Message => "Internal Error: Could not open file.",
+            Message => Translatable("Internal Error: Could not open file."),
         );
     }
 
@@ -43,9 +45,9 @@ sub Run {
     );
     if ( !ref $ContentRef && !${$ContentRef} ) {
         $Self->AddResultProblem(
-            Label   => 'Table Check',
+            Label   => Translatable('Table Check'),
             Value   => '',
-            Message => "Internal Error: Could not read file.",
+            Message => Translatable("Internal Error: Could not read file."),
         );
     }
 
@@ -76,15 +78,15 @@ sub Run {
     }
     if ( !@MissingTables ) {
         $Self->AddResultOk(
-            Label => 'Table Presence',
+            Label => Translatable('Table Presence'),
             Value => '',
         );
     }
     else {
         $Self->AddResultProblem(
-            Label   => 'Table Presence',
+            Label   => Translatable('Table Presence'),
             Value   => join( ', ', @MissingTables ),
-            Message => "Tables found which are not present in the database.",
+            Message => Translatable("Tables found which are not present in the database."),
         );
     }
 

@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -35,23 +37,23 @@ sub Run {
     if ( $Version =~ /^PostgreSQL (\d{1,3}).*$/ ) {
         if ( $1 > 7 ) {
             $Self->AddResultOk(
-                Label => 'Database Version',
+                Label => Translatable('Database Version'),
                 Value => $Version,
             );
         }
         else {
             $Self->AddResultProblem(
-                Label   => 'Database Version',
+                Label   => Translatable('Database Version'),
                 Value   => $Version,
-                Message => 'PostgreSQL 8.x or higher is required.'
+                Message => Translatable('PostgreSQL 8.x or higher is required.')
             );
         }
     }
     else {
         $Self->AddResultProblem(
-            Label   => 'Database Version',
+            Label   => Translatable('Database Version'),
             Value   => $Version,
-            Message => 'Could not determine database version.'
+            Message => Translatable('Could not determine database version.')
         );
     }
 

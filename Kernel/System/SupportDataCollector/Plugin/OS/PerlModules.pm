@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
 
 sub GetDisplayPath {
-    return 'Operating System';
+    return Translatable('Operating System');
 }
 
 sub Run {
@@ -40,14 +42,14 @@ sub Run {
         )
     {
         $Self->AddResultProblem(
-            Label   => 'Perl Modules',
+            Label   => Translatable('Perl Modules'),
             Value   => $Output,
-            Message => 'Not all required Perl modules are correctly installed.',
+            Message => Translatable('Not all required Perl modules are correctly installed.'),
         );
     }
     else {
         $Self->AddResultOk(
-            Label => 'Perl Modules',
+            Label => Translatable('Perl Modules'),
             Value => $Output,
         );
     }

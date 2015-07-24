@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Package',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -40,14 +42,14 @@ sub Run {
 
     if (@InvalidPackages) {
         $Self->AddResultProblem(
-            Label   => 'Package Installation Status',
+            Label   => Translatable('Package Installation Status'),
             Value   => join( ', ', @InvalidPackages ),
-            Message => 'Some packages are not correctly installed.',
+            Message => Translatable('Some packages are not correctly installed.'),
         );
     }
     else {
         $Self->AddResultOk(
-            Label => 'Package Installation Status',
+            Label => Translatable('Package Installation Status'),
             Value => '',
         );
     }

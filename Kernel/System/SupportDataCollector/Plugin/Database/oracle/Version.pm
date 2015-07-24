@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -36,15 +38,15 @@ sub Run {
 
     if ($Version) {
         $Self->AddResultInformation(
-            Label => 'Database Version',
+            Label => Translatable('Database Version'),
             Value => $Version,
         );
     }
     else {
         $Self->AddResultProblem(
-            Label   => 'Database Version',
+            Label   => Translatable('Database Version'),
             Value   => $Version,
-            Message => "Could not determine database version.",
+            Message => Translatable("Could not determine database version."),
         );
     }
 

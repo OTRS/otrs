@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
 
 sub GetDisplayPath {
-    return 'Operating System';
+    return Translatable('Operating System');
 }
 
 sub Run {
@@ -36,7 +38,7 @@ sub Run {
     chomp $OTRSPartition;
 
     $Self->AddResultInformation(
-        Label => 'OTRS Disk Partition',
+        Label => Translatable('OTRS Disk Partition'),
         Value => $OTRSPartition,
     );
 

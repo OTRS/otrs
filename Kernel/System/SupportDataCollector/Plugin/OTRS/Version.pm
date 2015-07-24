@@ -13,19 +13,21 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
     my $Self = shift;
 
     $Self->AddResultInformation(
-        Label => 'OTRS Version',
+        Label => Translatable('OTRS Version'),
         Value => $Kernel::OM->Get('Kernel::Config')->Get('Version'),
     );
 

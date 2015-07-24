@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'Database';
+    return Translatable('Database');
 }
 
 sub Run {
@@ -54,15 +56,15 @@ sub Run {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Self->AddResultInformation(
-                Label => 'Database Size',
+                Label => Translatable('Database Size'),
                 Value => "$Row[0] GB",
             );
         }
         else {
             $Self->AddResultProblem(
-                Label   => 'Database Size',
+                Label   => Translatable('Database Size'),
                 Value   => $Row[0],
-                Message => 'Could not determine database size.'
+                Message => Translatable('Could not determine database size.')
             );
         }
     }

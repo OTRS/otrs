@@ -13,13 +13,15 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
 );
 
 sub GetDisplayPath {
-    return 'OTRS';
+    return Translatable('OTRS');
 }
 
 sub Run {
@@ -39,15 +41,17 @@ sub Run {
 
     if ( $TicketCount > 60_000 && $Module =~ /RuntimeDB/ ) {
         $Self->AddResultWarning(
-            Label => 'Ticket Index Module',
+            Label => Translatable('Ticket Index Module'),
             Value => $Module,
             Message =>
-                'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.',
+                Translatable(
+                'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.'
+                ),
         );
     }
     else {
         $Self->AddResultOk(
-            Label => 'Ticket Index Module',
+            Label => Translatable('Ticket Index Module'),
             Value => $Module,
         );
     }

@@ -13,12 +13,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Main',
 );
 
 sub GetDisplayPath {
-    return 'Operating System';
+    return Translatable('Operating System');
 }
 
 sub Run {
@@ -28,7 +30,7 @@ sub Run {
     my $OS = $^O;
 
     $Self->AddResultInformation(
-        Label => 'Perl Version',
+        Label => Translatable('Perl Version'),
         Value => "$Version ($OS)",
     );
 
