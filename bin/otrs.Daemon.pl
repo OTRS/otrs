@@ -145,6 +145,7 @@ sub PrintUsage {
     $UsageText .= "\nNote:\n";
     $UsageText
         .= " In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
+    $UsageText .= " Debug information is stored in the daemon log files localed under: $LogDir\n";
     $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n";
 
     print STDOUT "$UsageText\n";
@@ -198,6 +199,9 @@ sub Start {
     local $SIG{CHLD} = "IGNORE";
 
     print STDOUT "Daemon started\n";
+    if ($Debug) {
+        print STDOUT "\nDebug information is stored in the daemon log files localed under: $LogDir\n\n";
+    }
 
     while ($DaemonChecker) {
 
