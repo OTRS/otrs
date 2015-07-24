@@ -32,7 +32,7 @@ Requires:     [%
         'perl-XML-LibXML',
         'perl-XML-LibXSLT',
         'perl-XML-Parser',
-        'perl-YAML-LibYAMl',
+        'perl-YAML-LibYAML',
         'procmail',
     ]
 %][% Requires.join(' ') %]
