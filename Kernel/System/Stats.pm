@@ -1577,7 +1577,7 @@ sub StatsRun {
             ObjectModule     => $Stat->{ObjectModule},
             Object           => $Stat->{Object},
             UseAsXvalue      => $GetParam{UseAsXvalue},
-            UseAsValueSeries => $GetParam{UseAsValueSeries},
+            UseAsValueSeries => $GetParam{UseAsValueSeries} || [],
             UseAsRestriction => $GetParam{UseAsRestriction},
             Title            => $Stat->{Title},
             StatID           => $Stat->{StatID},
