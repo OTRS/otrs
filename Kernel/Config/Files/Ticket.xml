@@ -8368,6 +8368,9 @@
                 <Description>Ticket Merge</Description>
                 <Title>Merge</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <JavaScript>Core.Agent.TicketMerge.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
