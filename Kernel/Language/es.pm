@@ -595,13 +595,13 @@ sub Data {
         'Database Version' => 'Versión De La Base De Datos',
         'Could not determine database version.' => 'No se pudo determinar la versión de la base de datos',
         'Client Connection Charset' => 'Juego de Caracteres de la Conexión del Cliente',
-        'Setting character_set_client needs to be utf8.' => 'El ajuste de character_set_client necesita ser utf8.',
+        'Setting character_set_client needs to be utf8.' => 'El ajuste character_set_client necesita ser utf8.',
         'Server Database Charset' => 'Juego de Caracteres del Servidor de Base de Datos',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'el ajuste de character_set_database necesita ser UNICODE o UTF8.',
         'Table Charset' => 'Juego de Caracter de la Tabla',
         'There were tables found which do not have utf8 as charset.' => 'Se encontrarón tablas las cuales el juego de caracteres no es utf8.',
-        'InnoDB Log File Size' => '',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+        'InnoDB Log File Size' => 'Tamaño del Archivo Log InnoDB',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'El ajuste innodb_log_file_size debe ser de al menos 256 MB.',
         'Maximum Query Size' => 'Tamaño Máximo de la Consulta',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'El ajuste \'max_allowed_packet\' debe ser mayor de 20 MB,',
@@ -702,7 +702,7 @@ sub Data {
         'Webserver Version' => 'Versión del Servidor Web',
         'Could not determine webserver version.' => 'No se pudo determinar la versión del servidor web.',
         'Loaded Apache Modules' => 'Módulos Apache Cargados',
-        'MPM model' => '',
+        'MPM model' => 'modelo MPM',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             '',
         'CGI Accelerator Usage' => 'Uso Del Acelerador de CGI',
@@ -1507,12 +1507,12 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
+        'Default command' => 'Comando por defecto',
         'The default HTTP command to use for the requests.' => '',
-        'Authentication' => '',
-        'The authentication mechanism to access the remote system.' => '',
+        'Authentication' => 'Autenticación',
+        'The authentication mechanism to access the remote system.' => 'Mecanismo de autenticación para acceder al sistema remoto.',
         'A "-" value means no authentication.' => '',
-        'The user name to be used to access the remote system.' => '',
+        'The user name to be used to access the remote system.' => 'Nombre de usuario a ser usado para acceder al sistema remoto.',
         'The password for the privileged user.' => '',
         'Use SSL Options' => '',
         'Show or hide SSL options to connect to the remote system.' => '',
@@ -1560,10 +1560,10 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
-        'Proxy Server' => '',
-        'URI of a proxy server to be used (if needed).' => '',
+        'Proxy Server' => 'Servidor Proxy',
+        'URI of a proxy server to be used (if needed).' => 'URI del servidor proxy a usar (si se requiere).',
         'e.g. http://proxy_hostname:8080' => '',
-        'Proxy User' => '',
+        'Proxy User' => 'Usuario de Proxy',
         'The user name to be used to access the proxy server.' => '',
         'Proxy Password' => '',
         'The password for the proxy user.' => '',
@@ -1607,7 +1607,7 @@ sub Data {
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '',
         'Delete webservice' => '',
-        'Delete operation' => '',
+        'Delete operation' => 'Eliminar operación',
         'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
@@ -1658,7 +1658,7 @@ sub Data {
         'Fetch mail' => 'Traer correos',
         'Add Mail Account' => 'Agregar Cuenta de Correo',
         'Example: mail.example.com' => 'Ejemplo: mail.ejemplo.com',
-        'IMAP Folder' => '',
+        'IMAP Folder' => 'Carpeta IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
             '',
         'Trusted' => 'Validado',
@@ -1675,8 +1675,8 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Gestión de Notificaciones',
-        'Select a different language' => '',
-        'Filter for Notification' => '',
+        'Select a different language' => 'Seleccione un lenguaje diferente',
+        'Filter for Notification' => 'Filtro para Notificaciones',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
         'Notification' => 'Notificaciones',
         'Edit Notification' => 'Editar Notificación',
@@ -1685,24 +1685,24 @@ sub Data {
 
         # Template: AdminNotificationEvent
         'Add notification' => 'Agregar notificación',
-        'Delete this notification' => '',
+        'Delete this notification' => 'Eliminar esta notificación',
         'Add Notification' => 'Agregar Notificación',
         'Ticket Filter' => 'Filtro de tickets',
         'Article Filter' => 'Filtro de artículos',
-        'Only for ArticleCreate and ArticleSend event' => '',
+        'Only for ArticleCreate and ArticleSend event' => 'Solo para eventos de ArticleCreate y ArticleSend',
         'Article type' => 'Tipo de artículo',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '',
-        'Article sender type' => '',
+        'Article sender type' => 'Tipo de remitente de articulo',
         'Subject match' => 'Coincidencia de asunto',
         'Body match' => 'Coincidencia del cuerpo',
-        'Include attachments to notification' => '',
+        'Include attachments to notification' => 'Incluir archivos adjuntos a la notificación',
         'Recipient' => 'Destinatario',
-        'Recipient groups' => '',
-        'Recipient agents' => '',
-        'Recipient roles' => '',
-        'Recipient email addresses' => '',
-        'Notification article type' => '',
+        'Recipient groups' => 'Grupos destinatarios',
+        'Recipient agents' => 'Agentes destinatarios',
+        'Recipient roles' => 'Roles destinatarios',
+        'Recipient email addresses' => 'Correo electrónico destinatario',
+        'Notification article type' => 'Notificación de tipo',
         'Only for notifications to specified email addresses' => '',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del agente).',
@@ -1794,17 +1794,17 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Gestor de paquetes',
-        'Uninstall package' => '',
+        'Uninstall package' => 'Desinstalar paquete',
         'Do you really want to uninstall this package?' => 'Está seguro de que desea desinstalar este paquete?',
-        'Reinstall package' => '',
+        'Reinstall package' => 'Reinstalar paquete',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
-            '',
+            '¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual.',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Install' => 'Instalar',
-        'Install Package' => '',
-        'Update repository information' => '',
+        'Install Package' => 'Instalar Paquete',
+        'Update repository information' => 'Actualizar información de repositorio',
         'Online Repository' => 'Repositorio en línea',
         'Module documentation' => 'Módulo de documentación',
         'Upgrade' => 'Actualizar',
@@ -1854,7 +1854,7 @@ sub Data {
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestión del filtro maestro',
-        'Add filter' => '',
+        'Add filter' => 'Agregar filtro',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1884,7 +1884,7 @@ sub Data {
         'Edit Priority' => 'Editar la prioridad',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
+        'Process Management' => 'Gestión de Procesos',
         'Filter for Processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
@@ -2312,12 +2312,12 @@ sub Data {
         'Secret' => 'Secreto',
         'Related Certificates for' => 'Certificados relacionados para',
         'Delete this relation' => '',
-        'Available Certificates' => '',
+        'Available Certificates' => 'Certificados Disponibles',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
         'Close window' => 'Cerrar la ventana',
-        'Certificate details' => '',
+        'Certificate details' => 'Detalles del Certificado',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gestión de saludos',

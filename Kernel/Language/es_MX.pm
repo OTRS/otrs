@@ -590,7 +590,7 @@ sub Data {
         'Database Version' => 'Versión de la Base de datos',
         'Could not determine database version.' => 'No fué posible determinar la versión de la Base de datos.',
         'Client Connection Charset' => '',
-        'Setting character_set_client needs to be utf8.' => '',
+        'Setting character_set_client needs to be utf8.' => 'Configura character_set_client a un valor de utf8.',
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',

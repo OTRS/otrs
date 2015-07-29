@@ -751,7 +751,7 @@ sub Data {
         'Service' => 'Usługa',
         'Services' => 'Usługi',
         'State' => 'Stan',
-        'States' => 'Statny',
+        'States' => 'Statusy',
         'Status' => 'Status',
         'Statuses' => 'Statusy',
         'Ticket Type' => 'Typ zgłoszenia',
@@ -1632,7 +1632,7 @@ sub Data {
         'Group Management' => 'Zarządzanie grupami',
         'Add group' => 'Dodaj Grupę',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
-            'Grupa Admin pozwala posiada prawa Administracji systemem. Grupa Stats umożliwia przeglądanie statystyk zgłoszeń.',
+            'Grupa Admin posiada prawa do Administracji systemem. Grupa Stats umożliwia przeglądanie statystyk zgłoszeń.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Utwórz nowe grupy aby obsłużyć prawa dostępu dla różnych grup agentów (np. działu zakupu, działu wsparcia, działu sprzedaży, ...). ',
         'It\'s useful for ASP solutions. ' => 'Przydatne dla rozwiązań ASP. ',
@@ -2248,7 +2248,7 @@ sub Data {
         'Create a role and put groups in it. Then add the role to the users.' =>
             'Utwórz rolę i dodaj grupę do niej. Potem dodaj rolę do użytkownika.',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
-            'Nie ma zdefiniowanych ról. Użyj przycisku \'Add\' aby utworzyć nową rolę',
+            'Nie ma zdefiniowanych ról. Użyj przycisku \'Dodaj rolę\' aby utworzyć nową rolę.',
         'Add Role' => 'Dodaj rolę',
         'Edit Role' => 'Edytuj rolę',
 
@@ -2483,7 +2483,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Zarządzanie konserwacją systemu',
-        'Schedule New System Maintenance' => '',
+        'Schedule New System Maintenance' => 'Zaplanuj nową konserwację systemu',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
@@ -4860,7 +4860,7 @@ sub Data {
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
-        'Schedule a maintenance period.' => '',
+        'Schedule a maintenance period.' => 'Zaplanuj konserwację',
         'Search Customer' => 'Szukaj klienta',
         'Search User' => 'Szukaj użytkownika',
         'Search backend default router.' => '',
@@ -5348,7 +5348,7 @@ sub Data {
         'Strips empty lines on the ticket preview in the queue view.' => 'Usuwa puste linie z podglądu zgłoszenia w widoku kolejki.',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
-        'System Maintenance' => '',
+        'System Maintenance' => 'Konserwacja systemu',
         'System Request (%s).' => 'Żądanie systemowe (%s).',
         'Templates <-> Queues' => 'Szablony <-> Kolejki',
         'Textarea' => 'Pole tekstowe',

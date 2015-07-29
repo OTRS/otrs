@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-07 06:33+0000\n"
+"PO-Revision-Date: 2015-07-13 10:55+0000\n"
 "Last-Translator: Uve Lokk <uvelokk@gmail.com>\n"
-"Language-Team: Estonian (http://www.transifex.com/p/OTRS/language/et/)\n"
+"Language-Team: Estonian (http://www.transifex.com/projects/p/OTRS/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2731,7 +2731,7 @@ msgstr "Saatja"
 
 #. Template: AAATicket
 msgid "Article"
-msgstr "Intsident"
+msgstr "artikkel"
 
 #. Template: AAATicket
 msgid "Ticket"
@@ -3103,7 +3103,7 @@ msgstr "Näidata suletud intsidente"
 
 #. Template: AAATicket
 msgid "New Article"
-msgstr "Uus intsident"
+msgstr "Uus artikkel"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
@@ -4148,7 +4148,7 @@ msgstr "Dünaamiliste väljade haldamine"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
-msgstr ""
+msgstr "Lisa uus väli objektile"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -5939,7 +5939,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
-msgstr ""
+msgstr "Artikli filter"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
@@ -5947,7 +5947,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
-msgstr "Intsidendi tüüp"
+msgstr "Artikli tüüp"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -10276,7 +10276,7 @@ msgstr "Malli nimi"
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
-msgstr ""
+msgstr "vali profiili nimi"
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
@@ -10308,7 +10308,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "kogu päev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
@@ -10316,27 +10316,27 @@ msgstr "pühapäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
-msgstr ""
+msgstr "esmaspäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tuesday"
-msgstr ""
+msgstr "teisipäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Wednesday"
-msgstr ""
+msgstr "kolmapäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Thursday"
-msgstr ""
+msgstr "neljapäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Friday"
-msgstr ""
+msgstr "reede"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Saturday"
-msgstr ""
+msgstr "laupäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Su"
@@ -10372,7 +10372,7 @@ msgstr "Sündmuse teave"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "pileti väljad"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
@@ -10396,7 +10396,7 @@ msgstr ""
 
 #. Template: Error
 msgid "Oops! An Error occurred."
-msgstr ""
+msgstr "Ups! Nüüd tekkis viga."
 
 #. Template: Error
 msgid "You can"
@@ -10412,12 +10412,12 @@ msgstr "Tagasi eelmisele lehele"
 
 #. Template: Error
 msgid "Error Details"
-msgstr ""
+msgstr "Vea üksikasjad"
 
 #. Template: FooterJS
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr ""
+msgstr "Lahkudes sellelt lehelt suletakse ka kõik hüpikaknad!"
 
 #. Template: FooterJS
 msgid ""
@@ -10433,7 +10433,7 @@ msgstr ""
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Palun eemalda otsingust järgnevad sõnad, kuna neid ei saa otsida:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -10441,7 +10441,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Please perform a spell check on the the text first."
-msgstr ""
+msgstr "Palun kontrolli esmalt teksti õigekirja."
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
@@ -10457,11 +10457,11 @@ msgstr ""
 
 #. Template: Installer
 msgid "JavaScript not available"
-msgstr ""
+msgstr "Ei saa kasutada JavaScript'i"
 
 #. Template: Installer
 msgid "Database Settings"
-msgstr ""
+msgstr "Andmebaasi seaded"
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
@@ -10505,11 +10505,11 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
-msgstr ""
+msgstr "e-posti server"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host."
-msgstr ""
+msgstr "E-posti server."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP authentication"
@@ -10517,7 +10517,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Does your SMTP host need authentication?"
-msgstr ""
+msgstr "Kas e-posti server kasutab autentimist?"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth user"
@@ -10549,11 +10549,11 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host"
-msgstr ""
+msgstr "Siseneva e-posti server"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host."
-msgstr ""
+msgstr "Siseneva e-posti server."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
@@ -10577,11 +10577,11 @@ msgstr "E-posti häälestuse kontrolli tulemus"
 
 #. Template: InstallerConfigureMail
 msgid "Check mail configuration"
-msgstr ""
+msgstr "Kontrolli e-posti häälestust"
 
 #. Template: InstallerConfigureMail
 msgid "Skip this step"
-msgstr ""
+msgstr "Jäta see samm vahele"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
@@ -10593,19 +10593,19 @@ msgstr ""
 
 #. Template: InstallerDBStart
 msgid "Create a new database for OTRS"
-msgstr ""
+msgstr "Loo OTRSile uus andmebaas"
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTRS"
-msgstr ""
+msgstr "Kasuta olemasolevat andmebaasi"
 
 #. Template: InstallerDBmssql
 msgid "Database name"
-msgstr ""
+msgstr "Andmebaasi nimi"
 
 #. Template: InstallerDBmssql
 msgid "Check database settings"
-msgstr ""
+msgstr "Kontrolli andmebaasi seadeid"
 
 #. Template: InstallerDBmssql
 msgid "Result of database check"
@@ -10677,7 +10677,7 @@ msgstr "Ära nõustu litsensiga"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "Nõustu litsentsiga ja jätka"
 
 #. Template: InstallerSystem
 msgid ""

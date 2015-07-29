@@ -4,18 +4,20 @@
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
 # José Junior <joserribeiro26@gmail.com>, 2014-2015
+# Leandro Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2015
 # Ronaldo Richieri <ronaldo@complemento.net.br>, 2015
+# Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-02 13:53+0000\n"
-"Last-Translator: José Junior <joserribeiro26@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/p/OTRS/language/pt_BR/)\n"
+"PO-Revision-Date: 2015-07-29 17:11+0000\n"
+"Last-Translator: Samuel Diniz Casimiro <nedmaj@yahoo.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,7 +110,7 @@ msgstr "Amanhã"
 
 #. Template: AAABase
 msgid "Next week"
-msgstr "Próxima Semana"
+msgstr "Próxima semana"
 
 #. Template: AAABase
 msgid "day"
@@ -2257,7 +2259,7 @@ msgstr "Carga do sistema"
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g."
 " a load of 8 or less on a system with 8 CPUs is OK)."
-msgstr ""
+msgstr "A carga do sistema deve estar, no máximo, até o número de CPUs que o sistema tiver (ex.: uma carga de 8 ou menos em um sistema com 8 CPUs é adequada)."
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
@@ -2379,7 +2381,7 @@ msgstr "Utilizador e Palavra-chave SOAP Padrão"
 msgid ""
 "Security risk: you use the default setting for SOAP::User and "
 "SOAP::Password. Please change it."
-msgstr ""
+msgstr "Risco de segurança: você usou uma configuração padrão para SOAP::User e SOAP::Password. Por favor altere-a."
 
 #. Template: AAASupportDataCollector
 msgid "Default Admin Password"
@@ -2433,7 +2435,7 @@ msgstr "ID do sistema"
 
 #. Template: AAASupportDataCollector
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr ""
+msgstr "Sua configuração de SystemID não é válida, ela precisa conter apenas dígitos."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
@@ -2441,7 +2443,7 @@ msgstr "Versão do OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Index Module"
-msgstr ""
+msgstr "Módulo de Índice do Ticket"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2459,7 +2461,7 @@ msgstr "Você não deveria ter mais que 8.000 chamados abertos em seu sistema."
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Search Index module"
-msgstr ""
+msgstr "Módulo de Pesquisa de Índice do Ticket"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2469,7 +2471,7 @@ msgstr "Você possui mais de 50.000 artigos e deveria usar o backend StaticDB. V
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr ""
+msgstr "Registros órgãos na tabela ticket_lock_index"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2505,11 +2507,11 @@ msgstr "Módulos Apache Carregados"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "Modelo MPM"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS necessita do apache para executar o modelo MPM 'prefork'"
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -2529,11 +2531,11 @@ msgstr "Por favor, instale mod_deflate para melhorar o desempenho da GUI."
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "Uso do mod_filter"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Por favor instale mod_filter se mod_deflate está sendo usado."
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
@@ -2552,7 +2554,7 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr ""
+msgstr "Apache::Reload ou Apache2::Reload precisa ser usado como PerlModulo e PerlInitHandler para evitar o reset do web server ao instalar e atualizar módulos."
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
@@ -2562,7 +2564,7 @@ msgstr "Uso do Apache::DBI"
 msgid ""
 "Apache::DBI should be used to get a better performance  with pre-established"
 " database connections."
-msgstr ""
+msgstr "Apache::DBI precisa ser usado para obter um melhor desempenho com conexões de banco de dados pré-estabelecidas."
 
 #. Template: AAASupportDataCollector
 msgid "You should use PerlEx to increase your performance."
@@ -3142,7 +3144,7 @@ msgstr "Pesquisar Chamados"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Nome real do cliente"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -4326,7 +4328,7 @@ msgstr "Restringir entrada de datas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Aqui você pode restringir a entrada de datas de tickets."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
@@ -4406,13 +4408,13 @@ msgstr "Especificar a largura (em caracteres) para este campo no modo de ediçã
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Verifique a expressão regular"
 
 #. Template: AdminDynamicFieldText
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will"
 " be executed with the modifiers xms."
-msgstr ""
+msgstr "Aqui você pode especificar uma expressão regular para validar o valor. A expressão regular será executada com os modificadores xms."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
@@ -4662,7 +4664,7 @@ msgstr "Última alteração"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "Nenhuma configuração de horário alterado restante."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
@@ -5002,23 +5004,23 @@ msgstr "Limpar log de depuração"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
-msgstr ""
+msgstr "Adicione um novo Invoker para o web service %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
-msgstr ""
+msgstr "Altere o Invoker %s do web service %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new invoker"
-msgstr ""
+msgstr "Adicione um novo invoker"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change invoker %s"
-msgstr ""
+msgstr "Altere o invoker %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
-msgstr ""
+msgstr "Você deseja realmente excluir este invoker?"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "All configuration data will be lost."
@@ -5026,16 +5028,16 @@ msgstr "Todos os dados de configuração serão perdidos."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
-msgstr ""
+msgstr "Detalhes do invoker"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr ""
+msgstr "O nome é comumente usado para chamar uma operação de um web service remoto."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Please provide a unique name for this web service invoker."
-msgstr ""
+msgstr "Por favor informe um nome único para este invoker de web service."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -5045,11 +5047,11 @@ msgstr "Backend do Invocador"
 msgid ""
 "This OTRS invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr ""
+msgstr "Este módulo de backend do invoker do OTRS será chamado para preparar os dados que serão enviados para o sistema remoto, e para processar os dados da resposta."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr ""
+msgstr "Mapeamento para os dados de saída da requisição."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
@@ -5059,17 +5061,17 @@ msgstr "Configurar"
 msgid ""
 "The data from the invoker of OTRS will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
-msgstr ""
+msgstr "Os dados do invoker do OTRS serão processados através deste mapeamento, para transformá-los no tipo de dados esperado pelo sistema remoto."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
-msgstr ""
+msgstr "Mapeamento para os dados de chegada da resposta."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTRS expects."
-msgstr ""
+msgstr "Os dados da resposta serão processados através deste mapeamento, para transformá-los no tipo de dados esperado pelo invoker do OTRS."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -5077,19 +5079,19 @@ msgstr "Assíncrono"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
-msgstr ""
+msgstr "Este invoker será disparado atráves dos eventos configurados."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler in background "
 "(recommended)."
-msgstr ""
+msgstr "Gatilhos (dispadores) de eventos assíncronos são manipulados em segundo plano pelo Agendador do OTRS (recomendado)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
-msgstr ""
+msgstr "Gatilhos (dispadores) de eventos síncronos precisam ser processados diretamente durante a requisição web."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
@@ -5097,7 +5099,7 @@ msgstr "Salva e Continuar"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
-msgstr ""
+msgstr "Exclua este invoker"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
@@ -5109,23 +5111,23 @@ msgstr "Voltar para"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "Mapeamento simples"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "Regra padrão para chaves não mapeadas"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "Esta regra se aplica para todas as chaves sem regra de mapeamento"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr ""
+msgstr "Regra padrão para valores não mapeados."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
-msgstr ""
+msgstr "Esta regra será aplicada para todos os valores sem regra de mapeamento."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
@@ -5153,35 +5155,35 @@ msgstr "Chave de mapa"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "correspondendo ao"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "para nova chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Mapeamento de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Valor de mapa"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "para novo valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "Remover mapeamento de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "Novo mapa de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "Adiciona mapeamento de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"

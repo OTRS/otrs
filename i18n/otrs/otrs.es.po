@@ -3,13 +3,14 @@
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Deiry Arias <mailimarias@gmail.com>, 2015
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
+# Pablo Ascencio <pabloascencio77@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-06 22:43+0000\n"
-"Last-Translator: Deiry Arias <mailimarias@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/p/OTRS/language/es/)\n"
+"PO-Revision-Date: 2015-07-29 13:53+0000\n"
+"Last-Translator: Pablo Ascencio <pabloascencio77@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2110,7 +2111,7 @@ msgstr "Juego de Caracteres de la Conexión del Cliente"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr "El ajuste de character_set_client necesita ser utf8."
+msgstr "El ajuste character_set_client necesita ser utf8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
@@ -2130,11 +2131,11 @@ msgstr "Se encontrarón tablas las cuales el juego de caracteres no es utf8."
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "Tamaño del Archivo Log InnoDB"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "El ajuste innodb_log_file_size debe ser de al menos 256 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
@@ -2499,7 +2500,7 @@ msgstr "Módulos Apache Cargados"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "modelo MPM"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
@@ -5345,7 +5346,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Comando por defecto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
@@ -5353,11 +5354,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticación"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
-msgstr ""
+msgstr "Mecanismo de autenticación para acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
@@ -5365,7 +5366,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
-msgstr ""
+msgstr "Nombre de usuario a ser usado para acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -5528,11 +5529,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
-msgstr ""
+msgstr "Servidor Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI of a proxy server to be used (if needed)."
-msgstr ""
+msgstr "URI del servidor proxy a usar (si se requiere)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
@@ -5540,7 +5541,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
-msgstr ""
+msgstr "Usuario de Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The user name to be used to access the proxy server."
@@ -5686,7 +5687,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "Eliminar operación"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
@@ -5846,7 +5847,7 @@ msgstr "Ejemplo: mail.ejemplo.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
-msgstr ""
+msgstr "Carpeta IMAP"
 
 #. Template: AdminMailAccount
 msgid ""
@@ -5896,11 +5897,11 @@ msgstr "Gestión de Notificaciones"
 
 #. Template: AdminNotification
 msgid "Select a different language"
-msgstr ""
+msgstr "Seleccione un lenguaje diferente"
 
 #. Template: AdminNotification
 msgid "Filter for Notification"
-msgstr ""
+msgstr "Filtro para Notificaciones"
 
 #. Template: AdminNotification
 msgid "Notifications are sent to an agent or a customer."
@@ -5928,7 +5929,7 @@ msgstr "Agregar notificación"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "Eliminar esta notificación"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5944,7 +5945,7 @@ msgstr "Filtro de artículos"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Solo para eventos de ArticleCreate y ArticleSend"
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
@@ -5959,7 +5960,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "Tipo de remitente de articulo"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
@@ -5971,7 +5972,7 @@ msgstr "Coincidencia del cuerpo"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
-msgstr ""
+msgstr "Incluir archivos adjuntos a la notificación"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient"
@@ -5979,23 +5980,23 @@ msgstr "Destinatario"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient groups"
-msgstr ""
+msgstr "Grupos destinatarios"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient agents"
-msgstr ""
+msgstr "Agentes destinatarios"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient roles"
-msgstr ""
+msgstr "Roles destinatarios"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient email addresses"
-msgstr ""
+msgstr "Correo electrónico destinatario"
 
 #. Template: AdminNotificationEvent
 msgid "Notification article type"
-msgstr ""
+msgstr "Notificación de tipo"
 
 #. Template: AdminNotificationEvent
 msgid "Only for notifications to specified email addresses"
@@ -6261,7 +6262,7 @@ msgstr "Gestor de paquetes"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
-msgstr ""
+msgstr "Desinstalar paquete"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
@@ -6269,13 +6270,13 @@ msgstr "Está seguro de que desea desinstalar este paquete?"
 
 #. Template: AdminPackageManager
 msgid "Reinstall package"
-msgstr ""
+msgstr "Reinstalar paquete"
 
 #. Template: AdminPackageManager
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr ""
+msgstr "¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -6294,11 +6295,11 @@ msgstr "Instalar"
 
 #. Template: AdminPackageManager
 msgid "Install Package"
-msgstr ""
+msgstr "Instalar Paquete"
 
 #. Template: AdminPackageManager
 msgid "Update repository information"
-msgstr ""
+msgstr "Actualizar información de repositorio"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -6476,7 +6477,7 @@ msgstr "Gestión del filtro maestro"
 
 #. Template: AdminPostMasterFilter
 msgid "Add filter"
-msgstr ""
+msgstr "Agregar filtro"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -6570,7 +6571,7 @@ msgstr "Editar la prioridad"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
-msgstr ""
+msgstr "Gestión de Procesos"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
@@ -7962,7 +7963,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Available Certificates"
-msgstr ""
+msgstr "Certificados Disponibles"
 
 #. Template: AdminSMIME
 msgid "Relate this certificate"
@@ -7974,7 +7975,7 @@ msgstr "Cerrar la ventana"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
-msgstr ""
+msgstr "Detalles del Certificado"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"

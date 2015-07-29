@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-12 18:12+0000\n"
+"PO-Revision-Date: 2015-07-26 16:43+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -652,7 +652,7 @@ msgstr "Beállítások"
 
 #. Template: AAABase
 msgid "Title"
-msgstr "Titulus"
+msgstr "Cím"
 
 #. Template: AAABase
 msgid "Item"
@@ -2826,7 +2826,7 @@ msgstr "Zárolt jegyek emlékeztető elérve"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr "Zárolt hibakegyek új"
+msgstr "Zárolt jegyek új"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
@@ -3725,18 +3725,18 @@ msgstr "Érvénytelen ACL törlése"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr "Találati beállítások"
+msgstr "Illesztési beállítások"
 
 #. Template: AdminACLEdit
 msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "Találati feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez."
+msgstr "Illesztési feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr "Beállítások módosítása"
+msgstr "Változtatási beállítások"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -3746,11 +3746,11 @@ msgstr "Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne fe
 
 #. Template: AdminACLEdit
 msgid "Check the official"
-msgstr "A hivatalnok ellenőrzése"
+msgstr "Nézze meg a hivatalos"
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr "dokumentáció"
+msgstr "dokumentációt"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -4079,11 +4079,11 @@ msgstr "Nincs találat."
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
-msgstr "Az ügyfelek csoportkapcsolatainak módosítása"
+msgstr "Csoportkapcsolatok megváltoztatása egy ügyfélnél"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Customer Relations for Group"
-msgstr "A csoportok ügyfélkapcsolatainak módosítása"
+msgstr "Ügyfélkapcsolatok megváltoztatása egy csoportnál"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
@@ -4143,7 +4143,7 @@ msgstr "Aktivált állapot ki- és bekapcsolása mindenkinek"
 
 #. Template: AdminCustomerUserService
 msgid "Active"
-msgstr "Aktiválás"
+msgstr "Aktív"
 
 #. Template: AdminCustomerUserService
 msgid "Toggle active state for %s"
@@ -6624,7 +6624,7 @@ msgstr "A folyamatokon itt elvégzett módosítás csak akkor lesz hatással a r
 
 #. Template: AdminProcessManagement
 msgid "Process name"
-msgstr "Folyamatnév"
+msgstr "Folyamat neve"
 
 #. Template: AdminProcessManagement
 msgid "Print"
@@ -6657,7 +6657,7 @@ msgstr "Tevékenység"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
-msgstr "Tevékenységnév"
+msgstr "Tevékenység neve"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
@@ -6723,7 +6723,7 @@ msgstr "Tevékenység párbeszéd neve"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr "Elérhető ekkor"
+msgstr "Elérhető ebben"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
@@ -6747,11 +6747,11 @@ msgstr "A kijelölt szükséges zár nem létezik."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr "Értesítőszöveg elküldése"
+msgstr "Elküldés értesítőszövege"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr "Gombszöveg elküldése"
+msgstr "Elküldés gomb szövege"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
@@ -6918,7 +6918,7 @@ msgstr "Folyamat-információk szerkesztése"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Process Name"
-msgstr "Folyamatnév"
+msgstr "Folyamat neve"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
@@ -7113,7 +7113,7 @@ msgstr "Átmenet"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
-msgstr "Átmenetnév"
+msgstr "Átmenet neve"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -7302,7 +7302,7 @@ msgstr "Automatikus válaszok"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr "A várólista automatikus válasz kapcsolatainak módosítása"
+msgstr "Automatikus válasz kapcsolatok megváltoztatása egy várólistánál"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
@@ -7318,11 +7318,11 @@ msgstr "Sablonok"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
-msgstr "A sablon várólista kapcsolatainak módosítása"
+msgstr "Várólista-kapcsolatok megváltoztatása egy sablonnál"
 
 #. Template: AdminQueueTemplates
 msgid "Change Template Relations for Queue"
-msgstr "A várólista sablon kapcsolatainak módosítása"
+msgstr "Sablonkapcsolatok megváltoztatása egy várólistánál"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -7799,11 +7799,11 @@ msgstr "Ha semmi sincs kiválasztva, akkor ebben a csoportban nincsenek jogosult
 
 #. Template: AdminRoleGroup
 msgid "Change Role Relations for Group"
-msgstr "A szerep kapcsolatainak módosítása a csoporthoz"
+msgstr "Szerepkapcsolatok megváltoztatása egy csoportnál"
 
 #. Template: AdminRoleGroup
 msgid "Change Group Relations for Role"
-msgstr "A csoport kapcsolatainak módosítása a szerephez"
+msgstr "Csoportkapcsolatok megváltoztatása egy szerepnél"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -7819,7 +7819,7 @@ msgstr "Jogosultságok jegyek áthelyezéséhez ebbe a csoportba/várólistába.
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "készít"
+msgstr "létrehozás"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -7863,11 +7863,11 @@ msgstr "Szerep-ügyintéző kapcsolatok kezelése"
 
 #. Template: AdminRoleUser
 msgid "Change Role Relations for Agent"
-msgstr "A szerep kapcsolatainak módosítása az ügyintézőhöz"
+msgstr "Szerepkapcsolatok megváltoztatása egy ügyintézőnél"
 
 #. Template: AdminRoleUser
 msgid "Change Agent Relations for Role"
-msgstr "Az ügyintéző kapcsolatainak módosítása a szerephez"
+msgstr "Ügyintéző-kapcsolatok megváltoztatása egy szerepnél"
 
 #. Template: AdminSLA
 msgid "SLA Management"
@@ -8646,11 +8646,11 @@ msgstr "Szűrő a mellékletekhez"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Template Relations for Attachment"
-msgstr "A sablon kapcsolatainak módosítása a melléklethez"
+msgstr "Sablonkapcsolatok megváltoztatása egy mellékletnél"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Attachment Relations for Template"
-msgstr "A melléklet kapcsolatainak módosítása a sablonhoz"
+msgstr "Mellékletkapcsolatok megváltoztatása egy sablonnál"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8742,11 +8742,11 @@ msgstr "Ügyintéző-csoport kapcsolatok kezelése"
 
 #. Template: AdminUserGroup
 msgid "Change Group Relations for Agent"
-msgstr "A csoport kapcsolatainak módosítása az ügyintézőhöz"
+msgstr "Csoportkapcsolatok megváltoztatása egy ügyintézőnél"
 
 #. Template: AdminUserGroup
 msgid "Change Agent Relations for Group"
-msgstr "Az ügyintéző kapcsolatainak módosítása a csoporthoz"
+msgstr "Ügyintéző-kapcsolatok megváltoztatása egy csoportnál"
 
 #. Template: AgentBook
 msgid "Address Book"

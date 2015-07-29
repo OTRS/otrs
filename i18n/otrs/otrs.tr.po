@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Kaya Zeren <kayazeren@gmail.com>, 2015
 # Sefer <sefersimsek@yahoo.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-06-17 08:59+0000\n"
-"Last-Translator: Sefer <sefersimsek@yahoo.com>\n"
+"PO-Revision-Date: 2015-07-12 08:23+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -208,7 +209,7 @@ msgstr "sn"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Zaman birimi"
 
 #. Template: AAABase
 msgid "wrote"
@@ -216,7 +217,7 @@ msgstr "yazdı"
 
 #. Template: AAABase
 msgid "Message"
-msgstr "Mesaj"
+msgstr "İleti"
 
 #. Template: AAABase
 msgid "Error"

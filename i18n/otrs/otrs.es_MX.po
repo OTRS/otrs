@@ -6,12 +6,13 @@
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014
 # FCRUZ <francisco.cruz@otrs.com>, 2014
 # FCRUZ <francisco.cruz@otrs.com>, 2014
+# Ivan Miron <ivan.miron@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-07-28 15:48+0000\n"
+"Last-Translator: Ivan Miron <ivan.miron@gmail.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2113,7 +2114,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Configura character_set_client a un valor de utf8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"

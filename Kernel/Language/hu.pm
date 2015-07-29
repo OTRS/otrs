@@ -194,7 +194,7 @@ sub Data {
         'Fulltext Search' => 'Szabad-szavas keresés',
         'Data' => 'Adat',
         'Options' => 'Beállítások',
-        'Title' => 'Titulus',
+        'Title' => 'Cím',
         'Item' => 'Elem',
         'Delete' => 'Törlés',
         'Edit' => 'Szerkesztés',
@@ -788,7 +788,7 @@ sub Data {
         'closed unsuccessful' => 'sikertelenül lezárva',
         'Locked Tickets Total' => 'Zárolt jegyek összesen',
         'Locked Tickets Reminder Reached' => 'Zárolt jegyek emlékeztető elérve',
-        'Locked Tickets New' => 'Zárolt hibakegyek új',
+        'Locked Tickets New' => 'Zárolt jegyek új',
         'Responsible Tickets Total' => 'Felelős jegyek összesen',
         'Responsible Tickets New' => 'Felelős jegyek új',
         'Responsible Tickets Reminder Reached' => 'Felelős jegyek emlékeztető elérve',
@@ -1028,14 +1028,14 @@ sub Data {
         'Go to overview' => 'Ugrás az áttekintőhöz',
         'Delete ACL' => 'ACL törlése',
         'Delete Invalid ACL' => 'Érvénytelen ACL törlése',
-        'Match settings' => 'Találati beállítások',
+        'Match settings' => 'Illesztési beállítások',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            'Találati feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez.',
-        'Change settings' => 'Beállítások módosítása',
+            'Illesztési feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez.',
+        'Change settings' => 'Változtatási beállítások',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista.',
-        'Check the official' => 'A hivatalnok ellenőrzése',
-        'documentation' => 'dokumentáció',
+        'Check the official' => 'Nézze meg a hivatalos',
+        'documentation' => 'dokumentációt',
         'Show or hide the content' => 'A tartalom megjelenítése vagy elrejtése',
         'Edit ACL information' => 'ACL információk szerkesztése',
         'Stop after match' => 'Leállítás találat után',
@@ -1136,8 +1136,8 @@ sub Data {
         'Search Results' => 'Keresési eredmények',
         'Customers' => 'Ügyfelek',
         'No matches found.' => 'Nincs találat.',
-        'Change Group Relations for Customer' => 'Az ügyfelek csoportkapcsolatainak módosítása',
-        'Change Customer Relations for Group' => 'A csoportok ügyfélkapcsolatainak módosítása',
+        'Change Group Relations for Customer' => 'Csoportkapcsolatok megváltoztatása egy ügyfélnél',
+        'Change Customer Relations for Group' => 'Ügyfélkapcsolatok megváltoztatása egy csoportnál',
         'Toggle %s Permission for all' => 'A(z) %s jogosultság ki- vagy bekapcsolása mindenkinek',
         'Toggle %s permission for %s' => 'A(z) %s jogosultság ki- vagy bekapcsolása ehhez: %s',
         'Customer Default Groups:' => 'Alapértelmezett ügyfélcsoportok',
@@ -1155,7 +1155,7 @@ sub Data {
         'Allocate Services to Customer' => 'Szolgáltatások lefoglalása az ügyfélhez',
         'Allocate Customers to Service' => 'Ügyfelek lefoglalása a szolgáltatáshoz',
         'Toggle active state for all' => 'Aktivált állapot ki- és bekapcsolása mindenkinek',
-        'Active' => 'Aktiválás',
+        'Active' => 'Aktív',
         'Toggle active state for %s' => 'Aktivált állapot ki- és bekapcsolása ehhez: %s',
 
         # Template: AdminDynamicField
@@ -1897,7 +1897,7 @@ sub Data {
             'Egy új folyamat létrehozásához importálhat egy másik rendszerből exportált folyamatot, vagy létrehozhat egy teljesen újat.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'A folyamatokon itt elvégzett módosítás csak akkor lesz hatással a rendszer viselkedésére, ha szinkronizálja a folyamatadatokat. A folyamatok szinkronizálásával az újonnan elvégzett módosítások be lesznek írva a beállításokba.',
-        'Process name' => 'Folyamatnév',
+        'Process name' => 'Folyamat neve',
         'Print' => 'Nyomtatás',
         'Export Process Configuration' => 'Folyamat-beállítás exportálása',
         'Copy Process' => 'Folyamat másolása',
@@ -1908,7 +1908,7 @@ sub Data {
         'Please note, that changing this activity will affect the following processes' =>
             'Ne feledje, hogy a tevékenység módosítása érinteni fogja a következő folyamatokat',
         'Activity' => 'Tevékenység',
-        'Activity Name' => 'Tevékenységnév',
+        'Activity Name' => 'Tevékenység neve',
         'Activity Dialogs' => 'Tevékenység párbeszédek',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             'Tevékenység párbeszédeket rendelhet hozzá ehhez a tevékenységhez, ha az elemeket bal oldali listából a jobb oldali listába húzza az egérrel.',
@@ -1930,14 +1930,14 @@ sub Data {
             'Az ügyfelek csak a várólista mezőt használhatják egy új jegy létrehozásakor.',
         'Activity Dialog' => 'Tevékenység párbeszéd',
         'Activity dialog Name' => 'Tevékenység párbeszéd neve',
-        'Available in' => 'Elérhető ekkor',
+        'Available in' => 'Elérhető ebben',
         'Description (short)' => 'Leírás (rövid)',
         'Description (long)' => 'Leírás (hosszú)',
         'The selected permission does not exist.' => 'A kijelölt jogosultság nem létezik.',
         'Required Lock' => 'Szükséges zár',
         'The selected required lock does not exist.' => 'A kijelölt szükséges zár nem létezik.',
-        'Submit Advice Text' => 'Értesítőszöveg elküldése',
-        'Submit Button Text' => 'Gombszöveg elküldése',
+        'Submit Advice Text' => 'Elküldés értesítőszövege',
+        'Submit Button Text' => 'Elküldés gomb szövege',
         'Fields' => 'Mezők',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'Mezőket rendelhet hozzá ehhez a tevékenység párbeszédhez, ha az elemeket bal oldali listából a jobb oldali listába húzza az egérrel.',
@@ -1988,7 +1988,7 @@ sub Data {
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Műveletek rendelhetők egy átmenethez, ha a műveletelemet egy átmenet címkéjére ejti.',
         'Edit Process Information' => 'Folyamat-információk szerkesztése',
-        'Process Name' => 'Folyamatnév',
+        'Process Name' => 'Folyamat neve',
         'The selected state does not exist.' => 'A kijelölt állapot nem létezik.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Tevékenységek, tevékenység párbeszédek és átmenetek hozzáadása és szerkesztése',
         'Show EntityIDs' => 'Entitás-azonosítók megjelenítése',
@@ -2049,7 +2049,7 @@ sub Data {
         'Please note that changing this transition will affect the following processes' =>
             'Ne feledje, hogy az átmenet módosítása érinteni fogja a következő folyamatokat',
         'Transition' => 'Átmenet',
-        'Transition Name' => 'Átmenetnév',
+        'Transition Name' => 'Átmenet neve',
         'Type of Linking between Conditions' => 'Kapcsolat típusa a feltételek között',
         'Remove this Condition' => 'Feltétel eltávolítása',
         'Type of Linking' => 'Kapcsolat típusa',
@@ -2105,14 +2105,14 @@ sub Data {
         'Filter for Queues' => 'Szűrő a várólistákhoz',
         'Filter for Auto Responses' => 'Szűrő az automatikus válaszokhoz',
         'Auto Responses' => 'Automatikus válaszok',
-        'Change Auto Response Relations for Queue' => 'A várólista automatikus válasz kapcsolatainak módosítása',
+        'Change Auto Response Relations for Queue' => 'Automatikus válasz kapcsolatok megváltoztatása egy várólistánál',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Sablon-várólista kapcsolatok kezelése',
         'Filter for Templates' => 'Szűrő a sablonokhoz',
         'Templates' => 'Sablonok',
-        'Change Queue Relations for Template' => 'A sablon várólista kapcsolatainak módosítása',
-        'Change Template Relations for Queue' => 'A várólista sablon kapcsolatainak módosítása',
+        'Change Queue Relations for Template' => 'Várólista-kapcsolatok megváltoztatása egy sablonnál',
+        'Change Template Relations for Queue' => 'Sablonkapcsolatok megváltoztatása egy várólistánál',
 
         # Template: AdminRegistration
         'System Registration Management' => 'Rendszer regisztráció kezelés',
@@ -2260,12 +2260,12 @@ sub Data {
         'Select the role:group permissions.' => 'A szerep:csoport jogosultságok kiválasztása.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Ha semmi sincs kiválasztva, akkor ebben a csoportban nincsenek jogosultságok (a jegyek nem lesznek elérhetők a szerepnek).',
-        'Change Role Relations for Group' => 'A szerep kapcsolatainak módosítása a csoporthoz',
-        'Change Group Relations for Role' => 'A csoport kapcsolatainak módosítása a szerephez',
+        'Change Role Relations for Group' => 'Szerepkapcsolatok megváltoztatása egy csoportnál',
+        'Change Group Relations for Role' => 'Csoportkapcsolatok megváltoztatása egy szerepnél',
         'Toggle %s permission for all' => 'A(z) %s jogosultság ki- vagy bekapcsolása mindenkinek',
         'move_into' => 'átmozgatás',
         'Permissions to move tickets into this group/queue.' => 'Jogosultságok jegyek áthelyezéséhez ebbe a csoportba/várólistába.',
-        'create' => 'készít',
+        'create' => 'létrehozás',
         'Permissions to create tickets in this group/queue.' => 'Jogosultságok új jegyek létrehozásához ebben a csoportban/várólistában.',
         'note' => 'jegyzet',
         'Permissions to add notes to tickets in this group/queue.' => 'Jogosultságok a jegyekhez való jegyzetek hozzáadásához ebben a csoportban/várólistában.',
@@ -2280,8 +2280,8 @@ sub Data {
         'Manage Agent-Role Relations' => 'Ügyintéző-szerep kapcsolatok kezelése',
         'Filter for Agents' => 'Szűrő az ügyintézőkhöz',
         'Manage Role-Agent Relations' => 'Szerep-ügyintéző kapcsolatok kezelése',
-        'Change Role Relations for Agent' => 'A szerep kapcsolatainak módosítása az ügyintézőhöz',
-        'Change Agent Relations for Role' => 'Az ügyintéző kapcsolatainak módosítása a szerephez',
+        'Change Role Relations for Agent' => 'Szerepkapcsolatok megváltoztatása egy ügyintézőnél',
+        'Change Agent Relations for Role' => 'Ügyintéző-kapcsolatok megváltoztatása egy szerepnél',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA kezelés',
@@ -2527,8 +2527,8 @@ sub Data {
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => 'Sablonok <-> Mellékletek kapcsolatainak kezelése',
         'Filter for Attachments' => 'Szűrő a mellékletekhez',
-        'Change Template Relations for Attachment' => 'A sablon kapcsolatainak módosítása a melléklethez',
-        'Change Attachment Relations for Template' => 'A melléklet kapcsolatainak módosítása a sablonhoz',
+        'Change Template Relations for Attachment' => 'Sablonkapcsolatok megváltoztatása egy mellékletnél',
+        'Change Attachment Relations for Template' => 'Mellékletkapcsolatok megváltoztatása egy sablonnál',
         'Toggle active for all' => 'Aktiválás ki- és bekapcsolása mindenkinek',
         'Link %s to selected %s' => '%s összekapcsolása a kijelölt %s elemmel',
 
@@ -2557,8 +2557,8 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Ügyintéző-csoport kapcsolatok kezelése',
-        'Change Group Relations for Agent' => 'A csoport kapcsolatainak módosítása az ügyintézőhöz',
-        'Change Agent Relations for Group' => 'Az ügyintéző kapcsolatainak módosítása a csoporthoz',
+        'Change Group Relations for Agent' => 'Csoportkapcsolatok megváltoztatása egy ügyintézőnél',
+        'Change Agent Relations for Group' => 'Ügyintéző-kapcsolatok megváltoztatása egy csoportnál',
 
         # Template: AgentBook
         'Address Book' => 'Címjegyzék',

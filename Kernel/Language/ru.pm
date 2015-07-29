@@ -1530,7 +1530,7 @@ sub Data {
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'например, /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => 'Файл Certification Authority (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
-            '',
+            'Полный путь и имя файла сертификата для проверки SSL ',
         'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => 'например /opt/otrs/var/certificates/REST/CA/ca.file',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -1941,7 +1941,7 @@ sub Data {
         'Description (long)' => 'Описание (полное)',
         'The selected permission does not exist.' => 'Выбранные права не существуют',
         'Required Lock' => 'Требуется блокировка',
-        'The selected required lock does not exist.' => '',
+        'The selected required lock does not exist.' => 'Выбранное требование - "требуется блокировка" не существует.',
         'Submit Advice Text' => 'Текст подсказки кнопки Отправить',
         'Submit Button Text' => 'Название кнопки Отправить',
         'Fields' => 'Поля',
@@ -4703,7 +4703,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Следующее доступное состояние после добавления заметки при регистрации исходящего звонка в интерфейсе агента.',
         'No Notification' => 'Нет уведомлений',
-        'None' => '',
+        'None' => 'Нет',
         'Notification sent to "%s".' => 'Уведомление отправлено на %s.',
         'Notifications (Event)' => 'Уведомление о событии',
         'Number of displayed tickets' => 'Количество отображаемых заявок',

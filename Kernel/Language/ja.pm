@@ -701,9 +701,9 @@ sub Data {
         'Webserver Version' => 'Webサイトバージョン',
         'Could not determine webserver version.' => 'WEBサーバのバージョンを決定できません。',
         'Loaded Apache Modules' => 'ロードされたApacheモジュール',
-        'MPM model' => '',
+        'MPM model' => 'MPMモデル',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
+            'OTRSはapacheがMPMモデルがpreforkで実行されている必要があります。',
         'CGI Accelerator Usage' => 'CGIアクセラレータの有無',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'パフォーマンス向上のためFastCGIまたはmod_perlの使用を推奨します。',
@@ -1388,11 +1388,11 @@ sub Data {
         'Clear' => 'クリア',
         'Do you really want to clear the debug log of this web service?' =>
             'このWEBサービスのデバッグログを本当にクリアしますか。',
-        'Request List' => '',
+        'Request List' => 'リクエストリスト',
         'Time' => '時間',
         'Remote IP' => 'リモートIP',
         'Loading' => '読み込み中...',
-        'Select a single request to see its details.' => '',
+        'Select a single request to see its details.' => '詳細情報を表示するためには一つのリクエストを選択してください。',
         'Filter by type' => 'タイプでフィルタ',
         'Filter from' => '送信元でフィルタ',
         'Filter to' => '送信先でフィルタ',
@@ -4701,7 +4701,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話メモを追加した後の次の可能性あるチケットの状態です。',
         'No Notification' => '通知をしない',
-        'None' => '',
+        'None' => 'なし',
         'Notification sent to "%s".' => 'Notification sent to "%s".',
         'Notifications (Event)' => '通知 (イベント)',
         'Number of displayed tickets' => '表示チケット数',
@@ -4802,7 +4802,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Process Management Path GUI' => 'プロセス管理パスGUI',
         'Process Management Transition Action GUI' => 'プロセス管理遷移動作GUI',
         'Process Management Transition GUI' => 'プロセス管理遷移GUI',
-        'ProcessID' => '',
+        'ProcessID' => 'プロセスID',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'CSRF (Cross Site Request Forgery)攻撃に対するプロテクションです（さらに詳細はhttp://en.wikipedia.org/wiki/Cross-site_request_forgeryを参照ください）。',
         'Provides a matrix overview of the tickets per state per queue.' =>
@@ -5423,7 +5423,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'ショートカットのためのツールバー・アイテムです。',
-        'Tree view' => '',
+        'Tree view' => 'ツリー表示',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',

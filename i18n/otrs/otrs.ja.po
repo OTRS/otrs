@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-06-01 08:21+0000\n"
-"Last-Translator: Norihiro Tanaka <noritnk@kcn.ne.jp>\n"
+"PO-Revision-Date: 2015-07-25 14:14+0000\n"
+"Last-Translator: Hisatoshi Onishi <hisatoshi.onishi@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2502,11 +2502,11 @@ msgstr "ロードされたApacheモジュール"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "MPMモデル"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRSはapacheがMPMモデルがpreforkで実行されている必要があります。"
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -4943,7 +4943,7 @@ msgstr "このWEBサービスのデバッグログを本当にクリアします
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
-msgstr ""
+msgstr "リクエストリスト"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
@@ -4959,7 +4959,7 @@ msgstr "読み込み中..."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
-msgstr ""
+msgstr "詳細情報を表示するためには一つのリクエストを選択してください。"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by type"
@@ -15406,7 +15406,7 @@ msgstr "通知をしない"
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -15790,7 +15790,7 @@ msgstr "プロセス管理遷移GUI"
 
 #. SysConfig
 msgid "ProcessID"
-msgstr ""
+msgstr "プロセスID"
 
 #. SysConfig
 msgid ""
@@ -17733,7 +17733,7 @@ msgstr "ショートカットのためのツールバー・アイテムです。
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "ツリー表示"
 
 #. SysConfig
 msgid ""

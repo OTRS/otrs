@@ -760,7 +760,7 @@ sub Data {
         'Responsible' => 'Vastutaja',
         'Responsible Update' => 'Muuda vastutajat',
         'Sender' => 'Saatja',
-        'Article' => 'Intsident',
+        'Article' => 'artikkel',
         'Ticket' => 'Intsidendid',
         'Createtime' => 'Loomisaeg',
         'plain' => 'lähtetekst',
@@ -855,7 +855,7 @@ sub Data {
         'Ticket locked.' => '',
         'Don\'t show closed Tickets' => 'Mitte näidata suletud intsidente',
         'Show closed Tickets' => 'Näidata suletud intsidente',
-        'New Article' => 'Uus intsident',
+        'New Article' => 'Uus artikkel',
         'Unread article(s) available' => '',
         'Remove from list of watched tickets' => 'Eemalda vaadatud piletite nimekirjast',
         'Add to list of watched tickets' => '',
@@ -1155,7 +1155,7 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Dünaamiliste väljade haldamine',
-        'Add new field for object' => '',
+        'Add new field for object' => 'Lisa uus väli objektile',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
         'Dynamic Fields List' => '',
@@ -1683,9 +1683,9 @@ sub Data {
         'Delete this notification' => '',
         'Add Notification' => '',
         'Ticket Filter' => '',
-        'Article Filter' => '',
+        'Article Filter' => 'Artikli filter',
         'Only for ArticleCreate and ArticleSend event' => '',
-        'Article type' => 'Intsidendi tüüp',
+        'Article type' => 'Artikli tüüp',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '',
         'Article sender type' => '',
@@ -3090,7 +3090,7 @@ sub Data {
         'Save as Template?' => 'Salvesta kui mall?',
         'Save as Template' => 'Salvesta kui mall',
         'Template Name' => 'Malli nimi',
-        'Pick a profile name' => '',
+        'Pick a profile name' => 'vali profiili nimi',
         'Output to' => 'Tulemuste formaat',
 
         # Template: CustomerTicketSearchResultShort
@@ -3104,14 +3104,14 @@ sub Data {
         'Reply' => '',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => '',
+        'All-day' => 'kogu päev',
         'Sunday' => 'pühapäev',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
+        'Monday' => 'esmaspäev',
+        'Tuesday' => 'teisipäev',
+        'Wednesday' => 'kolmapäev',
+        'Thursday' => 'neljapäev',
+        'Friday' => 'reede',
+        'Saturday' => 'laupäev',
         'Su' => 'P',
         'Mo' => 'E',
         'Tu' => 'T',
@@ -3120,7 +3120,7 @@ sub Data {
         'Fr' => 'R',
         'Sa' => 'L',
         'Event Information' => 'Sündmuse teave',
-        'Ticket fields' => '',
+        'Ticket fields' => 'pileti väljad',
         'Dynamic fields' => 'Dünaamilised väljad',
 
         # Template: Datepicker
@@ -3130,23 +3130,23 @@ sub Data {
         'Open date selection' => '',
 
         # Template: Error
-        'Oops! An Error occurred.' => '',
+        'Oops! An Error occurred.' => 'Ups! Nüüd tekkis viga.',
         'You can' => '',
         'Send a bugreport' => 'Saada vearaport',
         'go back to the previous page' => 'Tagasi eelmisele lehele',
-        'Error Details' => '',
+        'Error Details' => 'Vea üksikasjad',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
-            '',
+            'Lahkudes sellelt lehelt suletakse ka kõik hüpikaknad!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
+            'Palun eemalda otsingust järgnevad sõnad, kuna neid ei saa otsida:',
         'Please check the fields marked as red for valid inputs.' => '',
-        'Please perform a spell check on the the text first.' => '',
+        'Please perform a spell check on the the text first.' => 'Palun kontrolli esmalt teksti õigekirja.',
         'Slide the navigation bar' => '',
 
         # Template: Header
@@ -3155,8 +3155,8 @@ sub Data {
             '',
 
         # Template: Installer
-        'JavaScript not available' => '',
-        'Database Settings' => '',
+        'JavaScript not available' => 'Ei saa kasutada JavaScript\'i',
+        'Database Settings' => 'Andmebaasi seaded',
         'General Specifications and Mail Settings' => '',
         'Welcome to %s' => '',
         'Web site' => '',
@@ -3169,10 +3169,10 @@ sub Data {
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
-        'SMTP host' => '',
-        'SMTP host.' => '',
+        'SMTP host' => 'e-posti server',
+        'SMTP host.' => 'E-posti server.',
         'SMTP authentication' => '',
-        'Does your SMTP host need authentication?' => '',
+        'Does your SMTP host need authentication?' => 'Kas e-posti server kasutab autentimist?',
         'SMTP auth user' => '',
         'Username for SMTP auth.' => '',
         'SMTP auth password' => '',
@@ -3180,27 +3180,27 @@ sub Data {
         'Configure Inbound Mail' => '',
         'Inbound mail type' => 'Tüüp',
         'Select inbound mail type.' => '',
-        'Inbound mail host' => '',
-        'Inbound mail host.' => '',
+        'Inbound mail host' => 'Siseneva e-posti server',
+        'Inbound mail host.' => 'Siseneva e-posti server.',
         'Inbound mail user' => 'Kasutaja',
         'User for inbound mail.' => '',
         'Inbound mail password' => 'Parool',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => 'E-posti häälestuse kontrolli tulemus',
-        'Check mail configuration' => '',
-        'Skip this step' => '',
+        'Check mail configuration' => 'Kontrolli e-posti häälestust',
+        'Skip this step' => 'Jäta see samm vahele',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Andmebaasi paigaldus õnnestus!',
 
         # Template: InstallerDBStart
         'Install Type' => '',
-        'Create a new database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
+        'Create a new database for OTRS' => 'Loo OTRSile uus andmebaas',
+        'Use an existing database for OTRS' => 'Kasuta olemasolevat andmebaasi',
 
         # Template: InstallerDBmssql
-        'Database name' => '',
-        'Check database settings' => '',
+        'Database name' => 'Andmebaasi nimi',
+        'Check database settings' => 'Kontrolli andmebaasi seadeid',
         'Result of database check' => 'Andmebaasi kontrolli tulemus',
         'Database check successful.' => 'Andmebaasi kontroll õnnestus.',
         'Database User' => '',
@@ -3227,7 +3227,7 @@ sub Data {
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'Ära nõustu litsensiga',
-        'Accept license and continue' => '',
+        'Accept license and continue' => 'Nõustu litsentsiga ja jätka',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
