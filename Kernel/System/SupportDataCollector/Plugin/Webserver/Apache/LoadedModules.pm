@@ -26,10 +26,12 @@ sub Run {
     my %Environment = %ENV;
 
     # No apache webserver with mod_perl, skip this check
-    if (  !$ENV{SERVER_SOFTWARE}
+    if (
+        !$ENV{SERVER_SOFTWARE}
         || $ENV{SERVER_SOFTWARE} !~ m{apache}i
         || !$ENV{MOD_PERL}
-        || !eval { require Apache2::Module; } )
+        || !eval { require Apache2::Module; }
+        )
     {
         return $Self->GetResults();
     }
