@@ -207,13 +207,13 @@ div.InputField_ToolbarContainer ul li a:hover {
  * @subsection  jsTree theme
  */
 .jstree-InputField {
-    font-size: 11px !important;
-    overflow-x: hidden !important;
-    border: none !important;
-    box-shadow: none !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    font-size: 11px;
+    overflow-x: hidden;
+    border: none;
+    box-shadow: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 .jstree-InputField .jstree-node,
 .jstree-InputField .jstree-children,

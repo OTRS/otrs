@@ -817,8 +817,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     // Create main container
                     $ContainerObj = $('<div />').insertAfter($InputContainerObj);
                     $ContainerObj.addClass('InputField_Container')
-                        .attr('tabindex', '-1')
-                        .css('left', $SearchObj.offset().left + 'px');
+                        .attr('tabindex', '-1');
+
+                    // Set left offset if in Customer interface
+                    if (Core.Customer) {
+                        $ContainerObj.css('left', $SearchObj.offset().left + 'px');
+                    }
 
                     // Create container for jsTree code
                     $TreeContainerObj = $('<div />').appendTo($ContainerObj);
