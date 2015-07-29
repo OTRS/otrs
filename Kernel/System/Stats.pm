@@ -2736,11 +2736,13 @@ sub _GenerateDynamicStats {
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
-                $ValueSeries{ sprintf( "%04d-%02d-%02d", @Monday ) . ' - '
-                        . sprintf( "%04d-%02d-%02d", $ToYear, $ToMonth, $ToDay ) } = {
+                $ValueSeries{
+                    sprintf( "%04d-%02d-%02d", @Monday ) . ' - '
+                        . sprintf( "%04d-%02d-%02d", $ToYear, $ToMonth, $ToDay )
+                    } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart
-                        };
+                    };
 
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = Add_Delta_DHMS(
                     $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,

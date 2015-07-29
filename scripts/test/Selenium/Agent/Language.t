@@ -58,7 +58,7 @@ $Selenium->RunTest(
 
             $Element = $Selenium->find_element( 'Label[for=UserLanguage]', 'css' );
             $Self->Is(
-                substr($Element->get_text(), 0, -1),
+                substr( $Element->get_text(), 0, -1 ),
                 $LanguageObject->Get('Language'),
                 "String 'Language' in $Language",
             );

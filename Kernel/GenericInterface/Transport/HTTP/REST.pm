@@ -134,7 +134,7 @@ sub ProviderProcessRequest {
             my ( $Key, $Value ) = split '=', $QueryParam;
 
             # unscape URI strings in query parameters
-            $Key = URI::Escape::uri_unescape($Key);
+            $Key   = URI::Escape::uri_unescape($Key);
             $Value = URI::Escape::uri_unescape($Value);
             if ( !defined $QueryParams{$Key} ) {
                 $QueryParams{$Key} = $Value || '';

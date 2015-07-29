@@ -265,7 +265,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CreateTime',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',             # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketCreateTimeNewerDate',
@@ -278,7 +278,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'LastChangeTime',
-            TimePeriodFormat => 'DateInputFormat',      # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',                    # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketLastChangeTimeNewerDate',
@@ -291,7 +291,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'ChangeTime',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',              # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketChangeTimeNewerDate',
@@ -304,7 +304,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CloseTime2',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',            # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketCloseTimeNewerDate',
@@ -317,7 +317,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationTime',
-            TimePeriodFormat => 'DateInputFormatLong',    # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketEscalationTimeNewerDate',
@@ -330,7 +330,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationResponseTime',
-            TimePeriodFormat => 'DateInputFormatLong',                # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                              # 'DateInputFormat',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketEscalationResponseTimeNewerDate',
@@ -343,7 +343,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationUpdateTime',
-            TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                      # 'DateInputFormat',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketEscalationUpdateTimeNewerDate',
@@ -356,7 +356,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationSolutionTime',
-            TimePeriodFormat => 'DateInputFormatLong',          # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                        # 'DateInputFormat',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketEscalationSolutionTimeNewerDate',

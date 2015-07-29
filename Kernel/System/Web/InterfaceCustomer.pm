@@ -228,8 +228,8 @@ sub Run {
 
         # check submitted data
         my $User = $AuthObject->Auth(
-            User => $PostUser,
-            Pw   => $PostPw,
+            User           => $PostUser,
+            Pw             => $PostPw,
             TwoFactorToken => $PostTwoFactorToken,
         );
 

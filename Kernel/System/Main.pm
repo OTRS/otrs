@@ -226,7 +226,7 @@ sub FilenameCleanUp {
         return;
     }
 
-    my $Type = lc($Param{Type} || 'local');
+    my $Type = lc( $Param{Type} || 'local' );
 
     if ( $Type eq 'md5' ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Filename} );

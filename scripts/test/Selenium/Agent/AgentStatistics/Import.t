@@ -156,7 +156,7 @@ $Selenium->RunTest(
         # get stats IDs
         my $StatsIDs = $StatsObject->GetStatsList(
             AccessRw => 1,
-            UserID => 1,
+            UserID   => 1,
         );
 
         my $Count       = scalar @{$StatsIDs};

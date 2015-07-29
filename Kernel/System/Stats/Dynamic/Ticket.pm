@@ -259,7 +259,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CreateTime',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',             # 'DateInputFormatLong',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -273,7 +273,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'LastChangeTime',
-            TimePeriodFormat => 'DateInputFormat',      # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',                    # 'DateInputFormatLong',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -287,7 +287,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'ChangeTime',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',              # 'DateInputFormatLong',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -301,7 +301,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CloseTime2',
-            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',            # 'DateInputFormatLong',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -315,7 +315,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationTime',
-            TimePeriodFormat => 'DateInputFormatLong',    # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -329,7 +329,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationResponseTime',
-            TimePeriodFormat => 'DateInputFormatLong',                # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                              # 'DateInputFormat',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -343,7 +343,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationUpdateTime',
-            TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                      # 'DateInputFormat',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {
@@ -357,7 +357,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'EscalationSolutionTime',
-            TimePeriodFormat => 'DateInputFormatLong',          # 'DateInputFormat',
+            TimePeriodFormat => 'DateInputFormatLong',                        # 'DateInputFormat',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {

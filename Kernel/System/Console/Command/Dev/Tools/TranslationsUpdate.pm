@@ -736,7 +736,7 @@ sub WritePerlLanguageFile {
 
     my $Data;
 
-    my ($StringsTotal, $StringsTranslated);
+    my ( $StringsTotal, $StringsTranslated );
 
     my $PreviousLocation = '';
     for my $String ( @{ $Param{TranslationStrings} } ) {
@@ -747,7 +747,7 @@ sub WritePerlLanguageFile {
         }
 
         $StringsTotal++;
-        if ($String->{Translation}) {
+        if ( $String->{Translation} ) {
             $StringsTranslated++;
         }
 

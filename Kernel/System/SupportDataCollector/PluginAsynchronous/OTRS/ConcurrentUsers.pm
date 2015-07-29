@@ -224,7 +224,8 @@ sub RunAsynchronous {
         IDENTIFIER:
         for my $Identifier (qw(UserSessionUnique UserSession CustomerSession CustomerSessionUnique)) {
 
-            next IDENTIFIER if $AsynchronousData->[$CurrentHourPosition]->{$Identifier} >= $CountConcurrentUser{$Identifier};
+            next IDENTIFIER
+                if $AsynchronousData->[$CurrentHourPosition]->{$Identifier} >= $CountConcurrentUser{$Identifier};
 
             $AsynchronousData->[$CurrentHourPosition]->{$Identifier} = $CountConcurrentUser{$Identifier};
 

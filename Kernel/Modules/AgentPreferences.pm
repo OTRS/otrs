@@ -302,7 +302,7 @@ sub AgentPreferencesForm {
                         %{$ParamItem},
                         OptionTitle => 1,
                     );
-                    $BuildSelectionParams{Class} = join(' ', $BuildSelectionParams{Class} // '', 'Modernize');
+                    $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
                     $ParamItem->{Option} = $LayoutObject->BuildSelection(
                         %BuildSelectionParams,
                     );

@@ -875,7 +875,7 @@ sub _MigrateNotifications {
                 ],
                 Events     => ['NotificationFollowUp'],
                 Recipients => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
-                LockID     => [2, 3],                                                                    # locked
+                LockID => [ 2, 3 ],                                                                   # locked
                 Transports => ['Email'],
             },
         ],
@@ -931,7 +931,7 @@ sub _MigrateNotifications {
                 Events     => ['NotificationPendingReminder'],
                 Recipients => [ 'AgentOwner', 'AgentResponsible' ],
                 OncePerDay => [1],
-                LockID     => [2, 3],                                               # locked
+                LockID     => [ 2, 3 ],                                          # locked
                 Transports => ['Email'],
             },
             {

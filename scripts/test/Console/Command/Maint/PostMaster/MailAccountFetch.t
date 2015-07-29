@@ -23,7 +23,7 @@ $Self->Is(
     "Maint::PostMaster::MailAccountFetch exit code",
 );
 
-$ExitCode = $CommandObject->Execute('--mail-account-id', 99999);
+$ExitCode = $CommandObject->Execute( '--mail-account-id', 99999 );
 
 # just check exit code; should be 0 also if no accounts are configured
 $Self->Is(

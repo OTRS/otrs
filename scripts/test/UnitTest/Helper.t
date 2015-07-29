@@ -42,7 +42,6 @@ $Self->False(
     "GetRandomID() returned no duplicates",
 );
 
-
 # Test transactions
 
 $HelperObject->BeginWork();
@@ -65,6 +64,5 @@ $Self->False(
     $User{UserID},
     'Rollback worked',
 );
-
 
 1;

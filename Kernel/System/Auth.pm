@@ -173,8 +173,8 @@ sub Auth {
             # 2factor backend
             my $AuthOk = $Self->{"AuthTwoFactorBackend$Count"}->Auth(
                 TwoFactorToken => $Param{TwoFactorToken},
-                User => $User,
-                UserID => $UserID,
+                User           => $User,
+                UserID         => $UserID,
             );
             $TwoFactorAuth = $AuthOk ? 'passed' : 'failed';
 
