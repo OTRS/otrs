@@ -81,7 +81,8 @@ $Selenium->RunTest(
 
         # hover on menu bar on the misc cluster
         $Selenium->WaitFor(
-            JavaScript => 'return $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });' );
+            JavaScript => 'return $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+        );
 
         # click on 'Link'
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
