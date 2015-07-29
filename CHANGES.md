@@ -1,4 +1,6 @@
-#5.0.0.beta1 20??-??-??
+#5.0.0.beta2 22015-??-??
+
+#5.0.0.beta1 22015-08-04
  - 2015-07-17 Finished existing outbound element sorting for SOAP transport. Added graphical sorting functionality.
  - 2015-07-16 Added two factor authentication layer and google auth algorithm to agent and customer interface.
  - 2015-07-16 Switched to case insensitive sorting for select fields.
@@ -83,8 +85,6 @@
  - 2015-01-08 Added new indices to link_relation table.
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
-
-#4.0.12 2015-??-??
 
 #4.0.11 2015-08-04
  - 2015-07-13 Fixed bug#[11386](http://bugs.otrs.org/show_bug.cgi?id=11386) - Wrong behavior for the relative period 'the last week(s)' in the stats time field.
