@@ -13,6 +13,7 @@ use warnings;
 
 use base qw(Kernel::System::Console::BaseCommand);
 
+use File::Basename;
 use Lingua::Translit;
 use Pod::Strip;
 
