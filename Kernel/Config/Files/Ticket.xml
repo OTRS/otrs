@@ -9649,7 +9649,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMasterReconnectMessage" Required="1" Valid="1">
-        <Description Translatable="1">The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.</Description>
+        <Description Translatable="1">The maximum number of mails fetched at once before reconnecting to the server.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
