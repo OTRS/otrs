@@ -83,7 +83,7 @@ Core.UI.Popup = (function (TargetNS) {
             WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
             Left: 100,
             Top: 100,
-            Width: 1035,
+            Width: 1040,
             Height: 700
         }
     };
