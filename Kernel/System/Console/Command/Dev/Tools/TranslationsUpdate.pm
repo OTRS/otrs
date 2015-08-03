@@ -789,7 +789,6 @@ sub WritePerlLanguageFile {
 
         $NewOut = <<"EOF";
 $Separator
-# Kernel/Language/$Param{Language}_$Param{Module}.pm - translation file
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 $Separator
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
