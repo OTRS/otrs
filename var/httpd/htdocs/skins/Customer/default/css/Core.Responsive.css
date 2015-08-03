@@ -283,6 +283,98 @@
     fieldset .ShowTreeSelection {
         display: none;
     }
+    
+    /* Input Fields */
+    div.InputField_Container {
+        margin: 5px 5px 0;
+        width: 90%;
+    }
+    
+    div.InputField_InputContainer {
+        width: 100%;
+    }
+
+    #NewCustomerTicket input.InputField_Search {
+        margin: 0;
+        padding: 5px 3px;
+        width: 100% !important;
+    }
+    
+    div.InputField_Selection {
+        height: 1.5em;
+        line-height: 1.2em;
+    }
+    
+    div.InputField_Selection div,
+    div.InputField_FiltersList,
+    div.InputField_ToolbarContainer ul li a {
+        font-size: 0.9em;
+    }
+    
+    div.InputField_More {
+        top: 8px;
+    }
+    
+    /*div.InputField_Container {
+        width: 90%;
+        margin-right: 10px;
+    }
+
+    div.InputField_InputContainer {
+        width: 100%;
+    }
+    
+    div.InputField_InputContainer input.InputField_Search {
+        padding: 3px;
+        font-size: 0.9em;
+        width: 100% !important;
+    }
+    
+    div.InputField_ListContainer {
+        margin-top: -1px;
+    }
+    
+    div.InputField_Selection {
+        height: 1.4em;
+        line-height: 0.8em;
+    }
+    
+    div.InputField_Selection div,
+    div.InputField_FiltersList,
+    div.InputField_ToolbarContainer ul li a {
+        font-size: 0.8em;
+    }
+    
+    div.InputField_More {
+        top: 8px;
+    }
+    
+    div.InputField_FiltersList span {
+        vertical-align: 10%;
+    }*/
+    
+    .jstree-InputField {
+        font-size: 0.9em !important;
+    }
+   
+    div.InputField_TreeContainer {
+        max-height: 103px;
+        line-height: 1.4em;
+    }
+    
+    .jstree-InputField-Tree .jstree-node,
+    .jstree-InputField-Tree .jstree-anchor,
+    .jstree-InputField-NoTree .jstree-node,
+    .jstree-InputField-NoTree .jstree-anchor,
+    .jstree-InputField-Tree .jstree-icon:empty {
+        line-height: 1.4em;
+    }
+    
+    .jstree-InputField-Tree .jstree-wholerow,
+    .jstree-InputField-NoTree .jstree-wholerow {
+        line-height: 1.4em;
+        height: 1.5em;
+    }
 }
 
 /*  ~ Tablet landscape */

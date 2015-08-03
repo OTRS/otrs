@@ -68,7 +68,8 @@
 }
 
 .PreferencesScreen .Content form .Field.NoMargin select {
-    width: 98%;
+    min-width: inherit;
+    width: 97%;
 }
 
 .PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {

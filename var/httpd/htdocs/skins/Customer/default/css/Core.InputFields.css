@@ -15,24 +15,35 @@
  * @subsection  General
  */
 
-.InputField_InputContainer,
 .InputField_Container,
-.InputField_InputContainer div,
+.InputField_InputContainer,
+.InputField_ListContainer,
 .InputField_Container div,
-fieldset.Columns .Column .InputField_InputContainer,
+.InputField_InputContainer div,
+.InputField_ListContainer div,
 fieldset.Columns .Column .InputField_Container,
+fieldset.Columns .Column .InputField_InputContainer,
+fieldset.Columns .Column .InputField_ListContainer,
+fieldset.Columns .Column .InputField_Container div,
 fieldset.Columns .Column .InputField_InputContainer div,
-fieldset.Columns .Column .InputField_Container div {
+fieldset.Columns .Column .InputField_ListContainer div {
     padding: 0;
     overflow: visible;
 }
 
-fieldset div.InputField_InputContainer:first-child,
 fieldset div.InputField_Container:first-child,
+fieldset div.InputField_InputContainer:first-child,
+fieldset div.InputField_ListContainer:first-child,
+.InputField_Container div:first-child,
 .InputField_InputContainer div:first-child,
-.InputField_Container div:first-child {
+.InputField_ListContainer div:first-child {
     border-top: none;
     padding-top: 0;
+}
+
+div.InputField_Container {
+    position: static;
+    display: inline-block;
 }
 
 div.InputField_InputContainer {
@@ -121,7 +132,7 @@ div.InputField_More {
     top: 6px;
 }
 
-div.InputField_Container {
+div.InputField_ListContainer {
     position: absolute;
     z-index: 1000;
     display: none;

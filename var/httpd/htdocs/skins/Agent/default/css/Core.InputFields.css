@@ -14,6 +14,11 @@
 /**
  * @subsection  General
  */
+div.InputField_Container {
+    position: static;
+    display: inline-block;
+}
+
 div.InputField_InputContainer {
     position: relative;
     display: inline-block;
@@ -28,7 +33,7 @@ div.InputField_InputContainer {
 
 .InputField_Search,
 .InputField_Autocomplete {
-    min-width: 200px;
+    min-width: 190px;
 }
 
 #ToolBar .InputField_Search,
@@ -98,7 +103,7 @@ div.InputField_More {
     top: 6px;
 }
 
-div.InputField_Container {
+div.InputField_ListContainer {
     position: absolute;
     z-index: 1000;
     display: none;
@@ -208,13 +213,13 @@ div.InputField_ToolbarContainer ul li a:hover {
  */
 .jstree-InputField {
     font-size: 11px;
-    overflow-x: hidden;
     border: none;
     box-shadow: none;
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
 .jstree-InputField .jstree-node,
 .jstree-InputField .jstree-children,
 .jstree-InputField .jstree-container-ul {
@@ -223,6 +228,13 @@ div.InputField_ToolbarContainer ul li a:hover {
     padding: 0;
     list-style-type: none;
     list-style-image: none;
+    text-align: left;
+}
+
+.RTL .jstree-InputField .jstree-node,
+.RTL .jstree-InputField .jstree-children,
+.RTL .jstree-InputField .jstree-container-ul {
+    text-align: right;
 }
 
 .jstree-InputField .jstree-node {
