@@ -10,7 +10,7 @@
     <div class="ActionRow">
         <ul class="Filter Tabs">
 [% RenderBlockStart("FilterHeader") %]
-            <li class="[% Data.ClassLI | html %]">
+            <li>
                 <a class="[% Data.ClassA | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Filter=[% Data.Filter | uri %];SortBy=[% Data.SortBy | uri %];OrderBy=[% Data.OrderBy | uri %];">
                     [% Translate(Data.Name) | html %] ([% Data.Count | html %])
                 </a>

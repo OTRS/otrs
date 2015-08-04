@@ -187,15 +187,10 @@ sub Run {
             Result => 'COUNT',
         );
 
-        my $ClassLI = '';
         my $ClassA  = '';
         if ( $Filter eq $FilterCurrent ) {
             $ClassA     = 'Selected';
             $AllTickets = $Count;
-        }
-        my $CounterTotal = keys %{ $Filters{ $Self->{Subaction} } };
-        if ( $CounterTotal eq $Counter ) {
-            $ClassLI = 'Last';
         }
         if ( $Filter eq 'All' ) {
             $AllTicketsTotal = $Count;
@@ -205,7 +200,6 @@ sub Run {
             Count   => $Count,
             Filter  => $Filter,
             ClassA  => $ClassA,
-            ClassLI => $ClassLI,
         };
     }
 
