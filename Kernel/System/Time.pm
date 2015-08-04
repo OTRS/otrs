@@ -375,8 +375,14 @@ sub MailTimeStamp {
     my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
 
+    # check if server is in UTC (server diff should be 0)
+    my $ServerTimeDiff = Time::Local::timegm_nocheck( localtime( time() ) ) - time();
+
     # calculate offset - should be '+0200', '-0600', or '+0000'
     my $Diff = $Self->{TimeZone};
+    if ($ServerTimeDiff) {
+        $Diff = int( $ServerTimeDiff / 3600 );
+    }
     my $Direction = $Diff < 0 ? '-' : '+';
     $Diff = abs $Diff;
     my $OffsetHours = $Diff;
@@ -384,6 +390,7 @@ sub MailTimeStamp {
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->SystemTime2Date(
         SystemTime => time(),
     );
+
     my $TimeString = sprintf "%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
         $DayMap[$WeekDay],    # 'Sat'
         $Day, $MonthMap[ $Month - 1 ], $Year,    # '2', 'Aug', '2014'
@@ -391,7 +398,6 @@ sub MailTimeStamp {
         $Direction, $OffsetHours, 0;             # '+', '02', '00'
 
     return $TimeString;
-
 }
 
 =item WorkingTime()

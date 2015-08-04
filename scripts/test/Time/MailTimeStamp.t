@@ -25,9 +25,12 @@ if ( $^O eq 'MSWin32' ) {
 }
 
 my @Tests = (
+
+    # UTC server tests
     {
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-01-10 11:12:13',
+        ServerTZ  => 'UTC',
         TimeZone  => +1,
         Result    => 'Fri, 10 Jan 2014 11:12:13 +0100',
     },
@@ -35,18 +38,21 @@ my @Tests = (
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-01-10 11:12:13',
         TimeZone  => -8,
+        ServerTZ  => 'UTC',
         Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
     },
     {
         Name      => 'Asia/Yekaterinburg',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => +5,
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0500',
+        TimeZone  => +6,
+        ServerTZ  => 'UTC',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +0600',
     },
     {
         Name      => 'Europe/London',
         TimeStamp => '2014-01-10 11:12:13',
         TimeZone  => +0,
+        ServerTZ  => 'UTC',
         Result    => 'Fri, 10 Jan 2014 11:12:13 +0000',
     },
 
@@ -56,6 +62,7 @@ my @Tests = (
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => +1,
+        ServerTZ  => 'UTC',
         Result    => 'Sun, 3 Aug 2014 02:03:04 +0100',
     },
     {
@@ -63,19 +70,81 @@ my @Tests = (
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => -8,
+        ServerTZ  => 'UTC',
         Result    => 'Sun, 3 Aug 2014 02:03:04 -0800',
     },
     {
         Name      => 'Asia/Yekaterinburg',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => +5,
+        ServerTZ  => 'UTC',
         Result    => 'Sun, 3 Aug 2014 02:03:04 +0500',
     },
     {
         Name      => 'Europe/London',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => +0,
+        ServerTZ  => 'UTC',
         Result    => 'Sun, 3 Aug 2014 02:03:04 +0000',
+    },
+
+    # none UTC server tests
+    {
+        Name      => 'Europe/Berlin',
+        TimeStamp => '2014-01-10 11:12:13',
+        TimeZone  => 0,
+        ServerTZ  => 'Europe/Berlin',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +0100',
+    },
+    {
+        Name      => 'America/Los_Angeles',
+        TimeStamp => '2014-01-10 11:12:13',
+        TimeZone  => -8,
+        ServerTZ  => 'America/Los_Angeles',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
+    },
+    {
+        Name      => 'Asia/Yekaterinburg',
+        TimeStamp => '2014-01-10 11:12:13',
+        TimeZone  => 0,
+        ServerTZ  => 'Asia/Yekaterinburg',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +0600',
+    },
+    {
+        Name      => 'Europe/London',
+        TimeStamp => '2014-01-10 11:12:13',
+        TimeZone  => 0,
+        ServerTZ  => 'Europe/London',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +0000',
+    },
+    {
+        Name      => 'Europe/Berlin',
+        TimeStamp => '2014-08-03 02:03:04',
+        TimeZone  => 0,
+        ServerTZ  => 'Europe/Berlin',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 +0200',
+    },
+    {
+
+        Name      => 'America/Los_Angeles',
+        TimeStamp => '2014-08-03 02:03:04',
+        TimeZone  => 0,
+        ServerTZ  => 'America/Los_Angeles',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 -0700',
+    },
+    {
+        Name      => 'Asia/Yekaterinburg',
+        TimeStamp => '2014-08-03 02:03:04',
+        TimeZone  => 0,
+        ServerTZ  => 'Asia/Yekaterinburg',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 +0600',
+    },
+    {
+        Name      => 'Europe/London',
+        TimeStamp => '2014-08-03 02:03:04',
+        TimeZone  => 0,
+        ServerTZ  => 'Europe/London',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 +0100',
     },
 );
 
@@ -85,6 +154,10 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 for my $Test (@Tests) {
 
+    # set the server time zone
+    local $ENV{TZ} = $Test->{ServerTZ};
+
+    # set OTRS time zone setting
     $ConfigObject->Set(
         Key   => 'TimeZone',
         Value => $Test->{TimeZone},
