@@ -1,4 +1,5 @@
 #5.0.0.beta2 2015-??-??
+- 2015-08-03 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
 
 #5.0.0.beta1 2015-08-04
  - 2015-07-17 Finished existing outbound element sorting for SOAP transport. Added graphical sorting functionality.
