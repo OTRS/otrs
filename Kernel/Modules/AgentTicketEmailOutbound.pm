@@ -1498,6 +1498,7 @@ sub _Mask {
         Data         => $Param{NextStates},
         Name         => 'ComposeStateID',
         PossibleNone => 1,
+        Class        => 'Modernize',
         %State,
     );
     my %ArticleTypes;
@@ -1515,6 +1516,7 @@ sub _Mask {
             Data       => \%ArticleTypes,
             Name       => 'ArticleTypeID',
             SelectedID => $ArticleTypeID,
+            Class      => 'Modernize',
         );
     }
     else {
@@ -1522,6 +1524,7 @@ sub _Mask {
             Data          => \%ArticleTypes,
             Name          => 'ArticleTypeID',
             SelectedValue => $Config->{ArticleTypeDefault},
+            Class         => 'Modernize',
         );
     }
 
@@ -1792,6 +1795,7 @@ sub _Mask {
             Data       => $QueueStandardTemplates    || {},
             Name       => 'StandardTemplateID',
             SelectedID => $Param{StandardTemplateID} || '',
+            Class      => 'Modernize',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 1,
