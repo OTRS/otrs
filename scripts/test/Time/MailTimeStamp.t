@@ -31,11 +31,11 @@ my @Tests = (
         Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
     },
     {
-        Name      => 'Asia/Yekaterinburg',
+        Name      => 'Australia/Sydney',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => +6,
+        TimeZone  => +10,
         ServerTZ  => 'UTC',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0600',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +1000',
     },
     {
         Name      => 'Europe/London',
@@ -63,11 +63,11 @@ my @Tests = (
         Result    => 'Sun, 3 Aug 2014 02:03:04 -0800',
     },
     {
-        Name      => 'Asia/Yekaterinburg',
+        Name      => 'Australia/Sydney',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => +5,
+        TimeZone  => +10,
         ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0500',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 +1000',
     },
     {
         Name      => 'Europe/London',
@@ -93,11 +93,11 @@ my @Tests = (
         Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
     },
     {
-        Name      => 'Asia/Yekaterinburg',
+        Name      => 'Australia/Sydney',
         TimeStamp => '2014-01-10 11:12:13',
         TimeZone  => 0,
-        ServerTZ  => 'Asia/Yekaterinburg',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0600',
+        ServerTZ  => 'Australia/Sydney',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +1100',
     },
     {
         Name      => 'Europe/London',
@@ -122,11 +122,11 @@ my @Tests = (
         Result    => 'Sun, 3 Aug 2014 02:03:04 -0700',
     },
     {
-        Name      => 'Asia/Yekaterinburg',
+        Name      => 'Australia/Sydney',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => 0,
-        ServerTZ  => 'Asia/Yekaterinburg',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0600',
+        ServerTZ  => 'Australia/Sydney',
+        Result    => 'Sun, 3 Aug 2014 02:03:04 +1000',
     },
     {
         Name      => 'Europe/London',
