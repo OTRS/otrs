@@ -82,6 +82,10 @@ sub new {
             Name        => 'no-ansi',
             Description => 'Do not perform ANSI terminal output coloring.',
         },
+        {
+            Name        => 'allow-root',
+            Description => 'Allow root user to execute the command.',
+        },
     ];
 
     return $Self;
@@ -373,8 +377,10 @@ sub Execute {
         },
     );
 
+    my $ParsedGlobalOptions = $Self->_ParseGlobalOptions( \@CommandlineArguments );
+
     # Don't allow to run these scripts as root.
-    if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
+    if ( !$ParsedGlobalOptions->{'allow-root'} && $> == 0 ) {    # $EFFECTIVE_USER_ID
         $Self->PrintError(
             "You cannot run otrs.Console.pl as root. Please run it as the 'otrs' user or with the help of su:"
         );
@@ -394,10 +400,17 @@ sub Execute {
     }
 
     # First handle the optional global options.
-    my $ParsedGlobalOptions = $Self->_ParseGlobalOptions( \@CommandlineArguments );
     if ( $ParsedGlobalOptions->{'no-ansi'} ) {
         $Self->ANSI(0);
     }
+
+    # Show warning if command is executed as root
+    if ( $ParsedGlobalOptions->{'allow-root'} && $> == 0 ) {    # $EFFECTIVE_USER_ID
+        $Self->Print(
+            "\n<red>You are running otrs.Console.pl as root. This could potentially damage your system, continue at your own risk.</red>\n\n"
+            )
+    }
+
     if ( $ParsedGlobalOptions->{help} ) {
         print "\n" . $Self->GetUsageHelp();
         return $Self->ExitCodeOk();
