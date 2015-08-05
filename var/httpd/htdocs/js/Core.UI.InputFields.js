@@ -367,6 +367,15 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // Show selection boxes
         ShowSelectionBoxes($SelectObj, $InputContainerObj);
+
+        // Trigger change event on original field (see bug#11419)
+        if ($SelectObj.data('changed')) {
+            $SelectObj.removeData('changed');
+            setTimeout(function () {
+                $SelectObj.trigger('change');
+                Core.Form.Validate.ValidateElement($SelectObj);
+            }, 50);
+        }
     }
 
     /**
@@ -738,7 +747,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 Core.App.Subscribe('Event.UI.InputFields.Resize', function() {
 
                     // Set width of search field to that of the select field
-                    $SearchObj.hide();
+                    $SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
                     $SelectObj.hide();
                     $SearchObj.width(SelectWidth).show();
@@ -976,11 +985,8 @@ Core.UI.InputFields = (function (TargetNS) {
                             $TreeObj.blur();
                         }
 
-                        // Delay trigger change event on original field
-                        setTimeout(function () {
-                            $SelectObj.trigger('change');
-                            Core.Form.Validate.ValidateElement($SelectObj);
-                        }, 50);
+                        // Delay triggering change event on original field (see bug#11419)
+                        $SelectObj.data('changed', true);
                     })
 
                     // Handle node deselection in tree list
@@ -1004,11 +1010,8 @@ Core.UI.InputFields = (function (TargetNS) {
                             // (which is hidden but is still used for the action)
                             $SelectObj.val(SelectedNodes);
 
-                            // Delay trigger change event on original field
-                            setTimeout(function () {
-                                $SelectObj.trigger('change');
-                                Core.Form.Validate.ValidateElement($SelectObj);
-                            }, 50);
+                            // Delay triggering change event on original field (see bug#11419)
+                            $SelectObj.data('changed', true);
                         } else {
                             $TreeObj.jstree('select_node', Selected.node);
                         }
