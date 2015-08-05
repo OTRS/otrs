@@ -1,5 +1,5 @@
 #5.0.0.beta2 2015-??-??
- - 2015-08-05 Fixed bug#[11419](http://bugs.otrs.org/show_bug.cgi?id=11419) - Selection of multiple values of  Multiselect DynamicFields in AgentTicketPhone is not possible due AJAX refresh.
+ - 2015-08-05 Fixed bug#[11419](http://bugs.otrs.org/show_bug.cgi?id=11419) - Selection of multiple values of  Multiselect DynamicFields in AgentTicketPhone is not possible due AJAX refresh, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-08-04 Fixed bug#[11420](http://bugs.otrs.org/show_bug.cgi?id=11420) - New input fields are wider that expected when they are in the sidebar.
  - 2015-08-04 Fixed bug#[11418](http://bugs.otrs.org/show_bug.cgi?id=11418) - Input fields in AgentTicketEmailOutbound are not consistent with other screens, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-08-03 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
