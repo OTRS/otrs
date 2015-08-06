@@ -247,7 +247,7 @@ sub Register {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -282,7 +282,7 @@ sub Register {
             my $ErrorMessage = $CollectResult{ErrorMessage} || $@ || 'unknown error';
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => "error",
-                Message  => "SupportData could not be collected ($ErrorMessage)"
+                Message  => "SupportData could not be collected ($ErrorMessage)",
             );
         }
 
