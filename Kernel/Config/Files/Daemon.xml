@@ -162,7 +162,9 @@
             <Hash>
                 <Item Key="TaskName">FetchMail</Item>
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
-                <Item Key="Command">[ -x /usr/bin/fetchmail ] &amp;&amp; /usr/bin/fetchmail -a >> /dev/null</Item>
+                <Item Key="Module">Kernel::System::FetchMail</Item>
+                <Item Key="Function">Fetch</Item>
+                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
@@ -175,7 +177,9 @@
             <Hash>
                 <Item Key="TaskName">FetchMailSSL</Item>
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
-                <Item Key="Command">/usr/bin/fetchmail -a --ssl >> /dev/null</Item>
+                <Item Key="Module">Kernel::System::FetchMail</Item>
+                <Item Key="Function">Fetch</Item>
+                <Item Key="Params">SSL 1</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
