@@ -1,4 +1,8 @@
 #5.0.0.beta2 2015-??-??
+ - 2015-08-06 Removed external commands execution capability from scheduler daemon Cron tasks.
+ - 2015-08-06 Added fetchmail wrapper.
+ - 2015-08-05 Added possibility to execute otrs.Console.pl as root.
+ - 2015-08-05 Added otrs.postmaster.pl for backwards compatibility.
  - 2015-08-05 Fixed bug#[11419](http://bugs.otrs.org/show_bug.cgi?id=11419) - Selection of multiple values of  Multiselect DynamicFields in AgentTicketPhone is not possible due AJAX refresh, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-08-04 Fixed bug#[11420](http://bugs.otrs.org/show_bug.cgi?id=11420) - New input fields are wider that expected when they are in the sidebar.
  - 2015-08-04 Fixed bug#[11418](http://bugs.otrs.org/show_bug.cgi?id=11418) - Input fields in AgentTicketEmailOutbound are not consistent with other screens, thanks to Dusan Vuckovic (Mühlbauer).

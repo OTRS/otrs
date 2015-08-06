@@ -68,21 +68,7 @@ performs the selected Cron task.
         Data     => {
             Module   => 'Kernel::System:::Console:Command::Help',       # Module or Command is mandatory
             Function => 'Execute',                                      # required if module is used
-            Command  => '',                                             # command line executable
             Params   => "--force --option 'my option'",                 # space separated parameters
-        },
-    );
-
-or
-
-    my $Success = $TaskHandlerObject->Run(
-        TaskID   => 456,
-        TaskName => 'some other name',
-        Data => {
-            Module   => '',
-            Function => '',
-            Command  => '/bin/df',
-            Params   => '-h',
         },
     );
 
@@ -116,193 +102,101 @@ sub Run {
 
         return;
     }
-
-    if ( !$Param{Data}->{Module} && !$Param{Data}->{Command} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need Data->{Modue} or Data->{Commad}!",
-        );
-        return;
-    }
-
-    if ( $Param{Data}->{Module} && $Param{Data}->{Command} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Data->{Modue} or Data->{Commad} are needed but not both!",
-        );
-        return;
-    }
-
-    if ( $Param{Data}->{Module} && !$Param{Data}->{Function} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Data->{Function} is needed!",
-        );
-        return;
+    for my $Needed (qw(Module Function)) {
+        if ( !$Param{Data}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need Data->{$Needed}!",
+            );
+            return;
+        }
     }
 
     my $StartSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
-    my $Success = 1;
+    # get module object
+    my $ModuleObject;
+    eval {
+        $ModuleObject = $Kernel::OM->Get( $Param{Data}->{Module} );
+    };
 
-    # execute an internal OTRS module
-    if ( $Param{Data}->{Module} ) {
-
-        # get module object
-        my $ModuleObject;
-        eval {
-            $ModuleObject = $Kernel::OM->Get( $Param{Data}->{Module} );
-        };
-
-        if ( !$ModuleObject ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can not create a new Object for Module: '$Param{Data}->{Module}'!",
-            );
-
-            return;
-        }
-
-        my $Function = $Param{Data}->{Function};
-
-        # check if the module provide the required function
-        return if !$ModuleObject->can($Function);
-
-        my @Parameters = split / /, $Param{Data}->{Params} || '';
-
-        # to capture the standard error
-        my $ErrorMessage;
-
-        my $Result;
-
-        if ( $Self->{Debug} ) {
-            print "    $Self->{WorkerName} Executes task: $Param{TaskName}\n";
-        }
-
-        eval {
-
-            # localize the standard error, everything will be restored after the eval block
-            local *STDERR;
-
-            # redirect the standard error to a variable
-            open STDERR, ">>", \$ErrorMessage;
-
-            # disable ANSI terminal colors for console commands, then in case of an error the output
-            #   will be clean
-            # prevent used once warning, setting the variable as local and then assign the value
-            #   in the next statement
-            local $Kernel::System::Console::BaseCommand::SuppressANSI;
-            $Kernel::System::Console::BaseCommand::SuppressANSI = 1;
-
-            # run function on the module with the specified parameters in Data->{Params}
-            $Result = $ModuleObject->$Function(
-                @Parameters,
-            );
-        };
-
-        # get current system time (as soon as the method has been called)
-        my $EndSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-
-        my $IsConsoleCommand;
-        if (
-            substr( $Param{Data}->{Module}, 0, length 'Kernel::System::Console' ) eq 'Kernel::System::Console'
-            && $Function eq 'Execute'
-            )
-        {
-            $IsConsoleCommand = 1;
-        }
-
-        my $ConsoleCommandFailure;
-
-        # console commands send 1 as result if fail
-        if ( $IsConsoleCommand && $Result ) {
-            $ConsoleCommandFailure = 1;
-        }
-
-        # check if there are errors
-        if ( $ErrorMessage || $ConsoleCommandFailure ) {
-
-            $ErrorMessage //= '';
-
-            $Self->_HandleError(
-                TaskName     => $Param{TaskName},
-                TaskType     => 'Cron',
-                LogMessage   => "There was an error executing $Function() in $Param{Data}->{Module}: $ErrorMessage",
-                ErrorMessage => $ErrorMessage,
-            );
-
-            $Success = 0;
-        }
-
-        # update worker task
-        $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->RecurrentTaskWorkerInfoSet(
-            LastWorkerTaskID      => $Param{TaskID},
-            LastWorkerStatus      => $Success,
-            LastWorkerRunningTime => $EndSystemTime - $StartSystemTime,
+    if ( !$ModuleObject ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can not create a new Object for Module: '$Param{Data}->{Module}'!",
         );
 
-        return $Success;
+        return;
     }
 
-    # otherwise execute an external command
-    # replace $OTRSHOME to current home directory
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    $Param{Data}->{Command} =~ s{\$OTRSHOME}{$Home}msx;
+    my $Function = $Param{Data}->{Function};
 
-    my @Command = ( $Param{Data}->{Command} );
+    # check if the module provide the required function
+    return if !$ModuleObject->can($Function);
 
     my @Parameters = split / /, $Param{Data}->{Params} || '';
 
-    @Command = ( @Command, @Parameters );
+    # to capture the standard error
+    my $ErrorMessage;
 
-    # to capture standard in, out and error
-    my ( $INFH, $OUTFH, $ERRFH );
-
-    # create a symbol for the error file handle
-    $ERRFH = gensym();
+    my $Result;
 
     if ( $Self->{Debug} ) {
-        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
+        print "    $Self->{WorkerName} Executes task: $Param{TaskName}\n";
     }
 
-    # call the command, capturing output and error
-    my $ProcessID;
     eval {
-        $ProcessID = open3( $INFH, $OUTFH, $ERRFH, @Command );
+
+        # localize the standard error, everything will be restored after the eval block
+        local *STDERR;
+
+        # redirect the standard error to a variable
+        open STDERR, ">>", \$ErrorMessage;
+
+        # disable ANSI terminal colors for console commands, then in case of an error the output
+        #   will be clean
+        # prevent used once warning, setting the variable as local and then assign the value
+        #   in the next statement
+        local $Kernel::System::Console::BaseCommand::SuppressANSI;
+        $Kernel::System::Console::BaseCommand::SuppressANSI = 1;
+
+        # run function on the module with the specified parameters in Data->{Params}
+        $Result = $ModuleObject->$Function(
+            @Parameters,
+        );
     };
 
-    my $ErrorMessage;
-    my $ExitCode;
-
-    if ($ProcessID) {
-
-        while (<$ERRFH>) {
-            $ErrorMessage .= $_;
-        }
-        waitpid( $ProcessID, 0 );
-        $ExitCode = $? >> 8;
-    }
-    else {
-        $ErrorMessage = $@;
-    }
-
-    # get current system time (as soon as the command has been executed)
+    # get current system time (as soon as the method has been called)
     my $EndSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
+    my $IsConsoleCommand;
+    if (
+        substr( $Param{Data}->{Module}, 0, length 'Kernel::System::Console' ) eq 'Kernel::System::Console'
+        && $Function eq 'Execute'
+        )
+    {
+        $IsConsoleCommand = 1;
+    }
+
+    my $ConsoleCommandFailure;
+
+    # console commands send 1 as result if fail
+    if ( $IsConsoleCommand && $Result ) {
+        $ConsoleCommandFailure = 1;
+    }
+
+    my $Success = 1;
+
     # check if there are errors
-    if ( $ErrorMessage || $ExitCode ) {
+    if ( $ErrorMessage || $ConsoleCommandFailure ) {
 
         $ErrorMessage //= '';
-
-        if ( $ExitCode && !$ErrorMessage ) {
-            $ErrorMessage = "$Command[0] execution failed with exit code $ExitCode";
-        }
 
         $Self->_HandleError(
             TaskName     => $Param{TaskName},
             TaskType     => 'Cron',
-            LogMessage   => "There was an error executing $Command[0]: $ErrorMessage",
-            ErrorMessage => "$ErrorMessage",
+            LogMessage   => "There was an error executing $Function() in $Param{Data}->{Module}: $ErrorMessage",
+            ErrorMessage => $ErrorMessage,
         );
 
         $Success = 0;

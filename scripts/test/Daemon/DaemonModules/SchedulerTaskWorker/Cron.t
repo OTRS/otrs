@@ -32,8 +32,8 @@ my @Tests = (
         Config => {
             TaskName => 'UnitTest',
             Data     => {
-                Command => '/bin/df',
-                Params  => '-h',
+                Module => 'Kernel::System::Console::Command::Maint::Ticket::Test',
+                Params => '-h',
             },
         },
         Result => 0,
@@ -65,37 +65,12 @@ my @Tests = (
         Result => 0,
     },
     {
-        Name   => 'Missing Command and Module',
+        Name   => 'Missing Module',
         Config => {
             TaskID   => 123,
             TaskName => 'UnitTest',
             Data     => {
                 Params => '-h',
-            },
-        },
-        Result => 0,
-    },
-    {
-        Name   => 'Command and Module',
-        Config => {
-            TaskID   => 123,
-            TaskName => 'UnitTest',
-            Data     => {
-                Command => '/bin/df',
-                Module  => 'Kernel::System::Console::Command::Maint::Ticket::Dump',
-                Params  => '-h',
-            },
-        },
-        Result => 0,
-    },
-    {
-        Name   => 'Wrong External Command',
-        Config => {
-            TaskID   => 123,
-            TaskName => 'UnitTest',
-            Data     => {
-                Command => '/bin/OTRSnotexisitng',
-                Params  => '-h',
             },
         },
         Result => 0,
@@ -164,47 +139,6 @@ my @Tests = (
             },
         },
         Result => 0,
-    },
-
-    # there is a bug in current Ubuntu 12 with DF it produces a message in the STDERR that
-    #   the daemon catches and sets the command as a failure, the message reads
-    #   df: `/sys/kernel/debug': Function not implemented, please also take a look at:
-    #   https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1465322
-    # {
-    #     Name   => 'External Command',
-    #     Config => {
-    #         TaskID   => 123,
-    #         TaskName => 'UnitTest',
-    #         Data     => {
-    #             Command => '/bin/df',
-    #             Params  => '-h',
-    #         },
-    #     },
-    #     Result => 1,
-    # },
-    {
-        Name   => 'External Command',
-        Config => {
-            TaskID   => 123,
-            TaskName => 'UnitTest',
-            Data     => {
-                Command => '/bin/ls',
-                Params  => '-l',
-            },
-        },
-        Result => 1,
-    },
-    {
-        Name   => 'Internal Command',
-        Config => {
-            TaskID   => 123,
-            TaskName => 'UnitTest',
-            Data     => {
-                Command => '$OTRSHOME/bin/otrs.CheckModules.pl',
-                Params  => '',
-            },
-        },
-        Result => 1,
     },
     {
         Name   => 'Console Command Module',
