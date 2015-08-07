@@ -187,7 +187,7 @@ sub Run {
             Result => 'COUNT',
         );
 
-        my $ClassA  = '';
+        my $ClassA = '';
         if ( $Filter eq $FilterCurrent ) {
             $ClassA     = 'Selected';
             $AllTickets = $Count;
@@ -197,9 +197,9 @@ sub Run {
         }
         $NavBarFilter{ $Filters{ $Self->{Subaction} }->{$Filter}->{Prio} } = {
             %{ $Filters{ $Self->{Subaction} }->{$Filter} },
-            Count   => $Count,
-            Filter  => $Filter,
-            ClassA  => $ClassA,
+            Count  => $Count,
+            Filter => $Filter,
+            ClassA => $ClassA,
         };
     }
 
