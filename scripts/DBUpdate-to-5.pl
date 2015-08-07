@@ -29,9 +29,11 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use Getopt::Std qw();
 use Kernel::Config;
-use Kernel::System::ObjectManager;
-use Kernel::System::SysConfig;
 use Kernel::System::Cache;
+use Kernel::System::ObjectManager;
+use Kernel::System::Package;
+use Kernel::System::SysConfig;
+
 use Kernel::System::VariableCheck qw(:all);
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -827,7 +829,7 @@ sub _MigrateNotifications {
         local *STDERR;
         open STDERR, '>:utf8', \$ErrorOutput;    ## no critic
 
-        # sanity check to verify the subject, text and content_type columns are present
+        # sanity check to verify the notifications table is present
         $NotificationsTableIsPresent = $DBObject->Prepare(
             SQL => 'SELECT notification_type FROM notifications',
         );
@@ -1023,6 +1025,11 @@ sub _MigrateNotifications {
                 ContentType => $Data{ContentType},
             };
         }
+
+        # sanity check in case notification table is already present,
+        # but not a row for this specific notification type is present,
+        # perhaps notifications for other modules are still there
+        next NOTIFICATIONTYPE if !%Message;
 
         for my $NotificationDataOri ( @{ $NotificationTypeMapping{$NotificationType} } ) {
 
