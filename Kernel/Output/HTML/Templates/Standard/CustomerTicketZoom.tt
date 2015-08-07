@@ -73,9 +73,21 @@
                         <div class="Details SeperatorRow">
 [% RenderBlockStart("ArticleRow") %]
                             <div>
-                                <div class="Label">[% Translate(Data.Key) | html %]:</div> <span title="[% Data.Value | html %]">[% Data.Realname | html %]</span>
+                                <div class="Label" id="[% Data.ArticleID | html %]_[% Data.Key | html %]">[% Translate(Data.Key) | html %]:</div>
+                                <span title="[% Data.Value | html %]">
+                                    <span id="[% Data.ArticleID | html %]_[% Data.Key | html %]_Value" class="[% Data.ValueHidden | html %]">[% Data.Value | html %]</span>
+                                    <span id="[% Data.ArticleID | html %]_[% Data.Key | html %]_Realname" class="[% Data.RealnameHidden | html %]">[% Data.Realname | html %]</span>
+                                </span>
                                 <div class="Clear"></div>
                             </div>
+[% WRAPPER JSOnDocumentComplete %]
+// toggle between value and fullname when label is clicked
+$('#[% Data.ArticleID | html %]_[% Data.Key | html %]').on('click', function(){
+    $('#[% Data.ArticleID | html %]_[% Data.Key | html %]_Value').toggleClass('Hidden');
+    $('#[% Data.ArticleID | html %]_[% Data.Key | html %]_Realname').toggleClass('Hidden');
+});
+//]]></script>
+[% END %]
 [% RenderBlockEnd("ArticleRow") %]
                             <div>
                                 <div class="Label">[% Translate("Subject") | html %]:</div> <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span>
