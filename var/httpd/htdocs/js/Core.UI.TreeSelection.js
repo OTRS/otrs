@@ -78,16 +78,21 @@ Core.UI.TreeSelection = (function (TargetNS) {
      * @function
      * @returns {Object} Returns an object which is suitable for passing to JSTree in order to build a tree selection.
      * @param {jQueryObject} $Element - The select element which contains the data.
+     * @param {Boolean} Sort - Whether to sort the elements alphabetically (optional, default: true)
      * @description
      *      This function receives a select element which was built
      *      with TreeView => 1 (= intended elements) and builds a
      *      javascript object from it which contains all the elements
      *      and their children.
      */
-    TargetNS.BuildElementsArray = function($Element) {
+    TargetNS.BuildElementsArray = function($Element, Sort) {
         var Elements = [],
             Level,
             HighestLevel = 0;
+
+        if (typeof Sort === 'undefined') {
+            Sort = true;
+        }
 
         $Element.find('option').each(function() {
 
@@ -168,14 +173,16 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
         });
 
-        Elements.sort(function(a, b) {
-            if (a.Level - b.Level === 0) {
-                return (a.Name.localeCompare(b.Name));
-            }
-            else {
-                return (a.Level - b.Level);
-            }
-        });
+        if (Sort) {
+            Elements.sort(function(a, b) {
+                if (a.Level - b.Level === 0) {
+                    return (a.Name.localeCompare(b.Name));
+                }
+                else {
+                    return (a.Level - b.Level);
+                }
+            });
+        }
 
         // Go through all levels and collect the elements and their children
         for (Level = HighestLevel; Level >= 0; Level--) {

@@ -1997,6 +1997,7 @@ build a HTML option element based on given data
                     Key2 => 'Value2',
                     Key3 => 'Value3',
                 },
+                Active => 1,                 # (optional) default 0 (0|1) make this filter immediately active
             },
             InvolvedAgents => {
                 Name   => 'Involved in this ticket',
@@ -2103,7 +2104,9 @@ sub BuildSelection {
 
     # create FiltersRef
     my @Filters;
+    my $FilterActive;
     if ( $Param{Filters} ) {
+        my $Index = 1;
         for my $Filter ( sort keys %{ $Param{Filters} } ) {
             if (
                 $Param{Filters}->{$Filter}->{Name}
@@ -2119,6 +2122,9 @@ sub BuildSelection {
                     Name => $Param{Filters}->{$Filter}->{Name},
                     Data => $FilterData,
                 };
+                if ( $Param{Filters}->{$Filter}->{Active} ) {
+                    $FilterActive = $Index;
+                }
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2127,6 +2133,7 @@ sub BuildSelection {
                 );
                 $Self->FatalError();
             }
+            $Index++;
         }
         @Filters = sort { $a->{Name} cmp $b->{Name} } @Filters;
     }
@@ -2138,6 +2145,7 @@ sub BuildSelection {
         OptionTitle  => $Param{OptionTitle},
         TreeView     => $Param{TreeView},
         FiltersRef   => \@Filters,
+        FilterActive => $FilterActive,
     );
     return $String;
 }
@@ -5148,6 +5156,9 @@ sub _BuildSelectionOutput {
                 NoQuotes => 1,
             );
             $String .= " data-filters='$JSON'";
+            if ( $Param{FilterActive} ) {
+                $String .= ' data-filtered="' . int( $Param{FilterActive} ) . '"';
+            }
         }
 
         $String .= ">\n";
