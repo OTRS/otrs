@@ -89,6 +89,22 @@ sub ExecuteAsyc {
     return 1;
 }
 
+sub ExecuteAsycWithObjectName {
+    my ( $Self, %Param ) = @_;
+
+    # create a new task for the scheduler daemon
+    $Self->AsyncCall(
+        ObjectName               => 'scripts::test::sample::AsynchronousExecutor::TestAsynchronousExecutor',
+        FunctionName             => 'Execute',
+        FunctionParams           => \%Param,
+        Attempts                 => 3,
+        MaximumParallelInstances => 1,
+    );
+
+    return 1;
+}
+
+
 sub _FileWrite {
     my ( $Self, %Param ) = @_;
 

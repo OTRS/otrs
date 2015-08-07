@@ -70,8 +70,11 @@ my @Tests = (
     {
         Name     => 'ASynchronous Call',
         Function => 'ExecuteAsyc',
-    }
-
+    },
+    {
+        Name     => 'ASynchronous Call With Object Name',
+        Function => 'ExecuteAsycWithObjectName',
+    },
 );
 
 # get worker object
@@ -117,7 +120,7 @@ for my $Test (@Tests) {
         Success => 1,
     );
 
-    if ( $Function eq 'ExecuteAsyc' ) {
+    if ( $Function eq 'ExecuteAsyc' || $Function eq 'ExecuteAsycWithObjectName' ) {
         $WorkerObject->Run();
 
         # Wait for slow systems
