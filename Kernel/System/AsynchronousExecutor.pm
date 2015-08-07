@@ -38,13 +38,15 @@ background using the separate process OTRS Scheduler Daemon.
 creates a scheduler daemon task to execute a function asynchronously.
 
     my $Success = $Object->AsyncCall(
-        FunctionName             => 'MyFunction',       # the name of the function to execute
-        FunctionParams           => \%MyParams,         # a ref with the required parameters for the function
-        Attempts                 => 3,                  # optional, default: 1, number of tries to lock the
-                                                        #   task by the scheduler
-        MaximumParallelInstances => 1,                  # optional, default: 0 (unlimited), number of same
-                                                        #   function calls form the same object that can be
-                                                        #   executed at the the same time
+        ObjectName               => 'Kernel::System::Ticket',   # optional, if not given the object is used from where
+                                                                # this function was called
+        FunctionName             => 'MyFunction',               # the name of the function to execute
+        FunctionParams           => \%MyParams,                 # a ref with the required parameters for the function
+        Attempts                 => 3,                          # optional, default: 1, number of tries to lock the
+                                                                #   task by the scheduler
+        MaximumParallelInstances => 1,                          # optional, default: 0 (unlimited), number of same
+                                                                #   function calls form the same object that can be
+                                                                #   executed at the the same time
     );
 
 Returns:
@@ -66,7 +68,7 @@ sub AsyncCall {
         return;
     }
 
-    my $ObjectName = ref $Self;
+    my $ObjectName = $Param{ObjectName} || ref $Self;
 
     # create a new object
     my $LocalObject;
