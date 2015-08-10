@@ -197,7 +197,7 @@ Core.Form.Validate = (function (TargetNS) {
             Options.SubmitFunction[Form.id](Form);
         }
         else {
-            $(Form).submit();
+            Form.submit();
         }
         if ($(Form).hasClass("PreventMultipleSubmits")) {
             // fix for Safari: this "disable" comes to early after the submit, so that some fields are
