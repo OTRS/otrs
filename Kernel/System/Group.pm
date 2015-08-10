@@ -183,7 +183,7 @@ This returns something like:
         'ValidID'    => '1',
         'CreateTime' => '2010-04-07 15:41:15',
         'ChangeTime' => '2010-04-07 15:41:15',
-        'Comment'    => 'Group of all admins.',
+        'Comment'    => 'Group of all administrators.',
     );
 
 =cut
@@ -533,7 +533,7 @@ This returns something like:
         'ValidID'    => '1',
         'CreateTime' => '2010-04-07 15:41:15',
         'ChangeTime' => '2010-04-07 15:41:15',
-        'Comment'    => 'Role for helpdesk people.',
+        'Comment'    => 'Role for help-desk people.',
     );
 
 =cut
@@ -1092,7 +1092,7 @@ sub PermissionGroupGet {
 
 =item PermissionGroupUserAdd()
 
-add new permissions or update exisitng one to the given group of a given user
+add new permissions or update existing one to the given group of a given user
 
     my $Success = $GroupObject->PermissionGroupUserAdd(
         GID => 12,
@@ -1158,7 +1158,7 @@ sub PermissionGroupUserAdd {
         # get permission type list
         my %PermissionTypeList = $Self->_PermissionTypeList();
 
-        # create new permisson array
+        # create new permission array
         TYPE:
         for my $Type ( sort keys %{ $Param{Permission} } ) {
 
@@ -1247,12 +1247,12 @@ sub PermissionGroupUserGet {
         }
     }
 
-    # get permisson type list
+    # get permission type list
     my %PermissionTypeList = $Self->_PermissionTypeList(
         Type => $Param{Type},
     );
 
-    return if !$PermissionTypeList{ $Param{Type} };
+    return if !%PermissionTypeList;
 
     # get valid group list
     my %GroupList = $Self->GroupList(
@@ -1330,12 +1330,12 @@ sub PermissionUserGroupGet {
         }
     }
 
-    # get permisson type list
+    # get permission type list
     my %PermissionTypeList = $Self->_PermissionTypeList(
         Type => $Param{Type},
     );
 
-    return if !$PermissionTypeList{ $Param{Type} };
+    return if !%PermissionTypeList;
 
     # get valid user list
     my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
@@ -1384,7 +1384,7 @@ sub PermissionUserGroupGet {
 
 =item PermissionGroupRoleAdd()
 
-add new permissions or update exisitng one to the given group of a given role
+add new permissions or update existing one to the given group of a given role
 
     my $Success = $GroupObject->PermissionGroupRoleAdd(
         GID => 12,
@@ -1450,7 +1450,7 @@ sub PermissionGroupRoleAdd {
         # get permission type list
         my %PermissionTypeList = $Self->_PermissionTypeList();
 
-        # create new permisson array
+        # create new permission array
         TYPE:
         for my $Type ( sort keys %{ $Param{Permission} } ) {
 
@@ -1539,12 +1539,12 @@ sub PermissionGroupRoleGet {
         }
     }
 
-    # get permisson type list
+    # get permission type list
     my %PermissionTypeList = $Self->_PermissionTypeList(
         Type => $Param{Type},
     );
 
-    return if !$PermissionTypeList{ $Param{Type} };
+    return if !%PermissionTypeList;
 
     # get valid group list
     my %GroupList = $Self->GroupList(
@@ -1620,12 +1620,12 @@ sub PermissionRoleGroupGet {
         }
     }
 
-    # get permisson type list
+    # get permission type list
     my %PermissionTypeList = $Self->_PermissionTypeList(
         Type => $Param{Type},
     );
 
-    return if !$PermissionTypeList{ $Param{Type} };
+    return if !%PermissionTypeList;
 
     # get valid role list
     my %RoleList = $Self->RoleList();
@@ -1672,7 +1672,7 @@ sub PermissionRoleGroupGet {
 
 =item PermissionRoleUserAdd()
 
-add new permissions or update exisitng one to the given group of a given role
+add new permissions or update existing one to the given group of a given role
 
     my $Success = $GroupObject->PermissionRoleUserAdd(
         UID    => 12,
