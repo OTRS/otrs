@@ -187,7 +187,6 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .InputField_FiltersList {
-    display: none;
     background: #fff;
     white-space: nowrap;
     border-top: 1px solid #ccc;

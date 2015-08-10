@@ -1,5 +1,8 @@
 #5.0.0.beta2 2015-??-??
- - 2015-08-07 Added support to activate filters by default in input fields , thanks to Dusan Vuckovic (Mühlbauer).
+ - 2015-08-10 Added funnel icon to "Filters" button on input fields when the list values is using a filter, thanks to Dusan Vuckovic (Mühlbauer)..
+ - 2015-08-10 Added new parameter "ExpandFilters" to Layout::BuildSelection() to show input fields filters list by default when values list is shown, thanks to Dusan Vuckovic (Mühlbauer).
+ - 2015-08-10 Fixed bug#[11429](http://bugs.otrs.org/show_bug.cgi?id=11429) - New input fields duplicate values show duplicate names when selected, thanks to Dusan Vuckovic (Mühlbauer).
+ - 2015-08-07 Added support to activate filters by default in input fields, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-08-07 Fixed bug#[11427](http://bugs.otrs.org/show_bug.cgi?id=11427) - Wrong sorting for modernize input fields without a alphanumeric sorting, thanks to Dusan Vuckovic (Mühlbauer).
  - 2015-08-06 Removed external commands execution capability from scheduler daemon Cron tasks.
  - 2015-08-06 Added fetchmail wrapper.

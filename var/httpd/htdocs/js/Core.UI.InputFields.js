@@ -205,7 +205,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Check which kind of selection we are dealing with
             if ($.isArray($SelectObj.val())) {
-                Selection = $SelectObj.val();
+                Selection = $.unique($SelectObj.val());
                 SelectionLength = Selection.length;
             } else {
                 Selection = [ $SelectObj.val() ];
@@ -244,7 +244,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     .data('value', Value);
 
                 // Textual representation of selected value
-                Text = $SelectObj.find('option[value="' + Value + '"]').text().trim();
+                Text = $SelectObj.find('option[value="' + Value + '"]').first().text().trim();
                 $TextObj = $('<div />').appendTo($SelectionObj);
                 $TextObj.addClass('Text')
                     .text(Text)
@@ -513,8 +513,15 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Add class
             if ($ToolbarContainerObj) {
-                $ToolbarContainerObj.find('.InputField_Filters')
-                    .addClass('Active');
+                if (
+                    !$ToolbarContainerObj.find('.InputField_Filters')
+                        .hasClass('Active')
+                    )
+                {
+                    $ToolbarContainerObj.find('.InputField_Filters')
+                        .addClass('Active')
+                        .prepend('<i class="fa fa-filter" /> ');
+                }
             }
         }
         else {
@@ -522,7 +529,9 @@ Core.UI.InputFields = (function (TargetNS) {
             // Remove class
             if ($ToolbarContainerObj) {
                 $ToolbarContainerObj.find('.InputField_Filters')
-                    .removeClass('Active');
+                    .removeClass('Active')
+                    .find('.fa.fa-filter')
+                    .remove();
             }
 
             // Restore original data
@@ -1190,13 +1199,23 @@ Core.UI.InputFields = (function (TargetNS) {
                         if (!$SelectObj.data('filtered')) {
                             $SelectObj.data('filtered', '0');
                         } else if ($SelectObj.data('filtered') !== '0') {
-                            $FiltersObj.addClass('Active');
+                            $FiltersObj.addClass('Active')
+                                .prepend('<i class="fa fa-filter" /> ');
                         }
 
                         // Filters list
                         $FiltersListObj = $('<div />').appendTo($ToolbarContainerObj);
                         $FiltersListObj.addClass('InputField_FiltersList')
                             .attr('tabindex', '-1');
+
+                        // Hide the filters list if no parameter is supplied
+                        if (
+                            !$SelectObj.data('expand-filters')
+                            && $SelectObj.data('expand-filters') !== '0'
+                            )
+                        {
+                            $FiltersListObj.hide();
+                        }
 
                         // Filters checkboxes
                         $.each($SelectObj.data('filters').Filters, function (FilterIndex, Filter) {

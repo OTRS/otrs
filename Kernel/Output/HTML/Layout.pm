@@ -2004,6 +2004,7 @@ build a HTML option element based on given data
                 Values => \%HashWithData,
             },
         },
+        ExpandFilters  => 1,                 # (optional) default 0 (0|1) expand filters list by default
     );
 
     my $HashRef = {
@@ -2140,12 +2141,13 @@ sub BuildSelection {
 
     # generate output
     my $String = $Self->_BuildSelectionOutput(
-        AttributeRef => $AttributeRef,
-        DataRef      => $DataRef,
-        OptionTitle  => $Param{OptionTitle},
-        TreeView     => $Param{TreeView},
-        FiltersRef   => \@Filters,
-        FilterActive => $FilterActive,
+        AttributeRef  => $AttributeRef,
+        DataRef       => $DataRef,
+        OptionTitle   => $Param{OptionTitle},
+        TreeView      => $Param{TreeView},
+        FiltersRef    => \@Filters,
+        FilterActive  => $FilterActive,
+        ExpandFilters => $Param{ExpandFilters},
     );
     return $String;
 }
@@ -5103,9 +5105,12 @@ sub _BuildSelectionDataRefCreate {
 create the html string
 
     my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-        AttributeRef => $AttributeRef,
-        DataRef      => $DataRef,
-        TreeView     => 0, # optional, see BuildSelection()
+        AttributeRef  => $AttributeRef,
+        DataRef       => $DataRef,
+        TreeView      => 0,              # optional, see BuildSelection()
+        FiltersRef    => \@Filters,      # optional, see BuildSelection()
+        FilterActive  => $FilterActive,  # optional, see BuildSelection()
+        ExpandFilters => 1,              # optional, see BuildSelection()
     );
 
     my $AttributeRef = {
@@ -5158,6 +5163,9 @@ sub _BuildSelectionOutput {
             $String .= " data-filters='$JSON'";
             if ( $Param{FilterActive} ) {
                 $String .= ' data-filtered="' . int( $Param{FilterActive} ) . '"';
+            }
+            if ( $Param{ExpandFilters} ) {
+                $String .= ' data-expand-filters="' . int( $Param{ExpandFilters} ) . '"';
             }
         }
 
