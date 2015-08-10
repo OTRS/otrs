@@ -1,5 +1,4 @@
 #4.0.12 2015-??-??
- - 2015-08-10 Fixed bug#[11412](http://bugs.otrs.org/show_bug.cgi?id=11412) - MS Edge compatibility: Submit not working correct.
  - 2015-08-03 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
 
 #4.0.11 2015-08-04
