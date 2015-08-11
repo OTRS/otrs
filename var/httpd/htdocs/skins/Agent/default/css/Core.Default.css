@@ -407,6 +407,9 @@ dd {
     padding-left: 35px;
     color: #777;
     position: relative;
+    max-width: 200px;
+    white-space: normal;
+    vertical-align: middle;
 }
 
 .BreadCrumb li:first-child {
