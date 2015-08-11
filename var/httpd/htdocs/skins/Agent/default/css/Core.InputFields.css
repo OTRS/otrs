@@ -169,6 +169,10 @@ div.InputField_ToolbarContainer ul li a {
     line-height: 15px;
 }
 
+div.InputField_ToolbarContainer i {
+    color: #000;
+}
+
 div.InputField_ToolbarContainer ul li a:hover {
     border-bottom: 2px solid #f92;
     margin-bottom: 0;
