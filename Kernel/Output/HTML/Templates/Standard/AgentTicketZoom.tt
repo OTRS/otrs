@@ -905,20 +905,12 @@ if ($('#Article_[% Data.ArticleID %]').length) {
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall">
 [% RenderBlockStart("RowRecipient") %]
-                    <label id="[% Data.ArticleID | html %]_[% Data.Key | html %]">[% Translate(Data.Key) | html %]:</label>
+                    <label class="Switchable">[% Translate(Data.Key) | html %]:</label>
                     <p class="Value" title="[% Data.Value | html %]">
-                        <span id="[% Data.ArticleID | html %]_[% Data.Key | html %]_Value" class="[% Data.ValueHidden | html %]">[% Data.Value | html %]</span>
-                        <span id="[% Data.ArticleID | html %]_[% Data.Key | html %]_Realname" class="[% Data.RealnameHidden | html %]">[% Data.Realname | html %]</span>
+                        <span class="Switch [% Data.ValueHidden | html %]">[% Data.Value | html %]</span>
+                        <span class="Switch [% Data.RealnameHidden | html %]">[% Data.Realname | html %]</span>
                     </p>
                     <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-// toggle between value and fullname when label is clicked
-$('#[% Data.ArticleID | html %]_[% Data.Key | html %]').on('click', function(){
-    $('#[% Data.ArticleID | html %]_[% Data.Key | html %]_Value').toggleClass('Hidden');
-    $('#[% Data.ArticleID | html %]_[% Data.Key | html %]_Realname').toggleClass('Hidden');
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("RowRecipient") %]
 [% RenderBlockStart("RowData") %]
                     <label>[% Translate(Data.Key) | html %]:</label>

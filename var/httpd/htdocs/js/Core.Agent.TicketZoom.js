@@ -190,6 +190,11 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 TargetNS.ActiveURLHash = ArticleID;
             }
 
+            // add switchable toggle
+            $('label.Switchable').off('click.Switch').on('click.Switch', function() {
+                $(this).next('p.Value').find('.Switch').toggleClass('Hidden');
+            });
+
             //Remove Loading class
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 

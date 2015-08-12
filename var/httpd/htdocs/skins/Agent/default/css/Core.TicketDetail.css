@@ -126,6 +126,10 @@ div.Headline .Flag {
     font-size: 12px;
 }
 
+#ArticleItems .WidgetSimple .Content label.Switchable {
+    cursor: pointer;
+}
+
 /**
  * @subsection  ControlRow Icons
  */

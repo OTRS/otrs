@@ -221,6 +221,11 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             ResizeIframe($VisibleIframe.get(0));
         }
 
+        // add switchable toggle
+        $('div.Label.Switchable').off('click.Switch').on('click.Switch', function() {
+            $(this).next('span').find('.Switch').toggleClass('Hidden');
+        });
+
         // init browser link message close button
         if ($('.MessageBrowser').length) {
             $('.MessageBrowser a.Close').on('click', function () {

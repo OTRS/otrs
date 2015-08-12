@@ -264,6 +264,10 @@
     height: auto;
 }
 
+#Messages .MessageBody div.Label.Switchable {
+    cursor: pointer;
+}
+
 #NoArticles {
     border: 1px solid #E9E9E9;
     border-bottom: 1px solid #DDD;
