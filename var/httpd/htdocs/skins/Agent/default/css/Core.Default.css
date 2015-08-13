@@ -390,7 +390,7 @@ dd {
     padding: 10px;
     background: #eee;
     position: relative;
-    padding-left: 10px;
+    padding-left: 0px;
     padding-right: 15px;
     overflow: hidden;
     white-space: nowrap;
@@ -433,46 +433,6 @@ dd {
 
 .BreadCrumb a:hover {
     border-bottom: 2px solid #FF9922;
-}
-
-.BreadCrumb:before,
-.BreadCrumb:after {
-    top: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-width: 17px;
-    margin-top: -17px;
-}
-
-.BreadCrumb:before {
-    left: 0px;
-    border-color: rgba(255, 255, 255, 0);
-    border-left-color: #fff;
-}
-
-.RTL .BreadCrumb:before {
-    border-right-color: #fff;
-    border-left-color: transparent;
-    left: auto;
-    right: 0px;
-}
-
-.BreadCrumb:after {
-    right: -15px;
-    border-color: rgba(238, 238, 238, 0);
-    border-left-color: #eee;
-    background: #fff;
-}
-
-.RTL .BreadCrumb:after {
-    left: -15px;
-    right: auto;
-    border-right-color: #eee;
-    border-left-color: transparent;
 }
 
 .BreadCrumb li:before,
