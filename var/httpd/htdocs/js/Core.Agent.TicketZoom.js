@@ -190,7 +190,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 TargetNS.ActiveURLHash = ArticleID;
             }
 
-            // add switchable toggle
+            // add switchable toggle for new article
             $('label.Switchable').off('click.Switch').on('click.Switch', function() {
                 $(this).next('p.Value').find('.Switch').toggleClass('Hidden');
             });
@@ -432,6 +432,11 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 return false;
             });
         }
+
+        // add switchable toggle
+        $('label.Switchable').off('click.Switch').on('click.Switch', function() {
+            $(this).next('p.Value').find('.Switch').toggleClass('Hidden');
+        });
     };
 
     return TargetNS;
