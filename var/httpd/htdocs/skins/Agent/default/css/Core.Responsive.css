@@ -299,7 +299,7 @@
 
     .MainBox.FormScreen > h1,
     .MainBox.FormScreen > .AsteriskExplanation {
-        margin-left: 0px;
+        margin-left: 0px !important;
         text-align: center;
     }
 
@@ -441,7 +441,7 @@
         margin-right: 2px;
     }
 
-    #cke_RichText {
+    .RichTextField > div.cke {
         width: auto !important;
         max-width: 100% !important;
     }

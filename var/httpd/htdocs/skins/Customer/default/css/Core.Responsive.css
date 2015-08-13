@@ -200,7 +200,7 @@
         overflow: auto;
     }
 
-    #ZoomSidebar {
+    #ZoomSidebar, .SidebarColumn {
         background: #ddd;
         float: right;
         height: 100%;
@@ -353,6 +353,10 @@
         vertical-align: 10%;
     }*/
     
+    .WidgetSimple .Content {
+        overflow: auto;
+    }
+
     .jstree-InputField {
         font-size: 0.9em !important;
     }

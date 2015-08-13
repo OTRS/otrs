@@ -22,6 +22,14 @@ Core.Customer.Responsive = (function (TargetNS) {
 
     Core.App.Subscribe('Event.App.Responsive.SmallerOrEqualScreenL', function () {
 
+        var SidebarElem;
+        if ($('#ZoomSidebar').length) {
+            SidebarElem = '#ZoomSidebar';
+        }
+        else if ($('.SidebarColumn').length) {
+            SidebarElem = '.SidebarColumn';
+        }
+
         // Add switch for Desktopmode
         if (!$('#ViewModeSwitch').length) {
             $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchDesktop') + '</a></div>');
@@ -34,7 +42,7 @@ Core.Customer.Responsive = (function (TargetNS) {
 
         // wrap sidebar modules with an additional container
         if (!$('.ResponsiveSidebarContainer').length) {
-            $('#ZoomSidebar, #Navigation').wrap('<div class="ResponsiveSidebarContainer" />');
+            $(SidebarElem + ', #Navigation').wrap('<div class="ResponsiveSidebarContainer" />');
         }
 
         // make sure the relevant sidebar is being collapsed on clicking
@@ -87,19 +95,19 @@ Core.Customer.Responsive = (function (TargetNS) {
         });
 
         // add sidebar handling
-        if ($('#ZoomSidebar').length && !$('#ResponsiveSidebarHandle').length) {
+        if ($(SidebarElem).length && !$('#ResponsiveSidebarHandle').length) {
             $('#Header').append('<a id="ResponsiveSidebarHandle" href="#"><i class="fa fa-caret-square-o-left"></i></a>');
         }
 
         // add sidebar column expansion handling
         $('#ResponsiveSidebarHandle').off().on('click', function() {
-            if (parseInt($('#ZoomSidebar').css('right'), 10) < 0) {
+            if (parseInt($(SidebarElem).css('right'), 10) < 0) {
                 $('#ResponsiveNavigationHandle').animate({
                     'left': '-45px'
                 });
-                $('#ZoomSidebar').closest('.ResponsiveSidebarContainer').fadeIn();
+                $(SidebarElem).closest('.ResponsiveSidebarContainer').fadeIn();
                 $('html').addClass('NoScroll');
-                $('#ZoomSidebar').animate({
+                $(SidebarElem).animate({
                     'right': '0px'
                 });
             }
@@ -107,9 +115,9 @@ Core.Customer.Responsive = (function (TargetNS) {
                 $('#ResponsiveNavigationHandle').animate({
                     'left': '21px'
                 });
-                $('#ZoomSidebar').closest('.ResponsiveSidebarContainer').fadeOut();
+                $(SidebarElem).closest('.ResponsiveSidebarContainer').fadeOut();
                 $('html').removeClass('NoScroll');
-                $('#ZoomSidebar').animate({
+                $(SidebarElem).animate({
                     'right': '-300px'
                 });
             }
