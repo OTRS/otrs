@@ -73,7 +73,11 @@
                         <div class="Details SeperatorRow">
 [% RenderBlockStart("ArticleRow") %]
                             <div>
-                                <div class="Label">[% Translate(Data.Key) | html %]:</div> <span title="[% Data.Value | html %]">[% Data.Realname | html %]</span>
+                                <div class="Label Switchable">[% Translate(Data.Key) | html %]:</div>
+                                <span title="[% Data.Value | html %]">
+                                    <span class="Switch [% Data.ValueHidden | html %]">[% Data.Value | html %]</span>
+                                    <span class="Switch [% Data.RealnameHidden | html %]">[% Data.Realname | html %]</span>
+                                </span>
                                 <div class="Clear"></div>
                             </div>
 [% RenderBlockEnd("ArticleRow") %]

@@ -2646,22 +2646,29 @@ sub _ArticleItem {
         }
     }
 
+    # get cofig object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # do some strips && quoting
+    my $RecipientDisplayType = $ConfigObject->Get('Ticket::Frontend::DefaultRecipientDisplayType') || 'Realname';
+    my $SenderDisplayType    = $ConfigObject->Get('Ticket::Frontend::DefaultSenderDisplayType')    || 'Realname';
     KEY:
     for my $Key (qw(From To Cc)) {
         next KEY if !$Article{$Key};
+
+        my $DisplayType = $Key eq 'From'             ? $SenderDisplayType : $RecipientDisplayType;
+        my $HiddenType  = $DisplayType eq 'Realname' ? 'Value'            : 'Realname';
         $LayoutObject->Block(
             Name => 'RowRecipient',
             Data => {
-                Key      => $Key,
-                Value    => $Article{$Key},
-                Realname => $Article{ $Key . 'Realname' },
+                Key                  => $Key,
+                Value                => $Article{$Key},
+                Realname             => $Article{ $Key . 'Realname' },
+                ArticleID            => $Article{ArticleID},
+                $HiddenType . Hidden => 'Hidden',
             },
         );
     }
-
-    # get cofig object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # show accounted article time
     if (

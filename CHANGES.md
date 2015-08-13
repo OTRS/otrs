@@ -1,4 +1,5 @@
 #5.0.0.beta3 2015-??-??
+ - 2015-08-13 Added switchable display of sender and recipients (realname or full field incl. email address) in ticket zoom for agent and customer interface.
 
 #5.0.0.beta2 2015-08-18
  - 2015-08-10 Fixed bug#[11413](http://bugs.otrs.org/show_bug.cgi?id=11413) - Responsible list is not filled in AgentTicketResponsible.

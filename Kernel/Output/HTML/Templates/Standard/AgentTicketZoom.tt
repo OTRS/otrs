@@ -905,8 +905,11 @@ if ($('#Article_[% Data.ArticleID %]').length) {
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall">
 [% RenderBlockStart("RowRecipient") %]
-                    <label>[% Translate(Data.Key) | html %]:</label>
-                    <p class="Value" title="[% Data.Value | html %]">[% Data.Realname | html %]</p>
+                    <label class="Switchable">[% Translate(Data.Key) | html %]:</label>
+                    <p class="Value" title="[% Data.Value | html %]">
+                        <span class="Switch [% Data.ValueHidden | html %]">[% Data.Value | html %]</span>
+                        <span class="Switch [% Data.RealnameHidden | html %]">[% Data.Realname | html %]</span>
+                    </p>
                     <div class="Clear"></div>
 [% RenderBlockEnd("RowRecipient") %]
 [% RenderBlockStart("RowData") %]
