@@ -37,6 +37,11 @@ if ( !$ConfigObject->Get('PGP') ) {
     $SkipCryptPGP = 1;
 }
 
+my $SkipChat;
+if ( !$ConfigObject->Get('ChatEngine::Active') ) {
+    $SkipChat = 1;
+}
+
 my $Home = $ConfigObject->Get('Home');
 
 # get main object
@@ -90,6 +95,8 @@ for my $Directory ( sort @DirectoriesToSearch ) {
             # skip crypt object if it is not configured
             next OPERATION if $1 eq 'Kernel::System::Crypt::SMIME' && $SkipCryptSMIME;
             next OPERATION if $1 eq 'Kernel::System::Crypt::PGP'   && $SkipCryptPGP;
+            next OPERATION if $1 eq 'Kernel::System::Chat' && $SkipChat;
+            next OPERATION if $1 eq 'Kernel::System::ChatChannel' && $SkipChat;
 
             # load object
             my $Object = $Kernel::OM->Get("$1");
