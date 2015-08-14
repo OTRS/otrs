@@ -141,6 +141,7 @@
         z-index: 998;
         padding-top: 30px;
         top: 0px;
+        overflow: auto;
     }
 
     #Navigation > ul,
@@ -163,6 +164,7 @@
 
     #Navigation > ul > li {
         border-right: 0px;
+        height: auto;
     }
 
     #Navigation > ul > li > ul {
