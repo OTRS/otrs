@@ -999,7 +999,7 @@ sub _MigrateNotifications {
                 Language         => $Row[2],
                 Subject          => $Row[3],
                 Body             => $Row[4],
-                ContentType      => $Row[5],
+                ContentType      => $Row[5] || 'text/plain',
             );
 
             # convert subject
