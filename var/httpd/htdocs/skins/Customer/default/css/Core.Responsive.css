@@ -144,6 +144,10 @@
         overflow: auto;
     }
 
+    #Navigation ul.Individual {
+        margin-bottom: 100px;
+    }
+
     #Navigation > ul,
     #Navigation .Individual,
     #Navigation > ul > li,
