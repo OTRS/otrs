@@ -71,8 +71,9 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
-            Action => 'Change',
             %Data,
+            Action             => 'Change',
+            RichText           => $RichText,
             DynamicFieldValues => $Data{Data},
         );
         $Output .= $LayoutObject->Output(
@@ -259,8 +260,9 @@ sub Run {
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => 'Change',
                 %GetParam,
+                Action             => 'Change',
+                RichText           => $RichText,
                 DynamicFieldValues => \%DynamicFieldValues,
             );
             $Output .= $LayoutObject->Output(
@@ -281,7 +283,8 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
-            Action => 'Add',
+            Action   => 'Add',
+            RichText => $RichText,
         );
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminNotificationEvent',
@@ -469,8 +472,9 @@ sub Run {
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => 'Add',
                 %GetParam,
+                Action             => 'Add',
+                RichText           => $RichText,
                 DynamicFieldValues => \%DynamicFieldValues,
             );
             $Output .= $LayoutObject->Output(
@@ -982,7 +986,7 @@ sub _Edit {
     }
 
     # add rich text editor
-    if ( $ConfigObject->Get('Frontend::RichText') ) {
+    if ( $Param{RichText} ) {
 
         # use height/width defined for this screen
         my $Config = $ConfigObject->Get("Frontend::Admin::$Self->{Action}");
@@ -1020,7 +1024,7 @@ sub _Edit {
     for my $LanguageID (@LanguageIDs) {
 
         # format the content according to the content type
-        if ( $ConfigObject->Get('Frontend::RichText') ) {
+        if ( $Param{RichText} ) {
 
             # make sure body is rich text (if body is based on config)
             if (
