@@ -276,13 +276,15 @@ sub Run {
                     UserLogin => $CustomerKey,
                 );
 
-                $LayoutObject->Block(
-                    Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
-                    Data => {
-                        UserFullname => $UserFullname,
-                        UserID       => $CustomerKey,
-                    },
-                );
+                if ( $ConfigObject->Get('Ticket::Agent::StartChatWOTicket') ) {
+                    $LayoutObject->Block(
+                        Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
+                        Data => {
+                            UserFullname => $UserFullname,
+                            UserID       => $CustomerKey,
+                        },
+                    );
+                }
             }
         }
 

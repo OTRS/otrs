@@ -12,6 +12,7 @@
             <input type="hidden" name="Subaction" value="StoreNew" />
             <input type="hidden" name="Expand" id="Expand" value="" />
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+            <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
             <fieldset>
 
 [% RenderBlockStart("TicketType") %]
@@ -176,12 +177,24 @@
 
                     <div class="Clear"></div>
                 </div>
-[% RenderBlockStart("Priority") %]
+[% RenderBlockStart("ChatArticlePreview") %]
                 <div>
-                    <label for="PriorityID">[% Translate("Priority") | html %]:</label>
+                    <label>[% Translate("Chat protocol") | html %]:</label>
+                    <div class="Field">
+                        <div class="ChatProtocol">
+[% INCLUDE "ChatDisplay.tt" %]
+                        </div>
+                        <p class="FieldExplanation">[% Translate('The chat will be appended as a separate article.') | html %]
+                        </div>
+                        <div class="Clear"></div>
+                    </div>
+[% RenderBlockEnd("ChatArticlePreview") %]
+[% RenderBlockStart("Priority") %]
+                    <div>
+                        <label for="PriorityID">[% Translate("Priority") | html %]:</label>
                     [% Data.PriorityStrg %]
-                    <div class="Clear"></div>
-                </div>
+                        <div class="Clear"></div>
+                    </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#PriorityID').bind('change', function (Event) {
@@ -192,13 +205,13 @@
 [% RenderBlockEnd("Priority") %]
 
 [% RenderBlockStart("DynamicField") %]
-                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
                     [% Data.Label %]
-                    <div class="Field">
+                        <div class="Field">
                         [% Data.Field %]
+                        </div>
+                        <div class="Clear"></div>
                     </div>
-                    <div class="Clear"></div>
-                </div>
 [% RenderBlockEnd("DynamicField") %]
 
 # example of how to use fixed dynamic field blocks for customizations
@@ -223,10 +236,10 @@
 #                </div>
 #[% RenderBlockEnd("DynamicField_Field2") %]
 
-            </fieldset>
-            <div id="BottomActionRow" class="ActionRow">
-                <button id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
-            </div>
-        </form>
+                </fieldset>
+                <div id="BottomActionRow" class="ActionRow">
+                    <button id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>

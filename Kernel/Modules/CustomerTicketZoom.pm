@@ -87,7 +87,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for my $Key (qw(Subject Body StateID PriorityID)) {
+    for my $Key (qw(Subject Body StateID PriorityID FromChatID FromChat)) {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
@@ -97,6 +97,27 @@ sub Run {
     my $ConfigObject               = $Kernel::OM->Get('Kernel::Config');
     my $Config                     = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
     my $FollowUpDynamicFieldFilter = $Config->{FollowUpDynamicField};
+
+    if ( $GetParam{FromChatID} ) {
+        if ( !$ConfigObject->Get('ChatEngine::Active') ) {
+            return $LayoutObject->FatalError(
+                Message => "Chat is not active.",
+            );
+        }
+
+        # Check chat participant
+        my %ChatParticipant = $Kernel::OM->Get('Kernel::System::Chat')->ChatParticipantCheck(
+            ChatID      => $GetParam{FromChatID},
+            ChatterType => 'Customer',
+            ChatterID   => $Self->{UserID},
+        );
+
+        if ( !%ChatParticipant ) {
+            return $LayoutObject->FatalError(
+                Message => "No permission.",
+            );
+        }
+    }
 
     # get the dynamic fields for ticket object
     my $FollowUpDynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
@@ -316,6 +337,17 @@ sub Run {
 
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
+        if ( $GetParam{FromChat} && $GetParam{FromChat} ) {
+            $Error{FromChat}           = 1;
+            $GetParam{FollowUpVisible} = 'Visible';
+            if ( $GetParam{FromChatID} ) {
+                my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
+                    ChatID => $GetParam{FromChatID},
+                );
+                $GetParam{ChatMessages} = \@ChatMessages;
+            }
+        }
+
         # create form id
         if ( !$FormID ) {
             $FormID = $UploadCacheObject->FormIDCreate();
@@ -349,7 +381,7 @@ sub Run {
             $IsUpload = 1;
         }
 
-        if ( !$IsUpload ) {
+        if ( !$IsUpload && !$GetParam{FromChat} ) {
             if ( !$GetParam{Body} || $GetParam{Body} eq '<br />' ) {
                 $Error{RichTextInvalid}    = 'ServerError';
                 $GetParam{FollowUpVisible} = 'Visible';
@@ -656,6 +688,46 @@ sub Run {
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $ConfigObject->Get('CustomerPanelUserID'),
             );
+        }
+
+        # if user clicked submit on the main screen
+        # store also chat protocol
+        if ( !$GetParam{FromChat} && $GetParam{FromChatID} ) {
+            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+            my %Chat       = $ChatObject->ChatGet(
+                ChatID => $GetParam{FromChatID},
+            );
+            my @ChatMessageList = $ChatObject->ChatMessageList(
+                ChatID => $GetParam{FromChatID},
+            );
+            my $ChatArticleID;
+
+            if (@ChatMessageList) {
+                my $JSONBody = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                    Data => \@ChatMessageList,
+                );
+
+                my $ChatArticleType = 'chat-external';
+
+                $ChatArticleID = $TicketObject->ArticleCreate(
+                    TicketID       => $Self->{TicketID},
+                    ArticleType    => $ChatArticleType,
+                    SenderType     => $Config->{SenderType},
+                    From           => $From,
+                    Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
+                    Body           => $JSONBody,
+                    MimeType       => 'application/json',
+                    Charset        => $LayoutObject->{UserCharset},
+                    UserID         => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType    => $Config->{HistoryType},
+                    HistoryComment => $Config->{HistoryComment} || '%%',
+                );
+            }
+            if ($ChatArticleID) {
+                $ChatObject->ChatDelete(
+                    ChatID => $GetParam{FromChatID},
+                );
+            }
         }
 
         # remove pre submited attachments
@@ -1219,6 +1291,90 @@ sub _Mask {
         );
     }
 
+    # check is chat available and is starting a chat from ticket zoom available
+    my $ChatConfig = $ConfigObject->Get('Ticket::Customer::StartChatFromTicket');
+    if (
+        $ChatConfig->{Allowed}
+        && $ConfigObject->Get('ChatEngine::Active')
+        )
+    {
+        # get all queues to tickets relations
+        my %QueueChatChannelRelations = $Kernel::OM->Get('Kernel::System::ChatChannel')->ChatChannelQueuesGet();
+
+        # if a support chat channel is set for this queue
+        if ( $QueueChatChannelRelations{ $Param{QueueID} } ) {
+
+            # check is starting a chat from ticket zoom allowed to all user or only to ticket customer user_agent
+            if (
+                !$ChatConfig->{Permissions}
+                || ( $Param{CustomerUserID} eq $Self->{UserID} )
+                )
+            {
+                # add chat channelID to Param
+                $Param{ChatChannelID} = $QueueChatChannelRelations{ $Param{QueueID} };
+
+                if ( $Param{ChatChannelID} ) {
+
+                    # check should chat be available only if there are available agents in this chat channelID
+                    if ( !$ChatConfig->{AllowChatOnlyIfAgentsAvailable} ) {
+
+                        # show start a chat icon
+                        $LayoutObject->Block(
+                            Name => 'Chat',
+                            Data => {
+                                %Param,
+                                }
+                        );
+                    }
+                    else {
+                        # Get channels data
+                        my %ChatChannelData = $Kernel::OM->Get('Kernel::System::ChatChannel')->ChatChannelGet(
+                            ChatChannelID => $Param{ChatChannelID},
+                        );
+
+                        # Get all online users
+                        my @OnlineUsers = $Kernel::OM->Get('Kernel::System::Chat')->OnlineUserList(
+                            UserType => 'User',
+                        );
+                        my $AvailabilityCheck
+                            = $Kernel::OM->Get('Kernel::Config')->Get("ChatEngine::CustomerFrontend::AvailabilityCheck")
+                            || 0;
+                        my %AvailableUsers;
+                        if ($AvailabilityCheck) {
+                            %AvailableUsers = $Kernel::OM->Get('Kernel::System::Chat')->AvailableUsersGet(
+                                Key => 'ExternalChannels',
+                            );
+                        }
+
+                        # Rename hash key: ChatChannelID => Key
+                        $ChatChannelData{Key} = delete $ChatChannelData{ChatChannelID};
+
+                        if ($AvailabilityCheck) {
+                            my $UserAvailable = 0;
+
+                            AVAILABLE_USER:
+                            for my $AvailableUser ( sort keys %AvailableUsers ) {
+                                if ( grep( /^$ChatChannelData{Key}$/, @{ $AvailableUsers{$AvailableUser} } ) ) {
+                                    $UserAvailable = 1;
+                                    last AVAILABLE_USER;
+                                }
+                            }
+
+                            if ($UserAvailable) {
+                                $LayoutObject->Block(
+                                    Name => 'Chat',
+                                    Data => {
+                                        %Param,
+                                        }
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     # print option
     if ( $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketPrint} ) {
         $LayoutObject->Block(
@@ -1367,8 +1523,7 @@ sub _Mask {
             );
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
-        {
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
             $LayoutObject->Block(
                 Name => 'BodyChat',
                 Data => {
@@ -1704,6 +1859,17 @@ sub _Mask {
                     Name  => $DynamicFieldConfig->{Name},
                     Label => $DynamicFieldHTML->{Label},
                     Field => $DynamicFieldHTML->{Field},
+                },
+            );
+        }
+
+        # if there are ChatMessages,
+        # show Chat protocol
+        if ( $Param{ChatMessages} ) {
+            $LayoutObject->Block(
+                Name => 'ChatProtocol',
+                Data => {
+                    %Param,
                 },
             );
         }

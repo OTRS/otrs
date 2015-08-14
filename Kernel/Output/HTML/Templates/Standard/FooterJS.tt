@@ -86,7 +86,17 @@ Core.App.Ready(function () {
         InputFieldsMore: [% Translate("and %s more...") | JSON %],
         InputFieldsFilters: [% Translate("Filters") | JSON %],
         InputFieldsConfirm: [% Translate("Confirm") | JSON %],
-        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
+        UnavailableForChat: [% Translate("Unavailable for chat") | JSON %],
+        AvailableForInternalChat: [% Translate("Available for internal chats only") | JSON %],
+        AvailableForChat: [% Translate("Available for chats") | JSON %],
+        VisitChatManager: [% Translate("Please visit the chat manager") | JSON %],
+        NewPersonalChat: [% Translate("New personal chat request") | JSON %],
+        NewCustomerChat: [% Translate("New customer chat request") | JSON %],
+        NewPublicChat: [% Translate("New public chat request") | JSON %],
+        NewChatActivity: [% Translate("New activity") | JSON %],
+        NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
+        AgentLogoURL: '[% Config("AgentLogo").URL %]',
+        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10)
     });
 
     Core.Agent.Init();

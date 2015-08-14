@@ -13,6 +13,7 @@
 .procmailrc
 /ARCHIVE
 doc/manual/en
+doc/en/otrs_business_solution_book.pdf
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/GenericAgent.pm
 Kernel/Config.pm
@@ -92,6 +93,12 @@ Kernel/Modules/AgentStatisticsReports.pm
 Kernel/Modules/AgentTicketAttachmentView.pm
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/CustomerUser/*Chat*
+Kernel/Output/HTML/Notification/ChatAvailabilityCheck.pm
+Kernel/Output/HTML/Notification/ChatPreferredChannelsCheck.pm
+Kernel/Output/HTML/Preferences/CustomChatChannel.pm
+Kernel/Output/HTML/QueuePreferences/ChatChannel.pm
+Kernel/Output/HTML/ToolBar/NotificationView.pm
+Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Layout/NotificationView.pm
@@ -102,8 +109,12 @@ Kernel/Output/HTML/Templates/Standard/*DynamicFieldDatabase*
 Kernel/Output/HTML/Templates/Standard/*SLASelectionDialog*
 Kernel/Output/HTML/Templates/Standard/*StatisticsReports*
 Kernel/Output/HTML/Templates/Standard/AAAOTRSBusiness.tt
+Kernel/Output/HTML/Templates/Standard/AdminChatChannel.tt
+Kernel/Output/HTML/Templates/Standard/AdminChatChannelRole.tt
 Kernel/Output/HTML/Templates/Standard/AgentChat.tt
 Kernel/Output/HTML/Templates/Standard/AgentChatAppend.tt
+Kernel/Output/HTML/Templates/Standard/AgentChatPopup.tt
+Kernel/Output/HTML/Templates/Standard/AgentChatPreview.tt
 Kernel/Output/HTML/Templates/Standard/AgentNotificationViewNavBar.tt
 Kernel/Output/HTML/Templates/Standard/AgentNotificationViewSmall.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
@@ -132,6 +143,9 @@ scripts/test/Console/Command/Maint/NotificationView*
 scripts/test/Console/Command/Maint/Stats/Reports*
 scripts/test/NotificationView*
 scripts/test/Selenium/Agent/AgentNotificationView.t
+scripts/test/Selenium/Agent/Chat.t
+scripts/test/Selenium/Customer/Chat.t
+scripts/test/Selenium/Public/Chat.t
 scripts/test/StatsReport.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
 var/cron/cleanupchats.dist

@@ -286,6 +286,14 @@ X-OTRS-Login: [% Env("Baselink") %]
 [% WRAPPER JSOnDocumentComplete %]
     <script type="text/javascript">//<![CDATA[
         Core.Agent.Login.Init([% Data.LoginFailed %]);
+
+        // Clear chat availability
+        $('#LoginButton').click(function () {
+            localStorage.removeItem('Availability');
+
+            // continue
+            return true;
+        });
     //]]></script>
 [% END %]
 

@@ -132,11 +132,13 @@ sub Run {
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # check cache
-    my $Online = $CacheObject->Get(
-        Type => 'Dashboard',
-        Key  => $Self->{CacheKey},
-    );
+    my $Online;
+
+    # # check cache
+    # my $Online = $CacheObject->Get(
+    # Type => 'Dashboard',
+    # Key  => $Self->{CacheKey},
+    # );
 
     # get session info
     my $CacheUsed = 1;
@@ -313,9 +315,14 @@ sub Run {
         # extract user data
         my $UserData        = $OnlineData{$UserID};
         my $AgentEnableChat = 0;
+        my $ChatAccess      = 0;
+
+        # Default status
+        my $UserState            = "Offline";
+        my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
 
         # we also need to check if the receiving agent has chat permissions
-        if ( $EnableChat && $Self->{Filter} eq 'Agent' && $Self->{UserID} != $UserData->{UserID} ) {
+        if ( $EnableChat && $Self->{Filter} eq 'Agent' ) {
 
             my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
                 UserID => $UserData->{UserID},
@@ -323,14 +330,41 @@ sub Run {
             );
 
             my %UserGroupsReverse = reverse %UserGroups;
-            $AgentEnableChat = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
+            $ChatAccess = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
+
+            # Check agents availability
+            if ($ChatAccess) {
+                my $AgentChatAvailability = $Kernel::OM->Get('Kernel::System::Chat')->AgentAvailabilityGet(
+                    UserID   => $UserID,
+                    External => 0,
+                );
+
+                if ( $AgentChatAvailability == 3 ) {
+                    $UserState            = "Active";
+                    $AgentEnableChat      = 1;
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                }
+                elsif ( $AgentChatAvailability == 2 ) {
+                    $UserState            = "Away";
+                    $AgentEnableChat      = 1;
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                }
+                elsif ( $AgentChatAvailability == 1 ) {
+                    $UserState = "Unavailable";
+                    $UserStateDescription
+                        = $LayoutObject->{LanguageObject}->Translate('This user is currently unavailable');
+                }
+            }
         }
 
         $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRow',
             Data => {
                 %{$UserData},
-                AgentEnableChat => $AgentEnableChat,
+                ChatAccess           => $ChatAccess,
+                AgentEnableChat      => $AgentEnableChat,
+                UserState            => $UserState,
+                UserStateDescription => $UserStateDescription,
             },
         );
 
@@ -374,27 +408,17 @@ sub Run {
     }
 
     # check for refresh time
-    my $Refresh = '';
-    if ( $Self->{UserRefreshTime} ) {
-        $Refresh = 60 * $Self->{UserRefreshTime};
-        my $NameHTML = $Self->{Name};
-        $NameHTML =~ s{-}{_}xmsg;
-        $LayoutObject->Block(
-            Name => 'ContentSmallUserOnlineRefresh',
-            Data => {
-                %{ $Self->{Config} },
-                Name        => $Self->{Name},
-                NameHTML    => $NameHTML,
-                RefreshTime => $Refresh,
-            },
-        );
-    }
+    my $Refresh  = 30;              # 30 seconds
+    my $NameHTML = $Self->{Name};
+    $NameHTML =~ s{-}{_}xmsg;
 
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardUserOnline',
         Data         => {
             %{ $Self->{Config} },
-            Name => $Self->{Name},
+            Name        => $Self->{Name},
+            NameHTML    => $NameHTML,
+            RefreshTime => $Refresh,
         },
         KeepScriptTags => $Param{AJAX},
     );

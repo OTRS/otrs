@@ -6262,6 +6262,7 @@ via the Preferences button after logging in.
                 <Item>Core.Agent.js</Item>
                 <Item>Core.Agent.Search.js</Item>
                 <Item>Core.Agent.CustomerInformationCenterSearch.js</Item>
+                <Item>Core.UI.Notification.js</Item>
                 <Item>Core.Agent.Responsive.js</Item>
             </Array>
         </Setting>

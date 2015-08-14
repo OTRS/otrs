@@ -211,6 +211,19 @@ sub Run {
                 Message => "No permission.",
             );
         }
+
+        # Get permissions
+        my $PermissionLevel = $Kernel::OM->Get('Kernel::System::Chat')->ChatPermissionLevelGet(
+            ChatID => $GetParam{FromChatID},
+            UserID => $Self->{UserID},
+        );
+
+        # Check if observer
+        if ( $PermissionLevel ne 'Owner' && $PermissionLevel ne 'Participant' ) {
+            return $LayoutObject->FatalError(
+                Message => "No permission. $PermissionLevel",
+            );
+        }
     }
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
@@ -1381,13 +1394,12 @@ sub Run {
                 }
 
                 $ChatArticleID = $TicketObject->ArticleCreate(
-                    NoAgentNotify => $NoAgentNotify,
-                    TicketID      => $TicketID,
-                    ArticleType   => $ChatArticleType,
-                    SenderType    => $Config->{SenderType},
-
-                    # From             => $GetParam{From},
-                    # To               => $To,
+                    NoAgentNotify  => $NoAgentNotify,
+                    TicketID       => $TicketID,
+                    ArticleType    => $ChatArticleType,
+                    SenderType     => $Config->{SenderType},
+                    From           => $GetParam{From},
+                    To             => $GetParam{To},
                     Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
                     Body           => $JSONBody,
                     MimeType       => 'application/json',

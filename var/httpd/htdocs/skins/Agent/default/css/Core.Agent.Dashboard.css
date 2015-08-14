@@ -107,5 +107,21 @@ div.EventDetails {
     float: right;
     padding-bottom: 0px;
 }
+.DashboardUserOnline  .Participant.Active i {
+    color: #0a0;
+}
+.DashboardUserOnline  .Participant.Offline i {
+    color: #000000;
+}
+.DashboardUserOnline  .Participant.Unavailable i {
+    color: #d00;
+}
+.DashboardUserOnline  .Participant.Away i {
+    color: #fb0;
+}
+
+#RefreshUsers {
+    margin-top: 5px;
+}
 
 } /* end @media */

@@ -23,7 +23,14 @@
                 [% Data.Title | html %]
             </h2>
             <ul id="TicketOptions">
-
+[% RenderBlockStart("Chat") %]
+                <li>
+                    <a target="_blank" href="[% Env("Baselink") %]Action=CustomerChat;Subaction=CreateChatRequest;TicketID=[% Data.TicketID | uri %];" class="Print" title="[% Translate("Start a chat from this ticket") | html %]">
+                        <i class="fa fa-comments-o"></i>
+                        <span>[% Translate("Start a chat from this ticket") | html %]</span>
+                    </a>
+                </li>
+[% RenderBlockEnd("Chat") %]
 [% RenderBlockStart("Print") %]
                 <li>
                     <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
@@ -52,6 +59,7 @@
             <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]" />
             <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]" />
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+            <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
             <ul id="Messages">
 [% RenderBlockStart("Article") %]
                 <li class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.Class | html %]">
@@ -283,6 +291,13 @@
                         </div>
                     </fieldset>
                     <fieldset class="DontPrint">
+[% RenderBlockStart("ChatProtocol") %]
+                        <div>
+                            <label for="ChatProtocol">[% Translate("Chat Protocol") | html %]:</label>
+[% INCLUDE "ChatDisplay.tt" %]
+                            <br/>
+                        </div>
+[% RenderBlockEnd("ChatProtocol") %]
                         <div id="AttachmentHolder">
                             <label for="Attachment">[% Translate("Attachment") | html %]:</label>
                             <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />

@@ -32,6 +32,9 @@ our @ObjectDependencies = (
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::JSON',
+
 );
 
 =head1 NAME
@@ -876,7 +879,7 @@ sub NotificationEvent {
         }
     }
 
-    for my $Key (qw(From To Cc Subject Body)) {
+    for my $Key (qw(From To Cc Subject Body ContentType ArticleType)) {
         if ( !$Param{CustomerMessageParams}->{$Key} ) {
             $Param{CustomerMessageParams}->{$Key} = $Article{$Key} || '';
         }
@@ -1345,11 +1348,15 @@ sub _Replace {
 
     # use a list to get customer first
     for my $DataType (qw(OTRS_CUSTOMER_ OTRS_AGENT_)) {
-
         my %Data = %{ $ArticleData{$DataType} };
 
         # html quoting of content
-        if ( $Param{RichText} && !$Data{HTMLBody} ) {
+        if (
+            $Param{RichText}
+            && !$Data{HTMLBody}
+            && ( !$Data{ContentType} || $Data{ContentType} !~ /application\/json/ )
+            )
+        {
 
             ATTRIBUTE:
             for my $Attribute ( sort keys %Data ) {
@@ -1361,6 +1368,29 @@ sub _Replace {
             }
         }
         if (%Data) {
+
+            # Check if content type is JSON
+            if ( $Data{'ContentType'} && $Data{'ContentType'} =~ /application\/json/ ) {
+
+                # if article is chat related
+                if ( $Data{'ArticleType'} =~ /chat/ ) {
+
+                    # remove spaces
+                    $Data{Body} =~ s/\n/ /gms;
+
+                    my $Body = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+                        Data => $Data{Body},
+                    );
+
+                    # replace body with html text
+                    $Data{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
+                        TemplateFile => "ChatDisplay",
+                        Data         => {
+                            ChatMessages => $Body,
+                        },
+                    );
+                }
+            }
 
             # check if original content isn't text/plain, don't use it
             if ( $Data{'Content-Type'} && $Data{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {

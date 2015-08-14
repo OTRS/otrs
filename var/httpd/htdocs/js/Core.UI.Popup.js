@@ -411,10 +411,11 @@ Core.UI.Popup = (function (TargetNS) {
      * @param {String} URL - The URL to be open in the new window.
      * @param {String} Type - The type of a window, e.g. 'Action'.
      * @param {String} Profile - The profile of a window, which defines the window parameters. Optional, default is 'Default'.
+     * @param {Int}    Unlinked - Optional parameter, if it's 1, popup will not be linked with the parent
      * @description
      *      This function opens a popup window. Every popup is of a specific type and there can only be one window of a type at a time.
      */
-    TargetNS.OpenPopup = function (URL, Type, Profile) {
+    TargetNS.OpenPopup = function (URL, Type, Profile, Unlinked) {
         var PopupObject,
             PopupProfile,
             NewWindow,
@@ -434,10 +435,13 @@ Core.UI.Popup = (function (TargetNS) {
         if (URL) {
             PopupObject = GetPopupObjectByType(Type);
 
-            if (typeof PopupObject !== 'undefined') {
-                ConfirmClosePopup = window.confirm(Core.Config.Get('PopupAlreadyOpenMsg'));
-                if (ConfirmClosePopup) {
-                    TargetNS.ClosePopup(PopupObject);
+            // perform only if popups are not unlinked
+            if (!Unlinked) {
+                if (typeof PopupObject !== 'undefined') {
+                    ConfirmClosePopup = window.confirm(Core.Config.Get('PopupAlreadyOpenMsg'));
+                    if (ConfirmClosePopup) {
+                        TargetNS.ClosePopup(PopupObject);
+                    }
                 }
             }
 
@@ -451,7 +455,17 @@ Core.UI.Popup = (function (TargetNS) {
                  *  by including the current time in the name string. This name is also needed
                  *  to save the Type parameter.
                  */
-                WindowName = 'OTRSPopup_' + Type + '_' + Date.parse(new Date());
+
+                 /* if Unlined is passed and eq 1 add, diferent name of the popup
+                 * it will ensure that popup is nor linked with the parent window
+                 */
+                if (Unlinked && Unlinked === 1) {
+                    WindowName = 'PopupOTRS_' + Type + '_' + Date.parse(new Date());
+                }
+                else {
+                    WindowName = 'OTRSPopup_' + Type + '_' + Date.parse(new Date());
+                }
+
                 if (WindowMode === 'Popup') {
                     PopupFeatures = PopupProfiles[PopupProfile].WindowURLParams;
                     // Get the position of the current screen on browsers which support it (non-IE) and
@@ -472,6 +486,7 @@ Core.UI.Popup = (function (TargetNS) {
                     else {
                         OpenPopups[Type] = NewWindow;
                     }
+
                 }
                 else if (WindowMode === 'Iframe') {
                     // jump to the top

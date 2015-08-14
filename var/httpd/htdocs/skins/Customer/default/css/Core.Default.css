@@ -428,5 +428,13 @@ form select.Error {
     border-width: 10px;
     margin-left: -10px;
 }
+/* Chat */
+.ChatProtocol {
+    border: 1px solid #ccc !important;
+    padding: 2px;
+    overflow-y: auto;
+    max-height: 150px;
+    width: 617px;
+}
 
 } /* end @media */

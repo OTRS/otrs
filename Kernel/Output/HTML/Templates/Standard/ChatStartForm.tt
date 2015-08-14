@@ -12,6 +12,8 @@
             <input type="hidden" name="Action" value="AgentChat" />
             <input type="hidden" name="Subaction" value="ChatStart" />
             <input type="hidden" name="ChatStartUserID" />
+            <input type="hidden" name="TicketID" />
+            <input type="hidden" name="ChannelID" />
             <input type="hidden" name="ChatStartUserType" />
             <input type="hidden" name="ChatStartUserFullname" />
             <textarea name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]"></textarea>

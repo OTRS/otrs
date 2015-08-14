@@ -45,7 +45,7 @@
                 [% ELSE %]
                         <span>
                 [% END %]
-                        [% Data.UserFullname | html %]
+                        [% Data.UserFullname | truncate(30) | html %]
 [% RenderBlockStart("ContentSmallUserOnlineRowEmail") %]
                             ([% Data.UserEmail | truncate(50) | html %])
 [% RenderBlockEnd("ContentSmallUserOnlineRowEmail") %]
@@ -57,8 +57,18 @@
                 [% ELSE %]
                     </span>
                 [% END %]
-                [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
-                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments"></i></a>
+                [% IF Data.ChatAccess %]
+                    <span class="Participant [% Data.UserState | html %]">
+
+                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
+                    </span>
+                    [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
+                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
+                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                        data-user-fullname="[% Data.UserFullname | html %]">
+                        <i class="fa fa-comments"></i>
+                    </a>
+                    [% END %]
                 [% END %]
                 </p>
             </td>
@@ -73,6 +83,10 @@
 [% RenderBlockEnd("ContentSmallUserOnlineNone") %]
     </tbody>
 </table>
+<button title="[% Translate('Refresh') %]" id="RefreshUsers">
+    <i class="fa fa-refresh"></i>
+    [% Translate('Refresh') %]
+</button>
 
 [% INCLUDE "ChatStartForm.tt" %]
 
@@ -86,42 +100,72 @@ $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
     $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
     $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
 
-    Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
+    // Get Availability
+    var Data = {
+        Action: 'AgentChat',
+        Subaction: 'GetAvailability',
+        UserID: UserID,
+    };
 
-    // Only enable button if there is a message
-    $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-        $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
-    });
+    Core.AJAX.FunctionCall(
+        Core.Config.Get('Baselink'),
+        Data,
+        function(Response) {
+            if (Response < 1) {
+                window.alert('[% Translate("Selected agent is not available for chat") | html %]. ');
 
-    $('.Dialog form').on('submit', function(){
-        if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-            return false;
-        }
-        // Close after submit
-        window.setTimeout(function(){
-            Core.UI.Dialog.CloseDialog($('.Dialog'));
-        }, 1);
-    });
+                // Reload page
+                document.location.reload(true);
+                return false;
+            }
+
+            Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
+
+            // Only enable button if there is a message
+            $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
+                $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
+            });
+
+            $('.Dialog form').on('submit', function(){
+                if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
+                    return false;
+                }
+                // Close after submit
+                window.setTimeout(function(){
+                    Core.UI.Dialog.CloseDialog($('.Dialog'));
+                }, 1);
+            });
+        });
 
     return false;
 });
+
 //]]></script>
 [% END %]
 
-[% RenderBlockStart("ContentSmallUserOnlineRefresh") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 Core.Config.Set('RefreshSeconds_[% Data.NameHTML | html %]', parseInt("[% Data.RefreshTime | html %]", 10) || 0);
 if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
-    Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(function() {
+    Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(RefreshUsers
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
+
+    , Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
+}
+$('#RefreshUsers').click(function () {
+    RefreshUsers();
+});
+
+function RefreshUsers() {
+    $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
             $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
         });
         clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
-    }, Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
 }
+
 //]]></script>
 [% END %]
-[% RenderBlockEnd("ContentSmallUserOnlineRefresh") %]
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>

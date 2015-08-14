@@ -31,7 +31,7 @@ sub Run {
     # get params
     my %GetParam;
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand Dest)) {
+    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand Dest FromChatID)) {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
@@ -98,6 +98,27 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    if ( $GetParam{FromChatID} ) {
+        if ( !$ConfigObject->Get('ChatEngine::Active') ) {
+            return $LayoutObject->FatalError(
+                Message => "Chat is not active.",
+            );
+        }
+
+        # Check chat participant
+        my %ChatParticipant = $Kernel::OM->Get('Kernel::System::Chat')->ChatParticipantCheck(
+            ChatID      => $GetParam{FromChatID},
+            ChatterType => 'Customer',
+            ChatterID   => $Self->{UserID},
+        );
+
+        if ( !%ChatParticipant ) {
+            return $LayoutObject->FatalError(
+                Message => "No permission.",
+            );
+        }
+    }
 
     # get form id
     my $FormID = $ParamObject->GetParam( Param => 'FormID' );
@@ -208,6 +229,7 @@ sub Run {
             QueueID          => $QueueDefaultID,
             ToSelected       => $Param{ToSelected},
             DynamicFieldHTML => \%DynamicFieldHTML,
+            FromChatID       => $GetParam{FromChatID} || '',
         );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
@@ -401,6 +423,13 @@ sub Run {
             $GetParam{Body} = $LayoutObject->WrapPlainText(
                 MaxCharacters => $ConfigObject->Get('Ticket::Frontend::TextAreaNote'),
                 PlainText     => $GetParam{Body},
+            );
+        }
+
+        # if there is FromChatID, get related messages and prepend them to body
+        if ( $GetParam{FromChatID} ) {
+            my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
+                ChatID => $GetParam{FromChatID},
             );
         }
 
@@ -601,6 +630,51 @@ sub Run {
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $ConfigObject->Get('CustomerPanelUserID'),
             );
+        }
+
+        # Permissions check were done earlier
+        if ( $GetParam{FromChatID} ) {
+            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+            my %Chat       = $ChatObject->ChatGet(
+                ChatID => $GetParam{FromChatID},
+            );
+            my @ChatMessageList = $ChatObject->ChatMessageList(
+                ChatID => $GetParam{FromChatID},
+            );
+            my $ChatArticleID;
+
+            if (@ChatMessageList) {
+                my $JSONBody = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                    Data => \@ChatMessageList,
+                );
+
+                my $ChatArticleType = 'chat-external';
+
+                $ChatArticleID = $TicketObject->ArticleCreate(
+
+                    #NoAgentNotify => $NoAgentNotify,
+                    TicketID    => $TicketID,
+                    ArticleType => $ChatArticleType,
+                    SenderType  => $Config->{SenderType},
+
+                    From => $From,
+
+                    # To               => $To,
+                    Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
+                    Body           => $JSONBody,
+                    MimeType       => 'application/json',
+                    Charset        => $LayoutObject->{UserCharset},
+                    UserID         => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType    => $Config->{HistoryType},
+                    HistoryComment => $Config->{HistoryComment} || '%%',
+                    Queue          => $QueueObject->QueueLookup( QueueID => $NewQueueID ),
+                );
+            }
+            if ($ChatArticleID) {
+                $ChatObject->ChatDelete(
+                    ChatID => $GetParam{FromChatID},
+                );
+            }
         }
 
         # get pre loaded attachment
@@ -1286,6 +1360,19 @@ sub _MaskNew {
         $LayoutObject->Block(
             Name => 'RichText',
             Data => \%Param,
+        );
+    }
+
+    # Permissions have been checked before in Run()
+    if ( $Param{FromChatID} ) {
+        my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
+            ChatID => $Param{FromChatID},
+        );
+        $LayoutObject->Block(
+            Name => 'ChatArticlePreview',
+            Data => {
+                ChatMessages => \@ChatMessages,
+            },
         );
     }
 

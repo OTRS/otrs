@@ -1056,9 +1056,11 @@ if ($('#Article_[% Data.ArticleID %]').length) {
         var UserID = $(this).data('user-id'),
             $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
 
-        $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
+        $Dialog.find('input[name=ChatStartUserID]').val($(this).data('customer-user-id'));
         $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
         $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+        $Dialog.find('input[name=TicketID]').val($(this).data('ticket-id'));
+        $Dialog.find('input[name=ChannelID]').val($(this).data('channel-id'));
 
         Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
 
