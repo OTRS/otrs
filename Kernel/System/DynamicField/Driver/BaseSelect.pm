@@ -400,7 +400,7 @@ sub DisplayValueRender {
     # get real value
     if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
 
-        # get readeable value
+        # get readable value
         $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
     }
 
@@ -806,7 +806,7 @@ sub ValueLookup {
         # check if there is a real value for this key (otherwise keep the key)
         if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
 
-            # get readeable value
+            # get readable value
             $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
 
             # check if translation is possible
@@ -832,7 +832,7 @@ sub BuildSelectionDataGet {
     my $FilteredPossibleValues = $Param{PossibleValues};
 
     # get the possible values again as it might or might not contain the possible none and it could
-    # oso ve overritten
+    # also be overwritten
     my $ConfigPossibleValues = $Self->PossibleValuesGet(%Param);
 
     # check if $PossibleValues differs from configured PossibleValues
@@ -848,7 +848,7 @@ sub BuildSelectionDataGet {
             my %ProcessedElements;
             my $PosibleNoneSet;
 
-            # loop on all filtred possible values
+            # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
@@ -893,7 +893,7 @@ sub BuildSelectionDataGet {
                         # mark element as disabled
                         $DisabledElements{$ElementLongName} = 1;
 
-                        # also set the disabled flag for current emlement to add
+                        # also set the disabled flag for current element to add
                         $Disabled = 1;
                     }
 

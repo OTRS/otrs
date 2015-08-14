@@ -61,7 +61,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
     };
 
-    # get the Dynamic Field Backend custmom extensions
+    # get the Dynamic Field Backend custom extensions
     my $DynamicFieldDriverExtensions
         = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Multiselect');
 
@@ -87,7 +87,7 @@ sub new {
             }
         }
 
-        # check if extension contains more behabiors
+        # check if extension contains more behaviors
         if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
 
             %{ $Self->{Behaviors} } = (
@@ -751,7 +751,7 @@ sub ReadableValueRender {
     # set new line separator
     my $ItemSeparator = ', ';
 
-    # Ouput transformations
+    # Output transformations
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = $Value;
 
@@ -891,7 +891,7 @@ sub BuildSelectionDataGet {
     my $FilteredPossibleValues = $Param{PossibleValues};
 
     # get the possible values again as it might or might not contain the possible none and it could
-    # oso ve overritten
+    # also be overwritten
     my $ConfigPossibleValues = $Self->PossibleValuesGet(%Param);
 
     # check if $PossibleValues differs from configured PossibleValues
@@ -914,7 +914,7 @@ sub BuildSelectionDataGet {
                 %Values = map { $_ => 1 } @{ $Param{Value} };
             }
 
-            # loop on all filtred possible values
+            # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
@@ -968,7 +968,7 @@ sub BuildSelectionDataGet {
                         # mark element as disabled
                         $DisabledElements{$ElementLongName} = 1;
 
-                        # also set the disabled flag for current emlement to add
+                        # also set the disabled flag for current element to add
                         $Disabled = 1;
                     }
 

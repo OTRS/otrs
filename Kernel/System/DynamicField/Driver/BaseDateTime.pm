@@ -758,7 +758,7 @@ sub SearchFieldValueGet {
 
         $DynamicFieldValues{$Prefix} = 1;
 
-        # check if return value structure is nedded
+        # check if return value structure is needed
         if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq '1' ) {
             return \%DynamicFieldValues;
         }
@@ -948,13 +948,13 @@ sub SearchFieldParameterBuild {
             # get time object
             my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-            # get the current time in epoch seconds and as timestamp
+            # get the current time in epoch seconds and as time-stamp
             my $Now          = $TimeObject->SystemTime();
             my $NowTimeStamp = $TimeObject->SystemTime2TimeStamp(
                 SystemTime => $Now,
             );
 
-            # calculate diff time seconds
+            # calculate difference time seconds
             my $DiffTimeSeconds = $DiffTimeMinutes * 60;
 
             my $DisplayValue = '';
@@ -962,7 +962,7 @@ sub SearchFieldParameterBuild {
             # define to search before or after that time stamp
             if ( $Start eq 'Before' ) {
 
-                # we must subtract the diff because it is in the past
+                # we must subtract the difference because it is in the past
                 my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $Now - $DiffTimeSeconds,
                 );
@@ -975,7 +975,7 @@ sub SearchFieldParameterBuild {
             }
             elsif ( $Start eq 'Last' ) {
 
-                # we must subtract the diff because it is in the past
+                # we must subtract the differences because it is in the past
                 my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $Now - $DiffTimeSeconds,
                 );
@@ -989,7 +989,7 @@ sub SearchFieldParameterBuild {
             }
             elsif ( $Start eq 'Next' ) {
 
-                # we must add the diff because it is in the future
+                # we must add the difference because it is in the future
                 my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $Now + $DiffTimeSeconds,
                 );
@@ -1003,7 +1003,7 @@ sub SearchFieldParameterBuild {
             }
             elsif ( $Start eq 'After' ) {
 
-                # we must add the diff because it is in the future
+                # we must add the difference because it is in the future
                 my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $Now + $DiffTimeSeconds,
                 );

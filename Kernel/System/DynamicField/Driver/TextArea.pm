@@ -50,7 +50,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # set the maximum lenght for the textarea fields to still be a searchable field in some
+    # set the maximum length for the text-area fields to still be a searchable field in some
     # databases
     $Self->{MaxLength} = 3800;
 
@@ -64,7 +64,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
     };
 
-    # get the Dynamic Field Backend custmom extensions
+    # get the Dynamic Field Backend custom extensions
     my $DynamicFieldDriverExtensions
         = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::TextArea');
 
@@ -90,7 +90,7 @@ sub new {
             }
         }
 
-        # check if extension contains more behabiors
+        # check if extension contains more behaviors
         if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
 
             %{ $Self->{Behaviors} } = (
@@ -163,11 +163,11 @@ sub EditFieldRender {
     );
 
     # create field HTML
-    # the XHTML definition does not support maxlenght attribute for a textarea field,
+    # the XHTML definition does not support maxlenght attribute for a text-area field,
     # we use data-maxlength instead
     # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
     # validation framework might generate an error while the user is still capable to enter text in the
-    # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
+    # text-area. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $MaxLength = $Param{MaxLength} // $Self->{MaxLength};
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" data-maxlength="$MaxLength">$ValueEscaped</textarea>
@@ -350,7 +350,7 @@ sub SearchFieldRender {
         $Value = $FieldValue;
     }
 
-    # check if value is an arrayref (GenericAgent Jobs and NotificationEvents)
+    # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
     if ( IsArrayRefWithData($Value) ) {
         $Value = @{$Value}[0];
     }

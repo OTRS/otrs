@@ -394,7 +394,7 @@ sub SearchFieldRender {
         $Value = $FieldValue;
     }
 
-    # check if value is an arrayref (GenericAgent Jobs and NotificationEvents)
+    # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
     if ( IsArrayRefWithData($Value) ) {
         $Value = @{$Value}[0];
     }
@@ -475,7 +475,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
@@ -509,7 +509,7 @@ sub StatsSearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
