@@ -57,7 +57,16 @@ if id $OTRSUSER >/dev/null 2>&1; then
 else
     useradd $OTRSUSER -d /opt/otrs/ -s /bin/bash -g www -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
-
+echo "Enable apache module mod_perl..."
+a2enmod perl
+echo "Enable apache module mod_version..."
+a2enmod version
+echo "Enable apache module mod_deflate..."
+a2enmod deflate
+echo "Enable apache module mod_filter..."
+a2enmod filter
+echo "Enable apache module mod_headers..."
+a2enmod headers
 
 %post
 export OTRSUSER=otrs
