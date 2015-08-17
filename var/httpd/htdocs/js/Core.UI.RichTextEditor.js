@@ -103,6 +103,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Editor.editor.on('key', function() {
                 Core.Config.Set('TextIsSpellChecked', false);
             });
+
+            Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [Editor]);
+        });
+
+        CKEDITOR.on('instanceReady', function (Editor) {
+            Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
         });
 
         // The format for the language is different between OTRS and CKEditor (see bug#8024)

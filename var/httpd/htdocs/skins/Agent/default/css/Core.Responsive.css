@@ -34,7 +34,7 @@
         border-bottom: 0px;
     }
 
-    #ToolBar, 
+    #ToolBar,
     .RTL #ToolBar {
         position: static;
         float: none;
@@ -188,7 +188,7 @@
         border-top: 0px !important;
     }
 
-    #Navigation > .Selected, 
+    #Navigation > .Selected,
     #Navigation > li:hover {
         color: #FF9922;
     }
@@ -303,7 +303,7 @@
         text-align: center;
     }
 
-    .RTL .MainBox.FormScreen > h1, 
+    .RTL .MainBox.FormScreen > h1,
     .RTL .MainBox.FormScreen > .AsteriskExplanation {
         margin-right: 0px;
     }
@@ -421,9 +421,9 @@
         padding: 0px;
     }
 
-    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Field, 
-    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Field, 
-    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Value, 
+    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Field,
+    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Field,
+    .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Value,
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Value {
         float: none;
         display: inline;
@@ -547,6 +547,7 @@
         margin-top: 60px;
     }
 
+    #ContextSettingsDialog,
     #ContextSettingsDialogOverviewSmall {
         width: auto;
         max-height: 100%;
@@ -581,9 +582,9 @@
         text-align: center;
     }
 
-    .LoginScreen fieldset.TableLike > label, 
-    .LoginScreen fieldset.TableLike > .Row > label, 
-    .LoginScreen fieldset.TableLike.FixedLabelSmall > label, 
+    .LoginScreen fieldset.TableLike > label,
+    .LoginScreen fieldset.TableLike > .Row > label,
+    .LoginScreen fieldset.TableLike.FixedLabelSmall > label,
     .LoginScreen fieldset.TableLike.FixedLabelSmall > .Row > label {
         text-align: center;
         margin-right: 0px;
@@ -633,9 +634,9 @@
         font-size: 1.2em;
     }
 
-    .RTL fieldset.TableLike.FixedLabelSmall > .Field, 
-    .RTL fieldset.TableLike.FixedLabelSmall > .Row > .Field, 
-    .RTL fieldset.TableLike.FixedLabelSmall > .Value, 
+    .RTL fieldset.TableLike.FixedLabelSmall > .Field,
+    .RTL fieldset.TableLike.FixedLabelSmall > .Row > .Field,
+    .RTL fieldset.TableLike.FixedLabelSmall > .Value,
     .RTL fieldset.TableLike.FixedLabelSmall > .Row > .Value {
         margin-right: 0px;
     }
@@ -648,7 +649,7 @@
         margin-right: 5px;
     }
 
-    fieldset.TableLike.FixedLabel > label, 
+    fieldset.TableLike.FixedLabel > label,
     fieldset.TableLike.FixedLabel > .Row > label {
         width: auto;
         min-height: 0px;
@@ -979,12 +980,11 @@
     .LayoutPopup fieldset.TableLike.FixedLabel > .Value,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Value {
         margin-left: 0px;
+        padding-left: 0px;
     }
 
     .LayoutPopup fieldset.TableLike > .Field > select,
     .LayoutPopup fieldset.TableLike > .Row > .Field > select,
-    .LayoutPopup fieldset.TableLike > .Field > input,
-    .LayoutPopup fieldset.TableLike > .Row > .Field > input,
     .LayoutPopup input#Subject {
         width: auto;
     }
@@ -1009,7 +1009,7 @@
         padding-left: 0px;
     }
 
-    fieldset.TableLike > .Value, 
+    fieldset.TableLike > .Value,
     fieldset.TableLike > .Row > .Value {
         margin-left: 0px;
     }
@@ -1060,7 +1060,7 @@
     }
 
     /* Input Fields */
-    
+
     div.InputField_Container {
         width: 90%;
         margin-right: 10px;
@@ -1069,45 +1069,45 @@
     div.InputField_InputContainer {
         width: 100%;
     }
-    
+
     div.InputField_InputContainer input.InputField_Search {
         padding: 3px;
         font-size: 0.9em;
         width: 100% !important;
     }
-    
+
     div.InputField_ListContainer {
         margin-top: -1px;
     }
-    
+
     div.InputField_Selection {
         height: 1.4em;
         line-height: 0.8em;
     }
-    
+
     div.InputField_Selection div,
     div.InputField_FiltersList,
     div.InputField_ToolbarContainer ul li a {
         font-size: 0.8em;
     }
-    
+
     div.InputField_More {
         top: 8px;
     }
-    
+
     div.InputField_FiltersList span {
         vertical-align: 10%;
     }
-    
+
     .jstree-InputField {
         font-size: 0.9em;
     }
-   
+
     div.InputField_TreeContainer {
         max-height: 103px;
         line-height: 1.4em;
     }
-    
+
     .jstree-InputField-Tree .jstree-node,
     .jstree-InputField-Tree .jstree-anchor,
     .jstree-InputField-NoTree .jstree-node,
@@ -1115,7 +1115,7 @@
     .jstree-InputField-Tree .jstree-icon:empty {
         line-height: 1.4em;
     }
-    
+
     .jstree-InputField-Tree .jstree-wholerow,
     .jstree-InputField-NoTree .jstree-wholerow {
         line-height: 1.4em;

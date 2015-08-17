@@ -668,6 +668,21 @@ Core.UI.Popup = (function (TargetNS) {
                 TargetNS.ClosePopup();
             });
 
+            // if this is a popup-iframe, correct document height if necessary
+            if (window.parent) {
+                // Check if iframe is larger than original document and resize iframe
+                if ($(window.frameElement).height() < $('body').height()) {
+                    $(window.frameElement).height($('body').height());
+                }
+
+                // Additionally repeat this resizing check for every RTE instance created
+                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function (Editor) {
+                    if ($(window.frameElement).height() < $('body').height()) {
+                        $(window.frameElement).height($('body').height());
+                    }
+                });
+            }
+
             // add a class to the body element, if this popup is a real popup
             if (window.opener) {
                 $('body').addClass('RealPopup');
