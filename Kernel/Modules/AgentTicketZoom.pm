@@ -39,7 +39,7 @@ sub new {
 
     # Please note: ZoomTimeline is an OTRSBusiness feature
     $Self->{ZoomTimeline} = $ParamObject->GetParam( Param => 'ZoomTimeline' );
-    if ( !$ConfigObject->Get('ChronicalViewEnabled') ) {
+    if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
         $Self->{ZoomTimeline} = 0;
     }
 
@@ -129,7 +129,7 @@ sub new {
     $Self->{DisplaySettings} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
 
     # this is a mapping of history types which is being used
-    # for the chronical view and its event type filter
+    # for the timeline view and its event type filter
     $Self->{HistoryTypeMapping} = {
         NewTicket                       => 'Ticket Created',
         AddNote                         => 'Note Added',
@@ -172,13 +172,13 @@ sub new {
     # Add custom files to the zoom's frontend module registration on the fly
     #    to avoid conflicts with other modules.
     if (
-        defined $ConfigObject->Get('ChronicalViewEnabled')
-        && $ConfigObject->Get('ChronicalViewEnabled') == 1
+        defined $ConfigObject->Get('TimelineViewEnabled')
+        && $ConfigObject->Get('TimelineViewEnabled') == 1
         )
     {
         my $ZoomFrontendConfiguration = $ConfigObject->Get('Frontend::Module')->{AgentTicketZoom};
         my @CustomJSFiles             = (
-            'Core.Agent.TicketZoom.ChronicalView.js',
+            'Core.Agent.TicketZoom.TimelineView.js',
         );
         push( @{ $ZoomFrontendConfiguration->{Loader}->{JavaScript} || [] }, @CustomJSFiles );
     }
@@ -1854,9 +1854,9 @@ sub _ArticleTree {
     }
     elsif ( $Self->{ZoomTimeline} ) {
 
-        # show trigger for chronical view
+        # show trigger for timeline view
         $LayoutObject->Block(
-            Name => 'Chronical',
+            Name => 'Timeline',
             Data => {
                 %Ticket,
                 ArticleID      => $ArticleID,
@@ -2105,7 +2105,7 @@ sub _ArticleTree {
         );
 
         # get articles for later use
-        my @ChronicalArticleBox = $TicketObject->ArticleContentIndex(
+        my @TimelineArticleBox = $TicketObject->ArticleContentIndex(
             TicketID                   => $Self->{TicketID},
             DynamicFields              => 0,
             UserID                     => $Self->{UserID},
@@ -2113,7 +2113,7 @@ sub _ArticleTree {
         );
 
         my $ArticlesByArticleID = {};
-        for my $Article ( sort @ChronicalArticleBox ) {
+        for my $Article ( sort @TimelineArticleBox ) {
 
             # get attachment index (without attachments)
             my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
@@ -2495,7 +2495,7 @@ sub _ArticleTree {
         $Param{TicketID} = $Self->{TicketID};
 
         $LayoutObject->Block(
-            Name => 'ChronicalView',
+            Name => 'TimelineView',
             Data => \%Param,
         );
 
@@ -2522,7 +2522,7 @@ sub _ArticleTree {
             );
 
             $LayoutObject->Block(
-                Name => 'ChronicalViewTicketActions',
+                Name => 'TimelineViewTicketActions',
                 Data => {
                     ArticleID => $ArticleID,
                     TicketID  => $Self->{TicketID},
@@ -2538,7 +2538,7 @@ sub _ArticleTree {
                 );
 
                 $LayoutObject->Block(
-                    Name => 'ChronicalViewArticleAttachments',
+                    Name => 'TimelineViewArticleAttachments',
                     Data => {
                         ArticleID   => $ArticleID,
                         Attachments => $ArticleAttachments,

@@ -623,23 +623,23 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("Expand") %]
                 <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
-            [% IF Config("ChronicalViewEnabled") == 1 %]
-                <a class="Chronical [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+            [% IF Config("TimelineViewEnabled") == 1 %]
+                <a class="Timeline [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
             [% END %]
 [% RenderBlockEnd("Expand") %]
 [% RenderBlockStart("Collapse") %]
                 <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
-            [% IF Config("ChronicalViewEnabled") == 1 %]
-                <a class="Chronical [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+            [% IF Config("TimelineViewEnabled") == 1 %]
+                <a class="Timeline [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
             [% END %]
 [% RenderBlockEnd("Collapse") %]
-[% IF Config("ChronicalViewEnabled") == 1 %]
-[% RenderBlockStart("Chronical") %]
+[% IF Config("TimelineViewEnabled") == 1 %]
+[% RenderBlockStart("Timeline") %]
                 <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
-                <a class="Chronical Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
-[% RenderBlockEnd("Chronical") %]
+                <a class="Timeline Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+[% RenderBlockEnd("Timeline") %]
 [% END %]
             </div>
             <div class="Clear"></div>
@@ -761,22 +761,22 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         </div>
 [% RenderBlockEnd("ArticleList") %]
 
-[% RenderBlockStart("ChronicalView") %]
+[% RenderBlockStart("TimelineView") %]
 
-        <div class="ChronicalViewTicketActions Hidden">
-[% RenderBlockStart("ChronicalViewTicketActions") %]
+        <div class="TimelineViewTicketActions Hidden">
+[% RenderBlockStart("TimelineViewTicketActions") %]
             <div class="TicketActions ArticleID_[% Data.ArticleID | html %]">
 [% PROCESS ArticleActionMenu.tt %]
             </div>
-[% RenderBlockEnd("ChronicalViewTicketActions") %]
+[% RenderBlockEnd("TimelineViewTicketActions") %]
         </div>
 
-        <div class="ChronicalViewArticleAttachments Hidden">
-[% RenderBlockStart("ChronicalViewArticleAttachments") %]
+        <div class="TimelineViewArticleAttachments Hidden">
+[% RenderBlockStart("TimelineViewArticleAttachments") %]
             <div class="ArticleAttachments ArticleID_[% Data.ArticleID | html %]">
 [% PROCESS ArticleAttachments.tt %]
             </div>
-[% RenderBlockEnd("ChronicalViewArticleAttachments") %]
+[% RenderBlockEnd("TimelineViewArticleAttachments") %]
         </div>
 
         <ul class="Hidden">
@@ -813,13 +813,13 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                 </li>
             </ul>
             <div class="Hidden FullArticlePlainText" data-title="[% Translate("Full Article Text") | html %]">
-                <div class="ChronicalPlainText"></div>
+                <div class="TimelinePlainText"></div>
             </div>
             <p class="PlainText"></p>
             <div class="Hidden ArticleIFrame" data-title="[% Translate("Full Article Text") | html %]"></div>
         </div>
 
-        <div class="ChronicalView [% IF Data.UseArticleColors %]UseArticleColors[% END %]">
+        <div class="TimelineView [% IF Data.UseArticleColors %]UseArticleColors[% END %]">
             <ul class="ListLeft">
                 <li class="NoEvents">[% Translate("No more events found. Please try changing the filter settings.") | html %]</li>
             </ul>
@@ -830,7 +830,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 
-[% IF Config("ChronicalViewEnabled") == 1 %]
+[% IF Config("TimelineViewEnabled") == 1 %]
 var TicketID    = [% Data.TicketID | JSON %],
     ListObjects = [
 [% FOREACH Item IN Data.Items %]
@@ -857,14 +857,14 @@ var TicketID    = [% Data.TicketID | JSON %],
             'text'   : [% IF Item.IsChatArticle %][% Item.ArticleData.BodyChat | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(650) | JSON %][% END %],
             'text_long' : [% IF Item.IsChatArticle %][% Item.ArticleData.Body %][% ELSE %][% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %][% END %],
             'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
-            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]" [% Data.MSSecurityRestricted %] width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="ChronicalArticleiFrame" src=""></iframe>'
+            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]" [% Data.MSSecurityRestricted %] width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="TimelineArticleiFrame" src=""></iframe>'
         [% END %]
         }
     }[% IF !loop.last %],[% END %]
 [% END %]
 ];
 
-Core.Agent.TicketZoom.ChronicalView.Init(TicketID, ListObjects);
+Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects);
 
 [% END %]
 
@@ -876,7 +876,7 @@ if ($('#Article_[% Data.ArticleID %]').length) {
 //]]></script>
 [% END %]
 
-[% RenderBlockEnd("ChronicalView") %]
+[% RenderBlockEnd("TimelineView") %]
 
     </div>
 </div>

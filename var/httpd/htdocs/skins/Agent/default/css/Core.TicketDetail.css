@@ -391,15 +391,15 @@ div.Headline .Flag {
 }
 
 /**
- * @subsection  Chronical View
+ * @subsection  Timeline View
  */
 
-.ChronicalView {
+.TimelineView {
     position: relative;
     padding: 5px 5px 15px 5px;
 }
 
-.ChronicalView:after {
+.TimelineView:after {
     content: ' ';
     width: 4px;
     height: 20px;
@@ -411,7 +411,7 @@ div.Headline .Flag {
     top: 16px;
 }
 
-.ChronicalView > ul {
+.TimelineView > ul {
     display: block;
     width: 49.9%;
     float: left;
@@ -421,25 +421,25 @@ div.Headline .Flag {
     padding-bottom: 65px;
 }
 
-.ChronicalView > ul:first-child {
+.TimelineView > ul:first-child {
     margin-right: 0px;
     border-right: 1px solid #aaa;
     border-left: 0px;
 }
 
-.ChronicalView > ul > li {
+.TimelineView > ul > li {
     background-color: #fff;
     margin: 0px 20px 0px 25px;
     padding: 10px 10px 5px 10px;
     border: 1px solid #ddd;
 }
 
-.ChronicalView > ul:first-child > li {
+.TimelineView > ul:first-child > li {
     margin-right: 25px;
     margin-left: 20px;
 }
 
-.ChronicalView > ul:first-child > li.NoEvents {
+.TimelineView > ul:first-child > li.NoEvents {
     width: 500px;
     position: absolute;
     left: 50%;
@@ -453,11 +453,11 @@ div.Headline .Flag {
     background-color: #F5F5F5;
 }
 
-.ChronicalView > ul > li:first-child {
+.TimelineView > ul > li:first-child {
     margin-top: -7px;
 }
 
-.ChronicalView > ul > li h3 {
+.TimelineView > ul > li h3 {
     margin: -10px -10px 5px -10px;
     padding: 6px 10px;
     background: #ddd;
@@ -465,49 +465,49 @@ div.Headline .Flag {
     position: relative;
 }
 
-.ChronicalView > ul > li h3 .fa-info-circle {
+.TimelineView > ul > li h3 .fa-info-circle {
     display: none;
 }
 
-.ChronicalView > ul > li.Important h3 .fa-info-circle {
+.TimelineView > ul > li.Important h3 .fa-info-circle {
     display: inline-block;
     color: #777;
 }
 
-.ChronicalView > ul > li.Important:hover h3 .fa-info-circle {
+.TimelineView > ul > li.Important:hover h3 .fa-info-circle {
     color: #000;
 }
 
-.ChronicalView > ul > li.HasArticle h3 strong {
+.TimelineView > ul > li.HasArticle h3 strong {
     font-weight: bold;
 }
 
-.ChronicalView > ul > li h3 strong,
-.ChronicalView > ul > li.Seen h3 strong {
+.TimelineView > ul > li h3 strong,
+.TimelineView > ul > li.Seen h3 strong {
     font-weight: normal;
 }
 
-.ChronicalView > ul > li h3 a {
+.TimelineView > ul > li h3 a {
     float: right;
     color: #666;
 }
 
-.ChronicalView > ul > li p {
+.TimelineView > ul > li p {
     max-height: 106px;
     white-space: pre;
     overflow: hidden;
     position: relative;
 }
 
-.ChronicalView > ul > li.TypeTicketAction p {
+.TimelineView > ul > li.TypeTicketAction p {
     max-height: none;
 }
 
-.ChronicalView > ul > li.NoFixedMaxHeight p {
+.TimelineView > ul > li.NoFixedMaxHeight p {
     max-height: none;
 }
 
-.ChronicalView > ul > li p span.FadeOut {
+.TimelineView > ul > li p span.FadeOut {
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -523,41 +523,41 @@ div.Headline .Flag {
     left: 0px;
 }
 
-.ChronicalView > ul > li.NoFadeOut .FadeOut {
+.TimelineView > ul > li.NoFadeOut .FadeOut {
     display: none;
 }
 
-.ChronicalView > ul > li.Connected * {
+.TimelineView > ul > li.Connected * {
     font-size: 11px;
 }
 
-.ChronicalView > ul > li.Connected h3 {
+.TimelineView > ul > li.Connected h3 {
     padding: 4px 10px;
 }
 
-.ChronicalView > ul > li.Connected p {
+.TimelineView > ul > li.Connected p {
     margin-bottom: -4px;
 }
 
-.ChronicalView > ul > li.Connected h3 span {
+.TimelineView > ul > li.Connected h3 span {
     display: none;
 }
 
-.ChronicalView > ul > li.Connected {
+.TimelineView > ul > li.Connected {
     margin-right: 40px !important;
     margin-left: 40px !important;
     padding-bottom: 10px;
 }
 
-.ChronicalView > ul > li h3 a:hover {
+.TimelineView > ul > li h3 a:hover {
     color: #000;
 }
 
-.ChronicalView > ul > li h3:last-child {
+.TimelineView > ul > li h3:last-child {
     margin-bottom: -10px;
 }
 
-.ChronicalView > ul > li h3:after {
+.TimelineView > ul > li h3:after {
     right: 100%;
     top: 50%;
     border: solid transparent;
@@ -572,13 +572,13 @@ div.Headline .Flag {
     margin-top: -13px;
 }
 
-.ChronicalView ul.ListLeft li h3:after {
+.TimelineView ul.ListLeft li h3:after {
     left: 100%;
     border-left-color: #ccc;
     border-right-color: transparent;
 }
 
-.ChronicalView > ul > li.Connected h3:after {
+.TimelineView > ul > li.Connected h3:after {
     left: 50%;
     content: "";
     right: auto;
@@ -589,12 +589,12 @@ div.Headline .Flag {
     border-width: 2px;
 }
 
-.ChronicalView ul.ListLeft li h3 > span {
+.TimelineView ul.ListLeft li h3 > span {
     right: -31px;
     left: auto;
 }
 
-.ChronicalView > ul > li h3 > span {
+.TimelineView > ul > li h3 > span {
     display: block;
     position: absolute;
     top: 6px;
@@ -609,7 +609,7 @@ div.Headline .Flag {
     transition: all 0.1s ease-in;
 }
 
-.ChronicalView > ul > li h3 > span span {
+.TimelineView > ul > li h3 > span span {
     position: absolute;
     width: 160px;
     background-color: #777;
@@ -623,16 +623,16 @@ div.Headline .Flag {
     display: none;
 }
 
-.ChronicalView > ul > li h3 > span:hover {
+.TimelineView > ul > li h3 > span:hover {
     z-index: 99;
 }
 
-.ChronicalView > ul > li h3 > span:hover span {
+.TimelineView > ul > li h3 > span:hover span {
     display: block;
     z-index: 999;
 }
 
-.ChronicalView > ul > li h3 > span span:after {
+.TimelineView > ul > li h3 > span span:after {
     top: 100%;
     left: 50%;
     border: solid transparent;
@@ -647,8 +647,8 @@ div.Headline .Flag {
     margin-left: -8px;
 }
 
-.ChronicalView > ul > li:hover h3 > span,
-.ChronicalView > ul > li h3 > span:hover {
+.TimelineView > ul > li:hover h3 > span,
+.TimelineView > ul > li h3 > span:hover {
     width: 15px;
     height: 15px;
     left: -34px;
@@ -656,14 +656,14 @@ div.Headline .Flag {
     background-color: #000;
 }
 
-.ChronicalView ul:first-child li:hover h3 > span,
-.ChronicalView ul:first-child li h3 > span:hover {
+.TimelineView ul:first-child li:hover h3 > span,
+.TimelineView ul:first-child li h3 > span:hover {
     right: -34px;
     left: auto;
     top: 4px;
 }
 
-.ChronicalView li ul {
+.TimelineView li ul {
     font-size: 11px;
     background-color: #f2f2f2;
     margin: -5px -10px 5px -10px;
@@ -672,20 +672,20 @@ div.Headline .Flag {
     position: relative;
 }
 
-.ChronicalView li ul li {
+.TimelineView li ul li {
     margin-top: 3px;
 }
 
-.ChronicalView li ul li.subject,
-.ChronicalView li ul li.from,
-.ChronicalView li ul li.to,
-.ChronicalView li ul li.cc {
+.TimelineView li ul li.subject,
+.TimelineView li ul li.from,
+.TimelineView li ul li.to,
+.TimelineView li ul li.cc {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.ChronicalView li ul li.AttachmentsLink {
+.TimelineView li ul li.AttachmentsLink {
     background: #ddd;
     color: #555;
     cursor: pointer;
@@ -696,24 +696,24 @@ div.Headline .Flag {
     top: 5px;
 }
 
-.ChronicalView li ul li.AttachmentsLink:hover {
+.TimelineView li ul li.AttachmentsLink:hover {
     color: #000;
 }
 
-.ChronicalView > span {
+.TimelineView > span {
     display: block;
     margin: 70px 0px;
     font-size: 18px;
     text-align: center;
 }
 
-.ChronicalView > .CallForAction {
+.TimelineView > .CallForAction {
     margin: 0px auto;
     display: block;
     width: 120px;
 }
 
-.ChronicalView > ul > li.NewTicket {
+.TimelineView > ul > li.NewTicket {
     left: 50%;
     bottom: 10px;
     margin-left: -86px;
@@ -723,16 +723,16 @@ div.Headline .Flag {
     border: 0px;
 }
 
-.ChronicalView > ul > li.NewTicket h3 {
+.TimelineView > ul > li.NewTicket h3 {
     font-weight: bold;
     padding-top: 5px;
 }
 
-.ChronicalView > ul > li.NewTicket h3:after {
+.TimelineView > ul > li.NewTicket h3:after {
     display: none;
 }
 
-.ChronicalView > ul > li.NewTicket:after {
+.TimelineView > ul > li.NewTicket:after {
     bottom: 100%;
     left: 50%;
     border: solid transparent;
@@ -747,7 +747,7 @@ div.Headline .Flag {
     margin-left: -10px;
 }
 
-.ChronicalView > ul > li.NewTicket h3 > span {
+.TimelineView > ul > li.NewTicket h3 > span {
     display: block;
     position: static;
     text-align: center;
@@ -757,7 +757,7 @@ div.Headline .Flag {
     font-weight: normal;
 }
 
-.ChronicalView > ul > li.NewTicket h3 > span span {
+.TimelineView > ul > li.NewTicket h3 > span span {
     display: block;
     position: static;
     text-align: center;
@@ -769,11 +769,11 @@ div.Headline .Flag {
     margin-top: 4px;
 }
 
-.ChronicalView > ul > li.NewTicket h3 > span span:after {
+.TimelineView > ul > li.NewTicket h3 > span span:after {
     display: none;
 }
 
-.ChronicalPlainText {
+.TimelinePlainText {
     white-space: pre-wrap;
     height: 400px;
     width: 800px;
@@ -781,82 +781,82 @@ div.Headline .Flag {
     overflow: auto;
 }
 
-.ChronicalView .PlainText > div.ChatMessage {
+.TimelineView .PlainText > div.ChatMessage {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 11px;
 }
 
-.ChronicalView .PlainText > div.ChatMessage.SystemGenerated {
+.TimelineView .PlainText > div.ChatMessage.SystemGenerated {
     font-style: italic;
     color: #aaa;
 }
 
-.ChronicalView .PlainText > div.ChatMessage span {
+.TimelineView .PlainText > div.ChatMessage span {
     font-weight: bold;
     font-style: normal;
 }
 
-.ChronicalPlainText .ArticleChat {
+.TimelinePlainText .ArticleChat {
     max-height: none;
     line-height: 120%;
     font-size: 12px;
 }
 
-.ChronicalArticleiFrame {
+.TimelineArticleiFrame {
     width: 800px;
     height: 400px;
 }
 
-.ActionsChronicalView .Actions li select {
+.ActionsTimelineView .Actions li select {
     max-width: 120px;
 }
 
 /* Define colors for different event types */
 
-.UseArticleColors .ChronicalView .TypeIncoming h3 {
+.UseArticleColors .TimelineView .TypeIncoming h3 {
     background-color: #d4defc;
     color: #000;
 }
 
-.UseArticleColors .ChronicalView .TypeIncoming h3:after {
+.UseArticleColors .TimelineView .TypeIncoming h3:after {
     border-right-color: #B7C3E8;
 }
 
-.UseArticleColors .ChronicalView .TypeTicketAutoAction h3 {
+.UseArticleColors .TimelineView .TypeTicketAutoAction h3 {
     background-color: #ffffd1;
     color: #000;
 }
 
-.UseArticleColors .ChronicalView ul.ListLeft .TypeTicketAutoAction h3:after {
+.UseArticleColors .TimelineView ul.ListLeft .TypeTicketAutoAction h3:after {
     border-left-color: #EAEAAF;
 }
 
-.UseArticleColors .ChronicalView .TypeNoteInternal h3 {
+.UseArticleColors .TimelineView .TypeNoteInternal h3 {
     background-color: #FFCCCC;
     color: #000;
 }
 
-.UseArticleColors .ChronicalView ul.ListLeft .TypeNoteInternal h3:after {
+.UseArticleColors .TimelineView ul.ListLeft .TypeNoteInternal h3:after {
     border-left-color: #EFB1B1;
 }
 
-.UseArticleColors .ChronicalView .TypeOutgoing h3 {
+.UseArticleColors .TimelineView .TypeOutgoing h3 {
     background-color: #D3E5B5;
     color: #000;
 }
 
-.UseArticleColors .ChronicalView ul.ListLeft .TypeOutgoing h3:after {
+.UseArticleColors .TimelineView ul.ListLeft .TypeOutgoing h3:after {
     border-left-color: #BFD39C;
 }
 
-.ChronicalView > ul > li.Seen div.UnreadArticles,
-.ChronicalView li div.UnreadArticles {
+.TimelineView > ul > li.Seen div.UnreadArticles,
+.TimelineView li div.UnreadArticles {
     display: none;
 }
 
-.ChronicalView li.HasArticle div.UnreadArticles {
+.TimelineView li.HasArticle div.UnreadArticles {
     padding: 0px !important;
     margin-left: 0px;
     display: inline-block;
@@ -865,11 +865,11 @@ div.Headline .Flag {
     cursor: pointer;
 }
 
-.ChronicalView div.UnreadArticles i:first-child {
+.TimelineView div.UnreadArticles i:first-child {
     font-size: 13px;
 }
 
-.ChronicalView div.UnreadArticles i {
+.TimelineView div.UnreadArticles i {
     font-size: 11px;
 }
 

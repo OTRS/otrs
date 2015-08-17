@@ -94,7 +94,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // Mark old row as readed
             $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
-            $('.ChronicalView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
+            $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
                 $(this).closest('li').addClass('Seen');
             });
 
@@ -236,7 +236,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // Check if we are in timeline view
         // in this case we can jump directly to the article
-        if ($('.ArticleView .Chronical').hasClass('Active')) {
+        if ($('.ArticleView .Timeline').hasClass('Active')) {
             window.location.hash = '#ArticleID_' + ArticleID;
         }
         else {
@@ -375,7 +375,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 }
             }
         }
-        $('a.Chronical').bind('click', function() {
+        $('a.Timeline').bind('click', function() {
             $(this).attr('href', $(this).attr('href') + ';ArticleID=' + URLHash);
         });
 

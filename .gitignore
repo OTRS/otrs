@@ -150,7 +150,7 @@ scripts/test/StatsReport.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
-var/httpd/htdocs/js/*ChronicalView*
+var/httpd/htdocs/js/*TimelineView*
 var/httpd/htdocs/js/*StatisticsReports*
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
 var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
