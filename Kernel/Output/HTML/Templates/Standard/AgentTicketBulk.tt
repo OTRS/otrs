@@ -246,6 +246,10 @@ $('#MergeTo').bind('blur', function() {
                         [% Data.UnlockYesNoOption %]
                     </div>
                     <div class="Clear"></div>
+
+[% FOREACH CONTENT IN Data.BulkModuleContent %]
+                    [% CONTENT %]
+[% END %]
                 </fieldset>
             </div>
         </div>

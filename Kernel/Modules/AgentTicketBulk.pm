@@ -145,7 +145,7 @@ sub Run {
         }
     }
 
-    my $Output .= $LayoutObject->Header(
+    my $Output = $LayoutObject->Header(
         Type => 'Small',
     );
 
@@ -153,6 +153,45 @@ sub Run {
     my %Error;
     my %Time;
     my %GetParam;
+
+    # get bulk modules from SysConfig
+    my $BulkModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::BulkModule') || {};
+
+    # create bulk module objects
+    my @BulkModules;
+    MODULECONFIG:
+    for my $ModuleConfig ( sort keys %{$BulkModuleConfig} ) {
+
+        next MODULECONFIG if !$ModuleConfig;
+        next MODULECONFIG if !$BulkModuleConfig->{$ModuleConfig};
+        next MODULECONFIG if ref $BulkModuleConfig->{$ModuleConfig} ne 'HASH';
+        next MODULECONFIG if !$BulkModuleConfig->{$ModuleConfig}->{Module};
+
+        my $Module = $BulkModuleConfig->{$ModuleConfig}->{Module};
+
+        my $ModuleObject;
+        eval {
+            $ModuleObject = $Kernel::OM->Get($Module);
+        };
+
+        if ( !$ModuleObject ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not create a new object for $Module!",
+            );
+            next MODULECONFIG;
+        }
+
+        if ( ref $ModuleObject ne $Module ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Object for $Module is invalid!",
+            );
+            next MODULECONFIG;
+        }
+
+        push @BulkModules, $ModuleObject;
+    }
 
     # get needed objects
     my $StateObject = $Kernel::OM->Get('Kernel::System::State');
@@ -291,6 +330,23 @@ sub Run {
             );
             if ( !$TicketID ) {
                 $Error{'LinkTogetherParentInvalid'} = 'ServerError';
+            }
+        }
+
+        # call Validate() in all ticket bulk modules
+        if (@BulkModules) {
+            MODULEOBJECT:
+            for my $ModuleObject (@BulkModules) {
+                next MODULEOBJECT if !$ModuleObject->can('Validate');
+
+                my @Result = $ModuleObject->Validate();
+
+                next MODULEOBJECT if !@Result;
+
+                # include all validation errors in the common error hash
+                for my $ValidationError (@Result) {
+                    $Error{ $ValidationError->{ErrorKey} } = $ValidationError->{ErrorValue};
+                }
             }
         }
     }
@@ -738,6 +794,21 @@ sub Run {
                     UserID   => $Self->{UserID},
                 );
             }
+
+            # call Store() in all ticket bulk modules
+            if (@BulkModules) {
+
+                MODULEOBJECT:
+                for my $ModuleObject (@BulkModules) {
+                    next MODULEOBJECT if !$ModuleObject->can('Store');
+
+                    $ModuleObject->Store(
+                        TicketID => $TicketID,
+                        UserID   => $Self->{UserID},
+                    );
+                }
+            }
+
             $ActionFlag = 1;
         }
         $Counter++;
@@ -761,6 +832,7 @@ sub Run {
         TicketIDs     => \@TicketIDSelected,
         LockedTickets => $LockedTickets,
         Errors        => \%Error,
+        BulkModules   => \@BulkModules,
     );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
@@ -1155,6 +1227,28 @@ sub _Mask {
             Name => 'CancelClosePopup',
             Data => {%Param},
         );
+    }
+
+    my @BulkModules = @{ $Param{BulkModules} };
+
+    # call Display() in all ticket bulk modules
+    if (@BulkModules) {
+
+        my @BulkModuleContent;
+
+        MODULEOBJECT:
+        for my $ModuleObject (@BulkModules) {
+            next MODULEOBJECT if !$ModuleObject->can('Display');
+
+            my $ModuleContent = $ModuleObject->Display(
+                Errors => $Param{Errors},
+                UserID => $Self->{UserID},
+            );
+
+            push @BulkModuleContent, $ModuleContent;
+        }
+
+        $Param{BulkModuleContent} = \@BulkModuleContent;
     }
 
     # get output back
