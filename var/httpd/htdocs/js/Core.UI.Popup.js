@@ -676,7 +676,7 @@ Core.UI.Popup = (function (TargetNS) {
                 }
 
                 // Additionally repeat this resizing check for every RTE instance created
-                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function (Editor) {
+                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
                     if ($(window.frameElement).height() < $('body').height()) {
                         $(window.frameElement).height($('body').height());
                     }
