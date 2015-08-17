@@ -268,7 +268,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                         SelectedValue = $(this).parents('.InputField_Selection')
                                             .data('value');
                                     Selection.splice(Selection.indexOf(SelectedValue), 1);
-                                    if (Empty && Selection.length === 0) {
+                                    if (HasEmptyElement && Selection.length === 0) {
                                         $SelectObj.val('');
                                     }
                                     else {
