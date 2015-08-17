@@ -60,7 +60,7 @@
  - 2015-06-29 Redesigned statistics GUI.
  - 2015-06-11 Added possibility to define read only SysConfig settings.
  - 2015-06-11 Added possibility to disable a Date/Time field (created with Layout object BuildDateSelection()).
- - 2015-06-10 Added possibility to show tickets from subqueues in AgenTicketZoom.
+ - 2015-06-10 Added possibility to show tickets from subqueues in AgenTicketQueue.
    Default on initial view is configurable (show or hide subqueue tickets).
  - 2015-06-08 Updated 7 day stats dashboard widget to use d3 instead of flot and removed flot completely.
  - 2015-06-08 Updated jQuery to 2.1.4; jQuery UI to 1.11.4; FontAwesome to 4.3.0; FullCalendar to 2.3.1, StackTrace to 0.6.4.
