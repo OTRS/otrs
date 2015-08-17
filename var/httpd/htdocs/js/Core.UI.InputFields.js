@@ -264,7 +264,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 .attr('role', 'button')
                                 .attr('aria-label', Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text)
                                 .off('click.InputField').on('click.InputField', function () {
-                                    var Empty = $SelectObj.find('option[value=""]:contains(-)').length === 0 ? false : true,
+                                    var HasEmptyElement = $SelectObj.find('option[value=""]').length === 0 ? false : true,
                                         SelectedValue = $(this).parents('.InputField_Selection')
                                             .data('value');
                                     Selection.splice(Selection.indexOf(SelectedValue), 1);
@@ -1019,7 +1019,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     .on('deselect_node.jstree', function (Node, Selected) {
 
                         var SelectedNodesIDs,
-                            Empty = $SelectObj.find('option[value=""]:contains(-)').length === 0 ? false : true;
+                            HasEmptyElement = $SelectObj.find('option[value=""]').length === 0 ? false : true;
 
                         if (Multiple) {
 
@@ -1035,7 +1035,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                             // Set selected nodes as selected in initial select box
                             // (which is hidden but is still used for the action)
-                            if (Empty && SelectedNodes.length === 0) {
+                            if (HasEmptyElement && SelectedNodes.length === 0) {
                                 $SelectObj.val('');
                             }
                             else {
