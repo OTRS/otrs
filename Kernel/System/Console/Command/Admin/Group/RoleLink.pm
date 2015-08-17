@@ -38,11 +38,11 @@ sub Configure {
     $Self->AddOption(
         Name => 'permission',
         Description =>
-            'Permissions (ro|move_into|create|owner|priority|rw) the role should have for the group which it is going to be linked to.',
+            'Permissions (ro|move_into|create|note|owner|priority|rw) the role should have for the group which it is going to be linked to.',
         Required   => 1,
         HasValue   => 1,
         Multiple   => 1,
-        ValueRegex => qr/(ro|move_into|create|owner|priority|rw)/smx,
+        ValueRegex => qr/(ro|move_into|create|note|owner|priority|rw)/smx,
     );
 
     return;
@@ -75,7 +75,7 @@ sub Run {
     $Self->Print("<yellow>Trying to link role $Self->{RoleName} to group $Self->{GroupName}...</yellow>\n");
 
     my %Permissions;
-    for my $Permission (qw(ro move_into create owner priority rw)) {
+    for my $Permission (qw(ro move_into create note owner priority rw)) {
         $Permissions{$Permission} = ( grep { $_ eq $Permission } @{ $Self->GetOption('permission') // [] } ) ? 1 : 0;
     }
 
