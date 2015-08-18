@@ -80,7 +80,7 @@ sub Run {
         $PreviousLine = '';
     }
 
-    my %UsedIdentifiers;
+    my %SeenPartitions;
     LINE:
     for my $Line (@CleanLines) {
 
@@ -90,17 +90,10 @@ sub Run {
         if ( $Line =~ m{\A .+? \s .* \s \d+ % .+? \z}msx ) {
             my ( $Partition, $UsedPercent ) = $Line =~ m{\A (.+?) \s .*? \s (\d+)%.+? \z}msx;
 
-            my $Identifier = $Partition;
-            if ( defined $UsedIdentifiers{$Partition} ) {
-                $Identifier .= '_' . $UsedIdentifiers{$Partition};
-                $UsedIdentifiers{$Partition}++;
-            }
-            else {
-                $UsedIdentifiers{$Partition} = 1;
-            }
+            next LINE if $SeenPartitions{$Partition}++;
 
             $Self->AddResultInformation(
-                Identifier => $Identifier,
+                Identifier => $Partition,
                 Label      => $Partition,
                 Value      => $UsedPercent . '%',
             );
