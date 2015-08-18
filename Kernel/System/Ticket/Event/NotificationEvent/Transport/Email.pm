@@ -361,6 +361,7 @@ sub TransportSettingsDisplayGet {
         Name        => 'NotificationArticleTypeID',
         Translation => 1,
         SelectedID  => $Param{Data}->{NotificationArticleTypeID},
+        Class       => 'Modernize',
     );
 
     $Param{TransportEmailTemplateStrg} = $LayoutObject->BuildSelection(
@@ -368,6 +369,7 @@ sub TransportSettingsDisplayGet {
         Name        => 'TransportEmailTemplate',
         Translation => 0,
         SelectedID  => $Param{Data}->{TransportEmailTemplate},
+        Class       => 'Modernize',
     );
 
     # generate HTML
