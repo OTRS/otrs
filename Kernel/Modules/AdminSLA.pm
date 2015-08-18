@@ -351,6 +351,7 @@ sub _MaskNew {
         Translation => 0,
         TreeView    => ( $ListType eq 'tree' ) ? 1 : 0,
         Max         => 200,
+        Class       => 'Modernize',
     );
 
     # generate CalendarOptionStrg
@@ -367,6 +368,7 @@ sub _MaskNew {
         SelectedID   => $Param{Calendar} || $SLAData{Calendar},
         Translation  => 0,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     my %NotifyLevelList = (
         10 => '10%',
@@ -409,6 +411,7 @@ sub _MaskNew {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $SLAData{ValidID} || $ValidListReverse{valid},
+        Class      => 'Modernize',
     );
 
     # output sla edit
@@ -468,9 +471,14 @@ sub _MaskNew {
                     || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                    my %BuildSelectionParams = (
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
+                    );
+                    $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
+
+                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                        %BuildSelectionParams,
                     );
                 }
                 $LayoutObject->Block(

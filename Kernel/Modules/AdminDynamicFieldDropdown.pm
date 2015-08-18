@@ -581,7 +581,7 @@ sub _ShowScreen {
         PossibleNone  => 0,
         Translation   => 0,
         Sort          => 'NumericKey',
-        Class         => 'W75pc Validate_Number',
+        Class         => 'Modernize W75pc Validate_Number',
     );
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
@@ -593,7 +593,7 @@ sub _ShowScreen {
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'W50pc',
+        Class        => 'Modernize W50pc',
     );
 
     # define as 0 to get the real value in the HTML
@@ -699,7 +699,7 @@ sub _ShowScreen {
 
         # Multiple selections are currently not supported
         Multiple => 0,
-        Class    => 'W50pc',
+        Class    => 'Modernize W50pc',
     );
 
     my $PossibleNone = $Param{PossibleNone} || '0';
@@ -712,7 +712,7 @@ sub _ShowScreen {
         },
         Name       => 'PossibleNone',
         SelectedID => $PossibleNone,
-        Class      => 'W50pc',
+        Class      => 'Modernize W50pc',
     );
 
     my $TranslatableValues = $Param{TranslatableValues} || '0';
@@ -725,7 +725,7 @@ sub _ShowScreen {
         },
         Name       => 'TranslatableValues',
         SelectedID => $TranslatableValues,
-        Class      => 'W50pc',
+        Class      => 'Modernize W50pc',
     );
 
     my $TreeView = $Param{TreeView} || '0';
@@ -738,7 +738,7 @@ sub _ShowScreen {
         },
         Name       => 'TreeView',
         SelectedID => $TreeView,
-        Class      => 'W50pc',
+        Class      => 'Modernize W50pc',
     );
 
     my $Link = $Param{Link} || '';

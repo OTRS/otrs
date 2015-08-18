@@ -229,13 +229,13 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $LayoutObject->BuildSelection(
         Data       => { $StateObject->StateTypeList( UserID => 1 ), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'OverviewUpdate',

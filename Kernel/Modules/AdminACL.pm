@@ -626,7 +626,7 @@ sub _ShowEdit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $ACLData->{ValidID} || $ValidList{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     my $ACLKeysLevel1Match = $ConfigObject->Get('ACLKeysLevel1Match') || {};

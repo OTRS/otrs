@@ -56,6 +56,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         // remove the value from default list
         if ($Key !== ''){
             $('#DefaultValue').find("option[value='" + $Key + "']").remove();
+            $('#DefaultValue').trigger('redraw.InputField');
         }
 
         // remove possible value
@@ -198,6 +199,8 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         // set the selected value as it was before, this will not apply if the key name was
         // changed
         $('#DefaultValue').val(SelectedValue);
+
+        $('#DefaultValue').trigger('redraw.InputField');
 
         return false;
     };

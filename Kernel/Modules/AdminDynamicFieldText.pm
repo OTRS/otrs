@@ -529,7 +529,7 @@ sub _ShowScreen {
         PossibleNone  => 0,
         Translation   => 0,
         Sort          => 'NumericKey',
-        Class         => 'W75pc Validate_Number',
+        Class         => 'Modernize W75pc Validate_Number',
     );
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
@@ -541,7 +541,7 @@ sub _ShowScreen {
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'W50pc',
+        Class        => 'Modernize W50pc',
     );
 
     # define config field specific settings

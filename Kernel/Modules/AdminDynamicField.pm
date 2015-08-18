@@ -187,7 +187,7 @@ sub _ShowOverview {
             Translation   => 1,
             Sort          => 'AlphanumericValue',
             SelectedValue => '-',
-            Class         => 'W75pc',
+            Class         => 'Modernize W75pc',
         );
 
         # call ActionAddDynamicField block

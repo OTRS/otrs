@@ -519,7 +519,7 @@ sub _ShowScreen {
         PossibleNone  => 0,
         Translation   => 0,
         Sort          => 'NumericKey',
-        Class         => 'W75pc Validate_Number',
+        Class         => 'Modernize W75pc Validate_Number',
     );
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
@@ -531,7 +531,7 @@ sub _ShowScreen {
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'W50pc',
+        Class        => 'Modernize W50pc',
     );
 
     # define config field specific settings
@@ -560,7 +560,7 @@ sub _ShowScreen {
         SelectedID   => $YearsPeriod,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'W50pc'
+        Class        => 'Modernize W50pc'
     );
 
     # create the Default for
@@ -583,7 +583,7 @@ sub _ShowScreen {
         SelectedID   => $DateRestriction,
         PossibleNone => 0,
         Translation  => 1,
-        Class        => 'W50pc'
+        Class        => 'Modernize W50pc'
     );
 
     # show or hide the years in future and back fields
