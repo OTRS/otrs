@@ -88,7 +88,11 @@ sub Run {
         $Line =~ s{\A\s+}{};
 
         if ( $Line =~ m{\A .+? \s .* \s \d+ % .+? \z}msx ) {
-            my ( $Partition, $UsedPercent ) = $Line =~ m{\A (.+?) \s .*? \s (\d+)%.+? \z}msx;
+            my ( $Partition, $UsedPercent, $MountPoint ) = $Line =~ m{\A (.+?) \s .*? \s (\d+)%.+? (/.*) \z}msx;
+
+            $MountPoint //= '';
+
+            $Partition = "$Partition ($MountPoint)";
 
             next LINE if $SeenPartitions{$Partition}++;
 
