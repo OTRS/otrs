@@ -5126,7 +5126,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further information.</TextArea>
+            <TextArea Translatable="1">Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further information.</TextArea>
         </Setting>
     </ConfigItem>
 
@@ -5417,7 +5417,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+            <TextArea Translatable="1">Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AutomaticMergeSubject" Required="1" Valid="1">
@@ -5433,7 +5433,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
-            <TextArea>Merged Ticket &lt;OTRS_TICKET&gt; to &lt;OTRS_MERGE_TO_TICKET&gt;.</TextArea>
+            <TextArea Translatable="1">Merged Ticket &lt;OTRS_TICKET&gt; to &lt;OTRS_MERGE_TO_TICKET&gt;.</TextArea>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
@@ -9872,7 +9872,7 @@
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <TextArea>
+            <TextArea Translatable="1">
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
