@@ -277,7 +277,7 @@ sub _MaskUpdate {
             Data        => \%Header,
             Name        => "MatchHeader$Number",
             SelectedID  => $Data{"MatchHeader$Number"},
-            Class       => $Data{ 'MatchHeader' . $Number . 'Invalid' } || '',
+            Class       => 'Modernize ' . ( $Data{ 'MatchHeader' . $Number . 'Invalid' } || '' ),
             Translation => 0,
             HTMLQuote   => 1,
         );
@@ -285,7 +285,7 @@ sub _MaskUpdate {
             Data        => \%SetHeader,
             Name        => "SetHeader$Number",
             SelectedID  => $Data{"SetHeader$Number"},
-            Class       => $Data{ 'SetHeader' . $Number . 'Invalid' } || '',
+            Class       => 'Modernize ' . ( $Data{ 'SetHeader' . $Number . 'Invalid' } || '' ),
             Translation => 0,
             HTMLQuote   => 1,
         );
@@ -297,7 +297,7 @@ sub _MaskUpdate {
         },
         Name        => 'StopAfterMatch',
         SelectedID  => $Data{StopAfterMatch} || 0,
-        Class       => 'Validate_RequiredDropdown',
+        Class       => 'Modernize Validate_RequiredDropdown',
         Translation => 1,
         HTMLQuote   => 1,
     );

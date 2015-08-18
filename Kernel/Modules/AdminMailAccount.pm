@@ -328,21 +328,21 @@ sub _MaskUpdateMailAccount {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{TypeOption} = $LayoutObject->BuildSelection(
         Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
         Name       => 'Type',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(
         Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
         Name       => 'Trusted',
         SelectedID => $Param{Trusted} || 0,
-        Class      => $Param{Errors}->{'TrustedInvalid'} || '',
+        Class      => 'Modernize ' . ( $Param{Errors}->{'TrustedInvalid'} || '' ),
     );
 
     $Param{DispatchingOption} = $LayoutObject->BuildSelection(
@@ -352,7 +352,7 @@ sub _MaskUpdateMailAccount {
         },
         Name       => 'DispatchingBy',
         SelectedID => $Param{DispatchingBy},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
     );
 
     $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
@@ -360,7 +360,7 @@ sub _MaskUpdateMailAccount {
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'Overview',
@@ -397,19 +397,20 @@ sub _MaskAddMailAccount {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{TypeOptionAdd} = $LayoutObject->BuildSelection(
         Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
         Name       => 'TypeAdd',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(
-        Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
-        Name       => 'Trusted',
+        Data  => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
+        Name  => 'Trusted',
+        Class => 'Modernize ' . ( $Param{Errors}->{'TrustedInvalid'} || '' ),
         SelectedID => $Param{Trusted} || 0,
     );
 
@@ -420,7 +421,7 @@ sub _MaskAddMailAccount {
         },
         Name       => 'DispatchingBy',
         SelectedID => $Param{DispatchingBy},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
     );
 
     $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
@@ -428,7 +429,7 @@ sub _MaskAddMailAccount {
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'Overview',

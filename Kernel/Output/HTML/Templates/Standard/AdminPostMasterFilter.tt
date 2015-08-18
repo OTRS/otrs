@@ -214,7 +214,7 @@
 
                     <label for="MatchHeaderExample">[% Translate("Header") | html %] 1:</label>
                     <div class="Field">
-                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc"><option selected="selected" value="To">To</option></select>
+                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="Modernize W33pc"><option selected="selected" value="To">To</option></select>
                         <label for="MatchValueExample">[% Translate("Value") | html %] 1:</label>
                         <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
                     </div>
@@ -224,7 +224,7 @@
 
                     <label for="SetHeaderExample">[% Translate("Header") | html %] 1:</label>
                     <div class="Field">
-                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc"><option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option></select>
+                        <select name="SetHeaderExample" id="SetHeaderExample" class="Modernize W33pc"><option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option></select>
                         <label for="SetValueExample">[% Translate("Value") | html %] 1:</label>
                         <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
                     </div>

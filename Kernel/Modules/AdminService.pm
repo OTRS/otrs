@@ -297,6 +297,7 @@ sub _MaskNew {
         TreeView       => ( $ListType eq 'tree' ) ? 1 : 0,
         DisabledBranch => $ServiceData{Name},
         Translation    => 0,
+        Class          => 'Modernize',
     );
 
     # get valid list
@@ -307,6 +308,7 @@ sub _MaskNew {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $ServiceData{ValidID} || $ValidListReverse{valid},
+        Class      => 'Modernize',
     );
 
     # output service edit
@@ -356,9 +358,14 @@ sub _MaskNew {
                     || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                    my %BuildSelectionParams = (
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
+                    );
+                    $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
+
+                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                        %BuildSelectionParams,
                     );
                 }
                 $LayoutObject->Block(

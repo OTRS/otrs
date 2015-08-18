@@ -257,13 +257,13 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
         Data       => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ), },
         Name       => 'QueueID',
         SelectedID => $Param{QueueID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
 

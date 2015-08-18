@@ -470,7 +470,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -486,7 +486,7 @@ sub _Edit {
         Translation => 0,
         Name        => 'GroupID',
         SelectedID  => $Param{GroupID},
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
+        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
     );
 
     my $ParentQueue = '';
@@ -539,6 +539,7 @@ sub _Edit {
             Selected       => $ParentQueue,
             MaxLevel       => $MaxParentLevel,
             OnChangeSubmit => 0,
+            Class          => 'Modernize',
         );
     }
     else {
@@ -561,6 +562,7 @@ sub _Edit {
             PossibleNone  => 1,
             HTMLQuote     => 0,
             Translation   => 0,
+            Class         => 'Modernize',
         );
     }
 
@@ -588,6 +590,7 @@ sub _Edit {
         Name         => 'FirstResponseNotify',
         SelectedID   => $Param{FirstResponseNotify},
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     $Param{UpdateNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
@@ -595,6 +598,7 @@ sub _Edit {
         Name         => 'UpdateNotify',
         SelectedID   => $Param{UpdateNotify},
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     $Param{SolutionNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
@@ -602,18 +606,20 @@ sub _Edit {
         Name         => 'SolutionNotify',
         SelectedID   => $Param{SolutionNotify},
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     $Param{SignatureOption} = $LayoutObject->BuildSelection(
         Data        => { $Kernel::OM->Get('Kernel::System::Signature')->SignatureList( Valid => 1 ), },
         Translation => 0,
         Name        => 'SignatureID',
         SelectedID  => $Param{SignatureID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
     $Param{FollowUpLockYesNoOption} = $LayoutObject->BuildSelection(
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'FollowUpLock',
         SelectedID => $Param{FollowUpLock} || 0,
+        Class      => 'Modernize',
     );
 
     $Param{SystemAddressOption} = $LayoutObject->BuildSelection(
@@ -625,7 +631,7 @@ sub _Edit {
         SelectedID   => $Param{SystemAddressID},
         PossibleNone => 1,                         # to avoid automatic assignments if the current SA is invalid
         Max          => 200,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
@@ -640,13 +646,14 @@ sub _Edit {
         Name       => 'DefaultSignKey',
         Max        => 50,
         SelectedID => $Param{DefaultSignKey},
+        Class      => 'Modernize',
     );
     $Param{SalutationOption} = $LayoutObject->BuildSelection(
         Data        => { $Kernel::OM->Get('Kernel::System::Salutation')->SalutationList( Valid => 1 ), },
         Translation => 0,
         Name        => 'SalutationID',
         SelectedID  => $Param{SalutationID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
     $Param{FollowUpOption} = $LayoutObject->BuildSelection(
         Data => {
@@ -660,7 +667,7 @@ sub _Edit {
         SelectedID => $Param{FollowUpID}
             || $ConfigObject->Get('AdminDefaultFollowUpID')
             || 1,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'FollowUpIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'FollowUpIDInvalid'} || '' ),
     );
     my %Calendar = ( '' => '-' );
 
@@ -675,6 +682,7 @@ sub _Edit {
         Translation => 0,
         Name        => 'Calendar',
         SelectedID  => $Param{Calendar},
+        Class       => 'Modernize',
     );
 
     $LayoutObject->Block(
@@ -745,9 +753,13 @@ sub _Edit {
                     || ref $Preferences{$Item}->{Data} eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                    my %BuildSelectionParams = (
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
+                    );
+                    $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
+                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
+                        %BuildSelectionParams
                     );
                 }
 

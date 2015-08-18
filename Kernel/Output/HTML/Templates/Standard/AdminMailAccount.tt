@@ -370,6 +370,7 @@ $('select#TypeAdd, select#Type').bind('change', function(){
 $('select#DispatchingBy').bind('change', function(){
     if (/Queue/.test($(this).val())) {
         $('.Row_Queue').show();
+        Core.UI.InputFields.Activate();
     }
     else {
         $('.Row_Queue').hide();

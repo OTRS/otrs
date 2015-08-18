@@ -268,6 +268,7 @@ sub _Edit {
     $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
+        Class      => 'Modernize',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
