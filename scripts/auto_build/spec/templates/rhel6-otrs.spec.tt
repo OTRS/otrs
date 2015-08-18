@@ -30,7 +30,7 @@ Requires:     [%
         'procmail',
     ]
 %][% Requires.join(' ') %]
-Autoreqprov:  no
+AutoReqProv:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
 BuildArch:    noarch

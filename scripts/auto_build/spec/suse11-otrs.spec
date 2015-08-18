@@ -13,7 +13,7 @@ Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     bash-completion cronie apache2 apache2-mod_perl perl perl(Archive::Zip) perl(Crypt::SSLeay) perl(DBI) perl(Encode::HanExtra) perl(IO::Socket::SSL) perl(JSON::XS) perl(LWP::UserAgent) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(Text::CSV) perl(Text::CSV_XS) perl(URI) perl(XML::LibXML) perl(XML::LibXSLT) perl(XML::Parser) perl(YAML::XS) procmail
-Autoreqprov:  on
+AutoReqProv:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
 BuildArch:    noarch

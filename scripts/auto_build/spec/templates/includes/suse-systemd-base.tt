@@ -7,7 +7,7 @@ Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     [% Requires.join(' ') %]
-Autoreqprov:  on
+AutoReqProv:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
 BuildArch:    noarch
