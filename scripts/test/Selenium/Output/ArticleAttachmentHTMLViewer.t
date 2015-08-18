@@ -44,13 +44,6 @@ $Selenium->RunTest(
             # get sysconfig object
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-            # disable  PDF output
-            $SysConfigObject->ConfigItemUpdate(
-                Valid => 1,
-                Key   => 'PDF',
-                Value => 0
-            );
-
             # enable MIME-Viewer for PDF attachment
             $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,

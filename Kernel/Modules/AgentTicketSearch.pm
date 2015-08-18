@@ -832,44 +832,29 @@ sub Run {
                     User => $Data{Owner},
                 );
 
-                # get age
-                $Data{Age} = $LayoutObject->CustomerAge(
-                    Age   => $Data{Age},
-                    Space => ' '
-                );
-
                 # customer info string
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                if ($PDFObject) {
-                    my %Info = ( %Data, %UserInfo );
-                    my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
-                        $Data{Created},
-                        'DateFormat',
-                    );
-                    my $Owner    = "$Info{Owner} ($Info{UserFullname})";
-                    my $Customer = "$Data{CustomerID} $Data{CustomerName}";
+                my %Info = ( %Data, %UserInfo );
+                my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
+                    $Data{Created},
+                    'DateFormat',
+                );
+                my $Owner    = "$Info{Owner} ($Info{UserFullname})";
+                my $Customer = "$Data{CustomerID} $Data{CustomerName}";
 
-                    my @PDFRow;
-                    push @PDFRow,  $Data{TicketNumber};
-                    push @PDFRow,  $Created;
-                    push @PDFRow,  $Data{From};
-                    push @PDFRow,  $Data{Subject};
-                    push @PDFRow,  $Data{State};
-                    push @PDFRow,  $Data{Queue};
-                    push @PDFRow,  $Owner;
-                    push @PDFRow,  $Customer;
-                    push @PDFData, \@PDFRow;
-                }
-                else {
+                my @PDFRow;
+                push @PDFRow,  $Data{TicketNumber};
+                push @PDFRow,  $Created;
+                push @PDFRow,  $Data{From};
+                push @PDFRow,  $Data{Subject};
+                push @PDFRow,  $Data{State};
+                push @PDFRow,  $Data{Queue};
+                push @PDFRow,  $Owner;
+                push @PDFRow,  $Customer;
+                push @PDFData, \@PDFRow;
 
-                    # add table block
-                    $LayoutObject->Block(
-                        Name => 'Record',
-                        Data => { %Data, %UserInfo, },
-                    );
-                }
             }
 
             my $Title = $LayoutObject->{LanguageObject}->Translate('Ticket') . ' '

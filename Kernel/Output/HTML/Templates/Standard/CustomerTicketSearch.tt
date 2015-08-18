@@ -173,4 +173,16 @@
         </form>
     </div>
 </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+    $('form').on('submit', function() {
+        if ($('#ResultForm').val() === 'Print') {
+            $('form').attr('target', '_blank');
+        }
+        else {
+            $('form').removeAttr('target');
+        }
+    });
+</script>
+[% END %]
 [% RenderBlockEnd("Search") %]

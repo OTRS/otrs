@@ -490,6 +490,7 @@ sub Run {
         # get needed objects
         my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
         # CSV and Excel output
         if (
@@ -669,9 +670,6 @@ sub Run {
             my @CSVHeadTranslated = map { $LayoutObject->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
                 @CSVHead;
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
             # return csv to download
             my $FileName = 'ticket_search';
             my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
@@ -717,97 +715,232 @@ sub Run {
         }
 
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
+
+            # get PDF object
+            my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+
+            my @PDFData;
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Article = $TicketObject->ArticleLastCustomerArticle(
+                my %Data = $TicketObject->ArticleLastCustomerArticle(
                     TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 0,
                 );
 
-                # if no article found, use ticket information
-                if ( !%Article ) {
-                    my %Ticket = $TicketObject->TicketGet(
+                if ( !%Data ) {
+
+                    # get ticket data instead
+                    %Data = $TicketObject->TicketGet(
                         TicketID      => $TicketID,
-                        DynamicFields => 0,
+                        DynamicFields => 1,
                         UserID        => $Self->{UserID},
                     );
-                    %Article = %Ticket;
-                    $Article{Subject} = $Ticket{Title} || 'Untitled';
-                    $Article{Body} = $LayoutObject->{LanguageObject}->Translate(
-                        'This item has no articles yet.'
-                    );
-                    $Article{From} = '--';
+
+                    # set missing information
+                    $Data{Subject} = $Data{Title} || 'Untitled';
+                    $Data{From} = '--';
                 }
 
                 # customer info
                 my %CustomerData;
-                if ( $Article{CustomerUserID} ) {
+                if ( $Data{CustomerUserID} ) {
                     %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-                        User => $Article{CustomerUserID},
+                        User => $Data{CustomerUserID},
                     );
                 }
-                elsif ( $Article{CustomerID} ) {
+                elsif ( $Data{CustomerID} ) {
                     %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-                        CustomerID => $Article{CustomerID},
+                        CustomerID => $Data{CustomerID},
                     );
                 }
 
                 # customer info (customer name)
                 if ( $CustomerData{UserLogin} ) {
-                    $Article{CustomerName} = $CustomerUserObject->CustomerName(
+                    $Data{CustomerName} = $CustomerUserObject->CustomerName(
                         UserLogin => $CustomerData{UserLogin},
                     );
                 }
 
                 # user info
-                my %Owner = $UserObject->GetUserData(
-                    User => $Article{Owner},
-                );
-
-                # Condense down the subject
-                my $Subject = $TicketObject->TicketSubjectClean(
-                    TicketNumber => $Article{TicketNumber},
-                    Subject      => $Article{Subject} || '',
-                );
-                $Article{Age} = $LayoutObject->CustomerAge(
-                    Age   => $Article{Age},
-                    Space => ' '
+                my %UserInfo = $UserObject->GetUserData(
+                    User => $Data{Owner},
                 );
 
                 # customer info string
-                if ( $Article{CustomerName} ) {
-                    $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
-                }
+                $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
+                    if ( $UserInfo{CustomerName} );
 
-                # add blocks to template
-                $LayoutObject->Block(
-                    Name => 'Record',
-                    Data => {
-                        %Article,
-                        Subject => $Subject,
-                        %Owner,
-                    },
+                my %Info = ( %Data, %UserInfo );
+                my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
+                    $Data{Created},
+                    'DateFormat',
                 );
+
+                my $Customer = "$Data{CustomerID} $Data{CustomerName}";
+
+
+                my @PDFRow;
+                push @PDFRow,  $Data{TicketNumber};
+                push @PDFRow,  $Created;
+                push @PDFRow,  $Data{From};
+                push @PDFRow,  $Data{Subject};
+                push @PDFRow,  $Data{State};
+                push @PDFRow,  $Data{Queue};
+                push @PDFRow,  $Customer;
+                push @PDFData, \@PDFRow;
+
             }
-            my $Output = $LayoutObject->PrintHeader( Width => 800 );
-            if ( @ViewableTicketIDs == $SearchLimit ) {
-                $Param{Warning} = $LayoutObject->{LanguageObject}->Translate(
-                    "Reached max. count of %s search hits!",
-                    $SearchLimit,
-                );
+
+            my $Title = $LayoutObject->{LanguageObject}->Translate('Ticket') . ' '
+                . $LayoutObject->{LanguageObject}->Translate('Search');
+            my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
+            my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
+            my $Time      = $LayoutObject->{Time};
+
+            # get maximum number of pages
+            my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
+            if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
+                $MaxPages = 100;
             }
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'CustomerTicketSearchResultPrint',
-                Data         => \%Param,
+
+            my $CellData;
+
+            # verify if there are tickets to show
+            if (@PDFData) {
+
+                # create the header
+                $CellData->[0]->[0]->{Content} = $ConfigObject->Get('Ticket::Hook');
+                $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[1]->{Content} = $LayoutObject->{LanguageObject}->Translate('Created');
+                $CellData->[0]->[1]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[2]->{Content} = $LayoutObject->{LanguageObject}->Translate('From');
+                $CellData->[0]->[2]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[3]->{Content} = $LayoutObject->{LanguageObject}->Translate('Subject');
+                $CellData->[0]->[3]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[4]->{Content} = $LayoutObject->{LanguageObject}->Translate('State');
+                $CellData->[0]->[4]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[5]->{Content} = $LayoutObject->{LanguageObject}->Translate('Queue');
+                $CellData->[0]->[5]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[6]->{Content} = $LayoutObject->{LanguageObject}->Translate('CustomerID');
+                $CellData->[0]->[6]->{Font}    = 'ProportionalBold';
+
+                # create the content array
+                my $CounterRow = 1;
+                for my $Row (@PDFData) {
+                    my $CounterColumn = 0;
+                    for my $Content ( @{$Row} ) {
+                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
+                        $CounterColumn++;
+                    }
+                    $CounterRow++;
+                }
+            }
+
+            # otherwise, show 'No ticket data found' message
+            else {
+                $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No ticket data found.');
+            }
+
+            # page params
+            my %PageParam;
+            $PageParam{PageOrientation} = 'landscape';
+            $PageParam{MarginTop}       = 30;
+            $PageParam{MarginRight}     = 40;
+            $PageParam{MarginBottom}    = 40;
+            $PageParam{MarginLeft}      = 40;
+            $PageParam{HeaderRight}     = $Title;
+            $PageParam{HeadlineLeft}    = $Title;
+
+            # table params
+            my %TableParam;
+            $TableParam{CellData}            = $CellData;
+            $TableParam{Type}                = 'Cut';
+            $TableParam{FontSize}            = 6;
+            $TableParam{Border}              = 0;
+            $TableParam{BackgroundColorEven} = '#DDDDDD';
+            $TableParam{Padding}             = 1;
+            $TableParam{PaddingTop}          = 3;
+            $TableParam{PaddingBottom}       = 3;
+
+            # create new pdf document
+            $PDFObject->DocumentNew(
+                Title  => $ConfigObject->Get('Product') . ': ' . $Title,
+                Encode => $LayoutObject->{UserCharset},
             );
 
-            # add footer
-            $Output .= $LayoutObject->PrintFooter();
+            # start table output
+            $PDFObject->PageNew(
+                %PageParam,
+                FooterRight => $Page . ' 1',
+            );
 
-            # return output
-            return $Output;
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output title
+            $PDFObject->Text(
+                Text     => $Title,
+                FontSize => 13,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output "printed by"
+            $PDFObject->Text(
+                Text => $PrintedBy . ' '
+                    . $Self->{UserFirstname} . ' '
+                    . $Self->{UserLastname} . ' ('
+                    . $Self->{UserEmail} . ')'
+                    . ', ' . $Time,
+                FontSize => 9,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -14,
+            );
+
+            PAGE:
+            for my $PageNumber ( 2 .. $MaxPages ) {
+
+                # output table (or a fragment of it)
+                %TableParam = $PDFObject->Table(%TableParam);
+
+                # stop output or another page
+                if ( $TableParam{State} ) {
+                    last PAGE;
+                }
+                else {
+                    $PDFObject->PageNew(
+                        %PageParam,
+                        FooterRight => $Page . ' ' . $PageNumber,
+                    );
+                }
+            }
+
+            # return the pdf document
+            my $Filename = 'ticket_search';
+            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+                SystemTime => $TimeObject->SystemTime(),
+            );
+            $M = sprintf( "%02d", $M );
+            $D = sprintf( "%02d", $D );
+            $h = sprintf( "%02d", $h );
+            $m = sprintf( "%02d", $m );
+            my $PDFString = $PDFObject->DocumentOutput();
+            return $LayoutObject->Attachment(
+                Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+                ContentType => "application/pdf",
+                Content     => $PDFString,
+                Type        => 'inline',
+            );
 
         }
 
