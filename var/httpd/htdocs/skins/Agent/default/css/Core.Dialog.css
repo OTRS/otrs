@@ -189,4 +189,42 @@
     max-height: 600px;
 }
 
+/* Pure continuous text dialogs */
+
+.TextDialog {
+    padding: 15px;
+    line-height: 150%;
+    width: 550px;
+    font-size: 13px;
+    max-height: 450px;
+    overflow: scroll;
+}
+
+.TextDialog p,
+.TextDialog li,
+.TextDialog a {
+    font-size: 12px;
+}
+
+.TextDialog ul {
+    list-style-type: square;
+    margin: 0px 0px 7px 20px;
+}
+
+.TextDialog ul li {
+    margin-bottom: 5px;
+    line-height: 130%;
+}
+
+.TextDialog h1 {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.TextDialog > p {
+    margin-bottom: 12px;
+    margin-left: 8px;
+}
+
 } /* end @media */

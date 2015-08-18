@@ -173,7 +173,7 @@
 //]]></script>
 [% END %]
                     <div id="QADialog" class="Hidden">
-                        <div class="QA">
+                        <div class="TextDialog">
                             <h1>[% Translate("What are the advantages of system registration?") | html %]</h1>
                             <ul>
                                 <li>
@@ -221,7 +221,7 @@
                     </div>
 
                     <div id="DPDialog" class="Hidden">
-                        <div class="QA DP">
+                        <div class="TextDialog">
                             <p>
                                 [% Translate("Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.") | html %]
                                 [% Translate("All passwords are automatically made unrecognizable before the information is sent.") | html %]
