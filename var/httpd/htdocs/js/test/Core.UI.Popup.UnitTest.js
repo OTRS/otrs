@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ Core.UI.Popup = (function (Namespace) {
                     WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
                     Left: 100,
                     Top: 100,
-                    Width: 1025,
+                    Width: 1040,
                     Height: 700
                 }
             };
