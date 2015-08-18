@@ -69,29 +69,8 @@ echo "Enable apache module mod_headers..."
 a2enmod headers
 
 %post
-export OTRSUSER=otrs
-if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
-    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild";
-    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete";
-fi
-
-[% '#' %] note
-HOST=`hostname -f`
-echo ""
-echo "Next steps: "
-echo ""
-echo "[start database and Apache]"
-echo " Restart httpd 'systemctl restart apache2.service'"
-echo ""
-echo "[install the OTRS database]"
-echo " Make sure your database server is running."
-echo " Use a webbrowser and open this link:"
-echo " http://$HOST/otrs/installer.pl"
-echo ""
-echo "((enjoy))"
-echo ""
-echo " Your OTRS Team"
-echo ""
+[% INCLUDE 'includes/post.tt'
+    WebserviceName => 'apache2.service' -%]
 
 %clean
 rm -rf $RPM_BUILD_ROOT
