@@ -1237,6 +1237,32 @@ sub _TicketCreate {
         }
     }
 
+    # set dynamic fields (only for object type 'ticket')
+    if ( IsArrayRefWithData($DynamicFieldList) ) {
+
+        DYNAMICFIELD:
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+            next DYNAMICFIELD if !$Self->ValidateDynamicFieldObjectType( %{$DynamicField} );
+
+            my $Result = $Self->SetDynamicFieldValue(
+                %{$DynamicField},
+                TicketID  => $TicketID,
+                UserID    => $Param{UserID},
+            );
+
+            if ( !$Result->{Success} ) {
+                my $ErrorMessage =
+                    $Result->{ErrorMessage} || "Dynamic Field $DynamicField->{Name} could not be"
+                    . " set, please contact the system administrator";
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => $ErrorMessage,
+                };
+            }
+        }
+    }
+
     if ( !defined $Article->{NoAgentNotify} ) {
 
         # check if new owner is given (then send no agent notify)
@@ -1356,10 +1382,13 @@ sub _TicketCreate {
         );
     }
 
-    # set dynamic fields
+    # set dynamic fields (only for object type 'article')
     if ( IsArrayRefWithData($DynamicFieldList) ) {
 
+        DYNAMICFIELD:
         for my $DynamicField ( @{$DynamicFieldList} ) {
+            next DYNAMICFIELD if !$Self->ValidateDynamicFieldObjectType( %{$DynamicField}, Article => 1 );
+
             my $Result = $Self->SetDynamicFieldValue(
                 %{$DynamicField},
                 TicketID  => $TicketID,
