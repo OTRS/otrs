@@ -92,7 +92,7 @@ sub Run {
 
             $MountPoint //= '';
 
-            $Partition = "$Partition ($MountPoint)";
+            $Partition = "$MountPoint ($Partition)";
 
             next LINE if $SeenPartitions{$Partition}++;
 
