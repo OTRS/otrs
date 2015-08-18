@@ -36,8 +36,9 @@ sub Run {
     }
 
     $Param{ResultFormatStrg} = $LayoutObject->BuildSelection(
-        Name => 'ResultFormat',
-        Data => [ 'HTML', 'CSV', 'Excel' ],
+        Name  => 'ResultFormat',
+        Data  => [ 'HTML', 'CSV', 'Excel' ],
+        Class => 'Modernize',
     );
 
     if ( !$ConfigObject->Get('AdminSelectBox::AllowDatabaseModification') ) {

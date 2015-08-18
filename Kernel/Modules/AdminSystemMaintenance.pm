@@ -485,7 +485,7 @@ sub _ShowEdit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $SystemMaintenanceData->{ValidID} || 1,
-        Class      => 'Validate_Required ' . ( $Param{ValidIDServerError} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{ValidIDServerError} || '' ),
     );
 
     if (
