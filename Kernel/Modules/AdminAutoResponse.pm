@@ -249,7 +249,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{AutoResponseOption} = $LayoutObject->BuildSelection(
@@ -258,13 +258,14 @@ sub _Edit {
         Max        => 75,
         Multiple   => 1,
         SelectedID => $Param{ID},
+        Class      => 'Modernize',
     );
 
     $Param{TypeOption} = $LayoutObject->BuildSelection(
         Data       => { $AutoResponseObject->AutoResponseTypeList(), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
 
     $Param{SystemAddressOption} = $LayoutObject->BuildSelection(
@@ -272,7 +273,7 @@ sub _Edit {
         Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     # shows header

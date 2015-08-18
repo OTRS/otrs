@@ -83,7 +83,7 @@ sub Run {
                 Data         => \%Data,
                 Size         => 1,
                 PossibleNone => 1,
-                Class        => 'W50pc',
+                Class        => 'Modernize W50pc',
             );
             $LayoutObject->Block(
                 Name => 'ChangeItemList',

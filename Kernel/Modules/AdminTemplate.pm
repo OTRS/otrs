@@ -342,7 +342,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     my $TemplateTypeList = $Kernel::OM->Get('Kernel::Config')->Get('StandardTemplate::Types');
@@ -351,7 +351,7 @@ sub _Edit {
         Data       => $TemplateTypeList,
         Name       => 'TemplateType',
         SelectedID => $Param{TemplateType},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
     );
 
     my %AttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentList( Valid => 1 );
@@ -363,6 +363,7 @@ sub _Edit {
         Translation  => 0,
         PossibleNone => 1,
         SelectedID   => $Param{SelectedAttachments},
+        Class        => 'Modernize',
     );
 
     $LayoutObject->Block(
