@@ -62,9 +62,7 @@
                                 <span><i class="[% Data.CloudService.Icon | html %]"></i></span>
                             </td>
                             <td>
-                                [% IF (Data.CloudService.IsOTRSBusiness && !Data.OTRSBusinessIsInstalled)
-                                || !Data.SystemIsRegistered
-                                %]
+                                [% IF Data.CloudService.IsOTRSBusiness && !Data.OTRSBusinessIsInstalled %]
                                     [% Data.CloudService.Name | html %]
                                 [% ELSE %]
                                 <a class="AsBlock MasterActionLink" href="[% Env("Baselink") %]Action=[% Data.CloudService.ConfigDialog | uri %];CloudServiceName=[% Data.CloudService.Name | uri %]">
