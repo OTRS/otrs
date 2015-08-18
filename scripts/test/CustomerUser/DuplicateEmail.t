@@ -15,16 +15,12 @@ use vars (qw($Self));
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
 # add two users
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-my $DatabaseCaseSensitive                = $DBObject->{Backend}->{'DB::CaseSensitive'};
-my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
 my $Rand = int rand 1000000;
 
