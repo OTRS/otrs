@@ -471,12 +471,12 @@ $('.NotificationDelete').bind('click', function (Event) {
                     <fieldset class="TableLike FixedLabel SpacingTop">
                         <legend><span>[% Data.TransportName | html %]</span></legend>
 [% RenderBlockStart("TransportRowEnabled") %]
-                        <label for="Transport[% Data.Transport | html %]">
-                            [% Translate("Enable") | html %]:
-                        </label>
                         <div class="Field">
                             [% Data.EventsStrg %]
                             <input type="checkbox" name="Transports" id="Transport[% Data.Transport | html %]" value="[% Data.Transport | html %]" class="Validate_OneChecked [% Data.TransportsServerError %]" title="[% Translate("Transport") %]: [% Translate(Data.Transport) %]" [% Data.TransportChecked %] />
+                            <label for="Transport[% Data.Transport | html %]">
+                                [% Translate("Enable this notification method") | html %]
+                            </label>
                             <div id="Transport[% Data.Transport | html %]Error" class="TooltipErrorMessage">
                                 <p>[% Translate("At least one method is needed per notification.") | html %]</p>
                             </div>
