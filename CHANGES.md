@@ -1,4 +1,5 @@
 #5.0.0.beta3 2015-??-??
+ - 2015-08-18 Fixed bug#[11279](http://bugs.otrs.org/show_bug.cgi?id=11279) - auto reply with DynamicFields from webservice.
  - 2015-08-18 Fixed bug#[11416](http://bugs.otrs.org/show_bug.cgi?id=11416) - incoming tickets might be assigned to wrong customer due to fuzzy e-mail address matching.
  - 2015-08-17 Added AgentTicketBulk screen capability load plugin modules.
  - 2015-08-13 Added switchable display of sender and recipients (realname or full field incl. email address) in ticket zoom for agent and customer interface.
