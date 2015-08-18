@@ -54,7 +54,9 @@ sub Display {
 
 Validates the values of the ticket bulk module. It requires to get the value from the web request.
 
-    my @Result = $ModuleObject->Validate();
+    my @Result = $ModuleObject->Validate(
+        UserID       => $123,
+    );
 
 Returns:
 

@@ -339,7 +339,9 @@ sub Run {
             for my $ModuleObject (@BulkModules) {
                 next MODULEOBJECT if !$ModuleObject->can('Validate');
 
-                my @Result = $ModuleObject->Validate();
+                my @Result = $ModuleObject->Validate(
+                    UserID   => $Self->{UserID},
+                );
 
                 next MODULEOBJECT if !@Result;
 
