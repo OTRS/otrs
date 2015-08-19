@@ -1237,8 +1237,8 @@ sub _TicketCreate {
 
             my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
                 %{$DynamicField},
-                TicketID  => $TicketID,
-                UserID    => $Param{UserID},
+                TicketID => $TicketID,
+                UserID   => $Param{UserID},
             );
 
             if ( !$Result->{Success} ) {
@@ -1375,7 +1375,12 @@ sub _TicketCreate {
     if ( IsArrayRefWithData($DynamicFieldList) ) {
 
         for my $DynamicField ( @{$DynamicFieldList} ) {
-            next DYNAMICFIELD if !$Self->{TicketCommonObject}->ValidateDynamicFieldObjectType( %{$DynamicField}, Article => 1 );
+
+            my $IsArticleDynamicField = $Self->{TicketCommonObject}->ValidateDynamicFieldObjectType(
+                %{$DynamicField},
+                Article => 1,
+            );
+            next DYNAMICFIELD if !$IsArticleDynamicField;
 
             my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
                 %{$DynamicField},
