@@ -2573,7 +2573,7 @@ sub SendAutoResponse {
         From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
         To             => $AutoReplyAddresses,
         Cc             => $Cc,
-        Charset        => $AutoResponse{Charset},
+        Charset        => 'utf-8',
         MimeType       => $AutoResponse{ContentType},
         Subject        => $AutoResponse{Subject},
         Body           => $AutoResponse{Text},
