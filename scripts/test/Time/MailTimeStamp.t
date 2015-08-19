@@ -16,26 +16,28 @@ use vars (qw($Self));
 my @Tests = (
 
     # UTC server tests
+    # UTC tests results should return the date as local (considering the TimeZone) and the offset
+    # should be the time zone (in RFC format)
     {
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-01-10 11:12:13',
         ServerTZ  => 'UTC',
         TimeZone  => +1,
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0100',
+        Result    => 'Fri, 10 Jan 2014 12:12:13 +0100',
     },
     {
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-01-10 11:12:13',
         TimeZone  => -8,
         ServerTZ  => 'UTC',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
+        Result    => 'Fri, 10 Jan 2014 03:12:13 -0800',
     },
     {
         Name      => 'Australia/Sydney',
         TimeStamp => '2014-01-10 11:12:13',
         TimeZone  => +10,
         ServerTZ  => 'UTC',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +1000',
+        Result    => 'Fri, 10 Jan 2014 21:12:13 +1000',
     },
     {
         Name      => 'Europe/London',
@@ -52,7 +54,7 @@ my @Tests = (
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => +1,
         ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0100',
+        Result    => 'Sun, 3 Aug 2014 03:03:04 +0100',
     },
     {
 
@@ -60,14 +62,14 @@ my @Tests = (
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => -8,
         ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 -0800',
+        Result    => 'Sat, 2 Aug 2014 18:03:04 -0800',
     },
     {
         Name      => 'Australia/Sydney',
         TimeStamp => '2014-08-03 02:03:04',
         TimeZone  => +10,
         ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +1000',
+        Result    => 'Sun, 3 Aug 2014 12:03:04 +1000',
     },
     {
         Name      => 'Europe/London',
@@ -78,6 +80,8 @@ my @Tests = (
     },
 
     # none UTC server tests
+    # none UTC tests results should return the date as it is and the time zone should be calculated
+    # internally and set in RFC format
     {
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-01-10 11:12:13',
@@ -88,7 +92,7 @@ my @Tests = (
     {
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => -8,
+        TimeZone  => -0,
         ServerTZ  => 'America/Los_Angeles',
         Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
     },
@@ -159,7 +163,9 @@ for my $Test (@Tests) {
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     $HelperObject->FixedTimeSet(
-        $TimeObject->TimeStamp2SystemTime( String => $Test->{TimeStamp} ),
+        $TimeObject->TimeStamp2SystemTime(
+            String => $Test->{TimeStamp},
+        ),
     );
 
     my $MailTimeStamp = $TimeObject->MailTimeStamp();
@@ -167,7 +173,7 @@ for my $Test (@Tests) {
     $Self->Is(
         $MailTimeStamp,
         $Test->{Result},
-        "$Test->{Name} Timestamp $Test->{TimeStamp}:",
+        "$Test->{Name} ($Test->{ServerTZ}) Timestamp $Test->{TimeStamp}:",
     );
 }
 

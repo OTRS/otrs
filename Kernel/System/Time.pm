@@ -371,10 +371,31 @@ returns the current time stamp in RFC 2822 format to be used in email headers:
 sub MailTimeStamp {
     my ( $Self, %Param ) = @_;
 
+    # According to RFC 2822, section 3.3
+
+    # ---
+    # The date and time-of-day SHOULD express local time.
+
+    # The zone specifies the offset from Coordinated Universal Time (UTC,
+    # formerly referred to as "Greenwich Mean Time") that the date and
+    # time-of-day represent.  The "+" or "-" indicates whether the
+    # time-of-day is ahead of (i.e., east of) or behind (i.e., west of)
+    # Universal Time.  The first two digits indicate the number of hours
+    # difference from Universal Time, and the last two digits indicate the
+    # number of minutes difference from Universal Time.  (Hence, +hhmm
+    # means +(hh * 60 + mm) minutes, and -hhmm means -(hh * 60 + mm)
+    # minutes).  The form "+0000" SHOULD be used to indicate a time zone at
+    # Universal Time.  Though "-0000" also indicates Universal Time, it is
+    # used to indicate that the time was generated on a system that may be
+    # in a local time zone other than Universal Time and therefore
+    # indicates that the date-time contains no information about the local
+    # time zone.
+    # ---
+
     my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
 
-    # check if server is in UTC (server diff should be 0)
+    # check if server is in UTC (server diff should be 0 or very close to)
     my $ServerTimeDiff = Time::Local::timegm_nocheck( localtime( time() ) ) - time();
 
     # calculate offset - should be '+0200', '-0600', or '+0000'
@@ -387,7 +408,7 @@ sub MailTimeStamp {
     my $OffsetHours = $Diff;
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->SystemTime2Date(
-        SystemTime => time(),
+        SystemTime => $Self->SystemTime(),
     );
 
     my $TimeString = sprintf "%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
