@@ -493,8 +493,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField-Tree .jstree-anchor {
     height: 18px;
-    line-height: 19px;
-    overflow-y: hidden;
+    line-height: 18px;
 }
 
 .jstree-InputField-Tree .jstree-icon {
@@ -596,8 +595,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField-NoTree .jstree-anchor {
     height: 18px;
-    line-height: 19px;
-    overflow-y: hidden;
+    line-height: 18px;
 }
 
 .jstree-InputField-NoTree .jstree-icon {
