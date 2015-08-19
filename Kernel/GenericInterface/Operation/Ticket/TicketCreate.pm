@@ -1390,7 +1390,12 @@ sub _TicketCreate {
 
         DYNAMICFIELD:
         for my $DynamicField ( @{$DynamicFieldList} ) {
-            next DYNAMICFIELD if !$Self->ValidateDynamicFieldObjectType( %{$DynamicField}, Article => 1 );
+
+            my $IsArticleDynamicField = $Self->ValidateDynamicFieldObjectType(
+                %{$DynamicField},
+               Article => 1,
+            );
+            next DYNAMICFIELD if !$IsArticleDynamicField;
 
             my $Result = $Self->SetDynamicFieldValue(
                 %{$DynamicField},
