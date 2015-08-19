@@ -1168,7 +1168,23 @@ Core.UI.InputFields = (function (TargetNS) {
                         .attr('tabindex', '-1')
                         .width($TreeContainerObj.width());
 
-                    $ToolbarObj = $('<ul />').appendTo($ToolbarContainerObj);
+                    $ToolbarObj = $('<ul />').appendTo($ToolbarContainerObj)
+                        .attr('tabindex', '-1')
+                        .on('focus.InputField', function () {
+                            if (!SkipFocus) {
+                                Focused = this;
+                            } else {
+                                SkipFocus = false;
+                            }
+                        }).on('blur.InputField', function () {
+                            Focused = null;
+
+                            setTimeout(function () {
+                                if (!Focused) {
+                                    HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
+                                }
+                            }, 50);
+                        });
 
                     if (Multiple) {
 
