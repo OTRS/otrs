@@ -19,6 +19,7 @@ use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket',
+    'Kernel::System::User',
 );
 
 =head1 NAME
@@ -157,6 +158,18 @@ sub Run {
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # If "From" is not set
+    if ( !$Param{Config}->{From} ) {
+
+        # Get current user data
+        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+            UserID => $Param{UserID},
+        );
+
+        # Set "From" field according to user - UserFullname <UserEmail>
+        $Param{Config}->{From} = $User{UserFullname} . ' <' . $User{UserEmail} . '>';
+    }
 
     my $ArticleID = $TicketObject->ArticleCreate(
         %{ $Param{Config} },

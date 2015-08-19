@@ -299,6 +299,37 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Without From',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                ArticleType => 'note-internal',
+                SenderType  => 'agent',
+                ContentType => 'text/plain; charset=ISO-8859-15',
+                Subject =>
+                    '<OTRS_TICKET_NotExisting>',
+                Body =>
+                    'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                From           => undef,
+                To             => 'Some Customer A <customer-a@example.com>',
+                Cc             => 'Some Customer B <customer-b@example.com>',
+                ReplyTo        => 'Some Customer B <customer-b@example.com>',
+                MessageID      => '<asdasdasd.123@example.com>',
+                InReplyTo      => '<asdasdasd.12@example.com>',
+                References =>
+                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
+                NoAgentNotify             => 0,
+                ForceNotificationToUserID => [ 1, 43, 56, ],
+                ExcludeNotificationToUserID     => [ 43, 56, ],
+                ExcludeMuteNotificationToUserID => [ 43, 56, ],
+            },
+        },
+        Success => 1,
+    },
 );
 
 my %ExcludedArtributes = (
@@ -360,6 +391,14 @@ for my $Test (@Tests) {
             );
 
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+
+            if ( $Attribute eq 'From' && !defined $Test->{Config}->{Config}->{$Attribute} ) {
+                my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                    UserID => $UserID,
+                );
+                $ExpectedValue = "$User{UserFullName} <$User{UserEmail}>";
+            }
+
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
                 =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
