@@ -1122,6 +1122,28 @@
         height: 1.5em;
     }
 
+    /* Breadcrumb */
+
+    .BreadCrumb {
+        overflow-x: scroll;
+        padding: 7px 0px;
+    }
+
+    .BreadCrumb li,
+    .BreadCrumb a {
+        font-size: 12px;
+        line-height: 20px;
+        max-width: none;
+        white-space: nowrap;
+    }
+
+    .BreadCrumb li:before, 
+    .BreadCrumb li:after {
+        top: 50%;
+        border-width: 22px;
+        margin-top: -22px;
+    }
+
 }
 
 /*  ~ Tablet landscape */

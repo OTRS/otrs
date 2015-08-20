@@ -465,7 +465,7 @@ dd {
     left: -5px;
     border-color: rgba(238, 238, 238, 0);
     border-left-color: #eee;
-    z-index: 99;
+    z-index: 2;
 }
 
 .RTL .BreadCrumb li:before {
