@@ -74,7 +74,7 @@ $Selenium->RunTest(
         $Selenium->refresh();
 
         # test UserOnline plugin for agent
-        my $ExpectedAgent = "$TestUserLogin $TestUserLogin";
+        my $ExpectedAgent = "$TestUserLogin";
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedAgent ) > -1,
             "$TestUserLogin - found on UserOnline plugin"
@@ -83,11 +83,15 @@ $Selenium->RunTest(
         # switch to online customers and test UserOnline plugin for customers
         $Selenium->find_element("//a[contains(\@id, \'Customer' )]")->click();
 
-        # wait to open Customer tab
-        sleep 1;
-        my $ExpectedCustomer = "$TestCustomerUserLogin $TestCustomerUserLogin";
-        $Self->True(
-            index( $Selenium->get_page_source(), $ExpectedCustomer ) > -1,
+        # Wait for AJAX
+        my $ExpectedCustomer = "$TestCustomerUserLogin";
+        $Selenium->WaitFor(
+            JavaScript => "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script( "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;" ),
+            1,
             "$TestCustomerUserLogin - found on UserOnline plugin"
         );
     }
