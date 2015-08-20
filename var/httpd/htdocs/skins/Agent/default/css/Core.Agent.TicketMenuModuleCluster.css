@@ -77,7 +77,7 @@
 }
 
 .Cluster ul ul li a:hover {
-    border: 0px;
+    border-color: transparent;
     background: #ddd;
 }
 
