@@ -45,6 +45,10 @@ div.InputField_InputContainer {
     color: #aaa;
 }
 
+div.InputField_InputContainer .InputField_Search {
+    margin: 0;
+}
+
 a.InputField_Action {
     position: absolute;
     display: block;

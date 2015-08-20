@@ -183,6 +183,27 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name EscapeHTML
+     * @memberof Core.App
+     * @function
+     * @returns {String} The escaped string.
+     * @param {String} StringToEscape - The string which is supposed to be escaped.
+     * @description
+     *      Escapes the special HTML characters ( < > & ) in supplied string to their
+     *      corresponding entities.
+     */
+    TargetNS.EscapeHTML = function (StringToEscape) {
+        var HTMLEntities = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;'
+        };
+        return StringToEscape.replace(/[&<>]/g, function(Entity) {
+            return HTMLEntities[Entity] || Entity;
+        });
+    };
+
+    /**
      * @name Publish
      * @memberof Core.App
      * @function

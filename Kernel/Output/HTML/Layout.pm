@@ -2152,87 +2152,6 @@ sub BuildSelection {
     return $String;
 }
 
-=item BuildAutocomplete()
-
-build a text input element with autocomplete capabilities (InputFields)
-
-    my $InputField = $LayoutObject->BuildAutocomplete(
-        Name      => 'TheName',           # name of element
-        ID        => 'HTMLID',            # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
-        Class     => 'Class,              # (optional) a CSS class
-        URL       => '/index.pl',         # address for AJAX call
-        Action    => 'AgentAutocomplete', # (optional) Action parameter for AJAX call
-        Subaction => 'GetDate',           # (optional) Subaction parameter for AJAX call
-        Params    => {                    # (optional) Additional params supplied to AJAX call
-            Key1 => 'Value1',
-            Key2 => 'Value2',
-            Key3 => 'Value3',
-        },
-    );
-
-    # Data structure expected by AJAX call
-    # Text is optional, it will used only if supplied, otherwise Value is used
-    my @AutocompleteData = (
-        {
-            Value => "Quick brown fox jumps over the lazy dog.",
-            Text  => "Quick brown fox jumps over the lazy dog.",
-        },
-        {
-            Value => "Pack my box with five dozen liquor jugs.",
-            Text  => "Pack my box with five dozen liquor jugs.",
-        },
-        {
-            Value => "Jack, love my big wad of sphinx quartz!",
-            Text  => "Jack, love my big wad of sphinx quartz!",
-        },
-    );
-
-=cut
-
-sub BuildAutocomplete {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name URL)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    # generate HTML
-    my $String = '<input type="text" name="' . $Param{Name} . '"';
-    if ( $Param{ID} ) {
-        $String .= ' id="' . $Param{ID} . '"';
-    }
-    else {
-        $String .= ' id="' . $Param{Name} . '"';
-    }
-    $String .= ' class="Modernize' . ( $Param{Class} ? ' ' . $Param{Class} : '' ) . '"';
-    $String .= ' data-url="' . $Param{URL} . '"';
-    if ( $Param{Action} ) {
-        $String .= ' data-action="' . $Param{Action} . '"';
-    }
-    if ( $Param{Subaction} ) {
-        $String .= ' data-subaction="' . $Param{Subaction} . '"';
-    }
-    if ( $Param{Params} ) {
-        my $JSON = $Self->JSONEncode(
-            Data => {
-                Params => $Param{Params},
-            },
-            NoQuotes => 1,
-        );
-        $String .= " data-params='$JSON'";
-    }
-    $String .= ' />';
-
-    return $String;
-}
-
 sub NoPermission {
     my ( $Self, %Param ) = @_;
 
@@ -3888,7 +3807,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3920,7 +3839,7 @@ sub CustomerNavigationBar {
                 if (
                     !$SelectedFlag
                     && $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
                     )
                 {
                     $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4325,7 +4244,7 @@ sub RichTextDocumentServe {
 
         # replace charset in content
         $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-        $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+        $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
     }
 
     # add html links
