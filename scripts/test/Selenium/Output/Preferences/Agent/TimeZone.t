@@ -60,8 +60,8 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # change test user time zone preference to +6 hours
-        $Selenium->find_element( "#UserTimeZone option[value='+6']", 'css' )->click();
-        $Selenium->find_element( "#UserTimeZoneUpdate",              'css' )->click();
+        $Selenium->execute_script("\$('#UserTimeZone').val('+6').trigger('redraw.InputField');");
+        $Selenium->find_element( "#UserTimeZone", 'css' )->submit();
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";

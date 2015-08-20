@@ -77,6 +77,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'imported: 1 gpg' ) > -1,
             'Customer preference PGP key - updated'
         );
+        sleep 10;
 
         # remove test PGP path
         my $Success = rmtree( [$PGPPath] );

@@ -60,7 +60,7 @@ $Selenium->RunTest(
         # update generic preferences
         for my $Test (@Tests) {
 
-            $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->click();
+            $Selenium->execute_script("\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField');");
             $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->submit();
 
             $Self->True(

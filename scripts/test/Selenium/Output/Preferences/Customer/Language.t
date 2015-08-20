@@ -36,7 +36,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change test user language preference to Deutsch
-        $Selenium->find_element( "#UserLanguage option[value='de']", 'css' )->click();
+        $Selenium->execute_script("\$('#UserLanguage').val('de').trigger('redraw.InputField');");
         $Selenium->find_element( "#UserLanguage option[value='de']", 'css' )->submit();
 
         # check for update preference message on screen

@@ -59,7 +59,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # add test queue to 'My Queues' preference
-        $Selenium->find_element( "#QueueID option[value='$QueueID']", 'css' )->click();
+        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField');");
         $Selenium->find_element( "#QueueIDUpdate",                    'css' )->click();
 
         # check for update preference message on screen
