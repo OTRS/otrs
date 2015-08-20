@@ -222,51 +222,90 @@
 
                     <div id="DPDialog" class="Hidden">
                         <div class="TextDialog">
+                        [% IF Env("UserLanguage") == 'de' %]
                             <p>
-                                [% Translate("Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.") | html %]
-                                [% Translate("All passwords are automatically made unrecognizable before the information is sent.") | html %]
-                                [% Translate("Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.") | html %]
+                                Die OTRS-Gruppe nimmt den Schutz Ihrer persönlichen Daten sehr ernst und hält sich strikt an Datenschutzgesetze. Alle Passwörter werden automatisch unkenntlich gemacht, bevor Informationen gesendet werden. Unter keinen Umständen werden jegliche Daten verkauft oder an unauthorisierte Dritte weitergegeben.
                             </p>
                             <p>
-                                [% Translate("The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.") | html %]
-                            </p>
-
-                            <h1>[% Translate("Data Handling with 'System Registration'") | html %]</h1>
-                            <p>
-                                [% Translate("Information received through the 'Service Center' is saved by OTRS Group.") | html %]
-                                [% Translate("This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.") | html %]
+                                Die nachfolgende Erklärung gibt Ihnen einen Überblick darüber, wie wir diesen Schutz gewährleisten und welche Art von Daten zu welchem ​​Zweck erhoben werden.
                             </p>
 
-                            <h1>[% Translate("Safety of Personal Details") | html %]</h1>
+                            <h1>Datenverarbeitung bei 'Systemregistrierung'</h1>
                             <p>
-                                [% Translate("OTRS Group protects your personal data from unauthorized access, use or publication.") | html %]
-                                [% Translate("OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.") | html %]
+                                Informationen welche über das 'Service Center' gesendet werden, werden von der OTRS Group gespeichert. Das trifft nur auf Daten zu, die die OTRS Group zur Performance- und Funktions-Analyse des OTRS-Servers oder zur Kontaktaufnahme benötigt.
                             </p>
 
-                            <h1>[% Translate("Disclosure of Details") | html %]</h1>
+                            <h1>Sicherheit von persönlichen Details</h1>
                             <p>
-                                [% Translate("OTRS Group will not pass on your details to third parties unless required for business transactions.") | html %]
-                                [% Translate("OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.") | html %]
+                                Die OTRS Group schützt Ihre persönlichen Daten von unauthorisiertem Zugriff. Die OTRS Group versichert, dass Ihre auf dem Server gespeicherten persönlichen Daten vor unauthorisiertem Zugriff geschützt sind.
                             </p>
 
-                            <h1>[% Translate("Amendment of Data Protection Policy") | html %]</h1>
+                            <h1>Offenlegung von Details</h1>
                             <p>
-                                [% Translate("OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.") | html %]
-                                [% Translate("In this case we will also adapt our information regarding data protection accordingly.") | html %]
-                                [% Translate("Please regularly refer to the latest version of our Data Protection Policy.") | html %]
+                                Die OTRS Gruppe wird Ihre Daten nicht an Dritte weitergeben, es sei denn diese werden zur weiteren Geschäftsabwicklung benötigt. Die OTRS Gruppe wird Ihre Daten nur an öffentliche Einrichtungen und Behörden weiterleiten, wenn dies per Gesetz oder per Gerichtsbeschluss erforderlich ist.
                             </p>
 
-                            <h1>[% Translate("Right to Information") | html %]</h1>
+                            <h1>Änderung der Datenschutzbestimmungen</h1>
                             <p>
-                                [% Translate("You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.") | html %]
-                                [% Translate("You can request information about the saved data by sending an e-mail to info@otrs.com.") | html %]
+                                Die OTRS Group behält sich vor Sicherheits- und Datenschutzbestimmungen, wenn diese durch technische Entwicklungen notwendig sind, zu ändern In diesem Fall werden wir ebenfalls unsere Datenschutzbestimmungen anpassen. Bitte überprüfen Sie regelmäßig ob eine neuere Version unserer Datenschutzerklärung verfügbar ist.
                             </p>
 
-                            <h1>[% Translate("Further Information") | html %]</h1>
+                            <h1>Anspruch auf Information</h1>
                             <p>
-                                [% Translate("Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.") | html %]
-                                [% Translate("If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.") | html %]
+                                Sie haben jederzeit das Recht Einsicht in Daten die zu Ihrer Person gespeichert sind, deren Herkunft und Empfänger zu verlangen, sowie den Zweck der Datenverarbeitung zu erfahren. Sie können die über Sie gespeicherten Daten durch eine E-Mail an info@otrs.com anfordern.
                             </p>
+
+                            <h1>Weitere Informationen</h1>
+                            <p>
+                                Ihr Vertrauen ist uns sehr wichtig. Wir sind bereit, Sie über die Verarbeitung Ihrer personenbezogenen Daten jederzeit zu informieren. Wenn Sie weitere Fragen haben, die durch diese Datenschutzerklärung nicht beantwortet werden konnten oder wenn Sie nähere Informationen zu einem bestimmten Thema benötigen, wenden Sie sich an info@otrs.com.
+                            </p>
+                        [% ELSE %]
+                            <p>
+                                Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.
+                                All passwords are automatically made unrecognizable before the information is sent.
+                                Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.
+                            </p>
+                            <p>
+                                The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.
+                            </p>
+
+                            <h1>Data Handling with 'System Registration'</h1>
+                            <p>
+                                Information received through the 'Service Center' is saved by OTRS Group.
+                                This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.
+                            </p>
+
+                            <h1>Safety of Personal Details</h1>
+                            <p>
+                                OTRS Group protects your personal data from unauthorized access, use or publication.
+                                OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.
+                            </p>
+
+                            <h1>Disclosure of Details</h1>
+                            <p>
+                                OTRS Group will not pass on your details to third parties unless required for business transactions.
+                                OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.
+                            </p>
+
+                            <h1>Amendment of Data Protection Policy</h1>
+                            <p>
+                                OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.
+                                In this case we will also adapt our information regarding data protection accordingly.
+                                Please regularly refer to the latest version of our Data Protection Policy.
+                            </p>
+
+                            <h1>Right to Information</h1>
+                            <p>
+                                You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.
+                                You can request information about the saved data by sending an e-mail to info@otrs.com.
+                            </p>
+
+                            <h1>Further Information</h1>
+                            <p>
+                                Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.
+                                If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.
+                            </p>
+                        [% END %]
                         </div>
                     </div>
 [% RenderBlockEnd("OTRSIDRegistration") %]
