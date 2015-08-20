@@ -7886,7 +7886,7 @@
                     </Hash>
                 </Item>
                 <Item Key="PrefKey">UserRefreshTime</Item>
-                <Item Key="DataSelected"></Item>
+                <Item Key="DataSelected">0</Item>
                 <Item Key="Prio">4000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
