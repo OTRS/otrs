@@ -82,7 +82,7 @@ $Selenium->RunTest(
             . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
         # input fields and create ticket
-        $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
+        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField');");
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#Attachment",                  'css' )->send_keys($Location);

@@ -102,14 +102,14 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
 
         # create first scenarion for test customer ticket process
-        $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
+        $Selenium->execute_script("\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => "return \$('#Subject').length" );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
         $Selenium->find_element( "#Subject",                   'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",                  'css' )->send_keys($ContentRandom);
-        $Selenium->find_element( "#QueueID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField');");
         $Selenium->find_element( "#Subject",                   'css' )->submit();
 
         # check for inputed values for first step in test process ticket
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
-        $Selenium->find_element( "#PriorityID option[value='5']", 'css' )->click();
+        $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField');");
         $Selenium->find_element( "#Subject",                      'css' )->submit();
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->refresh();
@@ -156,11 +156,11 @@ $Selenium->RunTest(
 
         # create second scenarion for test customer ticket process
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
-        $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
+        $Selenium->execute_script("\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
-        $Selenium->find_element( "#QueueID option[value='3']", 'css' )->click();
+        $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField');");
         $Selenium->find_element( "#Subject",                   'css' )->submit();
 
         # check if we are at the end of test process ticket

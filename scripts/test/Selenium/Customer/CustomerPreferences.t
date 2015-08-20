@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Language;
+
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -53,7 +55,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#UserRefreshTime', 'css' )->get_value(),
-            "",
+            "0",
             "#UserRefreshTime stored value",
         );
         $Self->Is(
@@ -63,11 +65,11 @@ $Selenium->RunTest(
         );
 
         # edit checked stored values
-        $Selenium->find_element( "#UserRefreshTime option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#UserRefreshTime option[value='2']", 'css' )->submit();
+        $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField');");
+        $Selenium->find_element( "#UserRefreshTime", 'css' )->submit();
 
-        $Selenium->find_element( "#UserShowTickets option[value='20']", 'css' )->click();
-        $Selenium->find_element( "#UserShowTickets option[value='20']", 'css' )->submit();
+        $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField');");
+        $Selenium->find_element( "#UserShowTickets", 'css' )->submit();
 
         # check edited values
         $Self->Is(
@@ -87,7 +89,7 @@ $Selenium->RunTest(
             )
         {
             # change CustomerPreference language
-            $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->click();
+            $Selenium->execute_script("\$('#UserLanguage').val('$Language').trigger('redraw.InputField');");
             $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->submit();
 
             # check edited language value
