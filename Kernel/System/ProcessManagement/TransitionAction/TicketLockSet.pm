@@ -115,7 +115,7 @@ sub Run {
     # If Ticket's LockID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
-        defined $Param{Config}->{LoclID}
+        defined $Param{Config}->{LockID}
         && $Param{Config}->{LockID} eq $Param{Ticket}->{LockID}
         )
     {
