@@ -1309,7 +1309,7 @@ sub Run {
         Max         => 40,
         Translation => 0,
         SelectedID  => $Source,
-        Class       => "W100pc",
+        Class       => "Modernize W100pc",
     );
     $LayoutObject->Block(
         Name => 'Overview',
