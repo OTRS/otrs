@@ -97,6 +97,7 @@ sub _ShowScreen {
         PossibleNone  => 1,
         SelectedValue => '100',
         Translate     => 0,
+        Class         => 'Modernize',
     );
 
     my $FilterTypeStrg = $LayoutObject->BuildSelection(
@@ -107,6 +108,7 @@ sub _ShowScreen {
         Name         => 'FilterType',
         PossibleNone => 1,
         Translate    => 0,
+        Class        => 'Modernize',
     );
 
     my $FilterFromStrg = $LayoutObject->BuildDateSelection(

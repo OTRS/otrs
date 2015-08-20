@@ -172,6 +172,9 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
         // init toggle action
         Core.UI.InitWidgetActionToggle();
+
+        Core.UI.InputFields.Activate();
+
         return false;
     };
 
@@ -230,6 +233,8 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
         // set new value for KeyCounter
         $('#ValueCounter' + KeyCounter).val(ValueCounter);
+
+        Core.UI.InputFields.Activate();
 
         return false;
     };

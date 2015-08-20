@@ -383,8 +383,8 @@
                     </p>
 [% RenderBlockEnd("DetailsActionsNoControllerFoundMsg") %]
                     <div class="SpacingTop"></div>
-                    <fieldset class="TableLike">
-                        <label class="HideOnChange" for="[% Data.ActionType | html %]List">[% Translate("Add") | html %] [% Translate(Data.ActionType) | html %]:</label>
+                    <fieldset class="TableLike HideOnChange">
+                        <label for="[% Data.ActionType | html %]List">[% Translate("Add") | html %] [% Translate(Data.ActionType) | html %]:</label>
                         <div class="Field">
                                     [% Data.ControllersStrg %]
                         </div>

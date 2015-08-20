@@ -56,7 +56,8 @@ sub Run {
     for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
             $LibRequired,
-            Silent => 1,
+
+            #Silent => 1,
         );
         next LIBREQUIRED if $LibFound;
 

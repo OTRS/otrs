@@ -850,7 +850,7 @@ sub _ShowEdit {
         SelectedID     => $DebuggerData->{DebugThreshold} || '',
         PossibleNone   => 0,
         Translate      => 1,
-        Class          => 'HideTrigger',
+        Class          => 'Modernize HideTrigger',
         Sort           => 'IndividualKey',
         SortIndividual => [ 'debug', 'info', 'notice', 'error' ],
 
@@ -865,7 +865,7 @@ sub _ShowEdit {
         SelectedID   => $WebserviceData->{ValidID} || 1,
         PossibleNone => 0,
         Translate    => 1,
-        Class        => 'HideTrigger',
+        Class        => 'Modernize HideTrigger',
     );
 
     # prevent HTML validation waring
@@ -961,7 +961,7 @@ sub _ShowEdit {
             SelectedValue => $CommTypeConfig{$CommunicationType}->{SelectedTransport},
             PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
-            Class         => 'HideTrigger',
+            Class         => 'Modernize HideTrigger',
         );
 
         # get the controllers config for Requesters or Providers
@@ -979,7 +979,7 @@ sub _ShowEdit {
             Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
             Sort         => 'AlphanumericValue',
             PossibleNone => 1,
-            Class        => 'HideOnChange',
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(

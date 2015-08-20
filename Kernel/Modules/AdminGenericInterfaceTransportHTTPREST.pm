@@ -377,6 +377,7 @@ sub _ShowEdit {
             Name          => 'DefaultCommand',
             SelectedValue => $Param{DefaultCommand} || 'GET',
             Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
 
         # create Authentication types select
@@ -386,6 +387,7 @@ sub _ShowEdit {
             SelectedValue => $Param{Authentication} || '-',
             PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
 
         # hide and disable authentication methods if they are not selected
@@ -403,6 +405,7 @@ sub _ShowEdit {
             SelectedValue => $Param{UseX509} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
 
         # hide and disable X509 options if they are not selected
@@ -445,6 +448,7 @@ sub _ShowEdit {
                         || '-',
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
+                    Class        => 'Modernize',
                 );
 
                 $LayoutObject->Block(
@@ -485,6 +489,7 @@ sub _ShowEdit {
                     PossibleNone => 1,
                     Multiple     => 1,
                     Sort         => 'AlphanumericValue',
+                    Class        => 'Modernize',
                 );
 
                 $LayoutObject->Block(
@@ -514,6 +519,7 @@ sub _ShowEdit {
             SelectedID   => $Param{KeepAlive} || 0,
             PossibleNone => 0,
             Translation  => 1,
+            Class        => 'Modernize',
         );
 
         if ( $Param{MaxLength} && defined $Param{KeepAlive} ) {

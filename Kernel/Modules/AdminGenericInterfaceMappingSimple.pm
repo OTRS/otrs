@@ -362,7 +362,7 @@ sub _ShowEdit {
             },
         ],
         Name         => 'DefaultKeyType',
-        Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
+        Class        => 'Modernize DefaultType ' . $Param{DefaultKeyTypeError},
         SelectedID   => $MappingConfig->{DefaultKeyType},
         PossibleNone => 0,
         Translate    => 0,
@@ -381,6 +381,7 @@ sub _ShowEdit {
         Name         => 'KeyMapTypeStrg',
         PossibleNone => 0,
         Translate    => 0,
+        Class        => 'Modernize',
     );
 
     # select objects for values
@@ -400,7 +401,7 @@ sub _ShowEdit {
             },
         ],
         Name         => 'DefaultValueType',
-        Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
+        Class        => 'Modernize DefaultType ' . $Param{DefaultKeyTypeError},
         SelectedID   => $MappingConfig->{DefaultValueType},
         PossibleNone => 0,
         Translate    => 0,
@@ -420,6 +421,7 @@ sub _ShowEdit {
         Name         => 'ValueMapTypeStrg',
         PossibleNone => 0,
         Translate    => 0,
+        Class        => 'Modernize',
     );
 
     $LayoutObject->Block(
@@ -458,7 +460,7 @@ sub _ShowEdit {
             ],
             Name         => 'KeyMapTypeStrg' . $KeyIndex,
             SelectedID   => $MappingConfig->{ 'KeyMapTypeStrg' . $KeyIndex },
-            Class        => 'Validate_Required ' . $KeyMapTypeStrgError,
+            Class        => 'Modernize Validate_Required ' . $KeyMapTypeStrgError,
             PossibleNone => 0,
             Translate    => 0,
         );
@@ -489,7 +491,7 @@ sub _ShowEdit {
                 ],
                 Name         => 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex,
                 SelectedID   => $MappingConfig->{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex },
-                Class        => 'Validate_Required ' . $ValueMapTypeStrgError,
+                Class        => 'Modernize Validate_Required ' . $ValueMapTypeStrgError,
                 PossibleNone => 0,
                 Translate    => 0,
             );

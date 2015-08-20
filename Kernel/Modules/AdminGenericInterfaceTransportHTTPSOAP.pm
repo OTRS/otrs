@@ -342,6 +342,8 @@ sub _ShowEdit {
             Name       => $Type . 'NameScheme',
             SelectedID => $SelectedID,
             Sort       => 'AlphaNumericValue',
+
+            #Class      => 'Modernize',
         );
 
         # treat depending free text field based on current value
@@ -361,7 +363,8 @@ sub _ShowEdit {
             Data => [ 'No', 'Yes' ],
             Name => 'SOAPAction',
             SelectedValue => $Param{SOAPAction} || 'Yes',
-            Sort => 'AlphaNumericValue',
+            Sort          => 'AlphaNumericValue',
+            Class         => 'Modernize',
         );
 
         # set default SOAPActionSeparator
@@ -376,6 +379,7 @@ sub _ShowEdit {
             Name          => 'SOAPActionSeparator',
             SelectedValue => $SelectedSeparator,
             Sort          => 'AlphaNumericValue',
+            Class         => 'Modernize',
         );
 
         # hide SOAPActionSearator if SOAPAction is set to No
@@ -390,6 +394,7 @@ sub _ShowEdit {
             SelectedValue => $Param{Authentication} || '-',
             PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
 
         # hide and disable authentication methods if they are not selected
@@ -407,6 +412,7 @@ sub _ShowEdit {
             SelectedValue => $Param{UseSSL} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
 
         # hide and disable SSL options if they are not selected

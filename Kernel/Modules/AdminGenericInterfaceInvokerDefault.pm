@@ -531,7 +531,7 @@ sub _ShowScreen {
         SelectedValue => $MappingInbound,
         Sort          => 'AlphanumericValue',
         PossibleNone  => 1,
-        Class         => 'RegisterChange',
+        Class         => 'Modernize RegisterChange',
     );
 
     if ($MappingInbound) {
@@ -559,7 +559,7 @@ sub _ShowScreen {
         SelectedValue => $MappingOutbound,
         Sort          => 'AlphanumericValue',
         PossibleNone  => 1,
-        Class         => 'RegisterChange',
+        Class         => 'Modernize RegisterChange',
     );
 
     if ($MappingOutbound) {

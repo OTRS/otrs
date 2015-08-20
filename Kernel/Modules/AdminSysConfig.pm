@@ -872,6 +872,7 @@ sub Run {
             Name         => 'SysConfigGroup',
             Translation  => 0,
             PossibleNone => 1,
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -950,6 +951,7 @@ sub Run {
             Name         => 'SysConfigGroup',
             Translation  => 0,
             PossibleNone => 1,
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -1020,6 +1022,7 @@ sub Run {
             Name         => 'SysConfigGroup',
             Translation  => 0,
             PossibleNone => 1,
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -1154,6 +1157,7 @@ sub ListConfigItem {
             SelectedID => $Option->{SelectedID},
             Name       => $ItemHash{Name},
             Disabled   => $ReadOnlyAttribute ? 1 : 0,
+            Class      => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'ConfigElementSelect',
@@ -1299,7 +1303,7 @@ sub ListConfigItem {
                     Data       => \%Hash,
                     SelectedID => $Hash->{Item}->[$Index]->{Option}->[1]->{SelectedID},
                     Name       => $ItemHash{Name} . 'Content[]',
-                    Class      => 'Content',
+                    Class      => 'Modernize Content',
                     Disabled   => $ReadOnlyAttribute ? 1 : 0,
                 );
                 $LayoutObject->Block(
@@ -1423,6 +1427,7 @@ sub ListConfigItem {
                                     ID         => $Data{ElementKeyID} . 'LoaderType' . $Counter,
                                     SelectedID => $Key,
                                     Disabled   => $ReadOnlyAttribute ? 1 : 0,
+                                    Class      => 'Modernize',
                                 ),
                                 ReadOnlyAttribute => $ReadOnlyAttribute,
                             },
