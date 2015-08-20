@@ -516,7 +516,7 @@ sub Run {
 
         # get logo
         if ( $AgentLogo{URL} ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'Logo',
                 Data => {
                     LogoURL => $ConfigObject->Get('Frontend::WebPath') . $AgentLogo{URL},
@@ -1627,7 +1627,6 @@ sub _ShowEdit {
         $StateError = $Param{StateEntityIDServerError};
     }
 
-    # create estate selection
     $Param{StateSelection} = $LayoutObject->BuildSelection(
         Data => $StateList || {},
         Name => 'StateEntityID',
@@ -1636,7 +1635,7 @@ sub _ShowEdit {
             || $InactiveStateID,    # select inactive by default
         Sort        => 'AlphanumericKey',
         Translation => 1,
-        Class       => 'W50pc ' . $StateError,
+        Class       => 'Modernize W50pc ' . $StateError,
     );
 
     my $Output = $LayoutObject->Header();

@@ -6243,6 +6243,7 @@ via the Preferences button after logging in.
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
                 <Item>Core.UI.js</Item>
+                <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
                 <Item>Core.UI.DnD.js</Item>
@@ -6255,7 +6256,6 @@ via the Preferences button after logging in.
                 <Item>Core.UI.Popup.js</Item>
                 <Item>Core.UI.TreeSelection.js</Item>
                 <Item>Core.UI.Autocomplete.js</Item>
-                <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>
@@ -6331,6 +6331,7 @@ via the Preferences button after logging in.
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
                 <Item>Core.UI.js</Item>
+                <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.UI.Accessibility.js</Item>
                 <Item>Core.UI.Dialog.js</Item>
                 <Item>Core.UI.RichTextEditor.js</Item>
@@ -6338,7 +6339,6 @@ via the Preferences button after logging in.
                 <Item>Core.UI.Popup.js</Item>
                 <Item>Core.UI.TreeSelection.js</Item>
                 <Item>Core.UI.Autocomplete.js</Item>
-                <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>

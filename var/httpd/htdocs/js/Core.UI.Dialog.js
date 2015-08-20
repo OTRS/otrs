@@ -29,6 +29,9 @@ Core.UI.Dialog = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.Config', 'Core.Config')) {
         return false;
     }
+    if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.UI.InputFields', 'Core.UI.InputFields')) {
+        return false;
+    }
 
     /**
      * @private
@@ -515,6 +518,8 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Init KeyEvent-Logger
         InitKeyEvent(Params.CloseOnEscape);
+
+        Core.UI.InputFields.Activate($Dialog);
 
         // Focus first focusable element
         FocusFirstElement();

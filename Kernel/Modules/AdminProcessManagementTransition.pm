@@ -477,10 +477,12 @@ sub _ShowEdit {
             'Regexp' => 'Regexp',
             'Module' => 'Transition Validation Module'
         },
-        SelectedID  => 'String',
-        Name        => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
-        Sort        => 'AlphanumericKey',
-        Translation => 1,
+        SelectedID   => 'String',
+        Name         => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
+        Sort         => 'AlphanumericKey',
+        PossibleNone => 1,
+        Class        => 'Validate_Required',
+        Translation  => 1,
     );
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
@@ -533,10 +535,12 @@ sub _ShowEdit {
                         'Regexp' => 'Regexp',
                         'Module' => 'Transition Validation Module'
                     },
-                    Name        => "ConditionFieldType[$Condition][$Field]",
-                    Sort        => 'AlphanumericKey',
-                    Translation => 1,
-                    SelectedID  => $FieldData{Type},
+                    Name         => "ConditionFieldType[$Condition][$Field]",
+                    Sort         => 'AlphanumericKey',
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Class        => 'Validate_Required',
+                    SelectedID   => $FieldData{Type},
                 );
 
                 # show fields

@@ -549,7 +549,7 @@ sub _ShowEdit {
         Name         => 'Module',
         PossibleNone => 1,
         SelectedID   => $TransitionActionData->{Config}->{Module},
-        Class        => 'Validate_Required ' . ( $Param{Errors}->{'ModuleInvalid'} || '' ),
+        Class        => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ModuleInvalid'} || '' ),
     );
 
     $Output .= $LayoutObject->Output(

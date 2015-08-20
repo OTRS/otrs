@@ -1185,6 +1185,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#ArticleTypeContainer').addClass('Hidden');
             }
 
+            Core.UI.InputFields.Activate($('.Dialog'));
+
             return false;
         });
 

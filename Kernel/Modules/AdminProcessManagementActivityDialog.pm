@@ -827,6 +827,7 @@ sub _ShowEdit {
         Sort         => 'AlphanumericKey',
         Translation  => 1,
         PossibleNone => 0,
+        Class        => 'Modernize',
     );
 
     # create permission selection
@@ -838,7 +839,7 @@ sub _ShowEdit {
         Sort       => 'AlphanumericKey',
         Translation  => 1,
         PossibleNone => 1,
-        Class        => $Param{PermissionServerError} || '',
+        Class        => 'Modernize' . ( $Param{PermissionServerError} || '' ),
     );
 
     # create "required lock" selection
@@ -852,7 +853,7 @@ sub _ShowEdit {
         SelectedID  => $ActivityDialogData->{Config}->{RequiredLock} || 0,
         Sort        => 'AlphanumericKey',
         Translation => 1,
-        Class       => $Param{RequiredLockServerError} || '',
+        Class       => 'Modernize ' . ( $Param{RequiredLockServerError} || '' ),
     );
 
     # create Display selection
@@ -866,6 +867,7 @@ sub _ShowEdit {
         ID          => 'Display',
         Sort        => 'AlphanumericKey',
         Translation => 1,
+        Class       => 'Modernize',
     );
 
     # create ArticleType selection
@@ -884,6 +886,7 @@ sub _ShowEdit {
         ID            => 'ArticleType',
         Sort          => 'Alphanumeric',
         Translation   => 1,
+        Class         => 'Modernize',
     );
 
     # extract parameters from config

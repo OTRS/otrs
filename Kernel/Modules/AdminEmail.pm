@@ -213,7 +213,7 @@ sub Run {
         Size        => 6,
         Multiple    => 1,
         Translation => 0,
-        Class => $Errors{BccInvalid} || '',
+        Class => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
     );
 
     $Param{GroupOption} = $LayoutObject->BuildSelection(
@@ -222,7 +222,7 @@ sub Run {
         Name        => 'GroupIDs',
         Multiple    => 1,
         Translation => 0,
-        Class => $Errors{BccInvalid} || '',
+        Class => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
     );
     my %RoleList = $GroupObject->RoleList( Valid => 1 );
     $Param{RoleOption} = $LayoutObject->BuildSelection(
@@ -231,7 +231,7 @@ sub Run {
         Name        => 'RoleIDs',
         Multiple    => 1,
         Translation => 0,
-        Class       => $Errors{BccInvalid} || '',
+        Class       => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
     );
 
     $LayoutObject->Block(

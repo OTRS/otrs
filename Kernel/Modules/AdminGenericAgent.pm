@@ -434,6 +434,7 @@ sub _MaskUpdate {
         Size        => 5,
         Translation => 0,
         SelectedID  => $JobData{OwnerIDs},
+        Class       => 'Modernize',
     );
     $JobData{NewOwnerStrg} = $LayoutObject->BuildSelection(
         Data        => \%ShownUsers,
@@ -442,6 +443,7 @@ sub _MaskUpdate {
         Multiple    => 0,
         Translation => 0,
         SelectedID  => $JobData{NewOwnerID},
+        Class       => 'Modernize',
     );
     my %Hours;
     for my $Number ( 0 .. 23 ) {
@@ -454,6 +456,7 @@ sub _MaskUpdate {
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $JobData{ScheduleHours},
+        Class       => 'Modernize',
     );
     my %Minutes;
     for my $Number ( 0 .. 59 ) {
@@ -466,6 +469,7 @@ sub _MaskUpdate {
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $JobData{ScheduleMinutes},
+        Class       => 'Modernize',
     );
     $JobData{ScheduleDaysList} = $LayoutObject->BuildSelection(
         Data => {
@@ -482,6 +486,7 @@ sub _MaskUpdate {
         Size       => 7,
         Multiple   => 1,
         SelectedID => $JobData{ScheduleDays},
+        Class      => 'Modernize',
     );
 
     # get state object
@@ -498,6 +503,7 @@ sub _MaskUpdate {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $JobData{StateIDs},
+        Class      => 'Modernize',
     );
     $JobData{NewStatesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -510,6 +516,7 @@ sub _MaskUpdate {
         Size       => 5,
         Multiple   => 0,
         SelectedID => $JobData{NewStateID},
+        Class      => 'Modernize',
     );
     $JobData{NewPendingTimeTypeStrg} = $LayoutObject->BuildSelection(
         Data => [
@@ -541,6 +548,7 @@ sub _MaskUpdate {
         SelectedID  => $JobData{NewPendingTimeType},
         Translation => 1,
         Title       => $LayoutObject->{LanguageObject}->Translate('Time unit'),
+        Class       => 'Modernize',
     );
 
     # get queue object
@@ -554,6 +562,7 @@ sub _MaskUpdate {
         SelectedIDRefArray => $JobData{QueueIDs},
         TreeView           => $TreeView,
         OnChangeSubmit     => 0,
+        Class              => 'Modernize',
     );
     $JobData{NewQueuesStrg} = $LayoutObject->AgentQueueListOption(
         Data           => { $QueueObject->GetAllQueues(), },
@@ -563,6 +572,7 @@ sub _MaskUpdate {
         SelectedID     => $JobData{NewQueueID},
         TreeView       => $TreeView,
         OnChangeSubmit => 0,
+        Class          => 'Modernize',
     );
 
     # get priority object
@@ -579,6 +589,7 @@ sub _MaskUpdate {
         Size       => 5,
         Multiple   => 1,
         SelectedID => $JobData{PriorityIDs},
+        Class      => 'Modernize',
     );
     $JobData{NewPrioritiesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -591,6 +602,7 @@ sub _MaskUpdate {
         Size       => 5,
         Multiple   => 0,
         SelectedID => $JobData{NewPriorityID},
+        Class      => 'Modernize',
     );
 
     # get time option
@@ -678,11 +690,13 @@ sub _MaskUpdate {
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'NewDelete',
         SelectedID => $JobData{NewDelete} || 0,
+        Class      => 'Modernize',
     );
     $JobData{ValidOption} = $LayoutObject->BuildSelection(
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'Valid',
         SelectedID => defined( $JobData{Valid} ) ? $JobData{Valid} : 1,
+        Class      => 'Modernize',
     );
 
     # get lock object
@@ -699,6 +713,7 @@ sub _MaskUpdate {
         Multiple   => 1,
         Size       => 3,
         SelectedID => $JobData{LockIDs},
+        Class      => 'Modernize',
     );
     $JobData{NewLockOption} = $LayoutObject->BuildSelection(
         Data => {
@@ -711,6 +726,7 @@ sub _MaskUpdate {
         Size       => 3,
         Multiple   => 0,
         SelectedID => $JobData{NewLockID},
+        Class      => 'Modernize',
     );
 
     # Show server errors if ticket selection contains stop words
@@ -736,6 +752,7 @@ sub _MaskUpdate {
         },
         Name       => 'NewSendNoNotification',
         SelectedID => $JobData{NewSendNoNotification} || 0,
+        Class      => 'Modernize',
     );
     $LayoutObject->Block(
         Name => 'ActionList',
@@ -785,6 +802,7 @@ sub _MaskUpdate {
             Size        => 3,
             Multiple    => 1,
             Translation => 0,
+            Class       => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'TicketType',
@@ -798,6 +816,7 @@ sub _MaskUpdate {
             Size        => 3,
             Multiple    => 0,
             Translation => 0,
+            Class       => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'NewTicketType',
@@ -824,6 +843,7 @@ sub _MaskUpdate {
             TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
+            Class       => 'Modernize',
         );
         $JobData{NewServicesStrg} = $LayoutObject->BuildSelection(
             Data        => \%NewService,
@@ -834,6 +854,7 @@ sub _MaskUpdate {
             TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
+            Class       => 'Modernize',
         );
         my %SLA = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
             UserID => $Self->{UserID},
@@ -847,6 +868,7 @@ sub _MaskUpdate {
             Multiple    => 1,
             Translation => 0,
             Max         => 200,
+            Class       => 'Modernize',
         );
         $JobData{NewSLAsStrg} = $LayoutObject->BuildSelection(
             Data        => \%SLA,
@@ -857,6 +879,7 @@ sub _MaskUpdate {
             Multiple    => 0,
             Translation => 0,
             Max         => 200,
+            Class       => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'TicketService',
@@ -877,6 +900,7 @@ sub _MaskUpdate {
             Multiple    => 1,
             Translation => 0,
             SelectedID  => $JobData{ResponsibleIDs},
+            Class       => 'Modernize',
         );
         $JobData{NewResponsibleStrg} = $LayoutObject->BuildSelection(
             Data        => \%ShownUsers,
@@ -885,6 +909,7 @@ sub _MaskUpdate {
             Multiple    => 0,
             Translation => 0,
             SelectedID  => $JobData{NewResponsibleID},
+            Class       => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'TicketResponsible',
@@ -907,6 +932,7 @@ sub _MaskUpdate {
             },
             Name       => 'SearchInArchive',
             SelectedID => $JobData{SearchInArchive} || 'AllTickets',
+            Class      => 'Modernize',
         );
 
         $LayoutObject->Block(
@@ -922,6 +948,7 @@ sub _MaskUpdate {
             Name         => 'NewArchiveFlag',
             PossibleNone => 1,
             SelectedID   => $JobData{NewArchiveFlag} || '',
+            Class        => 'Modernize',
         );
 
         $LayoutObject->Block(
