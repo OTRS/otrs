@@ -1,4 +1,5 @@
 #4.0.12 2015-??-??
+ - 2015-08-19 Fixed bug#[11440](http://bugs.otrs.org/show_bug.cgi?id=11440) - TransitionAction TicketLockSet typo, thanks to Torsten Thau (c.a.p.e. IT).
  - 2015-08-19 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
  - 2015-08-18 Fixed bug#[11279](http://bugs.otrs.org/show_bug.cgi?id=11279) - auto reply with DynamicFields from webservice.
  - 2015-08-18 Fixed bug#[11416](http://bugs.otrs.org/show_bug.cgi?id=11416) - incoming tickets might be assigned to wrong customer due to fuzzy e-mail address matching.
