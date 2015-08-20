@@ -3165,7 +3165,7 @@ sub _ArticleMenu {
         # (only show forward on email-external, email-internal, phone, webrequest and fax
         if (
             $ConfigObject->Get('Frontend::Module')->{AgentTicketForward}
-            && ( !defined $AclAction{AgentTicketForward} || $AclAction{AgentTicketForward} )
+            && $AclActionLookup{AgentTicketForward}
             && $Article{ArticleType} =~ /^(email-external|email-internal|phone|webrequest|fax)$/i
             )
         {
@@ -3261,7 +3261,7 @@ sub _ArticleMenu {
         # (only show forward on email-external and email-internal
         if (
             $ConfigObject->Get('Frontend::Module')->{AgentTicketBounce}
-            && ( !defined $AclAction{AgentTicketBounce} || $AclAction{AgentTicketBounce} )
+            && $AclActionLookup{AgentTicketBounce}
             && $Article{ArticleType} =~ /^(email-external|email-internal)$/i
             )
         {
@@ -3307,7 +3307,7 @@ sub _ArticleMenu {
     # check if split link should be shown
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketPhone}
-        && ( $AclActionLookup{AgentTicketPhone} )
+        && $AclActionLookup{AgentTicketPhone}
         && $Article{ArticleType} !~ /^(chat-external|chat-internal)$/i
         )
     {
@@ -3324,7 +3324,7 @@ sub _ArticleMenu {
     # check if print link should be shown
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketPrint}
-        && ( !defined $AclAction{AgentTicketPrint} || $AclAction{AgentTicketPrint} )
+        && $AclActionLookup{AgentTicketPrint}
         )
     {
         my $OK = $TicketObject->TicketPermission(
@@ -3350,7 +3350,7 @@ sub _ArticleMenu {
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketPlain}
         && $ConfigObject->Get('Ticket::Frontend::PlainView')
-        && ( !defined $AclAction{AgentTicketPlain} || $AclAction{AgentTicketPlain} )
+        && $AclActionLookup{AgentTicketPlain}
         && $Article{ArticleType} =~ /email/i
         )
     {
@@ -3410,7 +3410,7 @@ sub _ArticleMenu {
     # check if internal reply link should be shown
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketNote}
-        && ( !defined $AclAction{AgentTicketNote} || $AclAction{AgentTicketNote} )
+        && $AclActionLookup{AgentTicketNote}
         && $Article{ArticleType} =~ /^note-(internal|external)$/i
         )
     {
