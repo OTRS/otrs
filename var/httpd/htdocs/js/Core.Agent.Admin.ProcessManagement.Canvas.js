@@ -45,25 +45,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     /**
      * @private
-     * @name EscapeHTML
-     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
-     * @function
-     * @returns {String} Converted string.
-     * @param {String} Content - String to convert.
-     * @description
-     *      Converts special charachters in a string to HTML entities.
-     */
-    function EscapeHTML(Content) {
-        return Content
-            .replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-    }
-
-    /**
-     * @private
      * @name GetCanvasSize
      * @memberof Core.Agent.Admin.ProcessManagement.Canvas
      * @function
@@ -204,7 +185,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             $EntityBox;
 
         $('#Canvas')
-            .append('<div class="Activity Task" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="TaskTypeIcon"><i class="fa fa-user fa-lg"></i></div><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
+            .append('<div class="Activity Task" id="' + Core.App.EscapeHTML(EntityID) + '"><span>' + Core.App.EscapeHTML(EntityName) + '</span><div class="TaskTypeIcon"><i class="fa fa-user fa-lg"></i></div><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
             .find('#' + EntityID)
             .css({
                 'top': PosY + 'px',
@@ -321,7 +302,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             TooltipWidth, TooltipHeight;
 
         $TitleElement.find('a').remove();
-        text = '<h4>' + EscapeHTML($TitleElement.text()) + '</h4>';
+        text = '<h4>' + Core.App.EscapeHTML($TitleElement.text()) + '</h4>';
 
         if (typeof Transition[ElementID] === 'undefined') {
             return false;
@@ -345,7 +326,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         text += "<ul>";
         if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (Key, Value) {
-                text += "<li>" + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + EscapeHTML(Value) + ") </li>";
+                text += "<li>" + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + Core.App.EscapeHTML(Value) + ") </li>";
             });
         }
         else {
@@ -407,7 +388,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.ShowActivityTooltip = function ($Element) {
         var $Tooltip = $('#DiagramTooltip'),
-            text = '<h4>' + EscapeHTML($Element.find('span').text()) + '</h4>',
+            text = '<h4>' + Core.App.EscapeHTML($Element.find('span').text()) + '</h4>',
             position = {x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ActivityDialogs,
@@ -442,7 +423,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += InterfaceValue.substr(0, 1);
                 });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + EscapeHTML(Value) + ") </li>";
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + Core.App.EscapeHTML(Value) + ") </li>";
             });
         }
         else {
@@ -797,7 +778,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             reattach: true,
             overlays: [
                 [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
-                [ "Label", { label: '<span id="' + EntityID + '" title="' + EscapeHTML(TransitionName) + '">' + EscapeHTML(TransitionName) + '</span>', location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
+                [ "Label", { label: '<span id="' + EntityID + '" title="' + Core.App.EscapeHTML(TransitionName) + '">' + Core.App.EscapeHTML(TransitionName) + '</span>', location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.LastTransitionDetails = {
                             LabelOverlay: labelOverlay,
