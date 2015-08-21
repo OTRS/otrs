@@ -44,19 +44,15 @@ $Selenium->RunTest(
         for my $Language (@Languages) {
 
             # check for the language selection box
-            my $Element = $Selenium->find_element( "select#UserLanguage", 'css' );
-
-            # select the current language & submit
-            $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
-            $Element->click();
-            $Element->submit();
+            $Selenium->execute_script("\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
+            $Selenium->find_element( "select#UserLanguage", 'css' )->submit();
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(
                 UserLanguage => $Language,
             );
 
-            $Element = $Selenium->find_element( 'Label[for=UserLanguage]', 'css' );
+            my $Element = $Selenium->find_element( 'Label[for=UserLanguage]', 'css' );
             $Self->Is(
                 substr( $Element->get_text(), 0, -1 ),
                 $LanguageObject->Get('Language'),
