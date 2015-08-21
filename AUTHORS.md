@@ -19,6 +19,7 @@ The following persons contributed to OTRS:
 * Diego Selzlein <diegoselzlein@gmail.com>
 * Dietmar Berg <dietmar.berg@thalesgroup.com>
 * Dominik Klein <dominik.klein@otrs.com>
+* Dusan Vuckovic <dusan.vuckovic@muehlbauer.de>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
 * Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
@@ -43,7 +44,6 @@ The following persons contributed to OTRS:
 * Martin Gross <martin@pc-coholic.de>
 * Martin Gruner <martin.gruner@otrs.com>
 * Mathias Bräunling <mathias.braeunling@otrs.com>
-* Merkushov Victor <merkushov.victor@gmail.com>
 * Michael Tänzer <neo@nhng.de>
 * Michiel Beijen <michiel.beijen@otrs.com>
 * Moritz Lenz <mlenz@noris.net>
@@ -51,7 +51,6 @@ The following persons contributed to OTRS:
 * Nils Leideck <nils.leideck@leidex.net>
 * Nils Leideck <nils.leideck@otrs.com>
 * Norihiro Tanaka <noritnk@kcn.ne.jp>
-* Németh Csaba <csaba@sopron.hu>
 * Oberson Dylan <dylan.oberson@epfl.ch>
 * Oliver Tappe <oliver.tappe@otrs.com>
 * Olivier Sallou <olivier.sallou@irisa.fr>
@@ -81,4 +80,4 @@ The following persons contributed to OTRS:
 * otrsintern <otrsintern@gmail.com>
 * s7design <otrs@s7designcreative.com>
 * sergot <filip@sergot.pl>
-* Úr Balázs <urbalazs@gmail.com>
+* vlascoder <vlascoder@gmail.com>
