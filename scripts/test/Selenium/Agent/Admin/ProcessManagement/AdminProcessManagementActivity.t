@@ -89,6 +89,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for parent window to reload
+        sleep 1;
+
         # check for created test activity using filter on AdminProcessManagement screen
         $Selenium->WaitFor( JavaScript => "return \$('ul#Activities li:contains($ActivityRandom)').length" );
         $Selenium->find_element( "#ActivityFilter", 'css' )->send_keys($ActivityRandom);
@@ -132,13 +135,16 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for parent window to reload
+        sleep 1;
+
         # get process id
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
         # set process to inactive
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element( $ProcessRandom,                      'link_text' )->click();
-        $Selenium->find_element( "#StateEntityID option[value='S2']", 'css' )->click();
+        $Selenium->execute_script("\$('#StateEntityID').val('S2').trigger('redraw.InputField');");
         $Selenium->find_element( "#Submit",                           'css' )->click();
 
         # test search filter

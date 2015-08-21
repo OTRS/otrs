@@ -93,7 +93,7 @@ $Selenium->RunTest(
         my $TransitionActionValue  = "Value" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionActionRandom);
-        $Selenium->find_element( "#Module option[value='$TransitionActionModule']", 'css' )->click();
+        $Selenium->execute_script("\$('#Module').val('$TransitionActionModule').trigger('redraw.InputField');");
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
         $Selenium->find_element( "#Name", 'css' )->submit();
@@ -101,6 +101,9 @@ $Selenium->RunTest(
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait for parent window to reload
+        sleep 1;
 
         # check for created test TransitionAction using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
@@ -175,6 +178,9 @@ $Selenium->RunTest(
         # Return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait for parent window to reload
+        sleep 1;
 
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";

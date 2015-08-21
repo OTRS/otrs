@@ -111,6 +111,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for parent window to reload
+        sleep 1;
+
         # check for created test Transition using filter on AdminProcessManagement screen
         $Selenium->WaitFor( JavaScript => "return \$('ul#Transitions li:contains($TransitionRandom)').length" );
         $Selenium->find_element( "Transitions",       'link_text' )->click();
@@ -166,7 +169,7 @@ $Selenium->RunTest(
             "ConditionFieldName stored value",
         );
         $Self->Is(
-            $Selenium->find_element(".//*[\@id='ConditionFieldType[1][$TransitionFieldName]']/option[3]")->get_value(),
+            $Selenium->find_element(".//*[\@id='ConditionFieldType[1][$TransitionFieldName]']/option[4]")->get_value(),
             "String",
             "ConditionFieldType stored value",
         );
@@ -181,7 +184,7 @@ $Selenium->RunTest(
         my $TransitionValueNameEdit = $TransitionValueName . "edit";
 
         $Selenium->find_element( "#Name",                                        'css' )->send_keys("edit");
-        $Selenium->find_element( "#OverallConditionLinking option[value='and']", 'css' )->click();
+        $Selenium->execute_script("\$('#OverallConditionLinking').val('and').trigger('redraw.InputField');");
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")
             ->send_keys($TransitionFieldNameEdit);
@@ -193,6 +196,9 @@ $Selenium->RunTest(
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait for parent window to reload
+        sleep 1;
 
         # check for edited test Transition using filter on AdminProcessManagement screen
         my $TransitionRandomEdit = $TransitionRandom . "edit";

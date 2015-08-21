@@ -88,13 +88,16 @@ $Selenium->RunTest(
         # input fields and submit
         $Selenium->find_element( "#Name",                                     'css' )->send_keys($ActivityDialogRandom);
         $Selenium->find_element( "#DescriptionShort",                         'css' )->send_keys($DescriptionShort);
-        $Selenium->find_element( "#Interface option[value='BothInterfaces']", 'css' )->click();
-        $Selenium->find_element( "#Permission option[value='rw']",            'css' )->click();
+        $Selenium->execute_script("\$('#Interface').val('BothInterfaces').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#Permission').val('rw').trigger('redraw.InputField');");
         $Selenium->find_element( "#Name",                                     'css' )->submit();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait for parent window to reload
+        sleep 1;
 
         # check for created test activity dialog using filter on AdminProcessManagement screen
         $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
@@ -153,13 +156,16 @@ $Selenium->RunTest(
         # edit test ActivityDialog values
         $Selenium->find_element( "#Name",                                     'css' )->send_keys("edit");
         $Selenium->find_element( "#DescriptionShort",                         'css' )->send_keys(" Edit");
-        $Selenium->find_element( "#Interface option[value='AgentInterface']", 'css' )->click();
-        $Selenium->find_element( "#Permission option[value='ro']",            'css' )->click();
+        $Selenium->execute_script("\$('#Interface').val('AgentInterface').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#Permission').val('ro').trigger('redraw.InputField');");
         $Selenium->find_element( "#Name",                                     'css' )->submit();
 
         # Return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait for parent window to reload
+        sleep 1;
 
         # check for edited test ActivityDialog using filter on AdminProcessManagement screen
         my $ActivityDialogRandomEdit = $ActivityDialogRandom . "edit";
