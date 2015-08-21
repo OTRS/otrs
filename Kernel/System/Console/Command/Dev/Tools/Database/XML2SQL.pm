@@ -90,7 +90,7 @@ sub Run {
 
     my @DatabaseType = ( $Self->GetOption('database-type') );
     if ( $Self->GetOption('database-type') eq 'all' ) {
-        @DatabaseType = qw(mysql postgresql oracle mssql)
+        @DatabaseType = qw(mysql postgresql oracle)
     }
 
     my $SourceFilename = $Self->GetOption('source-path');
