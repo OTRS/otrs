@@ -1,4 +1,5 @@
 #5.0.0.beta3 2015-??-??
+ - 2015-08-21 Fixed bug#[11302](http://bugs.otrs.org/show_bug.cgi?id=11302) - Out of office data incorrect.
  - 2015-08-20 Fixed bug#[11405](http://bugs.otrs.org/show_bug.cgi?id=11405) - AgentTicketForward not possible to hide by ACL.
  - 2015-08-19 Fixed bug#[11440](http://bugs.otrs.org/show_bug.cgi?id=11440) - TransitionAction TicketLockSet typo, thanks to Torsten Thau (c.a.p.e. IT).
  - 2015-08-19 Fixed bug#[11436](http://bugs.otrs.org/show_bug.cgi?id=11436) - Auto response will not generated.

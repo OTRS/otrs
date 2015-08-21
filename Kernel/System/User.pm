@@ -209,6 +209,9 @@ sub GetUserData {
         }
     }
 
+    # Store CacheTTL locally so that we can reduce it for users that are out of office.
+    my $CacheTTL = $Self->{CacheTTL};
+
     # check valid, return if there is locked for valid users
     if ( $Param{Valid} ) {
 
@@ -225,7 +228,7 @@ sub GetUserData {
             # set cache
             $Kernel::OM->Get('Kernel::System::Cache')->Set(
                 Type  => $Self->{CacheType},
-                TTL   => $Self->{CacheTTL},
+                TTL   => $CacheTTL,
                 Key   => $CacheKey,
                 Value => {},
             );
@@ -280,6 +283,10 @@ sub GetUserData {
                 $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
+
+            # Reduce CacheTTL to one hour for users that are out of office to make sure the cache expires timely
+            #   even if there is no update action.
+            $CacheTTL = 60 * 60 * 1;
         }
     }
 
@@ -306,7 +313,7 @@ sub GetUserData {
     # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
+        TTL   => $CacheTTL,
         Key   => $CacheKey,
         Value => \%Data,
     );
