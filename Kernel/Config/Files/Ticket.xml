@@ -5658,7 +5658,7 @@
                 <Item Key="Name" Translatable="1">New process ticket</Item>
                 <Item Key="Link">Action=AgentTicketProcess</Item>
                 <Item Key="Action">AgentTicketProcess</Item>
-                <Item Key="AccessKey">p</Item>
+                <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">ProcessTicket</Item>
                 <Item Key="Icon">fa fa-th-large</Item>
                 <Item Key="Priority">1020030</Item>

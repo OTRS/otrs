@@ -34,12 +34,13 @@ for my $AgentModule ( sort keys %AgentModules ) {
         NAVBARITEMS:
         for my $NavBar ( sort @{ $AgentModules{$AgentModule}->{NavBar} } ) {
 
-            my $NavBarKey = $NavBar->{AccessKey} || '';
+            my $NavBarKey  = $NavBar->{AccessKey} || '';
+            my $NavBarName = $NavBar->{Name} || '';
             next NAVBARITEMS if !$NavBarKey;
 
             $Self->False(
                 defined $UsedAccessKeysAgent{$NavBarKey},
-                "[AGENT FRONTEND] Check if access key already exists for access key '$NavBarKey'",
+                "[AGENT FRONTEND] Check if access key already exists for access key '$NavBarKey' ($NavBarName)",
             );
 
             $UsedAccessKeysAgent{$NavBarKey} = 1;
@@ -47,12 +48,13 @@ for my $AgentModule ( sort keys %AgentModules ) {
     }
 
     my $AccessKey = $AgentModules{$AgentModule}->{AccessKey} || '';
+    my $Name      = $AgentModules{$AgentModule}->{Name} || '';
 
     next ACCESSKEYSAGENT if !$AccessKey;
 
     $Self->False(
         defined $UsedAccessKeysAgent{$AccessKey},
-        "[AGENT FRONTEND] Check if access key already exists for access key '$AccessKey'",
+        "[AGENT FRONTEND] Check if access key already exists for access key '$AccessKey' ($Name)",
     );
 
     $UsedAccessKeysAgent{$AccessKey} = 1;
