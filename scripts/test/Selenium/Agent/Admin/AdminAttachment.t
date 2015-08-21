@@ -51,7 +51,7 @@ $Selenium->RunTest(
                 . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
             my $RandomID = 'StdAttachment' . $Helper->GetRandomID();
             $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+            $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
             $Selenium->find_element( "#Name",                      'css' )->submit();
 
@@ -66,7 +66,7 @@ $Selenium->RunTest(
 
             # go to new standard attacment again and edit
             $Selenium->find_element( $RandomID,                    'link_text' )->click();
-            $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test attachment');
             $Selenium->find_element( "#Name",                      'css' )->submit();
 

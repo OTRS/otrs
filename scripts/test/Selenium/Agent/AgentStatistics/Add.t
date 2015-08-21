@@ -213,7 +213,7 @@ $Selenium->RunTest(
             # set velues for new statistics - General Specifications
             $Selenium->find_element( "#Title",       'css' )->send_keys( $StatsData->{Title} );
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
-            $Selenium->find_element( "#ObjectModule option[value='$StatsData->{Object}']", 'css' )->click();
+            $Selenium->execute_script("\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->click();
 
             $Selenium->WaitFor( JavaScript => 'return $(".EditXAxis").length' );

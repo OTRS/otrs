@@ -133,7 +133,7 @@ $Selenium->RunTest(
                 $Selenium->switch_to_window( $Handles->[1] );
 
                 # change state to 'closed successful'
-                $Selenium->find_element( "#StateID option[value='2']", 'css' )->click();
+                $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#submitRichText",            'css' )->click();
 
                 # switch back to AgentTicketStatusView

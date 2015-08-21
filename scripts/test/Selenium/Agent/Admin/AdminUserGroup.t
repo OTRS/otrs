@@ -46,7 +46,7 @@ $Selenium->RunTest(
         # click 'add group' linK
         $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->click();
         $Selenium->find_element( "#GroupName",                 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#GroupName",                 'css' )->submit();
 
         # give full read and write access to the tickets in test group for test user

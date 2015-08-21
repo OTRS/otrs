@@ -67,7 +67,7 @@ $Selenium->RunTest(
         my $RandomID = "Priority" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         $Self->True(
@@ -94,7 +94,7 @@ $Selenium->RunTest(
         );
 
         # set test priority to invalid
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # check class of invalid Priority in the overview table

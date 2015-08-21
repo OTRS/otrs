@@ -73,7 +73,7 @@ $Selenium->RunTest(
         my $TemplateRandomID = "Template" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",                      'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment",                   'css' )->send_keys("Selenium template test");
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # check overview screen for test template
@@ -117,8 +117,8 @@ $Selenium->RunTest(
 
         # edit test template
         $Selenium->find_element( "#Comment",                             'css' )->clear();
-        $Selenium->find_element( "#TemplateType option[value='Create']", 'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']",           'css' )->click();
+        $Selenium->execute_script("\$('#TemplateType').val('Create').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                                'css' )->submit();
 
         # test search filter

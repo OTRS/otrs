@@ -156,7 +156,7 @@ $Selenium->RunTest(
                 $Selenium->switch_to_window( $Handles->[1] );
 
                 # change state to 'pending reminder'
-                $Selenium->find_element( "#StateID option[value='6']", 'css' )->click();
+                $Selenium->execute_script("\$('#StateID').val('6').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#submitRichText",            'css' )->click();
 
                 # switch back to AgentTicketResponsibleView

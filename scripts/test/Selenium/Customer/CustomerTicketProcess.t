@@ -109,7 +109,7 @@ $Selenium->RunTest(
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
         $Selenium->find_element( "#Subject",                   'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",                  'css' )->send_keys($ContentRandom);
-        $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                   'css' )->submit();
 
         # check for inputed values for first step in test process ticket
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
-        $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                      'css' )->submit();
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->refresh();
@@ -160,7 +160,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
-        $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                   'css' )->submit();
 
         # check if we are at the end of test process ticket

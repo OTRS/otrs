@@ -39,7 +39,7 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->find_element( "#$ObjectType option[value='Date']", 'css' )->click();
+            $Selenium->execute_script("\$('#$ObjectType').val('Date').trigger('redraw.InputField').trigger('change');");
 
             for my $ID (
                 qw(Name Label FieldOrder ValidID DefaultValue YearsPeriod Link DateRestriction)
@@ -64,7 +64,7 @@ $Selenium->RunTest(
             );
 
             # check default values
-            $Selenium->find_element( "#YearsPeriod option[value='1']", 'css' )->click();
+            $Selenium->execute_script("\$('#YearsPeriod').val('1').trigger('redraw.InputField').trigger('change');");
 
             $Self->Is(
                 $Selenium->find_element( '#DefaultValue', 'css' )->get_value(),
@@ -104,7 +104,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#YearsInPast",               'css' )->send_keys("10");
             $Selenium->find_element( "#YearsInFuture",             'css' )->clear();
             $Selenium->find_element( "#YearsInFuture",             'css' )->send_keys("8");
-            $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name",                      'css' )->submit();
 
             # check new and edited DynamicFieldDateTime values

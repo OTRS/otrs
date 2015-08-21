@@ -134,7 +134,7 @@ $Selenium->RunTest(
         );
 
         # set added test agent to invalid
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserFirstname",             'css' )->submit();
 
         # test search filter by agent $RandomID

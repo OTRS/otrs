@@ -67,8 +67,8 @@ $Selenium->RunTest(
         my $RandomID = "State" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#TypeID option[value='1']",  'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test state');
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
@@ -111,8 +111,8 @@ $Selenium->RunTest(
         );
 
         # set test state to invalid
-        $Selenium->find_element( "#TypeID option[value='2']",  'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#TypeID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Name",                      'css' )->submit();
 

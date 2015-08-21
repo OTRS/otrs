@@ -89,7 +89,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
+        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",                     'css' )->submit();
@@ -111,7 +111,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on reply
-        $Selenium->find_element( "#ResponseID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ResponseID').val('1').trigger('redraw.InputField').trigger('change');");
 
         # switch to compose window
         my $Handles = $Selenium->get_window_handles();

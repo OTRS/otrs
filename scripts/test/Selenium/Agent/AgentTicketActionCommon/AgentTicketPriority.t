@@ -111,7 +111,7 @@ $Selenium->RunTest(
         );
 
         # change ticket priority
-        $Selenium->find_element( "#NewPriorityID option[value='5']", 'css' )->click();
+        $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#RichText",                        'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText",                  'css' )->click();
 

@@ -124,7 +124,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",                  'css' )->clear();
         $Selenium->find_element( "#RichText",                  'css' )->send_keys($EditSignatureRichText);
         $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # chack class of invalid Signature in the overview table

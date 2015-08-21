@@ -65,10 +65,10 @@ $Selenium->RunTest(
         );
 
         # edit checked stored values
-        $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserRefreshTime", 'css' )->submit();
 
-        $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserShowTickets", 'css' )->submit();
 
         # check edited values
@@ -89,7 +89,7 @@ $Selenium->RunTest(
             )
         {
             # change CustomerPreference language
-            $Selenium->execute_script("\$('#UserLanguage').val('$Language').trigger('redraw.InputField');");
+            $Selenium->execute_script("\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->submit();
 
             # check edited language value

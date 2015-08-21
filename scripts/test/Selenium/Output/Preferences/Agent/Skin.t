@@ -36,7 +36,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # change test user language preference to Deutsch
-        $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserSkinUpdate",                 'css' )->click();
 
         # check for update preference message on screen

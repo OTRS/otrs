@@ -75,7 +75,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#Description",               'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch",            'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # the next screen should be the edit screen for this ACL
@@ -114,7 +114,7 @@ $Selenium->RunTest(
         );
 
         # now lets play around with the match & change settings
-        $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
+        $Selenium->execute_script("\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');");
 
         # after clicking an ItemAddLevel1 element, there should be now a new .ItemAdd element
         $Self->Is(
@@ -140,7 +140,7 @@ JAVASCRIPT
         $Selenium->execute_script($CheckAlertJS);
 
         # now we should not be able to add the same element again, an alert box should appear
-        $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
+        $Selenium->execute_script("\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');");
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
@@ -194,7 +194,7 @@ JAVASCRIPT
         );
 
         # set ACL to invalid
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit",                    'css' )->click();
 
         # wait to open overview page

@@ -92,7 +92,7 @@ $Selenium->RunTest(
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium Body Test";
 
-        $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
+        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#ToCustomer",                  'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 

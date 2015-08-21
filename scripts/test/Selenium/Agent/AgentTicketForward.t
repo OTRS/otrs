@@ -89,7 +89,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
+        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",                     'css' )->submit();
@@ -134,7 +134,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->find_element( "#ComposeStateID option[value='4']", 'css' )->click();
+        $Selenium->execute_script("\$('#ComposeStateID').val('4').trigger('redraw.InputField').trigger('change');");
 
         $Selenium->find_element( "#ToCustomer", 'css' )->submit();
 

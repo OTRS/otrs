@@ -104,7 +104,7 @@ $Selenium->RunTest(
 
         # remove test SLA comment and set it to invalid
         $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # wait to load overview screen

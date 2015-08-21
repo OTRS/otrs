@@ -78,7 +78,7 @@ $Selenium->RunTest(
         my $NotifEventText     = "Selenium NotificationEvent test";
         $Selenium->find_element( "#Name",                                 'css' )->send_keys($NotifEventRandomID);
         $Selenium->find_element( "#Comment",                              'css' )->send_keys($NotifEventText);
-        $Selenium->find_element( "#Events option[value='ArticleCreate']", 'css' )->click();
+        $Selenium->execute_script("\$('#Events').val('ArticleCreate').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#ArticleSubjectMatch",                  'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Subject",                           'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Body",                              'css' )->send_keys($NotifEventText);
@@ -137,7 +137,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#en_Subject",                'css' )->send_keys($EditNotifEventText);
         $Selenium->find_element( "#ArticleSubjectMatch",       'css' )->clear();
         $Selenium->find_element( "#ArticleBodyMatch",          'css' )->send_keys($EditNotifEventText);
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # check edited NotifcationEvent values

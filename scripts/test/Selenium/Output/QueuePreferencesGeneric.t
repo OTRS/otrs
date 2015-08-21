@@ -80,12 +80,12 @@ $Selenium->RunTest(
         my $RandomQueueName = "Queue" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name",                              'css' )->send_keys($RandomQueueName);
-        $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField');");
-        $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField');");
-        $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField');");
-        $Selenium->execute_script("\$('#SystemAddressID').val('1').trigger('redraw.InputField');");
-        $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField');");
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SystemAddressID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
 
         # set included queue attribute Comment2
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('QueuePreferences Comment2');

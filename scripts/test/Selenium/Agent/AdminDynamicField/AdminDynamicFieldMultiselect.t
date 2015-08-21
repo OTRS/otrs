@@ -39,7 +39,7 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->find_element( "#$ObjectType option[value='Dropdown']", 'css' )->click();
+            $Selenium->execute_script("\$('#$ObjectType').val('Dropdown').trigger('redraw.InputField').trigger('change');");
 
             for my $ID (
                 qw(Name Label FieldOrder ValidID DefaultValue AddValue PossibleNone TreeView TranslatableValues)
@@ -102,10 +102,10 @@ $Selenium->RunTest(
             # edit test DynamicFieldMultiselect possiblenone, default value, treeview and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->find_element( "#DefaultValue option[value='Key1']", 'css' )->click();
-            $Selenium->find_element( "#PossibleNone option[value='1']",    'css' )->click();
-            $Selenium->find_element( "#TreeView option[value='1']",        'css' )->click();
-            $Selenium->find_element( "#ValidID option[value='2']",         'css' )->click();
+            $Selenium->execute_script("\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name",                              'css' )->submit();
 
             # check new and edited DynamicFieldMultiselect values

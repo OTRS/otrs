@@ -60,7 +60,7 @@ $Selenium->RunTest(
         );
 
         # edit some of checked stored values
-        $Selenium->find_element( "#UserSkin option[value='ivory']", 'css' )->click();
+        $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element("//button[\@id='UserSkinUpdate'][\@type='submit']")->click();
 
         # check edited values
@@ -76,7 +76,7 @@ $Selenium->RunTest(
             )
         {
             # change AgentPreference language
-            $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->click();
+            $Selenium->execute_script("\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->click();
 
             # check edited language value

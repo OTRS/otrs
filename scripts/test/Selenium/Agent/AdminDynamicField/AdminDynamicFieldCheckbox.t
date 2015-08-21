@@ -39,7 +39,7 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->find_element( "#$ObjectType option[value='Checkbox']", 'css' )->click();
+            $Selenium->execute_script("\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');");
 
             for my $ID (
                 qw(Name Label FieldOrder ValidID)
@@ -79,8 +79,8 @@ $Selenium->RunTest(
             # edit test DynamicFieldCheckbox default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->find_element( "#DefaultValue option[value='1']", 'css' )->click();
-            $Selenium->find_element( "#ValidID option[value='2']",      'css' )->click();
+            $Selenium->execute_script("\$('#DefaultValue').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name",                           'css' )->submit();
 
             # check new and edited DynamicFieldCheckbox values

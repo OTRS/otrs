@@ -71,7 +71,7 @@ $Selenium->RunTest(
         my $RandomID = 'TestCustomerCompany' . $Helper->GetRandomID();
         $Selenium->find_element( "#CustomerID",                'css' )->send_keys($RandomID);
         $Selenium->find_element( "#CustomerCompanyName",       'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment",    'css' )->send_keys('Selenium test customer company');
         $Selenium->find_element( "#CustomerID",                'css' )->submit();
 
@@ -140,7 +140,7 @@ $Selenium->RunTest(
         );
 
         # set test customer company to invalid and clear comment
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment",    'css' )->clear();
         $Selenium->find_element( "#CustomerID",                'css' )->submit();
 

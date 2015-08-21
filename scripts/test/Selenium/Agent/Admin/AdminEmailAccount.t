@@ -54,12 +54,12 @@ $Selenium->RunTest(
 
         # add real test mail account
         my $RandomID = "EmailAccount" . $Helper->GetRandomID();
-        $Selenium->find_element( "#TypeAdd option[value='IMAP']",        'css' )->click();
+        $Selenium->execute_script("\$('#TypeAdd').val('IMAP').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#LoginAdd",                            'css' )->send_keys($RandomID);
         $Selenium->find_element( "#PasswordAdd",                         'css' )->send_keys("SomePassword");
         $Selenium->find_element( "#HostAdd",                             'css' )->send_keys("pop3.example.com");
-        $Selenium->find_element( "#Trusted option[value='0']",           'css' )->click();
-        $Selenium->find_element( "#DispatchingBy option[value='Queue']", 'css' )->click();
+        $Selenium->execute_script("\$('#Trusted').val('0').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#DispatchingBy').val('Queue').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",  'css' )->send_keys("Selenium test AdminMailAccount");
         $Selenium->find_element( "#LoginAdd", 'css' )->submit();
 
@@ -75,7 +75,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#HostEdit",                  'css' )->clear();
         $Selenium->find_element( "#HostEdit",                  'css' )->send_keys("pop3edit.example.com");
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#LoginEdit",                 'css' )->submit();
 
         # check class of invalid EmailAccount in the overview table

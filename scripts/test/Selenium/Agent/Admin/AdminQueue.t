@@ -70,12 +70,12 @@ $Selenium->RunTest(
         my $RandomID = "Queue" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name",                              'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#GroupID option[value='1']",         'css' )->click();
-        $Selenium->find_element( "#FollowUpID option[value='1']",      'css' )->click();
-        $Selenium->find_element( "#SalutationID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#SystemAddressID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
+        $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SystemAddressID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
         $Selenium->find_element( "#Name",                              'css' )->submit();
 
@@ -139,8 +139,8 @@ $Selenium->RunTest(
         );
 
         # set test queue to invalid
-        $Selenium->find_element( "#GroupID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#GroupID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Comment",                   'css' )->submit();
 

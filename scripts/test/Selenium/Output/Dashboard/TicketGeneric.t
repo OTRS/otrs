@@ -77,7 +77,7 @@ $Selenium->RunTest(
 
         # set MyQueue preferences
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
-        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#QueueIDUpdate",                    'css' )->click();
 
         # go to dascboard

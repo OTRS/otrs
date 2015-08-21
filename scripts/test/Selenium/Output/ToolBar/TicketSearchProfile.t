@@ -95,7 +95,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SearchProfileNew",                       'css' )->click();
         $Selenium->find_element( "#SearchProfileAddName",                   'css' )->send_keys($SearchProfileName);
         $Selenium->find_element( "#SearchProfileAddAction",                 'css' )->click();
-        $Selenium->find_element( "#Attribute option[value='TicketNumber']", 'css' )->click();
+        $Selenium->execute_script("\$('#Attribute').val('TicketNumber').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( ".AddButton",                              'css' )->click();
         $Selenium->find_element("//input[\@name='TicketNumber']")->send_keys("$TicketNumber");
         $Selenium->find_element( "#SearchFormSubmit", 'css' )->click();
@@ -111,7 +111,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl");
 
         # click on test search profile
-        $Selenium->find_element( "#ToolBarSearchProfile option[value='SeleniumTest']", 'css' )->click();
+        $Selenium->execute_script("\$('#ToolBarSearchProfile').val('SeleniumTest').trigger('redraw.InputField').trigger('change');");
 
         # verify search profile
         $Self->True(

@@ -92,7 +92,7 @@ $Selenium->RunTest(
         }
 
         # change ticket queue
-        $Selenium->find_element( "#DestQueueID option[value='4']", 'css' )->click();
+        $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#submitRichText",                'css' )->click();
 
         # return back to zoom view and click on history and switch to its view

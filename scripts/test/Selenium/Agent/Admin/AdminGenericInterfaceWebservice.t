@@ -88,7 +88,7 @@ $Selenium->RunTest(
 
             # GenericInterface Web Service Management - Change screen
             $Selenium->find_element( $Webservice,                  'link_text' )->click();
-            $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#RemoteSystem",              'css' )->send_keys('Test remote system');
 
             # save edited value

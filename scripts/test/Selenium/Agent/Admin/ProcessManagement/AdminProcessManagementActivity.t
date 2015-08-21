@@ -144,7 +144,7 @@ $Selenium->RunTest(
         # set process to inactive
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element( $ProcessRandom,                      'link_text' )->click();
-        $Selenium->execute_script("\$('#StateEntityID').val('S2').trigger('redraw.InputField');");
+        $Selenium->execute_script("\$('#StateEntityID').val('S2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit",                           'css' )->click();
 
         # test search filter

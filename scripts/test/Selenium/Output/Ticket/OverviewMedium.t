@@ -111,11 +111,11 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('ul#TicketOverviewMedium').length" );
 
         # sort by ticket number
-        $Selenium->find_element( "#SortBy option[value='TicketNumber|Up']", 'css' )->click();
+        $Selenium->execute_script("\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');");
 
         # set 10 tickets per page
         $Selenium->find_element( "a#ShowContextSettingsDialog",                           'css' )->click();
-        $Selenium->find_element( "#UserTicketOverviewMediumPageShown option[value='10']", 'css' )->click();
+        $Selenium->execute_script("\$('#UserTicketOverviewMediumPageShown').val('10').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#DialogButton1",                                        'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('a#AgentTicketQueuePage2').length" );
 

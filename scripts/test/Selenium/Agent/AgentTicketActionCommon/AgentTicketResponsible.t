@@ -146,7 +146,7 @@ $Selenium->RunTest(
         );
 
         # change ticket user responsible
-        $Selenium->find_element( "#NewResponsibleID option[value='$UserID[1]']", 'css' )->click();
+        $Selenium->execute_script("\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#RichText",                                    'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText",                              'css' )->click();
 

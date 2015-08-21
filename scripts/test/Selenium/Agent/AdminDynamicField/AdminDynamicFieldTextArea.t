@@ -39,7 +39,7 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->find_element( "#$ObjectType option[value='TextArea']", 'css' )->click();
+            $Selenium->execute_script("\$('#$ObjectType').val('TextArea').trigger('redraw.InputField').trigger('change');");
 
             for my $ID (
                 qw(Name Label FieldOrder Rows Cols DefaultValue AddRegEx ValidID)
@@ -89,7 +89,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Name",                      'css' )->clear();
             $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
             $Selenium->find_element( "#DefaultValue",              'css' )->send_keys("Default");
-            $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name",                      'css' )->submit();
 
             # check new and edited DynamicFieldTextArea values

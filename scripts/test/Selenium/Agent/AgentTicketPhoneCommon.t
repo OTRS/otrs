@@ -131,7 +131,7 @@ $Selenium->RunTest(
             # add body text and submit
             my $ActionText = $Action->{Name} . " Selenium Test";
             $Selenium->find_element( "#RichText",                      'css' )->send_keys($ActionText);
-            $Selenium->find_element( "#NextStateID option[value='4']", 'css' )->click();
+            $Selenium->execute_script("\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#submitRichText",                'css' )->click();
 
             # return back to AgentTicketZoom

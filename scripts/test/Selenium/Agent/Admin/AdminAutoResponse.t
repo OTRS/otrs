@@ -85,9 +85,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",                        'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($Text);
-        $Selenium->find_element( "#TypeID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#AddressID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']",   'css' )->click();
+        $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                        'css' )->submit();
 
         # check if test auto resposne show on AdminAutoResponse screen
@@ -101,7 +101,7 @@ $Selenium->RunTest(
         my $RandomID2 = 'AutoResponseUpdate' . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",                      'css' )->clear();
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # check if edited auto response show on AdminAutoResponse

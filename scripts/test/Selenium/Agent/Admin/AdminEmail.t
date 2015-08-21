@@ -95,7 +95,7 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        $Selenium->find_element( "#UserIDs option[value='$UserID']", 'css' )->click();
+        $Selenium->execute_script("\$('#UserIDs').val('$UserID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                         'css' )->send_keys($RandomID);
         $Selenium->find_element( "#RichText",                        'css' )->send_keys($Text);
         $Selenium->find_element( "#Subject",                         'css' )->submit();

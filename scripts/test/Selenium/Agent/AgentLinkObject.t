@@ -97,7 +97,7 @@ $Selenium->RunTest(
 
         # link created test tickets
         $Selenium->find_element("//input[\@value='$TicketIDs[1]'][\@type='checkbox']")->click();
-        $Selenium->find_element( "#TypeIdentifier option[value='ParentChild::Target']", 'css' )->click();
+        $Selenium->execute_script("\$('#TypeIdentifier').val('ParentChild::Target').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
         # close link object window and switch back to agent ticket zoom
