@@ -106,15 +106,12 @@ $Selenium->RunTest(
 
         # change ticket to pending state
         $Selenium->execute_script("\$('#NewStateID').val('6').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",                     'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText",               'css' )->click();
 
-        # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm pending change action
         my $PendingMsg = "Old: \"new\" New: \"pending reminder\"";

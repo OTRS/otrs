@@ -112,12 +112,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Title",          'css' )->send_keys('FreeText');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm free text action
         my $FreeFieldMsg = "Title updated: Old: \"Selenium Test Ticket\", New: \"FreeText\"";

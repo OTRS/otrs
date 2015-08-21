@@ -116,7 +116,7 @@ $Selenium->RunTest(
 
         # check page
         for my $ID (
-            qw(NewOwnerID OldOwnerID Subject RichText FileUpload ArticleTypeID submitRichText)
+            qw(NewOwnerID Subject RichText FileUpload ArticleTypeID submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -139,15 +139,12 @@ $Selenium->RunTest(
 
         # change ticket user owner
         $Selenium->execute_script("\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",                              'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText",                        'css' )->click();
 
-        # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm owner change action
         my $OwnerMsg = "Added note (Owner)";

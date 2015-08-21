@@ -112,15 +112,12 @@ $Selenium->RunTest(
 
         # change ticket priority
         $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",                        'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText",                  'css' )->click();
 
-        # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm priority change action
         my $PriorityMsg = "Changed priority from \"3 normal\" (3) to \"5 very high\" (5).";

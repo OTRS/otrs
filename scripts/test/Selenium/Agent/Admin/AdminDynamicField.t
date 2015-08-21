@@ -63,11 +63,11 @@ $Selenium->RunTest(
                 my $ObjectType = $Type . "DynamicField";
                 my $Element = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
                 $Element->is_enabled();
-                $Element->is_displayed();
 
                 # create a real test DynamicField
                 my $RandomID = $Helper->GetRandomID();
-                $Element->click();
+                $Selenium->execute_script("\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');");
+                $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
                 $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label",                     'css' )->send_keys($RandomID);
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
