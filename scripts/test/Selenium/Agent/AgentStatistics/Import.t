@@ -205,24 +205,24 @@ $Selenium->RunTest(
         # check X-axis configuration dialog
         $Selenium->find_element( ".EditXAxis",                                         'css' )->click();
         $Selenium->find_element( "#EditDialog a.RemoveButton i",                       'css' )->click();
-        $Selenium->find_element( "#EditDialog select option[value='XAxisServiceIDs']", 'css' )->click();
+        $Selenium->execute_script("\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#DialogButton1",                                     'css' )->click();
 
         # check Y-axis configuration dialog
         $Selenium->find_element( ".EditYAxis",                                     'css' )->click();
         $Selenium->find_element( "#EditDialog a.RemoveButton i",                   'css' )->click();
-        $Selenium->find_element( "#EditDialog select option[value='YAxisSLAIDs']", 'css' )->click();
+        $Selenium->execute_script("\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#DialogButton1",                                 'css' )->click();
 
         # check Restrictions configuration dialog
         $Selenium->find_element( ".EditRestrictions",                                       'css' )->click();
-        $Selenium->find_element( "#EditDialog select option[value='RestrictionsQueueIDs']", 'css' )->click();
+        $Selenium->execute_script("\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');");
 
         # wait for load selected Restriction - QueueIDs
         $Selenium->WaitFor( JavaScript => 'return $("#RestrictionsQueueIDs").length;' );
 
         # add restriction per Queue - Junk
-        $Selenium->find_element( "#EditDialog #RestrictionsQueueIDs option[value='3']", 'css' )->click();
+        $Selenium->execute_script("\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#DialogButton1",                                      'css' )->click();
 
         # save and finish edit
@@ -239,7 +239,7 @@ $Selenium->RunTest(
 JAVASCRIPT
 
         # sort decreasing by StatsID
-        $Selenium->find_element("//a[contains(\@href, \'Direction=DESC;OrderBy=ID;StartHit=1\' )]")->click();
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]");
 
         $Selenium->execute_script($CheckConfirmJS);
 

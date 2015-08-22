@@ -866,8 +866,6 @@ sub YAxisWidget {
                 TreeView       => $ObjectAttribute->{TreeView} || 0,
                 Sort           => scalar $ObjectAttribute->{Sort},
                 SortIndividual => scalar $ObjectAttribute->{SortIndividual},
-                OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
-                    . $ObjectAttribute->{Element} . "')",
             );
 
             if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
