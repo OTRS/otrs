@@ -259,14 +259,17 @@ sub ProviderProcessRequest {
     my $OperationData = $Body->{$Operation};
 
     # determine local operation name from request wrapper name scheme
+    # possible values are 'Append', 'Plain' and 'Request'
     my $LocalOperation = $Operation;
-    if ( $Config->{RequestNameScheme} ) {
-        if ( $Config->{RequestNameScheme} ne 'Append' ) {
-            $LocalOperation =~ s{ $Config->{RequestNameScheme} \z }{}xms;
-        }
-        elsif ( $Config->{RequestNameFreeText} ) {
-            $LocalOperation =~ s{ $Config->{RequestNameFreeText} \z }{}xms;
-        }
+    if ( $Config->{RequestNameScheme} eq 'Request' ) {
+        $LocalOperation =~ s{ Request \z }{}xms;
+    }
+    elsif (
+        $Config->{RequestNameScheme} eq 'Append'
+        && $Config->{RequestNameFreeText}
+        && $LocalOperation =~ m{ \A ( .+ ) $Config->{RequestNameFreeText} \z }xms
+        ) {
+        $LocalOperation = $1;
     }
 
     # remember operation for response
@@ -349,25 +352,24 @@ sub ProviderGenerateResponse {
         $HTTPCode = 200;
 
         # build response wrapper name
-        $Config->{ResponseNameScheme}   //= 'Response';
-        $Config->{ResponseNameFreeText} //= '';
-        if (
-            $Config->{ResponseNameScheme} eq 'Replace'
-            && $Config->{ResponseNameFreeText}
-            )
-        {
-
-            # completely replace name with configured text
-            $OperationResponse = $Config->{ResponseNameFreeText};
+        # possible values are 'Append', 'Plain', 'Replace' and 'Response'
+        $OperationResponse = $Self->{Operation};
+        $Config->{ResponseNameScheme} ||= 'Response';
+        if ( $Config->{ResponseNameScheme} eq 'Response' ) {
+            $Config->{ResponseNameScheme}   = 'Append';
+            $Config->{ResponseNameFreeText} = 'Response';
         }
-        else {
-            if ( $Config->{ResponseNameScheme} ne 'Append' ) {
+        if ( $Config->{ResponseNameFreeText} ) {
+            if ( $Config->{ResponseNameScheme} eq 'Append' ) {
 
-                # overwrite text to be appended with scheme name
-                # unless we want to append the actual configured text
-                $Config->{ResponseNameFreeText} = $Config->{ResponseNameScheme};
+                # append configured text
+                $OperationResponse .= $Config->{ResponseNameFreeText};
             }
-            $OperationResponse = $Self->{Operation} . $Config->{ResponseNameFreeText};
+            elsif ( $Config->{ResponseNameScheme} eq 'Replace' ) {
+
+                # completely replace name with configured text
+                $OperationResponse = $Config->{ResponseNameFreeText};
+            }
         }
     }
 
@@ -502,16 +504,16 @@ sub RequesterPerformRequest {
     }
 
     # build request wrapper name
-    my $OperationRequest;
-    $Config->{RequestNameScheme}   //= '';
-    $Config->{RequestNameFreeText} //= '';
-    if ( $Config->{RequestNameScheme} ne 'Append' ) {
-
-        # overwrite text to be appended with scheme name
-        # unless we want to append the actual configured text
-        $Config->{RequestNameFreeText} = $Config->{RequestNameScheme};
+    # possible values are 'Append', 'Plain' and 'Request'
+    my $OperationRequest= $Param{Operation};
+    $Config->{RequestNameScheme} ||= 'Plain';
+    if ( $Config->{RequestNameScheme} eq 'Request' ) {
+        $Config->{RequestNameScheme}   = 'Append';
+        $Config->{RequestNameFreeText} = 'Request';
     }
-    $OperationRequest = $Param{Operation} . $Config->{RequestNameFreeText};
+    if ( $Config->{RequestNameScheme} = 'Append' && $Config->{RequestNameFreeText} ) {
+        $OperationRequest .= $Config->{RequestNameFreeText};
+    }
 
     # prepare method
     my $SOAPMethod = SOAP::Data->name($OperationRequest)->uri( $Config->{NameSpace} );
@@ -734,26 +736,24 @@ sub RequesterPerformRequest {
     }
 
     # build response wrapper name
-    my $OperationResponse;
-    $Config->{ResponseNameScheme}   //= 'Response';
-    $Config->{ResponseNameFreeText} //= '';
-    if (
-        $Config->{ResponseNameScheme} eq 'Replace'
-        && $Config->{ResponseNameFreeText}
-        )
-    {
-
-        # completely replace name with configured text
-        $OperationResponse = $Config->{ResponseNameFreeText};
+    # possible values are 'Append', 'Plain', 'Replace' and 'Response'
+    my $OperationResponse = $Param{Operation};
+    $Config->{ResponseNameScheme} ||= 'Response';
+    if ( $Config->{ResponseNameScheme} eq 'Response' ) {
+        $Config->{ResponseNameScheme}   = 'Append';
+        $Config->{ResponseNameFreeText} = 'Response';
     }
-    else {
-        if ( $Config->{ResponseNameScheme} ne 'Append' ) {
+    if ( $Config->{ResponseNameFreeText} ) {
+        if ( $Config->{ResponseNameScheme} eq 'Append' ) {
 
-            # overwrite text to be appended with scheme name
-            # unless we want to append the actual configured text
-            $Config->{ResponseNameFreeText} = $Config->{ResponseNameScheme};
+            # append configured text
+            $OperationResponse .= $Config->{ResponseNameFreeText};
         }
-        $OperationResponse = $Param{Operation} . $Config->{ResponseNameFreeText};
+        elsif ( $Config->{ResponseNameScheme} eq 'Replace' ) {
+
+            # completely replace name with configured text
+            $OperationResponse = $Config->{ResponseNameFreeText};
+        }
     }
 
     # check if we have response data for the specified operation in the soap result

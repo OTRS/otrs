@@ -787,7 +787,7 @@ my @Tests = (
                         NameSpace            => 'http://otrs.org/SoapTestInterface/',
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'WillBeOverwritten',
-                        ResponseNameScheme   => '',
+                        ResponseNameScheme   => 'Plain',
                     },
                 },
                 Operation => {
@@ -1324,11 +1324,11 @@ my @Tests = (
                         MaxLength         => 10000000,
                         NameSpace         => 'http://otrs.org/SoapTestInterface/',
                         Endpoint          => $RemoteSystem,
-                        RequestNameScheme => '',
+                        RequestNameScheme => 'Plain',
                     },
                 },
                 Operation => {
-                    PriorityIDName => {
+                    PriorityIDNamePlain => {
                         Type => 'Test::Test',
                     },
                 },
@@ -1343,7 +1343,7 @@ my @Tests = (
                     },
                 },
                 Invoker => {
-                    PriorityIDName => {
+                    PriorityIDNamePlain => {
                         Type => 'Test::TestSimple',
                     },
                 },
@@ -1458,7 +1458,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 23',
+        Name           => 'Test 23a',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1484,6 +1484,59 @@ my @Tests = (
                         NameSpace         => 'http://otrs.org/SoapTestInterface/',
                         Endpoint          => $RemoteSystem,
                         RequestNameScheme => 'Request',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameFreeText => 'Request',
+                        RequestNameScheme   => 'Append',
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+    {
+        Name           => 'Test 23b',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester request element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength         => 10000000,
+                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint          => $RemoteSystem,
+                        RequestNameScheme => 'equest',
                     },
                 },
                 Operation => {
@@ -1607,7 +1660,7 @@ my @Tests = (
                         Encoding             => 'UTF-8',
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'WillBeOverwritten',
-                        ResponseNameScheme   => '',
+                        ResponseNameScheme   => 'Plain',
                     },
                 },
                 Invoker => {
