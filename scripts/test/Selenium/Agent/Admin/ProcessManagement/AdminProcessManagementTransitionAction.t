@@ -76,17 +76,6 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#Name').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
         # input fields and submit
         my $TransitionActionModule = "Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate";
         my $TransitionActionKey    = "Key" . $Helper->GetRandomID();
