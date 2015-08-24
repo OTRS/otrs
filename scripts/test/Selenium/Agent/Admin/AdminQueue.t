@@ -66,6 +66,9 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->find_element( "a.Create", 'css' )->click();
+
         # create a real test queue
         my $RandomID = "Queue" . $Helper->GetRandomID();
 
@@ -78,6 +81,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
         $Selenium->find_element( "#Name",                              'css' )->submit();
+
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
         # check Queue - Responses page
         $Self->True(
@@ -143,6 +148,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Comment",                   'css' )->submit();
+
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
         # check overview page
         $Self->True(
