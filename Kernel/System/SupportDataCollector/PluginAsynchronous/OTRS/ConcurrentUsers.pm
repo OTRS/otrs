@@ -67,9 +67,9 @@ sub Run {
         ENTRY:
         for my $Entry ( @{$ConcurrentUsers} ) {
 
-            next ENTRY if $Entry->{$Identifier} <= $MaxValue;
+            next ENTRY if $Entry->{$Identifier} && $Entry->{$Identifier} <= $MaxValue;
 
-            $MaxValue = $Entry->{$Identifier};
+            $MaxValue = $Entry->{$Identifier} || 0;
         }
 
         $Self->AddResultInformation(
@@ -93,14 +93,14 @@ sub RunAsynchronous {
     my $SystemTimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $SystemTimeNow,
+        SystemTime => $SystemTimeNow + 3600,
     );
 
     my $SystemTime = $TimeObject->Date2SystemTime(
         Year   => $Year,
         Month  => $Month,
         Day    => $Day,
-        Hour   => $Hour + 1,
+        Hour   => $Hour,
         Minute => 0,
         Second => 0,
     );
