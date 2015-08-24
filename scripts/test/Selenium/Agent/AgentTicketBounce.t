@@ -144,11 +144,7 @@ $Selenium->RunTest(
 
             # return back to zoom view
             $Selenium->switch_to_window( $Handles->[0] );
-
-            # click on history link and switch window
-            $Selenium->find_element("//*[text()='History']")->click();
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
+            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
             # verify that bounce worked as expected
             my $BounceText = 'Bounced to "test@localhost.com".';
