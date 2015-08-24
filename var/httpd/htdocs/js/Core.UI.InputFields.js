@@ -148,6 +148,25 @@ Core.UI.InputFields = (function (TargetNS) {
 
     /**
      * @private
+     * @name ValidateFormElement
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} $SelectObj - Select field to validate
+     * @description
+     *      Trigger supplied select field validation if part of appropriate form.
+     */
+    function ValidateFormElement($SelectObj) {
+
+        // Get form object
+        var $FormObj = $SelectObj.closest('form');
+
+        // Check if form supports validation
+        if ($FormObj.hasClass('Validate')) {
+            Core.Form.Validate.ValidateElement($SelectObj);
+        }
+    }
+
+    /**
+     * @private
      * @name ShowSelectionBoxes
      * @memberof Core.UI.InputFields
      * @param {jQueryObject} $SelectObj - Original select field
@@ -261,7 +280,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                                     setTimeout(function () {
                                         $SelectObj.trigger('change');
-                                        Core.Form.Validate.ValidateElement($SelectObj);
+                                        ValidateFormElement($SelectObj);
                                     }, 50);
                                     return false;
                                 })
@@ -363,7 +382,7 @@ Core.UI.InputFields = (function (TargetNS) {
             $SelectObj.removeData('changed');
             setTimeout(function () {
                 $SelectObj.trigger('change');
-                Core.Form.Validate.ValidateElement($SelectObj);
+                ValidateFormElement($SelectObj);
             }, 50);
         }
     }
