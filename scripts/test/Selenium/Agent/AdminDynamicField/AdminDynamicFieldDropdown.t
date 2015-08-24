@@ -39,7 +39,12 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script("\$('#$ObjectType').val('Dropdown').trigger('redraw.InputField').trigger('change');");
+
+            # add dynamic field of type Dropdown
+            $Selenium->execute_script("\$('#$ObjectType').val('Dropdown').trigger('change');");
+
+            # wait until page has finished loading
+            $Selenium->WaitFor( JavaScript => "return \$('#Name').length;" );
 
             for my $ID (
                 qw(Name Label FieldOrder ValidID DefaultValue AddValue PossibleNone TreeView TranslatableValues Link)
@@ -102,11 +107,13 @@ $Selenium->RunTest(
             # edit test DynamicFieldDropdown possiblenone, treeview, default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->execute_script("\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script(
+                "\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name",                              'css' )->submit();
+            $Selenium->find_element( "#Name", 'css' )->submit();
 
             # check new and edited DynamicFieldDropdown values
             $Selenium->find_element( $RandomID, 'link_text' )->click();
@@ -186,7 +193,7 @@ $Selenium->RunTest(
         # make sure cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
 
-    }
+        }
 
 );
 
