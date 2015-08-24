@@ -116,6 +116,9 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+        $Selenium->find_element( "button.CallForAction", 'css' )->click();
+
         # create a real test customer user
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
