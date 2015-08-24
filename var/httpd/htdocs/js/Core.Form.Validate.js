@@ -91,7 +91,7 @@ Core.Form.Validate = (function (TargetNS) {
         }
 
         // Add error class to field and its label
-        $Element.addClass(Options.ErrorClass).trigger('error.InputField');
+        $Element.addClass(Options.ErrorClass).triggerHandler('error.InputField');
         $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").addClass(Options.ErrorLabelClass);
 
         // mark field as invalid for screenreader users
@@ -177,7 +177,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         if (RemoveError) {
             // remove error classes from element and its label
-            $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass).trigger('error.InputField');
+            $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass).triggerHandler('error.InputField');
             if (Element.id && Element.id.length) {
                 $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").removeClass(Options.ErrorLabelClass);
             }
