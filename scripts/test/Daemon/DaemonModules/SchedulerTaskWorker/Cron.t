@@ -33,7 +33,7 @@ my @Tests = (
             TaskName => 'UnitTest',
             Data     => {
                 Module => 'Kernel::System::Console::Command::Maint::Ticket::Test',
-                Params => '-h',
+                Params => ['-h'],
             },
         },
         Result => 0,
@@ -70,7 +70,7 @@ my @Tests = (
             TaskID   => 123,
             TaskName => 'UnitTest',
             Data     => {
-                Params => '-h',
+                Params => ['-h'],
             },
         },
         Result => 0,
@@ -83,7 +83,7 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Console::Command::Maint::Ticket::Test',
                 Function => 'Execute',
-                Params   => '-h',
+                Params   => ['-h'],
             },
         },
         Result => 0,
@@ -95,8 +95,8 @@ my @Tests = (
             TaskName => 'UnitTest',
             Data     => {
                 Module   => 'Kernel::System::Console::Command::Admin::Group::Add',
-                Function => 'Execute',
-                Params   => '--no-ansi',
+                Function => 'Test',
+                Params   => ['--no-ansi'],
             },
         },
         Result => 0,
@@ -109,7 +109,7 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Console::Command::Admin::Group::Add',
                 Function => 'Execute',
-                Params   => '-h',
+                Params   => ['-h'],
             },
         },
         Result => 0,
@@ -122,7 +122,7 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Priority',
                 Function => 'Test',
-                Params   => 'PriorityID 1',
+                Params   => [ 'PriorityID', '1' ],
             },
         },
         Result => 0,
@@ -135,7 +135,33 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Priority',
                 Function => 'PriorityLookup',
-                Params   => 'TicketID 1',
+                Params   => [ 'TicketID', '1' ],
+            },
+        },
+        Result => 0,
+    },
+    {
+        Name   => 'Console Command Module (wrong params format)',
+        Config => {
+            TaskID   => 123,
+            TaskName => 'UnitTest',
+            Data     => {
+                Module   => 'Kernel::System::Console::Command::Maint::Ticket::Dump',
+                Function => 'Execute',
+                Params   => '--article-limit 2 1',
+            },
+        },
+        Result => 0,
+    },
+    {
+        Name   => 'Core Module (wrong params format)',
+        Config => {
+            TaskID   => 123,
+            TaskName => 'UnitTest',
+            Data     => {
+                Module   => 'Kernel::System::Priority',
+                Function => 'PriorityLookup',
+                Params   => 'PriorityID 1',
             },
         },
         Result => 0,
@@ -148,7 +174,7 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Console::Command::Maint::Ticket::Dump',
                 Function => 'Execute',
-                Params   => '--article-limit 2 1',
+                Params   => [ '--article-limit', '2', '1' ],
             },
         },
         Result => 1,
@@ -161,7 +187,7 @@ my @Tests = (
             Data     => {
                 Module   => 'Kernel::System::Priority',
                 Function => 'PriorityLookup',
-                Params   => 'PriorityID 1',
+                Params   => [ 'PriorityID', '1' ],
             },
         },
         Result => 1,

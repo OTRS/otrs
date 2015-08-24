@@ -134,8 +134,13 @@
                 <Item Key="Schedule">20 0 * * 0</Item> <!-- default every Sunday at 12:20 AM -->
                 <Item Key="Module">Kernel::System::Cache</Item>
                 <Item Key="Function">CleanUp</Item>
-                <Item Key="Params">Expired 1</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>Expired</Item>
+                        <Item>1</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -149,8 +154,11 @@
                 <Item Key="Schedule">30 0 * * 0</Item> <!-- default every Sunday at 12:30 AM -->
                 <Item Key="Module">Kernel::System::Loader</Item>
                 <Item Key="Function">CacheDelete</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -164,8 +172,11 @@
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
                 <Item Key="Module">Kernel::System::FetchMail</Item>
                 <Item Key="Function">Fetch</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -179,8 +190,13 @@
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
                 <Item Key="Module">Kernel::System::FetchMail</Item>
                 <Item Key="Function">Fetch</Item>
-                <Item Key="Params">SSL 1</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>SSL</Item>
+                        <Item>1</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -195,8 +211,11 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -210,8 +229,11 @@
                 <Item Key="Schedule">45 */2 * * *</Item> <!-- default every 2 hours in the minute 45 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::PendingCheck</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -225,8 +247,11 @@
                 <Item Key="Schedule">10 0 * * *</Item> <!-- default: every day at 12:10 AM-->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::PostMaster::SpoolMailsReprocess</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -240,8 +265,11 @@
                 <Item Key="Schedule">*/10 * * * *</Item> <!-- default: every 10 minutes -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::PostMaster::MailAccountFetch</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -255,8 +283,11 @@
                 <Item Key="Schedule">01 01 * * *</Item> <!-- default each day at 01:01 AM -->
                 <Item Key="Module">Kernel::System::Ticket</Item>
                 <Item Key="Function">TicketAcceleratorRebuild</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -270,8 +301,11 @@
                 <Item Key="Schedule">55 */2 * * *</Item> <!-- default every 2 hours in the minute 55 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Session::DeleteExpired</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -285,8 +319,11 @@
                 <Item Key="Schedule">35 * * * *</Item> <!-- default: every hour in minute 35 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::UnlockTimeout</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -303,8 +340,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -319,8 +359,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -335,8 +378,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -351,8 +397,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -367,8 +416,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -383,8 +435,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -399,8 +454,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -415,8 +473,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -431,8 +492,11 @@
                 <Item Key="Module"></Item>
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -449,8 +513,13 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--configuration-module</Item>
+                        <Item>&lt;ModuleName&gt;</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -465,8 +534,13 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--configuration-module</Item>
+                        <Item>&lt;ModuleName&gt;</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -481,8 +555,13 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--configuration-module</Item>
+                        <Item>&lt;ModuleName&gt;</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -497,8 +576,13 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--configuration-module</Item>
+                        <Item>&lt;ModuleName&gt;</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -513,8 +597,13 @@
                 <!-- Use a console command here as it does some PID handling -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--configuration-module</Item>
+                        <Item>&lt;ModuleName&gt;</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -530,8 +619,11 @@
                 <Item Key="Schedule">30 * * * *</Item> <!-- default: every hour in minute 30 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Registration::UpdateSend</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -545,8 +637,11 @@
                 <Item Key="Schedule">1 * * * *</Item> <!-- default: every hour in minute 1 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::SupportData::CollectAsynchronous</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -560,8 +655,11 @@
                 <Item Key="Schedule">40 0 * * *</Item> <!-- default: every day at 12:40 AM -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::EntitlementCheck</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -575,8 +673,11 @@
                 <Item Key="Schedule">20 */1 * * *</Item> <!-- default: each hour in the minute 20 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::AvailabilityCheck</Item>
                 <Item Key="Function">Execute</Item>
-                <Item Key="Params"></Item>
                 <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>

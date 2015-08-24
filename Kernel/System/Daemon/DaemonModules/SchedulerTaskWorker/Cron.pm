@@ -68,7 +68,11 @@ performs the selected Cron task.
         Data     => {
             Module   => 'Kernel::System:::Console:Command::Help',       # Module or Command is mandatory
             Function => 'Execute',                                      # required if module is used
-            Params   => "--force --option 'my option'",                 # space separated parameters
+            Params   => [                                               # parameters array reference
+             '--force',
+             '--option',
+             'my option',
+            ],
         },
     );
 
@@ -111,6 +115,13 @@ sub Run {
             return;
         }
     }
+    if ( defined $Param{Data}->{Params} && ref $Param{Data}->{Params} ne 'ARRAY' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Data->{Params} format is invalid",
+        );
+        return;
+    }
 
     my $StartSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
@@ -134,7 +145,7 @@ sub Run {
     # check if the module provide the required function
     return if !$ModuleObject->can($Function);
 
-    my @Parameters = split / /, $Param{Data}->{Params} || '';
+    my @Parameters = @{ $Param{Data}->{Params} || [] };
 
     # to capture the standard error
     my $ErrorMessage;
