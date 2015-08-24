@@ -86,6 +86,8 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
+
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -112,9 +114,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",                     'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
+        $Selenium->find_element( "#Subject",  'css' )->submit();
 
         # Wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return $("form").length' );
@@ -139,7 +141,7 @@ $Selenium->RunTest(
         );
 
         # go to ticket zoom page of created test ticket
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # check if test ticket values are genuine
         $Self->True(

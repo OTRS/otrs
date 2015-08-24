@@ -111,12 +111,18 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('ul#TicketOverviewLarge').length" );
 
         # sort by ticket number
-        $Selenium->execute_script("\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script(
+            "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
+        );
+        sleep 3;
+        $Selenium->WaitFor( JavaScript => "return \$('div.MainBox')" );
 
         # set 10 tickets per page
-        $Selenium->find_element( "a#ShowContextSettingsDialog",                            'css' )->click();
-        $Selenium->execute_script("\$('#UserTicketOverviewPreviewPageShown').val('10').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#DialogButton1",                                         'css' )->click();
+        $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#UserTicketOverviewPreviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('a#AgentTicketQueuePage2').length" );
 
         # check for ticket with lowest ticket number on first 1st page and verifty that ticket

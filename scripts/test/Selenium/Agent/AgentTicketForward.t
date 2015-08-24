@@ -90,9 +90,9 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",                     'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
+        $Selenium->find_element( "#Subject",  'css' )->submit();
 
         $Selenium->WaitFor( JavaScript => 'return $("form").length' );
 
@@ -138,43 +138,23 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#ToCustomer", 'css' )->submit();
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = -1;
-            $Selenium->switch_to_window( $Handles->[1] );
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' );
-        };
+        # return back to AgentTicketZoom
+        $Selenium->switch_to_window( $Handles->[0] );
 
-        if ( $Success > -1 ) {
-            $Kernel::OM->Get('Kernel::System::Console::BaseCommand')->Print(
-                "<yellow>WARNING:Selenium Test prematurely Completed. Please configure Core::Sendmail to send email from system!</yellow>\n"
-            );
-        }
-        else {
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-            # return back to AgentTicketZoom
-            $Selenium->switch_to_window( $Handles->[0] );
+        # verify for expected action
+        $Self->True(
+            index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
+            "Action Forward executed correctly",
+        );
 
-            # click on history link and switch window
-            $Selenium->find_element("//*[text()='History']")->click();
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # verify for expected action
-            $Self->True(
-                index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
-                "Action Forward executed correctly",
-            );
-
-            # close history and return to AgentTicketZoom for created test ticket
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-            $Selenium->switch_to_window( $Handles->[0] );
-
-        }
+        # close history and return to AgentTicketZoom for created test ticket
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test ticket
-        $Success = $TicketObject->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );

@@ -85,7 +85,7 @@ $Selenium->RunTest(
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ToCustomer",                  'css' )->send_keys($TestCustomer);
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         sleep 1;
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         sleep 1;
@@ -93,77 +93,64 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->submit();
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' ),
-        };
+        my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+            Result         => 'HASH',
+            Limit          => 1,
+            CustomerUserID => $TestCustomer,
+        );
+        my $TicketNumber = (%TicketIDs)[1];
+        my $TicketID     = (%TicketIDs)[0];
 
-        if ( $Success > -1 ) {
-            print "Selenium Test Completed. Please configure Core::Sendmail to send email from system \n";
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
+            "Ticket with ticket id $TicketID is created"
+        );
+
+        # go to ticket zoom page of created test ticket
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
+
+        # click to bounce ticket
+        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->click();
+
+        # switch to bounce window
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # check agent ticket bounce screen
+        for my $ID (
+            qw(BounceTo BounceStateID To Subject RichText submitRichText)
+            )
+        {
+            my $Element = $Selenium->find_element( "#$ID", 'css' );
+            $Element->is_enabled();
+            $Element->is_displayed();
         }
-        else {
 
-            my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-                Result         => 'HASH',
-                Limit          => 1,
-                CustomerUserID => $TestCustomer,
-            );
-            my $TicketNumber = (%TicketIDs)[1];
-            my $TicketID     = (%TicketIDs)[0];
+        # bounce ticket to another test email
+        $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
+        $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-                "Ticket with ticket id $TicketID is created"
-            );
+        # return back to zoom view
+        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-            # go to ticket zoom page of created test ticket
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
+        # verify that bounce worked as expected
+        my $BounceText = 'Bounced to "test@localhost.com".';
+        $Self->True(
+            index( $Selenium->get_page_source(), $BounceText ) > -1,
+            "Bounce executed correctly",
+        );
 
-            # click to bounce ticket
-            $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->click();
-
-            # switch to bounce window
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # check agent ticket bounce screen
-            for my $ID (
-                qw(BounceTo BounceStateID To Subject RichText submitRichText)
-                )
-            {
-                my $Element = $Selenium->find_element( "#$ID", 'css' );
-                $Element->is_enabled();
-                $Element->is_displayed();
-            }
-
-            # bounce ticket to another test email
-            $Selenium->find_element( "#BounceTo",                        'css' )->send_keys("test\@localhost.com");
-            $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#submitRichText",                  'css' )->click();
-
-            # return back to zoom view
-            $Selenium->switch_to_window( $Handles->[0] );
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
-
-            # verify that bounce worked as expected
-            my $BounceText = 'Bounced to "test@localhost.com".';
-            $Self->True(
-                index( $Selenium->get_page_source(), $BounceText ) > -1,
-                "Bounce executed correctly",
-            );
-
-            # delete created test ticket
-            $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => 1,
-            );
-            $Self->True(
-                $Success,
-                "Ticket with ticket id $TicketID is deleted"
-            );
-
-        }
+        # delete created test ticket
+        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Ticket with ticket id $TicketID is deleted"
+        );
 
         # delete created test customer user
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

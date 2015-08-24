@@ -97,8 +97,8 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
 
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
@@ -163,11 +163,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("div.MainBox").length' );
 
         # click on history link and switch window
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # verify that action worked as expected
         my $HistoryText = "CustomerID=$TestCustomers[1];CustomerUser=$TestCustomers[1]";
@@ -176,9 +172,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'CustomerUpdate' ) > -1,
             "Action AgentTicketCustomer executed correctly",
         );
-
-        # close history and return to AgentTicketZoom for created test ticket
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
         # delete created test ticket
         my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(

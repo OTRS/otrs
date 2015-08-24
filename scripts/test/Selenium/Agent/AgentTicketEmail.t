@@ -86,6 +86,8 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEmail");
+
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -109,65 +111,52 @@ $Selenium->RunTest(
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ToCustomer",                  'css' )->send_keys($TestCustomer);
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         sleep 1;
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->submit();
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' ),
-        };
+        my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+            Result         => 'HASH',
+            Limit          => 1,
+            CustomerUserID => $TestCustomer,
+        );
+        my $TicketNumber = (%TicketIDs)[1];
+        my $TicketID     = (%TicketIDs)[0];
 
-        if ( $Success > -1 ) {
-            print "Selenium Test Completed. Please configure Core::Sendmail to send email from system \n";
-        }
-        else {
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
+            "Ticket with ticket id $TicketID is created"
+        );
 
-            my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-                Result         => 'HASH',
-                Limit          => 1,
-                CustomerUserID => $TestCustomer,
-            );
-            my $TicketNumber = (%TicketIDs)[1];
-            my $TicketID     = (%TicketIDs)[0];
+        # go to ticket zoom page of created test ticket
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
 
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-                "Ticket with ticket id $TicketID is created"
-            );
+        # check if test ticket values are genuine
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketSubject ) > -1,
+            "$TicketSubject found on page",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketBody ) > -1,
+            "$TicketBody found on page",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestCustomer ) > -1,
+            "$TestCustomer found on page",
+        );
 
-            # go to ticket zoom page of created test ticket
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
-
-            # check if test ticket values are genuine
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketSubject ) > -1,
-                "$TicketSubject found on page",
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketBody ) > -1,
-                "$TicketBody found on page",
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $TestCustomer ) > -1,
-                "$TestCustomer found on page",
-            );
-
-            # delete created test ticket
-            $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => 1,
-            );
-            $Self->True(
-                $Success,
-                "Ticket with ticket id $TicketID is deleted"
-            );
-
-        }
+        # delete created test ticket
+        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Ticket with ticket id $TicketID is deleted"
+        );
 
         # delete created test customer user
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

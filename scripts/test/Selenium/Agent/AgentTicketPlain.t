@@ -93,7 +93,7 @@ $Selenium->RunTest(
         my $TicketBody         = "Selenium Body Test";
 
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ToCustomer",                  'css' )->send_keys($TestCustomer);
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
@@ -114,47 +114,36 @@ $Selenium->RunTest(
         my $TicketNumber = (%TicketIDs)[1];
         my $TicketID     = (%TicketIDs)[0];
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' ),
-        };
-        if ( $Success > -1 ) {
-            print "Selenium Test Completed. Please configure Core::Sendmail to send email from system \n";
-        }
-        else {
+        # go to ticket zoom page of created test ticket
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
 
-            # go to ticket zoom page of created test ticket
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
+        # click to show ticket in  plain view
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->click();
 
-            # click to show ticket in  plain view
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->click();
+        # switch to plain window
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
 
-            # switch to plain window
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
+        # check for values in AgentTicketPlain screen
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
+            "Created test ticket $TicketNumber found in Plain Format",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketSubject ) > -1,
+            "Created test ticket subject found in Plain Format",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TicketBody ) > -1,
+            "Created test ticket body found in Plain Format",
+        );
 
-            # check for values in AgentTicketPlain screen
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-                "Created test ticket $TicketNumber found in Plain Format",
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketSubject ) > -1,
-                "Created test ticket subject found in Plain Format",
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketBody ) > -1,
-                "Created test ticket body found in Plain Format",
-            );
-
-            # close plain view window
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-            $Selenium->switch_to_window( $Handles->[0] );
-        }
+        # close plain view window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test tickets
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );

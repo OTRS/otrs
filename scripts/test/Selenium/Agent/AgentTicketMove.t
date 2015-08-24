@@ -83,24 +83,19 @@ $Selenium->RunTest(
 
         # check page
         for my $ID (
-            qw(DestQueueID NewUserID OldUserID NewStateID)
+            qw(DestQueueID NewUserID NewStateID)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
-            $Element->is_displayed();
         }
 
         # change ticket queue
         $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#submitRichText",                'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm ticket move action
         my $MoveMsg = "Ticket moved into Queue \"Misc\" (4) from Queue \"Raw\" (2).";

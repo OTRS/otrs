@@ -90,9 +90,9 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",                     'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
+        $Selenium->find_element( "#Subject",  'css' )->submit();
 
         $Selenium->WaitFor( JavaScript => 'return $("form").length' );
 
@@ -118,7 +118,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait without jQuery because it might not be loaded yet.
-        $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");');
+        $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
 
         # check AgentTicketCompose page
         for my $ID (
@@ -135,12 +135,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",       'css' )->send_keys($ComposeText);
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' );
-        };
-
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
@@ -154,7 +148,7 @@ $Selenium->RunTest(
         );
 
         # delete created test ticket
-        $Success = $TicketObject->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );

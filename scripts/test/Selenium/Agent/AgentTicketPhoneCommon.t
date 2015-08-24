@@ -94,7 +94,6 @@ $Selenium->RunTest(
 
         # navigate to created test ticket in AgentTicketZoom page
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         my @Test = (
             {
@@ -112,11 +111,7 @@ $Selenium->RunTest(
         {
 
             # click on action
-            $Selenium->find_element("//a[contains(\@href, \'Action=$Action->{Name};TicketID=$TicketID')]")->click();
-
-            # switch to AgentPhoneCallOutbound window
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
+            $Selenium->get("${ScriptAlias}index.pl?Action=$Action->{Name};TicketID=$TicketID");
 
             # check page
             for my $ID (
@@ -130,31 +125,18 @@ $Selenium->RunTest(
 
             # add body text and submit
             my $ActionText = $Action->{Name} . " Selenium Test";
-            $Selenium->find_element( "#RichText",                      'css' )->send_keys($ActionText);
+            $Selenium->find_element( "#Subject",  'css' )->send_keys($ActionText);
+            $Selenium->find_element( "#RichText", 'css' )->send_keys($ActionText);
             $Selenium->execute_script("\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#submitRichText",                'css' )->click();
+            $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-            # return back to AgentTicketZoom
-            $Selenium->switch_to_window( $Handles->[0] );
-            $Selenium->WaitFor( JavaScript => "return \$('div.MainBox').length" );
-
-            # click on history link and switch window
-            $Selenium->find_element("//*[text()='History']")->click();
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            $Selenium->WaitFor( JavaScript => "return \$('table.DataTable').length" );
+            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
             # verify for expected action
             $Self->True(
                 index( $Selenium->get_page_source(), $Action->{HistoryText} ) > -1,
                 "Action $Action->{Name} executed correctly",
             );
-
-            # close history and return to AgentTicketZoom for created test ticket
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-            $Selenium->switch_to_window( $Handles->[0] );
-
         }
 
         # delete created test ticket

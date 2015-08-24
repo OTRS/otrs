@@ -106,14 +106,7 @@ $Selenium->RunTest(
 
         # naviage to zoom view of created test ticket
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # click on 'E-mail Outbound' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketEmailOutbound;TicketID=$TicketID' )]")
-            ->click();
-
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEmailOutbound;TicketID=$TicketID");
 
         # check page
         for my $ID (
@@ -130,54 +123,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         sleep 1;
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-
-        # check client side validation
-        my $Element = $Selenium->find_element( "#Subject", 'css' );
-        $Element->clear();
-        $Element->send_keys("");
-        $Element->submit();
-
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#Subject').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
-        $Element->send_keys("TestSubject");
-
-        # send email outbound
+        $Selenium->find_element( "#Subject",    'css' )->send_keys("TestSubject");
         $Selenium->find_element( "#ToCustomer", 'css' )->submit();
 
-        # if Core::Sendmail setting aren't set up for sending mail, check for error message and exit test
-        my $Success;
-        eval {
-            $Success = index( $Selenium->get_page_source(), 'Impossible to send message to:' ),
-        };
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-        if ( $Success > -1 ) {
-            print "Selenium Test Completed. Please configure Core::Sendmail to send email from system \n";
-        }
-        else {
-
-            # return back to zoom view and click on history and switch to its view
-            $Selenium->switch_to_window( $Handles->[0] );
-            $Selenium->find_element("//*[text()='History']")->click();
-
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # confirm email outbound action
-            my $PriorityMsg = "Email sent to customer.";
-            $Self->True(
-                index( $Selenium->get_page_source(), $PriorityMsg ) > -1,
-                "Ticket email outbound completed",
-            );
-        }
+        # confirm email outbound action
+        my $PriorityMsg = "Email sent to customer.";
+        $Self->True(
+            index( $Selenium->get_page_source(), $PriorityMsg ) > -1,
+            "Ticket email outbound completed",
+        );
 
         # delete created test tickets
-        $Success = $TicketObject->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );
