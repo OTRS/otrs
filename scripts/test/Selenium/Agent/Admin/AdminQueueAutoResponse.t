@@ -193,14 +193,13 @@ $Selenium->RunTest(
 
             # check auto response relation for queue default values
             $Self->Is(
-                $Selenium->find_element( "#IDs_$Test->{TypeID} option[value='']", 'css' )->is_displayed(),
+                $Selenium->find_element( "#IDs_$Test->{TypeID} option[value='']", 'css' )->is_enabled(),
                 1,
                 "Relation between auto response $Test->{Name} and $QueueRandomID is not set"
             );
 
             # change auto response relation for test queue
-            $Selenium->find_element( "#IDs_$Test->{TypeID} option[value='$AutoResponseIDs[$Index]->{ID}']", 'css' )
-                ->click();
+            $Selenium->execute_script("\$('#IDs_$Test->{TypeID}').val('$AutoResponseIDs[$Index]->{ID}').trigger('redraw.InputField').trigger('change');");
             $Index++;
         }
 
