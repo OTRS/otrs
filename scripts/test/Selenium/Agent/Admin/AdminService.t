@@ -55,6 +55,9 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminService");
+        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->click();
+
         # check add Service screen
         for my $ID (
             qw(Name ParentID ValidID Comment)
@@ -161,7 +164,7 @@ $Selenium->RunTest(
             2,
             "#ValidID updated value",
         );
-        $Selenium->find_element( "#ParentID option[value='']", 'css' )->click();
+        $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # Since there are no tickets that rely on our test Services we can remove
