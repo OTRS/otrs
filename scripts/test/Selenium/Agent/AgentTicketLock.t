@@ -131,6 +131,9 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Unlock;TicketID=$TicketID;' )]"
         )->click();
 
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
         # go to history view to verifty results
         $Selenium->find_element("//*[text()='History']")->click();
         my $Handles = $Selenium->get_window_handles();

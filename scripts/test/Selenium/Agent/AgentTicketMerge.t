@@ -73,6 +73,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
         # click on merge
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
@@ -115,6 +118,9 @@ $Selenium->RunTest(
 
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
         # click on merge
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
@@ -130,6 +136,10 @@ $Selenium->RunTest(
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
         $Selenium->find_element("//*[text()='History']")->click();
 
         $Handles = $Selenium->get_window_handles();
