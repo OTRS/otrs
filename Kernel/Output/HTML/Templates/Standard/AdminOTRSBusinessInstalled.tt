@@ -23,6 +23,11 @@
                             <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to OTRS Free") | html %]</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="http://otrs.github.io/doc/manual/otrs-business-solution/stable/en/html/index.html" target="_blank" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-book"></i> [% Translate("Read documentation") | html %]</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="Clear"></div>
