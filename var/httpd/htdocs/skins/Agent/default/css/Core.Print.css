@@ -47,14 +47,26 @@ h3 {
     margin-bottom: 5px;
 }
 
-td{
+td, th {
     border-left: 1px dotted #E5E5E5;
     padding: 0 10px 0 10px;
+}
+
+th {
+    font-weight: bold;
 }
 /**
  * @subsection  Navigation
  */
-#Header {
+#Header,
+#NavigationContainer,
+#ToolBar,
+body > .MessageBox,
+.ResponsiveHandle,
+.AdditionalInformation.ControlRow,
+#ArticleItems ul.Actions,
+#ArticleTree,
+.Headline > .Flag {
     display: none;
 }
 
@@ -114,11 +126,6 @@ a {
     margin-top: 5px;
     margin-bottom: 10px;
     width: 100%;
-}
-
-.DataTable{
-    margin-top:8px;
-    border: 1px solid #C9C9C9;
 }
 
 td:last-child{
@@ -325,14 +332,14 @@ div.Headline h1 {
 }
 
 #DestQueueID{
-    display:none;
+    display: none;
 }
 
 /**
  * @subsection  SidebarColumn
  */
 .SidebarColumn .WidgetSimple {
-    width: 300px;
+    width: 46%;
     float: left;
     padding: 10px;
     border: 1px solid #CCC;

@@ -27,7 +27,8 @@ body {
 .Flag,
 .Print,
 .DontPrint,
-#Footer {
+#Footer,
+#TicketOptions {
     display: none !important;
 }
 
@@ -157,8 +158,23 @@ iframe {
 /*
     Ticket Zoom
 */
+
+#ZoomSidebar {
+    float: none;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+#Metadata {
+    margin: 0px;
+    padding: 0px;
+}
+
 .TicketHeader{
-    margin: 10px 0 10px 0;
+    margin: 10px 0px 20px 0px;
+    border-bottom: 1px solid #000;
+    font-size: 20px;
+    padding: 5px 0px;
 }
 
 #Flag{
