@@ -1,7 +1,6 @@
 #5.0.0.beta3 2015-??-??
  - 2015-08-25 Fixed search dialog call from navigation bar.
  - 2015-08-25 Added new Galician translation, thanks to ARTURO MONDELO RUIZ-FALCO.
- - 2015-08-25 Added example processes that can be easily activated in process management.
  - 2016-08-24 Changed Scheduler Cron task definition 'Params' attribute: from string to array.
  - 2015-08-21 Fixed bug#[11302](http://bugs.otrs.org/show_bug.cgi?id=11302) - Out of office data incorrect.
  - 2015-08-20 Fixed bug#[11405](http://bugs.otrs.org/show_bug.cgi?id=11405) - AgentTicketForward not possible to hide by ACL.

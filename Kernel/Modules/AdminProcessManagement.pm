@@ -1531,13 +1531,15 @@ sub _ShowOverview {
 
     my %Frontend;
 
-    $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
-        Name         => 'ExampleProcess',
-        Data         => \%ExampleProcessData,
-        PossibleNone => 1,
-        Translation  => 0,
-        Class        => 'Modernize Validate_Required',
-    );
+    if (%ExampleProcessData) {
+        $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
+            Name         => 'ExampleProcess',
+            Data         => \%ExampleProcessData,
+            PossibleNone => 1,
+            Translation  => 0,
+            Class        => 'Modernize Validate_Required',
+        );
+    }
 
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
@@ -1692,7 +1694,7 @@ sub _ShowEdit {
             || $InactiveStateID,    # select inactive by default
         Sort        => 'AlphanumericKey',
         Translation => 1,
-        Class       => 'Modernize W50pc ' . $StateError,
+        Class       => 'Modernize W75pc ' . $StateError,
     );
 
     my $Output = $LayoutObject->Header();

@@ -187,7 +187,7 @@
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Process Name") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameServerError | html %]" maxlength="70"/>
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W75pc Validate_Required [% Data.NameServerError | html %]" maxlength="70"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
@@ -199,7 +199,7 @@
 
                         <label class="Mandatory" for="Description"><span class="Marker">*</span> [% Translate("Description") | html %]:</label>
                         <div class="Field">
-                            <textarea name="Description" id="Description" class="W50pc Validate_Required [% Data.DescriptionServerError | html %]" rows="5" cols="20">[% Data.Description | html %]</textarea>
+                            <textarea name="Description" id="Description" class="W75pc Validate_Required [% Data.DescriptionServerError | html %]" rows="7" cols="20">[% Data.Description | html %]</textarea>
                             <div id="DescriptionError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>

@@ -157,7 +157,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /opt/otrs/var/tmp/
 %dir /opt/otrs/var/stats/
 /opt/otrs/var/stats/*.xml
-/opt/otrs/var/processes/examples/*.yml
+%dir /opt/otrs/var/processes/examples/
 
 /opt/otrs/Kernel/cpan-lib*
 

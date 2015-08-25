@@ -6,6 +6,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Process Management") | html %]</h1>
 
@@ -42,7 +44,7 @@
                 <p class="FieldExplanation">
                     [% Translate("Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.") | html %]
                 </p>
-                <ul class="ActionList">
+                <ul class="ActionList SpacingTop">
                     <li>
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
@@ -55,7 +57,7 @@
                                 <input type="checkbox" id="OverwriteExistingEntitiesImport" name="OverwriteExistingEntities" value="1" checked="checked" />
                                 <label for="OverwriteExistingEntitiesImport">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
-                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Upload process configuration") | html %]">
                                 <span><i class="fa fa-upload"></i>[% Translate("Import process configuration") | html %]</span>
                             </button>
                         </form>
@@ -70,10 +72,11 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate example processes that come with OTRS. Please note that some additional configuration may be required.") | html %]
+                    [% Translate("Here you can activate example processes that come with %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
                 </p>
-                <ul class="ActionList">
+                <ul class="ActionList SpacingTop">
                     <li>
+                    [% IF Data.ExampleProcessList %]
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="ProcessImport"/>
@@ -85,10 +88,13 @@
                                 <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked="checked" />
                                 <label for="OverwriteExistingEntitiesExample">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
-                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Import example process") | html %]">
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import example process") | html %]">
                                 <span><i class="fa fa-upload"></i>[% Translate("Import example process") | html %]</span>
                             </button>
                         </form>
+                    [% ELSE %]
+                        <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="CallForAction Fullsize Center Button"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
+                    [% END %]
                     </li>
                 </ul>
             </div>
