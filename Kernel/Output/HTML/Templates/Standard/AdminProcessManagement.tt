@@ -72,7 +72,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate example processes that come with %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
+                    [% Translate("Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
                 </p>
                 <ul class="ActionList SpacingTop">
                     <li>
