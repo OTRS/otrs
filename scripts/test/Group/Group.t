@@ -12,6 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
+our @ObjectDependencies = (
+    'Kernel::System::Group',
+    'Kernel::System::Time',
+    'Kernel::System::UnitTest::Helper',
+    'Kernel::System::User',
+);
+
 # get needed objects
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
@@ -292,7 +299,7 @@ for my $PermissionTest (@PermissionTests) {
 
                 $Self->True(
                     $PermissionMatch,
-                    "PermissionGroupUserGet() permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
+                    "PermissionGroupUserGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
                 );
             }
         }
@@ -327,14 +334,14 @@ for my $PermissionTest (@PermissionTests) {
 
                 $Self->True(
                     $PermissionMatch,
-                    "PermissionUserGroupGet() permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
+                    "PermissionUserGroupGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
                 );
             }
         }
 
     }
 
-    # check if users are assigned to the groups (PermissionUserGet)
+    # check if users are assigned to the groups (PermissionGroupGet)
     for my $GroupID (@GroupIDs) {
         for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {
 
@@ -363,13 +370,13 @@ for my $PermissionTest (@PermissionTests) {
 
                 $Self->True(
                     $PermissionMatch,
-                    "PermissionUserGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
+                    "PermissionGroupGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
                 );
             }
         }
     }
 
-    # check if groups are assigned to the users (PermissionGroupGet)
+    # check if groups are assigned to the users (PermissionUserGet)
     for my $UserID (@UserIDs) {
         for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {
 
@@ -398,7 +405,7 @@ for my $PermissionTest (@PermissionTests) {
 
                 $Self->True(
                     $PermissionMatch,
-                    "PermissionGroupGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
+                    "PermissionUserGet() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
                 );
             }
         }
