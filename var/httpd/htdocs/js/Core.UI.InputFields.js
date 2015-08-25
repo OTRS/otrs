@@ -1541,8 +1541,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         ApplyFilter($SelectObj, $ToolbarContainerObj, true);
                     }
                     CheckAvailability($SelectObj, $SearchObj);
-                    $SearchObj.width($SelectObj.outerWidth())
-                        .trigger('blur');
+                    $SearchObj.width($SelectObj.outerWidth());
                 })
 
                 // Handle custom error event on original select field
