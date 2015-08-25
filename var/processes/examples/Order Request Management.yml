@@ -1,0 +1,368 @@
+---
+Activities:
+  Activity-15701296e05199ab53f6a706a55dc21b:
+    ActivityDialogs:
+    - ActivityDialog-c360bbc947511b53a82218142352dd55
+    - ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67
+    ChangeTime: 2015-08-21 10:59:59
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-c360bbc947511b53a82218142352dd55
+        '2': ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67
+    CreateTime: 2015-08-21 10:59:59
+    EntityID: Activity-15701296e05199ab53f6a706a55dc21b
+    ID: 54
+    Name: Order
+  Activity-1b046d8258dbfc0df49cfca2d6032023:
+    ActivityDialogs:
+    - ActivityDialog-c360bbc947511b53a82218142352dd55
+    - ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67
+    ChangeTime: 2015-08-21 10:54:42
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-c360bbc947511b53a82218142352dd55
+        '2': ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: Activity-1b046d8258dbfc0df49cfca2d6032023
+    ID: 39
+    Name: Approval
+  Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0:
+    ActivityDialogs:
+    - ActivityDialog-ea8df9183e38ea9298018582f7c2a65f
+    ChangeTime: 2015-08-21 10:53:28
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-ea8df9183e38ea9298018582f7c2a65f
+    CreateTime: 2015-08-21 10:50:19
+    EntityID: Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0
+    ID: 53
+    Name: Demand recording
+  Activity-9aab462ab0659e437f56869fbe804d9e:
+    ActivityDialogs:
+    - ActivityDialog-4e6f1a34c0af121d65e2c8bf48cada3e
+    ChangeTime: 2015-08-21 11:04:43
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-4e6f1a34c0af121d65e2c8bf48cada3e
+    CreateTime: 2015-08-21 11:04:43
+    EntityID: Activity-9aab462ab0659e437f56869fbe804d9e
+    ID: 55
+    Name: Confirm shipment received
+  Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+    ActivityDialogs: []
+    ChangeTime: 2015-08-21 01:11:55
+    Config: {}
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+    ID: 42
+    Name: Process completed
+ActivityDialogs:
+  ActivityDialog-4e6f1a34c0af121d65e2c8bf48cada3e:
+    ChangeTime: 2015-08-21 01:25:52
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Confirmation (closed successful)
+      FieldOrder:
+      - Lock
+      - State
+      Fields:
+        Lock:
+          DefaultValue: unlock
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        State:
+          DefaultValue: closed successful
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: ''
+      SubmitButtonText: Confirm
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: ActivityDialog-4e6f1a34c0af121d65e2c8bf48cada3e
+    ID: 18
+    Name: Confirmation
+  ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67:
+    ChangeTime: 2015-08-21 01:22:48
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Rejected (closed unsuccessful)
+      FieldOrder:
+      - Lock
+      - State
+      - Article
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Lock:
+          DefaultValue: unlock
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        State:
+          DefaultValue: closed unsuccessful
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: ''
+      SubmitButtonText: Reject
+    CreateTime: 2015-08-21 01:22:48
+    EntityID: ActivityDialog-5dce4c78353aa8eea84cfa00b5b4cf67
+    ID: 21
+    Name: Rejection
+  ActivityDialog-c360bbc947511b53a82218142352dd55:
+    ChangeTime: 2015-08-21 01:23:03
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Approved (closed successful)
+      FieldOrder:
+      - Lock
+      - State
+      - Article
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Lock:
+          DefaultValue: unlock
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        State:
+          DefaultValue: closed successful
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: ''
+      SubmitButtonText: Approved
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: ActivityDialog-c360bbc947511b53a82218142352dd55
+    ID: 20
+    Name: Approval
+  ActivityDialog-ea8df9183e38ea9298018582f7c2a65f:
+    ChangeTime: 2015-08-21 10:53:17
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Form with demand description field.
+      FieldOrder:
+      - State
+      - Lock
+      - CustomerID
+      - Article
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Please search and select the requester.
+          Display: '2'
+        Lock:
+          DefaultValue: unlock
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        State:
+          DefaultValue: closed successful
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2015-08-21 10:53:17
+    EntityID: ActivityDialog-ea8df9183e38ea9298018582f7c2a65f
+    ID: 34
+    Name: Demand record
+Process:
+  Activities:
+  - Activity-15701296e05199ab53f6a706a55dc21b
+  - Activity-1b046d8258dbfc0df49cfca2d6032023
+  - Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0
+  - Activity-9aab462ab0659e437f56869fbe804d9e
+  - Activity-e3328a82c9e4efffe0d75d4b97371dbe
+  ChangeTime: 2015-08-21 13:20:14
+  Config:
+    Description: Best practice process to manage requests for orders.
+    Path:
+      Activity-15701296e05199ab53f6a706a55dc21b:
+        Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b:
+          ActivityEntityID: Activity-9aab462ab0659e437f56869fbe804d9e
+          TransitionAction:
+          - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+        Transition-cdce1f39373ddd5c3bec51f27616f7c3:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+      Activity-1b046d8258dbfc0df49cfca2d6032023:
+        Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b:
+          ActivityEntityID: Activity-15701296e05199ab53f6a706a55dc21b
+          TransitionAction:
+          - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+        Transition-cdce1f39373ddd5c3bec51f27616f7c3:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+      Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0:
+        Transition-0ef9ba10706f21ae5d85135faf92afff:
+          ActivityEntityID: Activity-1b046d8258dbfc0df49cfca2d6032023
+          TransitionAction:
+          - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+      Activity-9aab462ab0659e437f56869fbe804d9e:
+        Transition-2a12fc66f69b1b22de5a3ea0fc01db4e:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+      Activity-e3328a82c9e4efffe0d75d4b97371dbe: {}
+    StartActivity: Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0
+    StartActivityDialog: ActivityDialog-ea8df9183e38ea9298018582f7c2a65f
+  CreateTime: 2015-08-21 10:49:24
+  EntityID: Process-b101495408c0a2a30ffa82dd96239a4a
+  ID: 10
+  Layout:
+    Activity-15701296e05199ab53f6a706a55dc21b:
+      left: '713'
+      top: '86'
+    Activity-1b046d8258dbfc0df49cfca2d6032023:
+      left: '437'
+      top: '189'
+    Activity-6b1b2ea1c7aa84b054bfde9dfcda19f0:
+      left: '205'
+      top: '74'
+    Activity-9aab462ab0659e437f56869fbe804d9e:
+      left: '999'
+      top: '191'
+    Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+      left: '713'
+      top: '309'
+  Name: Order Request Management
+  State: Inactive
+  StateEntityID: S2
+  TransitionActions:
+  - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+  - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+  - TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+  Transitions:
+  - Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b
+  - Transition-cdce1f39373ddd5c3bec51f27616f7c3
+  - Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b
+  - Transition-cdce1f39373ddd5c3bec51f27616f7c3
+  - Transition-0ef9ba10706f21ae5d85135faf92afff
+  - Transition-2a12fc66f69b1b22de5a3ea0fc01db4e
+TransitionActions:
+  TransitionAction-ef74534928a490d81a3039cd62ef5ea1:
+    ChangeTime: 2015-08-21 00:58:15
+    Config:
+      Config:
+        PendingTimeDiff: '86400'
+        State: pending reminder
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: TransitionAction-ef74534928a490d81a3039cd62ef5ea1
+    ID: 20
+    Name: 'Set ticket state: pending reminder (+24h)'
+Transitions:
+  Transition-0ef9ba10706f21ae5d85135faf92afff:
+    ChangeTime: 2015-08-21 01:31:42
+    Config:
+      Condition:
+        '1':
+          Fields:
+            CustomerID:
+              Match: .+
+              Type: Regexp
+            CustomerUserID:
+              Match: .+
+              Type: Regexp
+            Lock:
+              Match: unlock
+              Type: String
+            Owner:
+              Match: .*
+              Type: Regexp
+            State:
+              Match: closed successful
+              Type: String
+          Type: and
+      ConditionLinking: or
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: Transition-0ef9ba10706f21ae5d85135faf92afff
+    ID: 41
+    Name: Request submitted
+  Transition-2a12fc66f69b1b22de5a3ea0fc01db4e:
+    ChangeTime: 2015-08-21 11:07:49
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Lock:
+              Match: unlock
+              Type: String
+            State:
+              Match: closed successful
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2015-08-21 11:07:49
+    EntityID: Transition-2a12fc66f69b1b22de5a3ea0fc01db4e
+    ID: 57
+    Name: Shipment received
+  Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b:
+    ChangeTime: 2015-08-21 11:00:37
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Lock:
+              Match: unlock
+              Type: String
+            State:
+              Match: closed successful
+              Type: String
+          Type: and
+      ConditionLinking: or
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: Transition-84da0e56e0bcc6eaf81f4c8477ab6e6b
+    ID: 42
+    Name: Approved
+  Transition-cdce1f39373ddd5c3bec51f27616f7c3:
+    ChangeTime: 2015-08-21 11:00:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Lock:
+              Match: unlock
+              Type: String
+            State:
+              Match: closed unsuccessful
+              Type: String
+          Type: and
+      ConditionLinking: or
+    CreateTime: 2015-08-21 00:51:46
+    EntityID: Transition-cdce1f39373ddd5c3bec51f27616f7c3
+    ID: 44
+    Name: Rejected

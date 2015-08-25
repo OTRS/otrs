@@ -71,16 +71,45 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
-        my %UploadStuff = $ParamObject->GetUploadAll(
-            Param => 'FileUpload',
-        );
+        my $Content;
+
+        if ( $ParamObject->GetParam( Param => 'ExampleProcess' ) ) {
+            my $ExampleProcessFilename = $ParamObject->GetParam( Param => 'ExampleProcess' );
+            $ExampleProcessFilename =~ s{/+|\.{2,}}{}smx;    # remove slashes and ..
+
+            if ( !$ExampleProcessFilename ) {
+                return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+                    Message => "Need ExampleProcesses!",
+                );
+            }
+
+            my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => "$Home/var/processes/examples/$ExampleProcessFilename",
+                Mode     => 'utf8',
+            );
+
+            if ( !$Content ) {
+                return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+                    Message => "Could not read $ExampleProcessFilename!",
+                );
+            }
+
+            $Content = ${ $Content || \'' };
+        }
+        else {
+            my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+            my %UploadStuff = $ParamObject->GetUploadAll(
+                Param => 'FileUpload',
+            );
+            $Content = $UploadStuff{Content};
+        }
 
         my $OverwriteExistingEntities = $ParamObject->GetParam( Param => 'OverwriteExistingEntities' );
 
         # import the process YAML file
         my %ProcessImport = $ProcessObject->ProcessImport(
-            Content                   => $UploadStuff{Content},
+            Content                   => $Content,
             OverwriteExistingEntities => $OverwriteExistingEntities,
             UserID                    => $Self->{UserID},
         );
@@ -1485,6 +1514,31 @@ sub _ShowOverview {
         }
     }
 
+    my @ExampleProcesses = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/processes/examples',
+        Filter    => '*.yml',
+    );
+
+    my %ExampleProcessData;
+
+    for my $ExampleProcessFilename (@ExampleProcesses) {
+        my $Key = $ExampleProcessFilename;
+        $Key =~ s{^.*/([^/]+)$}{$1}smx;
+        my $Value = $Key;
+        $Value =~ s{^(.+).yml}{$1}smx;
+        $ExampleProcessData{$Key} = $Value;
+    }
+
+    my %Frontend;
+
+    $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
+        Name         => 'ExampleProcess',
+        Data         => \%ExampleProcessData,
+        PossibleNone => 1,
+        Translation  => 0,
+        Class        => 'Modernize Validate_Required',
+    );
+
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
     # get a process list
@@ -1520,7 +1574,10 @@ sub _ShowOverview {
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminProcessManagement',
-        Data         => \%Param,
+        Data         => {
+            %Param,
+            %Frontend,
+        },
     );
     $Output .= $LayoutObject->Footer();
 

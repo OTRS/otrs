@@ -36,7 +36,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Configuration import") | html %]</h2>
+                <h2>[% Translate("Configuration Import") | html %]</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
@@ -64,6 +64,35 @@
             </div>
         </div>
 
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Example processes") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can activate example processes that come with OTRS. Please note that some additional configuration may be required.") | html %]
+                </p>
+                <ul class="ActionList">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ProcessImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            [% Data.ExampleProcessList %]
+                            <div id="ExampleProcessError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="ExampleProcessServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <fieldset class="SpacingTop">
+                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
+                            </fieldset>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Import example process") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import example process") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Description") | html %]</h2>
