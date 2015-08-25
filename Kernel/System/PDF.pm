@@ -414,7 +414,7 @@ sub PageNew {
     # output the lines in top of the page
     $Self->HLine(
         Color     => '#505050',
-        LineWidth => 1,
+        LineWidth => 0.5,
     );
 
     if ( $Param{FooterLeft} ) {
@@ -484,7 +484,7 @@ sub PageNew {
     # output the lines in bottom of the page
     $Self->HLine(
         Color     => '#505050',
-        LineWidth => 1,
+        LineWidth => 0.5,
     );
 
     if ( $Param{HeadlineLeft} && $Param{HeadlineRight} ) {
