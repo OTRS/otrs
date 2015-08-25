@@ -81,6 +81,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 3;
+
         # get process list
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -116,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
-        sleep 1;
+        sleep 3;
 
         # check if process enroll is available for test ticket
         $Self->True(
@@ -219,7 +222,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
         # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
-        sleep 1;
+        sleep 3;
 
         # go to test created ticket zoom
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");

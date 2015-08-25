@@ -103,7 +103,7 @@ $Selenium->RunTest(
         );
 
         # Sleep a little bit to allow mod_perl to pick up the changed config files.
-        sleep 1;
+        sleep 3;
 
         # check if NavBarAgentTicketProcess button is available when process is available
         $Selenium->refresh();
@@ -204,7 +204,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
         # Sleep a little bit to allow mod_perl to pick up the changed config files.
-        sleep 1;
+        sleep 3;
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
         $Selenium->refresh();
@@ -226,7 +226,7 @@ $Selenium->RunTest(
         );
 
         # Sleep a little bit to allow mod_perl to pick up the changed config files.
-        sleep 1;
+        sleep 3;
 
         $Selenium->refresh();
         $Self->True(

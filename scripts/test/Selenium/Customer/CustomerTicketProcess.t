@@ -112,6 +112,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                   'css' )->submit();
 
+        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("div#MainBox").length;' );
+
         # check for inputed values for first step in test process ticket
         $Self->True(
             index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
@@ -128,12 +131,18 @@ $Selenium->RunTest(
 
         # click on next step in process ticket
         $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",                      'css' )->submit();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        sleep 1;
+
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->refresh();
 

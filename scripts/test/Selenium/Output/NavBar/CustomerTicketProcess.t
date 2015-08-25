@@ -87,6 +87,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 3;
+
         # get process list
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -218,6 +221,9 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 3;
+
         # log in customer
         $Selenium->Login(
             Type     => 'Customer',
@@ -243,6 +249,10 @@ $Selenium->RunTest(
             Key   => 'CustomerFrontend::NavBarModule###10-CustomerTicketProcesses',
             Value => \%NavBarCustomerTicketProcess,
         );
+
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 3;
+
         $Selenium->refresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
