@@ -52,8 +52,8 @@
                             <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" checked="checked" />
-                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
+                                <input type="checkbox" id="OverwriteExistingEntitiesImport" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <label for="OverwriteExistingEntitiesImport">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
                             <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
                                 <span><i class="fa fa-upload"></i>[% Translate("Import process configuration") | html %]</span>
@@ -82,8 +82,8 @@
                             <div id="ExampleProcessError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="ExampleProcessServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" checked="checked" />
-                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
+                                <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <label for="OverwriteExistingEntitiesExample">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
                             <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Import example process") | html %]">
                                 <span><i class="fa fa-upload"></i>[% Translate("Import example process") | html %]</span>
