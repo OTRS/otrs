@@ -6,7 +6,10 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+[%
+SET OTRSBusinessLabel     = '<strong>OTRS Business Solution</strong>™';
+SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution</a></strong>™';
+%]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Process Management") | html %]</h1>
@@ -71,12 +74,12 @@
                 <h2>[% Translate("Example processes") | html %]</h2>
             </div>
             <div class="Content">
+            [% IF Data.ExampleProcessList %]
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate example processes that come with %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
+                    [% Translate("Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
                 </p>
                 <ul class="ActionList SpacingTop">
                     <li>
-                    [% IF Data.ExampleProcessList %]
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="ProcessImport"/>
@@ -92,11 +95,13 @@
                                 <span><i class="fa fa-upload"></i>[% Translate("Import example process") | html %]</span>
                             </button>
                         </form>
-                    [% ELSE %]
-                        <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="CallForAction Fullsize Center Button"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
-                    [% END %]
                     </li>
                 </ul>
+            [% ELSE %]
+                <p class="FieldExplanation">
+                    [% Translate("Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.", OTRSBusinessLinkLabel) %]
+                </p>
+            [% END %]
             </div>
         </div>
         <div class="WidgetSimple">
