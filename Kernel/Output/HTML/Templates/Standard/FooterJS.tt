@@ -82,7 +82,6 @@ Core.App.Ready(function () {
         InputFieldsClearAll: [% Translate("Clear all") | JSON %],
         InputFieldsClearSearch: [% Translate("Clear search") | JSON %],
         InputFieldsRemoveSelection: [% Translate("Remove selection") | JSON %],
-        InputFieldsSelection: [% Translate("%s selection(s)...") | JSON %],
         InputFieldsMore: [% Translate("and %s more...") | JSON %],
         InputFieldsFilters: [% Translate("Filters") | JSON %],
         InputFieldsConfirm: [% Translate("Confirm") | JSON %],
