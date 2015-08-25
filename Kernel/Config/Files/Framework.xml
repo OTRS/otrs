@@ -152,9 +152,10 @@
                 <Item Key="et">Eesti</Item>
                 <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
                 <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
+                <Item Key="fi">Suomi</Item>
                 <Item Key="fr">Fran&amp;ccedil;ais</Item>
                 <Item Key="fr_CA">Fran&amp;ccedil;ais (Canada)</Item>
-                <Item Key="fi">Suomi</Item>
+                <Item Key="gl">Galego</Item>
                 <Item Key="he">Hebrew (עִבְרִית)</Item>
                 <Item Key="hi">Hindi</Item>
                 <Item Key="hr">Hrvatski</Item>
