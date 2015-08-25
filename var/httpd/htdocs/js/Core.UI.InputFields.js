@@ -184,7 +184,6 @@ Core.UI.InputFields = (function (TargetNS) {
             MoreBox = false,
             Multiple = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
             PossibleNone = false,
-            SelectionString = Core.Config.Get('InputFieldsSelection'),
             MoreString = Core.Config.Get('InputFieldsMore'),
             MaxWidth,
             $TempMoreObj;
@@ -265,7 +264,10 @@ Core.UI.InputFields = (function (TargetNS) {
                                 .attr('title', Core.Config.Get('InputFieldsRemoveSelection'))
                                 .text('x')
                                 .attr('role', 'button')
-                                .attr('aria-label', Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text)
+                                .attr(
+                                    'aria-label',
+                                    Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text
+                                )
                                 .off('click.InputField').on('click.InputField', function () {
                                     var HasEmptyElement = $SelectObj.find('option[value=""]').length === 0 ? false : true,
                                         SelectedValue = $(this).parents('.InputField_Selection')
@@ -307,29 +309,53 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 } else {
 
-                    // Check if we already displayed more box
-                    if (!MoreBox) {
-                        $SelectionObj.after(
-                            $('<div />').addClass('InputField_More')
-                            .css(($('body').hasClass('RTL') ? 'right' : 'left'), OffsetLeft + 'px')
-                            .text(
-                                (i > 0) ?
-                                    MoreString.replace(/%s/, SelectionLength - i) :
-                                    SelectionString.replace(/%s/, SelectionLength)
-                            )
-                            .on('click.InputField', function () {
-                                $InputContainerObj.find('.InputField_Search')
-                                    .trigger('focus');
-                            })
-                        );
-                        MoreBox = true;
+                    // If first selection, we must shorten it in order to display it
+                    if (i === 0) {
+                        while (OffsetLeft + $SelectionObj.outerWidth() >= MaxWidth) {
+                            $TextObj.text(
+                                $TextObj.text().substring(0, $TextObj.text().length - 4)
+                                + '...'
+                            );
+                        }
+
+                        // Offset the box and show it
+                        if ($('body').hasClass('RTL')) {
+                            $SelectionObj.css('right', OffsetLeft + 'px')
+                                .show();
+                        }
+                        else {
+                            $SelectionObj.css('left', OffsetLeft + 'px')
+                                .show();
+                        }
                     }
 
-                    // Remove superfluous box
-                    $SelectionObj.remove();
+                    else {
 
-                    // Break each loop
-                    return false;
+                        // Check if we already displayed more box
+                        if (!MoreBox) {
+                            $SelectionObj.after(
+                                $('<div />').addClass('InputField_More')
+                                .css(
+                                    ($('body').hasClass('RTL') ? 'right' : 'left'),
+                                    OffsetLeft + 'px'
+                                )
+                                .text(
+                                    MoreString.replace(/%s/, SelectionLength - i)
+                                )
+                                .on('click.InputField', function () {
+                                    $InputContainerObj.find('.InputField_Search')
+                                        .trigger('focus');
+                                })
+                            );
+                            MoreBox = true;
+                        }
+
+                        // Remove superfluous box
+                        $SelectionObj.remove();
+
+                        // Break each loop
+                        return false;
+                    }
                 }
 
                 // Increment the offset with the width of box and right margin
