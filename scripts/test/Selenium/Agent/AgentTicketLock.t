@@ -111,6 +111,9 @@ $Selenium->RunTest(
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
         # click on lock
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Lock;TicketID=$TicketID;' )]")
             ->click();
@@ -125,6 +128,9 @@ $Selenium->RunTest(
 
         # return back to AgentTicketZoom for created test ticket
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # unlock ticket
         $Selenium->find_element(

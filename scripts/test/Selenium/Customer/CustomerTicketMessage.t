@@ -89,6 +89,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#submitRichText",              'css' )->click();
 
+        # Wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("div#MainBox").length' );
+
         # search for new created ticket on CustomerTicketOverview screen
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
@@ -97,6 +100,11 @@ $Selenium->RunTest(
         );
         my $TicketNumber = (%TicketIDs)[1];
         my $TicketID     = (%TicketIDs)[0];
+
+        $Self->True(
+            $TicketID,
+            "Ticket was created and found",
+        );
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,

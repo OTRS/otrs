@@ -89,6 +89,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('.Attachment').length" );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        # Wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("div#MainBox").length' );
+
         # obtain ticket number
         my @User = $CustomerUserObject->CustomerIDs(
             User => $TestUserLogin,
@@ -104,6 +107,11 @@ $Selenium->RunTest(
             CustomerUserID => $UserID,
         );
         my $TicketNumber = (%TicketIDs)[1];
+
+        $Self->True(
+            $TicketNumber,
+            "Ticket was created and found",
+        );
 
         # click on test created ticket on CustomerTicketOverview screen
         $Selenium->find_element( $TicketNumber, 'link_text' )->click();
