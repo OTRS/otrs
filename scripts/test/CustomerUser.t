@@ -33,7 +33,7 @@ my $DatabaseCaseSensitive                = $DBObject->{Backend}->{'DB::CaseSensi
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
 my $UserID = '';
-for my $Key ( 1 .. 3, 'ä', 'カス' ) {
+for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
 
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
 

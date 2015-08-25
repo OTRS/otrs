@@ -307,8 +307,7 @@ sub CustomerSearch {
     }
     elsif ( $Param{CustomerIDRaw} ) {
 
-        my $CustomerIDRaw = $Self->{DBObject}->Quote( $Param{CustomerIDRaw}, 'Like' );
-        push @Bind, \$CustomerIDRaw;
+        push @Bind, \$Param{CustomerIDRaw};
 
         if ( $Self->{CaseSensitive} ) {
             $SQL .= "$Self->{CustomerID} = ? ";
