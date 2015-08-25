@@ -1,16 +1,19 @@
 # 
 # Translators:
+# Arturo Mondelo <arturo.mondelo@hotmail.es>, 2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Deiry Arias <mailimarias@gmail.com>, 2015
+# Deiver Kiel Retana <deikiel@gmail.com>, 2015
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
+# Galo Izquierdo <gizquier@hotmail.com>, 2015
 # Pablo Ascencio <pabloascencio77@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-29 13:53+0000\n"
-"Last-Translator: Pablo Ascencio <pabloascencio77@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
+"PO-Revision-Date: 2015-08-21 12:33+0000\n"
+"Last-Translator: Arturo Mondelo <arturo.mondelo@hotmail.es>\n"
+"Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2504,7 +2507,7 @@ msgstr "modelo MPM"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS requiere apache para ejecutarse con el módulo 'prefork' MPM."
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -2524,11 +2527,11 @@ msgstr "Por favor instale mod_deflate para mejorar la velocidad del GUI"
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "Uso de mod_filter"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Por favor, instale el módulo mod_filter si se utiliza el módulo mod_deflate."
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
@@ -5332,17 +5335,17 @@ msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr ""
+msgstr "El controlador al que el invocador debe enviar peticiones a. Variables marcadas por un '.' quedarán reemplazadas por los valores de los datos y pasados con la petición (e.j. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
-msgstr ""
+msgstr "Comando petición válido para Invocador"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker "
 "(optional)."
-msgstr ""
+msgstr "Comando HTTP específico para usar por peticiones con este invocador (opcional)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
@@ -5350,7 +5353,7 @@ msgstr "Comando por defecto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "El comando HTTP por defecto para usar con las peticiones."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -5362,7 +5365,7 @@ msgstr "Mecanismo de autenticación para acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
-msgstr ""
+msgstr "Un valor \"-\" significa que no estás autenticado."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -5370,162 +5373,162 @@ msgstr "Nombre de usuario a ser usado para acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
-msgstr ""
+msgstr "La contraseña para el usuario con permisos especiales."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
-msgstr ""
+msgstr "Usar opciones SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide SSL options to connect to the remote system."
-msgstr ""
+msgstr "Muestra u oculta las opciones SSL para conectar al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate File"
-msgstr ""
+msgstr "Archivo de Cetificado"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "La ruta completa y nombre del archivo de certificado SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "ej. /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"
-msgstr ""
+msgstr "Archivo de Contraseña del Certificado"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Ruta completa y nombre del archivo llave SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "ej.  /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
-msgstr ""
+msgstr "Archivo de Autoridad de Certificacion (CA)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates the SSL certificate."
-msgstr ""
+msgstr "Ruta completa y nombre del archivo del certificado de autoridad de certificación que valida el certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "ej.  /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
-msgstr ""
+msgstr "InterfazGenerica Transporta HTTP::SOAP para Servicio Web %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Endpoint"
-msgstr ""
+msgstr "Puntofinal"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to indicate a specific location for accessing a service."
-msgstr ""
+msgstr "URI para indicar una localización específica para acceder al servicio."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "ej. http://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
-msgstr ""
+msgstr "Espacio de nombre"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
-msgstr ""
+msgstr "URI para dar un contexto a métodos SOAP, reduciendo ambiguedades."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr ""
+msgstr "ej. urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Aquí puede especificar el tamaño máximo (en bytes) de mensajes SOAP que procesará OTRS."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
-msgstr ""
+msgstr "Codificación"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "El caracter codificación para contenidos de mensaje SOAP. "
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "ej. utf-8, latin1, iso-8859-1, cp1250, Etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction"
-msgstr ""
+msgstr "SOAPAcción"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" to send a filled SOAPAction header."
-msgstr ""
+msgstr "Establece a \"Si\" para enviar una cabecera SOAPAccion cubierta."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" to send an empty SOAPAction header."
-msgstr ""
+msgstr "Establece a \"No\" para enviar una cabecera SOAPAcción vacía."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "Separador SOAPAcción"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
-msgstr ""
+msgstr "Caracter para usar como separador entre el espacio del nombre y el método SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services uses a \"/\" as separator."
-msgstr ""
+msgstr "Usualmente servicios web de .Net usan \"/\" como separador."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path and name of the SSL certificate file (must be in .p12 format)."
-msgstr ""
+msgstr "La ruta completa y nombre del archivo de certificado SSL (debe estar en formato .p12)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
-msgstr ""
+msgstr "ej. /opt/otrs/var/certificates/SOAP/certificate.p12"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
-msgstr ""
+msgstr "La clave para abrir el certificado SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr ""
+msgstr "La ruta completa y el nombre de la autoridad de certificación del archivo del certificado que valida el certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr ""
+msgstr "ej.  /opt/otrs/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "Directorio Autoridad Certificación (CA)"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
-msgstr ""
+msgstr "La ruta completa del directorio de la autoridad de certificación donde los certificados de CA se almacenan en el sistema de archivos ."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "ej. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
@@ -5537,7 +5540,7 @@ msgstr "URI del servidor proxy a usar (si se requiere)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "ej. http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
@@ -5545,51 +5548,51 @@ msgstr "Usuario de Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The user name to be used to access the proxy server."
-msgstr ""
+msgstr "El nombre de usuario a ser usado para acceder al servidor proxy."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Password"
-msgstr ""
+msgstr "Contraseña de Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password for the proxy user."
-msgstr ""
+msgstr "El password para el usuario de proxy."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
-msgstr ""
+msgstr "Gestión Servicio Web InterfazGenerica"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
-msgstr ""
+msgstr "Agregar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone web service"
-msgstr ""
+msgstr "Clonar servicio web."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr ""
+msgstr "El nombre debe ser unico."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr ""
+msgstr "Clonar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export web service"
-msgstr ""
+msgstr "Exportar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr ""
+msgstr "Importar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
-msgstr ""
+msgstr "Archivo de Configuración"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr ""
+msgstr "El archivo debe ser un archivo válido YAML de configuración de servicio web."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -5597,93 +5600,93 @@ msgstr "Importar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration history"
-msgstr ""
+msgstr "Historial de Configuración"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr ""
+msgstr "Eliminar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr ""
+msgstr "¿Realmente desea eliminar este servicio web?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
-msgstr ""
+msgstr "Después de salvar su configuración ud. será redireccionado de nuevo a la pantalla de edición"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" "
 "button."
-msgstr ""
+msgstr "Si desea volver al resumen por favor presione el botón \"Volver a resumen\""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
-msgstr ""
+msgstr "Lista de Servicios Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "Sistema remoto"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
-msgstr ""
+msgstr "Proveedor transporte"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Requester transport"
-msgstr ""
+msgstr "Solicitante transporte"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Debug threshold"
-msgstr ""
+msgstr "Umbral de depuración"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "In provider mode, OTRS offers web services which are used by remote systems."
-msgstr ""
+msgstr "En modo proveedor, OTRS ofrece servicios web los cuales son usados por sistemas remotos."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr ""
+msgstr "En modo solicitante, OTRS usa servicios web de sistemas remotos."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
-msgstr ""
+msgstr "Operaciones son funciones de sistema individuales las cuales los sistemas remotos pueden solicitar."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its"
 " response data."
-msgstr ""
+msgstr "Los invocadores preparan datos para una petición a un servicio web remoto, y procesa los datos de respuesta."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr ""
+msgstr "Controlador"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
-msgstr ""
+msgstr "Mapeo de entrada"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Outbound mapping"
-msgstr ""
+msgstr "Mapeo de salida"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "Borrar esta acción"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr ""
+msgstr "Al menos un %s tiene un controlador que o bien no está activo o no está presente , compruebe el registro de controladores o elimine el % s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
-msgstr ""
+msgstr "Borrar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
@@ -5691,33 +5694,33 @@ msgstr "Eliminar operación"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
-msgstr ""
+msgstr "Borrar Invocador"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
-msgstr ""
+msgstr "Clonar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import webservice"
-msgstr ""
+msgstr "Importar servicio web"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
-msgstr ""
+msgstr "Historico Configuración InterfazGenerica para Servicio Web %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "Volver al Servicio Web"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Here you can view older versions of the current web service's configuration,"
 " export or even restore them."
-msgstr ""
+msgstr "Aquí puedes ver versiones anteriores de la configuración del servicio web actual, exportarlo o incluso restaurarlos."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "Lista Histórico Configuración"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -5725,28 +5728,28 @@ msgstr "Versión"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "Crear tiempo"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr ""
+msgstr "Seleccione una única versión de configuración para ver sus detalles."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr ""
+msgstr "Exportar configuración de servicio web"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr ""
+msgstr "Restaurar configuración de servicio web"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
-msgstr ""
+msgstr "Quieres realmente restablecer esta versión de la configuración del servicio web?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "Tu configuración del servicio web va a ser sobreescrito."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
@@ -5778,11 +5781,11 @@ msgstr "El grupo admin es para usar el área de administración y el grupo stats
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr ""
+msgstr "Crear nuevos grupos para manejar permisos de acceso para diferentes grupos de agente (ej. departamento compras, departamento soporte, departamento ventas, ...)."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
-msgstr ""
+msgstr "Es útil para soluciones ASP."
 
 #. Template: AdminGroup
 msgid "Add Group"
@@ -5853,7 +5856,7 @@ msgstr "Carpeta IMAP"
 msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
-msgstr ""
+msgstr "Modifique esto solo si necesita obtener correos de un directorio distinto a INBOX"
 
 #. Template: AdminMailAccount
 msgid "Trusted"
@@ -5921,7 +5924,7 @@ msgstr "ej."
 
 #. Template: AdminNotification
 msgid "Options of the current customer data"
-msgstr ""
+msgstr "Opciones de los datos actuales del cliente"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5956,7 +5959,7 @@ msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr ""
+msgstr "Si CrearArticulo o EnviarArticulo es usado como disparador de evento, necesitas especificar un filtro de articulo también. Por favor seleccione al menos uno de los campos de filtro de articulo."
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
@@ -6000,7 +6003,7 @@ msgstr "Notificación de tipo"
 
 #. Template: AdminNotificationEvent
 msgid "Only for notifications to specified email addresses"
-msgstr ""
+msgstr "Sólo para notificaciones a la dirección de email especificada"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6023,72 +6026,72 @@ msgstr "Para obtener las primeras 5 líneas del cuerpo (del último artículo de
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Administrar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr ""
+msgstr "Degradar a OTRS Gratis"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr ""
+msgstr "%s hace contacto regular con cloud.otrs.com para comprobar actualizaciones disponibles y la validez del contrato subyacente."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
-msgstr ""
+msgstr "Detectado Uso No Autorizado"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr ""
+msgstr "Este sistema usa el %s sin la licencia apropiada! por favor contacte con %s para renovar o activar tu contrato!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
-msgstr ""
+msgstr "%s no esta Correctamente Instalado"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr ""
+msgstr "Su %s no esta correctamente instalado. Por favor reinstale con el botón de abajo"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Reinstalar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr ""
+msgstr "Tu %s no está correctamente instalado, y hay también disponible una actualización."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
-msgstr ""
+msgstr "Puedes o bien reinstalar tu versión actual o realizar una actualización con los botones siguientes (recomendada actualización)."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Actualización %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "%s No Está Aún Dsiponible"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s estará disponible pronto."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s Actualización Disponible"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr ""
+msgstr "Una actualización para tu %s está disponible! Por favor actualice cuanto antes!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
@@ -6118,13 +6121,13 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
-msgstr ""
+msgstr "Registre este Sistema"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "El Registro no está disponible para su sistema. Por favor revise su configuración."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -6149,11 +6152,11 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
-msgstr ""
+msgstr "Cancelar el degrado y regresar"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "Ir al Manejador de Paquetes de OTRS"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6214,7 +6217,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Add PGP key"
-msgstr ""
+msgstr "Agregar Clave PGP"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
@@ -6246,15 +6249,15 @@ msgstr "Expira"
 
 #. Template: AdminPGP
 msgid "Delete this key"
-msgstr ""
+msgstr "Borrar esta clave"
 
 #. Template: AdminPGP
 msgid "Add PGP Key"
-msgstr ""
+msgstr "Agregar Clave PGP"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr ""
+msgstr "Clave PGP"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -6341,11 +6344,11 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Download package"
-msgstr ""
+msgstr "Descargar paquete"
 
 #. Template: AdminPackageManager
 msgid "Rebuild package"
-msgstr ""
+msgstr "Reconstruir paquete"
 
 #. Template: AdminPackageManager
 msgid "Metadata"
@@ -6499,7 +6502,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
-msgstr ""
+msgstr "Borrar este filtro"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
@@ -6511,7 +6514,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
-msgstr ""
+msgstr "El nombre es imprescindible."
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -6575,15 +6578,15 @@ msgstr "Gestión de Procesos"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
-msgstr ""
+msgstr "Filtro para Procesos"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
-msgstr ""
+msgstr "Crear nuevo proceso"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Desplegar todos los Procesos"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6619,7 +6622,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Process name"
-msgstr ""
+msgstr "Nombre de proceso"
 
 #. Template: AdminProcessManagement
 msgid "Print"
@@ -6627,11 +6630,11 @@ msgstr "Imprimir"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
-msgstr ""
+msgstr "Exportar Configuración de Procesos"
 
 #. Template: AdminProcessManagement
 msgid "Copy Process"
-msgstr ""
+msgstr "Copiar Proceso"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close window"
@@ -6639,7 +6642,7 @@ msgstr "Cancelar y cerrar esta ventana"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "Volver"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
@@ -6648,15 +6651,15 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "Actividad"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
-msgstr ""
+msgstr "Nombre de Actividad"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
-msgstr ""
+msgstr "Dialogos de Actividad"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
@@ -6858,7 +6861,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
-msgstr ""
+msgstr "Editar Porceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
@@ -6866,7 +6869,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
-msgstr ""
+msgstr "Borrar Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Inactive Process"
@@ -6909,11 +6912,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
-msgstr ""
+msgstr "Editar información de Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Process Name"
-msgstr ""
+msgstr "Nombre de Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
@@ -6945,7 +6948,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save settings"
-msgstr ""
+msgstr "Guardar configuraciones"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -7074,11 +7077,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
-msgstr ""
+msgstr "Condiciones"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Condición"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -7086,11 +7089,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "Nombre del Módulo"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
@@ -7104,11 +7107,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "Transición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
-msgstr ""
+msgstr "Nombre de la Transición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -7116,7 +7119,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Condition"
-msgstr ""
+msgstr "Eliminar esta Condición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking"
@@ -7124,19 +7127,19 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
-msgstr ""
+msgstr "Eliminar este Campo"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Y no puede ser repetida en la misma condición."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
-msgstr ""
+msgstr "Añadir nuevo Campo"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
-msgstr ""
+msgstr "Añadir Nueva Condición"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
@@ -7754,7 +7757,7 @@ msgstr "Gestión de Roles"
 
 #. Template: AdminRole
 msgid "Add role"
-msgstr ""
+msgstr "Agregar rol"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
@@ -7764,7 +7767,7 @@ msgstr "Cree un rol y coloque grupos en el mismo. Luego añada el rol a los usua
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new "
 "role."
-msgstr ""
+msgstr "No hay roles definidos. Por favor use el botón ''Agregar\" para crear un nuevo rol."
 
 #. Template: AdminRole
 msgid "Add Role"
@@ -7772,33 +7775,33 @@ msgstr "Añadir Rol"
 
 #. Template: AdminRole
 msgid "Edit Role"
-msgstr ""
+msgstr "Editar Rol"
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
-msgstr ""
+msgstr "Gestionar las relaciones Rol - Grupo"
 
 #. Template: AdminRoleGroup
 msgid "Filter for Roles"
-msgstr ""
+msgstr "Filtro por Roles"
 
 #. Template: AdminRoleGroup
 msgid "Select the role:group permissions."
-msgstr ""
+msgstr "Seleccione los permisos rol:grupo"
 
 #. Template: AdminRoleGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr ""
+msgstr "Si nada es seleccionado, entonces no hay permisos en este grupo (los tickets no estarán disponibles para el Rol)"
 
 #. Template: AdminRoleGroup
 msgid "Change Role Relations for Group"
-msgstr ""
+msgstr "Cambiar las relaciones de Rol del Grupo"
 
 #. Template: AdminRoleGroup
 msgid "Change Group Relations for Role"
-msgstr ""
+msgstr "Cambiar las relaciones de Grupo del Rol"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -7846,23 +7849,23 @@ msgstr "Permiso para cambiar la prioridad del ticket en este grupo/cola"
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
-msgstr ""
+msgstr "Gestionar las relaciones Agente - Rol"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
-msgstr ""
+msgstr "Filtro para Agentes"
 
 #. Template: AdminRoleUser
 msgid "Manage Role-Agent Relations"
-msgstr ""
+msgstr "Gestionar las relaciones Rol - Agente"
 
 #. Template: AdminRoleUser
 msgid "Change Role Relations for Agent"
-msgstr ""
+msgstr "Cambiar las relaciones de Rol del Agente"
 
 #. Template: AdminRoleUser
 msgid "Change Agent Relations for Role"
-msgstr ""
+msgstr "Cambiar las relaciones de Agente del Rol"
 
 #. Template: AdminSLA
 msgid "SLA Management"
@@ -7999,7 +8002,7 @@ msgstr "Saludo de ejemplo"
 
 #. Template: AdminSecureMode
 msgid "Secure mode needs to be enabled!"
-msgstr ""
+msgstr "¡Es necesario habilitar modo seguro!"
 
 #. Template: AdminSecureMode
 msgid ""
@@ -8389,7 +8392,7 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "New group"
-msgstr ""
+msgstr "Nuevo grupo"
 
 #. Template: AdminSysConfigEdit
 msgid "Group ro"
@@ -8583,37 +8586,37 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
-msgstr ""
+msgstr "Gestionar Plantillas"
 
 #. Template: AdminTemplate
 msgid "Add template"
-msgstr ""
+msgstr "Agregar plantilla"
 
 #. Template: AdminTemplate
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
-msgstr ""
+msgstr "Una plantilla es el texto por defecto que ayuda a sus agentes a escribir mas rápido los tickets, respuestas o reenvios"
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "No olvide agregar las nuevas plantillas a las colas"
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "Agregar Plantilla"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "Editar Plantilla"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Ya existe na plantilla estándar con este nombre"
 
 #. Template: AdminTemplate
 msgid "Template"
-msgstr ""
+msgstr "Plantilla"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -8621,7 +8624,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Example template"
-msgstr ""
+msgstr "Plantilla Ejemplo"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
@@ -8629,23 +8632,23 @@ msgstr "El estado actual del ticket es"
 
 #. Template: AdminTemplate
 msgid "Your email address is"
-msgstr ""
+msgstr "Su dirección de correo electrónico es"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Templates <-> Attachments Relations"
-msgstr ""
+msgstr "Gestionar Relación Plantillas <-> Adjuntos"
 
 #. Template: AdminTemplateAttachment
 msgid "Filter for Attachments"
-msgstr ""
+msgstr "Filtro para Adjuntos"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Template Relations for Attachment"
-msgstr ""
+msgstr "Cambiar las relaciones de Plantillas del Adunto"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Attachment Relations for Template"
-msgstr ""
+msgstr "Cambiar las relaciones de Adjuntos de la Plantilla"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8914,7 +8917,7 @@ msgstr "Tickets en mis colas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tickets en Mis Servicios"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8986,7 +8989,7 @@ msgstr "Editar sus preferencias"
 
 #. Template: AgentSchedulerInfo
 msgid "General Information"
-msgstr ""
+msgstr "Información General"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
@@ -10471,7 +10474,7 @@ msgstr "Indicaciones generales y ajustes del correo"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Bienvenido a %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10824,7 +10827,7 @@ msgstr "Página de prueba de OTRS"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "Bienvenido %s %s"
 
 #. Template: Test
 msgid "Counter"
@@ -10991,7 +10994,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent Notifications"
-msgstr ""
+msgstr "Notificaciones de Agente"
 
 #. SysConfig
 msgid "Agent called customer."
@@ -11047,11 +11050,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Agents <-> Groups"
-msgstr ""
+msgstr "Agentes <-> Grupos"
 
 #. SysConfig
 msgid "Agents <-> Roles"
-msgstr ""
+msgstr "Agentes <-> Roles"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -11223,11 +11226,11 @@ msgstr "Árbol de Artículos"
 
 #. SysConfig
 msgid "Attachments <-> Templates"
-msgstr ""
+msgstr "Adjuntos <-> Plantillas"
 
 #. SysConfig
 msgid "Auto Responses <-> Queues"
-msgstr ""
+msgstr "Respuestas Automáticas <-> Colas"
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
@@ -11336,7 +11339,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change password"
-msgstr ""
+msgstr "Cambiar Contraseña"
 
 #. SysConfig
 msgid "Change queue!"
@@ -11468,7 +11471,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Company Tickets"
-msgstr ""
+msgstr "Tickets de Compañía"
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
@@ -11532,83 +11535,83 @@ msgstr ""
 
 #. SysConfig
 msgid "Create New process ticket"
-msgstr ""
+msgstr "Crea Nuevo ticket de proceso"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr ""
+msgstr "Crea y gestiona Acueros de Nivel de Servicio (SLAs)"
 
 #. SysConfig
 msgid "Create and manage agents."
-msgstr ""
+msgstr "Crea y gestiona agentes"
 
 #. SysConfig
 msgid "Create and manage attachments."
-msgstr ""
+msgstr "Crea y gestiona Adjuntos"
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr ""
+msgstr "Crea y gestiona usuarios clientes."
 
 #. SysConfig
 msgid "Create and manage customers."
-msgstr ""
+msgstr "Crea y gestiona clientes"
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr ""
+msgstr "Crea y gestiona campos dinámicos"
 
 #. SysConfig
 msgid "Create and manage event based notifications."
-msgstr ""
+msgstr "Crea y gestiona notificaciones basadas en eventos."
 
 #. SysConfig
 msgid "Create and manage groups."
-msgstr ""
+msgstr "Crea y gestiona grupos."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr ""
+msgstr "Crea y gestiona colas."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
-msgstr ""
+msgstr "Crea y gestiona las respuestas enviadas automáticamente."
 
 #. SysConfig
 msgid "Create and manage roles."
-msgstr ""
+msgstr "Crea y gestiona roles."
 
 #. SysConfig
 msgid "Create and manage salutations."
-msgstr ""
+msgstr "Crea y gestiona Saludos."
 
 #. SysConfig
 msgid "Create and manage services."
-msgstr ""
+msgstr "Crea y gestiona servicios."
 
 #. SysConfig
 msgid "Create and manage signatures."
-msgstr ""
+msgstr "Crea y gestiona firmas."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr ""
+msgstr "Crea y gestiona plantillas."
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
-msgstr ""
+msgstr "Crea y gestiona prioridades de tickets."
 
 #. SysConfig
 msgid "Create and manage ticket states."
-msgstr ""
+msgstr "Crea y gestiona estado de los tickets."
 
 #. SysConfig
 msgid "Create and manage ticket types."
-msgstr ""
+msgstr "Crea y gestiona tipos de tickets."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr ""
+msgstr "Crea y gestiona servicios web."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)"
@@ -11620,7 +11623,7 @@ msgstr "Crear nuevo ticket telefónico (entrante)"
 
 #. SysConfig
 msgid "Create new process ticket"
-msgstr ""
+msgstr "Crea nuevo ticket de proceso"
 
 #. SysConfig
 msgid "Custom RSS Feed"
@@ -11634,15 +11637,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Administration"
-msgstr ""
+msgstr "Administración de Clientes"
 
 #. SysConfig
 msgid "Customer User <-> Groups"
-msgstr ""
+msgstr "Usuario Cliente <-> Grupos"
 
 #. SysConfig
 msgid "Customer User <-> Services"
-msgstr ""
+msgstr "Usuario Cliente <-> Servicios"
 
 #. SysConfig
 msgid "Customer User Administration"
@@ -14987,35 +14990,35 @@ msgstr ""
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr ""
+msgstr "Crea enlace de Agentes a Grupos"
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr ""
+msgstr "Crea enlace de Agentes a Roles"
 
 #. SysConfig
 msgid "Link attachments to templates."
-msgstr ""
+msgstr "Crea enlace de Adjuntos a Plantillas"
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr ""
+msgstr "Crea enlace de Usuarios Clientes a Grupos"
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr ""
+msgstr "Crea enlace de Usuarios Clientes a Servicios."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr ""
+msgstr "Crea enlace de Colas a Respuestas Automáticas"
 
 #. SysConfig
 msgid "Link roles to groups."
-msgstr ""
+msgstr "Crea enlace de Roles a Grupos."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr ""
+msgstr "Crea enlace de Plantillas a Colas."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
@@ -15104,7 +15107,7 @@ msgstr "¡Protección contra bucles! No se envió respuesta automática a «%s»
 
 #. SysConfig
 msgid "Mail Accounts"
-msgstr ""
+msgstr "Cuentas de Correo"
 
 #. SysConfig
 msgid "Main menu registration."
@@ -15328,19 +15331,19 @@ msgstr ""
 
 #. SysConfig
 msgid "My Queues and My Services"
-msgstr ""
+msgstr "Mis Colas y Mis Servicios"
 
 #. SysConfig
 msgid "My Queues or My Services"
-msgstr ""
+msgstr "Mis Colas o Mis Servicios"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Mis Servicios"
 
 #. SysConfig
 msgid "My Tickets"
-msgstr ""
+msgstr "Mis Tickets"
 
 #. SysConfig
 msgid ""
@@ -15380,7 +15383,7 @@ msgstr "Nuevo ticket telefónico"
 
 #. SysConfig
 msgid "New process ticket"
-msgstr ""
+msgstr "Nuevo ticket de Proceso"
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
@@ -15390,17 +15393,17 @@ msgstr "El nuevo responsable es «%s» (ID=%s)."
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
-msgstr ""
+msgstr "Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica entrante para la interfaz de agente."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "outbound screen of the agent interface."
-msgstr ""
+msgstr "Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica saliente para la interfaz de agente."
 
 #. SysConfig
 msgid "No Notification"
-msgstr ""
+msgstr "Sin notificación"
 
 #. SysConfig
 msgid "None"
@@ -15442,19 +15445,19 @@ msgstr "Antiguo: \"%s\". Nuevo: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "En linea"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "Tickets abiertos (usuario cliente)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "Tickets abiertos (cliente)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Fuera de la Oficina"
 
 #. SysConfig
 msgid ""
@@ -15476,11 +15479,11 @@ msgstr "Vista general de todos los tickets abiertos."
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "Administración del Clave PGP"
 
 #. SysConfig
 msgid "PGP Key Upload"
-msgstr ""
+msgstr "Carga de Clave PGP"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
@@ -15488,7 +15491,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Parameters for ."
-msgstr ""
+msgstr "Parametros para"
 
 #. SysConfig
 msgid ""
@@ -15752,19 +15755,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "Carga de Foto"
 
 #. SysConfig
 msgid "PostMaster Filters"
-msgstr ""
+msgstr "Filtros de Correo Electrónico"
 
 #. SysConfig
 msgid "PostMaster Mail Accounts"
-msgstr ""
+msgstr "Cuentas de Correo Electrónico"
 
 #. SysConfig
 msgid "Process Information"
-msgstr ""
+msgstr "Información de Proceso"
 
 #. SysConfig
 msgid "Process Management Activity Dialog GUI"
@@ -15788,7 +15791,7 @@ msgstr ""
 
 #. SysConfig
 msgid "ProcessID"
-msgstr ""
+msgstr "ID de Proceso"
 
 #. SysConfig
 msgid ""
@@ -15946,7 +15949,7 @@ msgstr "Roles <-> Grupos"
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "Corriendo Tickets de Proceso"
 
 #. SysConfig
 msgid ""
@@ -15970,11 +15973,11 @@ msgstr ""
 
 #. SysConfig
 msgid "S/MIME Certificate Upload"
-msgstr ""
+msgstr "Carga de Certificado S/MIME"
 
 #. SysConfig
 msgid "Sample command output"
-msgstr ""
+msgstr "Ejemplo de comando de salida."
 
 #. SysConfig
 msgid ""
@@ -15996,7 +15999,7 @@ msgstr "Búsqueda de un cliente"
 
 #. SysConfig
 msgid "Search User"
-msgstr ""
+msgstr "Buscar Usuario"
 
 #. SysConfig
 msgid "Search backend default router."
@@ -16008,7 +16011,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Second Queue"
-msgstr ""
+msgstr "Cola Secundaria"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -16043,17 +16046,17 @@ msgstr ""
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my queues/services."
-msgstr ""
+msgstr "Notificarme si un cliente hace un seguimiento de ticket y soy el propietario del ticket o el ticket esta desbloqueado y tambien esta en una de mis colas/mis servicios"
 
 #. SysConfig
 msgid ""
 "Send me a notification if the service of a ticket is changed to a service in"
 " \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "Notificarme si el servicio de un ticket es cambiado a un servicio en \"Mis Servicios\" y el ticket esta en una cola donde tengo permisos de lectura"
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "Notificarme si hay un nuevo ticket en mis colas/servicios"
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
@@ -16111,7 +16114,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "Vista de servicio"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -17239,7 +17242,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Skin"
-msgstr "Piel"
+msgstr "Apariencia"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -17255,7 +17258,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Some picture description!"
-msgstr ""
+msgstr "Alguna descripción de imagen!"
 
 #. SysConfig
 msgid ""
@@ -17510,7 +17513,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
-msgstr ""
+msgstr "Mantenimiento de Sistema"
 
 #. SysConfig
 msgid "System Request (%s)."
@@ -17518,7 +17521,7 @@ msgstr "Petición del sistema (%s)."
 
 #. SysConfig
 msgid "Templates <-> Queues"
-msgstr ""
+msgstr "Plantillas <-> Colas"
 
 #. SysConfig
 msgid "Textarea"
@@ -17693,7 +17696,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Resumen de Tickets por Cola"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -17709,7 +17712,7 @@ msgstr "Vista general de tickets"
 
 #. SysConfig
 msgid "TicketNumber"
-msgstr ""
+msgstr "Número de Ticket"
 
 #. SysConfig
 msgid ""
@@ -17731,7 +17734,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Vista en árbol"
 
 #. SysConfig
 msgid ""
@@ -17806,11 +17809,11 @@ msgstr ""
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "Nombre de Usuario"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "Apellido de Usuario"
 
 #. SysConfig
 msgid ""
@@ -17834,7 +17837,7 @@ msgstr ""
 
 #. SysConfig
 msgid "View system log messages."
-msgstr ""
+msgstr "Muestra mensajes de log del sistema."
 
 #. SysConfig
 msgid "Wear this frontend skin"

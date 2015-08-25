@@ -3,17 +3,19 @@
 # andre1217 <andre.pache@otrs.com>, 2014
 # andre1217 <andre.pache@otrs.com>, 2014
 # Egareg JAOUEN <egareg.jaouen@elitt.com>, 2015
+# Marc A. Bonsels, 2015
 # Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
 # osallou <olivier.sallou@irisa.fr>, 2014
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
+# Thierry Larmier <tlarmier@free.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-06 08:39+0000\n"
-"Last-Translator: Egareg JAOUEN <egareg.jaouen@elitt.com>\n"
-"Language-Team: French (http://www.transifex.com/p/OTRS/language/fr/)\n"
+"PO-Revision-Date: 2015-08-14 13:19+0000\n"
+"Last-Translator: Marc A. Bonsels\n"
+"Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2572,7 +2574,7 @@ msgstr "Vue des statuts"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Vue par Service"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -14197,7 +14199,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enroll this ticket into a process"
-msgstr ""
+msgstr "Lier ce ticket à un processus"
 
 #. SysConfig
 msgid "Escalation response time finished"
@@ -16114,7 +16116,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "Vue par Service"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -17242,7 +17244,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Skin"
-msgstr "Thème"
+msgstr "Skin"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -17841,7 +17843,7 @@ msgstr "Voir les messages du journal système."
 
 #. SysConfig
 msgid "Wear this frontend skin"
-msgstr "Utiliser cette apparence"
+msgstr "Utiliser cette skin"
 
 #. SysConfig
 msgid "Webservice path separator."

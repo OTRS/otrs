@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Daniel Pogač <dano.pogac@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/OTRS/language/sk_SK/)\n"
+"PO-Revision-Date: 2015-08-25 09:04+0000\n"
+"Last-Translator: Daniel Pogač <dano.pogac@gmail.com>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +16,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Yes"
-msgstr "áno"
+msgstr "Áno"
 
 #. Template: AAABase
 msgid "No"
@@ -47,7 +48,7 @@ msgstr "zapnúť"
 
 #. Template: AAABase
 msgid "top"
-msgstr "hore"
+msgstr "začiatok"
 
 #. Template: AAABase
 msgid "end"
@@ -91,15 +92,15 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Today"
-msgstr ""
+msgstr "Dnes"
 
 #. Template: AAABase
 msgid "Tomorrow"
-msgstr ""
+msgstr "Zajtra"
 
 #. Template: AAABase
 msgid "Next week"
-msgstr ""
+msgstr "Nasledujúci týždeň"
 
 #. Template: AAABase
 msgid "day"
@@ -115,7 +116,7 @@ msgstr "deň/dni"
 
 #. Template: AAABase
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. Template: AAABase
 msgid "hour"
@@ -131,11 +132,11 @@ msgstr "hodina/hodiny"
 
 #. Template: AAABase
 msgid "Hours"
-msgstr ""
+msgstr "Hodín"
 
 #. Template: AAABase
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. Template: AAABase
 msgid "minute"
@@ -151,11 +152,11 @@ msgstr "minuta/minuty"
 
 #. Template: AAABase
 msgid "Minutes"
-msgstr ""
+msgstr "Minút"
 
 #. Template: AAABase
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. Template: AAABase
 msgid "month"
@@ -191,23 +192,23 @@ msgstr "rok/roky"
 
 #. Template: AAABase
 msgid "second(s)"
-msgstr ""
+msgstr "sekunda(y)"
 
 #. Template: AAABase
 msgid "seconds"
-msgstr ""
+msgstr "sekúnd"
 
 #. Template: AAABase
 msgid "second"
-msgstr ""
+msgstr "sekunda"
 
 #. Template: AAABase
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Časová jednotka"
 
 #. Template: AAABase
 msgid "wrote"
@@ -223,7 +224,7 @@ msgstr "Chyba"
 
 #. Template: AAABase
 msgid "Bug Report"
-msgstr "chybové hlásenie"
+msgstr "Chybové hlásenie"
 
 #. Template: AAABase
 msgid "Attention"
@@ -239,7 +240,7 @@ msgstr "Modul"
 
 #. Template: AAABase
 msgid "Modulefile"
-msgstr "modulový priečinok"
+msgstr "Modulový priečinok"
 
 #. Template: AAABase
 msgid "Subfunction"
@@ -247,15 +248,15 @@ msgstr "Podfunkcia"
 
 #. Template: AAABase
 msgid "Line"
-msgstr "riadok"
+msgstr "Riadok"
 
 #. Template: AAABase
 msgid "Setting"
-msgstr ""
+msgstr "Nastavenie"
 
 #. Template: AAABase
 msgid "Settings"
-msgstr ""
+msgstr "Nastavenia"
 
 #. Template: AAABase
 msgid "Example"
@@ -279,11 +280,11 @@ msgstr "neplatný"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr ""
+msgstr "Neplatný"
 
 #. Template: AAABase
 msgid "* invalid"
-msgstr ""
+msgstr "* neplatný"
 
 #. Template: AAABase
 msgid "invalid-temporarily"
@@ -291,7 +292,7 @@ msgstr "dočasne neplatný"
 
 #. Template: AAABase
 msgid " 2 minutes"
-msgstr " 2 minuty"
+msgstr "2 minúty"
 
 #. Template: AAABase
 msgid " 5 minutes"
@@ -319,19 +320,19 @@ msgstr "Pani"
 
 #. Template: AAABase
 msgid "Next"
-msgstr "ďalej"
+msgstr "Ďalej"
 
 #. Template: AAABase
 msgid "Back"
-msgstr "späť"
+msgstr "Späť"
 
 #. Template: AAABase
 msgid "Next..."
-msgstr "ďalej..."
+msgstr "Ďalej..."
 
 #. Template: AAABase
 msgid "...Back"
-msgstr "...späť"
+msgstr "...Späť"
 
 #. Template: AAABase
 msgid "-none-"
@@ -367,7 +368,7 @@ msgstr "Prepojenie"
 
 #. Template: AAABase
 msgid "Unlink"
-msgstr ""
+msgstr "Rozpojiť"
 
 #. Template: AAABase
 msgid "Linked"
@@ -483,19 +484,19 @@ msgstr "Systém"
 
 #. Template: AAABase
 msgid "Customer Info"
-msgstr "Zákazníke info"
+msgstr "Zákaznícke info"
 
 #. Template: AAABase
 msgid "Customer Information"
-msgstr ""
+msgstr "Informácie o zákazníkovi"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr ""
+msgstr "Zákazníkove spoločnosti"
 
 #. Template: AAABase
 msgid "Company"
-msgstr ""
+msgstr "Spoločnosť"
 
 #. Template: AAABase
 msgid "go!"
@@ -531,7 +532,7 @@ msgstr "Aktualizácia"
 
 #. Template: AAABase
 msgid "Updated!"
-msgstr ""
+msgstr "Aktualizované!"
 
 #. Template: AAABase
 msgid "submit!"
@@ -627,7 +628,7 @@ msgstr "medzi"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "predtým/potom"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -679,7 +680,7 @@ msgstr "Kontakty"
 
 #. Template: AAABase
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 #. Template: AAABase
 msgid "Up"
@@ -695,7 +696,7 @@ msgstr "Pridať "
 
 #. Template: AAABase
 msgid "Added!"
-msgstr ""
+msgstr "Pridané!"
 
 #. Template: AAABase
 msgid "Category"
@@ -707,39 +708,39 @@ msgstr "Zobraz"
 
 #. Template: AAABase
 msgid "Expand"
-msgstr ""
+msgstr "Rozšíriť"
 
 #. Template: AAABase
 msgid "Small"
-msgstr ""
+msgstr "Malý"
 
 #. Template: AAABase
 msgid "Medium"
-msgstr ""
+msgstr "Stredný"
 
 #. Template: AAABase
 msgid "Large"
-msgstr ""
+msgstr "Veľký"
 
 #. Template: AAABase
 msgid "Date picker"
-msgstr ""
+msgstr "Výber dátumu"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Zobraz stromový výber"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Obsah poľa je príliš dlhý!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "Maximálna dĺžka je %s znakov."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Toto pole je povinné, alebo"
 
 #. Template: AAABase
 msgid "New message"
@@ -767,11 +768,11 @@ msgstr "Odporúčaná znaková sada pre váš jazyk je %"
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr ""
+msgstr "Zmeniť heslo"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr ""
+msgstr "Najskôr aktivujte %s prosím."
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -795,15 +796,15 @@ msgstr "Neexistuje žiadny účet s týmto úžívateľským menom"
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr ""
+msgstr "Prihlásenie neúspešné. Užívateľské meno alebo heslo je nesprávne."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr ""
+msgstr "Účet so zadaným uživateľským menom neexistuje."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Prosím kontaktujte administrátora."
 
 #. Template: AAABase
 msgid ""
@@ -814,7 +815,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Email adresa existuje. Prihláste sa alebo vynulujte heslo."
 
 #. Template: AAABase
 msgid "Logout"
@@ -830,11 +831,11 @@ msgstr "Funkcia neaktívna!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr ""
+msgstr "Agent aktualizovaný!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Výber databazy"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -846,7 +847,7 @@ msgstr "Systémové nastavenia"
 
 #. Template: AAABase
 msgid "Mail Configuration"
-msgstr ""
+msgstr "Mail nastavenia"
 
 #. Template: AAABase
 msgid "Finished"
@@ -854,11 +855,11 @@ msgstr "Ukončený"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "Inštalácia OTRS"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "Úvod"
 
 #. Template: AAABase
 msgid "License"
@@ -866,42 +867,42 @@ msgstr "Licencia"
 
 #. Template: AAABase
 msgid "Database"
-msgstr ""
+msgstr "Databáza"
 
 #. Template: AAABase
 msgid "Configure Mail"
-msgstr ""
+msgstr "Konfigurácia mailu"
 
 #. Template: AAABase
 msgid "Database deleted."
-msgstr ""
+msgstr "Databáza zmazaná"
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Zadajte heslo administrátora databázy"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Zadajte heslo databázového užívateľa"
 
 #. Template: AAABase
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr ""
+msgstr "Ak ste zadali heslo root-a pre databázu, musí byť zadané tu. Ak nie, nechajte pole prázdne."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "Databáza obsahuje dáta. Mala by byť prázdna."
 
 #. Template: AAABase
 msgid "Login is needed!"
-msgstr ""
+msgstr "Vyžaduje sa prihlásenie!"
 
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Prihlásenie nie je momentálne možné z dôvodu plánovanej údržby systému."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -909,11 +910,11 @@ msgstr "Je potrebné heslo."
 
 #. Template: AAABase
 msgid "Take this Customer"
-msgstr "Použi tohto klienta."
+msgstr "Použi tohto zákazníka."
 
 #. Template: AAABase
 msgid "Take this User"
-msgstr "Puži tohto užívateľa."
+msgstr "Použi tohto užívateľa."
 
 #. Template: AAABase
 msgid "possible"
@@ -925,7 +926,7 @@ msgstr "odmietnuť"
 
 #. Template: AAABase
 msgid "reverse"
-msgstr ""
+msgstr "vrátiť sa"
 
 #. Template: AAABase
 msgid "Facility"
@@ -933,7 +934,7 @@ msgstr "Príslušenstvo"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr ""
+msgstr "Časové pásmo"
 
 #. Template: AAABase
 msgid "Pending till"
@@ -959,15 +960,15 @@ msgstr "Nenájdený žiaden vstup."
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "Neplatná relácia. Prihláste sa znova prosím."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
-msgstr "Relácia timeout. Prosím =>  prihláste sa znova."
+msgstr "Časový limit relácie vypršal. Prihláste sa znova prosím."
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr ""
+msgstr "Prekročený počet relácií. Skúste neskôr prosím."
 
 #. Template: AAABase
 msgid "No Permission!"
@@ -983,15 +984,15 @@ msgstr "Náhľad"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr ""
+msgstr "Balík sa nepodarilo nasadiť. Reinštalujte balík prosím."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr ""
+msgstr "Zápis do %s zakázzaný!"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
-msgstr ""
+msgstr "%s nieje možné vytvoriť!"
 
 #. Template: AAABase
 msgid "Check to activate this date"
@@ -999,99 +1000,99 @@ msgstr ""
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
+msgstr "Máte nastavenú neprítomnosť. Chcete toto nastavenie zrušiť ?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Novinky o OTRS vydaniach!"
 
 #. Template: AAABase
 msgid "Customer %s added"
-msgstr ""
+msgstr "Zákazník %s pridaný"
 
 #. Template: AAABase
 msgid "Role added!"
-msgstr ""
+msgstr "Roľa pridaná!"
 
 #. Template: AAABase
 msgid "Role updated!"
-msgstr ""
+msgstr "Roľa aktualizovaná!"
 
 #. Template: AAABase
 msgid "Attachment added!"
-msgstr ""
+msgstr "Príloha pridaná!"
 
 #. Template: AAABase
 msgid "Attachment updated!"
-msgstr ""
+msgstr "Príloha aktualizovaná!"
 
 #. Template: AAABase
 msgid "Response added!"
-msgstr ""
+msgstr "Odpoveď pridaná!"
 
 #. Template: AAABase
 msgid "Response updated!"
-msgstr ""
+msgstr "Odpoveď aktualizovaná!"
 
 #. Template: AAABase
 msgid "Group updated!"
-msgstr ""
+msgstr "Skupina aktualizovaná!"
 
 #. Template: AAABase
 msgid "Queue added!"
-msgstr ""
+msgstr "Fronta pridaná!"
 
 #. Template: AAABase
 msgid "Queue updated!"
-msgstr ""
+msgstr "Fronta aktualizovaná!"
 
 #. Template: AAABase
 msgid "State added!"
-msgstr ""
+msgstr "Stav pridaný!"
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr ""
+msgstr "Stav aktualizovaný!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr ""
+msgstr "Typ pridaný!"
 
 #. Template: AAABase
 msgid "Type updated!"
-msgstr ""
+msgstr "Typ aktualizovaný!"
 
 #. Template: AAABase
 msgid "Customer updated!"
-msgstr ""
+msgstr "Zákzník aktualizovaný!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "Spoločnosť pridaná!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "Spoločnosť aktualizovaná!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Poznámka: Neplatná spoločnosť!"
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr ""
+msgstr "Mailové konto pridané!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr ""
+msgstr "Mailové konto aktualizované!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr ""
+msgstr "Systémová mail adresa pridaná!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr ""
+msgstr "Systémová mail adresa aktualizovaná!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1111,11 +1112,11 @@ msgstr "Kalendár"
 
 #. Template: AAABase
 msgid "File"
-msgstr ""
+msgstr "Súbor"
 
 #. Template: AAABase
 msgid "Filename"
-msgstr ""
+msgstr "Názov súboru"
 
 #. Template: AAABase
 msgid "Type"
@@ -1127,11 +1128,11 @@ msgstr "Veľkosť"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr ""
+msgstr "Nahrať"
 
 #. Template: AAABase
 msgid "Directory"
-msgstr ""
+msgstr "Adresár"
 
 #. Template: AAABase
 msgid "Signed"
@@ -1147,31 +1148,31 @@ msgstr "Zašifrovaný"
 
 #. Template: AAABase
 msgid "Crypt"
-msgstr "šifrovať"
+msgstr "Šifrovať"
 
 #. Template: AAABase
 msgid "PGP"
-msgstr ""
+msgstr "PGP"
 
 #. Template: AAABase
 msgid "PGP Key"
-msgstr ""
+msgstr "PGP kľúč"
 
 #. Template: AAABase
 msgid "PGP Keys"
-msgstr ""
+msgstr "PGP kľúče"
 
 #. Template: AAABase
 msgid "S/MIME"
-msgstr ""
+msgstr "S/MIME"
 
 #. Template: AAABase
 msgid "S/MIME Certificate"
-msgstr ""
+msgstr "S/MIME Certifikát"
 
 #. Template: AAABase
 msgid "S/MIME Certificates"
-msgstr ""
+msgstr "S/MIME Certifikáty"
 
 #. Template: AAABase
 msgid "Office"
@@ -1183,31 +1184,31 @@ msgstr "Telefón"
 
 #. Template: AAABase
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #. Template: AAABase
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #. Template: AAABase
 msgid "Zip"
-msgstr ""
+msgstr "PSČ"
 
 #. Template: AAABase
 msgid "City"
-msgstr ""
+msgstr "Mesto"
 
 #. Template: AAABase
 msgid "Street"
-msgstr ""
+msgstr "Ulica"
 
 #. Template: AAABase
 msgid "Country"
-msgstr ""
+msgstr "Krajina"
 
 #. Template: AAABase
 msgid "Location"
-msgstr ""
+msgstr "Poloha"
 
 #. Template: AAABase
 msgid "installed"
@@ -1221,7 +1222,7 @@ msgstr "odinštalovaný"
 msgid ""
 "Security Note: You should activate %s because application is already "
 "running!"
-msgstr ""
+msgstr "Bezpečnostná poznámka: Mali by ste aktivovať %s nakoľko aplikácia už beží!"
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
@@ -1253,28 +1254,28 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Loading..."
-msgstr ""
+msgstr "Nahrávanie..."
 
 #. Template: AAABase
 msgid "Dear Mr. %s,"
-msgstr ""
+msgstr "Vážený pán %s,"
 
 #. Template: AAABase
 msgid "Dear Mrs. %s,"
-msgstr ""
+msgstr "Vážená pani %s,"
 
 #. Template: AAABase
 msgid "Dear %s,"
-msgstr ""
+msgstr "Vážená(ý) %s,"
 
 #. Template: AAABase
 msgid "Hello %s,"
-msgstr ""
+msgstr "Ahoj %s,"
 
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Zadanú adresu nieje možné použiť pre registráciu. Kontaktujte systémovú podporu."
 
 #. Template: AAABase
 msgid ""

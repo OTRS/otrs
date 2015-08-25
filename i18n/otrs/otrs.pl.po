@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-15 15:09+0000\n"
+"PO-Revision-Date: 2015-08-06 12:54+0000\n"
 "Last-Translator: icetafax <tomasz.matejunas@cortlandplus.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/OTRS/language/pl/)\n"
+"Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10183,7 +10183,7 @@ msgstr "Edytuj ustawienia osobiste"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr "Wylogój %s %s"
+msgstr "Wyloguj %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"

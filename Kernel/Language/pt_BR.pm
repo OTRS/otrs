@@ -1435,9 +1435,9 @@ sub Data {
         'Delete this Invoker' => 'Exclua este invoker',
 
         # Template: AdminGenericInterfaceMappingSimple
-        'GenericInterface Mapping Simple for Web Service %s' => '',
+        'GenericInterface Mapping Simple for Web Service %s' => 'Mapeamento Simple da GenericInterface para o web service %s',
         'Go back to' => 'Voltar para',
-        'Mapping Simple' => 'Mapeamento simples',
+        'Mapping Simple' => 'Mapeamento Simple',
         'Default rule for unmapped keys' => 'Regra padrão para chaves não mapeadas',
         'This rule will apply for all keys with no mapping rule.' => 'Esta regra se aplica para todas as chaves sem regra de mapeamento',
         'Default rule for unmapped values' => 'Regra padrão para valores não mapeados.',
@@ -1456,12 +1456,12 @@ sub Data {
         'Remove value mapping' => 'Remover mapeamento de valor',
         'New value map' => 'Novo mapa de valor',
         'Add value mapping' => 'Adiciona mapeamento de valor',
-        'Do you really want to delete this key mapping?' => '',
-        'Delete this Key Mapping' => '',
+        'Do you really want to delete this key mapping?' => 'Você realmente deseja excluir este mapeamento de chaves?',
+        'Delete this Key Mapping' => 'Exclui este mapeamento de chaves',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => '',
-        'Change Operation %s of Web Service %s' => '',
+        'Add new Operation to Web Service %s' => 'Adicionar nova operação no web service %s',
+        'Change Operation %s of Web Service %s' => 'Altera operação %s no web service %s',
         'Add new operation' => 'Criar nova operação',
         'Change operation %s' => 'Alterar operação %s',
         'Do you really want to delete this operation?' => 'Você realmente deseja excluir esta operação?',
@@ -1469,96 +1469,96 @@ sub Data {
         'The name is typically used to call up this web service operation from a remote system.' =>
             'O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto.',
         'Please provide a unique name for this web service.' => 'Por favor, forneça um único nome para este web service.',
-        'Mapping for incoming request data' => '',
+        'Mapping for incoming request data' => 'Mapeamento para dados de chegada da requisição',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            '',
-        'Operation backend' => '',
+            'Os dados requisitados serão processados por este mapeamento, para transformá-los no tipo de dados esperado pelo OTRS.',
+        'Operation backend' => 'Backend de operação',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
-            '',
-        'Mapping for outgoing response data' => '',
+            'Este módulo de backend de operação do OTRS será chamado internamente para processar a requisição, gerando dados para a resposta',
+        'Mapping for outgoing response data' => 'Mapeamento para os dados de saída da resposta',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            '',
+            'Os dados da resposta serão processados por este mapeamento, para transformá-los no tipo de dados esperados pelo sistema remoto.',
         'Delete this Operation' => 'Excluir esta Operação',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'GenericInterface Transport HTTP::REST for Web Service %s' => '',
+        'GenericInterface Transport HTTP::REST for Web Service %s' => 'Transporte HTTP::REST da GenericInterface para o web service %s',
         'Network transport' => 'Transporte de Rede',
         'Properties' => 'Propriedades',
-        'Route mapping for Operation' => '',
+        'Route mapping for Operation' => 'Mapeamento da rota para a operação',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            '',
-        'Valid request methods for Operation' => '',
+            'Defina a rota que precisa ser mapeada para esta operação. Variáveis marcadas com um \':\' serão mapeadas para o nome de entrada e repassadas com as demais para o mapeamento (ex.: /Ticket/:TicketID).',
+        'Valid request methods for Operation' => 'Métodos de requisição válidos para a operação',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
-            '',
+            'Limita esta operação para métodos de requisição específicos. Se nenhum método for selecionado, todas as requisições serão aceitas.',
         'Maximum message length' => 'Tamanho máximo da mensagem',
         'This field should be an integer number.' => 'O campo deve ser um valor inteiro.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
-            '',
-        'Send Keep-Alive' => '',
+            'Aqui você pode especificar o tamanho máximo (em bytes) das mensagens REST que o OTRS vai processar.',
+        'Send Keep-Alive' => 'Enviar Keep-Alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Esta configuração define se conexões de entrada devem ficar fechadas ou permanecerem abertas.',
         'Host' => 'Servidor',
         'Remote host URL for the REST requests.' => 'URL do host remoto para requisições REST.',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'ex: https://www.otrs.com:10745/api/v1.0 (sem fuga da barra invertida)',
-        'Controller mapping for Invoker' => '',
+        'Controller mapping for Invoker' => 'Mapeamento do controlador para o invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
-            '',
-        'Valid request command for Invoker' => '',
+            'O controlador para o qual o invoker necessita enviar requisições. Variáveis marcadas com um \':\' serão substituídas pelos valores dos dados e repassadas com a requisição (ex.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
+        'Valid request command for Invoker' => 'Comando válido da requisição para o invoker',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
-            '',
+            'Um comando HTTP específico para usar para as requisições com este invoker (opcional).',
         'Default command' => 'Comando padrão',
-        'The default HTTP command to use for the requests.' => '',
+        'The default HTTP command to use for the requests.' => 'O comando HTTP padrão para usar para as requisições.',
         'Authentication' => 'Autenticação',
         'The authentication mechanism to access the remote system.' => 'O mecanismo de autenticação para acessar o sistema remoto.',
-        'A "-" value means no authentication.' => '',
+        'A "-" value means no authentication.' => 'Um valor "-" significa sem autenticação.',
         'The user name to be used to access the remote system.' => 'Nome de usuário para acesso ao sistema remoto.',
-        'The password for the privileged user.' => '',
+        'The password for the privileged user.' => 'A senha para o usuário privilegiado.',
         'Use SSL Options' => 'Usar opções de SSL',
-        'Show or hide SSL options to connect to the remote system.' => '',
+        'Show or hide SSL options to connect to the remote system.' => 'Exibir ou ocultar as opções SSL para conectar ao sistema remoto.',
         'Certificate File' => 'Arquivo de Certificado',
-        'The full path and name of the SSL certificate file.' => '',
-        'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
-        'Certificate Password File' => '',
-        'The full path and name of the SSL key file.' => '',
-        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
-        'Certification Authority (CA) File' => '',
+        'The full path and name of the SSL certificate file.' => 'O caminho completo ou o nome do arquivo do certificado SSL.',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => 'ex.: /opt/otrs/var/certificates/REST/ssl.crt',
+        'Certificate Password File' => 'Arquivo de senha do certificado',
+        'The full path and name of the SSL key file.' => 'O caminho completo ou o nome do arquivo da chave do SSL.',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'ex.: /opt/otrs/var/certificates/REST/ssl.key',
+        'Certification Authority (CA) File' => 'Arquivo da Autoridade Certificadora (AC)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => '',
+            'O caminho completo ou o nome do arquivo de certificado da Autoridade Certificadora que valida o certificado SSL.',
+        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => 'ex.: /opt/otrs/var/certificates/REST/CA/ca.file',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
-        'Endpoint' => '',
+        'GenericInterface Transport HTTP::SOAP for Web Service %s' => 'Transporte HTTP::SOAP da GenericInterface para o web service %s',
+        'Endpoint' => 'Endpoint',
         'URI to indicate a specific location for accessing a service.' =>
-            '',
-        'e.g. http://local.otrs.com:8000/Webservice/Example' => '',
-        'Namespace' => '',
-        'URI to give SOAP methods a context, reducing ambiguities.' => '',
+            'URI para indicar a localização especifica de acesso a um web service.',
+        'e.g. http://local.otrs.com:8000/Webservice/Example' => 'ex.: http://local.otrs.com:8000/Webservice/Example',
+        'Namespace' => 'Namespace',
+        'URI to give SOAP methods a context, reducing ambiguities.' => 'URI de contexto dos métodos SOAP, reduzindo ambiguidades.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            '',
+            'ex.: urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
-            '',
-        'Encoding' => '',
-        'The character encoding for the SOAP message contents.' => '',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
-        'SOAPAction' => '',
-        'Set to "Yes" to send a filled SOAPAction header.' => '',
-        'Set to "No" to send an empty SOAPAction header.' => '',
-        'SOAPAction separator' => '',
+            'Aqui você pode especificar o tamanho máximo (em bytes) das mensagens SOAP que o OTRS vai processar.',
+        'Encoding' => 'Codificação',
+        'The character encoding for the SOAP message contents.' => 'A codificação de caracteres para o conteúdo da mensagem SOAP.',
+        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'ex.: utf-8, latin1, iso-8859-1, cp1250 etc.',
+        'SOAPAction' => 'SOAPAction',
+        'Set to "Yes" to send a filled SOAPAction header.' => 'Defina para "Sim" para enviar um cabeçalho SOAPAction preenchido.',
+        'Set to "No" to send an empty SOAPAction header.' => 'Defina para "Não" para enviar um cabeçalho SOAPAction vazio.',
+        'SOAPAction separator' => 'Separador SOAPAction',
         'Character to use as separator between name space and SOAP method.' =>
-            '',
-        'Usually .Net web services uses a "/" as separator.' => '',
+            'Caractere a ser usado como separador entre o namespace e o método SOAP.',
+        'Usually .Net web services uses a "/" as separator.' => 'Geralmente web services .Net usam "/" como separador.',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
-            '',
+            'O caminho completo e nome do arquivo do certificado SSL (precisa estar no formato .p12).',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => 'ex. /opt/otrs/var/certificates/SOAP/certificate.p12',
         'The password to open the SSL certificate.' => 'Senha para abrir o Certificado SSL',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
-            '',
+            'O caminho completo e nome do arquivo do certificado da autoridade certificadora que valida o certificado SSL.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'ex. /opt/otrs/var/certificates/SOAP/CA/ca.pem',
-        'Certification Authority (CA) Directory' => '',
+        'Certification Authority (CA) Directory' => 'Diretório da Autoridade Certificadora (AC)',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
-            '',
+            'O caminho completo do diretório da autoridade certificadora onde os certificados AC serão armazenados no sistema de arquivos.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'ex. /opt/otrs/var/certificates/SOAP/CA',
         'Proxy Server' => 'Servidor Proxy',
         'URI of a proxy server to be used (if needed).' => 'URL do servidor proxy (se necessário).',
@@ -1586,7 +1586,7 @@ sub Data {
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Após salvar as configuração você será redirecionado novamente para a tela de edição.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            '',
+            'Se você deseja retornar para a visão geral, clique no botão "Ir para a visão geral"',
         'Web Service List' => 'Lista de Web Services',
         'Remote system' => 'Sistema Remoto',
         'Provider transport' => 'Transporte Provedor',
@@ -1600,32 +1600,32 @@ sub Data {
             'Operações são funções individuais do sistema que podem ser requisitadas pelo sistema remoto.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
             'Invocadores prepararam os dados para um pedido de um web service remoto, e processam os dados de sua resposta.',
-        'Controller' => '',
-        'Inbound mapping' => '',
-        'Outbound mapping' => '',
-        'Delete this action' => '',
+        'Controller' => 'Controlador',
+        'Inbound mapping' => 'Mapeamento de entrada',
+        'Outbound mapping' => 'Mapeamento de saída',
+        'Delete this action' => 'Excluir esta ação',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
-            '',
-        'Delete webservice' => '',
-        'Delete operation' => '',
-        'Delete invoker' => '',
-        'Clone webservice' => '',
+            'Pelo menos um %s tem um controlador que ou não está ativo ou não está presente, por favor verifique o registro do controlador ou exclua o %s',
+        'Delete webservice' => 'Excluir web service',
+        'Delete operation' => 'Excluir operação',
+        'Delete invoker' => 'Excluir invoker',
+        'Clone webservice' => 'Clonar web service',
         'Import webservice' => 'Importar Web Service',
 
         # Template: AdminGenericInterfaceWebserviceHistory
-        'GenericInterface Configuration History for Web Service %s' => '',
-        'Go back to Web Service' => '',
+        'GenericInterface Configuration History for Web Service %s' => 'Histórico de configuração da GenericInterface para o web service %s',
+        'Go back to Web Service' => 'Voltar para Web Service',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            '',
-        'Configuration History List' => '',
+            'Aqui você pode visualizar as versões anteriores da configuração do web service corrente, exportar ou até restaurá-las.',
+        'Configuration History List' => 'Lista de histórico da configuração',
         'Version' => 'Versão',
         'Create time' => 'Data de criação',
-        'Select a single configuration version to see its details.' => '',
-        'Export web service configuration' => '',
-        'Restore web service configuration' => '',
+        'Select a single configuration version to see its details.' => 'Selecione apenas uma versão de configuração para ver seus detalhes.',
+        'Export web service configuration' => 'Exportar configuração do web service',
+        'Restore web service configuration' => 'Restaurar configuração do web service',
         'Do you really want to restore this version of the web service configuration?' =>
-            '',
-        'Your current web service configuration will be overwritten.' => '',
+            'Você realmente deseja restaurar esta versão da configuração do web service?',
+        'Your current web service configuration will be overwritten.' => 'A sua configuração corrente do web service será sobrescrita.',
         'Restore' => 'Restaurar',
 
         # Template: AdminGroup
@@ -1692,7 +1692,7 @@ sub Data {
         'Only for ArticleCreate and ArticleSend event' => 'Apenas para os eventos ArticleCreate e ArticleSend',
         'Article type' => 'Tipo de Artigo',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
-            '',
+            'Se ArticleCreate ou ArticleSend for usado como evento de disparo, você precisa especificar também um filtro de artigo. Por favor selecione pelo menos um dos campos de filtro de artigo.',
         'Article sender type' => 'Tipo de Remetente do Artigo',
         'Subject match' => 'Casar Assunto',
         'Body match' => 'Casar Corpo',
@@ -1714,25 +1714,25 @@ sub Data {
             'Para buscar as primeiras 5 linhas do corpo (do último artigo do cliente)',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
-        'Downgrade to OTRS Free' => '',
+        'Manage %s' => 'Gerenciar %s',
+        'Downgrade to OTRS Free' => 'Downgrade para o OTRS Free',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
-        'Unauthorized Usage Detected' => '',
+            '%s faz contato regular com cloud.otrs.com para verificar as atualizações disponíveis e a validade do contrato subjacente.',
+        'Unauthorized Usage Detected' => 'Uso não autorizado detectado',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Este sistema usa o %s sem a licença correspondente! Por favor faça contato com %s para renovar ou ativar o seu contrato!',
+        '%s not Correctly Installed' => '%s não instalado corretamente',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            'O seu %s não está instalado corretamente. Por favor reinstale-o usando o botão abaixo.',
+        'Reinstall %s' => 'Reinstalar %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            'O seu %s não está instalado corretamente, e também há uma atualização disponível.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
-        'Update %s' => '',
+        'Update %s' => 'Atualizar %s',
         '%s Not Yet Available' => '',
         '%s will be available soon.' => '',
-        '%s Update Available' => '',
+        '%s Update Available' => '%s Atualização Disponível',
         'An update for your %s is available! Please update at your earliest!' =>
             '',
         '%s Correctly Deployed' => '',
@@ -1746,7 +1746,7 @@ sub Data {
         'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Registrar este Sistema',
         'System Registration is disabled for your system. Please check your configuration.' =>
             '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
@@ -1759,8 +1759,8 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessUninstall
-        'Cancel downgrade and go back' => '',
-        'Go to OTRS Package Manager' => '',
+        'Cancel downgrade and go back' => 'Cancelar downgrade e retornar',
+        'Go to OTRS Package Manager' => 'Ir para o Gerenciador de Pacotes do OTRS',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
         'Vendor' => 'Fornecedor',
@@ -1867,14 +1867,14 @@ sub Data {
         'The name is required.' => 'O nome é obrigatório.',
         'Filter Condition' => 'Condição do Filtro',
         'AND Condition' => 'Condição E',
-        'Check email header' => '',
+        'Check email header' => 'Checar cabeçalho do Email',
         'Negate' => 'Negado',
         'Look for value' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'O campo precisa ser uma expressão regular válida ou uma palavra literal.',
         'Set Email Headers' => 'Configurar Cabeçalhos de E-mail',
         'Set email header' => '',
-        'Set value' => '',
+        'Set value' => 'Definir Valor',
         'The field needs to be a literal word.' => 'O campo precisa ser uma palavra literal.',
 
         # Template: AdminPriority

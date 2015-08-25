@@ -1970,7 +1970,7 @@ sub Data {
         'Edit Process' => 'Prozess bearbeiten',
         'Print process information' => 'Prozess-Informationen drucken',
         'Delete Process' => 'Prozess löschen',
-        'Delete Inactive Process' => 'Inaktive Prozesse löschen',
+        'Delete Inactive Process' => 'Inaktiven Prozess löschen',
         'Available Process Elements' => 'Verfügbare Prozess-Elemente',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             'Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in den Zeichenbereich gezogen werden.',

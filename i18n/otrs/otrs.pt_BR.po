@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Adonai Silveira Canez <adonaicanez@gmail.com>, 2015
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-29 17:11+0000\n"
+"PO-Revision-Date: 2015-08-04 18:13+0000\n"
 "Last-Translator: Samuel Diniz Casimiro <nedmaj@yahoo.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5103,7 +5104,7 @@ msgstr "Exclua este invoker"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
-msgstr ""
+msgstr "Mapeamento Simple da GenericInterface para o web service %s"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
@@ -5111,7 +5112,7 @@ msgstr "Voltar para"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr "Mapeamento simples"
+msgstr "Mapeamento Simple"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
@@ -5187,19 +5188,19 @@ msgstr "Adiciona mapeamento de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "Você realmente deseja excluir este mapeamento de chaves?"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Exclui este mapeamento de chaves"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
-msgstr ""
+msgstr "Adicionar nova operação no web service %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change Operation %s of Web Service %s"
-msgstr ""
+msgstr "Altera operação %s no web service %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
@@ -5229,33 +5230,33 @@ msgstr "Por favor, forneça um único nome para este web service."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "Mapeamento para dados de chegada da requisição"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
 "kind of data OTRS expects."
-msgstr ""
+msgstr "Os dados requisitados serão processados por este mapeamento, para transformá-los no tipo de dados esperado pelo OTRS."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr ""
+msgstr "Backend de operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
-msgstr ""
+msgstr "Este módulo de backend de operação do OTRS será chamado internamente para processar a requisição, gerando dados para a resposta"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "Mapeamento para os dados de saída da resposta"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the remote system expects."
-msgstr ""
+msgstr "Os dados da resposta serão processados por este mapeamento, para transformá-los no tipo de dados esperados pelo sistema remoto."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
@@ -5263,7 +5264,7 @@ msgstr "Excluir esta Operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr ""
+msgstr "Transporte HTTP::REST da GenericInterface para o web service %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
@@ -5275,24 +5276,24 @@ msgstr "Propriedades"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "Mapeamento da rota para a operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Define the route that should get mapped to this operation. Variables marked "
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr ""
+msgstr "Defina a rota que precisa ser mapeada para esta operação. Variáveis marcadas com um ':' serão mapeadas para o nome de entrada e repassadas com as demais para o mapeamento (ex.: /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "Métodos de requisição válidos para a operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Limit this Operation to specific request methods. If no method is selected "
 "all requests will be accepted."
-msgstr ""
+msgstr "Limita esta operação para métodos de requisição específicos. Se nenhum método for selecionado, todas as requisições serão aceitas."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
@@ -5306,11 +5307,11 @@ msgstr "O campo deve ser um valor inteiro."
 msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Aqui você pode especificar o tamanho máximo (em bytes) das mensagens REST que o OTRS vai processar."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Enviar Keep-Alive"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -5332,24 +5333,24 @@ msgstr "ex: https://www.otrs.com:10745/api/v1.0 (sem fuga da barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
-msgstr ""
+msgstr "Mapeamento do controlador para o invoker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr ""
+msgstr "O controlador para o qual o invoker necessita enviar requisições. Variáveis marcadas com um ':' serão substituídas pelos valores dos dados e repassadas com a requisição (ex.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
-msgstr ""
+msgstr "Comando válido da requisição para o invoker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker "
 "(optional)."
-msgstr ""
+msgstr "Um comando HTTP específico para usar para as requisições com este invoker (opcional)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
@@ -5357,7 +5358,7 @@ msgstr "Comando padrão"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "O comando HTTP padrão para usar para as requisições."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -5369,7 +5370,7 @@ msgstr "O mecanismo de autenticação para acessar o sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
-msgstr ""
+msgstr "Um valor \"-\" significa sem autenticação."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -5377,7 +5378,7 @@ msgstr "Nome de usuário para acesso ao sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
-msgstr ""
+msgstr "A senha para o usuário privilegiado."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
@@ -5385,7 +5386,7 @@ msgstr "Usar opções de SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide SSL options to connect to the remote system."
-msgstr ""
+msgstr "Exibir ou ocultar as opções SSL para conectar ao sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate File"
@@ -5393,114 +5394,114 @@ msgstr "Arquivo de Certificado"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "O caminho completo ou o nome do arquivo do certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "ex.: /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"
-msgstr ""
+msgstr "Arquivo de senha do certificado"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "O caminho completo ou o nome do arquivo da chave do SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "ex.: /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
-msgstr ""
+msgstr "Arquivo da Autoridade Certificadora (AC)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates the SSL certificate."
-msgstr ""
+msgstr "O caminho completo ou o nome do arquivo de certificado da Autoridade Certificadora que valida o certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "ex.: /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
-msgstr ""
+msgstr "Transporte HTTP::SOAP da GenericInterface para o web service %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Endpoint"
-msgstr ""
+msgstr "Endpoint"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to indicate a specific location for accessing a service."
-msgstr ""
+msgstr "URI para indicar a localização especifica de acesso a um web service."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "ex.: http://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
-msgstr ""
+msgstr "Namespace"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
-msgstr ""
+msgstr "URI de contexto dos métodos SOAP, reduzindo ambiguidades."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr ""
+msgstr "ex.: urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Aqui você pode especificar o tamanho máximo (em bytes) das mensagens SOAP que o OTRS vai processar."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
-msgstr ""
+msgstr "Codificação"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "A codificação de caracteres para o conteúdo da mensagem SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "ex.: utf-8, latin1, iso-8859-1, cp1250 etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction"
-msgstr ""
+msgstr "SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" to send a filled SOAPAction header."
-msgstr ""
+msgstr "Defina para \"Sim\" para enviar um cabeçalho SOAPAction preenchido."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" to send an empty SOAPAction header."
-msgstr ""
+msgstr "Defina para \"Não\" para enviar um cabeçalho SOAPAction vazio."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "Separador SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
-msgstr ""
+msgstr "Caractere a ser usado como separador entre o namespace e o método SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services uses a \"/\" as separator."
-msgstr ""
+msgstr "Geralmente web services .Net usam \"/\" como separador."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path and name of the SSL certificate file (must be in .p12 format)."
-msgstr ""
+msgstr "O caminho completo e nome do arquivo do certificado SSL (precisa estar no formato .p12)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
@@ -5514,7 +5515,7 @@ msgstr "Senha para abrir o Certificado SSL"
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr ""
+msgstr "O caminho completo e nome do arquivo do certificado da autoridade certificadora que valida o certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
@@ -5522,13 +5523,13 @@ msgstr "ex. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "Diretório da Autoridade Certificadora (AC)"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
-msgstr ""
+msgstr "O caminho completo do diretório da autoridade certificadora onde os certificados AC serão armazenados no sistema de arquivos."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
@@ -5624,7 +5625,7 @@ msgstr "Após salvar as configuração você será redirecionado novamente para 
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" "
 "button."
-msgstr ""
+msgstr "Se você deseja retornar para a visão geral, clique no botão \"Ir para a visão geral\""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
@@ -5668,41 +5669,41 @@ msgstr "Invocadores prepararam os dados para um pedido de um web service remoto,
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr ""
+msgstr "Controlador"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
-msgstr ""
+msgstr "Mapeamento de entrada"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Outbound mapping"
-msgstr ""
+msgstr "Mapeamento de saída"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "Excluir esta ação"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr ""
+msgstr "Pelo menos um %s tem um controlador que ou não está ativo ou não está presente, por favor verifique o registro do controlador ou exclua o %s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
-msgstr ""
+msgstr "Excluir web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "Excluir operação"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
-msgstr ""
+msgstr "Excluir invoker"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
-msgstr ""
+msgstr "Clonar web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import webservice"
@@ -5710,21 +5711,21 @@ msgstr "Importar Web Service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
-msgstr ""
+msgstr "Histórico de configuração da GenericInterface para o web service %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "Voltar para Web Service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Here you can view older versions of the current web service's configuration,"
 " export or even restore them."
-msgstr ""
+msgstr "Aqui você pode visualizar as versões anteriores da configuração do web service corrente, exportar ou até restaurá-las."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "Lista de histórico da configuração"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -5736,24 +5737,24 @@ msgstr "Data de criação"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr ""
+msgstr "Selecione apenas uma versão de configuração para ver seus detalhes."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr ""
+msgstr "Exportar configuração do web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr ""
+msgstr "Restaurar configuração do web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
-msgstr ""
+msgstr "Você realmente deseja restaurar esta versão da configuração do web service?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "A sua configuração corrente do web service será sobrescrita."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
@@ -5963,7 +5964,7 @@ msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr ""
+msgstr "Se ArticleCreate ou ArticleSend for usado como evento de disparo, você precisa especificar também um filtro de artigo. Por favor selecione pelo menos um dos campos de filtro de artigo."
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
@@ -6030,46 +6031,46 @@ msgstr "Para buscar as primeiras 5 linhas do corpo (do último artigo do cliente
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Gerenciar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr ""
+msgstr "Downgrade para o OTRS Free"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr ""
+msgstr "%s faz contato regular com cloud.otrs.com para verificar as atualizações disponíveis e a validade do contrato subjacente."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
-msgstr ""
+msgstr "Uso não autorizado detectado"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr ""
+msgstr "Este sistema usa o %s sem a licença correspondente! Por favor faça contato com %s para renovar ou ativar o seu contrato!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
-msgstr ""
+msgstr "%s não instalado corretamente"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr ""
+msgstr "O seu %s não está instalado corretamente. Por favor reinstale-o usando o botão abaixo."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Reinstalar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr ""
+msgstr "O seu %s não está instalado corretamente, e também há uma atualização disponível."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6079,7 +6080,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Atualizar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
@@ -6091,7 +6092,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s Atualização Disponível"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -6125,7 +6126,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
-msgstr ""
+msgstr "Registrar este Sistema"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -6156,11 +6157,11 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
-msgstr ""
+msgstr "Cancelar downgrade e retornar"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "Ir para o Gerenciador de Pacotes do OTRS"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6530,7 +6531,7 @@ msgstr "Condição E"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Checar cabeçalho do Email"
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
@@ -6554,7 +6555,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Definir Valor"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."

@@ -3059,7 +3059,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
-        'Logout %s %s' => 'Wylogój %s %s',
+        'Logout %s %s' => 'Wyloguj %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
