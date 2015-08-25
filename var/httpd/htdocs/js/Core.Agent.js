@@ -284,7 +284,18 @@ Core.Agent = (function (TargetNS) {
          *
          */
         $('#GlobalSearchNav, #GlobalSearchNavResponsive').bind('click', function () {
-            Core.Agent.Search.OpenSearchDialog();
+            var SearchFrontend = Core.Config.Get('SearchFrontend');
+            if (SearchFrontend) {
+                try {
+                    eval(SearchFrontend); //eslint-disable-line no-eval
+                }
+                catch(Error) {
+                    $.noop(Error);
+                }
+            }
+            else {
+                Core.Agent.Search.OpenSearchDialog();
+            }
             return false;
         });
 

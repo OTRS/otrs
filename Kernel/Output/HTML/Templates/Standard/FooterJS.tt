@@ -45,6 +45,9 @@ Core.App.Ready(function () {
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]
+[% RenderBlockStart("SearchFrontendConfig") %]
+        SearchFrontend: [% Data.SearchFrontendConfig | JSON %],
+[% RenderBlockEnd("SearchFrontendConfig") %]
         CheckSearchStringsForStopWords: [% Config("Ticket::SearchIndex::WarnOnStopWordUsage") and Config("Ticket::SearchIndexModule") == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ? 1 : 0 %],
         // translations
         ValidateServerErrorTitle: [% Translate("Error") | JSON %],

@@ -4570,6 +4570,16 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Search::JavaScript###AgentCustomerInformationCenter" Required="0" Valid="1">
+        <Description Translatable="1">JavaScript function for the search frontend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="^AgentCustomerInformationCenter">Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog()</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="AgentCustomerInformationCenter::MainMenu###010-EditCustomerID" Required="0" Valid="0">
         <Description Translatable="1">Main menu registration.</Description>
         <Group>Framework</Group>

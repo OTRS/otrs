@@ -1452,6 +1452,31 @@ sub Footer {
         },
     );
 
+    # Search frontend (JavaScript)
+    my $SearchFrontendConfig = $ConfigObject->Get('Frontend::Search::JavaScript');
+
+    # get target javascript function
+    my $JSCall = '';
+
+    if ( $SearchFrontendConfig && $Self->{Action} ) {
+        for my $Group ( sort keys %{$SearchFrontendConfig} ) {
+            REGEXP:
+            for my $RegExp ( sort keys %{ $SearchFrontendConfig->{$Group} } ) {
+                if ( $Self->{Action} =~ /$RegExp/ ) {
+                    $JSCall = $SearchFrontendConfig->{$Group}->{$RegExp};
+                    last REGEXP;
+                }
+            }
+        }
+    }
+
+    $Self->Block(
+        Name => 'SearchFrontendConfig',
+        Data => {
+            SearchFrontendConfig => $JSCall,
+        },
+    );
+
     # Banner
     if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
         $Self->Block(
