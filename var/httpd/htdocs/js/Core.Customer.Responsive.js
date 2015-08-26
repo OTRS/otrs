@@ -128,10 +128,21 @@ Core.Customer.Responsive = (function (TargetNS) {
 
     Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {
 
+        var SidebarElem;
+        if ($('#ZoomSidebar').length) {
+            SidebarElem = '#ZoomSidebar';
+        }
+        else if ($('.SidebarColumn').length) {
+            SidebarElem = '.SidebarColumn';
+        }
+
         // remove view mode switch
         $('#ViewModeSwitch').remove();
 
         $('#ResponsiveSidebarHandle').remove();
+
+        // unwrap sidebar
+        $('.ResponsiveSidebarContainer').children(SidebarElem + ', #Navigation').unwrap();
     });
 
     return TargetNS;

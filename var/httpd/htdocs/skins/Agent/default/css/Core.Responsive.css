@@ -484,7 +484,8 @@
         float: none;
     }
 
-    .DashboardActions .Actions li:after {
+    .DashboardActions .Actions li:after,
+    .Actions li:after {
         display: inline-block;
         float: none;
     }
