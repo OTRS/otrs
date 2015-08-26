@@ -85,6 +85,7 @@ doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
 Kernel/Config/Files/OTRSBusiness.xml
 Kernel/Language/*OTRSBusiness.pm
+Kernel/Modules/AdminCloudServiceSMS.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
@@ -111,6 +112,8 @@ Kernel/Output/HTML/Templates/Standard/*StatisticsReports*
 Kernel/Output/HTML/Templates/Standard/AAAOTRSBusiness.tt
 Kernel/Output/HTML/Templates/Standard/AdminChatChannel.tt
 Kernel/Output/HTML/Templates/Standard/AdminChatChannelRole.tt
+Kernel/Output/HTML/Templates/Standard/AdminCloudServiceSMS.tt
+Kernel/Output/HTML/Templates/Standard/AdminNotificationEventTransportSMSSettings.tt
 Kernel/Output/HTML/Templates/Standard/AgentChat.tt
 Kernel/Output/HTML/Templates/Standard/AgentChatAppend.tt
 Kernel/Output/HTML/Templates/Standard/AgentChatPopup.tt
@@ -135,6 +138,7 @@ Kernel/System/DynamicFieldDatabase.pm
 Kernel/System/NotificationView.pm
 Kernel/System/StatsReport.pm
 Kernel/System/Ticket/Event/NotificationEvent/Transport/NotificationView.pm
+Kernel/System/Ticket/Event/NotificationEvent/Transport/SMS.pm
 Kernel/System/Ticket/Event/StoreHistoricalData.pm
 OTRSBusiness.sopm
 scripts/test/Chat
@@ -166,4 +170,7 @@ var/httpd/htdocs/skins/Agent/default/css/DynamicFieldDatabase.css
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
 var/httpd/htdocs/skins/Customer/default/css/DynamicFieldDatabase.css
 var/packagesetup/OTRSBusiness.pm
+var/processes/examples/ITIL Incident Management.yml
+var/processes/examples/Order Request Management.yml
+var/processes/examples/Request For Leave Management.yml
 var/thirdparty/phantomjs
