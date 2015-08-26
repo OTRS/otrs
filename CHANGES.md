@@ -1,4 +1,6 @@
-#5.0.0.beta3 2015-??-??
+#5.0.0.beta4 2015-??-??
+
+#5.0.0.beta3 2015-09-01
  - 2015-08-25 Followup for bug#[9460](http://bugs.otrs.org/show_bug.cgi?id=9460) - Under some circumstances OTRS does not join Tickets to the Customernumber.
  - 2015-08-25 Fixed search dialog call from navigation bar.
  - 2015-08-25 Added new Galician translation, thanks to ARTURO MONDELO RUIZ-FALCO.
