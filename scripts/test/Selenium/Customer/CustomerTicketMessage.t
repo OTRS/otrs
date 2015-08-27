@@ -90,7 +90,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText",              'css' )->click();
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("div#MainBox").length' );
+        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length' );
 
         # search for new created ticket on CustomerTicketOverview screen
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
