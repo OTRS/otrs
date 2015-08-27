@@ -90,7 +90,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText",              'css' )->click();
 
         # Wait until form has loaded, if neccessary
-        sleep 1;
+        sleep 3;
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length' );
 
         # search for new created ticket on CustomerTicketOverview screen
@@ -105,12 +105,12 @@ $Selenium->RunTest(
         $Self->True(
             $TicketID,
             "Ticket was created and found",
-        );
+        ) || die;
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
             "Ticket with ticket id $TicketID is created"
-        );
+        ) || die;
 
         # clean up test data from the DB
         my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
