@@ -67,7 +67,10 @@ $Selenium->RunTest(
                 # create a real test DynamicField
                 my $RandomID = $Helper->GetRandomID();
                 $Selenium->execute_script("\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');");
-                $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
+
+                # wait until page has finished loading
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
                 $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label",                     'css' )->send_keys($RandomID);
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
