@@ -35,14 +35,17 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        # create and edit Ticket and Article DynamicFieldText
+        # create and edit Ticket and Article DynamicFieldCheckbox
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script("\$('#$ObjectType').val('Text').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#$ObjectType').val('Date').trigger('redraw.InputField').trigger('change');");
+
+            # wait until page has finished loading
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
             for my $ID (
-                qw(Name Label FieldOrder DefaultValue Link AddRegEx ValidID)
+                qw(Name Label FieldOrder ValidID DefaultValue YearsPeriod Link DateRestriction)
                 )
             {
                 my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -63,32 +66,51 @@ $Selenium->RunTest(
                 'Client side validation correctly detected missing input value',
             );
 
-            # create real text DynamicFieldText
-            my $RandomID      = $Helper->GetRandomID();
-            my $RegEx         = '^[0-9]$';
-            my $RegExErrorTxt = "Please remove this entry and enter a new one with the correct value.";
+            # check default values
+            $Selenium->execute_script("\$('#YearsPeriod').val('1').trigger('redraw.InputField').trigger('change');");
 
-            $Selenium->find_element( "#Name",                        'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#Label",                       'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#AddRegEx",                    'css' )->click();
-            $Selenium->find_element( "#RegEx_1",                     'css' )->send_keys($RegEx);
-            $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
-            $Selenium->find_element( "#Name",                        'css' )->submit();
-
-            # check for test DynamicFieldText on AdminDynamicField screen
-            $Self->True(
-                index( $Selenium->get_page_source(), $RandomID ) > -1,
-                "DynamicFieldText $RandomID found on table"
+            $Self->Is(
+                $Selenium->find_element( '#DefaultValue', 'css' )->get_value(),
+                '0',
+                "#DefaultValue updated value",
+            );
+            $Self->Is(
+                $Selenium->find_element( '#YearsInPast', 'css' )->get_value(),
+                '5',
+                "#YearsInPast updated value",
+            );
+            $Self->Is(
+                $Selenium->find_element( '#YearsInFuture', 'css' )->get_value(),
+                '5',
+                "#YearsInFuture updated value",
             );
 
-            # edit test DynamicFieldText default value and set it to invalid
+            # create real text DynamicFieldDate
+            my $RandomID = $Helper->GetRandomID();
+
+            $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Name",  'css' )->submit();
+
+            # check for test DynamicFieldCheckbox on AdminDynamicField screen
+            $Self->True(
+                index( $Selenium->get_page_source(), $RandomID ) > -1,
+                "DynamicFieldDate $RandomID found on table"
+            );
+
+            # edit test DynamicFieldDate years period, default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->find_element( "#DefaultValue",              'css' )->send_keys("Default");
+            $Selenium->find_element( "#DefaultValue",              'css' )->clear();
+            $Selenium->find_element( "#DefaultValue",              'css' )->send_keys("3600");
+            $Selenium->find_element( "#YearsInPast",               'css' )->clear();
+            $Selenium->find_element( "#YearsInPast",               'css' )->send_keys("10");
+            $Selenium->find_element( "#YearsInFuture",             'css' )->clear();
+            $Selenium->find_element( "#YearsInFuture",             'css' )->send_keys("8");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name",                      'css' )->submit();
 
-            # check new and edited DynamicFieldText values
+            # check new and edited DynamicFieldDateTime values
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
             $Self->Is(
@@ -103,18 +125,23 @@ $Selenium->RunTest(
             );
             $Self->Is(
                 $Selenium->find_element( '#DefaultValue', 'css' )->get_value(),
-                "Default",
+                "3600",
                 "#DefaultValue updated value",
             );
             $Self->Is(
-                $Selenium->find_element( '#RegEx_1', 'css' )->get_value(),
-                $RegEx,
-                "#RegEx_1 updated value",
+                $Selenium->find_element( '#YearsPeriod', 'css' )->get_value(),
+                1,
+                "#YearsPeriod updated value",
             );
             $Self->Is(
-                $Selenium->find_element( '#CustomerRegExErrorMessage_1', 'css' )->get_value(),
-                $RegExErrorTxt,
-                "#CustomerRegExErrorMessage_1 updated value",
+                $Selenium->find_element( '#YearsInPast', 'css' )->get_value(),
+                "10",
+                "#YearsInPast updated value",
+            );
+            $Self->Is(
+                $Selenium->find_element( '#YearsInFuture', 'css' )->get_value(),
+                "8",
+                "#YearsInFuture updated value",
             );
             $Self->Is(
                 $Selenium->find_element( '#ValidID', 'css' )->get_value(),

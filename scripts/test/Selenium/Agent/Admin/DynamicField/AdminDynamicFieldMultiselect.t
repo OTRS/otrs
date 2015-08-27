@@ -35,19 +35,17 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        # create and edit Ticket and Article DynamicFieldDropdown
+        # create and edit Ticket and Article DynamicFieldMultiselect
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-
-            # add dynamic field of type Dropdown
-            $Selenium->execute_script("\$('#$ObjectType').val('Dropdown').trigger('change');");
+            $Selenium->execute_script("\$('#$ObjectType').val('Dropdown').trigger('redraw.InputField').trigger('change');");
 
             # wait until page has finished loading
-            $Selenium->WaitFor( JavaScript => "return \$('#Name').length;" );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
             for my $ID (
-                qw(Name Label FieldOrder ValidID DefaultValue AddValue PossibleNone TreeView TranslatableValues Link)
+                qw(Name Label FieldOrder ValidID DefaultValue AddValue PossibleNone TreeView TranslatableValues)
                 )
             {
                 my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -56,9 +54,9 @@ $Selenium->RunTest(
             }
 
             # check client side validation
-            my $Element = $Selenium->find_element( "#Name", 'css' );
-            $Element->send_keys("");
-            $Element->submit();
+            my $Element2 = $Selenium->find_element( "#Name", 'css' );
+            $Element2->send_keys("");
+            $Element2->submit();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -68,7 +66,7 @@ $Selenium->RunTest(
                 'Client side validation correctly detected missing input value',
             );
 
-            # create real text DynamicFieldDropdown
+            # create real text DynamicFieldMultiselect
             my $RandomID = $Helper->GetRandomID();
 
             $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
@@ -79,8 +77,8 @@ $Selenium->RunTest(
 
             # check default value
             $Self->Is(
-                $Selenium->find_element( "#DefaultValue option[value='Key1']", 'css' )->is_enabled(),
-                1,
+                $Selenium->find_element( "#DefaultValue option[value='Key1']", 'css' )->get_value(),
+                'Key1',
                 "Key1 is possible #DefaultValue",
             );
 
@@ -91,31 +89,29 @@ $Selenium->RunTest(
 
             # check default value
             $Self->Is(
-                $Selenium->find_element( "#DefaultValue option[value='Key2']", 'css' )->is_enabled(),
-                1,
+                $Selenium->find_element( "#DefaultValue option[value='Key2']", 'css' )->get_value(),
+                'Key2',
                 "Key2 is possible #DefaultValue",
             );
 
             $Selenium->find_element( "#Name", 'css' )->submit();
 
-            # check for test DynamicFieldDropdown on AdminDynamicField screen
+            # check for test DynamicFieldMultiselect on AdminDynamicField screen
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
-                "DynamicFieldDropdown $RandomID found on table"
+                "DynamicFieldMultiselect $RandomID found on table"
             );
 
-            # edit test DynamicFieldDropdown possiblenone, treeview, default value and set it to invalid
+            # edit test DynamicFieldMultiselect possiblenone, default value, treeview and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->execute_script(
-                "\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');"
-            );
+            $Selenium->execute_script("\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name", 'css' )->submit();
+            $Selenium->find_element( "#Name",                              'css' )->submit();
 
-            # check new and edited DynamicFieldDropdown values
+            # check new and edited DynamicFieldMultiselect values
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
             $Self->Is(
@@ -193,7 +189,7 @@ $Selenium->RunTest(
         # make sure cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
 
-        }
+    }
 
 );
 
