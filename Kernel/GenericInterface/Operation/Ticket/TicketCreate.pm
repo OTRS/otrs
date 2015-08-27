@@ -1246,8 +1246,8 @@ sub _TicketCreate {
 
             my $Result = $Self->SetDynamicFieldValue(
                 %{$DynamicField},
-                TicketID  => $TicketID,
-                UserID    => $Param{UserID},
+                TicketID => $TicketID,
+                UserID   => $Param{UserID},
             );
 
             if ( !$Result->{Success} ) {
@@ -1390,7 +1390,7 @@ sub _TicketCreate {
 
             my $IsArticleDynamicField = $Self->ValidateDynamicFieldObjectType(
                 %{$DynamicField},
-               Article => 1,
+                Article => 1,
             );
             next DYNAMICFIELD if !$IsArticleDynamicField;
 
