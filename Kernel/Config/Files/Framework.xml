@@ -6712,7 +6712,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">A system maintenance period is active</String>
+            <String Regex="">We are performing scheduled maintenance.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginMessage" Required="0" Valid="1">
@@ -6720,7 +6720,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">System is on a scheduled maintenance period. We expect to be online promptly.</String>
+            <String Regex="">We are performing scheduled maintenance. We should be back online shortly.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginErrorMessage" Required="0" Valid="1">
@@ -6728,7 +6728,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">A maintenance period is running, get into the system is not possible for now.</String>
+            <String Regex="">We are performing scheduled maintenance. Login is temporarily not available.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">
