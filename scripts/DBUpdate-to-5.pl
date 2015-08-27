@@ -1635,7 +1635,7 @@ sub _AddZoomMenuClusters {
 
 Migrate different settings
 
-    _MigrateSettings($CommonObject);
+    _MigrateSettings();
 
 =cut
 
@@ -1749,7 +1749,7 @@ sub _MigrateSettings {
 
 Safely uninstall packages from the database.
 
-    UninstallMergedFeatureAddOns($CommonObject);
+    UninstallMergedFeatureAddOns();
 
 =cut
 

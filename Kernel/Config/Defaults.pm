@@ -1563,14 +1563,6 @@ via the Preferences button after logging in.
         0 => 'No',
     };
 
-    # --------------------------------------------------- #
-    # default core objects and params in frontend
-    # --------------------------------------------------- #
-    $Self->{'Frontend::CommonObject'} = {
-
-        # key => module
-#        SomeObject => 'Kernel::System::Some',
-    };
     $Self->{'Frontend::CommonParam'} = {
 
         # param => default value
@@ -1578,28 +1570,12 @@ via the Preferences button after logging in.
         Action => 'AdminInit',
     };
 
-    # --------------------------------------------------- #
-    # default core objects and params in customer frontend
-    # --------------------------------------------------- #
-    $Self->{'CustomerFrontend::CommonObject'} = {
-
-        # key => module
-#        SomeObject => 'Kernel::System::Some',
-    };
     $Self->{'CustomerFrontend::CommonParam'} = {
 
         # param => default value
 #        SomeParam => 'DefaultValue',
     };
 
-    # --------------------------------------------------- #
-    # default core objects and params in public frontend
-    # --------------------------------------------------- #
-    $Self->{'PublicFrontend::CommonObject'} = {
-
-        # key => module
-#        SomeObject => 'Kernel::System::Some',
-    };
     $Self->{'PublicFrontend::CommonParam'} = {
 
         # param => default value

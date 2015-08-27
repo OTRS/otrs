@@ -7892,22 +7892,6 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::CommonObject###QueueObject" Required="1" Valid="1">
-        <Description Translatable="1">Path of the file that stores all the settings for the QueueObject object for the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::System::Queue</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::CommonObject###TicketObject" Required="1" Valid="1">
-        <Description Translatable="1">Path of the file that stores all the settings for the TicketObject for the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::System::Ticket</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="1" Valid="1">
         <Description Translatable="1">Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface.</Description>
         <Group>Ticket</Group>
@@ -7930,22 +7914,6 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex=""></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::CommonObject###QueueObject" Required="1" Valid="1">
-        <Description Translatable="1">Path of the file that stores all the settings for the QueueObject object for the customer interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::System::Queue</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::CommonObject###TicketObject" Required="1" Valid="1">
-        <Description Translatable="1">Path of the file that stores all the settings for the TicketObject for the customer interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::System::Ticket</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###Action" Required="1" Valid="1">

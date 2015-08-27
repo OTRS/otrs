@@ -180,12 +180,6 @@ sub Run {
     my $UserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    # application and add on application common objects
-    my %CommonObject = %{ $ConfigObject->Get('CustomerFrontend::CommonObject') };
-    for my $Key ( sort keys %CommonObject ) {
-        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
-    }
-
     # get common application and add on application params
     my %CommonObjectParam = %{ $ConfigObject->Get('CustomerFrontend::CommonParam') };
     for my $Key ( sort keys %CommonObjectParam ) {

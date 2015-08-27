@@ -177,12 +177,6 @@ sub Run {
         }
     }
 
-    # application and add-on application common objects
-    my %CommonObject = %{ $ConfigObject->Get('Frontend::CommonObject') };
-    for my $Key ( sort keys %CommonObject ) {
-        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
-    }
-
     # get common application and add-on application params
     my %CommonObjectParam = %{ $ConfigObject->Get('Frontend::CommonParam') };
     for my $Key ( sort keys %CommonObjectParam ) {
