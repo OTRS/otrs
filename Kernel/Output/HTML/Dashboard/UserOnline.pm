@@ -134,12 +134,6 @@ sub Run {
 
     my $Online;
 
-    # # check cache
-    # my $Online = $CacheObject->Get(
-    # Type => 'Dashboard',
-    # Key  => $Self->{CacheKey},
-    # );
-
     # get session info
     my $CacheUsed = 1;
     if ( !$Online ) {
