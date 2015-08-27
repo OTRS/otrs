@@ -33,13 +33,13 @@ for my $UserCount ( 0 .. 2 ) {
 
     $UserIDByUserLogin{$UserLogin} = $UserID;
 }
-my @UserIDs  = values %UserIDByUserLogin;
+my @UserIDs = values %UserIDByUserLogin;
 
 # create test groups
 my %GroupIDByGroupName;
 my $GroupNameRandomPartBase = $TimeObject->SystemTime();
 for my $GroupCount ( 1 .. 3 ) {
-    my $GroupName = 'example-group-' . $GroupNameRandomPartBase . '-' . $GroupCount;
+    my $GroupName = 'test-permission-group-' . $GroupNameRandomPartBase . '-' . $GroupCount;
     my $GroupID   = $GroupObject->GroupAdd(
         Name    => $GroupName,
         ValidID => 1,
@@ -54,7 +54,7 @@ my @GroupIDs = values %GroupIDByGroupName;
 my %RoleIDByRoleName;
 my $RoleNameRandomPartBase = $TimeObject->SystemTime();
 for my $RoleCount ( 1 .. 3 ) {
-    my $RoleName = 'example-role-' . $RoleNameRandomPartBase . '-' . $RoleCount;
+    my $RoleName = 'test-permission-role-' . $RoleNameRandomPartBase . '-' . $RoleCount;
     my $RoleID   = $GroupObject->RoleAdd(
         Name    => $RoleName,
         ValidID => 1,
@@ -63,12 +63,12 @@ for my $RoleCount ( 1 .. 3 ) {
 
     $RoleIDByRoleName{$RoleName} = $RoleID;
 }
-my @RoleIDs  = values %RoleIDByRoleName;
+my @RoleIDs = values %RoleIDByRoleName;
 
 #
-# Permission tests (groups and users)
+# Permission tests (users and groups)
 #
-my @PermissionTests = (
+my @UserGroupPermissionTests = (
     {
         GroupIDs => [
             $GroupIDs[0], $GroupIDs[1],
@@ -135,7 +135,7 @@ my @PermissionTests = (
     },
 );
 
-for my $PermissionTest (@PermissionTests) {
+for my $PermissionTest (@UserGroupPermissionTests) {
 
     # add users to groups
     for my $UserID ( @{ $PermissionTest->{UserIDs} } ) {
@@ -427,7 +427,7 @@ for my $PermissionTest (@PermissionTests) {
 #
 # Permission tests (users and roles)
 #
-@PermissionTests = (
+my @UserRolePermissionTests = (
     {
         RoleIDs => [
             $RoleIDs[0],
@@ -462,7 +462,7 @@ for my $PermissionTest (@PermissionTests) {
     },
 );
 
-for my $PermissionTest (@PermissionTests) {
+for my $PermissionTest (@UserRolePermissionTests) {
 
     # add users to roles
     for my $UserID ( @{ $PermissionTest->{UserIDs} } ) {
@@ -580,7 +580,7 @@ for my $PermissionTest (@PermissionTests) {
 #
 # Permission tests (users and roles via groups)
 #
-@PermissionTests = (
+my @UserRoleGroupPermissionTests = (
     {
         RoleIDs => [
             $RoleIDs[0], $RoleIDs[1],
@@ -623,10 +623,10 @@ for my $PermissionTest (@PermissionTests) {
         RoleIDs => [
             $RoleIDs[0], $RoleIDs[2],
         ],
-         UserIDs => [
+        UserIDs => [
             $UserIDs[0],
         ],
-       GroupIDs => [
+        GroupIDs => [
             $GroupIDs[0], $GroupIDs[2],
         ],
         Permissions => {
@@ -659,7 +659,7 @@ for my $PermissionTest (@PermissionTests) {
     },
 );
 
-for my $PermissionTest (@PermissionTests) {
+for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
     # add roles to groups
     for my $RoleID ( @{ $PermissionTest->{RoleIDs} } ) {

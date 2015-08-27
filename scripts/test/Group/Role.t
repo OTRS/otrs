@@ -18,17 +18,17 @@ our @ObjectDependencies = (
 );
 
 # get needed objects
-my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
 
 #
 # Role tests
 #
 my $RoleNameRandomPartBase = $TimeObject->SystemTime();
 my %RoleIDByRoleName       = (
-    'example-role-' . $RoleNameRandomPartBase . '-1' => undef,
-    'example-role-' . $RoleNameRandomPartBase . '-2' => undef,
-    'example-role-' . $RoleNameRandomPartBase . '-3' => undef,
+    'test-role-' . $RoleNameRandomPartBase . '-1' => undef,
+    'test-role-' . $RoleNameRandomPartBase . '-2' => undef,
+    'test-role-' . $RoleNameRandomPartBase . '-3' => undef,
 );
 
 # try to add roles
@@ -117,7 +117,7 @@ for my $RoleName ( sort keys %RoleIDByRoleName ) {
 }
 
 # change name of a single role
-my $RoleNameToChange = 'example-role-' . $RoleNameRandomPartBase . '-1';
+my $RoleNameToChange = 'test-role-' . $RoleNameRandomPartBase . '-1';
 my $ChangedRoleName  = $RoleNameToChange . '-changed';
 my $RoleIDToChange   = $RoleIDByRoleName{$RoleNameToChange};
 

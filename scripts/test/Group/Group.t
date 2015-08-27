@@ -18,17 +18,17 @@ our @ObjectDependencies = (
 );
 
 # get needed objects
-my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
 
 #
 # Group tests
 #
 my $GroupNameRandomPartBase = $TimeObject->SystemTime();
 my %GroupIDByGroupName      = (
-    'example-group-' . $GroupNameRandomPartBase . '-1' => undef,
-    'example-group-' . $GroupNameRandomPartBase . '-2' => undef,
-    'example-group-' . $GroupNameRandomPartBase . '-3' => undef,
+    'test-group-' . $GroupNameRandomPartBase . '-1' => undef,
+    'test-group-' . $GroupNameRandomPartBase . '-2' => undef,
+    'test-group-' . $GroupNameRandomPartBase . '-3' => undef,
 );
 
 # try to add groups
@@ -117,7 +117,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 }
 
 # change name of a single group
-my $GroupNameToChange = 'example-group-' . $GroupNameRandomPartBase . '-1';
+my $GroupNameToChange = 'test-group-' . $GroupNameRandomPartBase . '-1';
 my $ChangedGroupName  = $GroupNameToChange . '-changed';
 my $GroupIDToChange   = $GroupIDByGroupName{$GroupNameToChange};
 
