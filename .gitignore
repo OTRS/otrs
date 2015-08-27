@@ -128,6 +128,7 @@ Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/ToolBar/NotificationView.pm
 Kernel/Output/PDF/StatisticsReports*
 Kernel/System/*Chat*
+Kernel/System/CloudService/Client/SMS.pm
 Kernel/System/Console/Command/Maint/Chat*
 Kernel/System/Console/Command/Maint/NotificationView*
 Kernel/System/Console/Command/Maint/Stats/Reports*
