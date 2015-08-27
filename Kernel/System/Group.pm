@@ -1209,8 +1209,18 @@ sub PermissionGroupUserAdd {
     }
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => 'DBGroupUserGet',
+    );
+
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionUserGet',
+    );
+
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionGroupGet',
     );
 
     return 1;
@@ -1501,8 +1511,18 @@ sub PermissionGroupRoleAdd {
     }
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => 'DBGroupRoleGet',
+    );
+
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionUserGet',
+    );
+
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionGroupGet',
     );
 
     return 1;
