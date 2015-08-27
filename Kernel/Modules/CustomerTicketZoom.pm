@@ -337,14 +337,16 @@ sub Run {
 
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-        if ( $GetParam{FromChat} && $GetParam{FromChat} ) {
+        if ( $GetParam{FromChat} ) {
             $Error{FromChat}           = 1;
             $GetParam{FollowUpVisible} = 'Visible';
             if ( $GetParam{FromChatID} ) {
                 my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
                     ChatID => $GetParam{FromChatID},
                 );
-                $GetParam{ChatMessages} = \@ChatMessages;
+                if (@ChatMessages) {
+                    $GetParam{ChatMessages} = \@ChatMessages;
+                }
             }
         }
 
