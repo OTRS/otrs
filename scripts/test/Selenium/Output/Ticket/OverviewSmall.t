@@ -92,13 +92,15 @@ $Selenium->RunTest(
         # set filter to test queue
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
         $Selenium->WaitFor( JavaScript => "return \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;" );
-        $Selenium->execute_script("\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script(
+            "\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => "return \$('li.ContextSettings.RemoveFilters').length" );
 
         # set tickets per page to 10
-        $Selenium->find_element( "#ShowContextSettingsDialog",                           'css' )->click();
-        $Selenium->execute_script("\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#DialogButton1",                                       'css' )->click();
+        $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('div#OverviewBody').length" );
 
         # sort by ticket number, order up

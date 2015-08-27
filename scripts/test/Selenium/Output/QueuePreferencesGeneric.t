@@ -79,7 +79,7 @@ $Selenium->RunTest(
         # create a real test queue
         my $RandomQueueName = "Queue" . $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name",                              'css' )->send_keys($RandomQueueName);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomQueueName);
         $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField').trigger('change');");

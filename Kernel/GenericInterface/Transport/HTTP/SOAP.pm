@@ -268,7 +268,8 @@ sub ProviderProcessRequest {
         $Config->{RequestNameScheme} eq 'Append'
         && $Config->{RequestNameFreeText}
         && $LocalOperation =~ m{ \A ( .+ ) $Config->{RequestNameFreeText} \z }xms
-        ) {
+        )
+    {
         $LocalOperation = $1;
     }
 
@@ -505,7 +506,7 @@ sub RequesterPerformRequest {
 
     # build request wrapper name
     # possible values are 'Append', 'Plain' and 'Request'
-    my $OperationRequest= $Param{Operation};
+    my $OperationRequest = $Param{Operation};
     $Config->{RequestNameScheme} ||= 'Plain';
     if ( $Config->{RequestNameScheme} eq 'Request' ) {
         $Config->{RequestNameScheme}   = 'Append';

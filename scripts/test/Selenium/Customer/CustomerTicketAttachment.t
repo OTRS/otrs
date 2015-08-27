@@ -83,9 +83,9 @@ $Selenium->RunTest(
 
         # input fields and create ticket
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
-        $Selenium->find_element( "#Attachment",                  'css' )->send_keys($Location);
+        $Selenium->find_element( "#Subject",    'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#RichText",   'css' )->send_keys($TextRandom);
+        $Selenium->find_element( "#Attachment", 'css' )->send_keys($Location);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Attachment").length' );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 

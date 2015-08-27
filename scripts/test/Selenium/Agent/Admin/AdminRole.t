@@ -85,10 +85,10 @@ $Selenium->RunTest(
 
         # create a real test role
         my $RandomID = 'TestRole' . $Helper->GetRandomID();
-        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test role');
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test role');
+        $Selenium->find_element( "#Name",    'css' )->submit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -120,8 +120,8 @@ $Selenium->RunTest(
 
         # set test role to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Name",    'css' )->submit();
 
         # check overview page
         $Self->True(

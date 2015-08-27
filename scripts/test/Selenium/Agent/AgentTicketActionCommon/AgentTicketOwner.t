@@ -138,10 +138,11 @@ $Selenium->RunTest(
         );
 
         # change ticket user owner
-        $Selenium->execute_script("\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
-        $Selenium->find_element( "#RichText",                              'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText",                        'css' )->click();
+        $Selenium->execute_script(
+            "\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");

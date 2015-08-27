@@ -87,9 +87,9 @@ $Selenium->RunTest(
             # edit test DynamicFieldText default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-            $Selenium->find_element( "#DefaultValue",              'css' )->send_keys("Default");
+            $Selenium->find_element( "#DefaultValue", 'css' )->send_keys("Default");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name",                      'css' )->submit();
+            $Selenium->find_element( "#Name", 'css' )->submit();
 
             # check new and edited DynamicFieldText values
             $Selenium->find_element( $RandomID, 'link_text' )->click();

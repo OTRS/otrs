@@ -90,11 +90,11 @@ $Selenium->RunTest(
         my $SysAddRandom  = 'sysadd' . $Helper->GetRandomID() . '@localhost.com';
         my $SysAddComment = "Selenium test SystemAddress";
 
-        $Selenium->find_element( "#Name",                             'css' )->send_keys($SysAddRandom);
-        $Selenium->find_element( "#Realname",                         'css' )->send_keys($SysAddRandom);
+        $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);
+        $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                          'css' )->send_keys($SysAddComment);
-        $Selenium->find_element( "#Name",                             'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
+        $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait for SystemAddress create
         $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
@@ -134,10 +134,10 @@ $Selenium->RunTest(
         );
 
         # edit test SystemAddress and set it to invalid
-        $Selenium->find_element( "#Realname",                  'css' )->send_keys(" Edited");
+        $Selenium->find_element( "#Realname", 'css' )->send_keys(" Edited");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait for SystemAddress create
         $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );

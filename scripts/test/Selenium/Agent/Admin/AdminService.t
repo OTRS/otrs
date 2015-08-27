@@ -133,9 +133,9 @@ $Selenium->RunTest(
 
         # edit second test Service
         $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                             'css' )->clear();
+        $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                                'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # check class of invalid Service in the overview table
         $Self->True(
@@ -165,7 +165,7 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
         $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # Since there are no tickets that rely on our test Services we can remove
         # them from DB

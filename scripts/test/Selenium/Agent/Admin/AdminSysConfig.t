@@ -84,7 +84,9 @@ $Selenium->RunTest(
         # edit those values
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->send_keys("edit");
         $Selenium->find_element("//input[\@name='Ticket::CustomService']")->send_keys("edit");
-        $Selenium->execute_script("\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script(
+            "\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->submit();
 
         # check for edited values

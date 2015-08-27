@@ -36,9 +36,10 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # change test user out of office preference
-        $Selenium->find_element( "#OutOfOfficeOn",                           'css' )->click();
-        $Selenium->execute_script("\$('#OutOfOfficeEndYear').val('2016').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Update",                                  'css' )->click();
+        $Selenium->find_element( "#OutOfOfficeOn", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#OutOfOfficeEndYear').val('2016').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Update", 'css' )->click();
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";

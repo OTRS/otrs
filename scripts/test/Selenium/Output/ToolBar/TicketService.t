@@ -100,7 +100,7 @@ $Selenium->RunTest(
         # set test user 'My Service' preferences to test service
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentPreferences' )]")->click();
         $Selenium->execute_script("\$('#ServiceID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ServiceIDUpdate",                      'css' )->click();
+        $Selenium->find_element( "#ServiceIDUpdate", 'css' )->click();
 
         # click on tool bar AgentTicketService
         $Selenium->find_element("//a[contains(\@title, \'Tickets in MyServices:\' )]")->click();

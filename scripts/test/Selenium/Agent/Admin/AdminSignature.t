@@ -121,11 +121,11 @@ $Selenium->RunTest(
         my $EditSignatureRichText
             = "Your Ticket-Team \n\n<OTRS_Responsible_UserFirstname> <OTRS_Responsible_UserLastname>";
 
-        $Selenium->find_element( "#RichText",                  'css' )->clear();
-        $Selenium->find_element( "#RichText",                  'css' )->send_keys($EditSignatureRichText);
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
+        $Selenium->find_element( "#RichText", 'css' )->clear();
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSignatureRichText);
+        $Selenium->find_element( "#Comment",  'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # chack class of invalid Signature in the overview table
         $Self->True(

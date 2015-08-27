@@ -82,13 +82,13 @@ $Selenium->RunTest(
         my $RandomID = 'AutoResponse' . $Helper->GetRandomID();
         my $Text     = "Seleniumn auto response text";
 
-        $Selenium->find_element( "#Name",                        'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($Text);
+        $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
         $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                        'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # check if test auto resposne show on AdminAutoResponse screen
         $Self->True(
@@ -99,10 +99,10 @@ $Selenium->RunTest(
         # edit test job and set it to invalid
         $Selenium->find_element( $RandomID, 'link_text' )->click();
         my $RandomID2 = 'AutoResponseUpdate' . $Helper->GetRandomID();
-        $Selenium->find_element( "#Name",                      'css' )->clear();
-        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#Name", 'css' )->clear();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID2);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # check if edited auto response show on AdminAutoResponse
         $Self->True(

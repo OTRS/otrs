@@ -1531,8 +1531,6 @@ sub _ShowOverview {
 
     my %Frontend;
 
-
-
     if ( %ExampleProcessData && $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
         $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
             Name         => 'ExampleProcess',

@@ -93,11 +93,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "← Change search options", 'link_text' )->click();
 
         # input more search filters, result should be 'No data found'
-        $Selenium->find_element( "#TicketNumber",                  'css' )->clear();
-        $Selenium->find_element( "#TicketNumber",                  'css' )->send_keys("123456789012345");
+        $Selenium->find_element( "#TicketNumber", 'css' )->clear();
+        $Selenium->find_element( "#TicketNumber", 'css' )->send_keys("123456789012345");
         $Selenium->execute_script("\$('#StateIDs').val([1, 4]).trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#PriorityIDs').val([2, 3]).trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#TicketNumber",                  'css' )->submit();
+        $Selenium->find_element( "#TicketNumber", 'css' )->submit();
 
         # check for expected result
         $Self->True(

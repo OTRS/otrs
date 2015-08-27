@@ -86,11 +86,12 @@ $Selenium->RunTest(
         );
 
         # input fields and submit
-        $Selenium->find_element( "#Name",                                     'css' )->send_keys($ActivityDialogRandom);
-        $Selenium->find_element( "#DescriptionShort",                         'css' )->send_keys($DescriptionShort);
-        $Selenium->execute_script("\$('#Interface').val('BothInterfaces').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom);
+        $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($DescriptionShort);
+        $Selenium->execute_script(
+            "\$('#Interface').val('BothInterfaces').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#Permission').val('rw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                                     'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -154,11 +155,12 @@ $Selenium->RunTest(
         );
 
         # edit test ActivityDialog values
-        $Selenium->find_element( "#Name",                                     'css' )->send_keys("edit");
-        $Selenium->find_element( "#DescriptionShort",                         'css' )->send_keys(" Edit");
-        $Selenium->execute_script("\$('#Interface').val('AgentInterface').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name",             'css' )->send_keys("edit");
+        $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys(" Edit");
+        $Selenium->execute_script(
+            "\$('#Interface').val('AgentInterface').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#Permission').val('ro').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                                     'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # Return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );

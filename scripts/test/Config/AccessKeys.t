@@ -35,7 +35,7 @@ for my $AgentModule ( sort keys %AgentModules ) {
         for my $NavBar ( sort @{ $AgentModules{$AgentModule}->{NavBar} } ) {
 
             my $NavBarKey  = $NavBar->{AccessKey} || '';
-            my $NavBarName = $NavBar->{Name} || '';
+            my $NavBarName = $NavBar->{Name}      || '';
             next NAVBARITEMS if !$NavBarKey;
 
             $Self->False(
@@ -48,7 +48,7 @@ for my $AgentModule ( sort keys %AgentModules ) {
     }
 
     my $AccessKey = $AgentModules{$AgentModule}->{AccessKey} || '';
-    my $Name      = $AgentModules{$AgentModule}->{Name} || '';
+    my $Name      = $AgentModules{$AgentModule}->{Name}      || '';
 
     next ACCESSKEYSAGENT if !$AccessKey;
 

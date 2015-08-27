@@ -780,7 +780,6 @@ sub Run {
 
                 my $Customer = "$Data{CustomerID} $Data{CustomerName}";
 
-
                 my @PDFRow;
                 push @PDFRow,  $Data{TicketNumber};
                 push @PDFRow,  $Created;

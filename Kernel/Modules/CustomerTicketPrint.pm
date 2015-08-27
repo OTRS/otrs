@@ -498,12 +498,12 @@ sub _PDFOutputTicketDynamicFields {
         );
 
         # table params
-        $TableParam{Type}            = 'Cut';
-        $TableParam{Border}          = 0;
-        $TableParam{FontSize}        = 6;
-        $TableParam{Padding}         = 1;
-        $TableParam{PaddingTop}      = 3;
-        $TableParam{PaddingBottom}   = 3;
+        $TableParam{Type}          = 'Cut';
+        $TableParam{Border}        = 0;
+        $TableParam{FontSize}      = 6;
+        $TableParam{Padding}       = 1;
+        $TableParam{PaddingTop}    = 3;
+        $TableParam{PaddingBottom} = 3;
 
         # output table
         PAGE:
@@ -598,12 +598,12 @@ sub _PDFOutputCustomerInfos {
         );
 
         # table params
-        $TableParam{Type}            = 'Cut';
-        $TableParam{Border}          = 0;
-        $TableParam{FontSize}        = 6;
-        $TableParam{Padding}         = 1;
-        $TableParam{PaddingTop}      = 3;
-        $TableParam{PaddingBottom}   = 3;
+        $TableParam{Type}          = 'Cut';
+        $TableParam{Border}        = 0;
+        $TableParam{FontSize}      = 6;
+        $TableParam{Padding}       = 1;
+        $TableParam{PaddingTop}    = 3;
+        $TableParam{PaddingBottom} = 3;
 
         # output table
         PAGE:
@@ -783,12 +783,12 @@ sub _PDFOutputArticles {
         );
 
         # table params (article infos)
-        $TableParam1{Type}            = 'Cut';
-        $TableParam1{Border}          = 0;
-        $TableParam1{FontSize}        = 6;
-        $TableParam1{Padding}         = 1;
-        $TableParam1{PaddingTop}      = 3;
-        $TableParam1{PaddingBottom}   = 3;
+        $TableParam1{Type}          = 'Cut';
+        $TableParam1{Border}        = 0;
+        $TableParam1{FontSize}      = 6;
+        $TableParam1{Padding}       = 1;
+        $TableParam1{PaddingTop}    = 3;
+        $TableParam1{PaddingBottom} = 3;
 
         # output table (article infos)
         PAGE:

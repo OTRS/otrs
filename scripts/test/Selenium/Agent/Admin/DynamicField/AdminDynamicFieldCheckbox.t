@@ -39,7 +39,8 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script("\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script(
+                "\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');");
 
             # wait until page has finished loading
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
@@ -84,7 +85,7 @@ $Selenium->RunTest(
 
             $Selenium->execute_script("\$('#DefaultValue').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name",                           'css' )->submit();
+            $Selenium->find_element( "#Name", 'css' )->submit();
 
             # check new and edited DynamicFieldCheckbox values
             $Selenium->find_element( $RandomID, 'link_text' )->click();

@@ -72,15 +72,15 @@ $Selenium->RunTest(
         # create a real test queue
         my $RandomID = "Queue" . $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name",                              'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#SystemAddressID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",                              'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
+        $Selenium->find_element( "#Name",    'css' )->submit();
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
@@ -146,8 +146,8 @@ $Selenium->RunTest(
         # set test queue to invalid
         $Selenium->execute_script("\$('#GroupID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Comment",                   'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Comment", 'css' )->submit();
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 

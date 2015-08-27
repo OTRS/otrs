@@ -96,9 +96,9 @@ $Selenium->RunTest(
         );
 
         $Selenium->execute_script("\$('#UserIDs').val('$UserID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                         'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#RichText",                        'css' )->send_keys($Text);
-        $Selenium->find_element( "#Subject",                         'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
+        $Selenium->find_element( "#Subject",  'css' )->submit();
 
         # check if test admin notification is success
         my $LanguageObject = Kernel::Language->new(

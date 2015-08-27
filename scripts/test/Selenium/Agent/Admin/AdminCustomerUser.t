@@ -124,8 +124,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localhost.com" );
-        $Selenium->execute_script("\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname",                            'css' )->submit();
+        $Selenium->execute_script(
+            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # check overview page
         $Self->True(
@@ -139,8 +140,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",        'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserEmail",           'css' )->send_keys( $RandomID2 . "\@localhost.com" );
-        $Selenium->execute_script("\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname",                             'css' )->submit();
+        $Selenium->execute_script(
+            "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # test search filter only for test Customer users
         $Selenium->find_element( "#Search", 'css' )->clear();
@@ -199,7 +201,7 @@ $Selenium->RunTest(
 
         # set test customer user to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname",             'css' )->submit();
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();

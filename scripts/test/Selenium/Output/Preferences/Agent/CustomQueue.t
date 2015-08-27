@@ -60,7 +60,7 @@ $Selenium->RunTest(
 
         # add test queue to 'My Queues' preference
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#QueueIDUpdate",                    'css' )->click();
+        $Selenium->find_element( "#QueueIDUpdate", 'css' )->click();
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";

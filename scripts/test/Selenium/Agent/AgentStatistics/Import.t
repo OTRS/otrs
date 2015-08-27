@@ -203,27 +203,31 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Title", 'css' )->send_keys(" - Updated");
 
         # check X-axis configuration dialog
-        $Selenium->find_element( ".EditXAxis",                                         'css' )->click();
-        $Selenium->find_element( "#EditDialog a.RemoveButton i",                       'css' )->click();
-        $Selenium->execute_script("\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#DialogButton1",                                     'css' )->click();
+        $Selenium->find_element( ".EditXAxis",                   'css' )->click();
+        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # check Y-axis configuration dialog
-        $Selenium->find_element( ".EditYAxis",                                     'css' )->click();
-        $Selenium->find_element( "#EditDialog a.RemoveButton i",                   'css' )->click();
-        $Selenium->execute_script("\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#DialogButton1",                                 'css' )->click();
+        $Selenium->find_element( ".EditYAxis",                   'css' )->click();
+        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # check Restrictions configuration dialog
-        $Selenium->find_element( ".EditRestrictions",                                       'css' )->click();
-        $Selenium->execute_script("\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+        $Selenium->execute_script(
+            "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');");
 
         # wait for load selected Restriction - QueueIDs
         $Selenium->WaitFor( JavaScript => 'return $("#RestrictionsQueueIDs").length;' );
 
         # add restriction per Queue - Junk
-        $Selenium->execute_script("\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#DialogButton1",                                      'css' )->click();
+        $Selenium->execute_script(
+            "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # save and finish edit
         $Selenium->find_element("//button[\@name='SaveAndFinish'][\@type='submit']")->click();
@@ -239,7 +243,9 @@ $Selenium->RunTest(
 JAVASCRIPT
 
         # sort decreasing by StatsID
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]");
+        $Selenium->get(
+            "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
+        );
 
         $Selenium->execute_script($CheckConfirmJS);
 

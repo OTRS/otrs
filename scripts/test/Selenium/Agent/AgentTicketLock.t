@@ -90,9 +90,9 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",                     'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
+        $Selenium->find_element( "#Subject",  'css' )->submit();
 
         $Selenium->WaitFor( JavaScript => 'return $("form").length' );
 

@@ -99,8 +99,9 @@ $Selenium->RunTest(
         # input fields and submit
         my $TransitionFieldName = "Field" . $Helper->GetRandomID();
         my $TransitionValueName = "Value" . $Helper->GetRandomID();
-        $Selenium->find_element( "#Name",                                       'css' )->send_keys($TransitionRandom);
-        $Selenium->execute_script("\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionRandom);
+        $Selenium->execute_script(
+            "\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element(".//*[\@id='ConditionLinking[_INDEX_]']/option[2]")->click();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][1]']")->send_keys($TransitionFieldName);
         $Selenium->find_element(".//*[\@id='ConditionFieldType[_INDEX_][_FIELDINDEX_]']/option[3]")->click();
@@ -183,8 +184,9 @@ $Selenium->RunTest(
         my $TransitionFieldNameEdit = $TransitionFieldName . "edit";
         my $TransitionValueNameEdit = $TransitionValueName . "edit";
 
-        $Selenium->find_element( "#Name",                                        'css' )->send_keys("edit");
-        $Selenium->execute_script("\$('#OverallConditionLinking').val('and').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
+        $Selenium->execute_script(
+            "\$('#OverallConditionLinking').val('and').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")
             ->send_keys($TransitionFieldNameEdit);

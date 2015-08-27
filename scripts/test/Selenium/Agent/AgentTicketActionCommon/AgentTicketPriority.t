@@ -112,9 +112,9 @@ $Selenium->RunTest(
 
         # change ticket priority
         $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
-        $Selenium->find_element( "#RichText",                        'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText",                  'css' )->click();
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");

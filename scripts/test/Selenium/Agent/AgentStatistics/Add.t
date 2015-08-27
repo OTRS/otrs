@@ -203,6 +203,7 @@ $Selenium->RunTest(
 
             # go to add statsistics screen
             $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Add");
+
             #$Selenium->find_element("//a[contains(\@href, \'Action=AgentStatistics;Subaction=Add\' )]")->click();
 
             # add new statistics
@@ -214,7 +215,8 @@ $Selenium->RunTest(
             # set velues for new statistics - General Specifications
             $Selenium->find_element( "#Title",       'css' )->send_keys( $StatsData->{Title} );
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
-            $Selenium->execute_script("\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script(
+                "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->click();
 
             $Selenium->WaitFor( JavaScript => 'return $(".EditXAxis").length' );
@@ -222,13 +224,16 @@ $Selenium->RunTest(
             # check X-axis configuration dialog
             $Selenium->find_element( ".EditXAxis", 'css' )->click();
             if ( $StatsData->{Object} ne 'Kernel::System::Stats::Dynamic::TicketList' ) {
-                $Selenium->execute_script("\$('#EditDialog select').val('$StatsData->{XAxis}').trigger('redraw.InputField').trigger('change');");
+                $Selenium->execute_script(
+                    "\$('#EditDialog select').val('$StatsData->{XAxis}').trigger('redraw.InputField').trigger('change');"
+                );
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
             # check Y-axis configuration dialog
-            $Selenium->find_element( ".EditYAxis",                                             'css' )->click();
-            $Selenium->execute_script("\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');");
+            $Selenium->find_element( ".EditYAxis", 'css' )->click();
+            $Selenium->execute_script(
+                "\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');");
 
             if ( $StatsData->{Object} eq 'Kernel::System::Stats::Dynamic::TicketList' ) {
 
@@ -236,19 +241,25 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( JavaScript => "return \$('#$StatsData->{YAxis}').length;" );
 
                 # select order by option
-                $Selenium->execute_script("\$('#EditDialog #$StatsData->{YAxis}').val('$StatsData->{OrderBy}').trigger('redraw.InputField').trigger('change');");
+                $Selenium->execute_script(
+                    "\$('#EditDialog #$StatsData->{YAxis}').val('$StatsData->{OrderBy}').trigger('redraw.InputField').trigger('change');"
+                );
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
             # check Restrictions configuration dialog
-            $Selenium->find_element( ".EditRestrictions",                                              'css' )->click();
-            $Selenium->execute_script("\$('#EditDialog select').val('$StatsData->{RestrictionID}').trigger('redraw.InputField').trigger('change');");
+            $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+            $Selenium->execute_script(
+                "\$('#EditDialog select').val('$StatsData->{RestrictionID}').trigger('redraw.InputField').trigger('change');"
+            );
 
             # wait for load selected Restriction
             $Selenium->WaitFor( JavaScript => "return \$('#$StatsData->{RestrictionID}').length;" );
 
             # add restriction
-            $Selenium->execute_script("\$('#EditDialog #$StatsData->{RestrictionID}').val('$StatsData->{RestrictionValue}').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script(
+                "\$('#EditDialog #$StatsData->{RestrictionID}').val('$StatsData->{RestrictionValue}').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
             # change preview format to Print
@@ -282,7 +293,9 @@ $Selenium->RunTest(
 JAVASCRIPT
 
             # sort decreasing by StatsID
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]");
+            $Selenium->get(
+                "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
+            );
 
             my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 

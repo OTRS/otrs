@@ -3832,7 +3832,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3864,7 +3864,7 @@ sub CustomerNavigationBar {
                 if (
                     !$SelectedFlag
                     && $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                     )
                 {
                     $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4269,7 +4269,7 @@ sub RichTextDocumentServe {
 
         # replace charset in content
         $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-        $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+        $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
     }
 
     # add html links

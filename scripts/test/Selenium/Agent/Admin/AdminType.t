@@ -61,9 +61,9 @@ $Selenium->RunTest(
         # create a real test type
         my $RandomID = "Type" . $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -90,7 +90,7 @@ $Selenium->RunTest(
 
         # set test type to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # check class of invalid Type in the overview table
         $Self->True(

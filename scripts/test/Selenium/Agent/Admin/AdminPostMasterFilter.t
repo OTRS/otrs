@@ -85,13 +85,14 @@ $Selenium->RunTest(
         my $PostMasterBody     = "Selenium test for PostMasterFilter";
         my $PostMasterPriority = "2 low";
 
-        $Selenium->find_element( "#EditName",                                   'css' )->send_keys($PostMasterRandomID);
+        $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterRandomID);
         $Selenium->execute_script("\$('#MatchHeader1').val('Body').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#MatchNot1",                                  'css' )->click();
-        $Selenium->find_element( "#MatchValue1",                                'css' )->send_keys($PostMasterBody);
-        $Selenium->execute_script("\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#SetValue1",                                  'css' )->send_keys($PostMasterPriority);
-        $Selenium->find_element( "#EditName",                                   'css' )->submit();
+        $Selenium->find_element( "#MatchNot1",   'css' )->click();
+        $Selenium->find_element( "#MatchValue1", 'css' )->send_keys($PostMasterBody);
+        $Selenium->execute_script(
+            "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
+        $Selenium->find_element( "#EditName",  'css' )->submit();
 
         # check for created test PostMasterFilter on screen
         $Self->True(
@@ -136,10 +137,10 @@ $Selenium->RunTest(
         my $EditPostMasterPriority = "4 high";
 
         $Selenium->execute_script("\$('#StopAfterMatch').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#MatchNot1",                        'css' )->click();
-        $Selenium->find_element( "#SetValue1",                        'css' )->clear();
-        $Selenium->find_element( "#SetValue1",                        'css' )->send_keys($EditPostMasterPriority);
-        $Selenium->find_element( "#EditName",                         'css' )->submit();
+        $Selenium->find_element( "#MatchNot1", 'css' )->click();
+        $Selenium->find_element( "#SetValue1", 'css' )->clear();
+        $Selenium->find_element( "#SetValue1", 'css' )->send_keys($EditPostMasterPriority);
+        $Selenium->find_element( "#EditName",  'css' )->submit();
 
         # check edited test PostMasterFilter values
         $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();

@@ -90,7 +90,8 @@ $Selenium->RunTest(
         );
 
         $Self->Is(
-            $Selenium->execute_script( "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;" ),
+            $Selenium->execute_script(
+                "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"),
             1,
             "$TestCustomerUserLogin - found on UserOnline plugin"
         );

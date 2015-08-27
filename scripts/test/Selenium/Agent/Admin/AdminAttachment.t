@@ -50,10 +50,10 @@ $Selenium->RunTest(
             my $Location = $ConfigObject->Get('Home')
                 . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
             my $RandomID = 'StdAttachment' . $Helper->GetRandomID();
-            $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
             $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
-            $Selenium->find_element( "#Name",                      'css' )->submit();
+            $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+            $Selenium->find_element( "#Name",       'css' )->submit();
 
             # check if standard attachment show on AdminAttacnment screen
             $Self->True(
@@ -65,10 +65,10 @@ $Selenium->RunTest(
             $Selenium->find_element( "table tbody tr td", 'css' );
 
             # go to new standard attacment again and edit
-            $Selenium->find_element( $RandomID,                    'link_text' )->click();
+            $Selenium->find_element( $RandomID, 'link_text' )->click();
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test attachment');
-            $Selenium->find_element( "#Name",                      'css' )->submit();
+            $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');
+            $Selenium->find_element( "#Name",    'css' )->submit();
 
             # check overview page
             $Self->True(

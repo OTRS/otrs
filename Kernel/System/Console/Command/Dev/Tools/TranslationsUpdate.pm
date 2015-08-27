@@ -759,7 +759,7 @@ sub WritePerlLanguageFile {
         $Translation =~ s/'/\\'/g;
 
         if ( $Param{IsSubTranslation} ) {
-            if ( index($Key, "\n" > -1) || length($Key) < $BreakLineAfterChars ) {
+            if ( index( $Key, "\n" > -1 ) || length($Key) < $BreakLineAfterChars ) {
                 $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
             }
             else {
@@ -768,7 +768,7 @@ sub WritePerlLanguageFile {
             }
         }
         else {
-            if ( index($Key, "\n" > -1) || length($Key) < $BreakLineAfterChars ) {
+            if ( index( $Key, "\n" > -1 ) || length($Key) < $BreakLineAfterChars ) {
                 $Data .= $Indent . "'$Key' => '$Translation',\n";
             }
             else {

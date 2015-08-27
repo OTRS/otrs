@@ -833,7 +833,7 @@ sub _Edit {
         TreeView           => $TreeView,
         SelectedIDRefArray => $Param{Data}->{QueueID},
         OnChangeSubmit     => 0,
-        Class      => 'Modernize',
+        Class              => 'Modernize',
     );
 
     $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(

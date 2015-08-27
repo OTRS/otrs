@@ -109,7 +109,7 @@ $Selenium->RunTest(
         );
 
         # add note
-        $Selenium->find_element( "#Subject",                      'css' )->send_keys('Test');
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 

@@ -66,15 +66,16 @@ $Selenium->RunTest(
 
                 # create a real test DynamicField
                 my $RandomID = $Helper->GetRandomID();
-                $Selenium->execute_script("\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');");
+                $Selenium->execute_script(
+                    "\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');");
 
                 # wait until page has finished loading
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
-                $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-                $Selenium->find_element( "#Label",                     'css' )->send_keys($RandomID);
+                $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
+                $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name",                      'css' )->submit();
+                $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # check if test DynamicField show on AdminDynamicField screen
                 $Selenium->WaitFor( JavaScript => "return \$('.DynamicFieldsContent').length" );
@@ -86,10 +87,10 @@ $Selenium->RunTest(
                 # go to new DynamicField again
                 $Selenium->find_element( $RandomID, 'link_text' )->click();
                 $Selenium->WaitFor( JavaScript => "return \$('#Label').length" );
-                $Selenium->find_element( "#Label",                     'css' )->clear();
-                $Selenium->find_element( "#Label",                     'css' )->send_keys( $RandomID . "-update" );
+                $Selenium->find_element( "#Label", 'css' )->clear();
+                $Selenium->find_element( "#Label", 'css' )->send_keys( $RandomID . "-update" );
                 $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name",                      'css' )->submit();
+                $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # wait to load overview screen
                 $Selenium->WaitFor( JavaScript => "return \$('.DynamicFieldsContent').length" );

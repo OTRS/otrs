@@ -110,7 +110,7 @@ $Selenium->RunTest(
         # close state and change priority in bulk action for test tickets
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#submitRichText",               'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return to status view
         $Selenium->switch_to_window( $Handles->[0] );

@@ -56,7 +56,7 @@ $Selenium->RunTest(
 
         # add test service to 'My Services' preference
         $Selenium->execute_script("\$('#ServiceID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ServiceIDUpdate",                      'css' )->click();
+        $Selenium->find_element( "#ServiceIDUpdate", 'css' )->click();
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";

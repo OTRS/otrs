@@ -120,11 +120,11 @@ $Selenium->RunTest(
         # edit test Salutation, clear comment and set it to invalid
         my $EditSalutationRichText = "Dear <OTRS_CUSTOMER_Userlastname>,\n\nThank you for your request.";
 
-        $Selenium->find_element( "#RichText",                  'css' )->clear();
-        $Selenium->find_element( "#RichText",                  'css' )->send_keys($EditSalutationRichText);
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
+        $Selenium->find_element( "#RichText", 'css' )->clear();
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSalutationRichText);
+        $Selenium->find_element( "#Comment",  'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # check edited Salutation
         $Selenium->find_element( $SalutationRandomID, 'link_text' )->click();

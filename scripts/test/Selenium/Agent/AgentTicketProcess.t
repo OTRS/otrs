@@ -76,7 +76,7 @@ $Selenium->RunTest(
         # import test selenium process scenario
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
-        $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
+        $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
@@ -105,17 +105,18 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketProcess");
 
         # create first scenario for test agent ticket process
-        $Selenium->execute_script("\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script(
+            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
-        $Selenium->find_element( "#Subject",                   'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText",                  'css' )->send_keys($ContentRandom);
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                   'css' )->submit();
+        $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # check for inputed values for first step in test process ticket
         $Self->True(
@@ -141,7 +142,7 @@ $Selenium->RunTest(
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                      'css' )->submit();
+        $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # return to main window
         $Selenium->switch_to_window( $Handles->[0] );
@@ -167,14 +168,15 @@ $Selenium->RunTest(
 
         # create second scenarion for test agent ticket process
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketProcess");
-        $Selenium->execute_script("\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script(
+            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                   'css' )->submit();
+        $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # wait until return to AgentTicketZoom, if neccessary
         $Selenium->WaitFor( JavaScript => 'return $("#ArticleTree").length;' );
