@@ -723,6 +723,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 Searching,
                 Filterable,
                 SelectWidth,
+                SearchLabel,
                 $FiltersObj,
                 $ShowTreeObj,
                 $FiltersListObj;
@@ -800,9 +801,27 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Handle clicks on related label
                 if ($SelectObj.attr('id')) {
                     $LabelObj = $('label[for="' + $SelectObj.attr('id') + '"]');
-                    $LabelObj.on('click.InputField', function () {
-                        $SearchObj.focus();
-                    });
+                    if ($LabelObj.length > 0) {
+                        $LabelObj.on('click.InputField', function () {
+                            $SearchObj.focus();
+                        });
+                        $SearchObj.attr('aria-label', $LabelObj.text());
+                    }
+                }
+
+                // Set the earch field label attribute if there was no label element.
+                if (!$LabelObj || $LabelObj.length === 0) {
+                    if ($SelectObj.attr('aria-label')) {
+                        SearchLabel = $SelectObj.attr('aria-label');
+                    }
+                    else if ($SelectObj.attr('title')) {
+                        SearchLabel = $SelectObj.attr('title');
+                    }
+                    else {
+                        // Fallback: use sanitized ID to provide at least some information.
+                        SearchLabel = SearchID.replace(/_/g, ' ');
+                    }
+                    $SearchObj.attr('aria-label', SearchLabel);
                 }
 
                 // Check error classes
