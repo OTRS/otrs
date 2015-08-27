@@ -621,7 +621,7 @@ for my $PermissionTest (@GroupPermissionTests) {
         }
     }
 
-    # check if groups are removed from users via roles (PermissionGroupGet)
+    # check if groups have been removed from users via roles (PermissionGroupGet)
     for my $GroupID (@GroupIDs) {
         for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {
 
@@ -641,7 +641,7 @@ for my $PermissionTest (@GroupPermissionTests) {
         }
     }
 
-    # check if groups are removed from users via roles (PermissionUserGet)
+    # check if groups have been removed from users via roles (PermissionUserGet)
     for my $UserID (@UserIDs) {
         for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {
 
