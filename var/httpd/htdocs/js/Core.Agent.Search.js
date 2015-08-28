@@ -540,7 +540,8 @@ Core.Agent.Search = (function (TargetNS) {
                             // rebuild selection
                             TargetNS.AdditionalAttributeSelectionRebuild();
                         }
-                    }).trigger('redraw.InputField');
+                    });
+                    $('#SearchProfile').trigger('change');
 
                     if ($('#SearchProfile').val() && $('#SearchProfile').val() === 'last-search') {
 

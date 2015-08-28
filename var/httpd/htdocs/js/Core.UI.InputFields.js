@@ -1561,6 +1561,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                     CheckAvailability($SelectObj, $SearchObj);
                     $SearchObj.width($SelectObj.outerWidth());
+                    ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
                 // Handle custom error event on original select field
