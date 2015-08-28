@@ -1771,6 +1771,525 @@ der Service des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wur
 
 -- <OTRS_CONFIG_NotificationSenderName>');
 # ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (27, 1, 'text/plain', 'es_MX', 'Se ha creado un ticket: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha  creado en la fila <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (28, 2, 'text/plain', 'es_MX', 'Seguimiento a ticket desbloqueado: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (29, 3, 'text/plain', 'es_MX', 'Seguimiento a ticket bloqueado: <OTRS_CUSTOMER_SUBJECT[24]>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (30, 4, 'text/plain', 'es_MX', 'Terminó tiempo de bloqueo: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>]  ha alcanzado su tiempo de espera como bloqueado y ahora se encuentra desbloqueado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (31, 5, 'text/plain', 'es_MX', 'Actualización del propietario de ticket a <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el propietario del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha modificado  a <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (32, 6, 'text/plain', 'es_MX', 'Actualización del responsable de ticket a <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el agente responsable del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha modificado a <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (33, 7, 'text/plain', 'es_MX', 'Nota de ticket: <OTRS_AGENT_SUBJECT[24]>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> escribió:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (34, 8, 'text/plain', 'es_MX', 'La fila del ticket ha cambiado a <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ha cambiado de fila a <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (35, 9, 'text/plain', 'es_MX', 'Recordatorio pendiente en ticket bloqueado se ha alcanzado: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el tiempo del recordatorio pendiente para el ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (36, 10, 'text/plain', 'es_MX', 'Recordatorio pendiente en ticket desbloqueado se ha alcanzado: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el tiempo del recordatorio pendiente para el ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (37, 11, 'text/plain', 'es_MX', '¡Escalación de ticket! <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha escalado!
+
+Escaló: <OTRS_TICKET_EscalationDestinationDate>
+Escalado desde: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (38, 12, 'text/plain', 'es_MX', 'Aviso de escalación de ticket! <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se encuentra proximo a escalar!
+
+Escalará: <OTRS_TICKET_EscalationDestinationDate>
+Escalará en: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (39, 13, 'text/plain', 'es_MX', 'El servicio del ticket ha cambiado a <OTRS_TICKET_Service>: <OTRS_TICKET_Title>', 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el servicio del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha cambiado a <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (40, 1, 'text/plain', 'zh_CN', '票据编制 工单已创建：<OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
+
+<OTRS_CUSTOMER_REALNAME> 写道：
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (41, 2, 'text/plain', 'zh_CN', '解锁票据的后续作业解锁工单的后续： <OTRS_CUSTOMER_SUBJECT[24]>', '您好<OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+解锁票据解锁工单[<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+
+<OTRS_CUSTOMER_REALNAME> 写道:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (42, 3, 'text/plain', 'zh_CN', '加锁票据的后续作业 锁定工单后续：<OTRS_CUSTOMER_SUBJECT[24]>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+加锁票据锁定工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+
+<OTRS_CUSTOMER_REALNAME> 写道：
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (43, 4, 'text/plain', 'zh_CN', '票据加锁超时工单锁定超时：<OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已达到其锁定时限，现在解锁。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (44, 5, 'text/plain', 'zh_CN', '票据的拥有人升级为工单所有者更新为 <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据的所有人工单的所有者 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被该信为 <OTRS_TICKET_OWNER_UserFullname> 的 <OTRS_CURRENT_UserFullname>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (45, 6, 'text/plain', 'zh_CN', '票据的负责人 工单负责人更新为<OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据的负责代理工单的服务人员 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (46, 7, 'text/plain', 'zh_CN', '票据备注工单备注：<OTRS_AGENT_SUBJECT[24]>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> 写道：
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (47, 8, 'text/plain', 'zh_CN', '票据序列已升级为工单队列更新为<OTRS_TICKET_Queue>: <OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为序列已被更新为队列 <OTRS_TICKET_Queue>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (48, 9, 'text/plain', 'zh_CN', '已达到锁定票据即将到期的提醒时间已到达锁定工单挂起提醒时间：<OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+锁定票据即将到期的提醒时间锁定工单挂起提醒时间 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已到达。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (49, 10, 'text/plain', 'zh_CN', '未锁定票据即将到期的提醒时间已到已到未锁定工单的挂起提醒时间：<OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+未锁定票据即将到期的提醒时间未锁定工单的挂起提醒时间 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已到已到达。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (50, 11, 'text/plain', 'zh_CN', '票据升级！工单升级！<OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级！
+
+升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
+升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (51, 12, 'text/plain', 'zh_CN', '工单升级警告Ticket Escalation Warning! <OTRS_TICKET_Title>', '您好  <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级已被更新！
+
+升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
+升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (52, 13, 'text/plain', 'zh_CN', '票据服务升级为工单服务更新为<OTRS_TICKET_Service>: <OTRS_TICKET_Title>', '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据服务工单服务 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为已被更新为 <OTRS_TICKET_Service>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (53, 1, 'text/plain', 'pt_BR', 'Ticket criado: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi criado na fila <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (54, 2, 'text/plain', 'pt_BR', 'Acompanhamento do ticket desbloqueado: <OTRS_CUSTOMER_SUBJECT[24]>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (55, 3, 'text/plain', 'pt_BR', 'Acompanhamento do ticket bloqueado: <OTRS_CUSTOMER_SUBJECT[24]>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (56, 4, 'text/plain', 'pt_BR', 'Tempo limite de bloqueio do ticket: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] atingiu o seu período de tempo limite de bloqueio e agora está desbloqueado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (57, 5, 'text/plain', 'pt_BR', 'Atualização de proprietário de ticket para <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o proprietário do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (58, 6, 'text/plain', 'pt_BR', 'Atualização de responsável de ticket para <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o agente responsável do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (59, 7, 'text/plain', 'pt_BR', 'Observação sobre o ticket: <OTRS_AGENT_SUBJECT[24]>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> escreveu:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (60, 8, 'text/plain', 'pt_BR', 'Atualização da fila do ticket para <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado na fila <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (61, 9, 'text/plain', 'pt_BR', 'Tempo de Lembrete de Pendência do Ticket Bloqueado Atingido: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atingido.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (62, 10, 'text/plain', 'pt_BR', 'Tempo de Lembrete Pendente do Ticket Desbloqueado Atingido: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atingido.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (63, 11, 'text/plain', 'pt_BR', 'Escalonamento do ticket! <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi escalonado!
+
+Escalonado em: <OTRS_TICKET_EscalationDestinationDate>
+Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (64, 12, 'text/plain', 'pt_BR', 'Aviso de escalonamento do ticket! <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] será escalonado!
+
+Escalonamento em: <OTRS_TICKET_EscalationDestinationDate>
+Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
+#  insert into table notification_event_message
+# ----------------------------------------------------------
+INSERT INTO notification_event_message (id, notification_id, content_type, language, subject, text)
+    VALUES
+    (65, 13, 'text/plain', 'pt_BR', 'Atualização do serviço do ticket para <OTRS_TICKET_Service>: <OTRS_TICKET_Title>', 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o serviço do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom\;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+# ----------------------------------------------------------
 #  insert into table dynamic_field
 # ----------------------------------------------------------
 INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)

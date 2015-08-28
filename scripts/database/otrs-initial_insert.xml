@@ -2368,6 +2368,611 @@ der Service des Tickets [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] wur
 -- <OTRS_CONFIG_NotificationSenderName>]]></Data>
     </Insert>
 
+
+    <!-- notification_event_message - es_MX -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">27</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Se ha creado un ticket: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha  creado en la fila <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">28</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Seguimiento a ticket desbloqueado: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">29</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Seguimiento a ticket bloqueado: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+
+<OTRS_CUSTOMER_REALNAME> escribió:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">30</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Terminó tiempo de bloqueo: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>]  ha alcanzado su tiempo de espera como bloqueado y ahora se encuentra desbloqueado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">31</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Actualización del propietario de ticket a <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el propietario del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha modificado  a <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">32</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Actualización del responsable de ticket a <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el agente responsable del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha modificado a <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">33</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Nota de ticket: <OTRS_AGENT_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> escribió:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">34</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[La fila del ticket ha cambiado a <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] ha cambiado de fila a <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">35</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Recordatorio pendiente en ticket bloqueado se ha alcanzado: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el tiempo del recordatorio pendiente para el ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">36</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Recordatorio pendiente en ticket desbloqueado se ha alcanzado: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el tiempo del recordatorio pendiente para el ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">37</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[¡Escalación de ticket! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha escalado!
+
+Escaló: <OTRS_TICKET_EscalationDestinationDate>
+Escalado desde: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">38</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Aviso de escalación de ticket! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se encuentra proximo a escalar!
+
+Escalará: <OTRS_TICKET_EscalationDestinationDate>
+Escalará en: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">39</Data>
+        <Data Key="notification_id">13</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">es_MX</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[El servicio del ticket ha cambiado a <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+el servicio del ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] se ha cambiado a <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+
+    <!-- notification_event_message - zh_CN -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">40</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据编制 工单已创建：<OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
+
+<OTRS_CUSTOMER_REALNAME> 写道：
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">41</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[解锁票据的后续作业解锁工单的后续： <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好<OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+解锁票据解锁工单[<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+
+<OTRS_CUSTOMER_REALNAME> 写道:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">42</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[加锁票据的后续作业 锁定工单后续：<OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+加锁票据锁定工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+
+<OTRS_CUSTOMER_REALNAME> 写道：
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">43</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据加锁超时工单锁定超时：<OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已达到其锁定时限，现在解锁。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">44</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据的拥有人升级为工单所有者更新为 <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据的所有人工单的所有者 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被该信为 <OTRS_TICKET_OWNER_UserFullname> 的 <OTRS_CURRENT_UserFullname>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">45</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据的负责人 工单负责人更新为<OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据的负责代理工单的服务人员 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">46</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据备注工单备注：<OTRS_AGENT_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> 写道：
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">47</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据序列已升级为工单队列更新为<OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为序列已被更新为队列 <OTRS_TICKET_Queue>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">48</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[已达到锁定票据即将到期的提醒时间已到达锁定工单挂起提醒时间：<OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+锁定票据即将到期的提醒时间锁定工单挂起提醒时间 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已到达。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">49</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[未锁定票据即将到期的提醒时间已到已到未锁定工单的挂起提醒时间：<OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+未锁定票据即将到期的提醒时间未锁定工单的挂起提醒时间 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已到已到达。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">50</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据升级！工单升级！<OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级！
+
+升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
+升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">51</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[工单升级警告Ticket Escalation Warning! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好  <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级已被更新！
+
+升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
+升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">52</Data>
+        <Data Key="notification_id">13</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">zh_CN</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[票据服务升级为工单服务更新为<OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+票据服务工单服务 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为已被更新为 <OTRS_TICKET_Service>。
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+
+    <!-- notification_event_message - pt_BR -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">53</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Ticket criado: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi criado na fila <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">54</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Acompanhamento do ticket desbloqueado: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">55</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Acompanhamento do ticket bloqueado: <OTRS_CUSTOMER_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+
+<OTRS_CUSTOMER_REALNAME> escreveu:
+<OTRS_CUSTOMER_Body[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">56</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Tempo limite de bloqueio do ticket: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] atingiu o seu período de tempo limite de bloqueio e agora está desbloqueado.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">57</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Atualização de proprietário de ticket para <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o proprietário do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">58</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Atualização de responsável de ticket para <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o agente responsável do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">59</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Observação sobre o ticket: <OTRS_AGENT_SUBJECT[24]>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> escreveu:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">60</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Atualização da fila do ticket para <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado na fila <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">61</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Tempo de Lembrete de Pendência do Ticket Bloqueado Atingido: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atingido.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">62</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Tempo de Lembrete Pendente do Ticket Desbloqueado Atingido: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atingido.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">63</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Escalonamento do ticket! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi escalonado!
+
+Escalonado em: <OTRS_TICKET_EscalationDestinationDate>
+Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">64</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Aviso de escalonamento do ticket! <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] será escalonado!
+
+Escalonamento em: <OTRS_TICKET_EscalationDestinationDate>
+Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">65</Data>
+        <Data Key="notification_id">13</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">pt_BR</Data>
+        <Data Key="subject" Type="Quote"><![CDATA[Atualização do serviço do ticket para <OTRS_TICKET_Service>: <OTRS_TICKET_Title>]]></Data>
+        <Data Key="text" Type="Quote"><![CDATA[Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+o serviço do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>]]></Data>
+    </Insert>
+
+
     <!-- Internal dynamic fields for ProcessManagement -->
     <Insert Table="dynamic_field">
         <Data Key="id" Type="AutoIncrement">1</Data>
