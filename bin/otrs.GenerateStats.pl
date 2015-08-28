@@ -103,10 +103,12 @@ if ( !$Opts{m} && $Opts{r} ) {
 }
 
 # language
-my $Lang = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
-if ( $Opts{l} ) {
-    $Lang = $Opts{l};
-}
+my $UserLanguage = $Opts{l} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Language' => {
+        UserLanguage => $UserLanguage,
+    },
+);
 
 # format
 $Opts{f} //= 'CSV';
@@ -189,7 +191,8 @@ my @StatArray = @{
     $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
         StatID   => $StatID,
         GetParam => \%GetParam,
-        )
+        UserLanguage => $UserLanguage,
+    );
 };
 
 # generate output
