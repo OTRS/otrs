@@ -6468,7 +6468,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::Skin###000-default" Required="0" Valid="1">
-        <Description Translatable="1">Default skin for OTRS 3.0 interface.</Description>
+        <Description Translatable="1">Default skin for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
