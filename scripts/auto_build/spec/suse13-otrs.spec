@@ -52,7 +52,7 @@ mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # configure apache
 install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
-install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/zzz_otrs.conf
 
 # set permission
 export OTRSUSER=otrs
@@ -117,7 +117,7 @@ echo ""
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%config /etc/apache2/conf.d/otrs.conf
+%config /etc/apache2/conf.d/zzz_otrs.conf
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
 %config(noreplace) /opt/otrs/.procmailrc
