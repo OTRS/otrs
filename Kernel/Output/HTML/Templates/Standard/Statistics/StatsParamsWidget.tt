@@ -63,7 +63,7 @@
         [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
 [% RenderBlockEnd("TimePeriodFixed") %]
 [% RenderBlockStart("TimeRelativeFixed") %]
-        [% Translate("The last") | html %] [% Data.TimeRelativeCount %] [% Translate(Data.TimeRelativeUnit) | html %]<br/>
+        [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]<br/>
 [% RenderBlockEnd("TimeRelativeFixed") %]
 [% RenderBlockStart("TimeScaleFixed") %]
         [% Translate("Scale") | html %]: [% Data.Count %] [% Translate(Data.Scale) | html %]
@@ -98,27 +98,51 @@
 
 [% RenderBlockStart("TimeScale") %]
     <label><em>[% Translate("Scale") | html %]</em>:</label>
-    <div class="Value" data-min-seconds="[% Data.TimeScaleMinSeconds %]">
+    <div class="Value">
+    [% IF Data.TimeScaleCount %]
         [% Data.TimeScaleCount %]
+    [% END %]
         [% Data.TimeScaleUnit %]
         <p class="FieldExplanation">
 [% RenderBlockStart("TimeScaleInfo") %]
-            [% Translate("The minimal scale is") | html %] [% Data.TimeScaleCountMax %] [% Translate(Data.TimeScaleUnitMax) | html %].
+            [% Translate("The minimal scale is") | html %] [% Data.TimeScaleCountMin %] [% Translate(Data.TimeScaleUnitMin) | html %].
 [% RenderBlockEnd("TimeScaleInfo") %]
         </p>
     </div>
     <div class="Clear"></div>
+[% IF Data.Use == 'UseAsValueSeries' %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#[% Data.XAxisTimeScaleElementID %]').on('change', function() {
+        var TimeScaleYAxis = [% JSON(Data.TimeScaleYAxis) %],
+        $TimeScaleElement = $('#[% Data.TimeScaleElementID %]'),
+        XAxisTimeScaleValue = $(this).val();
+
+        // reset the current time scale dropdown for the y axis
+        $TimeScaleElement.empty();
+
+        if ( XAxisTimeScaleValue in TimeScaleYAxis ) {
+            $.each(TimeScaleYAxis[XAxisTimeScaleValue], function (Index, Item) {
+                var TimeScaleOption = new Option(Item.Value, Item.Key);
+
+                // Overwrite option text, because of wrong html quoting of text content.
+                // (This is needed for IE.)
+                TimeScaleOption.innerHTML = Item.Value;
+                $TimeScaleElement.append(TimeScaleOption);
+            });
+        }
+    });
+//]]></script>
+[% END %]
+[% END %]
 [% RenderBlockEnd("TimeScale") %]
 
 [% RenderBlockStart("TimePeriodRelative") %]
     <label><em>[% Translate("Relative period") | html %]</em>:</label>
-    <div class="Value" data-max-seconds="[% Data.TimeRelativeMaxSeconds %]">
-        [% Translate("The past complete") | html %]
-        [% Data.TimeRelativeCount %]
-        [% Data.TimeRelativeUnit %]
+    <div class="Value" data-max-seconds="[% Data.TimeRelativeMaxSeconds %]" data-upcoming-max-seconds="[% Data.TimeRelativeUpcomingMaxSeconds %]">
+        [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]
         <p class="FieldExplanation">
-            [% Translate("The maximal period is") | html %]
-            [% Data.TimeRelativeCountMax %] [% Translate(Data.TimeRelativeUnitMax) | html %].
+            [% Translate("The maximal past period is %s and the current+upcoming period is %s %s", Data.TimeRelativeCountMax, Data.TimeRelativeUpcomingCountMax, Translate(Data.TimeRelativeUnitMax) ) | html %].
         </p>
     </div>
     <div class="Clear"></div>
@@ -127,3 +151,8 @@
 [% RenderBlockEnd("Element") %]
 </fieldset>
 [% RenderBlockEnd("Dynamic") %]
+[% IF Data.AJAX %]
+<script type="text/javascript">//<![CDATA[
+Core.UI.InputFields.Activate();
+//]]></script>
+[% END %]

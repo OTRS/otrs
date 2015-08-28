@@ -22,7 +22,7 @@ HINWEIS: Bitte prüfen Sie den Output der Statistik und deren Konfiguration sorg
 <UseAsRestriction Element="Limit" Fixed="1">
 <SelectedValues>unlimited</SelectedValues>
 </UseAsRestriction>
-<UseAsRestriction Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+<UseAsRestriction Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month">
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
 <SelectedValues>Age</SelectedValues>

@@ -17,7 +17,7 @@
 <SumRow>1</SumRow>
 <UseAsValueSeries Element="QueueIDs" Fixed="1">
 </UseAsValueSeries>
-<UseAsXvalue Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month" TimeScaleCount="1">
+<UseAsXvalue Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month" TimeScaleCount="1">
 <SelectedValues>Day</SelectedValues>
 </UseAsXvalue>
 <Valid>1</Valid>

@@ -377,6 +377,7 @@ sub EditAction {
         StatID => $ParamObject->GetParam( Param => 'StatID' ),
         UserID => $Self->{UserID},
     );
+
     if ( !$Stat ) {
         return $LayoutObject->ErrorScreen(
             Message => 'Need StatID!',
@@ -480,10 +481,15 @@ sub EditAction {
                 }
             }
             else {
-                $Data{UseAsXvalue}[0]{TimeRelativeUnit}
-                    = $ParamObject->GetParam( Param => $SelectedElement . 'TimeRelativeUnit' );
-                $Data{UseAsXvalue}[0]{TimeRelativeCount}
-                    = $ParamObject->GetParam( Param => $SelectedElement . 'TimeRelativeCount' );
+                $Data{UseAsXvalue}[0]{TimeRelativeUnit} = $ParamObject->GetParam(
+                    Param => $SelectedElement . 'TimeRelativeUnit'
+                );
+                $Data{UseAsXvalue}[0]{TimeRelativeCount} = $ParamObject->GetParam(
+                    Param => $SelectedElement . 'TimeRelativeCount'
+                );
+                $Data{UseAsXvalue}[0]{TimeRelativeUpcomingCount} = $ParamObject->GetParam(
+                    Param => $SelectedElement . 'TimeRelativeUpcomingCount'
+                );
             }
         }
     }
@@ -520,9 +526,28 @@ sub EditAction {
                 $Data{UseAsValueSeries}[$Index]{TimeScaleCount} = $ParamObject->GetParam(
                     Param => $Element . 'TimeScaleCount'
                 ) || 1;
+
+                # check if the current selected value is allowed for the x axis selected time scale
+                my $SelectedXAxisTimeScaleValue = $Data{UseAsXvalue}[0]{SelectedValues}[0];
+
+                my $TimeScale = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->_TimeScale(
+                    SelectedXAxisValue => $SelectedXAxisTimeScaleValue,
+                );
+
+                my %TimeScaleLookup = map { $_ => 1 } sort keys %{$TimeScale};
+
+                # set the first allowed time scale value as default
+                if (   !$Data{UseAsValueSeries}[$Index]{SelectedValues}[0]
+                    || !exists $TimeScaleLookup{ $Data{UseAsValueSeries}[$Index]{SelectedValues}[0] } )
+                {
+
+                    my @TimeScaleSorted
+                        = sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale};
+
+                    $Data{UseAsValueSeries}[$Index]{SelectedValues}[0] = $TimeScaleSorted[0];
+                }
             }
             $Index++;
-
         }
 
         $Data{UseAsValueSeries} ||= [];
@@ -604,6 +629,9 @@ sub EditAction {
                     );
                     $Data{UseAsRestriction}[$Index]{TimeRelativeCount} = $ParamObject->GetParam(
                         Param => $Element . 'TimeRelativeCount'
+                    );
+                    $Data{UseAsRestriction}[$Index]{TimeRelativeUpcomingCount} = $ParamObject->GetParam(
+                        Param => $Element . 'TimeRelativeUpcomingCount'
                     );
                 }
             }
@@ -1001,13 +1029,15 @@ sub _TimeInSeconds {
     }
 
     my %TimeInSeconds = (
-        Year   => 31536000,    # 60 * 60 * 60 * 365
-        Month  => 2592000,     # 60 * 60 * 24 * 30
-        Week   => 604800,      # 60 * 60 * 24 * 7
-        Day    => 86400,       # 60 * 60 * 24
-        Hour   => 3600,        # 60 * 60
-        Minute => 60,
-        Second => 1,
+        Year     => 31536000,    # 60 * 60 * 24 * 365
+        HalfYear => 15724800,    # 60 * 60 * 24 * 182
+        Quarter  => 7862400,     # 60 * 60 * 24 * 91
+        Month    => 2592000,     # 60 * 60 * 24 * 30
+        Week     => 604800,      # 60 * 60 * 24 * 7
+        Day      => 86400,       # 60 * 60 * 24
+        Hour     => 3600,        # 60 * 60
+        Minute   => 60,
+        Second   => 1,
     );
 
     return $TimeInSeconds{ $Param{TimeUnit} };

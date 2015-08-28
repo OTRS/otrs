@@ -15,6 +15,8 @@ use warnings;
 
 use List::Util qw( first );
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
@@ -63,6 +65,8 @@ sub StatsParamsWidget {
 
     # Don't allow to run an invalid stat.
     return if !$Param{Stat}->{Valid};
+
+    $Param{OutputCounter} ||= 1;
 
     # Check if there are any configuration errors that must be corrected by the stats admin
     my $StatsConfigurationValid = $Self->StatsConfigurationValidate(
@@ -228,7 +232,7 @@ sub StatsParamsWidget {
                 }
                 for ( @{ $ObjectAttribute->{SelectedValues} } ) {
                     if ( $ObjectAttribute->{Values} ) {
-                        $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
+                        $ValueHash{$_} = $ObjectAttribute->{Values}->{$_};
                     }
                     else {
                         $ValueHash{Value} = $_;
@@ -246,7 +250,7 @@ sub StatsParamsWidget {
                         if ( $Use eq 'UseAsRestriction' ) {
                             delete $ObjectAttribute->{SelectedValues};
                         }
-                        my $TimeScale = _TimeScale();
+                        my $TimeScale = $Self->_TimeScale();
                         if ( $ObjectAttribute->{TimeStart} ) {
                             $LayoutObject->Block(
                                 Name => 'TimePeriodFixed',
@@ -260,10 +264,9 @@ sub StatsParamsWidget {
                             $LayoutObject->Block(
                                 Name => 'TimeRelativeFixed',
                                 Data => {
-                                    TimeRelativeUnit =>
-                                        $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
-                                        {Value},
+                                    TimeRelativeUnit  => $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }->{Value},
                                     TimeRelativeCount => $ObjectAttribute->{TimeRelativeCount},
+                                    TimeRelativeUpcomingCount => $ObjectAttribute->{TimeRelativeUpcomingCount},
                                 },
                             );
                         }
@@ -271,9 +274,7 @@ sub StatsParamsWidget {
                             $LayoutObject->Block(
                                 Name => 'TimeScaleFixed',
                                 Data => {
-                                    Scale =>
-                                        $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
-                                        {Value},
+                                    Scale => $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }->{Value},
                                     Count => $ObjectAttribute->{TimeScaleCount},
                                 },
                             );
@@ -284,8 +285,7 @@ sub StatsParamsWidget {
                         # find out which sort mechanism is used
                         my @Sorted;
                         if ( $ObjectAttribute->{SortIndividual} ) {
-                            @Sorted = grep { $ValueHash{$_} }
-                                @{ $ObjectAttribute->{SortIndividual} };
+                            @Sorted = grep { $ValueHash{$_} } @{ $ObjectAttribute->{SortIndividual} };
                         }
                         else {
                             @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
@@ -299,7 +299,6 @@ sub StatsParamsWidget {
                                 $Value = $LayoutObject->{LanguageObject}->Translate( $ValueHash{$_} );
                             }
                             push @FixedAttributes, $Value;
-
                         }
 
                         $LayoutObject->Block(
@@ -371,12 +370,7 @@ sub StatsParamsWidget {
                     }
                     elsif ( $ObjectAttribute->{Block} eq 'Time' ) {
                         $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
-                        my $RelativeSelectedID = $LocalGetParam->(
-                            Param => $ObjectAttribute->{Element} . 'TimeRelativeCount',
-                        );
-                        my $ScaleSelectedID = $LocalGetParam->(
-                            Param => $ObjectAttribute->{Element} . 'TimeScaleCount',
-                        );
+
                         my %Time;
                         if ( $ObjectAttribute->{TimeStart} ) {
                             if ( $LocalGetParam->( Param => $ElementName . 'StartYear' ) ) {
@@ -419,19 +413,86 @@ sub StatsParamsWidget {
                                     );
                                 }
                             }
-                        }
-                        my %TimeData = _Timeoutput(
-                            $Self, %{$ObjectAttribute},
-                            OnlySelectedAttributes => 1,
-                            TimeRelativeCount      => $RelativeSelectedID || $ObjectAttribute->{TimeRelativeCount},
-                            TimeScaleCount         => $ScaleSelectedID || $ObjectAttribute->{TimeScaleCount},
-                            %Time
-                        );
-                        %BlockData = ( %BlockData, %TimeData );
-                        if ( $ObjectAttribute->{TimeStart} ) {
+
+                            # set the max values
                             $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
                             $BlockData{TimeStopMax}  = $ObjectAttribute->{TimeStop};
+                        }
+                        elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
+                            $Time{TimeRelativeCount} = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element} . 'TimeRelativeCount',
+                            ) || $ObjectAttribute->{TimeRelativeCount};
 
+                            $Time{TimeRelativeUpcomingCount} = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element} . 'TimeRelativeUpcomingCount',
+                            ) || $ObjectAttribute->{TimeRelativeUpcomingCount};
+
+                            $Time{TimeScaleCount} = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element} . 'TimeScaleCount',
+                            ) || $ObjectAttribute->{TimeScaleCount};
+
+                            $Time{TimeRelativeUnitLocalSelectedValue} = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element} . 'TimeRelativeUnit'
+                            );
+
+                            # set the max values
+                            my $TimeScale = $Self->_TimeScale();
+                            $BlockData{TimeRelativeUnitMax}
+                                = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }->{Value};
+
+                            for my $TimeRelativeName (qw(TimeRelative TimeRelativeUpcoming)) {
+                                $BlockData{ $TimeRelativeName . 'CountMax' }
+                                    = $ObjectAttribute->{ $TimeRelativeName . 'Count' };
+                                $BlockData{ $TimeRelativeName . 'MaxSeconds' }
+                                    = $ObjectAttribute->{ $TimeRelativeName . 'Count' } * $Self->_TimeInSeconds(
+                                    TimeUnit => $ObjectAttribute->{TimeRelativeUnit},
+                                    );
+                            }
+                        }
+
+                        if ( $Use ne 'UseAsRestriction' ) {
+                            $Time{TimeScaleUnitLocalSelectedValue} = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element},
+                            );
+
+                            # get the selected x axis time scale value for value series
+                            if ( $Use eq 'UseAsValueSeries' ) {
+
+                                # get the name for the x axis element
+                                my $XAxisElementName = $ObjectAttribute->{Element};
+                                $XAxisElementName =~ s{ \A UseAsValueSeries }{UseAsXvalue}xms;
+
+                                # get the current x axis value
+                                my $XAxisLocalSelectedValue = $LocalGetParam->(
+                                    Param => $XAxisElementName,
+                                );
+                                $Time{SelectedXAxisValue} = $XAxisLocalSelectedValue
+                                    || $Self->_GetSelectedXAxisTimeScaleValue( Stat => $Stat );
+
+                                # save the x axis time scale element id for the output
+                                $BlockData{XAxisTimeScaleElementID} = $XAxisElementName . '-' . $StatID . '-' . $Param{OutputCounter};
+                            }
+                            else {
+
+                                # set the min values
+                                my $TimeScale = $Self->_TimeScale();
+                                $BlockData{TimeScaleUnitMin}
+                                    = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }->{Value};
+                                $BlockData{TimeScaleCountMin} = $ObjectAttribute->{TimeScaleCount};
+                            }
+                        }
+
+                        my %TimeData = $Self->_TimeOutput(
+                            StatID        => $StatID,
+                            OutputCounter => $Param{OutputCounter},
+                            Output        => 'View',
+                            Use           => $Use,
+                            %{$ObjectAttribute},
+                            %Time,
+                        );
+                        %BlockData = ( %BlockData, %TimeData );
+
+                        if ( $ObjectAttribute->{TimeStart} ) {
                             $LayoutObject->Block(
                                 Name => 'TimePeriod',
                                 Data => \%BlockData,
@@ -439,34 +500,6 @@ sub StatsParamsWidget {
                         }
 
                         elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
-                            my $TimeScale = _TimeScale();
-                            my %TimeScaleOption;
-                            my $SelectedID = $LocalGetParam->(
-                                Param => $ObjectAttribute->{Element} . 'TimeRelativeUnit'
-                            );
-
-                            ITEM:
-                            for (
-                                sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} }
-                                keys %{$TimeScale}
-                                )
-                            {
-                                $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                last ITEM if $ObjectAttribute->{TimeRelativeUnit} eq $_;
-                            }
-                            $BlockData{TimeRelativeUnit} = $LayoutObject->BuildSelection(
-                                Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
-                                Data           => \%TimeScaleOption,
-                                Sort           => 'IndividualKey',
-                                SelectedID     => $SelectedID // $ObjectAttribute->{TimeRelativeUnit},
-                                SortIndividual => [
-                                    'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
-                                ],
-                            );
-                            $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
-                            $BlockData{TimeRelativeUnitMax}
-                                = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
-
                             $LayoutObject->Block(
                                 Name => 'TimePeriodRelative',
                                 Data => \%BlockData,
@@ -475,49 +508,19 @@ sub StatsParamsWidget {
 
                         # build the Timescale output
                         if ( $Use ne 'UseAsRestriction' ) {
-                            my $TimeScale = _TimeScale();
-                            my %TimeScaleOption;
-                            ITEM:
-                            for (
-                                sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} }
-                                keys %{$TimeScale}
-                                )
-                            {
-                                $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
-                            }
-                            $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
-                                {Value};
-                            $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
-
-                            my $SelectedID = $LocalGetParam->(
-                                Param => $ObjectAttribute->{Element},
-                            );
-                            $BlockData{TimeScaleUnit} = $LayoutObject->BuildSelection(
-                                Name           => $ObjectAttribute->{Element},
-                                Data           => \%TimeScaleOption,
-                                SelectedID     => $SelectedID // $ObjectAttribute->{SelectedValues}[0],
-                                Sort           => 'IndividualKey',
-                                SortIndividual => [
-                                    'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
-                                ],
-                            );
                             $LayoutObject->Block(
-                                Name => 'TimeScaleInfo',
-                                Data => \%BlockData,
+                                Name => 'TimeScale',
+                                Data => {
+                                    %BlockData,
+                                    Use => $Use,
+                                },
                             );
 
-                            if ( $ObjectAttribute->{SelectedValues} ) {
+                            if ( $Use eq 'UseAsXvalue' ) {
                                 $LayoutObject->Block(
-                                    Name => 'TimeScale',
+                                    Name => 'TimeScaleInfo',
                                     Data => \%BlockData,
                                 );
-                                if ( $BlockData{TimeScaleUnitMax} ) {
-                                    $LayoutObject->Block(
-                                        Name => 'TimeScaleInfo',
-                                        Data => \%BlockData,
-                                    );
-                                }
                             }
                         }
 
@@ -556,7 +559,9 @@ sub StatsParamsWidget {
         TemplateFile => 'Statistics/StatsParamsWidget',
         Data         => {
             %{$Stat},
+            AJAX => $Param{AJAX},
         },
+        KeepScriptTags => $Param{AJAX},
     );
     return $Output;
 }
@@ -798,10 +803,10 @@ sub XAxisWidget {
         );
 
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
-            $ObjectAttribute->{Block} = 'Time';
 
-            my %TimeData = _Timeoutput(
-                $Self,
+            my %TimeData = $Self->_TimeOutput(
+                Output => 'Edit',
+                Use    => 'UseAsXvalue',
                 %{$ObjectAttribute},
                 Element => $BlockData{Element},
             );
@@ -888,42 +893,16 @@ sub YAxisWidget {
         );
 
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
-            for ( @{ $Stat->{UseAsXvalue} } ) {
-                if (
-                    $_->{Selected}
-                    && $_->{Fixed}
-                    && $_->{Block} eq 'Time'
-                    )
-                {
-                    $ObjectAttribute->{OnlySelectedAttributes} = 1;
-                    if ( $_->{SelectedValues}[0] eq 'Second' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Minute'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Minute' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Hour'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Hour' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Day'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Day' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Month'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Week' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Week'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Month' ) {
-                        $ObjectAttribute->{SelectedValues} = ['Year'];
-                    }
-                    elsif ( $_->{SelectedValues}[0] eq 'Year' ) {
-                        next OBJECTATTRIBUTE;
-                    }
-                }
-            }
 
-            my %TimeData = _Timeoutput(
-                $Self,
+            # get the selected x axis time scale value
+            my $SelectedXAxisTimeScaleValue = $Self->_GetSelectedXAxisTimeScaleValue( Stat => $Stat );
+
+            my %TimeData = $Self->_TimeOutput(
+                Output => 'Edit',
+                Use    => 'UseAsValueSeries',
                 %{$ObjectAttribute},
-                Element => $BlockData{Element},
+                Element            => $BlockData{Element},
+                SelectedXAxisValue => $SelectedXAxisTimeScaleValue,
             );
             %BlockData = ( %BlockData, %TimeData );
         }
@@ -1016,8 +995,9 @@ sub RestrictionsWidget {
         );
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
 
-            my %TimeData = _Timeoutput(
-                $Self,
+            my %TimeData = $Self->_TimeOutput(
+                Output => 'Edit',
+                Use    => 'UseAsRestriction',
                 %{$ObjectAttribute},
                 Element => $BlockData{Element},
             );
@@ -1138,7 +1118,8 @@ sub StatsParamsGet {
     #
     else {
 
-        my $TimePeriod = 0;
+        my $TimePeriod         = 0;
+        my $TimeUpcomingPeriod = 0;
 
         for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
             $Stat->{$Use} ||= [];
@@ -1155,8 +1136,7 @@ sub StatsParamsGet {
 
                     my $StatSelectedValues = $Element->{SelectedValues};
 
-                    if ( $LocalGetArray->( Param => $ElementName ) )
-                    {
+                    if ( $LocalGetArray->( Param => $ElementName ) ) {
                         my @SelectedValues = $LocalGetArray->(
                             Param => $ElementName
                         );
@@ -1179,22 +1159,15 @@ sub StatsParamsGet {
 
                     }
                     if ( $Element->{Block} eq 'Time' ) {
+                        my %Time;
 
                         # Check if it is an absolute time period
-                        if ( $Element->{TimeStart} )
-                        {
-
-                            # Use the stat data as fallback
-                            my %Time = (
-                                TimeStart => $Element->{TimeStart},
-                                TimeStop  => $Element->{TimeStop},
-                            );
+                        if ( $Element->{TimeStart} ) {
 
                             # get time object
                             my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
                             if ( $LocalGetParam->( Param => $ElementName . 'StartYear' ) ) {
-                                my %Time;
                                 for my $Limit (qw(Start Stop)) {
                                     for my $Unit (qw(Year Month Day Hour Minute Second)) {
                                         if ( defined( $LocalGetParam->( Param => "$ElementName$Limit$Unit" ) ) ) {
@@ -1259,30 +1232,62 @@ sub StatsParamsGet {
                             }
                         }
                         else {
-                            my %Time;
 
-                            $Time{TimeRelativeUnit}  = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUnit' );
-                            $Time{TimeRelativeCount} = $LocalGetParam->( Param => $ElementName . 'TimeRelativeCount' );
+                            if ( $Use ne 'UseAsValueSeries' ) {
+                                $Time{TimeRelativeUnit}
+                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUnit' );
+                                $Time{TimeRelativeCount}
+                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeCount' );
+                                $Time{TimeRelativeUpcomingCount}
+                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
 
-                            # Use Values of the stat as fallback
-                            $Time{TimeRelativeCount} ||= $Element->{TimeRelativeCount};
-                            $Time{TimeRelativeUnit}  ||= $Element->{TimeRelativeUnit};
+                                # Use Values of the stat as fallback
+                                $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
+                                $Time{TimeRelativeUpcomingCount} //= $Element->{TimeRelativeUpcomingCount};
+                                $Time{TimeRelativeUnit}          ||= $Element->{TimeRelativeUnit};
 
-                            my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(
-                                TimeUnit => $Element->{TimeRelativeUnit},
-                            );
-                            my $TimePeriodAgent = $Time{TimeRelativeCount} * $Self->_TimeInSeconds(
-                                TimeUnit => $Time{TimeRelativeUnit},
-                            );
+                                my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(
+                                    TimeUnit => $Element->{TimeRelativeUnit},
+                                );
+                                my $TimePeriodAgent = $Time{TimeRelativeCount} * $Self->_TimeInSeconds(
+                                    TimeUnit => $Time{TimeRelativeUnit},
+                                );
 
-                            if ( $TimePeriodAgent > $TimePeriodAdmin ) {
-                                push @Errors,
-                                    Translatable('The selected time period is larger than the allowed time period.');
+                                if ( $TimePeriodAgent > $TimePeriodAdmin ) {
+                                    push @Errors,
+                                        Translatable(
+                                        'The selected time period is larger than the allowed time period.'
+                                        );
+                                }
+
+                                my $TimeUpcomingPeriodAdmin
+                                    = $Element->{TimeRelativeUpcomingCount} * $Self->_TimeInSeconds(
+                                    TimeUnit => $Element->{TimeRelativeUnit},
+                                    );
+                                my $TimeUpcomingPeriodAgent = $Time{TimeRelativeUpcomingCount} * $Self->_TimeInSeconds(
+                                    TimeUnit => $Time{TimeRelativeUnit},
+                                );
+
+                                if ( $TimeUpcomingPeriodAgent > $TimeUpcomingPeriodAdmin ) {
+                                    push @Errors,
+                                        Translatable(
+                                        'The selected time upcoming period is larger than the allowed time upcoming period.'
+                                        );
+                                }
+
+                                $TimePeriod                           = $TimePeriodAgent;
+                                $TimeUpcomingPeriod                   = $TimeUpcomingPeriodAgent;
+                                $Element->{TimeRelativeCount}         = $Time{TimeRelativeCount};
+                                $Element->{TimeRelativeUpcomingCount} = $Time{TimeRelativeUpcomingCount};
+                                $Element->{TimeRelativeUnit}          = $Time{TimeRelativeUnit};
                             }
+                        }
 
-                            $TimePeriod                   = $TimePeriodAgent;
-                            $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
-                            $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
+                        if ( $Use ne 'UseAsRestriction' ) {
+
+                            if ( $LocalGetParam->( Param => $ElementName ) ) {
+                                $Element->{SelectedValues} = [ $LocalGetParam->( Param => $ElementName ) ];
+                            }
 
                             if ( $LocalGetParam->( Param => $ElementName . 'TimeScaleCount' ) ) {
 
@@ -1300,7 +1305,9 @@ sub StatsParamsGet {
 
                                 if ( $TimePeriodAgent < $TimePeriodAdmin ) {
                                     push @Errors,
-                                        Translatable('The selected time scale is smaller than the allowed time scale.');
+                                        Translatable(
+                                        'The selected time scale is smaller than the allowed time scale.'
+                                        );
                                 }
 
                                 $Element->{TimeScaleCount} = $Time{TimeScaleCount};
@@ -1337,8 +1344,21 @@ sub StatsParamsGet {
 
             # integrate this functionality in the completenesscheck
             my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
-            if ( $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} ) > $MaxAttr ) {
+            if ( ( $TimePeriod + $TimeUpcomingPeriod ) / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
+                > $MaxAttr )
+            {
                 push @Errors, Translatable('The selected time period is larger than the allowed time period.');
+            }
+        }
+
+        if ( $GetParam{UseAsValueSeries}[0]{Block} eq 'Time' ) {
+
+            my $TimeScale = $Self->_TimeScale(
+                SelectedXAxisValue => $GetParam{UseAsXvalue}[0]{SelectedValues}[0],
+            );
+
+            if ( !IsHashRefWithData($TimeScale) ) {
+                push @Errors, Translatable('No time scale value available for the current selected time scale value on the X axis.');
             }
         }
     }
@@ -1517,6 +1537,9 @@ sub StatsConfigurationValidate {
 
     if ( $Stat{StatType} eq 'dynamic' ) {
 
+        # save the selected x axis time scale value for some checks for the y axis
+        my $SelectedXAxisTimeScaleValue;
+
         # X Axis
         {
             my $Flag = 0;
@@ -1540,7 +1563,9 @@ sub StatsConfigurationValidate {
                                 = Translatable('The selected end time is before the start time.');
                         }
                     }
-                    elsif ( !$Xvalue->{TimeRelativeUnit} || !$Xvalue->{TimeRelativeCount} ) {
+                    elsif ( !$Xvalue->{TimeRelativeUnit}
+                        || ( !$Xvalue->{TimeRelativeCount} && !$Xvalue->{TimeRelativeUpcomingCount} ) )
+                    {
                         $XAxisFieldErrors{ $Xvalue->{Element} }
                             = Translatable('There is something wrong with your time selection.');
                     }
@@ -1552,6 +1577,9 @@ sub StatsConfigurationValidate {
                     elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
                         $XAxisFieldErrors{ $Xvalue->{Element} }
                             = Translatable('There is something wrong with your time selection.');
+                    }
+                    else {
+                        $SelectedXAxisTimeScaleValue = $Xvalue->{SelectedValues}[0];
                     }
                 }
                 $Flag = 1;
@@ -1570,11 +1598,7 @@ sub StatsConfigurationValidate {
             for my $ValueSeries ( @{ $Stat{UseAsValueSeries} } ) {
                 next VALUESERIES if !$ValueSeries->{Selected};
 
-                if (
-                    $ValueSeries->{Block} eq 'Time'
-                    || $ValueSeries->{Block} eq 'TimeExtended'
-                    )
-                {
+                if ( $ValueSeries->{Block} eq 'Time' || $ValueSeries->{Block} eq 'TimeExtended' ) {
                     if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
                         $YAxisFieldErrors{ $ValueSeries->{Element} }
                             = Translatable('There is something wrong with your time selection.');
@@ -1583,6 +1607,15 @@ sub StatsConfigurationValidate {
                         $YAxisFieldErrors{ $ValueSeries->{Element} }
                             = Translatable('There is something wrong with your time selection.');
                     }
+
+                    my $TimeScale = $Self->_TimeScale(
+                        SelectedXAxisValue => $SelectedXAxisTimeScaleValue,
+                    );
+
+                    if ( !IsHashRefWithData($TimeScale) ) {
+                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('No time scale value available for the current selected time scale value on the X axis.');
+                    }
+
                     $TimeUsed++;
                 }
 
@@ -1634,11 +1667,7 @@ sub StatsConfigurationValidate {
                     }
 
                 }
-                elsif (
-                    $Restriction->{Block} eq 'Time'
-                    || $Restriction->{Block} eq 'TimeExtended'
-                    )
-                {
+                elsif ( $Restriction->{Block} eq 'Time' || $Restriction->{Block} eq 'TimeExtended' ) {
                     if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
                         my $TimeStart = $TimeObject->TimeStamp2SystemTime(
                             String => $Restriction->{TimeStart}
@@ -1655,10 +1684,8 @@ sub StatsConfigurationValidate {
                                 = Translatable('The selected end time is before the start time.');
                         }
                     }
-                    elsif (
-                        !$Restriction->{TimeRelativeUnit}
-                        || !$Restriction->{TimeRelativeCount}
-                        )
+                    elsif ( !$Restriction->{TimeRelativeUnit}
+                        || ( !$Restriction->{TimeRelativeCount} && !$Restriction->{TimeRelativeUpcomingCount} ) )
                     {
                         $RestrictionsFieldErrors{ $Restriction->{Element} }
                             = Translatable('There is something wrong with your time selection.');
@@ -1686,22 +1713,15 @@ sub StatsConfigurationValidate {
 
                 last XVALUE if !$Flag;
 
-                my $ScalePeriod = 0;
-                my $TimePeriod  = 0;
+                my $ScalePeriod        = 0;
+                my $TimePeriod         = 0;
+                my $TimeUpcomingPeriod = 0;
 
                 my $Count = $Xvalue->{TimeScaleCount} ? $Xvalue->{TimeScaleCount} : 1;
 
-                my %TimeInSeconds = (
-                    Year   => 60 * 60 * 60 * 365,
-                    Month  => 60 * 60 * 24 * 30,
-                    Week   => 60 * 60 * 24 * 7,
-                    Day    => 60 * 60 * 24,
-                    Hour   => 60 * 60,
-                    Minute => 60,
-                    Second => 1,
+                $ScalePeriod = $Self->_TimeInSeconds(
+                    TimeUnit => $Xvalue->{SelectedValues}[0],
                 );
-
-                $ScalePeriod = $TimeInSeconds{ $Xvalue->{SelectedValues}[0] };
 
                 if ( !$ScalePeriod ) {
                     $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('Please select a time scale.');
@@ -1717,12 +1737,16 @@ sub StatsConfigurationValidate {
                         );
                 }
                 else {
-                    $TimePeriod = $TimeInSeconds{ $Xvalue->{TimeRelativeUnit} }
-                        * $Xvalue->{TimeRelativeCount};
+                    $TimePeriod = $Xvalue->{TimeRelativeCount} * $Self->_TimeInSeconds(
+                        TimeUnit => $Xvalue->{TimeRelativeUnit},
+                    );
+                    $TimeUpcomingPeriod = $Xvalue->{TimeRelativeUpcomingCount} * $Self->_TimeInSeconds(
+                        TimeUnit => $Xvalue->{TimeRelativeUnit},
+                    );
                 }
 
                 my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
-                if ( $TimePeriod / ( $ScalePeriod * $Count ) > $MaxAttr ) {
+                if ( ( $TimePeriod + $TimeUpcomingPeriod ) / ( $ScalePeriod * $Count ) > $MaxAttr ) {
                     $XAxisFieldErrors{ $Xvalue->{Element} }
                         = Translatable('Your reporting time interval is too small, please use a larger time scale.');
                 }
@@ -1756,143 +1780,231 @@ sub StatsConfigurationValidate {
     return;
 }
 
-sub _Timeoutput {
+sub _TimeOutput {
     my ( $Self, %Param ) = @_;
 
-    my %Timeoutput;
+    # diffrent output types
+    my %AllowedOutput = (
+        Edit => 1,
+        View => 1,
+    );
+
+    # check if the output type is given and allowed
+    if ( !$Param{Output} || !$AllowedOutput{ $Param{Output} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => "error",
+            Message  => '_TimeOutput: Need allowed output type!',
+        );
+    }
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # check if need params are available
-    if ( !$Param{TimePeriodFormat} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => "error",
-            Message  => '_Timeoutput: Need TimePeriodFormat!'
-        );
+    my %TimeOutput;
+
+    my %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection();
+
+    my $Element   = $Param{Element};
+    my $ElementID = $Element;
+
+    # add the StatID to the ElementID for the view output
+    if ( $Param{Output} eq 'View' && $Param{StatID} ) {
+        $ElementID .= '-' . $Param{StatID} . '-' . $Param{OutputCounter};
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    if ( $Param{Use} ne 'UseAsValueSeries' ) {
 
-    # get time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    my $Element = $Param{Element};
-    my %TimeConfig;
+        if ( $Param{Output} eq 'Edit' || ( $Param{TimeStart} && $Param{TimeStop} ) ) {
 
-    # default time configuration
-    $TimeConfig{Format}                     = $Param{TimePeriodFormat};
-    $TimeConfig{ $Element . 'StartYear' }   = $Year - 1;
-    $TimeConfig{ $Element . 'StartMonth' }  = 1;
-    $TimeConfig{ $Element . 'StartDay' }    = 1;
-    $TimeConfig{ $Element . 'StartHour' }   = 0;
-    $TimeConfig{ $Element . 'StartMinute' } = 0;
-    $TimeConfig{ $Element . 'StartSecond' } = 1;
-    $TimeConfig{ $Element . 'StopYear' }    = $Year;
-    $TimeConfig{ $Element . 'StopMonth' }   = 12;
-    $TimeConfig{ $Element . 'StopDay' }     = 31;
-    $TimeConfig{ $Element . 'StopHour' }    = 23;
-    $TimeConfig{ $Element . 'StopMinute' }  = 59;
-    $TimeConfig{ $Element . 'StopSecond' }  = 59;
-    for (qw(Start Stop)) {
-        $TimeConfig{Prefix} = $Element . $_;
+            # check if need params are available
+            if ( !$Param{TimePeriodFormat} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => "error",
+                    Message  => '_TimeOutput: Need TimePeriodFormat!',
+                );
+            }
 
-        # time setting if available
-        if (
-            $Param{ 'Time' . $_ }
-            && $Param{ 'Time' . $_ } =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}xi
-            )
-        {
-            $TimeConfig{ $Element . $_ . 'Year' }   = $1;
-            $TimeConfig{ $Element . $_ . 'Month' }  = $2;
-            $TimeConfig{ $Element . $_ . 'Day' }    = $3;
-            $TimeConfig{ $Element . $_ . 'Hour' }   = $4;
-            $TimeConfig{ $Element . $_ . 'Minute' } = $5;
-            $TimeConfig{ $Element . $_ . 'Second' } = $6;
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            # get time
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
+                SystemTime => $TimeObject->SystemTime(),
+            );
+            my %TimeConfig;
+
+            # default time configuration
+            $TimeConfig{Format}                     = $Param{TimePeriodFormat};
+            $TimeConfig{ $Element . 'StartYear' }   = $Year - 1;
+            $TimeConfig{ $Element . 'StartMonth' }  = 1;
+            $TimeConfig{ $Element . 'StartDay' }    = 1;
+            $TimeConfig{ $Element . 'StartHour' }   = 0;
+            $TimeConfig{ $Element . 'StartMinute' } = 0;
+            $TimeConfig{ $Element . 'StartSecond' } = 1;
+            $TimeConfig{ $Element . 'StopYear' }    = $Year;
+            $TimeConfig{ $Element . 'StopMonth' }   = 12;
+            $TimeConfig{ $Element . 'StopDay' }     = 31;
+            $TimeConfig{ $Element . 'StopHour' }    = 23;
+            $TimeConfig{ $Element . 'StopMinute' }  = 59;
+            $TimeConfig{ $Element . 'StopSecond' }  = 59;
+            for (qw(Start Stop)) {
+                $TimeConfig{Prefix} = $Element . $_;
+
+                # time setting if available
+                if (
+                    $Param{ 'Time' . $_ }
+                    && $Param{ 'Time' . $_ } =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}xi
+                    )
+                {
+                    $TimeConfig{ $Element . $_ . 'Year' }   = $1;
+                    $TimeConfig{ $Element . $_ . 'Month' }  = $2;
+                    $TimeConfig{ $Element . $_ . 'Day' }    = $3;
+                    $TimeConfig{ $Element . $_ . 'Hour' }   = $4;
+                    $TimeConfig{ $Element . $_ . 'Minute' } = $5;
+                    $TimeConfig{ $Element . $_ . 'Second' } = $6;
+                }
+                $TimeOutput{ 'Time' . $_ } = $LayoutObject->BuildDateSelection(%TimeConfig);
+            }
         }
-        $Timeoutput{ 'Time' . $_ } = $LayoutObject->BuildDateSelection(%TimeConfig);
+
+        if ( $Param{Output} eq 'Edit' || $Param{TimeRelativeUnit} ) {
+
+            my @TimeCountList = qw(TimeRelativeCount TimeRelativeUpcomingCount);
+
+            my %TimeCountData;
+            for my $Counter ( 1 .. 60 ) {
+                $TimeCountData{$Counter} = $Counter;
+            }
+
+            if ( $Param{Use} eq 'UseAsXvalue' ) {
+                $TimeOutput{TimeScaleCount} = $LayoutObject->BuildSelection(
+                    Data       => \%TimeCountData,
+                    Name       => $Element . 'TimeScaleCount',
+                    ID         => $ElementID . '-TimeScaleCount',
+                    SelectedID => $Param{TimeScaleCount},
+                    Sort       => 'NumericKey',
+                );
+            }
+
+            # add the zero for the time relative count selections
+            $TimeCountData{0} = '-';
+
+            for my $TimeCountName (@TimeCountList) {
+
+                $TimeOutput{$TimeCountName} = $LayoutObject->BuildSelection(
+                    Data       => \%TimeCountData,
+                    Name       => $Element . $TimeCountName,
+                    ID         => $ElementID . '-' . $TimeCountName,
+                    SelectedID => $Param{$TimeCountName},
+                    Sort       => 'NumericKey',
+                );
+            }
+
+
+            if ( $Param{Output} eq 'View' ) {
+                %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
+                    SelectedValue => $Param{TimeRelativeUnit},
+                );
+            }
+
+            $TimeOutput{TimeRelativeUnit} = $LayoutObject->BuildSelection(
+                %TimeScaleBuildSelection,
+                Name       => $Element . 'TimeRelativeUnit',
+                ID         => $ElementID . '-TimeRelativeUnit',
+                Class      => 'TimeRelativeUnit' . $Param{Output},
+                SelectedID => $Param{TimeRelativeUnitLocalSelectedValue} // $Param{TimeRelativeUnit},
+            );
+        }
+
+        # TODO other solution?
+        if ( $Param{TimeRelativeUnit} ) {
+            $TimeOutput{CheckedRelative} = 'checked="checked"';
+        }
+        else {
+            $TimeOutput{CheckedAbsolut} = 'checked="checked"';
+        }
     }
 
-    # Solution I (TimeExtended)
-    my %TimeLists;
-    for ( 1 .. 60 ) {
-        $TimeLists{TimeRelativeCount}{$_} = sprintf( "%02d", $_ );
-        $TimeLists{TimeScaleCount}{$_}    = sprintf( "%02d", $_ );
-    }
-    for (qw(TimeRelativeCount TimeScaleCount)) {
-        $Timeoutput{$_} = $LayoutObject->BuildSelection(
-            Data       => $TimeLists{$_},
-            Name       => $Element . $_,
-            SelectedID => $Param{$_},
+    if ( $Param{Use} ne 'UseAsRestriction' ) {
+
+        if ( $Param{Output} eq 'View' ) {
+            %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
+                SelectedValue      => $Param{SelectedValues}[0],
+                SelectedXAxisValue => $Param{SelectedXAxisValue},
+                SortReverse        => 1,
+            );
+            $TimeOutput{TimeScaleYAxis} = $Self->_TimeScaleYAxis();
+        }
+        else {
+            %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
+                SelectedXAxisValue => $Param{SelectedXAxisValue},
+                SortReverse        => 1,
+            );
+        }
+
+        $TimeOutput{TimeScaleUnit} = $LayoutObject->BuildSelection(
+            %TimeScaleBuildSelection,
+            Name       => $Element,
+            ID         => $ElementID,
+            Class      => 'TimeScale' . $Param{Output},
+            SelectedID => $Param{TimeScaleUnitLocalSelectedValue} // $Param{SelectedValues}[0] // 'Day',
         );
+        $TimeOutput{TimeScaleElementID} = $ElementID;
     }
 
-    if ( $Param{TimeRelativeCount} && $Param{TimeRelativeUnit} ) {
-        $Timeoutput{CheckedRelative} = 'checked="checked"';
-    }
-    else {
-        $Timeoutput{CheckedAbsolut} = 'checked="checked"';
-    }
-
-    my %TimeScale = _TimeScaleBuildSelection();
-
-    $Timeoutput{TimeScaleUnit} = $LayoutObject->BuildSelection(
-        %TimeScale,
-        Name       => $Element,
-        SelectedID => $Param{SelectedValues}[0] // 'Day',
-    );
-
-    $Timeoutput{TimeRelativeUnit} = $LayoutObject->BuildSelection(
-        %TimeScale,
-        Name       => $Element . 'TimeRelativeUnit',
-        SelectedID => $Param{TimeRelativeUnit},
-    );
-
-    # to show only the selected Attributes in the view mask
-    my $Multiple = 1;
-    my $Size     = 5;
-
-    if ( $Param{OnlySelectedAttributes} ) {
-
-        $TimeScale{Data} = $Param{SelectedValues};
-
-        $Multiple = 0;
-        $Size     = 1;
-    }
-
-    $Timeoutput{TimeSelectField} = $LayoutObject->BuildSelection(
-        %TimeScale,
-        Name       => $Element,
-        SelectedID => $Param{SelectedValues},
-        Multiple   => $Multiple,
-        Size       => $Size,
-    );
-
-    return %Timeoutput;
+    return %TimeOutput;
 }
 
 sub _TimeScaleBuildSelection {
+    my ( $Self, %Param ) = @_;
 
     my %TimeScaleBuildSelection = (
         Data => {
-            Second => 'second(s)',
-            Minute => 'minute(s)',
-            Hour   => 'hour(s)',
-            Day    => 'day(s)',
-            Week   => 'week(s)',
-            Month  => 'month(s)',
-            Year   => 'year(s)',
+            Second   => 'second(s)',
+            Minute   => 'minute(s)',
+            Hour     => 'hour(s)',
+            Day      => 'day(s)',
+            Week     => 'week(s)',
+            Month    => 'month(s)',
+            Quarter  => 'quarter(s)',
+            HalfYear => 'half-year(s)',
+            Year     => 'year(s)',
         },
         Sort           => 'IndividualKey',
-        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ]
+        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Quarter', 'HalfYear', 'Year' ],
     );
+
+    # special time scale handling
+    if ( $Param{SelectedValue} || $Param{SelectedXAxisValue} ) {
+
+        my $TimeScale = $Self->_TimeScale(%Param);
+
+        # sort the time scale with the defined position
+        my @TimeScaleSorted = sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale};
+
+        # reverse the sorting
+        if ( $Param{SortReverse} ) {
+            @TimeScaleSorted
+                = sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale};
+        }
+
+        my %TimeScaleData;
+
+        ITEM:
+        for my $Item (@TimeScaleSorted) {
+            $TimeScaleData{$Item} = $TimeScale->{$Item}->{Value};
+            last ITEM if $Param{SelectedValue} && $Param{SelectedValue} eq $Item;
+        }
+
+        $TimeScaleBuildSelection{Data} = \%TimeScaleData;
+    }
 
     return %TimeScaleBuildSelection;
 }
 
 sub _TimeScale {
+    my ( $Self, %Param ) = @_;
+
     my %TimeScale = (
         'Second' => {
             Position => 1,
@@ -1918,13 +2030,97 @@ sub _TimeScale {
             Position => 6,
             Value    => 'month(s)',
         },
-        'Year' => {
+        'Quarter' => {
             Position => 7,
+            Value    => 'quarter(s)',
+        },
+        'HalfYear' => {
+            Position => 8,
+            Value    => 'half-year(s)',
+        },
+        'Year' => {
+            Position => 9,
             Value    => 'year(s)',
         },
     );
 
+    # allowed y axis time scale values for the selected x axis time value
+    my $TimeScaleYAxis = $Self->_TimeScaleYAxis();
+
+    if ( $Param{SelectedXAxisValue} ) {
+
+        if ( IsArrayRefWithData( $TimeScaleYAxis->{ $Param{SelectedXAxisValue} } ) ) {
+            %TimeScale
+                = map { $_->{Key} => $TimeScale{ $_->{Key} } } @{ $TimeScaleYAxis->{ $Param{SelectedXAxisValue} } };
+        }
+        else {
+            %TimeScale = ();
+        }
+    }
+
     return \%TimeScale;
+}
+
+sub _TimeScaleYAxis {
+    my ( $Self, %Param ) = @_;
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # allowed y axis time scale values for the selected x axis time value
+    # x axis value => [ y axis values ],
+    my %TimeScaleYAxis = (
+        'Second' => [
+            {
+                Key   => 'Minute',
+                Value => $LayoutObject->{LanguageObject}->Translate('minute(s)'),
+            },
+        ],
+        'Minute' => [
+            {
+                Key   => 'Hour',
+                Value => $LayoutObject->{LanguageObject}->Translate('hour(s)'),
+            },
+        ],
+        'Hour' => [
+            {
+                Key   => 'Day',
+                Value => $LayoutObject->{LanguageObject}->Translate('day(s)'),
+            },
+        ],
+        'Day' => [
+            {
+                Key   => 'Month',
+                Value => $LayoutObject->{LanguageObject}->Translate('month(s)'),
+            },
+        ],
+        'Week' => [
+            {
+                Key   => 'Week',
+                Value => $LayoutObject->{LanguageObject}->Translate('week(s)'),
+            },
+        ],
+        'Month' => [
+            {
+                Key   => 'Year',
+                Value => $LayoutObject->{LanguageObject}->Translate('year(s)'),
+            },
+        ],
+        'Quarter' => [
+            {
+                Key   => 'Year',
+                Value => $LayoutObject->{LanguageObject}->Translate('year(s)'),
+            },
+        ],
+        'HalfYear' => [
+            {
+                Key   => 'Year',
+                Value => $LayoutObject->{LanguageObject}->Translate('year(s)'),
+            },
+        ],
+    );
+
+    return \%TimeScaleYAxis;
 }
 
 =item _ColumnAndRowTranslation()
@@ -2139,16 +2335,33 @@ sub _TimeInSeconds {
     }
 
     my %TimeInSeconds = (
-        Year   => 60 * 60 * 60 * 365,
-        Month  => 60 * 60 * 24 * 30,
-        Week   => 60 * 60 * 24 * 7,
-        Day    => 60 * 60 * 24,
-        Hour   => 60 * 60,
-        Minute => 60,
-        Second => 1,
+        Year     => 60 * 60 * 60 * 365,
+        HalfYear => 60 * 60 * 24 * 182,
+        Quarter  => 60 * 60 * 24 * 91,
+        Month    => 60 * 60 * 24 * 30,
+        Week     => 60 * 60 * 24 * 7,
+        Day      => 60 * 60 * 24,
+        Hour     => 60 * 60,
+        Minute   => 60,
+        Second   => 1,
     );
 
     return $TimeInSeconds{ $Param{TimeUnit} };
+}
+
+sub _GetSelectedXAxisTimeScaleValue {
+    my ( $Self, %Param ) = @_;
+
+    my $SelectedXAxisTimeScaleValue;
+
+    for ( @{ $Param{Stat}->{UseAsXvalue} } ) {
+
+        if ( $_->{Selected} && $_->{Block} eq 'Time' ) {
+            $SelectedXAxisTimeScaleValue = $_->{SelectedValues}[0];
+        }
+    }
+
+    return $SelectedXAxisTimeScaleValue;
 }
 
 sub _StopWordErrorCheck {

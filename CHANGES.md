@@ -1,4 +1,5 @@
 #5.0.0.beta4 2015-??-??
+ - 2015-08-28 Added the new time scale values 'half-year(s)' and 'quarter(s)' and the possibility to select a upcoming relative time value for the statistic time field.
  - 2015-08-28 Fixed bug#[11450](http://bugs.otrs.org/show_bug.cgi?id=11450) - Modern input fields does not refresh correctly in Ticket Search.
  - 2015-08-28 Fixed bug#[11400](http://bugs.otrs.org/show_bug.cgi?id=11400) - Inconsistency in AgentTicketZoom and AgentTicketCompose.
  - 2015-08-28 Fixed bug#[11309](http://bugs.otrs.org/show_bug.cgi?id=11309) - Bug in Statistic Deletion.

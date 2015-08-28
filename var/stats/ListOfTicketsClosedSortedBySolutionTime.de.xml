@@ -18,7 +18,7 @@ HINWEIS: Bitte prüfen Sie den Output der Statistik und deren Konfiguration sorg
 <SumCol>0</SumCol>
 <SumRow>0</SumRow>
 <Title>Ticketliste aller geschlossenen Tickets geordnet nach der Lösungszeit</Title>
-<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month">
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
 <SelectedValues>SolutionDiffInMin</SelectedValues>

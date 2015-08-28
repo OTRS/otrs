@@ -52,9 +52,7 @@
             [% Translate("Relative period") | html %]:
         </label>
         <div class="Field">
-            [% Translate("The past complete") | html %]
-            [% Data.TimeRelativeCount %]
-            [% Data.TimeRelativeUnit %]
+            [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]
         </div>
         <div class="Clear"></div>
 [% RenderBlockEnd("Time") %]

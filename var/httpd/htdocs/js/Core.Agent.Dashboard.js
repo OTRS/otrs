@@ -282,7 +282,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     ValidationErrors = false;
 
                 // check for elements to validate
-                $ClickedElement.closest('fieldset').find('.StatsSettingsBox').find('.TimeRelativeUnitGeneric').each(function() {
+                $ClickedElement.closest('fieldset').find('.StatsSettingsBox').find('.TimeRelativeUnitView').each(function() {
                     if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
                         ValidationErrors = true;
                         $(this)
@@ -413,9 +413,11 @@ Core.Agent.Dashboard = (function (TargetNS) {
     TargetNS.InitStatsConfiguration = function($Container) {
 
         // Initialize the time multiplicators for the time validation.
-        $('.TimeRelativeUnitGeneric, .TimeScaleUnitGeneric', $Container).find('option').each(function() {
+        $('.TimeRelativeUnitView', $Container).find('option').each(function() {
             var SecondsMapping = {
                 'Year': 31536000,
+                'HalfYear': 15724800,
+                'Quarter': 7862400,
                 'Month': 2592000,
                 'Week': 604800,
                 'Day': 86400,
@@ -441,9 +443,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
          */
         function ValidateTimeSettings() {
 
-            $Container.find('.TimeRelativeUnitGeneric').each(function() {
-                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
-
+            $Container.find('.TimeRelativeUnitView').each(function() {
+                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-upcoming-max-seconds'), 10)) {
                     $(this)
                         .add($(this).prev('select'))
                         .add($(this).closest('.Value'))
@@ -452,29 +453,35 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 else {
                     $(this)
                         .add($(this).prev('select'))
+                        .add($(this).closest('.Value'))
+                        .removeClass('Error');
+                }
+
+                if (parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+                    $(this)
+                        .add($(this).prev('select').prev('select'))
+                        .add($(this).closest('.Value'))
+                        .addClass('Error');
+                }
+                else {
+                    $(this)
+                        .add($(this).prev('select').prev('select'))
                         .add($(this).closest('.Value'))
                         .removeClass('Error');
                 }
             });
 
-            $Container.find('.TimeScaleUnitGeneric').each(function() {
-                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) < parseInt($(this).closest('.Value').attr('data-min-seconds'), 10)) {
-
-                    $(this)
-                        .add($(this).prev('select'))
-                        .add($(this).closest('.Value'))
-                        .addClass('Error');
+            $Container.find('.TimeScaleView').each(function() {
+                if ($(this).find('option').length == 0) {
+                    $(this).addClass('Error');
                 }
                 else {
-                    $(this)
-                        .add($(this).prev('select'))
-                        .add($(this).closest('.Value'))
-                        .removeClass('Error');
+                    $(this).removeClass('Error');
                 }
             });
 
             $Container.each(function() {
-                if ($(this).find('.TimeRelativeUnitGeneric.Error, .TimeScaleUnitGeneric.Error').length) {
+                if ($(this).find('.TimeRelativeUnitView.Error').length || $(this).find('.TimeScaleView.Error').length) {
                     $(this)
                         .next('.Buttons')
                         .find('button:first-child')

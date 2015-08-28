@@ -22,7 +22,7 @@ Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Änd
 <UseAsRestriction Element="Limit" Fixed="1">
 <SelectedValues>5</SelectedValues>
 </UseAsRestriction>
-<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month">
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
 <SelectedValues>AccountedTime</SelectedValues>

@@ -21,7 +21,7 @@ NOTE: Please check the output and configuration of the statistics carefully to m
 <UseAsRestriction Element="Limit" Fixed="1">
 <SelectedValues>unlimited</SelectedValues>
 </UseAsRestriction>
-<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month">
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
 <SelectedValues>Age</SelectedValues>

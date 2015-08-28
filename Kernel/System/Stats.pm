@@ -15,6 +15,7 @@ use MIME::Base64;
 
 use Date::Pcalc
     qw(Add_Delta_YMD Add_Delta_DHMS Add_Delta_Days Days_in_Month Day_of_Week Day_of_Week_Abbreviation Day_of_Week_to_Text Monday_of_Week Week_of_Year);
+use POSIX qw(ceil);
 use Storable qw();
 
 use Kernel::System::VariableCheck qw(:all);
@@ -316,6 +317,7 @@ sub StatsGet {
                 if ( !$StatAttributes[0] ) {
                     shift @StatAttributes;
                 }
+
                 REF:
                 for my $Ref (@StatAttributes) {
                     if ( !defined $Attribute->{Translation} ) {
@@ -336,29 +338,35 @@ sub StatsGet {
                     }
 
                     for my $Index ( 1 .. $#{ $Ref->{SelectedValues} } ) {
-                        push(
-                            @{ $Attribute->{SelectedValues} },
-                            $Ref->{SelectedValues}->[$Index]->{Content}
-                        );
+                        push @{ $Attribute->{SelectedValues} }, $Ref->{SelectedValues}->[$Index]->{Content};
                     }
 
-                    # settings for working with time elements
-                    for (
-                        qw(TimeStop TimeStart TimeRelativeUnit
-                        TimeRelativeCount TimeScaleCount
-                        )
-                        )
-                    {
-                        if ( $Ref->{$_} && ( !$Attribute->{$_} || $Ref->{Fixed} ) ) {
-                            $Attribute->{$_} = $Ref->{$_};
+                    if ( $Attribute->{Block} eq 'Time' ) {
+
+                        # settings for working with time elements
+                        for (
+                            qw(TimeStop TimeStart TimeRelativeUnit
+                            TimeRelativeCount TimeRelativeUpcomingCount TimeScaleCount
+                            )
+                            )
+                        {
+                            if ( defined $Ref->{$_} && ( !$Attribute->{$_} || $Ref->{Fixed} ) ) {
+                                $Attribute->{$_} = $Ref->{$_};
+                            }
                         }
+
+                        # set a default value for the time relative upcoming count field
+                        $Attribute->{TimeRelativeUpcomingCount} //= 0;
                     }
+
                     $Allowed{$Element} = 1;
                 }
             }
+
             push @StatAttributesSimplified, $Attribute;
 
         }
+
         $Stat{$Key} = \@StatAttributesSimplified;
     }
 
@@ -461,8 +469,9 @@ sub StatsUpdate {
                 }
 
                 # stetting for working with time elements
-                for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeScaleCount)) {
-                    if ( $Ref->{$_} ) {
+                for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeRelativeUpcomingCount TimeScaleCount))
+                {
+                    if ( defined $Ref->{$_} ) {
                         $StatXML{$Key}->[$Index]->{$_} = $Ref->{$_};
                     }
                 }
@@ -1698,7 +1707,7 @@ This can be used to fetch cached stats data e. g. for stats widgets in the dashb
     my $StatArray = $StatsObject->StatsResultCacheGet(
         StatID       => '123',
         UserID       => $UserID,    # target UserID
-        GetParam     => \%GetParam,
+        UserGetParam => \%GetParam,
     );
 
 =cut
@@ -2206,70 +2215,123 @@ sub _GenerateDynamicStats {
                         SystemTime => $TimeObject->SystemTime(),
                     );
 
-                    my $Count = $Element->{TimeRelativeCount} ? $Element->{TimeRelativeCount} : 1;
+                    # -1 because the current time will be included
+                    my $CountUpcoming = $Element->{TimeRelativeUpcomingCount} - 1;
 
-                    # -1 because the current time will be not counted
-                    $Count -= 1;
+                    # add the upcoming count to the count past for the calculation
+                    my $CountPast = $Element->{TimeRelativeCount} + $CountUpcoming;
 
                     if ( $Element->{TimeRelativeUnit} eq 'Year' ) {
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -1, 0, 0 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, $CountUpcoming, 0, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59, 59 );
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$Count, 0, 0 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
                     }
-                    elsif ( $Element->{TimeRelativeUnit} eq 'Month' ) {
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
+                    elsif ( $Element->{TimeRelativeUnit} eq 'HalfYear' ) {
+
+                        # $CountUpcoming was reduced by 1 before, this has to be reverted for half-year
+                        $CountUpcoming++;
+
+                        ( $Y, $M, $D )
+                            = Add_Delta_YMD( $Y, $M, $D, 0, ( $M > 6 ? 1 : 0 ) * 6 - $M + ( 6 * $CountUpcoming ), 0 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Y, $M, Days_in_Month( $Y, $M ),
                             23, 59, 59
                         );
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
+
+                        # $CountPast was reduced by 1 before, this has to be reverted for half-year
+                        #     Examples:
+                        #     Half-year set to 1, $CountPast will be 0 then - 0 * 6 = 0 (means this half-year)
+                        #     Half-year set to 2, $CountPast will be 1 then - 1 * 6 = 6 (means last half-year)
+                        #     With the fix, example 1 will mean last half-year and example 2 will mean
+                        #     last two half-years
+                        $CountPast++;
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$CountPast * 6 + 1, 0 );
+                        $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Quarter' ) {
+
+                        # $CountUpcoming was reduced by 1 before, this has to be reverted for quarter
+                        $CountUpcoming++;
+
+                        my $LastQuarter = ceil( $M / 3 ) - 1;
+                        ( $Y, $M, $D )
+                            = Add_Delta_YMD( $Y, $M, $D, 0, $LastQuarter * 3 - $M + ( 3 * $CountUpcoming ), 0 );
+                        $Element->{TimeStop} = sprintf(
+                            "%04d-%02d-%02d %02d:%02d:%02d",
+                            $Y, $M, Days_in_Month( $Y, $M ),
+                            23, 59, 59
+                        );
+
+                        # $CountPast was reduced by 1 before, this has to be reverted for quarter
+                        #     Examples:
+                        #     Quarter set to 1, $CountPast will be 0 then - 0 * 3 = 0 (means this quarter)
+                        #     Quarter set to 2, $CountPast will be 1 then - 1 * 3 = 3 (means last quarter)
+                        #     With the fix, example 1 will mean last quarter and example 2 will mean
+                        #     last two quarters
+                        $CountPast++;
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$CountPast * 3 + 1, 0 );
+                        $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Month' ) {
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, $CountUpcoming, 0 );
+                        $Element->{TimeStop} = sprintf(
+                            "%04d-%02d-%02d %02d:%02d:%02d",
+                            $Y, $M, Days_in_Month( $Y, $M ),
+                            23, 59, 59
+                        );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$CountPast, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Week' ) {
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
+
+                        # $CountUpcoming was reduced by 1 before, this has to be reverted for week
+                        $CountUpcoming++;
+
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, ( $CountUpcoming * 7 ) - 1 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Y, $M, $D, 23, 59, 59
                         );
 
-                        # $Count was reduced by 1 before, this has to be reverted for Week
+                        # $CountPast was reduced by 1 before, this has to be reverted for Week
                         #     Examples:
-                        #     Week set to 1, $Count will be 0 then - 0 * 7 = 0 (means today)
-                        #     Week set to 2, $Count will be 1 then - 1 * 7 = 7 (means last week)
+                        #     Week set to 1, $CountPast will be 0 then - 0 * 7 = 0 (means today)
+                        #     Week set to 2, $CountPast will be 1 then - 1 * 7 = 7 (means last week)
                         #     With the fix, example 1 will mean last week and example 2 will mean
                         #     last two weeks
-                        $Count++;
-                        ( $Y, $M, $D ) = Add_Delta_Days( $Y, $M, $D, -$Count * 7 );
+                        $CountPast++;
+                        ( $Y, $M, $D ) = Add_Delta_Days( $Y, $M, $D, -$CountPast * 7 + 1 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, $CountUpcoming );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 23, 59, 59 );
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -$Count );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -$CountPast );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -1, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, $CountUpcoming, 0, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 59, 59 );
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -$Count, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -1, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, $CountUpcoming, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 59 );
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$Count, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$CountPast, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -1 );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, $CountUpcoming );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
-                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$Count );
+                        ( $Y, $M, $D, $h, $m, $s ) = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$CountPast );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
                     }
                     delete $Element->{TimeRelativeUnit};
                     delete $Element->{TimeRelativeCount};
+                    delete $Element->{TimeRelativeUpcomingCount};
                 }
                 $TitleTimeStart = $Element->{TimeStart};
                 $TitleTimeStop  = $Element->{TimeStop};
@@ -2280,6 +2342,7 @@ sub _GenerateDynamicStats {
                 my @Values = keys( %{ $Element->{Values} } );
                 $Element->{SelectedValues} = \@Values;
             }
+
             push @{ $NewParam{$Use} }, $Element;
         }
     }
@@ -2375,6 +2438,18 @@ sub _GenerateDynamicStats {
             ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) )
         }
         elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
+            $Second = 0;
+            $Minute = 0;
+            $Hour   = 0;
+            $Day    = 1;
+        }
+        elsif ( $Element->{SelectedValues}[0] eq 'Quarter' ) {
+            $Second = 0;
+            $Minute = 0;
+            $Hour   = 0;
+            $Day    = 1;
+        }
+        elsif ( $Element->{SelectedValues}[0] eq 'HalfYear' ) {
             $Second = 0;
             $Minute = 0;
             $Hour   = 0;
@@ -2496,6 +2571,56 @@ sub _GenerateDynamicStats {
                     );
                 }
             }
+            elsif ( $Element->{SelectedValues}[0] eq 'Quarter' ) {
+                ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_YMD( $Year, $Month, $Day, 0, $Count * 3, 0 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
+                    $ToYear, $ToMonth, $ToDay, $Hour, $Minute, $Second, 0, 0, 0,
+                    -1
+                );
+
+                if ( ( $ToMonth - $Month ) == 2 ) {
+                    my $QuarterNum       = ceil( $Month / 3 );
+                    my $TranslateQuarter = $LanguageObject->Translate('quarter');
+                    push(
+                        @HeaderLine,
+                        sprintf( "$TranslateQuarter $QuarterNum-%04d", $Year )
+                    );
+                }
+                else {
+                    push(
+                        @HeaderLine,
+                        sprintf(
+                            "%02d.%02d.%04d - %02d.%02d.%04d",
+                            $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
+                            )
+                    );
+                }
+            }
+            elsif ( $Element->{SelectedValues}[0] eq 'HalfYear' ) {
+                ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_YMD( $Year, $Month, $Day, 0, $Count * 6, 0 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
+                    $ToYear, $ToMonth, $ToDay, $Hour, $Minute, $Second, 0, 0, 0,
+                    -1
+                );
+
+                if ( ( $ToMonth - $Month ) == 5 ) {
+                    my $HalfYearNum       = ceil( $Month / 6 );
+                    my $TranslateHalfYear = $LanguageObject->Translate('half-year');
+                    push(
+                        @HeaderLine,
+                        sprintf( "$TranslateHalfYear $HalfYearNum-%04d", $Year )
+                    );
+                }
+                else {
+                    push(
+                        @HeaderLine,
+                        sprintf(
+                            "%02d.%02d.%04d - %02d.%02d.%04d",
+                            $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
+                            )
+                    );
+                }
+            }
             elsif ( $Element->{SelectedValues}[0] eq 'Year' ) {
                 ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_YMD( $Year, $Month, $Day, $Count, 0, 0 );
                 ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
@@ -2579,24 +2704,53 @@ sub _GenerateDynamicStats {
 
         # these all makes only sense, if the count of xaxis is 1
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
-            if ( $Count == 1 ) {
-                for ( 1 .. 12 ) {
-                    push @HeaderLine, "$MonthArrayRef->[$_] $_";
+
+            if ( $Element->{SelectedValues}[0] eq 'Month' ) {
+
+                if ( $Count == 1 ) {
+                    for my $Month ( 1 .. 12 ) {
+                        push @HeaderLine, "$MonthArrayRef->[$Month] $Month";
+                    }
                 }
-            }
-            else {
-                for ( my $Month = 1; $Month < 12; $Month += $Count ) {
-                    push(
-                        @HeaderLine,
-                        "$MonthArrayRef->[$Month] - $MonthArrayRef->[$Month + $Count - 1]"
-                    );
+                else {
+                    for ( my $Month = 1; $Month < 12; $Month += $Count ) {
+                        push(
+                            @HeaderLine,
+                            "$MonthArrayRef->[$Month] - $MonthArrayRef->[$Month + $Count - 1]"
+                        );
+                    }
                 }
+                $VSSecond = 0;
+                $VSMinute = 0;
+                $VSHour   = 0;
+                $VSDay    = 1;
+                $VSMonth  = 1;
             }
-            $VSSecond   = 0;
-            $VSMinute   = 0;
-            $VSHour     = 0;
-            $VSDay      = 1;
-            $VSMonth    = 1;
+            elsif ( $Element->{SelectedValues}[0] eq 'Quarter' ) {
+
+                my $TranslateQuarter = $LanguageObject->Translate('quarter');
+                for my $Quarter ( 1 .. 4 ) {
+                    push @HeaderLine, "$TranslateQuarter $Quarter";
+                }
+                $VSSecond = 0;
+                $VSMinute = 0;
+                $VSHour   = 0;
+                $VSDay    = 1;
+                $VSMonth  = 1;
+            }
+            elsif ( $Element->{SelectedValues}[0] eq 'HalfYear' ) {
+
+                my $TranslateHalfYear = $LanguageObject->Translate('half-year');
+                for my $HalfYear ( 1 .. 2 ) {
+                    push @HeaderLine, "$TranslateHalfYear $HalfYear";
+                }
+                $VSSecond = 0;
+                $VSMinute = 0;
+                $VSHour   = 0;
+                $VSDay    = 1;
+                $VSMonth  = 1;
+            }
+
             $ColumnName = 'Year';
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
@@ -3008,7 +3162,7 @@ sub _GenerateDynamicStats {
                     push @ResultRow, $StatObject->GetStatElementPreview( %{$Cell} );
                 }
                 else {
-                    push @ResultRow, $StatObject->GetStatElement( %{$Cell} );
+                    push @ResultRow, $StatObject->GetStatElement( %{$Cell} ) || 0;
                 }
             }
             push @DataArray, \@ResultRow;
