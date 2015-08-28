@@ -163,6 +163,11 @@ sub PreRun {
     $Self->{Language} = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
     if ( $Self->GetOption('language') ) {
         $Self->{Language} = $Self->GetOption('language');
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::Language' => {
+                UserLanguage => $Self->{Language},
+            },
+        );
     }
 
     # set up used format & separator
@@ -180,7 +185,7 @@ sub Run {
     my ( $s, $m, $h, $D, $M, $Y ) =
         $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
         SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-        );
+    );
 
     my %GetParam;
     my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
@@ -240,6 +245,7 @@ sub Run {
             StatID   => $Self->{StatID},
             GetParam => \%GetParam,
             UserID   => 1,
+            UserLanguage => $Self->{Language},
         ),
     };
 
