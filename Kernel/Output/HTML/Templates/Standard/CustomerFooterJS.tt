@@ -44,6 +44,8 @@ Core.App.Ready(function() {
         ValidateServerErrorMsg: [% Translate("One or more errors occurred!") | JSON %],
         DialogCloseMsg: [% Translate("Close this dialog") | JSON %],
         PopupBlockerMsg: [% Translate("Could not open popup window. Please disable any popup blockers for this application.") | JSON %],
+        PopupLeaveParentWindowMsg: [% Translate("If you now leave this page, all open popup windows will be closed, too!") | JSON %],
+        PopupAlreadyOpenMsg: [% Translate("A popup of this screen is already open. Do you want to close it and load this one instead?") | JSON %],
         SearchMsg: [% Translate("Search") | JSON %],
         ApplyButtonText: [% Translate("Apply") | JSON %],
         NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %],
