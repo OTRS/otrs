@@ -124,6 +124,10 @@ sub OverviewScreen {
         UserID    => $Self->{UserID},
     );
 
+    if ( $Param{StartHit} > 1 && $Param{StartHit} > scalar @{ $Result || [] } ) {
+        return $LayoutObject->Redirect( OP => "Action=AgentStatistics;Subaction=Overview" );
+    }
+
     my %Order2CSSSort = (
         ASC  => 'SortAscending',
         DESC => 'SortDescending',
@@ -299,7 +303,7 @@ sub DeleteAction {
         StatID => $StatID,
         UserID => $Self->{UserID},
     );
-    return $LayoutObject->Redirect( OP => 'Action=AgentStatistics;Subaction=Overview' );
+    return $LayoutObject->Redirect( OP => $Self->{LastStatsOverview}  );
 }
 
 sub EditScreen {

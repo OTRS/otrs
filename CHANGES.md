@@ -1,4 +1,5 @@
 #5.0.0.beta4 2015-??-??
+ - 2015-08-28 Fixed bug#[11309](http://bugs.otrs.org/show_bug.cgi?id=11309) - Bug in Statistic Deletion.
  - 2015-08-28 Fixed bug#[8146](http://bugs.otrs.org/show_bug.cgi?id=8146) - Generate report in Chinese from command line.
 
 #5.0.0.beta3 2015-09-01
