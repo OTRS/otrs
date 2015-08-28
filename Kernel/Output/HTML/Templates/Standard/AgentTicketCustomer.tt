@@ -11,7 +11,7 @@
 [% RenderBlockStart("Customer") %]
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
-        <h1>[% Translate("Change customer of ticket") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+        <h1>[% Translate("Change Customer of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
         <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
         <p>
             <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>

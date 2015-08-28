@@ -149,6 +149,9 @@ sub Run {
     # show right header
     $LayoutObject->Block(
         Name => 'Header' . $Self->{Action},
+        Data => {
+            %Ticket,
+        },
     );
 
     # get lock state

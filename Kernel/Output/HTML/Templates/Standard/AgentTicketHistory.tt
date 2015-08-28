@@ -10,7 +10,7 @@
 
     <div class="Header">
         <h1>
-            [% Translate("History of") | html %] [% Config("Ticket::Hook") %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]
+            [% Translate("History of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]
         </h1>
         <p>
             <a href="#" class="CancelClosePopup">[% Translate("Close") | html %]</a>

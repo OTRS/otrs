@@ -20,27 +20,27 @@
         <div class="Header">
             <h1>
 [% RenderBlockStart("HeaderAgentTicketFreeText") %]
-[% Translate("Change Free Text of Ticket") | html %]:
+[% Translate("Change Free Text of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketFreeText") %]
 [% RenderBlockStart("HeaderAgentTicketOwner") %]
-[% Translate("Change Owner of Ticket") | html %]:
+[% Translate("Change Owner of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketOwner") %]
 [% RenderBlockStart("HeaderAgentTicketClose") %]
-[% Translate("Close Ticket") | html %]:
+[% Translate("Close %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketClose") %]
 [% RenderBlockStart("HeaderAgentTicketNote") %]
-[% Translate("Add Note to Ticket") | html %]:
+[% Translate("Add Note to %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketNote") %]
 [% RenderBlockStart("HeaderAgentTicketPending") %]
-[% Translate("Set Pending") | html %]:
+[% Translate("Set Pending Time for %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketPending") %]
 [% RenderBlockStart("HeaderAgentTicketPriority") %]
-[% Translate("Change Priority of Ticket") | html %]:
+[% Translate("Change Priority of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketPriority") %]
 [% RenderBlockStart("HeaderAgentTicketResponsible") %]
-[% Translate("Change Responsible of Ticket") | html %]:
+[% Translate("Change Responsible of %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketResponsible") %]
-[% Data.TicketNumber %] - [% Data.Title | html %]
+                 &mdash; [% Data.Title | html %]
             </h1>
             <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
 

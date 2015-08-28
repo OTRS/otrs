@@ -9,7 +9,7 @@
 <div class="LayoutPopup ARIARoleMain">
 
     <div class="Header">
-        <h1>[% Translate("Email Text Plain View") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+        <h1>[% Translate("View Email Plain Text for %s%s", Config('Ticket::Hook'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
         <p>
             <a class="CancelClosePopup" href="#">[% Translate("Close") | html %]</a>
         </p>

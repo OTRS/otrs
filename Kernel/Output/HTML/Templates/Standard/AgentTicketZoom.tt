@@ -130,8 +130,8 @@
     <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="[% Translate(Data.Priority) | html %]"><span class="PriorityID-[% Data.PriorityID | html %]">[% Translate(Data.Priority) | html %]</span></div>
-        <h1 title="[% Translate("Zoom") | html %] [% Data.Hook %][% Data.TicketNumber %] &ndash; [% Data.Title | html %]">
-            [% Data.Hook %][% Data.TicketNumber %] <span>&mdash;</span> [% Data.Title | html %]
+        <h1>
+            [% Data.Hook %][% Data.TicketNumber %] &mdash; [% Data.Title | html %]
         </h1>
     </div>
 
