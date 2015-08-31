@@ -1385,7 +1385,7 @@ sub QueryCondition {
                         $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'NOT LIKE' && !$BindMode ) {
+                    if ( $Type eq 'NOT LIKE' ) {
                         $SQLA .= " $LikeEscapeString";
                     }
 
@@ -1434,7 +1434,7 @@ sub QueryCondition {
                         $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'LIKE' && !$BindMode ) {
+                    if ( $Type eq 'LIKE' ) {
                         $SQLA .= " $LikeEscapeString";
                     }
 
