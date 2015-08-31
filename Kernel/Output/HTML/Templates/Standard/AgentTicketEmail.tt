@@ -478,6 +478,24 @@ $('#NewResponsibleID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
+        // Fallback for non-richtext content
+        var Content = $('#RichText').val();
+
+        // get RTE content
+        if (typeof CKEDITOR !== 'undefined') {
+            Content = CKEDITOR.instances["RichText"].getData();
+        }
+
+        // if content already exists let user confirm to really overwrite that content with a template
+        if (
+            Content.length &&
+            !window.confirm([% Translate("Setting a template will overwrite any text or attachment.") | JSON %] + ' ' + [% Translate("Do you really want to continue?") | JSON %]))
+            {
+                // if user cancels confirmation, reset template selection
+                $(this).val('');
+                return false;
+        }
+
         Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
         return false;
     });
