@@ -16,7 +16,7 @@
                     <h2>[% Translate("Agent Management") | html %]</h2>
                 </div>
                 <div class="Content">
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+                    <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("Agent") %]
                         <li class="Size1of2">
                             <h4><span>[% Translate(Data.Name) | html %]</span>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("Customer") %]
                             <li class="Size1of2">
                                 <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("Email") %]
                             <li class="Size1of2">
                                 <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("Queue") %]
                             <li class="Size1of2">
                                 <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("Ticket") %]
                             <li class="Size1of2">
                                 <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
@@ -134,7 +134,7 @@
                         </h2>
                     </div>
                     <div class="Content">
-                        <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing AdminNavigation">
 [% RenderBlockStart("System") %]
                             <li class="Size1of2">
                                 <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
@@ -152,4 +152,16 @@
             <div class="Clear"></div>
         </div>
     </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.Admin ul.AdminNavigation li').off('click.Navigation').on('click.Navigation', function (Event) {
+   var $Link = $(this).find('h4 a.AsBlock');
+   if ($Link.length) {
+        location.href = $Link.attr('href');
+   }
+   Event.stopPropagation();
+   return false;
+});
+//]]></script>
+[% END %]
 [% RenderBlockEnd("AdminNavBar") %]
