@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->submit();
 
         # click on ActivityDialog dropdown, wait to load it and "Create New Activity Dialog"
-        $Selenium->WaitFor( JavaScript => 'return $("#ActivityFilter").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ActivityFilter").length' );
         $Selenium->find_element( "Activity Dialogs", 'link_text' )->click();
 
         # wait to toggle element
@@ -101,7 +101,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test activity dialog using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandom);
 

@@ -109,7 +109,7 @@ $Selenium->RunTest(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
@@ -138,7 +138,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
@@ -172,14 +172,14 @@ $Selenium->RunTest(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # wait until return to AgentTicketZoom, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#ArticleTree").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ArticleTree").length;' );
 
         # check if we are at the end of test process ticket
         $Self->True(

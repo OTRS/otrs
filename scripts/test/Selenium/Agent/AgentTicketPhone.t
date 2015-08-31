@@ -111,7 +111,7 @@ $Selenium->RunTest(
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
-        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",  'css' )->submit();
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("form").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
 
         # search for new created ticket on AgentTicketZoom screen
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(

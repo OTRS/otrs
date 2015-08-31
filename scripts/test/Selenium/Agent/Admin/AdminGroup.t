@@ -108,7 +108,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         # wait until overview screen has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Groups").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Groups").length' );
 
         # check edited test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->click();

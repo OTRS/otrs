@@ -172,7 +172,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\' )]")
             ->click();
 
-        $Selenium->WaitFor( JavaScript => 'return $(".EditXAxis").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".EditXAxis").length' );
 
         # change preview format to Print
         $Selenium->find_element("//button[contains(\@data-format, \'Print')]")->click();
@@ -222,7 +222,7 @@ $Selenium->RunTest(
             "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');");
 
         # wait for load selected Restriction - QueueIDs
-        $Selenium->WaitFor( JavaScript => 'return $("#RestrictionsQueueIDs").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#RestrictionsQueueIDs").length;' );
 
         # add restriction per Queue - Junk
         $Selenium->execute_script(
@@ -255,7 +255,7 @@ JAVASCRIPT
             "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
         )->click();
 
-        $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
 
         $Self->True(
             index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,

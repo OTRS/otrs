@@ -105,7 +105,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # test search filter by agent $EditRandomID
-        $Selenium->WaitFor( JavaScript => 'return $("#Search").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Search").length' );
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($EditRandomID);
         $Selenium->find_element( "#Search", 'css' )->submit();

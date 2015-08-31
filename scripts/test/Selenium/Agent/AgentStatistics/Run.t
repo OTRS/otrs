@@ -129,7 +129,7 @@ JAVASCRIPT
             "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
         )->click();
 
-        $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
 
         $Self->True(
             index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,

@@ -92,20 +92,20 @@ $Selenium->RunTest(
         my $Location           = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/StdAttachment/$AttachmentName";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
-        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->WaitFor( JavaScript => 'return $("p.Value").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.Value").length' );
 
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",    'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",   'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
-        $Selenium->WaitFor( JavaScript => 'return $("#AttachmentDeleteButton1").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AttachmentDeleteButton1").length' );
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # wait until ticket is created
-        $Selenium->WaitFor( JavaScript => "return \$('form').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('form').length" );
 
         # search for new created ticket on AgentTicketZoom screen
         my ( $TicketID, $TicketNumber ) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(

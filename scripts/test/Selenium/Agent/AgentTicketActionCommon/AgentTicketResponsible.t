@@ -114,7 +114,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        $Selenium->WaitFor( JavaScript => 'return $("#nav-People ul").css({ "height": "auto", "opacity": "100" });' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });' );
 
         # click on 'Responsible' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->click();

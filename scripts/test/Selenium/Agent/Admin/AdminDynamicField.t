@@ -78,7 +78,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # check if test DynamicField show on AdminDynamicField screen
-                $Selenium->WaitFor( JavaScript => "return \$('.DynamicFieldsContent').length" );
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
                 $Self->True(
                     index( $Selenium->get_page_source(), $RandomID ) > -1,
                     "$RandomID $ID $Type DynamicField found on page",
@@ -86,14 +86,14 @@ $Selenium->RunTest(
 
                 # go to new DynamicField again
                 $Selenium->find_element( $RandomID, 'link_text' )->click();
-                $Selenium->WaitFor( JavaScript => "return \$('#Label').length" );
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Label').length" );
                 $Selenium->find_element( "#Label", 'css' )->clear();
                 $Selenium->find_element( "#Label", 'css' )->send_keys( $RandomID . "-update" );
                 $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # wait to load overview screen
-                $Selenium->WaitFor( JavaScript => "return \$('.DynamicFieldsContent').length" );
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
 
                 # check class of invalid DynamicField in the overview table
                 $Self->True(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
 
                 # go to new DynamicField again after update and check values
                 $Selenium->find_element( $RandomID, 'link_text' )->click();
-                $Selenium->WaitFor( JavaScript => "return \$('#Name').length" );
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
                 # check new DynamicField values
                 $Self->Is(
@@ -164,7 +164,7 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
-                $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 my $Success;

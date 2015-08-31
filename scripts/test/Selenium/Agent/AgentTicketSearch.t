@@ -78,7 +78,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return \$('#SearchProfile').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # check ticket search page
         for my $ID (
@@ -96,7 +96,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "TicketNumber", 'name' )->submit();
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return \$('div.MainBox').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.MainBox').length" );
 
         # check for expected result
         $Self->True(
@@ -108,7 +108,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return \$('#SearchProfile').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh");
         $Selenium->find_element( "Fulltext", 'name' )->submit();

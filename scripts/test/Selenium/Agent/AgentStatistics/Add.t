@@ -208,7 +208,7 @@ $Selenium->RunTest(
 
             # add new statistics
             $Selenium->find_element("//a[contains(\@data-statistic-preselection, \'$StatsData->{Type}\' )]")->click();
-            $Selenium->WaitFor( JavaScript => 'return $("#Title").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
 
             my $Description = 'Description ' . $StatsData->{Title};
 
@@ -219,7 +219,7 @@ $Selenium->RunTest(
                 "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->click();
 
-            $Selenium->WaitFor( JavaScript => 'return $(".EditXAxis").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".EditXAxis").length' );
 
             # check X-axis configuration dialog
             $Selenium->find_element( ".EditXAxis", 'css' )->click();
@@ -238,7 +238,7 @@ $Selenium->RunTest(
             if ( $StatsData->{Object} eq 'Kernel::System::Stats::Dynamic::TicketList' ) {
 
                 # wait for load selected Restriction
-                $Selenium->WaitFor( JavaScript => "return \$('#$StatsData->{YAxis}').length;" );
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{YAxis}').length;" );
 
                 # select order by option
                 $Selenium->execute_script(
@@ -254,7 +254,7 @@ $Selenium->RunTest(
             );
 
             # wait for load selected Restriction
-            $Selenium->WaitFor( JavaScript => "return \$('#$StatsData->{RestrictionID}').length;" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{RestrictionID}').length;" );
 
             # add restriction
             $Selenium->execute_script(
@@ -322,7 +322,7 @@ JAVASCRIPT
                 "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
             )->click();
 
-            $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
 
             $Self->True(
                 index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" )

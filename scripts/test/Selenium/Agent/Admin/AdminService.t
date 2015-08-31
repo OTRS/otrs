@@ -77,7 +77,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait to load overview screen
-        $Selenium->WaitFor( JavaScript => "return \$('.ActionList span:contains(Add service)').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.ActionList span:contains(Add service)').length" );
 
         # create second test Service
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->click();
@@ -89,7 +89,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait to load overview screen
-        $Selenium->WaitFor( JavaScript => "return \$('a.AsBlock:contains($ServiceRandomID)').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($ServiceRandomID)').length" );
 
         # check for created test Services on AdminService screen
         $Self->True(

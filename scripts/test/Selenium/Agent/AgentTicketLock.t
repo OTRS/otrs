@@ -86,7 +86,7 @@ $Selenium->RunTest(
         my $TicketBody         = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
 
-        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
@@ -94,7 +94,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->submit();
 
-        $Selenium->WaitFor( JavaScript => 'return $("form").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

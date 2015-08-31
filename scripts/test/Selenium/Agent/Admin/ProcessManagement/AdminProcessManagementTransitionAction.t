@@ -50,7 +50,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->submit();
 
         # click on Transition Actions dropdown and "Create New Transition Action"
-        $Selenium->WaitFor( JavaScript => 'return $("#ActivityFilter").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ActivityFilter").length' );
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
 
         # wait to toggle element
@@ -64,7 +64,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check AdminProcessManagementTransitionAction screen
         for my $ID (
@@ -131,7 +131,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check stored value
         $Self->Is(
@@ -174,7 +174,7 @@ $Selenium->RunTest(
 
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";
-        $Selenium->WaitFor( JavaScript => "return \$('#TransitionActionFilter').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionActionFilter').length" );
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
 
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandomEdit);
@@ -196,7 +196,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check edited values
         $Self->Is(

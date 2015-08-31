@@ -76,7 +76,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit']")->click();
 
         # wait for key to upload
-        $Selenium->WaitFor( JavaScript => "return \$('td.Center').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('td.Center').length" );
 
         # add second test PGP key
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->click();
@@ -87,7 +87,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit']")->click();
 
         # wait for key to upload
-        $Selenium->WaitFor( JavaScript => "return \$('td.Center').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('td.Center').length" );
 
         # check if test PGP keys show on AdminPGP screen
         my %PGPKey = (

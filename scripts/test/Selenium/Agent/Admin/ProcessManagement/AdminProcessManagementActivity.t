@@ -50,7 +50,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->submit();
 
         # wait for Process create
-        $Selenium->WaitFor( JavaScript => "return \$('#ActivityFilter').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ActivityFilter').length" );
 
         # create new test Activity
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->click();
@@ -93,7 +93,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test activity using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return \$('ul#Activities li:contains($ActivityRandom)').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#Activities li:contains($ActivityRandom)').length" );
         $Selenium->find_element( "#ActivityFilter", 'css' )->send_keys($ActivityRandom);
 
         # wait for filter to kick in

@@ -200,7 +200,7 @@ JAVASCRIPT
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # wait to open overview page
-        $Selenium->WaitFor( JavaScript => 'return $("#Filter").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Filter").length' );
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();

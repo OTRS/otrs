@@ -93,7 +93,7 @@ $Selenium->RunTest(
         my $TicketSubject = "Selenium Ticket";
         my $TicketBody    = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys( $TestCustomers[0] );
-        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
@@ -103,7 +103,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("form").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
 
         # search for new created ticket on AgentTicketZoom screen
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
@@ -122,7 +122,7 @@ $Selenium->RunTest(
         # go to ticket zoom page of created test ticket
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
 
-        $Selenium->WaitFor( JavaScript => 'return $("#nav-People ul").css({ "height": "auto", "opacity": "100" });' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });' );
 
         # go to AgentTicketCustomer
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();
@@ -150,17 +150,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
         $Selenium->find_element( "#CustomerID",           'css' )->clear();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[1] );
-        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
 
         # wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
-        $Selenium->WaitFor( JavaScript => 'return $("#CustomerID").val().length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->WaitFor( JavaScript => 'return $("div.MainBox").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div.MainBox").length' );
 
         # click on history link and switch window
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");

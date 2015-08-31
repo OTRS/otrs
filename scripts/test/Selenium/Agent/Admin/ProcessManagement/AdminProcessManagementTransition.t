@@ -50,7 +50,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->submit();
 
         # click on Transitions dropdown and "Create New Transition"
-        $Selenium->WaitFor( JavaScript => "return \$('#ActivityFilter').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ActivityFilter').length" );
         $Selenium->find_element( "Transitions", 'link_text' )->click();
 
         # wait to toggle element
@@ -63,7 +63,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check AdminProcessManagementTransition screen
         for my $ID (
@@ -116,7 +116,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test Transition using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return \$('ul#Transitions li:contains($TransitionRandom)').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#Transitions li:contains($TransitionRandom)').length" );
         $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
@@ -146,7 +146,7 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => 'return $("form").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length;' );
 
         # check stored value
         $Self->Is(
@@ -204,7 +204,7 @@ $Selenium->RunTest(
 
         # check for edited test Transition using filter on AdminProcessManagement screen
         my $TransitionRandomEdit = $TransitionRandom . "edit";
-        $Selenium->WaitFor( JavaScript => 'return $("#TransitionFilter").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TransitionFilter").length' );
         $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandomEdit);
 

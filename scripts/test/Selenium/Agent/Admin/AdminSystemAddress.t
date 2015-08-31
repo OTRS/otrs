@@ -97,7 +97,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait for SystemAddress create
-        $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.MasterAction').length" );
 
         # check for created test SystemAddress
         $Self->True(
@@ -140,7 +140,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait for SystemAddress create
-        $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.MasterAction').length" );
 
         # check class of invalid SystemAddress in the overview table
         $Self->True(
