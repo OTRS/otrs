@@ -171,6 +171,13 @@ $Selenium->RunTest(
         # them from DB
         for my $ServiceID (@ServiceIDs) {
             my $Success = $DBObject->Do(
+                SQL => "DELETE FROM service_preferences WHERE service_id = $ServiceID",
+            );
+            $Self->True(
+                $Success,
+                "Deleted Service preferences - $ServiceID",
+            );
+            $Success = $DBObject->Do(
                 SQL => "DELETE FROM service WHERE id = $ServiceID",
             );
             $Self->True(

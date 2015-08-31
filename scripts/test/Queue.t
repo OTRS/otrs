@@ -661,6 +661,14 @@ $Self->True(
 # from the DB.
 for my $ID (@IDs) {
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM queue_preferences WHERE queue_id = $ID",
+    );
+    $Self->True(
+        $Success,
+        "QueueDelete preferences - $ID",
+    );
+
+    $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "DELETE FROM queue WHERE id = $ID",
     );
     $Self->True(

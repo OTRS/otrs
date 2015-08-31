@@ -200,6 +200,13 @@ $Selenium->RunTest(
             Queue => $RandomID,
         );
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => "DELETE FROM queue_preferences WHERE queue_id = $QueueID",
+        );
+        $Self->True(
+            $Success,
+            "QueueDelete preferences - $RandomID",
+        );
+        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
         $Self->True(
