@@ -101,7 +101,7 @@ $Selenium->RunTest(
         # create first scenarion for test customer ticket process
         $Selenium->execute_script(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
-        $Selenium->WaitFor( JavaScript => "return \$('#Subject').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
@@ -111,7 +111,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         sleep 1;
-        $Selenium->WaitFor( JavaScript => 'return $("div#MainBox").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length;' );
 
         # check for inputed values for first step in test process ticket
         $Self->True(
@@ -165,7 +165,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
         $Selenium->execute_script(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
-        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");

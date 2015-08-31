@@ -70,7 +70,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",  'css' )->submit();
 
         # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return \$('table.Overview').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table.Overview').length" );
 
         # get needed data
         my @User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(

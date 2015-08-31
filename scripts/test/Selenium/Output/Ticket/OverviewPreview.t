@@ -108,14 +108,14 @@ $Selenium->RunTest(
 
         # switch to medium view
         $Selenium->find_element( "a.Large", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return \$('ul#TicketOverviewLarge').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#TicketOverviewLarge').length" );
 
         # sort by ticket number
         $Selenium->execute_script(
             "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
         );
         sleep 3;
-        $Selenium->WaitFor( JavaScript => "return \$('div.MainBox')" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.MainBox')" );
 
         # set 10 tickets per page
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
@@ -123,7 +123,7 @@ $Selenium->RunTest(
             "\$('#UserTicketOverviewPreviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return \$('a#AgentTicketQueuePage2').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a#AgentTicketQueuePage2').length" );
 
         # check for ticket with lowest ticket number on first 1st page and verifty that ticket
         # with highest ticket number number is not present
@@ -138,7 +138,7 @@ $Selenium->RunTest(
 
         # switch to 2nd page to test pagination
         $Selenium->find_element( "#AgentTicketQueuePage2", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return \$('ul#TicketOverviewLarge').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#TicketOverviewLarge').length" );
 
         # check for ticket with highest ticket number
         $Self->True(

@@ -134,7 +134,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#DialogButton2", 'css' )->click();
 
             # wait until delete dialog has closed an action performed
-            $Selenium->WaitFor( JavaScript => "return !\$('#DialogButton2').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('#DialogButton2').length" );
 
             # verify that webservice is deleted
             $Self->True(

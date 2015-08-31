@@ -88,7 +88,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#GlobalSearchNav", 'css' )->click();
 
         # wait until search window is loading
-        $Selenium->WaitFor( JavaScript => "return \$('#SearchProfileNew').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfileNew').length" );
 
         # create new template search
         my $SearchProfileName = "SeleniumTest";

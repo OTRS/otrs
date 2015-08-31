@@ -35,7 +35,7 @@ $Selenium->RunTest(
             $Selenium->get("${WebPath}js/test/$File");
 
             # Wait for the tests to complete.
-            $Selenium->WaitFor( JavaScript => 'return $("p.result span.total").length;' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.result span.total").length;' );
 
             $Selenium->find_element( "p.result span.failed", 'css' );
             $Selenium->find_element( "p.result span.passed", 'css' );

@@ -99,7 +99,7 @@ $Selenium->RunTest(
         # enable stats widget on dashboard
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
         $Selenium->find_element( ".SettingsWidget .Header a", "css" )->click();
-        $Selenium->WaitFor( JavaScript => "return \$('.SettingsWidget.Expanded').length;" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.SettingsWidget.Expanded').length;" );
 
         $Selenium->find_element( "#$StatsInSettings",      'css' )->click();
         $Selenium->find_element( ".SettingsWidget button", 'css' )->click();
@@ -108,7 +108,7 @@ $Selenium->RunTest(
         my $ExitCode      = $CommandObject->Execute();
         $Selenium->refresh();
 
-        $Selenium->WaitFor( JavaScript => 'return $(".nvd3-svg").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".nvd3-svg").length;' );
 
         $Self->Is(
             $Selenium->execute_script('return $(".nv-legend-text:contains(Misc)").length'),
