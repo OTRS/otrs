@@ -1,4 +1,5 @@
 #4.0.12 2015-??-??
+ - 2015-08-31 Fixed bug#[11460](http://bugs.otrs.org/show_bug.cgi?id=11460) - CustomerSearch fails for searches containing '_'.
  - 2015-08-28 Fixed bug#[8146](http://bugs.otrs.org/show_bug.cgi?id=8146) - Generate report in Chinese from command line.
  - 2015-08-25 Followup for bug#[9460](http://bugs.otrs.org/show_bug.cgi?id=9460) - Under some circumstances OTRS does not join Tickets to the Customernumber.
  - 2015-08-25 Added new Galician translation, thanks to ARTURO MONDELO RUIZ-FALCO.
