@@ -1,4 +1,5 @@
 #4.0.12 2015-??-??
+ - 2015-08-31 Fixed bug#[11398](http://bugs.otrs.org/show_bug.cgi?id=11398) - Selecting a template in AgentTicketPhone (and likely other components) silently overrides existing content, losing data.
  - 2015-08-31 Fixed bug#[11216](http://bugs.otrs.org/show_bug.cgi?id=11216) - Links in Admin Overview not always clickable in IE8.
  - 2015-08-31 Fixed bug#[11460](http://bugs.otrs.org/show_bug.cgi?id=11460) - CustomerSearch fails for searches containing '_'.
  - 2015-08-28 Fixed bug#[8146](http://bugs.otrs.org/show_bug.cgi?id=8146) - Generate report in Chinese from command line.
