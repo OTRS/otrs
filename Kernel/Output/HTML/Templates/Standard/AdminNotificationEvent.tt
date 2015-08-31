@@ -307,13 +307,13 @@ $('.NotificationDelete').bind('click', function (Event) {
 
                         <label for="CustomerID">[% Translate("CustomerID") | html %]: </label>
                         <div class="Field">
-                            <input type="text" name="CustomerID" id="CustomerID" class="W50pc" value="[% Data.CustomerID | html %]"/>
+                            <input type="text" name="CustomerID" id="CustomerID" class="W75pc" value="[% Data.CustomerID | html %]"/>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="CustomerUserID">[% Translate("Customer") | html %]: </label>
                         <div class="Field">
-                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="[% Data.CustomerUserID | html %]"/>
+                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W75pc" value="[% Data.CustomerUserID | html %]"/>
                         </div>
                         <div class="Clear"></div>
 
@@ -369,7 +369,7 @@ $('.NotificationDelete').bind('click', function (Event) {
 
                         <label for="ArticleSubjectMatch">[% Translate("Subject match") | html %]: </label>
                         <div class="Field">
-                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc [% Data.ArticleSubjectMatchServerError %]" value="[% Data.ArticleSubjectMatch | html %]"/>
+                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W75pc [% Data.ArticleSubjectMatchServerError %]" value="[% Data.ArticleSubjectMatch | html %]"/>
                             <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
                             <div id="ArticleSubjectMatchServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
@@ -381,7 +381,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                             [% Translate("Body match") | html %]:
                         </label>
                         <div class="Field">
-                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc [% Data.ArticleBodyMatchServerError %]" value="[% Data.ArticleBodyMatch | html %]"/>
+                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W75pc [% Data.ArticleBodyMatchServerError %]" value="[% Data.ArticleBodyMatch | html %]"/>
                             <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
                             <div id="ArticleBodyMatchServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
@@ -570,7 +570,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                             [% Translate("Subject") | html %]:
                                         </label>
                                         <div class="Field">
-                                            <input type="text" name="[% Data.LanguageID | html %]_Subject" id="[% Data.LanguageID | html %]_Subject" value="[% Data.Subject | html %]" class="W50pc Validate_Required [% Data.SubjectServerError | html %]" maxlength="200"/>
+                                            <input type="text" name="[% Data.LanguageID | html %]_Subject" id="[% Data.LanguageID | html %]_Subject" value="[% Data.Subject | html %]" class="W75pc Validate_Required [% Data.SubjectServerError | html %]" maxlength="200"/>
                                             <div id="[% Data.LanguageID | html %]_SubjectError" class="TooltipErrorMessage">
                                                 <p>[% Translate("This field is required.") | html %]</p>
                                             </div>
@@ -621,7 +621,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                                             [% Translate("Subject") | html %]:
                                         </label>
                                         <div class="Field">
-                                            <input type="text" name="Template_Subject" id="Template_Subject" value="" class="W50pc" maxlength="200"/>
+                                            <input type="text" name="Template_Subject" id="Template_Subject" value="" class="W75pc" maxlength="200"/>
                                             <div id="Template_SubjectError" class="TooltipErrorMessage">
                                                 <p>[% Translate("This field is required.") | html %]</p>
                                             </div>

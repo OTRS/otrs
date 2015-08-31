@@ -150,18 +150,16 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
     TargetNS.LanguageSelectionRebuild = function () {
 
         // get original selection with all possible fields and clone it
-        var $LanguageClone = $('#LanguageOrig').clone().attr('id', 'Language');
-        $LanguageClone.addClass("LanguageAdd");
+        var $Languages = $('#LanguageOrig option').clone();
+
+        $('#Language').empty();
 
         // strip all already used attributes
-        $LanguageClone.find('option').each(function () {
-            if ($('.NotificationLanguageContainer label#' + $(this).val() + '_Label_Subject').length) {
-                $(this).remove();
+        $Languages.each(function () {
+            if (!$('.NotificationLanguageContainer label#' + $(this).val() + '_Label_Subject').length) {
+                $('#Language').append($(this));
             }
         });
-
-        // replace selection with original selection
-        $('#Language').replaceWith($LanguageClone);
 
         // bind click function to add button
         $('.LanguageAdd').bind('change', function () {

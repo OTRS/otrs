@@ -739,7 +739,7 @@ sub _Edit {
         Multiple   => 1,
         Size       => 8,
         SelectedID => $Param{Data}->{Recipients},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     my %AllAgents = $Kernel::OM->Get('Kernel::System::User')->UserList(
@@ -752,7 +752,7 @@ sub _Edit {
         Multiple   => 1,
         Size       => 4,
         SelectedID => $Param{Data}->{RecipientAgents},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -763,7 +763,7 @@ sub _Edit {
         Name       => 'RecipientGroups',
         Multiple   => 1,
         SelectedID => $Param{Data}->{RecipientGroups},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
     $Param{RecipientRolesStrg} = $LayoutObject->BuildSelection(
         Data       => { $GroupObject->RoleList( Valid => 1 ) },
@@ -771,7 +771,7 @@ sub _Edit {
         Name       => 'RecipientRoles',
         Multiple   => 1,
         SelectedID => $Param{Data}->{RecipientRoles},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     # Set class name for event string...
@@ -807,7 +807,7 @@ sub _Edit {
         Name       => 'Events',
         Multiple   => 1,
         Size       => 10,
-        Class      => $EventClass . ' Modernize',
+        Class      => $EventClass . ' Modernize W75pc',
         SelectedID => $Param{Data}->{Events},
     );
 
@@ -822,7 +822,7 @@ sub _Edit {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{Data}->{StateID},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     $Param{QueuesStrg} = $LayoutObject->AgentQueueListOption(
@@ -833,7 +833,7 @@ sub _Edit {
         TreeView           => $TreeView,
         SelectedIDRefArray => $Param{Data}->{QueueID},
         OnChangeSubmit     => 0,
-        Class              => 'Modernize',
+        Class              => 'Modernize W75pc',
     );
 
     $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
@@ -847,7 +847,7 @@ sub _Edit {
         Multiple   => 1,
         Size       => 5,
         SelectedID => $Param{Data}->{PriorityID},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     $Param{LocksStrg} = $LayoutObject->BuildSelection(
@@ -861,7 +861,7 @@ sub _Edit {
         Multiple   => 1,
         Size       => 3,
         SelectedID => $Param{Data}->{LockID},
-        Class      => 'Modernize',
+        Class      => 'Modernize W75pc',
     );
 
     # get valid list
@@ -872,7 +872,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Modernize',
+        Class      => 'Modernize W50pc',
     );
     $LayoutObject->Block(
         Name => 'OverviewUpdate',
@@ -900,7 +900,7 @@ sub _Edit {
             Size        => 3,
             Multiple    => 1,
             Translation => 0,
-            Class       => 'Modernize',
+            Class       => 'Modernize W75pc',
         );
         $LayoutObject->Block(
             Name => 'OverviewUpdateType',
@@ -926,7 +926,7 @@ sub _Edit {
             Translation => 0,
             Max         => 200,
             TreeView    => $TreeView,
-            Class       => 'Modernize',
+            Class       => 'Modernize W75pc',
         );
         my %SLA = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
             UserID => $Self->{UserID},
@@ -940,7 +940,7 @@ sub _Edit {
             Multiple    => 1,
             Translation => 0,
             Max         => 200,
-            Class       => 'Modernize',
+            Class       => 'Modernize W75pc',
         );
         $LayoutObject->Block(
             Name => 'OverviewUpdateService',
@@ -1096,7 +1096,7 @@ sub _Edit {
     $Param{LanguageStrg} = $LayoutObject->BuildSelection(
         Data         => \%DefaultUsedLanguages,
         Name         => 'Language',
-        Class        => 'LanguageAdd',
+        Class        => 'Modernize W50pc LanguageAdd',
         Translation  => 1,
         PossibleNone => 1,
         HTMLQuote    => 0,
@@ -1115,7 +1115,7 @@ sub _Edit {
         Data        => { $TicketObject->ArticleTypeList( Result => 'HASH' ), },
         Name        => 'ArticleTypeID',
         SelectedID  => $Param{Data}->{ArticleTypeID},
-        Class       => $ArticleTypeIDClass . ' Modernize',
+        Class       => $ArticleTypeIDClass . ' Modernize W75pc',
         Size        => 5,
         Multiple    => 1,
         Translation => 1,
@@ -1126,7 +1126,7 @@ sub _Edit {
         Data        => { $TicketObject->ArticleSenderTypeList( Result => 'HASH' ), },
         Name        => 'ArticleSenderTypeID',
         SelectedID  => $Param{Data}->{ArticleSenderTypeID},
-        Class       => $ArticleSenderTypeIDClass . ' Modernize',
+        Class       => $ArticleSenderTypeIDClass . ' Modernize W75pc',
         Size        => 5,
         Multiple    => 1,
         Translation => 1,
@@ -1142,7 +1142,7 @@ sub _Edit {
         SelectedID  => $Param{Data}->{ArticleAttachmentInclude} || 0,
         Translation => 1,
         Max         => 200,
-        Class       => 'Modernize',
+        Class       => 'Modernize W75pc',
     );
 
     # take over data fields
