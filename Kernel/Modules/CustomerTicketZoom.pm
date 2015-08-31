@@ -182,7 +182,6 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
             my $IsACLReducible = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,

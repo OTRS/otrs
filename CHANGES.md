@@ -1,4 +1,5 @@
 #5.0.0.beta4 2015-??-??
+ - 2015-08-31 Fixed bug#[11264](http://bugs.otrs.org/show_bug.cgi?id=11264) - Reducing article dropdown dynamic fields via ACL does not work.
  - 2015-08-31 Fixed bug#[11398](http://bugs.otrs.org/show_bug.cgi?id=11398) - Selecting a template in AgentTicketPhone (and likely other components) silently overrides existing content, losing data.
  - 2015-08-31 Fixed bug#[11435](http://bugs.otrs.org/show_bug.cgi?id=11435) - If opening navigation bar or sidebar in responsive mode, OTRS jumps back to the top of the window.
  - 2015-08-31 Fixed bug#[11460](http://bugs.otrs.org/show_bug.cgi?id=11460) - CustomerSearch fails for searches containing '_'.
