@@ -94,7 +94,7 @@ $Selenium->RunTest(
                 "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"),
             1,
             "$TestCustomerUserLogin - found on UserOnline plugin"
-        );
+        ) || die;
     }
 );
 
