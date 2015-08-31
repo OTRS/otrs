@@ -174,7 +174,7 @@ $Selenium->RunTest(
         my $DescriptionShortEdit     = $DescriptionShort . " Edit";
 
         $Selenium->WaitFor(
-            JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length"
+            JavaScript => "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length"
         );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandomEdit);

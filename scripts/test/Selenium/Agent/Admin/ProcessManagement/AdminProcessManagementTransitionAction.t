@@ -97,7 +97,7 @@ $Selenium->RunTest(
 
         # check for created test TransitionAction using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
-            JavaScript => "return \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
+            JavaScript => "return typeof(\$) === 'function' && \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
         );
         $Selenium->find_element( "Transition Actions",      'link_text' )->click();
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandom);

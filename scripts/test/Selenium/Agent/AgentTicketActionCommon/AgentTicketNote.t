@@ -76,7 +76,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         $Selenium->WaitFor(
-            JavaScript => 'return $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+            JavaScript => 'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
         );
 
         # click on 'Note' and switch window

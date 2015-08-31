@@ -86,7 +86,7 @@ $Selenium->RunTest(
         # Wait for AJAX
         my $ExpectedCustomer = "$TestCustomerUserLogin";
         $Selenium->WaitFor(
-            JavaScript => "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"
         );
 
         $Self->Is(

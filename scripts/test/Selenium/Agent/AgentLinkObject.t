@@ -81,7 +81,7 @@ $Selenium->RunTest(
 
         # hover on menu bar on the misc cluster
         $Selenium->WaitFor(
-            JavaScript => 'return $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+            JavaScript => 'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
         );
 
         # click on 'Link'
