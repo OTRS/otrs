@@ -19,7 +19,6 @@
 
     html.NoScroll,
     html.NoScroll body {
-        height: 100%;
         overflow: hidden;
     }
 
@@ -1138,7 +1137,7 @@
         white-space: nowrap;
     }
 
-    .BreadCrumb li:before, 
+    .BreadCrumb li:before,
     .BreadCrumb li:after {
         top: 50%;
         border-width: 22px;
