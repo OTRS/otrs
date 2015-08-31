@@ -30,6 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use File::Path qw();
 use Time::HiRes qw(sleep);
+use Fcntl qw(:flock);
 
 use Kernel::System::ObjectManager;
 
@@ -65,6 +66,7 @@ if ( $NodeID !~ m{ \A \d+ \z }xms && $NodeID > 0 && $NodeID < 1000 ) {
 # get pid directory
 my $PIDDir  = $ConfigObject->Get('Home') . '/var/run/';
 my $PIDFile = $PIDDir . "Daemon-NodeID-$NodeID.pid";
+my $PIDFH;
 
 # get default log directory
 my $LogDir = $ConfigObject->Get('Daemon::Log::LogPath') || $ConfigObject->Get('Home') . '/var/log/Daemon';
@@ -174,7 +176,7 @@ sub Start {
         exit 0;
     }
 
-    # get daemon modules from sysconfig
+    # get daemon modules from SysConfig
     my $DaemonModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('DaemonModules') || {};
 
     # create daemon module hash
@@ -396,19 +398,29 @@ sub Status {
 
         # read existing PID file
         open my $FH, '<', $PIDFile;    ## no critic
-        flock $FH, 1;
-        my $RegisteredPID = do { local $/; <$FH> };
-        close $FH;
 
-        if ($RegisteredPID) {
+        # try to lock the file exclusively
+        if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
 
-            # check if process is running
-            my $RunningPID = kill 0, $RegisteredPID;
+            # if no exclusive lock, daemon might be running, send signal to the PID
+            my $RegisteredPID = do { local $/; <$FH> };
+            close $FH;
 
-            if ($RunningPID) {
-                print STDOUT "Daemon running\n";
-                return 1;
+            if ($RegisteredPID) {
+
+                # check if process is running
+                my $RunningPID = kill 0, $RegisteredPID;
+
+                if ($RunningPID) {
+                    print STDOUT "Daemon running\n";
+                    return 1;
+                }
             }
+        }
+        else {
+
+            # if exclusive lock is granted, then it is not running
+            close $FH;
         }
     }
 
@@ -440,7 +452,13 @@ sub _PIDLock {
 
         # read existing PID file
         open my $FH, '<', $PIDFile;    ## no critic
-        flock $FH, 1;
+
+        # try to get a exclusive of the pid file, if fails daemon is already running
+        if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
+            close $FH;
+            return;
+        }
+
         my $RegisteredPID = do { local $/; <$FH> };
         close $FH;
 
@@ -455,11 +473,15 @@ sub _PIDLock {
         }
     }
 
-    # create new PID file
+    # create new PID file (set exclusive lock while writing the PIDFile)
     open my $FH, '>', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic
-    flock $FH, 2;
+    return if !flock( $FH, LOCK_EX | LOCK_NB );
     print $FH $$;
     close $FH;
+
+    # keep PIDFile shared locked forever
+    open $PIDFH, '<', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic
+    return if !flock( $PIDFH, LOCK_SH | LOCK_NB );
 
     return 1;
 }
@@ -469,8 +491,10 @@ sub _PIDUnlock {
     return if !-e $PIDFile;
 
     # read existing PID file
-    open my $FH, '<', $PIDFile;    ## no critic
-    flock $FH, 1;
+    open my $FH, '<', $PIDFile;                                                 ## no critic
+
+    # wait if PID is exclusively locked (and do a shared lock for reading)
+    flock $FH, LOCK_SH;
     my $RegisteredPID = do { local $/; <$FH> };
     close $FH;
 
