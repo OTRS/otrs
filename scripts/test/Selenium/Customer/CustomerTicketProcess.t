@@ -95,9 +95,6 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
-
         # navigate to customer ticket process
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
 

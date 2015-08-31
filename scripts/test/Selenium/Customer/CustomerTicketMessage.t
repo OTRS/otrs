@@ -57,8 +57,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
 
         # check CustomerTicketMessage overview screen
         for my $ID (
@@ -80,6 +80,8 @@ $Selenium->RunTest(
             '1',
             'Client side validation correctly detected missing input value',
         );
+
+        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
 
         # input fields and create ticket
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
