@@ -447,6 +447,15 @@ sub _PIDLock {
             exit 1;
         }
     }
+    if ( !-w $PIDDir ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Don't have write permissions in directory '$PIDDir': $!",
+        );
+
+        exit 1;
+    }
 
     if ( -e $PIDFile ) {
 
