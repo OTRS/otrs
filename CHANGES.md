@@ -1,4 +1,5 @@
 #5.0.0.beta4 2015-??-??
+ - 2015-09-01 Fixed bug#[11465](http://bugs.otrs.org/show_bug.cgi?id=11465) - New ticket notifications not working correctly.
  - 2015-08-31 Fixed bug#[11438](http://bugs.otrs.org/show_bug.cgi?id=11438) - Daemon not running.
  - 2015-08-31 Improved otrs.Daemon.pl PID detection mechanism.
  - 2015-08-31 Fixed bug#[11264](http://bugs.otrs.org/show_bug.cgi?id=11264) - Reducing article dropdown dynamic fields via ACL does not work.

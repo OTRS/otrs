@@ -1102,8 +1102,26 @@ sub _Replace {
         );
     }
 
+    my $HashGlobalReplace = sub {
+        my ( $Tag, %H ) = @_;
+
+        # Generate one single matching string for all keys to save performance.
+        my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
+
+        # Add all keys also as lowercase to be able to match case insensitive,
+        #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
+        for my $Key ( sort keys %H ) {
+            $H{ lc $Key } = $H{$Key};
+        }
+
+        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
+    };
+
     # get recipient data and replace it with <OTRS_...
     $Tag = $Start . 'OTRS_';
+    # include more readable tag <OTRS_NOTIFICATION_RECIPIENT
+    my $RecipientTag = $Start . 'OTRS_NOTIFICATION_RECIPIENT_';
+
     if (%Recipient) {
 
         # HTML quoting of content
@@ -1117,22 +1135,16 @@ sub _Replace {
             }
         }
 
-        # use notification recipient
-        my $RecipientTag = 'NOTIFICATION_RECIPIENT_';
-
-        # replace it
-        ATTRIBUTE:
-        for my $Attribute ( sort keys %Recipient ) {
-            next ATTRIBUTE if !defined $Recipient{$Attribute};
-            $Param{Text} =~ s/$Tag$Attribute$End/$Recipient{$Attribute}/gi;
-
-            # include more readable tag
-            $Param{Text} =~ s/$RecipientTag$Attribute$End/$Recipient{$Attribute}/gi;
-        }
+        $HashGlobalReplace->( "$Tag|$RecipientTag", %Recipient );
     }
+
+    # cleanup
+    $Param{Text} =~ s/$RecipientTag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
     $Tag = $Start . 'OTRS_OWNER_';
+    # include more readable version <OTRS_TICKET_OWNER
+    my $OwnerTag = $Start . 'OTRS_TICKET_OWNER_';
 
     if ( $Ticket{OwnerID} ) {
 
@@ -1153,34 +1165,18 @@ sub _Replace {
             }
         }
 
-        # replace it
-        ATTRIBUTE:
-        for my $Attribute ( sort keys %Owner ) {
-            next ATTRIBUTE if !defined $Owner{$Attribute};
-            $Param{Text} =~ s/$Tag$Attribute$End/$Owner{$Attribute}/gi;
-        }
+        $HashGlobalReplace->( "$Tag|$OwnerTag", %Owner );
     }
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
-
-    my $HashGlobalReplace = sub {
-        my ( $Tag, %H ) = @_;
-
-        # Generate one single matching string for all keys to save performance.
-        my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
-
-        # Add all keys also as lowercase to be able to match case insensitive,
-        #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
-        for my $Key ( sort keys %H ) {
-            $H{ lc $Key } = $H{$Key};
-        }
-
-        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
-    };
+    $Param{Text} =~ s/$OwnerTag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
     $Tag = $Start . 'OTRS_RESPONSIBLE_';
+    # include more readable version <OTRS_TICKET_RESPONSIBLE
+    my $ResponsibleTag = $Start . 'OTRS_TICKET_RESPONSIBLE_';
+
     if ( $Ticket{ResponsibleID} ) {
         my %Responsible = $UserObject->GetUserData(
             UserID        => $Ticket{ResponsibleID},
@@ -1199,12 +1195,12 @@ sub _Replace {
             }
         }
 
-        # replace it
-        $HashGlobalReplace->( $Tag, %Responsible );
+        $HashGlobalReplace->( "$Tag|$ResponsibleTag", %Responsible );
     }
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
+    $Param{Text} =~ s/$ResponsibleTag.+?$End/-/gi;
 
     $Tag = $Start . 'OTRS_Agent_';
     my $Tag2        = $Start . 'OTRS_CURRENT_';
