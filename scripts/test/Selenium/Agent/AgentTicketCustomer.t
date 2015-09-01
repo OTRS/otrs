@@ -115,6 +115,11 @@ $Selenium->RunTest(
         my $TicketID     = (%TicketIDs)[0];
 
         $Self->True(
+            $TicketID,
+            "Ticket created",
+        );
+
+        $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
             "Ticket with ticket id $TicketID ($TicketNumber) is created"
         );
@@ -158,11 +163,12 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
+        # Wait for update
         $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div.MainBox").length' );
+        sleep 1;
 
-        # click on history link and switch window
+        $Selenium->switch_to_window( $Handles->[0] );
+
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # verify that action worked as expected

@@ -132,19 +132,6 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
-        my $Element = $Selenium->find_element( "#RichText", 'css' );
-        $Element->send_keys("");
-        $Element->submit();
-
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#RichText').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
         # change ticket user responsible
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');");

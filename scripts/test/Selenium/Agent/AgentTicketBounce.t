@@ -86,12 +86,15 @@ $Selenium->RunTest(
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-        sleep 1;
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        sleep 1;
+
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->submit();
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
 
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
@@ -102,8 +105,13 @@ $Selenium->RunTest(
         my $TicketID     = (%TicketIDs)[0];
 
         $Self->True(
+            $TicketID,
+            "Ticket created",
+        );
+
+        $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Ticket with ticket id $TicketID is created"
+            "Ticket with ticket id $TicketID is created",
         );
 
         # go to ticket zoom page of created test ticket
@@ -130,6 +138,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
         $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Wait for bounce to be handled.
+        $Selenium->WaitFor( WindowCount => 1 );
+        sleep 1;
 
         # return back to zoom view
         $Selenium->switch_to_window( $Handles->[0] );

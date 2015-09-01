@@ -91,19 +91,6 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
-        my $Element = $Selenium->find_element( "#RichText", 'css' );
-        $Element->send_keys("");
-        $Element->submit();
-
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#RichText').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
         # change ticket to pending state
         $Selenium->execute_script("\$('#NewStateID').val('6').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');

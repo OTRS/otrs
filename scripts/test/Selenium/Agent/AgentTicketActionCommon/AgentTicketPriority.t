@@ -97,19 +97,6 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
-        my $Element = $Selenium->find_element( "#RichText", 'css' );
-        $Element->send_keys("");
-        $Element->submit();
-
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#RichText').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
         # change ticket priority
         $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
