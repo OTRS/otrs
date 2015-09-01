@@ -40,7 +40,7 @@
 [% RenderBlockStart("ActionImport") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Configuration import") | html %]</h2>
+                <h2>[% Translate("Configuration Import") | html %]</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
@@ -57,7 +57,7 @@
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="Separated">
                                 <input type="checkbox" id="OverwriteExistingNotifications" name="OverwriteExistingNotifications" value="1" />
-                                <label for="OverwriteExistingNotifications">[% Translate("Overwrite existing Notifications?") | html %]</label>
+                                <label for="OverwriteExistingNotifications">[% Translate("Overwrite existing notifications?") | html %]</label>
                             </fieldset>
 
                             <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload Notification configuration") | html %]">
@@ -405,7 +405,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Recipient") | html %]</h2>
+                    <h2>[% Translate("Recipients") | html %]</h2>
                 </div>
 
                 <div class="Content">
@@ -458,7 +458,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Notification methods") | html %]</h2>
+                    <h2>[% Translate("Notification Methods") | html %]</h2>
                 </div>
 
                 <div class="Content TransportsContent">
@@ -534,7 +534,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Notification") | html %]</h2>
+                    <h2>[% Translate("Notification Text") | html %]</h2>
                 </div>
 
                 <div class="Content">
@@ -689,9 +689,12 @@ Core.Agent.Admin.NotificationEvent.Init({
 
         </form>
 
-        <div class="WidgetSimple SpacingTop">
+        <div class="WidgetSimple SpacingTop Collapsed">
             <div class="Header">
-                <h2>[% Translate("Reference") | html %]</h2>
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("Tag Reference") | html %]</h2>
             </div>
 
             <div class="Content">
@@ -796,24 +799,21 @@ Core.Agent.Admin.NotificationEvent.Init({
                     [% Translate("Example response") | html %]:
                 </p>
                 <label for="SubjectExample">[% Translate("Subject") | html %]</label>:
-                <input type="text" name="SubjectExample" id="SubjectExample" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/>
+                <input type="text" name="SubjectExample" id="SubjectExample" value="Ticket Created: &lt;OTRS_TICKET_Title&gt;" size="80" maxlength="80"/>
                 <br/>
                 <label for="ResponseExample">[% Translate("Text") | html %]</label>:
                 <br/>
                 <textarea rows="12" cols="70" name="ResponseExample" id="ResponseExample">
+Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
-Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
+ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been created in queue &lt;OTRS_TICKET_Queue&gt;.
 
-there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
 
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
-&lt;snip&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
-
-Your OTRS Notification Master
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;
                 </textarea>
             </div>
         </div>
