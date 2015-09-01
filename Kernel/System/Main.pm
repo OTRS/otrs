@@ -18,6 +18,7 @@ use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
 use Storable;
+use Fcntl qw(:flock);
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
@@ -356,7 +357,7 @@ sub FileRead {
     }
 
     # lock file (Shared Lock)
-    if ( !flock $FH, 1 ) {
+    if ( !flock $FH, LOCK_SH ) {
         if ( !$Param{DisableWarnings} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -468,7 +469,7 @@ sub FileWrite {
     }
 
     # lock file (Exclusive Lock)
-    if ( !flock $FH, 2 ) {
+    if ( !flock $FH, LOCK_EX ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't lock '$Param{Location}': $!",
