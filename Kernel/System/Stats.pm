@@ -3333,11 +3333,13 @@ sub _GenerateDynamicStats {
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
+                my $TranslateMonth = $LanguageObject->Translate( $MonthArrayRef->[$VSMonth] );
+
                 #                    if ($Count == 1) {
                 $ValueSeries{
                     $VSYear . '-'
                         . sprintf( "%02d", $VSMonth ) . ' '
-                        . $MonthArrayRef->[$VSMonth]
+                        . $TranslateMonth
                     } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart
