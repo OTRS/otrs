@@ -1123,7 +1123,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # notification sender
-    $Self->{NotificationSenderName}  = 'OTRS Notification Master';
+    $Self->{NotificationSenderName}  = 'OTRS Notifications';
     $Self->{NotificationSenderEmail} = 'otrs@<OTRS_CONFIG_FQDN>';
 
     # notification email for new password
