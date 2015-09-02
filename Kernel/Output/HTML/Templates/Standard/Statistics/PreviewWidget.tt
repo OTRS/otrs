@@ -20,9 +20,8 @@
 [% FOR YAxisElement IN Data.UseAsValueSeries %]
     [% IF YAxisElement.Selected %][% SET YAxisConfigured = 1 %][% END %]
 [% END %]
-[% IF !Data.UseAsValueSeries.size %][% SET YAxisConfigured = 1 %][% END %]
 
-[% IF Data.StatsConfigurationErrors.size || !XAxisConfigured || !YAxisConfigured %]
+[% IF Data.StatsConfigurationErrors.size || !XAxisConfigured %]
 
     <div class="Preview">
 
@@ -74,23 +73,15 @@
                 </p>
             [% END %]
 
-        [% ELSIF Data.StatsConfigurationErrors.YAxisGeneralErrors.size || !YAxisConfigured %]
+        [% ELSIF Data.StatsConfigurationErrors.YAxisGeneralErrors.size %]
 
             [%  SET DisableButton.Restrictions = 1; %]
 
-            [% IF YAxisConfigured %]
-                [%  SET HighlightError.YAxis = 1; %]
-                [% PROCESS ErrorText %]
-                [% FOR Error IN Data.StatsConfigurationErrors.YAxisGeneralErrors %]
-                    <p class="Error">
-                        [% Error | html %]
-                    </p>
-                [% END %]
-            [% ELSE %]
-                [%  SET HighlightHint.YAxis = 1; %]
-                <p class="Hint">
-                    <i class="fa fa-cog"></i>
-                    [% Translate('You may now configure the Y-axis of your statistic.') | html %]
+            [%  SET HighlightError.YAxis = 1; %]
+            [% PROCESS ErrorText %]
+            [% FOR Error IN Data.StatsConfigurationErrors.YAxisGeneralErrors %]
+                <p class="Error">
+                    [% Error | html %]
                 </p>
             [% END %]
 
@@ -208,6 +199,8 @@
     </div>
 
 [% END %]
+
+[% IF Data.UseAsValueSeries.size && !YAxisConfigured && !DisableButton.YAxis %][% SET HighlightHint.YAxis = 1 %][% END %]
 
 <button type="button"
     class="CallForAction EditXAxis Bottom
