@@ -2853,10 +2853,7 @@ sub _ColumnAndRowTranslation {
             for my $Element (@Array) {
                 next ELEMENT if !$Element->{SelectedValues};
 
-                if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
-                    $Translation{$Use} = 'Time';
-                }
-                elsif ( $Element->{Translation} ) {
+                if ( $Element->{Translation} && $Element->{Block} ne 'Time' ) {
                     $Translation{$Use} = 'Common';
                 }
                 else {
@@ -2890,16 +2887,7 @@ sub _ColumnAndRowTranslation {
     # translate the headline
     $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Translate( $Param{HeadArrayRef}->[0] );
 
-    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time' ) {
-        for my $Word ( @{ $Param{HeadArrayRef} } ) {
-            if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
-                $Word =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-
-    elsif ( $Translation{UseAsXvalue} ) {
+    if ( $Translation{UseAsXvalue} ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             $Word = $Self->{LanguageObject}->Translate($Word);
         }
@@ -2953,15 +2941,7 @@ sub _ColumnAndRowTranslation {
     }
 
     # translate the row description
-    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} eq 'Time' ) {
-        for my $Word ( @{ $Param{StatArrayRef} } ) {
-            if ( $Word->[0] =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
-                $Word->[0] =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-    elsif ( $Translation{UseAsValueSeries} ) {
+    if ( $Translation{UseAsValueSeries} ) {
 
         # translate
         for my $Word ( @{ $Param{StatArrayRef} } ) {
