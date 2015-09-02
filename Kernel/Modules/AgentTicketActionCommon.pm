@@ -1534,7 +1534,7 @@ sub _Mask {
                 Data         => $Services,
                 Name         => 'ServiceID',
                 SelectedID   => $Param{ServiceID},
-                Class        => 'Modernize ' . $Param{ServiceInvalid} || ' ',
+                Class        => 'Modernize ' . ( $Param{ServiceInvalid} || ' ' ),
                 PossibleNone => 1,
                 TreeView     => $TreeView,
                 Sort         => 'TreeView',
