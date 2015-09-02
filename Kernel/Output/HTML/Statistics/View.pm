@@ -1351,7 +1351,7 @@ sub StatsParamsGet {
             }
         }
 
-        if ( $GetParam{UseAsValueSeries}[0]{Block} eq 'Time' ) {
+        if ( $GetParam{UseAsValueSeries}[0]{Block} && $GetParam{UseAsValueSeries}[0]{Block} eq 'Time' ) {
 
             my $TimeScale = $Self->_TimeScale(
                 SelectedXAxisValue => $GetParam{UseAsXvalue}[0]{SelectedValues}[0],
@@ -2214,16 +2214,7 @@ sub _ColumnAndRowTranslation {
     # translate the headline
     $Param{HeadArrayRef}->[0] = $LanguageObject->Translate( $Param{HeadArrayRef}->[0] );
 
-    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time' ) {
-        for my $Word ( @{ $Param{HeadArrayRef} } ) {
-            if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $LanguageObject->Translate($1);
-                $Word =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-
-    elsif ( $Translation{UseAsXvalue} ) {
+    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} ne 'Time' ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             $Word = $LanguageObject->Translate($Word);
         }
@@ -2277,15 +2268,7 @@ sub _ColumnAndRowTranslation {
     }
 
     # translate the row description
-    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} eq 'Time' ) {
-        for my $Word ( @{ $Param{StatArrayRef} } ) {
-            if ( $Word->[0] =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $LanguageObject->Translate($1);
-                $Word->[0] =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-    elsif ( $Translation{UseAsValueSeries} ) {
+    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} ne 'Time' ) {
 
         # translate
         for my $Word ( @{ $Param{StatArrayRef} } ) {
