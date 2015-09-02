@@ -34,8 +34,12 @@ Core.Agent.Statistics = (function (TargetNS) {
         $('.BigButtons li a').bind('click', function () {
             var $Link = $(this);
 
+            if ($Link.hasClass('Disabled')) {
+                return false;
+            }
+
             $('.BigButtons li a').removeClass('Active');
-            $(this).addClass('Active');
+            $Link.addClass('Active');
 
             $('#GeneralSpecifications').fadeIn(function() {
                 var URL = Core.Config.Get('Baselink'),
