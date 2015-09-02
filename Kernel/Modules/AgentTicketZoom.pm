@@ -785,6 +785,7 @@ sub MaskAgentZoom {
     }
 
     my $ArticleIDFound = 0;
+    ARTICLE:
     for my $Article (@ArticleBox) {
 
         if ( $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort') eq 'reverse' ) {
@@ -795,9 +796,12 @@ sub MaskAgentZoom {
         }
 
         $Article->{Count} = $Count;
-        if ( $Self->{ArticleID} && $Self->{ArticleID} == $Article->{ArticleID} ) {
-            $ArticleIDFound = 1;
-        }
+
+        next if !$Self->{ArticleID};
+        next if !$Article->{ArticleID};
+        next if $Self->{ArticleID} ne $Article->{ArticleID};
+
+        $ArticleIDFound = 1;
     }
 
     my %ArticleFlags = $TicketObject->ArticleFlagsOfTicketGet(
