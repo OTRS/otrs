@@ -13,6 +13,7 @@
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
 # Matze208, 2015
+# mbank <michael.bank@fh-koeln.de>, 2015
 # nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
@@ -21,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:13+0000\n"
+"PO-Revision-Date: 2015-09-03 12:36+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1533,7 +1534,7 @@ msgstr "Die Nutzungsvereinbarung für Ihre %s läuft in Kürze aus. Bitte kontak
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update der %s!  "
+msgstr "Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update!  "
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -5339,7 +5340,7 @@ msgstr "Diese Benachrichtigung löschen"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Möchten Sie diese Benachrichtigung wirklich löschen?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5439,7 +5440,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Einmal pro Tag"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5449,7 +5450,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Benachrichtigungsoptionen"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6178,7 +6179,7 @@ msgstr "Prozess kopieren"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Abbrechen und Beenden"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -8404,7 +8405,7 @@ msgstr "Das Ticket wurde gesperrt"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Rückgängig machen und Beenden"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -8526,7 +8527,7 @@ msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
-msgstr ""
+msgstr "Statistiken » Import"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
@@ -8534,7 +8535,7 @@ msgstr ""
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
-msgstr ""
+msgstr "Statistiken » Übersicht"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
@@ -8542,7 +8543,7 @@ msgstr "Statistiken"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
-msgstr ""
+msgstr "Start"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
@@ -8570,7 +8571,7 @@ msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
-msgstr ""
+msgstr "Statistiken » Ansicht %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid ""
@@ -9368,7 +9369,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Not available"
-msgstr ""
+msgstr "Nicht verfügbar"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
@@ -9392,7 +9393,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "Bestätigen"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -9630,7 +9631,7 @@ msgstr "Antworten"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "Chatprotokoll"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
@@ -10205,7 +10206,7 @@ msgstr ""
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10292,7 +10293,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "Statistik"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10344,7 +10345,7 @@ msgstr "für warten* Status"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
-msgstr ""
+msgstr "Ungültige Benutzer"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
@@ -10433,7 +10434,7 @@ msgstr "X-Achse"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Y-axis"
-msgstr ""
+msgstr "Y-Achse"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected start time is before the allowed start time."
@@ -10866,7 +10867,7 @@ msgstr "OTRS"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon"
-msgstr ""
+msgstr "Prozess"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -15931,7 +15932,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Verschiedenes"
 
 #. SysConfig
 msgid ""
@@ -16367,7 +16368,7 @@ msgstr ""
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "Personen"
 
 #. SysConfig
 msgid ""
@@ -16632,7 +16633,7 @@ msgstr "S/MIME Zertifikat hochladen"
 
 #. SysConfig
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #. SysConfig
 msgid "Sample command output"
@@ -16654,7 +16655,7 @@ msgstr "Systemwartung planen"
 
 #. SysConfig
 msgid "Screen"
-msgstr ""
+msgstr "Bildschirm"
 
 #. SysConfig
 msgid "Search Customer"

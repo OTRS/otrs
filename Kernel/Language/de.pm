@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.77065136011979;
+    $Self->{Completeness}        = 0.775892188669828;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -421,7 +421,7 @@ sub Data {
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Die Nutzungsvereinbarung für Ihre %s läuft in Kürze aus. Bitte kontaktieren Sie %s, um Ihren Vertrag zu erneuern!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update der %s!  ',
+            'Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update!  ',
         'Your system was successfully upgraded to %s.' => 'Ihr System wurde erfolgreich auf die %s erweitert.',
         'There was a problem during the upgrade to %s.' => 'Es gab ein Problem während des Upgrade-Prozesses auf die %s.',
         '%s was correctly reinstalled.' => 'Ihre %s wurde korrekt re-installiert.',
@@ -1521,7 +1521,7 @@ sub Data {
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Diese Benachrichtigung löschen',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Möchten Sie diese Benachrichtigung wirklich löschen?',
         'Add Notification' => 'Benachrichtigung hinzufügen',
         'Edit Notification' => 'Benachrichtigung bearbeiten',
         'Show in agent preferences' => '',
@@ -1547,10 +1547,10 @@ sub Data {
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Einmal pro Tag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Benachrichtigungsoptionen',
         'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
             '',
         'Transport' => 'Transport',
@@ -1777,7 +1777,7 @@ sub Data {
         'Copy Process' => 'Prozess kopieren',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Abbrechen und Beenden',
         'Go Back' => 'Zurück',
         'Please note, that changing this activity will affect the following processes' =>
             'Achtung: Änderungen an dieser Aktivität werden sich auf folgende Prozesse auswirken',
@@ -2494,7 +2494,7 @@ sub Data {
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Das Ticket wurde gesperrt',
-        'Undo & close' => '',
+        'Undo & close' => 'Rückgängig machen und Beenden',
 
         # Template: AgentInfo
         'Info' => 'Info',
@@ -2540,13 +2540,13 @@ sub Data {
         'Save statistic' => '',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
+        'Statistics » Import' => 'Statistiken » Import',
         'Import Statistic Configuration' => '',
 
         # Template: AgentStatisticsOverview
-        'Statistics » Overview' => '',
+        'Statistics » Overview' => 'Statistiken » Übersicht',
         'Statistics' => 'Statistiken',
-        'Run' => '',
+        'Run' => 'Start',
         'Edit statistic "%s".' => '',
         'Export statistic "%s"' => '',
         'Export statistic %s' => '',
@@ -2555,7 +2555,7 @@ sub Data {
         'Do you really want to delete this statistic?' => '',
 
         # Template: AgentStatisticsView
-        'Statistics » View %s%s — %s' => '',
+        'Statistics » View %s%s — %s' => 'Statistiken » Ansicht %s%s — %s',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 
@@ -2819,13 +2819,13 @@ sub Data {
             'Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator.',
         'Switch to mobile mode' => '',
         'Switch to desktop mode' => '',
-        'Not available' => '',
+        'Not available' => 'Nicht verfügbar',
         'Clear all' => '',
         'Clear search' => '',
         '%s selection(s)...' => '',
         'and %s more...' => '',
         'Filters' => '',
-        'Confirm' => '',
+        'Confirm' => 'Bestätigen',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
@@ -2901,7 +2901,7 @@ sub Data {
         'Information' => 'Information',
         'Next Steps' => 'Nächste Schritte',
         'Reply' => 'Antworten',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Chatprotokoll',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => 'Ganztägig',
@@ -3098,7 +3098,7 @@ sub Data {
             '',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Willkommen',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Testseite',
@@ -3140,7 +3140,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => 'Statistik',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Can not delete link with %s!' => '',
@@ -3167,7 +3167,7 @@ sub Data {
         'for pending* states' => 'für warten* Status',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Invalid Users' => '',
+        'Invalid Users' => 'Ungültige Benutzer',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
@@ -3215,7 +3215,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'X-Achse',
-        'Y-axis' => '',
+        'Y-axis' => 'Y-Achse',
         'The selected start time is before the allowed start time.' => '',
         'The selected end time is later than the allowed end time.' => '',
         'The selected time period is larger than the allowed time period.' =>
@@ -3378,7 +3378,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
         'OTRS' => 'OTRS',
-        'Daemon' => '',
+        'Daemon' => 'Prozess',
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -4959,7 +4959,7 @@ Thanks for your help!
             '',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'Verschiedenes',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Modul zum Überprüfen von Kundenberechtigungen.',
@@ -5075,7 +5075,7 @@ Thanks for your help!
         'Parameters of the example service attribute Comment2.' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'People' => '',
+        'People' => 'Personen',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => '',
@@ -5157,12 +5157,12 @@ Thanks for your help!
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             'Führt das System im "Demo" Modus aus. Wenn die Einstellung auf "Ja" gesetzt ist, können Agenten Einstellungen, wie die Sprachauswahl oder das Design über die Agenten Weboberfläche ändern. Diese Einstellungen sind nur für die aktuelle Session gültig. Agenten können ihr Passwort nicht ändern.',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
-        'SMS' => '',
+        'SMS' => 'SMS',
         'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             'Speicherung von Artikel-Anlagen. "DB" legt alle Daten in der Datenbank ab (nicht empfohlen für große Anlagen). "FS" legt alle Daten im Dateisystem ab; dies ist schneller, jedoch sollte der Webserver mit dem OTRS-Benutzer betrieben werden. Sie können im laufenden Betrieb ohne Datenverlust zwischen den Modulen wechseln. Bitte beachten Sie, dass das Suchen nach Anlagen für "FS" nicht unterstützt wird.',
         'Schedule a maintenance period.' => 'Systemwartung planen',
-        'Screen' => '',
+        'Screen' => 'Bildschirm',
         'Search Customer' => 'Kunden suchen',
         'Search User' => 'Benutzer suchen',
         'Search backend default router.' => '',
