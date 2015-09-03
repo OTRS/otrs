@@ -2852,6 +2852,7 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Dohvati sve',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
@@ -3563,9 +3564,9 @@ sub Data {
             '',
         'Default loop protection module.' => 'Zadani modul zaštite od petlje',
         'Default queue ID used by the system in the agent interface.' => 'Zadani ID repa koji koristi sustav u sučelju zaposlenika.',
-        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Zadani ID kartice koji koristi sustav u sučelju operatera.',
         'Default ticket ID used by the system in the customer interface.' =>

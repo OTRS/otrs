@@ -2848,6 +2848,7 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Obtener todos',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
@@ -3559,9 +3560,9 @@ sub Data {
             '',
         'Default loop protection module.' => 'Módulo de protección de bucle por defecto.',
         'Default queue ID used by the system in the agent interface.' => 'ID de fila usado por defecto por el sistema, en la interfaz del agente.',
-        'Default skin for OTRS 3.0 interface.' => 'Piel por defecto para la interfaz OTRS 3.0.',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID de ticket usado por defecto por el sistema, en la interfaz del agente.',
         'Default ticket ID used by the system in the customer interface.' =>

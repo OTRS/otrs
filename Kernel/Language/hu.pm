@@ -412,7 +412,7 @@ sub Data {
         'Redo' => 'Újra',
         'Scheduler process is registered but might not be running.' => 'Az ütemező folyamat regisztrálva van, de valószínűleg nem fut.',
         'Scheduler is not running.' => 'Az ütemező nem fut.',
-        'All sessions have been killed, except for your own.' => 'Minden munkamenet ki lett lőve, kivéve az Ön sajátját.',
+        'All sessions have been killed, except for your own.' => 'Összes munkamenet ki lett lőve, kivéve az Ön sajátját.',
         'Can\'t contact registration server. Please try again later.' => 'Nem sikerült elérni a regisztrációs kiszolgálót. Próbálkozzon később.',
         'No content received from registration server. Please try again later.' =>
             'Nem érkezett tartalom a regisztrációs kiszolgálótól. Próbálkozzon később.',
@@ -2395,14 +2395,14 @@ sub Data {
         'Details' => 'Részletek',
 
         # Template: AdminSession
-        'Session Management' => 'Munkamenet kezelés',
-        'All sessions' => 'Minden munkamenet',
+        'Session Management' => 'Munkamenet-kezelés',
+        'All sessions' => 'Összes munkamenet',
         'Agent sessions' => 'Ügyintéző munkamenetek',
         'Customer sessions' => 'Ügyfél munkamenetek',
         'Unique agents' => 'Egyedi ügyintézők',
         'Unique customers' => 'Egyedi ügyfelek',
         'Kill all sessions' => 'Összes munkamenet kilövése',
-        'Kill this session' => 'Ezen munkamenet kilövése',
+        'Kill this session' => 'Munkamenet kilövése',
         'Session' => 'Munkamenet',
         'Kill' => 'Kilövés',
         'Detail View for SessionID' => 'A munkamenet-azonosító részletes nézete',
@@ -2497,14 +2497,14 @@ sub Data {
             'Valóban törölni szeretné ezt az ütemezett rendszerkarbantartást?',
 
         # Template: AdminSystemMaintenanceEdit
-        'Edit System Maintenance %s' => '%s rendszerkarbantartás szerkesztése',
+        'Edit System Maintenance %s' => 'Rendszerkarbantartás szerkesztése: %s',
         'Edit System Maintenance information' => 'Rendszerkarbantartás információk szerkesztése',
         'Date invalid!' => 'Érvénytelen dátum!',
         'Login message' => 'Bejelentkező üzenet',
         'Show login message' => 'Bejelentkező üzenet megjelenítése',
         'Notify message' => 'Értesítő üzenet',
         'Manage Sessions' => 'Munkamenetek kezelése',
-        'All Sessions' => 'Minden munkamenet',
+        'All Sessions' => 'Összes munkamenet',
         'Agent Sessions' => 'Ügyintéző munkamenetek',
         'Customer Sessions' => 'Ügyfél munkamenetek',
         'Kill all Sessions, except for your own' => 'Összes munkamenet kilövése, kivéve az Ön sajátját',
@@ -2641,7 +2641,7 @@ sub Data {
         'out of office' => 'irodán kívül',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => 'egészen',
+        'until' => 'eddig:',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'A jegy zárolva lett',
@@ -2853,6 +2853,7 @@ sub Data {
         'Select this customer as the main customer.' => 'Az ügyfél kijelölése fő ügyfélként.',
         'Remove Ticket Customer User' => 'Jegy ügyfél-felhasználójának eltávolítása',
         'Get all' => 'Összes lekérése',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Kimenő e-mail',
@@ -3019,7 +3020,7 @@ sub Data {
         'Traceback' => 'Visszakövetés',
 
         # Template: CustomerFooter
-        'Powered by' => 'Készítette',
+        'Powered by' => 'A gépházban:',
 
         # Template: CustomerFooterJS
         'One or more errors occurred!' => 'Egy vagy több hiba történt!',
@@ -3564,9 +3565,9 @@ sub Data {
             'A jegykeresés képernyő jellemzőinél használt alapértelmezett adatok. Például: „TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”.',
         'Default loop protection module.' => 'Alapértelmezett hurokvédelem modul.',
         'Default queue ID used by the system in the agent interface.' => 'A rendszer által alapértelmezetten használt várólista azonosító az ügyintézői felületen.',
-        'Default skin for OTRS 3.0 interface.' => 'Alapértelmezett felszín az OTRS 3.0 felülethez.',
         'Default skin for the agent interface (slim version).' => 'Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)',
         'Default skin for the agent interface.' => 'Alapértelmezett felszín az ügyintézői felülethez.',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'A rendszer által alapértelmezetten használt jegyazonosító az ügyintézői felületen.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -4223,7 +4224,7 @@ sub Data {
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer.pl), hogy megakadályozza a rendszer feltörését. Ha „Nem” értékre állítja, a rendszer újratelepíthető, és a jelenlegi alap konfiguráció lesz felhasználva a telepítő parancsfájlon belüli kérdések előre kitöltéséhez. Ha nem aktív, akkor letiltja az általános ügyintézőt, a csomagkezelőt és az SQL dobozt is.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
-            'Figyelmeztetés megjelenítése és a keresés megakadályozása, ha leállítási szavakat használ a szabad-szavas keresésen belül.',
+            'Figyelmeztetés megjelenítése és a keresés megakadályozása, ha kiszűrendő szavakat használ a szabad-szavas keresésen belül.',
         'Display settings to override defaults for Process Tickets.' => 'Beállítások megjelenítése az alapértékek felülbírálásához a jegyek feldolgozásánál.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten.',
@@ -5345,7 +5346,7 @@ sub Data {
         'Stat#' => 'Stat#',
         'Statistics' => 'Statisztikák',
         'Status view' => 'Állapot nézet',
-        'Stop words for fulltext index. These words will be removed.' => 'Szóstoppok a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva.',
+        'Stop words for fulltext index. These words will be removed.' => 'Kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva.',
         'Stores cookies after the browser has been closed.' => 'Sütiket tárol, miután a böngészőt bezárták.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Eltávolítja az üres sorokat a jegyelőnézetből a várólista nézetben.',
         'Strips empty lines on the ticket preview in the service view.' =>

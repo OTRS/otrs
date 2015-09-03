@@ -2848,6 +2848,7 @@ sub Data {
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'Remove Ticket Customer User' => 'Kundenbenutzer des Tickets entfernen',
         'Get all' => 'Alles holen',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Ausgehende E-Mail',
@@ -3559,9 +3560,9 @@ sub Data {
             'Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default loop protection module.' => 'Standard "Loop Protection"-Modul',
         'Default queue ID used by the system in the agent interface.' => 'Standard-Queue-ID welche von OTRS in der Agentenoberfläche verwendet wird.',
-        'Default skin for OTRS 3.0 interface.' => 'Standard-Skin für die OTRS 3.0 Oberfläche',
         'Default skin for the agent interface (slim version).' => 'Standard-Skin für die Agentenoberfläche (Slim)',
         'Default skin for the agent interface.' => 'Standard-Skin für die Agentenoberfläche',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Standard-Ticket-ID welche von OTRS in der Agentenoberfläche verwendet wird.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -3978,7 +3979,7 @@ sub Data {
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
             '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
-            '',
+            'Definiert das Log Module für das System. "File" schreibt alle Meldungen in das angegebene Logfile, "SysLog" nutzt den Syslog Deamon des Systems, z.B. syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
@@ -4017,7 +4018,7 @@ sub Data {
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
             '',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
-            '',
+            'Definiert, welches Modul für das Speichern der Session Daten verwendet werden soll. Mit "DB" kann der Anzeige Server getrennt vom DB-Server betrieben werden. "FS" ist schneller.',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
             'Definiert den Namen der Anwendung, die in der Weboberfläche, in Tabs und in der Titelleiste des Webbrowser angezeigt wird.',
         'Defines the name of the column to store the data in the preferences table.' =>
@@ -4090,7 +4091,7 @@ sub Data {
         'Defines the path and TTF-File to handle proportional font in PDF documents.' =>
             '',
         'Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).' =>
-            '',
+            'Definiert den Pfad, in welchem der Scheduler die Konsolenausgabe speichern soll (SchedulerOUT.log und SchedulerERR.log).',
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.' =>
             '',
         'Defines the path to PGP binary.' => 'Bestimmt den Pfad zur PGP-Binärdatei.',
@@ -4120,7 +4121,7 @@ sub Data {
         'Defines the state of a ticket if it gets a follow-up.' => 'Definiert den Status eines Tickets, wenn ein Follow-Up eingeht.',
         'Defines the state type of the reminder for pending tickets.' => 'Definiert den Statusttyp des Reminders für Tickets die auf "Warten" gesetzt sind.',
         'Defines the subject for notification mails sent to agents, about new password.' =>
-            '',
+            'Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Agenten geschickt werden. ',
         'Defines the subject for notification mails sent to agents, with token about new requested password.' =>
             '',
         'Defines the subject for notification mails sent to customers, about new account.' =>
@@ -4133,7 +4134,7 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Definiert die E-Mail-Adresse des System-Administrators. Sie wird in den Fehleranzeigen des Programms angezeigt.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            '',
+            'Definiert die System ID. Jede Ticketnummer und HTTP Sitzung enthält diese ID. Das stellt sicher, dass nur Tickets in das Ticketsystem aufgenommen werden, welche zum eigenen Ticketsystem gehören (nützlich, wenn zwischen zwei Instanzen von OTRS kommuniziert wird).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -4218,7 +4219,7 @@ sub Data {
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
-            '',
+            'Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der Volltextsuche eingegeben werden.',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
@@ -4302,7 +4303,7 @@ sub Data {
         'Enable keep-alive connection header for SOAP responses.' => 'Keep-Alive-Verbindungsheader für SOAP-Responses aktivieren.',
         'Enabled filters.' => 'Filter aktiviert.',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
-            '',
+            'Aktiviert die PDF Ausgabe. Das CPAN Modul PDF::API2 wird benötigt, wenn es nicht installiert ist, wird die PDF Ausgabe deaktiviert. ',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
         'Enables S/MIME support.' => 'Aktiviert unterstützung für S/MIME.',
@@ -4531,7 +4532,7 @@ sub Data {
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Wenn diese Option aktiviert ist, werden die verschiedenen Übersichtsseiten (Dashboard, LockedView, Queue-Ansicht) automatisch nach der angegebenen Zeit aktualisiert.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
-            '',
+            'Wenn aktiviert, öffnet sich die erste Ebene des Hauptmenüs beim schon beim Überfahren der Maus (anstelle nur beim Klick).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
@@ -4543,11 +4544,11 @@ sub Data {
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
-            '',
+            'Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, geben Sie hier den DSN zu der Datenbank an. ',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.' =>
-            '',
+            'Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, können Sie hier das Passwort, um sich an der Datenbank zu authentifizieren, angeben',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.' =>
-            '',
+            'Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, können Sie hier den Benutzernamen, um sich an der Datenbank zu authentifizieren, angeben',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
         'Includes article create times in the ticket search of the agent interface.' =>
@@ -4638,14 +4639,14 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Maximale Anzahl von Tickets, die im Suchergebnis des Kunden-Interfaces angezeigt werden sollen.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
-            '',
+            'Maximale Anzahl von Tickets, die als Ergebnis dieser Aktion angezeigt werden sollen. ',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Modul zum Überprüfen von Kundenberechtigungen.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            '',
+            'Module zum überprüfen ob der Benutzer Mitglied einer speziellen Gruppe ist. Der Zugriff wird gestattet, wenn der Benutzer in der angegebenen Gruppe ist und ro und rw Berechtigungen hat.',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => 'Modul zur Überprüfung des Ticketverantwortlichen.',
@@ -4656,7 +4657,7 @@ sub Data {
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul um signierte Nachrichten zu verfassen (PGP oder S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul um verschlüsselte Nachrichten zu verassen (PGP oder S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
-            '',
+            'Modul zum filtern und bearbeiten von eingehenden Nachrichten. Blockiere/Ignoriere alle Nachrichten mit einer noreply@ Absender-Adresse.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
         'Module to generate accounted time ticket statistics.' => 'Modul zur Generierung von Statistiken  für die benötigte Bearbeitungszeit.',
@@ -4852,7 +4853,7 @@ sub Data {
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            '',
+            'Führt das System im "Demo" Modus aus. Wenn die Einstellung auf "Ja" gesetzt ist, können Agenten Einstellungen, wie die Sprachauswahl oder das Design über die Agenten Weboberfläche ändern. Diese Einstellungen sind nur für die aktuelle Session gültig. Agenten können ihr Passwort nicht ändern.',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
         'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -4866,7 +4867,7 @@ sub Data {
         'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
-            '',
+            'Auswahl wie Uploads über die Web-Oberfläche gehandhabt werden sollen. "DB" speichert alle Uploads in der Datenbank, "FS" nutzt das Dateisystem.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
@@ -4883,7 +4884,7 @@ sub Data {
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
-            '',
+            'Versendet alle ausgehenden E-Mails via BCC zu der angegebenen Adresse. Bitte nutzen Sie dies ausschließlich für Backups.',
         'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
             '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
@@ -4939,19 +4940,19 @@ sub Data {
         'Sets the default link type of splitted tickets in the agent interface.' =>
             '',
         'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
-            '',
+            'Setzt die Standard Nachricht für den Hinweis, der auf der Agenten- und Kunden-Oberfläche angezeigt wird, wenn sich das System im Wartungsmodus befindet. ',
         'Sets the default message for the notification is shown on a running system maintenance period.' =>
-            '',
+            'Setzt die Standard Nachricht für den Hinweis, der angezeigt wird, wenn das System im Wartungsmodus läuft. ',
         'Sets the default next state for new phone tickets in the agent interface.' =>
-            '',
+            'Setzt den Standard Ticket-Status für neue Telefon-Tickets in der Agenten-Oberfläche. ',
         'Sets the default next ticket state, after the creation of an email ticket in the agent interface.' =>
-            '',
+            'Setzt den Standard Ticket-Status für neue E-Mail-Tickets in der Agenten-Oberfläche. ',
         'Sets the default note text for new telephone tickets. E.g \'New ticket via call\' in the agent interface.' =>
-            '',
+            'Setzt die Standard Notiz für neue Telefon-Tickets. z.B. "Neues Ticket durch Anruf" in der Agenten Oberfläche',
         'Sets the default priority for new email tickets in the agent interface.' =>
-            '',
+            'Setzt die Standard Priorität für neue E-Mail-Tickets in der Agenten-Oberfläche.',
         'Sets the default priority for new phone tickets in the agent interface.' =>
-            '',
+            'Setzt die Standard Priorität für neue Telefon-Tickets in der Agenten-Oberfläche.',
         'Sets the default sender type for new email tickets in the agent interface.' =>
             '',
         'Sets the default sender type for new phone ticket in the agent interface.' =>
@@ -5215,7 +5216,7 @@ sub Data {
             '',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             '',
-        'Shows information on how to start OTRS Scheduler' => '',
+        'Shows information on how to start OTRS Scheduler' => 'Zeigt Informationen an, wie der OTRS Scheduler gestartet wird',
         'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
@@ -5297,7 +5298,7 @@ sub Data {
             '',
         'Specifies the directory where SSL certificates are stored.' => 'Legt das Verzeichnis, wo SSL-Zertifikate gespeichert sind, fest.',
         'Specifies the directory where private SSL certificates are stored.' =>
-            '',
+            'Legt das Verzeichnis fest, in welchem die privaten SSL Zertifikate gespeichert sind. ',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             '',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -5308,16 +5309,16 @@ sub Data {
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angezeigt wird.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
-            '',
-        'Specifies the path of the file for the performance log.' => '',
+            'Gibt den Pfad für die Datei mit dem Logo in der Kopfzeile der Webseite an. (gif|jpg|pnp, 700 x 100 Pixel).',
+        'Specifies the path of the file for the performance log.' => 'Hinterlegt den Pfad für die Datei des Performance Logs. ',
         'Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.' =>
-            '',
+            'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Excel Dateien in der Weboberfläche erlaubt. ',
         'Specifies the path to the converter that allows the view of Microsoft Word files, in the web interface.' =>
-            '',
+            'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Word Dateien in der Weboberfläche erlaubt. ',
         'Specifies the path to the converter that allows the view of PDF documents, in the web interface.' =>
-            '',
+            'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von PDF Dokumenten in der Weboberfläche erlaubt. ',
         'Specifies the path to the converter that allows the view of XML files, in the web interface.' =>
-            '',
+            'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von XML Dateien in der Weboberfläche erlaubt. ',
         'Specifies the right margin of the chart.' => '',
         'Specifies the text color of the chart (e. g. caption).' => '',
         'Specifies the text color of the legend.' => 'Legt die Textfarbe der Legende fest.',
@@ -5365,19 +5366,19 @@ sub Data {
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
-            '',
+            'Das Logo, das für das Design "default" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo"',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
-            '',
+            'Das Logo, das für das Design "ivory" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo"',
         'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
-            '',
+            'Das Logo, das für das Design "ivory-slim" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo"',
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
-            '',
+            'Das Logo, das für das Design "slim" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo"',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
+            'Das Logo, das im Agenten-Interface angezeigt wird. Die URL zu dem Bild kann entweder eine relative URL zum Designverzeichnis mit dem Bild sein, oder eine vollständige URL zu einem anderen Webserver.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
+            'Das Logo, das im Kunden-Interface angezeigt wird. Die URL zu dem Bild kann entweder eine relative URL zum Designverzeichnis mit dem Bild sein, oder eine vollständige URL zu einem anderen Webserver.',
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
-            '',
+            'Das Logo, das oberhalb der Login-Maske im Agenten-Interface angezeigt wird. Die URL zu dem Bild muss die relative URL zum Designverzeichnis mit dem Bild sein.',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             '',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>

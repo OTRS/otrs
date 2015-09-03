@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-08-25 09:04+0000\n"
+"PO-Revision-Date: 2015-08-25 15:14+0000\n"
 "Last-Translator: Daniel Pogač <dano.pogac@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -810,7 +810,7 @@ msgstr "Prosím kontaktujte administrátora."
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Prihlásenie úspešné, ale "
 
 #. Template: AAABase
 msgid ""
@@ -1266,7 +1266,7 @@ msgstr "Vážená pani %s,"
 
 #. Template: AAABase
 msgid "Dear %s,"
-msgstr "Vážená(ý) %s,"
+msgstr "Vážená/ý %s,"
 
 #. Template: AAABase
 msgid "Hello %s,"
@@ -1280,79 +1280,79 @@ msgstr "Zadanú adresu nieje možné použiť pre registráciu. Kontaktujte syst
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr ""
+msgstr "Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte si svoj email."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
-msgstr ""
+msgstr "Kliknite na Späť a skúste znovu prosím."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr ""
+msgstr "Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj email."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr ""
+msgstr "Na adresu %s bolo odoslané nové heslo. Skontrolujte si svoj email."
 
 #. Template: AAABase
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Nadchádzajúce udalosti."
 
 #. Template: AAABase
 msgid "Event"
-msgstr ""
+msgstr "Udalosť"
 
 #. Template: AAABase
 msgid "Events"
-msgstr ""
+msgstr "Udalosti"
 
 #. Template: AAABase
 msgid "Invalid Token!"
-msgstr ""
+msgstr "Nesprávny token!"
 
 #. Template: AAABase
 msgid "more"
-msgstr ""
+msgstr "viac"
 
 #. Template: AAABase
 msgid "Collapse"
-msgstr ""
+msgstr "Zbaliť"
 
 #. Template: AAABase
 msgid "Shown"
-msgstr ""
+msgstr "Zobrazené"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr ""
+msgstr "Zobrazení klientskí užívatelia."
 
 #. Template: AAABase
 msgid "News"
-msgstr ""
+msgstr "Novinky"
 
 #. Template: AAABase
 msgid "Product News"
-msgstr ""
+msgstr "Produktové novinky"
 
 #. Template: AAABase
 msgid "OTRS News"
-msgstr ""
+msgstr "OTRS novinky"
 
 #. Template: AAABase
 msgid "7 Day Stats"
-msgstr ""
+msgstr "7 dňová štatistika"
 
 #. Template: AAABase
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr ""
+msgstr "Process Management infromácie nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy."
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Balík nieje overený OTRS skupinou. Neodporúča sa používať tento balík."
 
 #. Template: AAABase
 msgid ""
@@ -1361,207 +1361,207 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Ak budete pokračovať v inštalácii balíka, môžu nastať nasledovné problémy!<br><br>&nbsp;-Bezpečnostné problémy<br>&nbsp;-Problémy so stabilitou<br>&nbsp;-Výkonnostné problémy<br><br>Upozorňujeme že problémy spôsobené týmto balíkom nie sú kryté OTRS servisnou zmluvou!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Označiť"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Odznačiť"
 
 #. Template: AAABase
 msgid "Bold"
-msgstr ""
+msgstr "Tučné"
 
 #. Template: AAABase
 msgid "Italic"
-msgstr ""
+msgstr "Šikmé"
 
 #. Template: AAABase
 msgid "Underline"
-msgstr ""
+msgstr "Podčiarknuté"
 
 #. Template: AAABase
 msgid "Font Color"
-msgstr ""
+msgstr "Farba písma"
 
 #. Template: AAABase
 msgid "Background Color"
-msgstr ""
+msgstr "Farba pozadia"
 
 #. Template: AAABase
 msgid "Remove Formatting"
-msgstr ""
+msgstr "Odstrániť formátovanie"
 
 #. Template: AAABase
 msgid "Show/Hide Hidden Elements"
-msgstr ""
+msgstr "Zobraziť/Skryť Skyté prvky"
 
 #. Template: AAABase
 msgid "Align Left"
-msgstr ""
+msgstr "Zarovnať doľava"
 
 #. Template: AAABase
 msgid "Align Center"
-msgstr ""
+msgstr "Zarovnať na stred"
 
 #. Template: AAABase
 msgid "Align Right"
-msgstr ""
+msgstr "Zarovnať doprava"
 
 #. Template: AAABase
 msgid "Justify"
-msgstr ""
+msgstr "Zarovnať podľa okrajov"
 
 #. Template: AAABase
 msgid "Header"
-msgstr "Typ"
+msgstr "Hlavička"
 
 #. Template: AAABase
 msgid "Indent"
-msgstr ""
+msgstr "Zarážka"
 
 #. Template: AAABase
 msgid "Outdent"
-msgstr ""
+msgstr "Odsek"
 
 #. Template: AAABase
 msgid "Create an Unordered List"
-msgstr ""
+msgstr "Vytvoriť odrážky"
 
 #. Template: AAABase
 msgid "Create an Ordered List"
-msgstr ""
+msgstr "Vytvoriť číslovanie"
 
 #. Template: AAABase
 msgid "HTML Link"
-msgstr ""
+msgstr "HTML Odkaz"
 
 #. Template: AAABase
 msgid "Insert Image"
-msgstr ""
+msgstr "Vložiť obrázok"
 
 #. Template: AAABase
 msgid "CTRL"
-msgstr ""
+msgstr "CTRL"
 
 #. Template: AAABase
 msgid "SHIFT"
-msgstr ""
+msgstr "SHIFT"
 
 #. Template: AAABase
 msgid "Undo"
-msgstr ""
+msgstr "Späť"
 
 #. Template: AAABase
 msgid "Redo"
-msgstr ""
+msgstr "Znova"
 
 #. Template: AAABase
 msgid "Scheduler process is registered but might not be running."
-msgstr ""
+msgstr "Plánovací proces je registrovaný, ale nemusí byť spustený."
 
 #. Template: AAABase
 msgid "Scheduler is not running."
-msgstr ""
+msgstr "Plánovací process nieje spustený."
 
 #. Template: AAABase
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "Všetky relácie budú ukončené okrem Vašej."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Nie je možné sa spojiť s registračným server. Vyskúšajte neskôr prosím."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr prosím."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Nieje možné spracovať odpoveď zo servera. Vyskúšajte neskôr prosím."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Užívateľské meno a heslo nie sú správne. Skúste znova prosím."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "Vybratý proces je nesprávny!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Upgradujte na %s!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Choď do update centra %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "Licencia %s čoskoro expiruje. Kontaktujte %s pre obnovenie kontraktu!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Update pre %s je dostupný, ale koliduje s verziou Vášho frameworku. Updatujte najskôr framework prosím!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Váš systém bol úspešne updatovaný na %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Počas update na %s sa vyskytol problém."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s bol úspešne reinštalovaný."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Počas reinštalácie %s sa vyskytol problém."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Váš %s bol úspešne updatovaný."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Počas update %s sa vyskytol problém."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s bol úspešne odinštalovaný."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Počas odinštalácie %s sa vyskytol problém."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "Nový rok"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "Medzinárodný deň práce"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
-msgstr ""
+msgstr "Vianoce"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr ""
+msgstr "1. sviatok vianočný"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr ""
+msgstr "2. sviatok vianočný"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
@@ -1569,19 +1569,19 @@ msgstr ""
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr ""
+msgstr "OTRS ako requester"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
-msgstr ""
+msgstr "OTRS ako provider"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr ""
+msgstr "Webservice \"%s\" vytvorený!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr ""
+msgstr "Webservice \"%s\" updatovaný!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1633,51 +1633,51 @@ msgstr "dec"
 
 #. Template: AAAMonth
 msgid "January"
-msgstr ""
+msgstr "Január"
 
 #. Template: AAAMonth
 msgid "February"
-msgstr ""
+msgstr "Február"
 
 #. Template: AAAMonth
 msgid "March"
-msgstr ""
+msgstr "Marec"
 
 #. Template: AAAMonth
 msgid "April"
-msgstr ""
+msgstr "Apríl"
 
 #. Template: AAAMonth
 msgid "May_long"
-msgstr "máj"
+msgstr "Máj"
 
 #. Template: AAAMonth
 msgid "June"
-msgstr "jún"
+msgstr "Jún"
 
 #. Template: AAAMonth
 msgid "July"
-msgstr ""
+msgstr "Júl"
 
 #. Template: AAAMonth
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #. Template: AAAMonth
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #. Template: AAAMonth
 msgid "October"
-msgstr ""
+msgstr "Október"
 
 #. Template: AAAMonth
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #. Template: AAAMonth
 msgid "December"
-msgstr ""
+msgstr "December"
 
 #. Template: AAAPreferences
 msgid "Preferences updated successfully!"
@@ -1685,15 +1685,15 @@ msgstr "Predvoľby úspešne aktualizované!"
 
 #. Template: AAAPreferences
 msgid "User Profile"
-msgstr ""
+msgstr "Užívateľský profil"
 
 #. Template: AAAPreferences
 msgid "Email Settings"
-msgstr ""
+msgstr "Email nastavenia"
 
 #. Template: AAAPreferences
 msgid "Other Settings"
-msgstr ""
+msgstr "Ostané nastavenia"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1701,7 +1701,7 @@ msgstr "Zmena hesla"
 
 #. Template: AAAPreferences
 msgid "Current password"
-msgstr ""
+msgstr "Aktuálne heslo"
 
 #. Template: AAAPreferences
 msgid "New password"
@@ -1709,7 +1709,7 @@ msgstr "Nové heslo"
 
 #. Template: AAAPreferences
 msgid "Verify password"
-msgstr ""
+msgstr "Opakujte heslo"
 
 #. Template: AAAPreferences
 msgid "Spelling Dictionary"
@@ -1717,7 +1717,7 @@ msgstr "Slovník pravopisu."
 
 #. Template: AAAPreferences
 msgid "Default spelling dictionary"
-msgstr ""
+msgstr "Predvolený slovník pravopisu"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
@@ -1725,214 +1725,214 @@ msgstr "Maximálny počet požiadaviek zobrazovaných v prehľade."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
-msgstr ""
+msgstr "Aktuálne heslo je nesprávne. Opakujte znovu prosím!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr ""
+msgstr "Nové heslá nesúhlasia. Opakujte znovu prosím!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr ""
+msgstr "Heslo obsahuje nepovolené znaky!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr ""
+msgstr "Heslo musí obsahovať minimálne %s znakov!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "characters!"
-msgstr ""
+msgstr "Heslo musí obsahovať minimálne 2 malé a 2 veľké znaky!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr ""
+msgstr "Heslo musí obsahovať aspoň jednu číslicu!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 characters!"
-msgstr ""
+msgstr "Heslo musí obsahovať aspoň 2 znaky!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, this password has already been used. Please choose a "
 "new one!"
-msgstr ""
+msgstr "Heslo už existuje. Vyberte prosím iné heslo!"
 
 #. Template: AAAPreferences
 msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr ""
+msgstr "Vyberte znak oddeľovača použitý v CSV súboroch (štatistiky a vyhľadávanie). Ak nevyberiete oddeľovač, bude použitý predvolený oddeľovač pre váš jazyk."
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
-msgstr ""
+msgstr "CSV oddeľovač"
 
 #. Template: AAAStats
 msgid "Stat"
-msgstr ""
+msgstr "Štatistika"
 
 #. Template: AAAStats
 msgid "Sum"
-msgstr ""
+msgstr "Súčet"
 
 #. Template: AAAStats
 msgid "No (not supported)"
-msgstr ""
+msgstr "Nie (nieje podporované)"
 
 #. Template: AAAStats
 msgid "Days"
-msgstr ""
+msgstr "Dni"
 
 #. Template: AAAStats
 msgid "Please fill out the required fields!"
-msgstr ""
+msgstr "Prosím vyplňte požadované polia!"
 
 #. Template: AAAStats
 msgid "Please select a file!"
-msgstr ""
+msgstr "Prosím vyberte súbor!"
 
 #. Template: AAAStats
 msgid "Please select an object!"
-msgstr ""
+msgstr "Prosím vyberte objekt!"
 
 #. Template: AAAStats
 msgid "Please select a graph size!"
-msgstr ""
+msgstr "Prosím vyberte veľkosť grafu!"
 
 #. Template: AAAStats
 msgid "Please select one element for the X-axis!"
-msgstr ""
+msgstr "Prosím vyberte jeden prvok pre os X!"
 
 #. Template: AAAStats
 msgid ""
 "Please select only one element or turn off the button 'Fixed' where the "
 "select field is marked!"
-msgstr ""
+msgstr "Prosím vyberte len jeden prvok, alebo vypnite FIxed pri označenom poli."
 
 #. Template: AAAStats
 msgid ""
 "If you use a checkbox you have to select some attributes of the select "
 "field!"
-msgstr ""
+msgstr "Ak používate checkbox, vyberte niektoré atribúty z výberového poľa!"
 
 #. Template: AAAStats
 msgid ""
 "Please insert a value in the selected input field or turn off the 'Fixed' "
 "checkbox!"
-msgstr ""
+msgstr "Zadajte hodnotu do vybraného poľa alebo vypnite Fixed checkbox!"
 
 #. Template: AAAStats
 msgid "The selected end time is before the start time!"
-msgstr ""
+msgstr "Nastavený koncový čas je menší ako začiatočný čas!"
 
 #. Template: AAAStats
 msgid "You have to select one or more attributes from the select field!"
-msgstr ""
+msgstr "Vyberte jeden alebo viac atribútov z výberového poľa!"
 
 #. Template: AAAStats
 msgid "The selected Date isn't valid!"
-msgstr ""
+msgstr "Zvolený dátum je neplatný!"
 
 #. Template: AAAStats
 msgid "Please select only one or two elements via the checkbox!"
-msgstr ""
+msgstr "Vyberte prosím jeden alebo dva prvky cez checkbox!"
 
 #. Template: AAAStats
 msgid "If you use a time scale element you can only select one element!"
-msgstr ""
+msgstr "Ak používate meranie času, môžete vybrať iba jeden prvok!"
 
 #. Template: AAAStats
 msgid "You have an error in your time selection!"
-msgstr ""
+msgstr "Máte chybu vo výbere času!"
 
 #. Template: AAAStats
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale!"
-msgstr ""
+msgstr "Zadaný interval je príliš malý, vyberte vačší časový rozsah!"
 
 #. Template: AAAStats
 msgid "The selected start time is before the allowed start time!"
-msgstr ""
+msgstr "Zadaný počiatočný čas je pred povoleným počiatočným časom!"
 
 #. Template: AAAStats
 msgid "The selected end time is after the allowed end time!"
-msgstr ""
+msgstr "Nastavený koncový čas je po povolenom koncovom čase!"
 
 #. Template: AAAStats
 msgid "The selected time period is larger than the allowed time period!"
-msgstr ""
+msgstr "Zvolený časový úsek je väčší ako povolený časový úsek!"
 
 #. Template: AAAStats
 msgid "Common Specification"
-msgstr ""
+msgstr "Spoločné špecifikácie"
 
 #. Template: AAAStats
 msgid "X-axis"
-msgstr ""
+msgstr "Os X"
 
 #. Template: AAAStats
 msgid "Value Series"
-msgstr ""
+msgstr "Série hodnôt"
 
 #. Template: AAAStats
 msgid "Restrictions"
-msgstr ""
+msgstr "Obmedzenia"
 
 #. Template: AAAStats
 msgid "graph-lines"
-msgstr ""
+msgstr "čiary"
 
 #. Template: AAAStats
 msgid "graph-bars"
-msgstr ""
+msgstr "stĺpce"
 
 #. Template: AAAStats
 msgid "graph-hbars"
-msgstr ""
+msgstr "h stĺpce"
 
 #. Template: AAAStats
 msgid "graph-points"
-msgstr ""
+msgstr "body"
 
 #. Template: AAAStats
 msgid "graph-lines-points"
-msgstr ""
+msgstr "čiary s bodmi"
 
 #. Template: AAAStats
 msgid "graph-area"
-msgstr ""
+msgstr "oblasti"
 
 #. Template: AAAStats
 msgid "graph-pie"
-msgstr ""
+msgstr "koláč"
 
 #. Template: AAAStats
 msgid "extended"
-msgstr ""
+msgstr "rozšírené"
 
 #. Template: AAAStats
 msgid "Agent/Owner"
-msgstr ""
+msgstr "Agent/Vlastník"
 
 #. Template: AAAStats
 msgid "Created by Agent/Owner"
-msgstr ""
+msgstr "Vytvorené Agentom/Vlastníkom"
 
 #. Template: AAAStats
 msgid "Created Priority"
-msgstr ""
+msgstr "Vytvorené s prioritou"
 
 #. Template: AAAStats
 msgid "Created State"
-msgstr ""
+msgstr "Vytvorené so stavom"
 
 #. Template: AAAStats
 msgid "Create Time"
-msgstr ""
+msgstr "Čas vytvorenia"
 
 #. Template: AAAStats
 msgid "CustomerUserLogin"

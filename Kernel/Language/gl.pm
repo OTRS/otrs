@@ -2848,6 +2848,7 @@ sub Data {
         'Select this customer as the main customer.' => 'Seleccionar este cliente como cliente principal.',
         'Remove Ticket Customer User' => 'Elimine Ticket Usuario Cliente',
         'Get all' => 'Obteña todos',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Correo electrónico De Ida',
@@ -3559,9 +3560,9 @@ sub Data {
             'Datos por defecto para usar no atributo para a pantalla busca de ticket. Exemplo: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default loop protection module.' => 'Módulo de protección de bucle por defecto.',
         'Default queue ID used by the system in the agent interface.' => 'ID de cola por defecto utilizada polo sistema na interface de axente.',
-        'Default skin for OTRS 3.0 interface.' => 'Aparencia predeterminada da interface de OTRS 3.0.',
         'Default skin for the agent interface (slim version).' => 'Aparencia predeterminada da interface do axente (versión lixeira).',
         'Default skin for the agent interface.' => 'Aparencia predeterminada da interface do axente.',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID de ticket por defecto utilizado polo sistema na interface de axente.',
         'Default ticket ID used by the system in the customer interface.' =>

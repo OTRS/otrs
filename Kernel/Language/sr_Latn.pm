@@ -2848,6 +2848,7 @@ sub Data {
         'Select this customer as the main customer.' => 'Označi ovog korisnika kao glavnog korisnika.',
         'Remove Ticket Customer User' => 'Ukloni tiket korisnik',
         'Get all' => 'Uzmi sve',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
@@ -3559,9 +3560,9 @@ sub Data {
             'Podrazumevani podaci za korišćenje na atributima za prikaz pretrage tiketa. Primer: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default loop protection module.' => 'Podrazumevani modul zaštite od petlje.',
         'Default queue ID used by the system in the agent interface.' => 'Podrazumevani ID reda koji koristi sistem u interfejsu operatera.',
-        'Default skin for OTRS 3.0 interface.' => 'Podrazumevani izgled okruženja za OTRS 3.0 interfejs.',
         'Default skin for the agent interface (slim version).' => 'Podrazumevani izgled okruženja za interfejs operatera (slaba verzija).',
         'Default skin for the agent interface.' => 'Podrazumevani izgled okruženja za interfejs operatera.',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Podrazumevani ID tiketa koji koristi sistem u interfejsu operatera.',
         'Default ticket ID used by the system in the customer interface.' =>

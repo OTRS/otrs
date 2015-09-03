@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-08-21 12:33+0000\n"
+"PO-Revision-Date: 2015-09-03 10:24+0000\n"
 "Last-Translator: Arturo Mondelo <arturo.mondelo@hotmail.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -6095,29 +6095,29 @@ msgstr "Una actualización para tu %s está disponible! Por favor actualice cuan
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%s Desplegado correctamente"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr ""
+msgstr "Felicidades, su % s se ha instalado correctamente y se encuentra actualizado!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Actualizar a %s"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
-msgstr ""
+msgstr "%s estará disponible pronto. Por favor, puedes volver a intentarlo dentro de unos días ."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please have a look at %s for more information."
-msgstr ""
+msgstr "Por favor, eche un vistazo a %s para más información."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
-msgstr ""
+msgstr "Su OTRS libre es la base para todas las acciones futuras. Por favor regístrese primero antes de continuar con el proceso de mejora de %s!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
@@ -6132,23 +6132,23 @@ msgstr "El Registro no está disponible para su sistema. Por favor revise su con
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
-msgstr ""
+msgstr "Antes de que pueda beneficiarse de %s , por favor póngase en contacto con %s para obtener su contrato de %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
-msgstr ""
+msgstr "Conexión a cloud.otrs.com a través de HTTPS no se pudo establecer . Por favor, asegúrese de que su OTRS puede conectarse a través del puerto 443 cloud.otrs.com."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
-msgstr ""
+msgstr "Con su contrato existente sólo se puede utilizar una pequeña parte de la %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
-msgstr ""
+msgstr "Si quieres sacar el máximo provecho de la  %s consiga su mejora de contrato ahora! Contacte %s."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
@@ -6162,7 +6162,7 @@ msgstr "Ir al Manejador de Paquetes de OTRS"
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
-msgstr ""
+msgstr "Lo sentimos , pero actualmente no se puede degradar debido a los siguientes paquetes que dependen de %s:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
@@ -6171,41 +6171,41 @@ msgstr "Vendedor"
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
-msgstr ""
+msgstr "Por favor, desinstale los paquetes primero utilizando el gestor de paquetes y vuelva a intentarlo ."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "You are about to downgrade to OTRS Free and will lose the following features"
 " and all data related to these:"
-msgstr ""
+msgstr "Vas a degradar a OTRS gratuito y perderá las siguientes características y todos los datos relacionados con los siguientes:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Chat"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
-msgstr ""
+msgstr "Vista LineaTiempo en ticket zoom"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
-msgstr ""
+msgstr "CampoDinamico ContactoConDatos"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
-msgstr ""
+msgstr "CampoDinamico BaseDatos"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
-msgstr ""
+msgstr "ANS Dialogo Selección"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Ticket Attachment View"
-msgstr ""
+msgstr "Vista Adjuntos Ticket"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr ""
+msgstr "La apariencia %s"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -6213,7 +6213,7 @@ msgstr "Administración PGP"
 
 #. Template: AdminPGP
 msgid "Use this feature if you want to work with PGP keys."
-msgstr ""
+msgstr "Utilice esta función si desea trabajar con claves PGP."
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -6225,7 +6225,7 @@ msgstr "De esta forma puede editar directamente el anillo de Claves configurado 
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
-msgstr ""
+msgstr "Introducción a PGP"
 
 #. Template: AdminPGP
 msgid "Result"
@@ -6237,7 +6237,7 @@ msgstr "Identificador"
 
 #. Template: AdminPGP
 msgid "Bit"
-msgstr ""
+msgstr "Bit"
 
 #. Template: AdminPGP
 msgid "Fingerprint"
@@ -6290,7 +6290,7 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "Por favor, asegúrese de que su base de datos acepta paquetes de más de % s MB de tamaño (actualmente sólo acepta paquetes hasta % s MB ) . Por favor, adapte el ajuste max_allowed_packet de su base de datos con el fin de evitar errores."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -6322,7 +6322,7 @@ msgstr "Repositorio Local"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr ""
+msgstr "Este paquete está verificado por OTRSverify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -6334,13 +6334,13 @@ msgstr "Reinstalar"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr ""
+msgstr "Características sólo para clientes %s"
 
 #. Template: AdminPackageManager
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
-msgstr ""
+msgstr "Con %s , usted puede beneficiarse de las siguientes características opcionales. Por favor contacte con %s si necesita más información."
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -6352,11 +6352,11 @@ msgstr "Reconstruir paquete"
 
 #. Template: AdminPackageManager
 msgid "Metadata"
-msgstr ""
+msgstr "Metadatos"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
-msgstr ""
+msgstr "Cambio de Log"
 
 #. Template: AdminPackageManager
 msgid "Date"
@@ -6364,7 +6364,7 @@ msgstr "Fecha"
 
 #. Template: AdminPackageManager
 msgid "List of Files"
-msgstr ""
+msgstr "Lista de Archivos"
 
 #. Template: AdminPackageManager
 msgid "Permission"
@@ -6396,7 +6396,7 @@ msgstr "Límite"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
-msgstr ""
+msgstr "Diferencias de archivo para el archivo %s"
 
 #. Template: AdminPerformanceLog
 msgid "Performance Log"
@@ -6424,7 +6424,7 @@ msgstr "¡Archivo de trazas muy grande!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
-msgstr ""
+msgstr "El archivolog es demasiado grande , es necesario reiniciarlo"
 
 #. Template: AdminPerformanceLog
 msgid "Overview"
@@ -6440,7 +6440,7 @@ msgstr "último"
 
 #. Template: AdminPerformanceLog
 msgid "Interface"
-msgstr ""
+msgstr "Interfaz"
 
 #. Template: AdminPerformanceLog
 msgid "Requests"
@@ -6486,7 +6486,7 @@ msgstr "Agregar filtro"
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr ""
+msgstr "Para enviar o filtrar los correos electrónicos entrantes basados ​​en encabezados de correo electrónico . La coincidencia usando Expresiones Regulares también es posible."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -6498,7 +6498,7 @@ msgstr "Si desea chequear sólo la dirección del email, use EMAILADDRESS:info@e
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr ""
+msgstr "Si utiliza Expresiones Regulares , también puede utilizar el valor emparejado en () como [***] en la acción 'Set' ."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -6506,11 +6506,11 @@ msgstr "Borrar este filtro"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr ""
+msgstr "Añada Filtro PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr ""
+msgstr "Esite Filtro PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
@@ -6518,43 +6518,43 @@ msgstr "El nombre es imprescindible."
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
-msgstr ""
+msgstr "Condición Filtro"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "Condición AND"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Comprobar encabezado email"
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "Negar"
 
 #. Template: AdminPostMasterFilter
 msgid "Look for value"
-msgstr ""
+msgstr "Busque valor"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
-msgstr ""
+msgstr "El campo tiene que ser una expresión regular válida o una palabra literal."
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr ""
+msgstr "Establecer Encabezados de Email"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Establecer encabezado de Email"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Establecer valor"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
-msgstr ""
+msgstr "El campo tiene que ser una palabra literal."
 
 #. Template: AdminPriority
 msgid "Priority Management"
@@ -6593,32 +6593,32 @@ msgid ""
 "Here you can upload a configuration file to import a process to your system."
 " The file needs to be in .yml format as exported by process management "
 "module."
-msgstr ""
+msgstr "Aquí puede cargar un archivo de configuración para importar un proceso a su sistema. El archivo debe estar en formato .yml como exportado por el módulo de gestión de procesos."
 
 #. Template: AdminProcessManagement
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Sobrescribir entidades existentes"
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
-msgstr ""
+msgstr "Configuración del proceso Cargar"
 
 #. Template: AdminProcessManagement
 msgid "Import process configuration"
-msgstr ""
+msgstr "Configuración del proceso de importación"
 
 #. Template: AdminProcessManagement
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
-msgstr ""
+msgstr "Para crear un nuevo proceso puede importar un proceso que se exportó desde otro sistema o crear uno completamente nuevo."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Changes to the Processes here only affect the behavior of the system, if you"
 " synchronize the Process data. By synchronizing the Processes, the newly "
 "made changes will be written to the Configuration."
-msgstr ""
+msgstr "Los cambios en los procesos aquí sólo afectan al comportamiento del sistema , si sincroniza los datos del Proceso . Mediante la sincronización de los Procesos , los cambios recién hechos se escribirán en la Configuración."
 
 #. Template: AdminProcessManagement
 msgid "Process name"
@@ -6647,7 +6647,7 @@ msgstr "Volver"
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Please note, that changing this activity will affect the following processes"
-msgstr ""
+msgstr "Tenga en cuenta , que el cambio de esta actividad afectará a los siguientes procesos"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
@@ -6665,199 +6665,199 @@ msgstr "Dialogos de Actividad"
 msgid ""
 "You can assign Activity Dialogs to this Activity by dragging the elements "
 "with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Puede asignar Diálogos de Actividad a esta Actividad arrastrando los elementos con el ratón en la lista de la izquierda a la lista de la derecha ."
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
-msgstr ""
+msgstr "Ordenar los elementos dentro de la lista también es posible mediante arrastrar y soltar ."
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
-msgstr ""
+msgstr "Filtros disponibles en Diálogos de Actividad "
 
 #. Template: AdminProcessManagementActivity
 msgid "Available Activity Dialogs"
-msgstr ""
+msgstr "Dialogos Actividad Disponibles"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
-msgstr ""
+msgstr "Cree Nueva Actividad de Diálogo"
 
 #. Template: AdminProcessManagementActivity
 msgid "Assigned Activity Dialogs"
-msgstr ""
+msgstr "Asignación de Diálogos Actividad"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
-msgstr ""
+msgstr "Tan pronto como use este botón o enlace , saldrá de esta pantalla y su estado actual se guardará automáticamente. ¿Quieres continuar?"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr ""
+msgstr "Tenga en cuenta que el cambio de este diálogo de actividad afectará a las siguientes actividades"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr ""
+msgstr "Tenga en cuenta que los usuarios clientes no serán capaces de ver o utilizar los siguientes campos : Propietario, Responsable, Bloqueo, TiempoEspera y IDCliente."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
-msgstr ""
+msgstr "El campo Cola sólo puede ser usado por clientes cuando crean un nuevo ticket."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
-msgstr ""
+msgstr "Diálogo Actividad"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity dialog Name"
-msgstr ""
+msgstr "Nombre diálogo actividad"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "Disponible en"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
-msgstr ""
+msgstr "Descripción (corta)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (long)"
-msgstr ""
+msgstr "Descripción (larga)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected permission does not exist."
-msgstr ""
+msgstr "El permiso seleccionado no existe."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Required Lock"
-msgstr ""
+msgstr "Bloqueo Requerido"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr ""
+msgstr "El bloqueo requerido seleccionado no existe."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr ""
+msgstr "Envíe Texto Aviso"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr ""
+msgstr "Texto Botón Enviar"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
-msgstr ""
+msgstr "Campos"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "You can assign Fields to this Activity Dialog by dragging the elements with "
 "the mouse from the left list to the right list."
-msgstr ""
+msgstr "Puede asignar Campos a esta Diálogo de Actividad arrastrando los elementos con el ratón de la lista de la izquierda a la lista de la derecha ."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Filter available fields"
-msgstr ""
+msgstr "Campos filtro disponibles"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
-msgstr ""
+msgstr "Campos Disponibles"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr ""
+msgstr "Campos Asignados"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Details for Field"
-msgstr ""
+msgstr "Edite Detalles para Campo"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
-msgstr ""
+msgstr "TipoArticulo"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
+msgstr "Mostrar"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Field Details"
-msgstr ""
+msgstr "Edite Detalles Campo"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
-msgstr ""
+msgstr "Interfaz de cliente no soporta tipos de artículo internos."
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "Ruta"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
-msgstr ""
+msgstr "Edite esta transición"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr ""
+msgstr "Acciones Transición"
 
 #. Template: AdminProcessManagementPath
 msgid ""
 "You can assign Transition Actions to this Transition by dragging the "
 "elements with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Puede asignar Acciones de Transición a esta Transición arrastrando los elementos con el ratón de la lista de la izquierda a la lista de la derecha ."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
-msgstr ""
+msgstr "Filtros disponibles Acciones Transición"
 
 #. Template: AdminProcessManagementPath
 msgid "Available Transition Actions"
-msgstr ""
+msgstr "Acciones Transición Disponibles"
 
 #. Template: AdminProcessManagementPath
 msgid "Create New Transition Action"
-msgstr ""
+msgstr "Crear Nueva Acción Transición"
 
 #. Template: AdminProcessManagementPath
 msgid "Assigned Transition Actions"
-msgstr ""
+msgstr "Acción Transición Asignada"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "Actividades"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
-msgstr ""
+msgstr "Filtrar Actividades..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Activity"
-msgstr ""
+msgstr "Crear Nueva Actividad"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr ""
+msgstr "Filtrar Diálogos Actividad..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
-msgstr ""
+msgstr "Transiciones"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr ""
+msgstr "Filtrar Transiciones..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
-msgstr ""
+msgstr "Crear Nueva Transición"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transition Actions..."
-msgstr ""
+msgstr "Filtrar Acciones Transición..."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
@@ -6865,7 +6865,7 @@ msgstr "Editar Porceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
-msgstr ""
+msgstr "Imprimir información proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
@@ -6873,42 +6873,42 @@ msgstr "Borrar Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Inactive Process"
-msgstr ""
+msgstr "Elimine Proceso Inactivo"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Available Process Elements"
-msgstr ""
+msgstr "Elementos Proceso Disponibles"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "The Elements listed above in this sidebar can be moved to the canvas area on"
 " the right by using drag'n'drop."
-msgstr ""
+msgstr "Los elementos listado anteriormente en esta barra lateral se pueden mover a la zona canvas de la derecha usando arrastrar y soltar ."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
-msgstr ""
+msgstr "Puede emplazar las Actividades en el área canvas para asignar esta Actividad al Proceso."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element"
 " from this sidebar over the Activity placed in the canvas area."
-msgstr ""
+msgstr "Para asignar un Diálogo de Actividad a una Actividad suelte el elemento del Diálogo de Actividad de esta barra lateral sobre la Actividad situada en el área canvas."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can start a connection between to Activities by dropping the Transition "
 "element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr ""
+msgstr "Puedes empezar una conexión entre Actividades soltando el elemento Transición sobre la Actividad de Inicio de la conexión. Después de esto puedes mover el extremo suelto de la flecha al Final Actividad."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
-msgstr ""
+msgstr "Las Acciones pueden ser asignadas a una Transición soltando el Elemento de Acción sobre la etiqueta de la Transición."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
@@ -6920,31 +6920,31 @@ msgstr "Nombre de Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
-msgstr ""
+msgstr "El estado seleccionado no existe."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Add and Edit Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "Añada y Edite Actividades, Diálogos de Actividad y Transiciones."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
-msgstr ""
+msgstr "Mostrar IDsEntidad"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the width of the Canvas"
-msgstr ""
+msgstr "Amplíe la anchura del Canvas"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the height of the Canvas"
-msgstr ""
+msgstr "Amplíe la altura del Canvas"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Activity from this Process"
-msgstr ""
+msgstr "Elimine la Actividad de este Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
-msgstr ""
+msgstr "Edite esta Actividad"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save settings"
@@ -6952,128 +6952,128 @@ msgstr "Guardar configuraciones"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "Guarde Actividades, Diálogos de Actividad y Transiciones"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Process?"
-msgstr ""
+msgstr "Quiere realmente borrar este Proceso?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr ""
+msgstr "Quiere realmente borrar esta Actividad?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
-msgstr ""
+msgstr "Quiere realmente borrar este Diálogo de Actividad?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition?"
-msgstr ""
+msgstr "Quiere realmente borrar esta Transición?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition Action?"
-msgstr ""
+msgstr "Quiere realmente borrar esta Acción de Transición?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this activity from the canvas? This can only be"
 " undone by leaving this screen without saving."
-msgstr ""
+msgstr "Quiere realmente eliminar esta actividad del canvas? Esto sólo puede ser deshecho abandonando esta pantalla sin guardar."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
-msgstr ""
+msgstr "Quiere realmente eliminar esta transición del canvas? Esto sólo puede ser deshecho abandonando esta pantalla sin guardar."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Hide EntityIDs"
-msgstr ""
+msgstr "Ocultar IDsEntidad"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Entity"
-msgstr ""
+msgstr "Borrar Entidad"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove Entity from canvas"
-msgstr ""
+msgstr "Eliminar Entidad de canvas"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity is already used in the Process. You cannot add it twice!"
-msgstr ""
+msgstr "Esta Actividad ya está siendo utilizada en el Proceso. No puede añadirla por duplicado!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "Esta Actividad no se puede borrar porque es la Actividad de Inicio."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "This Transition is already used for this Activity. You cannot use it twice!"
-msgstr ""
+msgstr "Esta Transición ya esta siendo utilizada para esta Actividad. No puede usarla por duplicado!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "This TransitionAction is already used in this Path. You cannot use it twice!"
-msgstr ""
+msgstr "Esta AcciónTransición ya esta siendo utilizada en esta Ruta. No puede usarla por duplicado!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Transition from this Process"
-msgstr ""
+msgstr "Elimine la Transición de este Proceso"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "No TransitionActions assigned."
-msgstr ""
+msgstr "No AccionesTransición asignadas."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The Start Event cannot loose the Start Transition!"
-msgstr ""
+msgstr "El Evento de Inicio no puede perder la Transición de Inicio!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
-msgstr ""
+msgstr "No se han asignado aún diálogos. Simplemente escoja un diálogo de actividad de la lista de la izquierda y arrástrela aquí."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
-msgstr ""
+msgstr "Una transición no conectada ya está colocada en el canvas. Por favor, conecte esta transición primero antes de hacer otra transición ."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr ""
+msgstr "En esta pantalla, puede crear un nuevo proceso . Con el fin de hacer que el nuevo proceso esté a disposición de los usuarios , por favor asegúrese de ajustar su estado a 'Activa' y sincronizar después de completar su trabajo."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
-msgstr ""
+msgstr "Comenzar Actividad"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
-msgstr ""
+msgstr "Contiene %s diálogo(s)"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned dialogs"
-msgstr ""
+msgstr "Diálogos asignados"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activities are not being used in this process."
-msgstr ""
+msgstr "Actividades no están siendo usadas en este proceso."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned fields"
-msgstr ""
+msgstr "Campos asignados"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activity dialogs are not being used in this process."
-msgstr ""
+msgstr "Diálogos de actividad no están siendo usados en este proceso."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition linking"
-msgstr ""
+msgstr "Condición de vinculación"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
@@ -7085,7 +7085,7 @@ msgstr "Condición"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
-msgstr ""
+msgstr "Transiciones no están siendo usadas en este proceso."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
@@ -7097,13 +7097,13 @@ msgstr "Configuración"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
-msgstr ""
+msgstr "Acciones de transición no están siendo usadas en este proceso."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Please note that changing this transition will affect the following "
 "processes"
-msgstr ""
+msgstr "Tenga en cuenta que el cambio de esta transición afectará a los siguientes procesos"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
@@ -7115,7 +7115,7 @@ msgstr "Nombre de la Transición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
-msgstr ""
+msgstr "Tipo de Vinculación entre Condiciones"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Condition"
@@ -7123,7 +7123,7 @@ msgstr "Eliminar esta Condición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking"
-msgstr ""
+msgstr "Tipo de Vinculación"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
@@ -7145,31 +7145,31 @@ msgstr "Añadir Nueva Condición"
 msgid ""
 "Please note that changing this transition action will affect the following "
 "processes"
-msgstr ""
+msgstr "Tenga en cuenta que el cambio de esta acción de transición afectará a los siguientes procesos"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
-msgstr ""
+msgstr "Acción de Transición"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Name"
-msgstr ""
+msgstr "Nombre Acción de Transición"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Module"
-msgstr ""
+msgstr "Módulo Acción de Transición"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Config Parameters"
-msgstr ""
+msgstr "Parámetros de Configuración"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
-msgstr ""
+msgstr "Elimine este Parámetro"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
-msgstr ""
+msgstr "Añada un nuevo Parámetro"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -7189,7 +7189,7 @@ msgstr "Editar la cola"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "Una cola con este nombre ya existe!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -7212,7 +7212,7 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr ""
+msgstr "Si un agente bloquea un ticket y no se cierra antes de que haya pasado el tiempo de espera de desbloqueo, el ticket se desbloqueará y estará disponible para otros agentes ."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -7226,7 +7226,7 @@ msgstr "0 = sin escalada"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr ""
+msgstr "Si no se añade un contacto de cliente, ya sea correo electrónico externo o teléfono, a un nuevo ticket antes de que la hora definida aquí expire, el ticket es escalado."
 
 #. Template: AdminQueue
 msgid ""
@@ -7234,13 +7234,13 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr ""
+msgstr "Si se añade un artículo, como un seguimiento a través de correo electrónico o portal del cliente , el tiempo de actualización de escalado se restablece. Si no hay contacto del cliente, ya sea correo electrónico o teléfono externo, añadido a un ticket antes de que la hora definida aquí expire, el ticket es escalado ."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr ""
+msgstr "Si el ticket no se establece a cerrado antes de que la hora definida aquí expire, el ticket es escalado."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -7250,7 +7250,7 @@ msgstr "Opción de seguimiento"
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
-msgstr ""
+msgstr "Especifica si el seguimiento a los tickets cerrados volvería a abrir el ticket , ser rechazado o dar lugar a un nuevo ticket."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
@@ -7260,11 +7260,11 @@ msgstr "Bloquear un ticket después del seguimiento"
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr ""
+msgstr "Si un ticket es cerrado y el cliente envía un seguimiento del ticket se bloqueará al antiguo propietario."
 
 #. Template: AdminQueue
 msgid "System address"
-msgstr ""
+msgstr "Dirección sistema"
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
@@ -7272,7 +7272,7 @@ msgstr "Será la dirección del emisor en esta cola para respuestas por correo."
 
 #. Template: AdminQueue
 msgid "Default sign key"
-msgstr ""
+msgstr "Clave de firma por defecto"
 
 #. Template: AdminQueue
 msgid "The salutation for email answers."
@@ -7284,15 +7284,15 @@ msgstr "Firma para respuestas por correo."
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
-msgstr ""
+msgstr "Administrar Colas - Relaciones Auto Respuesta  "
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
-msgstr ""
+msgstr "Filtrar por Colas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Auto Responses"
-msgstr ""
+msgstr "Filtrar por Auto Respuestas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -7300,27 +7300,27 @@ msgstr "Respuestas Automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr ""
+msgstr "Cambiar Relaciones Auto Respuesta para Cola"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
-msgstr ""
+msgstr "Administrar Relaciones Plantilla-Cola"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
-msgstr ""
+msgstr "Filtrar por Plantillas"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
-msgstr ""
+msgstr "Plantillas"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "Cambiar Relaciones Cola para Plantilla"
 
 #. Template: AdminQueueTemplates
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "Cambiar Relaciones Plantilla para Cola"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -7328,11 +7328,11 @@ msgstr "Gestión de Registro del sistema"
 
 #. Template: AdminRegistration
 msgid "Edit details"
-msgstr ""
+msgstr "Edite detalles"
 
 #. Template: AdminRegistration
 msgid "Show transmitted data"
-msgstr ""
+msgstr "Mostrar datos transmitidos"
 
 #. Template: AdminRegistration
 msgid "Deregister system"
@@ -7364,31 +7364,31 @@ msgstr "Última comunicación con el servidor de registro"
 
 #. Template: AdminRegistration
 msgid "Send support data"
-msgstr ""
+msgstr "Enviar datos de soporte"
 
 #. Template: AdminRegistration
 msgid "System registration not possible"
-msgstr ""
+msgstr "Registrar el sistema no es posible"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't register your system if your scheduler is not "
 "running correctly!"
-msgstr ""
+msgstr "Tenga en cuenta que no se puede registrar el sistema si el planificador no está funcionando correctamente!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Instrucciones"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
-msgstr ""
+msgstr "Dar de baja el sistema no es posible"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't deregister your system if you're using the %s or "
 "having a valid service contract."
-msgstr ""
+msgstr "Tenga en cuenta que no se puede dar de baja su sistema si usted está utilizando el %s o teniendo un contrato de servicio válido."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -7416,7 +7416,7 @@ msgstr "Su OTRS-ID es la dirección de correo electrónico que utilizó para reg
 
 #. Template: AdminRegistration
 msgid "Data Protection"
-msgstr ""
+msgstr "Protección de Datos"
 
 #. Template: AdminRegistration
 msgid "What are the advantages of system registration?"
@@ -7523,131 +7523,131 @@ msgstr "e ingrese una solicitud."
 msgid ""
 "Here at OTRS Group we take the protection of your personal details very "
 "seriously and strictly adhere to data protection laws."
-msgstr ""
+msgstr "Aquí en Grupo OTRS nos tomamos la protección de sus datos personales muy en serio y nos adherimos estrictamente a las leyes de protección de datos."
 
 #. Template: AdminRegistration
 msgid ""
 "All passwords are automatically made unrecognizable before the information "
 "is sent."
-msgstr ""
+msgstr "Todas las contraseñas se hacen automáticamente irreconocibles antes de enviar la información."
 
 #. Template: AdminRegistration
 msgid ""
 "Under no circumstances will any data we obtain be sold or passed on to "
 "unauthorized third parties."
-msgstr ""
+msgstr "En ningún caso los datos que obtenemos se venderán ni serán cedidos a terceros no autorizados."
 
 #. Template: AdminRegistration
 msgid ""
 "The following explanation provides you with an overview of how we guarantee "
 "this protection and which type of data is collected for which purpose."
-msgstr ""
+msgstr "La siguiente explicación le proporciona una visión general de cómo garantizamos esta protección y qué tipo de datos se recogen y con que proposito."
 
 #. Template: AdminRegistration
 msgid "Data Handling with 'System Registration'"
-msgstr ""
+msgstr "Datos de manipulación con \"Registro del sistema\""
 
 #. Template: AdminRegistration
 msgid ""
 "Information received through the 'Service Center' is saved by OTRS Group."
-msgstr ""
+msgstr "La información recibida a través del 'Centro de Servicio' es guardada por Grupo OTRS."
 
 #. Template: AdminRegistration
 msgid ""
 "This only applies to data that OTRS Group requires to analyze the "
 "performance and function of the OTRS server or to establish contact."
-msgstr ""
+msgstr "Esto sólo se aplica a los datos que el Grupo OTRS requiere para analizar el desempeño y la función del servidor de OTRS o establecer contacto."
 
 #. Template: AdminRegistration
 msgid "Safety of Personal Details"
-msgstr ""
+msgstr "Seguridad de los Datos Personales"
 
 #. Template: AdminRegistration
 msgid ""
 "OTRS Group protects your personal data from unauthorized access, use or "
 "publication."
-msgstr ""
+msgstr "Grupo OTRS protege sus datos personales de acceso no autorizado , uso o publicación."
 
 #. Template: AdminRegistration
 msgid ""
 "OTRS Group ensures that the personal information you store on the server is "
 "protected from unauthorized access and publication."
-msgstr ""
+msgstr "Grupo OTRS garantiza que los datos personales que se almacenan en el servidor están protegidos contra el acceso y la publicación no autorizada."
 
 #. Template: AdminRegistration
 msgid "Disclosure of Details"
-msgstr ""
+msgstr "Divulgación de Datos"
 
 #. Template: AdminRegistration
 msgid ""
 "OTRS Group will not pass on your details to third parties unless required "
 "for business transactions."
-msgstr ""
+msgstr "Grupo OTRS no pasará sus datos a terceros a menos que sea requerido para las transacciones comerciales ."
 
 #. Template: AdminRegistration
 msgid ""
 "OTRS Group will only pass on your details to entitled public institutions "
 "and authorities if required by law or court order."
-msgstr ""
+msgstr "Grupo OTRS sólo pasará sus datos a las instituciones y autoridades públicas con derecho si es requerido por la ley u orden judicial."
 
 #. Template: AdminRegistration
 msgid "Amendment of Data Protection Policy"
-msgstr ""
+msgstr "Modificación de la Política de Protección de Datos"
 
 #. Template: AdminRegistration
 msgid ""
 "OTRS Group reserves the right to amend this security and data protection "
 "policy if required by technical developments."
-msgstr ""
+msgstr "Grupo OTRS se reserva el derecho a modificar la presente política de seguridad y protección de datos si es requerido por la evolución técnica ."
 
 #. Template: AdminRegistration
 msgid ""
 "In this case we will also adapt our information regarding data protection "
 "accordingly."
-msgstr ""
+msgstr "En este caso también adaptaremos nuestra información con respecto a la protección de datos en consecuencia."
 
 #. Template: AdminRegistration
 msgid ""
 "Please regularly refer to the latest version of our Data Protection Policy."
-msgstr ""
+msgstr "Por favor, consulte regularmente la última versión de nuestra Política de Protección de Datos."
 
 #. Template: AdminRegistration
 msgid "Right to Information"
-msgstr ""
+msgstr "Derecho de información"
 
 #. Template: AdminRegistration
 msgid ""
 "You have the right to demand information concerning the data saved about "
 "you, its origin and recipients, as well as the purpose of the data "
 "processing at any time."
-msgstr ""
+msgstr "Usted tiene el derecho de exigir la información relativa a sus datos guardados, su origen y receptores , así como la finalidad del tratamiento de datos en cualquier momento."
 
 #. Template: AdminRegistration
 msgid ""
 "You can request information about the saved data by sending an e-mail to "
 "info@otrs.com."
-msgstr ""
+msgstr "Puede solicitar información sobre los datos guardados mediante el envío de un email a info@otrs.com."
 
 #. Template: AdminRegistration
 msgid "Further Information"
-msgstr ""
+msgstr "Información adicional"
 
 #. Template: AdminRegistration
 msgid ""
 "Your trust is very important to us. We are willing to inform you about the "
 "processing of your personal details at any time."
-msgstr ""
+msgstr "Su confianza es muy importante para nosotros. Estamos dispuestos a informarle sobre el tratamiento de sus datos personales en cualquier momento."
 
 #. Template: AdminRegistration
 msgid ""
 "If you have any questions that have not been answered by this Data "
 "Protection Policy or if you require more detailed information about a "
 "specific topic, please contact info@otrs.com."
-msgstr ""
+msgstr "Si usted tiene alguna pregunta que no ha sido respondida por la presente Política de Protección de Datos o si necesita información más detallada acerca de un tema específico, por favor póngase en contacto con info@otrs.com."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "Si da de baja su sistema, perderá estos beneficios :"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to deregister your system."
@@ -7695,7 +7695,7 @@ msgstr "Descripción opcional de este sistema."
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr ""
+msgstr "Esto permitirá al sistema enviar información de datos de apoyo adicional al Grupo OTRS."
 
 #. Template: AdminRegistration
 msgid "Service Center"
@@ -7723,29 +7723,29 @@ msgstr "Dar de baja"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
-msgstr ""
+msgstr "Usted puede modificar los ajustes de registro aquí."
 
 #. Template: AdminRegistration
 msgid "Overview of transmitted data"
-msgstr ""
+msgstr "Resumen de los datos transmitidos"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
-msgstr ""
+msgstr "No hay datos enviados con regularidad de su sistema a %s."
 
 #. Template: AdminRegistration
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
-msgstr ""
+msgstr "Los siguientes datos se envían como mínimo cada 3 días desde su sistema a %s."
 
 #. Template: AdminRegistration
 msgid ""
 "The data will be transferred in JSON format via a secure https connection."
-msgstr ""
+msgstr "Los datos se transfieren en formato JSON a través de una conexión segura https."
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
-msgstr ""
+msgstr "Datos Registro Sistema"
 
 #. Template: AdminRegistration
 msgid "Support Data"
@@ -7805,7 +7805,7 @@ msgstr "Cambiar las relaciones de Grupo del Rol"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
-msgstr ""
+msgstr "Activar el permiso %s para todos"
 
 #. Template: AdminRoleGroup
 msgid "move_into"
@@ -7897,26 +7897,26 @@ msgstr "Añadir clave privada"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
-msgstr ""
+msgstr "Filtro para certificados"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
-msgstr ""
+msgstr "Filtro para certificados S/MIME"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr ""
+msgstr "Para mostrar los detalles de certificado hacer click en un icono de certificado."
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
-msgstr ""
+msgstr "Para gestionar las relaciones de certificados privados hacer clic en un icono de la llave privada."
 
 #. Template: AdminSMIME
 msgid ""
 "Here you can add relations to your private certificate, these will be "
 "embedded to the S/MIME signature every time you use this certificate to sign"
 " an email."
-msgstr ""
+msgstr "Aquí usted puede agregar relaciones con su certificado privado, estos serán incorporados a la firma S/MIME cada vez que se utiliza este certificado para firmar un correo electrónico."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -7934,15 +7934,15 @@ msgstr "De esta forma Ud. puede editar directamente la certificación y claves p
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
-msgstr ""
+msgstr "Maneje certificados relacionados"
 
 #. Template: AdminSMIME
 msgid "Read certificate"
-msgstr ""
+msgstr "Leer certificado"
 
 #. Template: AdminSMIME
 msgid "Delete this certificate"
-msgstr ""
+msgstr "Eliminar este certificado"
 
 #. Template: AdminSMIME
 msgid "Add Certificate"
@@ -7962,7 +7962,7 @@ msgstr "Certificados relacionados para"
 
 #. Template: AdminSMIME
 msgid "Delete this relation"
-msgstr ""
+msgstr "Eliminar esta relación"
 
 #. Template: AdminSMIME
 msgid "Available Certificates"
@@ -7970,7 +7970,7 @@ msgstr "Certificados Disponibles"
 
 #. Template: AdminSMIME
 msgid "Relate this certificate"
-msgstr ""
+msgstr "Relacionar este certificado"
 
 #. Template: AdminSMIMECertRead
 msgid "Close window"
@@ -8014,7 +8014,7 @@ msgstr "El Modo Seguro (normalmente) queda habilitado cuando la instalación ini
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr ""
+msgstr "Si el modo seguro no está activado , activarlo a través de sysconfig porque su aplicación ya se está ejecutando ."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -8025,37 +8025,37 @@ msgid ""
 "Here you can enter SQL to send it directly to the application database. It "
 "is not possible to change the content of the tables, only select queries are"
 " allowed."
-msgstr ""
+msgstr "Aquí puede introducir una SQL para enviarla directamente a la base de datos de la aplicación. No es posible cambiar el contenido de las tablas , sólo consultas select están permitidas."
 
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Aquí puede introducir una SQL para enviarla directamente a la base de datos de la aplicación."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr ""
+msgstr "Solo consultas select están permitidas."
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
-msgstr ""
+msgstr "La sintaxis de tu consulta SQL tiene un error. Por favor compruébela."
 
 #. Template: AdminSelectBox
 msgid ""
 "There is at least one parameter missing for the binding. Please check it."
-msgstr ""
+msgstr "Hay por lo menos un parámetro que falta para la unión. Compruébelo por favor."
 
 #. Template: AdminSelectBox
 msgid "Result format"
-msgstr ""
+msgstr "Formato resultado"
 
 #. Template: AdminSelectBox
 msgid "Run Query"
-msgstr ""
+msgstr "Ejecutar Consulta"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "Consulta se ejecuta."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -8081,103 +8081,103 @@ msgstr "Subservicio de"
 msgid ""
 "This data is sent to OTRS Group on a regular basis. To stop sending this "
 "data please update your system registration."
-msgstr ""
+msgstr "Estos datos se envían a Grupo OTRS en una base regular. Para detener el envío de estos datos por favor actualice su registro del sistema."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "You can manually trigger the Support Data sending by pressing this button:"
-msgstr ""
+msgstr "Puedes disparar manualmente los envíos de Datos de Soporte presionando este botón:"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send Update"
-msgstr ""
+msgstr "Enviar Actualización"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending Update..."
-msgstr ""
+msgstr "Enviando Actualización..."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "Información de Datos de Soporte fue enviada satisfactoriamente."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Was not possible to send Support Data information."
-msgstr ""
+msgstr "No fue posible enviar información de Datos de Soporte."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "Actualizar Resultado"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Currently this data is only shown in this system."
-msgstr ""
+msgstr "Actualmente estos datos sólo se muestran en este sistema."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "Es altamente recomendable enviar estos datos a Grupo OTRS con el fin de obtener un mejor servicio de soporte."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Para habilitar el envío de datos, registre su sistema con Grupo OTRS o actualice su información de registro del sistema ( asegúrese de activar la opción 'Enviar datos de soporte enviar'.)"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "A support bundle (including: system registration information, support data, "
 "a list of installed packages and all locally modified source code files) can"
 " be generated by pressing this button:"
-msgstr ""
+msgstr "Un paquete de apoyo (incluyendo : información de registro del sistema, los datos de apoyo, una lista de los paquetes instalados y todos los archivos de código fuente modificados localmente) puede generarse presionando este botón:"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generate Support Bundle"
-msgstr ""
+msgstr "Generar Paquete de Apoyo"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generating..."
-msgstr ""
+msgstr "Generando..."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "No fue posible generar el Paquete de Apoyo."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "Generar Resultado"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Support Bundle"
-msgstr ""
+msgstr "Paquete de Soporte"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The mail could not be sent"
-msgstr ""
+msgstr "El correo no pudo ser enviado"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle has been generated."
-msgstr ""
+msgstr "El paquete de soporte ha sido generado."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Please choose one of the following options."
-msgstr ""
+msgstr "Por favor escoja una de las siguientes opciones."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Enviar por Email"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "The support bundle is too large to send it by email, this option has been "
 "disabled."
-msgstr ""
+msgstr "El paquete de soporte es demasiado grande para enviarlo por correo electrónico, esta opción ha sido deshabilitada."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "The email address for this user is invalid, this option has been disabled."
-msgstr ""
+msgstr "La dirección de correo electrónico para este usuario no es válida, esta opción se ha desactivado."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
@@ -8185,18 +8185,18 @@ msgstr "Remitente"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
-msgstr ""
+msgstr "El paquete de soporte será enviado a Grupo OTRS a través de correo electrónico de forma automática."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Descargar Archivo"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
 "A file containing the support bundle will be downloaded to the local system."
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
-msgstr ""
+msgstr "Un archivo que contiene el paquete de soporte se descargará en el sistema local. Por favor, guarde el archivo y envíelo al Grupo de OTRS, utilizando un método alternativo ."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -8204,7 +8204,7 @@ msgstr "Error: Los datos de soporte no han podido ser recolectados (%s)."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -8212,23 +8212,23 @@ msgstr "Gestión de Sesiones"
 
 #. Template: AdminSession
 msgid "All sessions"
-msgstr ""
+msgstr "Todas las sesiones"
 
 #. Template: AdminSession
 msgid "Agent sessions"
-msgstr ""
+msgstr "Sesiones de agente"
 
 #. Template: AdminSession
 msgid "Customer sessions"
-msgstr ""
+msgstr "Sesiones de cliente"
 
 #. Template: AdminSession
 msgid "Unique agents"
-msgstr ""
+msgstr "Agentes únicos"
 
 #. Template: AdminSession
 msgid "Unique customers"
-msgstr ""
+msgstr "Clientes únicos"
 
 #. Template: AdminSession
 msgid "Kill all sessions"
@@ -8236,7 +8236,7 @@ msgstr "Finalizar todas las sesiones"
 
 #. Template: AdminSession
 msgid "Kill this session"
-msgstr ""
+msgstr "Matar esta sesión"
 
 #. Template: AdminSession
 msgid "Session"
@@ -8244,11 +8244,11 @@ msgstr "Sesión"
 
 #. Template: AdminSession
 msgid "Kill"
-msgstr ""
+msgstr "Matar"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID"
-msgstr ""
+msgstr "Vista Detalle para SesiónID"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -8300,35 +8300,35 @@ msgstr "Configuración del sistema"
 
 #. Template: AdminSysConfig
 msgid "Navigate by searching in %s settings"
-msgstr ""
+msgstr "Navegue por búsqueda en ajustes %s"
 
 #. Template: AdminSysConfig
 msgid "Navigate by selecting config groups"
-msgstr ""
+msgstr "Navegue seleccionando grupos de configuración"
 
 #. Template: AdminSysConfig
 msgid "Download all system config changes"
-msgstr ""
+msgstr "Descargue todos los cambios de configuración de sistema"
 
 #. Template: AdminSysConfig
 msgid "Export settings"
-msgstr ""
+msgstr "Exportar ajustes"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
-msgstr ""
+msgstr "Cargue ajustes de SysConfig desde archivo"
 
 #. Template: AdminSysConfig
 msgid "Import settings"
-msgstr ""
+msgstr "Importar ajustes"
 
 #. Template: AdminSysConfig
 msgid "Import Settings"
-msgstr ""
+msgstr "Importar Ajustes"
 
 #. Template: AdminSysConfig
 msgid "Please enter a search term to look for settings."
-msgstr ""
+msgstr "Por favor, introduzca un término de búsqueda para buscar los ajustes."
 
 #. Template: AdminSysConfig
 msgid "Subgroup"
@@ -8340,27 +8340,27 @@ msgstr "Elementos"
 
 #. Template: AdminSysConfigEdit
 msgid "Edit Config Settings"
-msgstr ""
+msgstr "Edite Ajustes de Configuración"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
-msgstr ""
+msgstr "Este elemento de configuración sólo está disponible en un nivel de configuración mayor!"
 
 #. Template: AdminSysConfigEdit
 msgid "Reset this setting"
-msgstr ""
+msgstr "Reestablecer este ajuste"
 
 #. Template: AdminSysConfigEdit
 msgid "Error: this file could not be found."
-msgstr ""
+msgstr "Error: este archivo no pudo ser encontrado."
 
 #. Template: AdminSysConfigEdit
 msgid "Error: this directory could not be found."
-msgstr ""
+msgstr "Error: este directorio no pudo ser encontrado."
 
 #. Template: AdminSysConfigEdit
 msgid "Error: an invalid value was entered."
-msgstr ""
+msgstr "Error: un valor inválido fue introducido."
 
 #. Template: AdminSysConfigEdit
 msgid "Content"
@@ -8368,27 +8368,27 @@ msgstr "Contenido"
 
 #. Template: AdminSysConfigEdit
 msgid "Remove this entry"
-msgstr ""
+msgstr "Elimine esta entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "Add entry"
-msgstr ""
+msgstr "Añada entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "Remove entry"
-msgstr ""
+msgstr "Elimine entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "Add new entry"
-msgstr ""
+msgstr "Añadir nueva entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "Delete this entry"
-msgstr ""
+msgstr "Eliminar esta entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "Create new entry"
-msgstr ""
+msgstr "Crear nueva entrada"
 
 #. Template: AdminSysConfigEdit
 msgid "New group"
@@ -8396,27 +8396,27 @@ msgstr "Nuevo grupo"
 
 #. Template: AdminSysConfigEdit
 msgid "Group ro"
-msgstr ""
+msgstr "Grupo ro"
 
 #. Template: AdminSysConfigEdit
 msgid "Readonly group"
-msgstr ""
+msgstr "Grupo de sólo lectura"
 
 #. Template: AdminSysConfigEdit
 msgid "New group ro"
-msgstr ""
+msgstr "Nuevo grupo ro"
 
 #. Template: AdminSysConfigEdit
 msgid "Loader"
-msgstr ""
+msgstr "Cargador"
 
 #. Template: AdminSysConfigEdit
 msgid "File to load for this frontend module"
-msgstr ""
+msgstr "Archivo a cargar para este módulo frontend"
 
 #. Template: AdminSysConfigEdit
 msgid "New Loader File"
-msgstr ""
+msgstr "Nuevo Cargador de Archivo"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBarName"
@@ -8440,7 +8440,7 @@ msgstr "TeclaAcceso"
 
 #. Template: AdminSysConfigEdit
 msgid "Add NavBar entry"
-msgstr ""
+msgstr "Añada entrada en NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
@@ -8468,7 +8468,7 @@ msgstr "Día no válido"
 
 #. Template: AdminSysConfigEdit
 msgid "Show more"
-msgstr ""
+msgstr "Mostrar más"
 
 #. Template: AdminSystemAddress
 msgid "System Email Addresses Management"
@@ -8476,77 +8476,77 @@ msgstr "Gestión de Direcciones de Correo del sistema"
 
 #. Template: AdminSystemAddress
 msgid "Add system address"
-msgstr ""
+msgstr "Añadir dirección de sistema"
 
 #. Template: AdminSystemAddress
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr ""
+msgstr "Todo el correo electrónico entrante con esta dirección en Para o Cc será enviado a la cola seleccionada."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
-msgstr ""
+msgstr "Dirección de correo electrónico"
 
 #. Template: AdminSystemAddress
 msgid "Display name"
-msgstr ""
+msgstr "Mostrar nombre"
 
 #. Template: AdminSystemAddress
 msgid "Add System Email Address"
-msgstr ""
+msgstr "Añadir Dirección de Correo Electrónico de Sistema"
 
 #. Template: AdminSystemAddress
 msgid "Edit System Email Address"
-msgstr ""
+msgstr "Editar Dirección de Correo Electrónico de Sistema"
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
-msgstr ""
+msgstr "El nombre a mostrar y la dirección de correo electrónico serán mostrados en el correo que tu envías."
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "Sistema de Gestión de Mantenimiento"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
-msgstr ""
+msgstr "Planificar Nuevo Mantenimiento de Sistema"
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers"
 " the system is down for a time period."
-msgstr ""
+msgstr "Programar un periodo de mantenimiento del sistema para anunciar a los Agentes y Clientes que el sistema está desactivado por un período de tiempo."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr ""
+msgstr "Algún tiempo antes de que comience este mantenimiento de sistema los usuarios recibirán una notificación en cada pantalla anunciando sobre este hecho."
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr ""
+msgstr "Fecha inicio"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "Fecha fin"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "Eliminar Mantenimiento de Sistema"
 
 #. Template: AdminSystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "Quieres realmente eliminar este mantenimiento de sistema programado?"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
-msgstr ""
+msgstr "Edite Mantenimiento %s de Sistema"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance information"
-msgstr ""
+msgstr "Edite la información de Mantenimiento de Sistema"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -8554,35 +8554,35 @@ msgstr "Fecha no válida"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
-msgstr ""
+msgstr "Mensaje de login"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
-msgstr ""
+msgstr "Mostrar mensaje de login"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
-msgstr ""
+msgstr "Notificar mensaje"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "Administrar Sesiones"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "Todas las Sesiones"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "Sesiones Agente"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Sesiones Cliente"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Matar todas las Sesiones, excepto de la suya propia"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8620,7 +8620,7 @@ msgstr "Plantilla"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "Crear plantillas tipo sólo soporta estas etiquetas inteligentes"
 
 #. Template: AdminTemplate
 msgid "Example template"
@@ -8652,11 +8652,11 @@ msgstr "Cambiar las relaciones de Adjuntos de la Plantilla"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
-msgstr ""
+msgstr "Alternar a activo para todos"
 
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
-msgstr ""
+msgstr "Enlaza %s al %s seleccionado"
 
 #. Template: AdminType
 msgid "Type Management"
@@ -8676,7 +8676,7 @@ msgstr "Editar el tipo"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "Un tipo con este nombre ya existe!"
 
 #. Template: AdminUser
 msgid "Add agent"
@@ -8720,7 +8720,7 @@ msgstr "Apellido"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "Un usuario con este nombre ya existe!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8828,7 +8828,7 @@ msgstr "Ticket por correo"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Inicar Chat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8848,7 +8848,7 @@ msgstr "Nuevo ticket por correo para %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Iniciar chat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8877,27 +8877,27 @@ msgstr "Se está preparado el contenido de esta estadística para usted, por fav
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
-msgstr ""
+msgstr "Agrupado"
 
 #. Template: AgentDashboardStats
 msgid "Stacked"
-msgstr ""
+msgstr "Apilado"
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "Expandido"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Stream"
 
 #. Template: AgentDashboardStats
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Template: AgentDashboardStats
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8993,33 +8993,33 @@ msgstr "Información General"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
-msgstr ""
+msgstr "El planificador es un proceso OTRS separado que ejecuta tareas asíncronas."
 
 #. Template: AgentSchedulerInfo
 msgid "(e.g. Generic Interface asynchronous invoker tasks)"
-msgstr ""
+msgstr "(ej. Interfaz Genérica del invocador de tareas asíncronas)"
 
 #. Template: AgentSchedulerInfo
 msgid ""
 "It is necessary to have the Scheduler running to make the system work "
 "correctly!"
-msgstr ""
+msgstr "Es necesario tener un Planificador ejecutándose para hacer que el sistema funcione correctamente!"
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "Comenzando Planificador"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
-msgstr ""
+msgstr "Asegúrese de que %s existe (sin la extensión .dist)"
 
 #. Template: AgentSchedulerInfo
 msgid "Check that cron deamon is running in the system"
-msgstr ""
+msgstr "Compruebe que cron daemon esta ejecutándose en el sistema"
 
 #. Template: AgentSchedulerInfo
 msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr ""
+msgstr "Confirme que los trabajos cron de OTRS se están ejecutando, ejecute inicio %s"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -9309,23 +9309,23 @@ msgstr "no modificable para estadísticas del panel principal"
 
 #. Template: AgentStatsViewSettings
 msgid "Select Chart Type"
-msgstr ""
+msgstr "Seleccionar Tipo de Gráfico"
 
 #. Template: AgentStatsViewSettings
 msgid "Chart Type"
-msgstr ""
+msgstr "Tipo de Gráfico"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Bar Chart"
-msgstr ""
+msgstr "Gráfico Multi Barra"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Line Chart"
-msgstr ""
+msgstr "Gráfico Multi Linea"
 
 #. Template: AgentStatsViewSettings
 msgid "Stacked Area Chart"
-msgstr ""
+msgstr "Gráfico de Área Apilada"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of Ticket"
@@ -9381,15 +9381,15 @@ msgstr "Siguiente estado"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Para todos los estados pendientes*."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Añadir Artículo"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Crear un Artículo"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -9401,7 +9401,7 @@ msgstr "Plantilla de texto"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Establecer una plantilla sobreescribirá cualquier texto o adjunto."
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9423,11 +9423,11 @@ msgstr "Informar a los agentes involucrados"
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "Aquí puede seleccionar agentes adicionales que deben recibir una notificación sobre el nuevo artículo."
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
-msgstr ""
+msgstr "La nota será recibida (también) por:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9535,7 +9535,7 @@ msgstr "Crear un nuevo ticket por correo electrónico"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Ejemplo Plantilla"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
@@ -9563,27 +9563,27 @@ msgstr "Obtener todo"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "E-Mail Saliente"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "Ticket %s: tiempo de primera respuesta ha sido excedido (%s%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: tiempo de primera respuesta será excedido en %s%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: tiempo de actualización será excedido en %s%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "Ticket %s: tiempo de resolución ha sido excedido (%s%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: tiempo de resolución será excedido en %s%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -9635,7 +9635,7 @@ msgstr "No se encontraron datos del ticket."
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Seleccionar este ticket"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9679,11 +9679,11 @@ msgstr "Formulario de filtros de columna"
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
-msgstr ""
+msgstr "Dividir En Nuevo Ticket Telefónico"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "Guardar Chat En Nuevo Ticket Telefónico"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -9699,11 +9699,11 @@ msgstr "A la cola"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "Protocolo chat"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "El chat se agregará como un artículo separado."
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9743,7 +9743,7 @@ msgstr "Proceso"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
-msgstr ""
+msgstr "Registrar Ticket en un Proceso"
 
 #. Template: AgentTicketSearch
 msgid "Search template"
@@ -9767,11 +9767,11 @@ msgstr "Guardar los cambios de la plantilla"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "Filtros en uso"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr ""
+msgstr "Filtros adicionales"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
@@ -9801,11 +9801,11 @@ msgstr "Nombre de usuario del cliente"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Nombre Adjunto"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "(ej. m*archivo or miar*)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9845,11 +9845,11 @@ msgstr "Hora de modificación del ticket (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Tiempo Último Cambio Ticket (antes/después)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Tiempo Último Cambio Ticket (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
@@ -9893,15 +9893,15 @@ msgstr "Guardar los ajustes del filtro como predeterminados"
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Filtro Tipo Evento"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Tipo Evento"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Guardar como Por Defecto"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
@@ -9933,11 +9933,11 @@ msgstr "Este elemento todavía no tiene ningún artículo."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Vista Linea Temporal de Ticket"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Vista General Artículo"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -9969,7 +9969,7 @@ msgstr "Mostrar todos los artículos"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Mostrar Vista Linea Temporal de Ticket"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -10005,33 +10005,33 @@ msgstr "Redimensionar"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Marcar este artículo como leído"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Mostrar Texto Completo"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Texto Artículo Completo"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
+msgstr "No se encontraron más eventos. Por favor pruebe cambiando los ajustes de filtro."
 
 #. Template: AgentTicketZoom
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "Para abrir enlaces en el siguiente artículo, es posible que tenga que pulsar Ctrl o Cmd o Shift mientras hace clic en el enlace (dependiendo de su navegador y sistema operativo ). "
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
-msgstr ""
+msgstr "Cerrar este mensaje"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "El artículo no se pudo abrir! Tal vez sea en otro artículo de la página?"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10043,7 +10043,7 @@ msgstr "Cargar el contenido remoto."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Primer mensaje"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -10073,7 +10073,7 @@ msgstr "Actualmente no hay elementos disponibles que seleccionar."
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Por favor apague el Modo Compatibilidad en Internet Explorer!"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -10105,7 +10105,7 @@ msgstr "Advertencia del navegador"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr ""
+msgstr "Un momento por favor, está siendo redirigido..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10173,11 +10173,11 @@ msgstr "Su dirección de correo electrónico (esto será su nombre de usuario)"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "Petición de Chat Entrante"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "Tienes peticiones de chat sin responder"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10185,11 +10185,11 @@ msgstr "Editar las preferencias personales"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "Cerrar Sesión %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
-msgstr ""
+msgstr "Dividir Cita"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10237,7 +10237,7 @@ msgstr "Copia carbón"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "ej. m*archivo o miar*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10297,7 +10297,7 @@ msgstr "Resultados de la búsqueda de"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "Elimine este Termino de Búsqueda."
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
@@ -10313,7 +10313,7 @@ msgstr "Contestar"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "Todo el Día"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
@@ -10389,7 +10389,7 @@ msgstr "Fecha no válida (se necesita una fecha futura)"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "Fecha inválida (necesaria fecha pasada)!"
 
 #. Template: Datepicker
 msgid "Previous"
@@ -10438,7 +10438,7 @@ msgstr "Introduzca al menos un valor de búsqueda, o * para buscar todo."
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Por favor elimine las siguientes palabras de su búsqueda pues ellas no pueden ser buscadas por:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -10446,11 +10446,11 @@ msgstr "Compruebe que los campos marcados en rojo tienen datos válidos."
 
 #. Template: FooterJS
 msgid "Please perform a spell check on the the text first."
-msgstr ""
+msgstr "Por favor ejecute una comprobación ortográfica en el texto primero."
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "Deslice la barra de navegación"
 
 #. Template: Header
 msgid "You are logged in as"
@@ -10458,7 +10458,7 @@ msgstr "Ha iniciado sesión como"
 
 #. Template: Header
 msgid "There are new chat requests available. Please visit the chat manager."
-msgstr ""
+msgstr "Hay nuevas peticiones de chat disponibles. Por favor visite el manager de chat."
 
 #. Template: Installer
 msgid "JavaScript not available"
@@ -10682,7 +10682,7 @@ msgstr "No aceptar la licencia"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "Aceptar la licencia y continuar"
 
 #. Template: InstallerSystem
 msgid ""
@@ -10839,7 +10839,7 @@ msgstr "Volver a la página anterior"
 
 #. SysConfig
 msgid " (work units)"
-msgstr ""
+msgstr "(unidades de trabajo)"
 
 #. SysConfig
 msgid "\"%s\"-notification sent to \"%s\"."
@@ -10855,89 +10855,89 @@ msgstr "%s unidad(es) de tiempo contabilizadas. Total ahora: %s unidad(es) de ti
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr ""
+msgstr "(LoginUsuario) Nombre Apellidos"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
-msgstr ""
+msgstr "(LoginUsuario) Apellidos, Nombre "
 
 #. SysConfig
 msgid "A Website"
-msgstr ""
+msgstr "Un Sitio Web"
 
 #. SysConfig
 msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
-msgstr ""
+msgstr "Una lista de los campos dinámicos que se fusionó con el ticket principal durante una operación de combinación. Sólo los campos dinámicos que están vacíos en el ticket principal se establecerán."
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "Una foto"
 
 #. SysConfig
 msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr ""
+msgstr "Módulo ACL que permite el cierre detickets padre sólo si todos sus hijos ya están cerrados (\"Estado\" muestra que estados no están disponibles para ticket padre hasta que todas las entradas de sus hijos están cerradas)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
-msgstr ""
+msgstr "Listas Control Acceso (ACL)"
 
 #. SysConfig
 msgid "AccountedTime"
-msgstr ""
+msgstr "Tiempo Registrado"
 
 #. SysConfig
 msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
-msgstr ""
+msgstr "Activa un mecanismo de parpadeo de la cola que contiene el ticket más antiguo."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr ""
+msgstr "Activa la función perdida de contraseña para los agentes, en la interfaz del agente."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
-msgstr ""
+msgstr "Activa la función perdida de contraseña para los clientes."
 
 #. SysConfig
 msgid "Activates support for customer groups."
-msgstr ""
+msgstr "Activa soporte para grupos de clientes."
 
 #. SysConfig
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr ""
+msgstr "Activa el filtro de artículo en la vista de zoom para especificar qué artículos se deben mostrar."
 
 #. SysConfig
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr ""
+msgstr "Activa los temas disponibles en el sistema. Valor 1 significa activo, 0 significa inactivo."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr ""
+msgstr "Activa la búsqueda de sistema de archivo de tickets en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Activates the ticket archive system to have a faster system by moving some "
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
-msgstr ""
+msgstr "Activa el sistema de archivo de ticket para tener un sistema más rápido, moviendo algunos tickets fuera del ámbito cotidiano. Para buscar estos tickets, la bandera de archivo tiene que estar activada en la búsqueda de tickets ."
 
 #. SysConfig
 msgid "Activates time accounting."
-msgstr ""
+msgstr "Activa la contabilidad del tiempo."
 
 #. SysConfig
 msgid "ActivityID"
-msgstr ""
+msgstr "IDActividad"
 
 #. SysConfig
 msgid "Added email. %s"
@@ -10959,38 +10959,38 @@ msgstr "Añadida suscripción para el usuario «%s»."
 msgid ""
 "Adds a suffix with the actual year and month to the OTRS log file. A logfile"
 " for every month will be created."
-msgstr ""
+msgstr "Añade un sufijo con el año y mes actual para el archivo de registro de OTRS. Se creará un archivo de registro para cada mes ."
 
 #. SysConfig
 msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of"
 " the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
-msgstr ""
+msgstr "Añade direcciones de correo electrónico de clientes  a los destinatarios en la pantalla de composición de ticket de la interfaz del agente. No se añadirá la dirección de correo electrónico de los clientes si el tipo de artículo es email-interno."
 
 #. SysConfig
 msgid ""
 "Adds the one time vacation days for the indicated calendar. Please use "
 "single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Añade los días de vacaciones en un tiempo para el calendario indicado . Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 )."
 
 #. SysConfig
 msgid ""
 "Adds the one time vacation days. Please use single digit pattern for numbers"
 " from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Añade los días de vacaciones en un tiempo. Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 )."
 
 #. SysConfig
 msgid ""
 "Adds the permanent vacation days for the indicated calendar. Please use "
 "single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Añade los días de vacaciones permanentes para el calendario indicado . Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 )."
 
 #. SysConfig
 msgid ""
 "Adds the permanent vacation days. Please use single digit pattern for "
 "numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Añade los días de vacaciones permanentes. Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 )."
 
 #. SysConfig
 msgid "Agent Notifications"
@@ -11002,51 +11002,51 @@ msgstr "El agente llamó al cliente."
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr ""
+msgstr "Módulo de notificación de artículo de la interfaz de agente para verificar PGP."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr ""
+msgstr "Módulo de notificación de artículo de la interfaz de agente para verificar S/MIME."
 
 #. SysConfig
 msgid "Agent interface module to access CIC search via nav bar."
-msgstr ""
+msgstr "Módulo de la interfaz de agente para acceder a la búsqueda CIC vía la barra de navegación."
 
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar."
-msgstr ""
+msgstr "Módulo de la interfaz de agente para acceder a la búsqueda de texto completo vía la barra de navegación."
 
 #. SysConfig
 msgid "Agent interface module to access search profiles via nav bar."
-msgstr ""
+msgstr "Módulo de la interfaz de agente para acceder a la búsqueda de perfiles vía la barra de navegación."
 
 #. SysConfig
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr ""
+msgstr "Módulo de la interfaz de agente para comprobar los correos entrantes en la Vista-Zoom-Ticket si la clave S/MIME está disponible y es verdadera."
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of locked tickets."
-msgstr ""
+msgstr "Módulo de notificación de la interfaz de agente para ver el número de tickets bloqueados."
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of tickets an agent is"
 " responsible for."
-msgstr ""
+msgstr "Módulo de notificación de la interfaz de agente para ver el número de tickets de los que un agente es responsable."
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of tickets in My "
 "Services."
-msgstr ""
+msgstr "Módulo de notificación de la interfaz de agente para ver el número de tickets en Mis Servicios."
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of watched tickets."
-msgstr ""
+msgstr "Módulo de notificación de la interfaz de agente para ver el número de tickets vistos."
 
 #. SysConfig
 msgid "Agents <-> Groups"
@@ -11058,163 +11058,163 @@ msgstr "Agentes <-> Roles"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr ""
+msgstr "Todos los clientes de un IDCliente"
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla de ticket cerrado de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla texto libre de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be"
 " overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla nota de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla propietario de ticket de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla de ticket pendiente de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla prioridad de ticket de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface."
 " Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permite añadir notas en la pantalla responsable de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr ""
+msgstr "Permite a los agentes intercambiar el eje de una estadística si generan una."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr ""
+msgstr "Permite a los agentes generar estadísticas individualmente relacionadas ."
 
 #. SysConfig
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
-msgstr ""
+msgstr "Permite elegir entre mostrar los archivos adjuntos de un ticket en el navegador (en línea) o simplemente hacerlos descargables (archivo adjunto) ."
 
 #. SysConfig
 msgid ""
 "Allows choosing the next compose state for customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "Permite elegir el siguiente estado de composición para los tickets de los clientes en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
-msgstr ""
+msgstr "Permite a los clientes cambiar la prioridad de ticket en la interfaz del cliente."
 
 #. SysConfig
 msgid "Allows customers to set the ticket SLA in the customer interface."
-msgstr ""
+msgstr "Permite a los clientes establecer el SLA de ticket en la interfaz del cliente."
 
 #. SysConfig
 msgid "Allows customers to set the ticket priority in the customer interface."
-msgstr ""
+msgstr "Permite a los clientes establecer la prioridad de ticket en la interfaz de cliente."
 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is set to 'No', QueueDefault should be configured."
-msgstr ""
+msgstr "Permite a los clientes establecer la cola de ticket en la interfaz del cliente. Si se establece a 'No', la ColaPorDefecto debe ser configurada."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr ""
+msgstr "Permite a los clientes establecer el servicio de ticket en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is set to 'No', TicketTypeDefault should be configured."
-msgstr ""
+msgstr "Permite a los clientes establecer el tipo de ticket en la interfaz del cliente. Si se establece a 'No', TipoTicketPorDefecto debe estar configurado."
 
 #. SysConfig
 msgid ""
 "Allows default services to be selected also for non existing customers."
-msgstr ""
+msgstr "Permito que los servicios por defecto sean seleccionados también por clientes no existentes."
 
 #. SysConfig
 msgid ""
 "Allows defining new types for ticket (if ticket type feature is enabled)."
-msgstr ""
+msgstr "Permite definir nuevos tipos para ticket (si la función tipo de ticket está habilitada)."
 
 #. SysConfig
 msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr ""
+msgstr "Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalado para los SLAs (si la función servicio/SLA de ticket está activada)."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. with this kind of conditions like "
 "\"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Permite condiciones de búsqueda extendidas en búsqueda de ticket de la interfaz de agente. Con esta función, puede buscar ej . con este tipo de condiciones como \"( key1 && key2 )\" o \"(key1 || key2 )\"."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search w. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Permite condiciones de búsqueda extendidas en búsqueda de ticket de la interfaz de cliente. Con esta función, puede buscar ej. con este tipo de condiciones como \"( key1 && key2 )\" o \"( key1 || key2 )\"."
 
 #. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
-msgstr ""
+msgstr "Permite tener un formato medio de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente)."
 
 #. SysConfig
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also"
 " the customer information)."
-msgstr ""
+msgstr "Permite tener un formato pequeño de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
+msgstr "Permite a agentes no válidos el generar estadísticas relacionadas individualmente."
 
 #. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
-msgstr ""
+msgstr "Permite a los administradores el acceso como otros clientes, vía el panel de administración del usuario cliente."
 
 #. SysConfig
 msgid ""
 "Allows the administrators to login as other users, via the users "
 "administration panel."
-msgstr ""
+msgstr "Permite a los administradores el acceso como otros clientes, vía el panel de administración de usuario."
 
 #. SysConfig
 msgid ""
 "Allows to set a new ticket state in the move ticket screen of the agent "
 "interface."
-msgstr ""
+msgstr "Permite establecer un nuevo estado de ticket en la pantalla mover ticket de la interfaz de agente."
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
@@ -11246,45 +11246,45 @@ msgstr "Respuesta automática enviada a «%s»."
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
-msgstr ""
+msgstr "Salto de linea automático en mensajes de texto después de x número de caracteres."
 
 #. SysConfig
 msgid ""
 "Automatically lock and set owner to current Agent after opening the move "
 "ticket screen of the agent interface."
-msgstr ""
+msgstr "Automáticamente bloqueado y establecido propietario el Agente actual después de abrir la pantalla mover ticket de la interfaz de agente."
 
 #. SysConfig
 msgid ""
 "Automatically lock and set owner to current Agent after selecting for an "
 "Bulk Action."
-msgstr ""
+msgstr "Automáticamente bloqueado y establecido propietario el Agente actual después de seleccionar una Acción Masiva."
 
 #. SysConfig
 msgid ""
 "Automatically sets the owner of a ticket as the responsible for it (if "
 "ticket responsible feature is enabled)."
-msgstr ""
+msgstr "Automáticamente establece al propietario de un ticket como responsable del mismo (si la función resopnsable de ticket está habilitada)."
 
 #. SysConfig
 msgid ""
 "Automatically sets the responsible of a ticket (if it is not set yet) after "
 "the first owner update."
-msgstr ""
+msgstr "Automáticamente establece al responsable de un ticket (si no está establecido aún) después de la primera actualización de propietario."
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
+msgstr "Apariencia blanca equilibrada por Felix Niklas (version slim)."
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
-msgstr ""
+msgstr "Apariencia blanca equilibrada por Felix Niklas."
 
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.RebuildFulltextIndex.pl\" "
 "in order to generate a new index."
-msgstr ""
+msgstr "Ajustes básicos de indice de texto completo. Ejecute \"bin/otrs.RebuildFulltextIndex.pl\" para generar un nuevo índice."
 
 #. SysConfig
 msgid ""

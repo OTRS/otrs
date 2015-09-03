@@ -2857,6 +2857,7 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Hent alle',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
@@ -3568,9 +3569,9 @@ sub Data {
             '',
         'Default loop protection module.' => 'Standard loop-beskyttelsesmodul',
         'Default queue ID used by the system in the agent interface.' => 'Standard køID brukt av systemet for saksbehandlere.',
-        'Default skin for OTRS 3.0 interface.' => 'Standard-utseende for OTRS 3.0',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Standard Saksnr brukt av systemet i saksbehandler-delen',
         'Default ticket ID used by the system in the customer interface.' =>

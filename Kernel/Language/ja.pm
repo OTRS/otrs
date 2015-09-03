@@ -2853,6 +2853,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '全てを取得',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'メール送信',
@@ -3564,9 +3565,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Default loop protection module.' => 'デフォルトのループ・プロテクション・モジュールです。',
         'Default queue ID used by the system in the agent interface.' => '担当者インタフェースにおいて、システムによって使用されるデフォルトのキューIDです。',
-        'Default skin for OTRS 3.0 interface.' => 'OTRS 3.0インタフェースのデフォルトのスキンです。',
         'Default skin for the agent interface (slim version).' => '担当者インターフェースのデフォルトスキン (スリムバージョン)',
         'Default skin for the agent interface.' => '担当者インターフェースのデフォルトスキン',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             '担当者インタフェースにおいて、システムによって使用されるデフォルトのチケットIDです。',
         'Default ticket ID used by the system in the customer interface.' =>

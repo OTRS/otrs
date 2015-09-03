@@ -2850,6 +2850,7 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'सभी प्राप्त करें',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
@@ -3561,9 +3562,9 @@ sub Data {
             '',
         'Default loop protection module.' => 'तयशुदा पाश सुरक्षा मॉड्यूल',
         'Default queue ID used by the system in the agent interface.' => 'प्रतिनिधि अंतरफलक में सिस्टम के द्वारा प्रयुक्त तयशुदा श्रेणीID।',
-        'Default skin for OTRS 3.0 interface.' => '3.0 OTRS अंतरफलक के लिए तयशुदा सतही।',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में सिस्टम के द्वारा प्रयुक्त तयशुदा टिकटID।',
         'Default ticket ID used by the system in the customer interface.' =>

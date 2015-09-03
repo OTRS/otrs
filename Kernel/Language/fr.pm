@@ -967,7 +967,7 @@ sub Data {
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
             'Pour les tickets sous surveillance, envoyez-moi les mêmes notifications que celles envoyées au propriétaire de ces tickets.',
         'Send ticket watch notifications' => 'Envoi de notifications à la vue du ticket',
-        'Out Of Office Time' => 'Heure de sortie du travail',
+        'Out Of Office Time' => 'Absent du Bureau',
         'New Ticket' => 'Nouveau ticket',
         'Create new Ticket' => 'Création d\'un nouveau ticket',
         'Customer called' => 'Client appellé',
@@ -2641,7 +2641,7 @@ sub Data {
         'Totals' => 'Totaux',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => 'heure de sortie du travail',
+        'out of office' => 'Absent du Bureau',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'jusqu\'à',
@@ -2856,6 +2856,7 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Mail sortant',
@@ -3567,9 +3568,9 @@ sub Data {
             '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID de file par défaut utilisée par le système dans l\'interface opérateur.',
-        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID de ticket par défaut utilisé par le système dans l\'interface opérateur.',
         'Default ticket ID used by the system in the customer interface.' =>

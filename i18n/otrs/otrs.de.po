@@ -12,6 +12,7 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014-2015
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
+# Matze208, 2015
 # nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
@@ -20,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-08-25 09:42+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-08-25 16:38+0000\n"
+"Last-Translator: Matze208\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13090,7 +13091,7 @@ msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr ""
+msgstr "Definiert das Log Module für das System. \"File\" schreibt alle Meldungen in das angegebene Logfile, \"SysLog\" nutzt den Syslog Deamon des Systems, z.B. syslogd."
 
 #. SysConfig
 msgid ""
@@ -13210,7 +13211,7 @@ msgstr ""
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
-msgstr ""
+msgstr "Definiert, welches Modul für das Speichern der Session Daten verwendet werden soll. Mit \"DB\" kann der Anzeige Server getrennt vom DB-Server betrieben werden. \"FS\" ist schneller."
 
 #. SysConfig
 msgid ""
@@ -13441,7 +13442,7 @@ msgstr ""
 msgid ""
 "Defines the path for scheduler to store its console output (SchedulerOUT.log"
 " and SchedulerERR.log)."
-msgstr ""
+msgstr "Definiert den Pfad, in welchem der Scheduler die Konsolenausgabe speichern soll (SchedulerOUT.log und SchedulerERR.log)."
 
 #. SysConfig
 msgid ""
@@ -13543,7 +13544,7 @@ msgstr "Definiert den Statusttyp des Reminders für Tickets die auf \"Warten\" g
 msgid ""
 "Defines the subject for notification mails sent to agents, about new "
 "password."
-msgstr ""
+msgstr "Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Agenten geschickt werden. "
 
 #. SysConfig
 msgid ""
@@ -13585,7 +13586,7 @@ msgid ""
 "contains this ID. This ensures that only tickets which belong to your system"
 " will be processed as follow-ups (useful when communicating between two "
 "instances of OTRS)."
-msgstr ""
+msgstr "Definiert die System ID. Jede Ticketnummer und HTTP Sitzung enthält diese ID. Das stellt sicher, dass nur Tickets in das Ticketsystem aufgenommen werden, welche zum eigenen Ticketsystem gehören (nützlich, wenn zwischen zwei Instanzen von OTRS kommuniziert wird)."
 
 #. SysConfig
 msgid ""
@@ -13852,7 +13853,7 @@ msgstr ""
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
-msgstr ""
+msgstr "Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der Volltextsuche eingegeben werden."
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
@@ -14129,7 +14130,7 @@ msgstr "Filter aktiviert."
 msgid ""
 "Enables PDF output. The CPAN module PDF::API2 is required, if not installed,"
 " PDF output will be disabled."
-msgstr ""
+msgstr "Aktiviert die PDF Ausgabe. Das CPAN Modul PDF::API2 wird benötigt, wenn es nicht installiert ist, wird die PDF Ausgabe deaktiviert. "
 
 #. SysConfig
 msgid ""
@@ -14870,7 +14871,7 @@ msgstr "Wenn diese Option aktiviert ist, werden die verschiedenen Übersichtssei
 msgid ""
 "If enabled, the first level of the main menu opens on mouse hover (instead "
 "of click only)."
-msgstr ""
+msgstr "Wenn aktiviert, öffnet sich die erste Ebene des Hauptmenüs beim schon beim Überfahren der Maus (anstelle nur beim Klick)."
 
 #. SysConfig
 msgid ""
@@ -14907,20 +14908,20 @@ msgstr ""
 msgid ""
 "If you want to use a mirror database for agent ticket fulltext search or to "
 "generate stats, specify the DSN to this database."
-msgstr ""
+msgstr "Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, geben Sie hier den DSN zu der Datenbank an. "
 
 #. SysConfig
 msgid ""
 "If you want to use a mirror database for agent ticket fulltext search or to "
 "generate stats, the password to authenticate to this database can be "
 "specified."
-msgstr ""
+msgstr "Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, können Sie hier das Passwort, um sich an der Datenbank zu authentifizieren, angeben"
 
 #. SysConfig
 msgid ""
 "If you want to use a mirror database for agent ticket fulltext search or to "
 "generate stats, the user to authenticate to this database can be specified."
-msgstr ""
+msgstr "Wenn Sie eine Spiegel-Datenbank für die Agenten Volltextsuche oder zum Generieren der Statistiken verwenden wollen, können Sie hier den Benutzernamen, um sich an der Datenbank zu authentifizieren, angeben"
 
 #. SysConfig
 msgid ""
@@ -15231,7 +15232,7 @@ msgstr "Maximale Anzahl von Tickets, die im Suchergebnis des Kunden-Interfaces a
 #. SysConfig
 msgid ""
 "Maximum number of tickets to be displayed in the result of this operation."
-msgstr ""
+msgstr "Maximale Anzahl von Tickets, die als Ergebnis dieser Aktion angezeigt werden sollen. "
 
 #. SysConfig
 msgid ""
@@ -15252,7 +15253,7 @@ msgstr "Modul zum Überprüfen von Kundenberechtigungen."
 msgid ""
 "Module to check if a user is in a special group. Access is granted, if the "
 "user is in the specified group and has ro and rw permissions."
-msgstr ""
+msgstr "Module zum überprüfen ob der Benutzer Mitglied einer speziellen Gruppe ist. Der Zugriff wird gestattet, wenn der Benutzer in der angegebenen Gruppe ist und ro und rw Berechtigungen hat."
 
 #. SysConfig
 msgid ""
@@ -15290,7 +15291,7 @@ msgstr "Modul um verschlüsselte Nachrichten zu verassen (PGP oder S/MIME)."
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
-msgstr ""
+msgstr "Modul zum filtern und bearbeiten von eingehenden Nachrichten. Blockiere/Ignoriere alle Nachrichten mit einer noreply@ Absender-Adresse."
 
 #. SysConfig
 msgid ""
@@ -15978,7 +15979,7 @@ msgid ""
 "preferences, such as selection of language and theme via the agent web "
 "interface. These changes are only valid for the current session. It will not"
 " be possible for agents to change their passwords."
-msgstr ""
+msgstr "Führt das System im \"Demo\" Modus aus. Wenn die Einstellung auf \"Ja\" gesetzt ist, können Agenten Einstellungen, wie die Sprachauswahl oder das Design über die Agenten Weboberfläche ändern. Diese Einstellungen sind nur für die aktuelle Session gültig. Agenten können ihr Passwort nicht ändern."
 
 #. SysConfig
 msgid "S/MIME Certificate Upload"
@@ -16034,7 +16035,7 @@ msgstr ""
 msgid ""
 "Selects the module to handle uploads via the web interface. \"DB\" stores "
 "all uploads in the database, \"FS\" uses the file system."
-msgstr ""
+msgstr "Auswahl wie Uploads über die Web-Oberfläche gehandhabt werden sollen. \"DB\" speichert alle Uploads in der Datenbank, \"FS\" nutzt das Dateisystem."
 
 #. SysConfig
 msgid ""
@@ -16097,7 +16098,7 @@ msgstr ""
 msgid ""
 "Sends all outgoing email via bcc to the specified address. Please use this "
 "only for backup reasons."
-msgstr ""
+msgstr "Versendet alle ausgehenden E-Mails via BCC zu der angegebenen Adresse. Bitte nutzen Sie dies ausschließlich für Backups."
 
 #. SysConfig
 msgid ""
@@ -16271,40 +16272,40 @@ msgstr ""
 msgid ""
 "Sets the default message for the login screen on Agent and Customer "
 "interface, it's shown when a running system maintenance period is active."
-msgstr ""
+msgstr "Setzt die Standard Nachricht für den Hinweis, der auf der Agenten- und Kunden-Oberfläche angezeigt wird, wenn sich das System im Wartungsmodus befindet. "
 
 #. SysConfig
 msgid ""
 "Sets the default message for the notification is shown on a running system "
 "maintenance period."
-msgstr ""
+msgstr "Setzt die Standard Nachricht für den Hinweis, der angezeigt wird, wenn das System im Wartungsmodus läuft. "
 
 #. SysConfig
 msgid ""
 "Sets the default next state for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Setzt den Standard Ticket-Status für neue Telefon-Tickets in der Agenten-Oberfläche. "
 
 #. SysConfig
 msgid ""
 "Sets the default next ticket state, after the creation of an email ticket in"
 " the agent interface."
-msgstr ""
+msgstr "Setzt den Standard Ticket-Status für neue E-Mail-Tickets in der Agenten-Oberfläche. "
 
 #. SysConfig
 msgid ""
 "Sets the default note text for new telephone tickets. E.g 'New ticket via "
 "call' in the agent interface."
-msgstr ""
+msgstr "Setzt die Standard Notiz für neue Telefon-Tickets. z.B. \"Neues Ticket durch Anruf\" in der Agenten Oberfläche"
 
 #. SysConfig
 msgid ""
 "Sets the default priority for new email tickets in the agent interface."
-msgstr ""
+msgstr "Setzt die Standard Priorität für neue E-Mail-Tickets in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default priority for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Setzt die Standard Priorität für neue Telefon-Tickets in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
@@ -17104,7 +17105,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Scheduler"
-msgstr ""
+msgstr "Zeigt Informationen an, wie der OTRS Scheduler gestartet wird"
 
 #. SysConfig
 msgid ""
@@ -17353,7 +17354,7 @@ msgstr "Legt das Verzeichnis, wo SSL-Zertifikate gespeichert sind, fest."
 
 #. SysConfig
 msgid "Specifies the directory where private SSL certificates are stored."
-msgstr ""
+msgstr "Legt das Verzeichnis fest, in welchem die privaten SSL Zertifikate gespeichert sind. "
 
 #. SysConfig
 msgid ""
@@ -17394,35 +17395,35 @@ msgstr "Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angez
 msgid ""
 "Specifies the path of the file for the logo in the page header (gif|jpg|png,"
 " 700 x 100 pixel)."
-msgstr ""
+msgstr "Gibt den Pfad für die Datei mit dem Logo in der Kopfzeile der Webseite an. (gif|jpg|pnp, 700 x 100 Pixel)."
 
 #. SysConfig
 msgid "Specifies the path of the file for the performance log."
-msgstr ""
+msgstr "Hinterlegt den Pfad für die Datei des Performance Logs. "
 
 #. SysConfig
 msgid ""
 "Specifies the path to the converter that allows the view of Microsoft Excel "
 "files, in the web interface."
-msgstr ""
+msgstr "Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Excel Dateien in der Weboberfläche erlaubt. "
 
 #. SysConfig
 msgid ""
 "Specifies the path to the converter that allows the view of Microsoft Word "
 "files, in the web interface."
-msgstr ""
+msgstr "Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Word Dateien in der Weboberfläche erlaubt. "
 
 #. SysConfig
 msgid ""
 "Specifies the path to the converter that allows the view of PDF documents, "
 "in the web interface."
-msgstr ""
+msgstr "Gibt den Pfad zu dem Konverter an, welcher das Ansehen von PDF Dokumenten in der Weboberfläche erlaubt. "
 
 #. SysConfig
 msgid ""
 "Specifies the path to the converter that allows the view of XML files, in "
 "the web interface."
-msgstr ""
+msgstr "Gibt den Pfad zu dem Konverter an, welcher das Ansehen von XML Dateien in der Weboberfläche erlaubt. "
 
 #. SysConfig
 msgid "Specifies the right margin of the chart."
@@ -17587,45 +17588,45 @@ msgstr ""
 msgid ""
 "The logo shown in the header of the agent interface for the skin "
 "\"default\". See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Das Logo, das für das Design \"default\" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung \"AgentLogo\""
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory\". "
 "See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Das Logo, das für das Design \"ivory\" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung \"AgentLogo\""
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory-"
 "slim\". See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Das Logo, das für das Design \"ivory-slim\" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung \"AgentLogo\""
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Das Logo, das für das Design \"slim\" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung \"AgentLogo\""
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface. The URL to the image "
 "can be a relative URL to the skin image directory, or a full URL to a remote"
 " web server."
-msgstr ""
+msgstr "Das Logo, das im Agenten-Interface angezeigt wird. Die URL zu dem Bild kann entweder eine relative URL zum Designverzeichnis mit dem Bild sein, oder eine vollständige URL zu einem anderen Webserver."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the customer interface. The URL to the image"
 " can be a relative URL to the skin image directory, or a full URL to a "
 "remote web server."
-msgstr ""
+msgstr "Das Logo, das im Kunden-Interface angezeigt wird. Die URL zu dem Bild kann entweder eine relative URL zum Designverzeichnis mit dem Bild sein, oder eine vollständige URL zu einem anderen Webserver."
 
 #. SysConfig
 msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
 "the image must be relative URL to the skin image directory."
-msgstr ""
+msgstr "Das Logo, das oberhalb der Login-Maske im Agenten-Interface angezeigt wird. Die URL zu dem Bild muss die relative URL zum Designverzeichnis mit dem Bild sein."
 
 #. SysConfig
 msgid ""

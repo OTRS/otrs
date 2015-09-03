@@ -2859,6 +2859,7 @@ sub Data {
         'Select this customer as the main customer.' => 'Выбрать этого клиента главным клиентом',
         'Remove Ticket Customer User' => 'Удалить клиента заявки',
         'Get all' => 'Получить всех',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Перенаправить почтовое сообщение',
@@ -3570,9 +3571,9 @@ sub Data {
             'Стандартные данные, используемые для атрибутов поиска. Например: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default loop protection module.' => 'Стандартный модуль защиты от зацикливания.',
         'Default queue ID used by the system in the agent interface.' => 'ID очереди по умолчанию используемый в системе в интерфейсе агента.',
-        'Default skin for OTRS 3.0 interface.' => 'Стандартная тема оформления для интерфейса OTRS 3.0.',
         'Default skin for the agent interface (slim version).' => 'Стандартная тема оформления для интерфейса агента (slim version).',
         'Default skin for the agent interface.' => 'Стандартная тема оформления для интерфейса агента.',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'TicketID по умолчанию, для использования в интерфейсе агента.',
         'Default ticket ID used by the system in the customer interface.' =>

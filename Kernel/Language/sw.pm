@@ -2852,6 +2852,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Select this customer as the main customer.' => 'Chagua mteja huyu kama mteja mkuu.',
         'Remove Ticket Customer User' => 'Ondoa mtumiaji wa mteja wa tiketi',
         'Get all' => 'Pata zote',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Barua pepe zilizofungwa nje.',
@@ -3566,9 +3567,9 @@ Mfano:
 "Mwaka wa kuanza wa muda wa kutengeneza tiketi=2010; Mwezi wa kuanza wa muda wa kutengeneza tiketi=10; Siku ya kuanza ya muda wa kutengeneza tiketi=4; Mwaka wa kuacha wa muda wa kutengeneza tiketi =2010; Mwezi wa kuacha wa muda wa kutengeneza tiketi = 11; Siku ya kuacha ya muda wa kutengeneza tiketi=3; ".',
         'Default loop protection module.' => 'Moduli ya kulinda kitanzi chaguo-msingi.',
         'Default queue ID used by the system in the agent interface.' => 'Kitambulisho cha foleni chaguo-msingi kinachotumika na mfumo katika kiolesura cha wakala.',
-        'Default skin for OTRS 3.0 interface.' => 'Gamba chaguo-msingi la kiolesura cha OTRS cha 3.0.',
         'Default skin for the agent interface (slim version).' => 'Gamba chaguo-msingi kwa jili ya kiolesura cha wakala (toleo jembamba).',
         'Default skin for the agent interface.' => 'Gamba chaguo-msingi kwa ajili ya kiolesura cha wakala.',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Kitambulisho cha tiketi chaguo-msingi kinachotumika na mfumo katika kiolesura cha wakala.',
         'Default ticket ID used by the system in the customer interface.' =>

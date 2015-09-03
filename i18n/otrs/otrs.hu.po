@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-07-26 16:43+0000\n"
+"PO-Revision-Date: 2015-08-29 15:13+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1477,7 +1477,7 @@ msgstr "Az ütemező nem fut."
 
 #. Template: AAABase
 msgid "All sessions have been killed, except for your own."
-msgstr "Minden munkamenet ki lett lőve, kivéve az Ön sajátját."
+msgstr "Összes munkamenet ki lett lőve, kivéve az Ön sajátját."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -8210,11 +8210,11 @@ msgstr "Részletek"
 
 #. Template: AdminSession
 msgid "Session Management"
-msgstr "Munkamenet kezelés"
+msgstr "Munkamenet-kezelés"
 
 #. Template: AdminSession
 msgid "All sessions"
-msgstr "Minden munkamenet"
+msgstr "Összes munkamenet"
 
 #. Template: AdminSession
 msgid "Agent sessions"
@@ -8238,7 +8238,7 @@ msgstr "Összes munkamenet kilövése"
 
 #. Template: AdminSession
 msgid "Kill this session"
-msgstr "Ezen munkamenet kilövése"
+msgstr "Munkamenet kilövése"
 
 #. Template: AdminSession
 msgid "Session"
@@ -8544,7 +8544,7 @@ msgstr "Valóban törölni szeretné ezt az ütemezett rendszerkarbantartást?"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
-msgstr "%s rendszerkarbantartás szerkesztése"
+msgstr "Rendszerkarbantartás szerkesztése: %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance information"
@@ -8572,7 +8572,7 @@ msgstr "Munkamenetek kezelése"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr "Minden munkamenet"
+msgstr "Összes munkamenet"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
@@ -8939,7 +8939,7 @@ msgstr "irodán kívül"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr "egészen"
+msgstr "eddig:"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
@@ -10053,7 +10053,7 @@ msgstr "Visszakövetés"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr "Készítette"
+msgstr "A gépházban:"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -13845,7 +13845,7 @@ msgstr "Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
-msgstr "Figyelmeztetés megjelenítése és a keresés megakadályozása, ha leállítási szavakat használ a szabad-szavas keresésen belül."
+msgstr "Figyelmeztetés megjelenítése és a keresés megakadályozása, ha kiszűrendő szavakat használ a szabad-szavas keresésen belül."
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
@@ -17499,7 +17499,7 @@ msgstr "Állapot nézet"
 
 #. SysConfig
 msgid "Stop words for fulltext index. These words will be removed."
-msgstr "Szóstoppok a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva."
+msgstr "Kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva."
 
 #. SysConfig
 msgid "Stores cookies after the browser has been closed."

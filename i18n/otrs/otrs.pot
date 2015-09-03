@@ -9098,6 +9098,10 @@ msgstr ""
 msgid "Get all"
 msgstr ""
 
+#. Template: AgentTicketEmail
+msgid "Do you really want to continue?"
+msgstr ""
+
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
 msgstr ""
@@ -11091,15 +11095,15 @@ msgid "Default queue ID used by the system in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Default skin for OTRS 3.0 interface."
-msgstr ""
-
-#. SysConfig
 msgid "Default skin for the agent interface (slim version)."
 msgstr ""
 
 #. SysConfig
 msgid "Default skin for the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Default skin for the customer interface."
 msgstr ""
 
 #. SysConfig
