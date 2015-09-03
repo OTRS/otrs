@@ -23,8 +23,8 @@
             {
                 Label: [% Translate("Reset") | JSON %],
                 Function: function () {
-                    $('#ArticleTypeFilter').val('');
-                    $('#ArticleSenderTypeFilter').val('');
+                    $('#ArticleTypeFilter').val('').trigger('redraw.InputField');
+                    $('#ArticleSenderTypeFilter').val('').trigger('redraw.InputField');
                 }
             }
         ]);
@@ -86,7 +86,7 @@
             {
                 Label: [% Translate("Reset") | JSON %],
                 Function: function () {
-                    $('#EventTypeFilter').val('');
+                    $('#EventTypeFilter').val('').trigger('redraw.InputField');
                 }
             }
         ]);

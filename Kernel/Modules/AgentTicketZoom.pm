@@ -1722,6 +1722,7 @@ sub MaskAgentZoom {
                 Multiple    => 1,
                 Sort        => 'AlphanumericValue',
                 Name        => 'EventTypeFilter',
+                Class       => 'Modernize',
             );
 
             $LayoutObject->Block(
@@ -1744,6 +1745,7 @@ sub MaskAgentZoom {
                 Multiple    => 1,
                 Sort        => 'AlphanumericValue',
                 Name        => 'ArticleTypeFilter',
+                Class       => 'Modernize',
             );
 
             # get sender types
@@ -1759,6 +1761,7 @@ sub MaskAgentZoom {
                 Multiple    => 1,
                 Sort        => 'AlphanumericValue',
                 Name        => 'ArticleSenderTypeFilter',
+                Class       => 'Modernize',
             );
 
             # Ticket ID
