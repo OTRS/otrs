@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.339509263895844;
+    $Self->{Completeness}        = 0.333666084352383;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -80,6 +80,10 @@ sub Data {
         'month(s)' => 'měsíc(e)',
         'week' => 'týden',
         'week(s)' => 'týden(týdny)',
+        'quarter' => '',
+        'quarter(s)' => '',
+        'half-year' => '',
+        'half-year(s)' => '',
         'year' => 'rok',
         'years' => 'roků',
         'year(s)' => 'rok(y)',
@@ -503,151 +507,6 @@ sub Data {
             '',
         'CSV Separator' => 'CSV oddělovač',
 
-        # Template: AAASupportDataCollector
-        'Unknown' => 'Neznámí',
-        'Information' => 'Informace',
-        'OK' => 'Ano',
-        'Problem' => 'Problém',
-        'Webserver' => 'Webový server',
-        'Operating System' => 'Operační systém',
-        'OTRS' => 'OTRS',
-        'Table Presence' => '',
-        'Internal Error: Could not open file.' => 'Chyba serveru: Soubor nelze otevřít.',
-        'Table Check' => 'Kontrola tabulek',
-        'Internal Error: Could not read file.' => 'Chyba serveru: Soubor nelze načíst.',
-        'Tables found which are not present in the database.' => '',
-        'Database Size' => 'Velikost databáze',
-        'Could not determine database size.' => 'Nebylo možno zjistit velikost databáze.',
-        'Database Version' => 'Verze databáze',
-        'Could not determine database version.' => 'Nebylo možno zjistit verzi databáze.',
-        'Client Connection Charset' => '',
-        'Setting character_set_client needs to be utf8.' => 'Nastavení character_set_client musi být UNICODE nebo UTF8.',
-        'Server Database Charset' => 'Kódová stránka databáze',
-        'Setting character_set_database needs to be UNICODE or UTF8.' => 'Nastavení character_set_database musi být UNICODE nebo UTF8.',
-        'Table Charset' => '',
-        'There were tables found which do not have utf8 as charset.' => 'Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8.',
-        'InnoDB Log File Size' => 'Velikost InnoDB logu',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
-        'Maximum Query Size' => 'Maximální velikost SQL dotazu',
-        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
-            'Nastavení \'max_allowed_packet\' musí být větší než 20 MB.',
-        'Query Cache Size' => 'Velikost Query Cache',
-        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
-        'Default Storage Engine' => 'Výchozí typ úložiště tabulek',
-        'Tables with a different storage engine than the default engine were found.' =>
-            'Byly nalezeny tabulky z jiným než výchozím formátem úložiště tabulek.',
-        'MySQL 5.x or higher is required.' => 'MySQL 5.x a vyšší je vyžadována.',
-        'NLS_LANG Setting' => 'NLS_LANG nastavení,',
-        'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
-            'NLS_LANG musí být nastaveno na AL32UTF8(kupříkladu CZECH_CZECH REPUBLIC.AL32UTF8).',
-        'NLS_DATE_FORMAT Setting' => 'Nastavení NLS_DATE_FORMAT',
-        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
-        'NLS_DATE_FORMAT Setting SQL Check' => '',
-        'Setting client_encoding needs to be UNICODE or UTF8.' => 'Nastavení client_encoding musi být UNICODE nebo UTF8.',
-        'Setting server_encoding needs to be UNICODE or UTF8.' => 'Nastavení server_encoding musi být UNICODE nebo UTF8.',
-        'Date Format' => 'Formát datumu',
-        'Setting DateStyle needs to be ISO.' => 'Nastavení stylu data musí být ISO.',
-        'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x a vyšší je vyžadováno.',
-        'OTRS Disk Partition' => 'OTRS diskový oddíl',
-        'Disk Usage' => 'Využití disku',
-        'The partition where OTRS is located is almost full.' => 'Particie kde je umístněno OTRS je téměř plná.',
-        'The partition where OTRS is located has no disk space problems.' =>
-            'Na particii, kde je nainstalováno OTRS není problém s diskovým prostorem.',
-        'Disk Partitions Usage' => 'Využití diskového prostoru',
-        'Distribution' => 'Linuxová distribuce ',
-        'Could not determine distribution.' => 'Nemohu zjistit typ Linuxové distribuce.',
-        'Kernel Version' => 'Verze jádra',
-        'Could not determine kernel version.' => 'Nemohu zjistit verzi jádra.',
-        'System Load' => 'Zatížení systému',
-        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            '',
-        'Perl Modules' => 'Moduly Perlu',
-        'Not all required Perl modules are correctly installed.' => 'Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány',
-        'Perl Version' => 'Verze Perlu',
-        'Free Swap Space (%)' => 'Volný swap prostor (%)',
-        'No Swap Enabled.' => 'Není zapnut swap',
-        'Used Swap Space (MB)' => 'Využitý prostor swap (MB)',
-        'There should be more than 60% free swap space.' => 'Mělo by být více jak 60 % volného prostoru swapu',
-        'There should be no more than 200 MB swap space used.' => 'Nemělo by být využito více jak 200 MB swapu',
-        'Config Settings' => 'Nastavení',
-        'Could not determine value.' => 'Nelze zjistit hodnotu.',
-        'Database Records' => 'Záznamů v databázi',
-        'Tickets' => 'Tikety',
-        'Ticket History Entries' => '',
-        'Articles' => '',
-        'Attachments (DB, Without HTML)' => '',
-        'Customers With At Least One Ticket' => '',
-        'Queues' => 'Řady',
-        'Agents' => 'Řešitelé',
-        'Roles' => 'Role',
-        'Groups' => 'Skupiny',
-        'Dynamic Fields' => '',
-        'Dynamic Field Values' => '',
-        'Invalid Dynamic Fields' => '',
-        'Invalid Dynamic Field Values' => '',
-        'GenericInterface Webservices' => '',
-        'Processes' => 'Procesy',
-        'Months Between First And Last Ticket' => '',
-        'Tickets Per Month (avg)' => 'Tiketů za měsíc ( prům.)',
-        'Default SOAP Username and Password' => '',
-        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            '',
-        'Default Admin Password' => 'Výchozí heslo admina',
-        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
-            'Bezpečnostní riziko: heslo účtu operátora root@localhost má stále výchozí heslo. Prosím změňte ho nebo deaktivujte tento účet.',
-        'Error Log' => 'Chybový log',
-        'There are error reports in your system log.' => 'V systémovém logu jsou chybová hlášení.',
-        'File System Writable' => 'Na souborový systém lze zapisovat',
-        'The file system on your OTRS partition is not writable.' => 'Na souborový systém na vaší OTRS particii není možné zapisovat.',
-        'Domain Name' => 'Doménové jméno',
-        'Your FQDN setting is invalid.' => 'Vaše nastavení FQDN je neplatné.',
-        'Package installation status' => 'Stav instalace balíčku',
-        'Some packages are not correctly installed.' => 'Některé balíčky nejsou korektně nainstalované.',
-        'Package List' => 'Seznam balíčků',
-        'SystemID' => 'Systémové ID',
-        'Your SystemID setting is invalid, it should only contain digits.' =>
-            'Nastavení vašeho SystemID je neplatné, mělo by obsahovat jen čísla.',
-        'OTRS Version' => 'Verze OTRS ',
-        'Ticket Index Module' => '',
-        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
-        'Open Tickets' => 'Otevřených tiketů',
-        'You should not have more than 8,000 open tickets in your system.' =>
-            'Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému',
-        'Ticket Search Index module' => '',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
-        'Orphaned Records In ticket_lock_index Table' => '',
-        'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
-        'Orphaned Records In ticket_index Table' => '',
-        'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
-            '',
-        'Environment Variables' => '',
-        'Webserver Version' => 'Verze webového serveru',
-        'Could not determine webserver version.' => '',
-        'Loaded Apache Modules' => 'Aktivní Apache moduly',
-        'MPM model' => '',
-        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
-        'CGI Accelerator Usage' => '',
-        'You should use FastCGI or mod_perl to increase your performance.' =>
-            'Použijte FastCGI nebo mod_perl pro zvýšení výkonu',
-        'mod_deflate Usage' => '',
-        'Please install mod_deflate to improve GUI speed.' => '',
-        'mod_filter Usage' => '',
-        'Please install mod_filter if mod_deflate is used.' => '',
-        'mod_headers Usage' => '',
-        'Please install mod_headers to improve GUI speed.' => '',
-        'Apache::Reload Usage' => '',
-        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
-            '',
-        'Apache::DBI Usage' => '',
-        'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
-            '',
-        'You should use PerlEx to increase your performance.' => '',
-
         # Template: AAATicket
         'Status View' => 'Zobrazení stavu',
         'Service View' => 'Zobrazit službu',
@@ -666,6 +525,7 @@ sub Data {
         'Subject' => 'Předmět',
         'Move' => 'Přesunout',
         'Queue' => 'Fronta',
+        'Queues' => 'Řady',
         'Priority' => 'Priorita',
         'Priorities' => 'Priority',
         'Priority Update' => 'Oprava Priority',
@@ -1090,6 +950,7 @@ sub Data {
         'Search Results' => 'Výsledek vyhledávání',
         'Customers' => 'Zákazníci',
         'No matches found.' => 'Nenalezena žádná shoda.',
+        'Groups' => 'Skupiny',
         'Change Group Relations for Customer' => '',
         'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => '',
@@ -1128,6 +989,7 @@ sub Data {
         'Delete field' => '',
 
         # Template: AdminDynamicFieldCheckbox
+        'Dynamic Fields' => '',
         'Field' => '',
         'Go back to overview' => '',
         'General' => '',
@@ -1659,9 +1521,10 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => 'Přidat oznámení',
         'Export Notifications' => '',
+        'Configuration Import' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing Notifications?' => '',
+        'Overwrite existing notifications?' => '',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Smazat toto oznámení',
@@ -1684,7 +1547,7 @@ sub Data {
         'Subject match' => 'Shoda Předmětu',
         'Body match' => 'Shoda Těla',
         'Include attachments to notification' => '',
-        'Recipient' => 'Příjemce',
+        'Recipients' => 'Příjemce',
         'Send to' => '',
         'Send to these agents' => '',
         'Send to all group members' => '',
@@ -1694,20 +1557,21 @@ sub Data {
         'Once per day' => '',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification methods' => '',
+        'Notification Methods' => '',
         'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
             '',
-        'Enable' => '',
         'Transport' => '',
+        'Enable this notification method' => '',
         'At least one method is needed per notification.' => '',
         'This feature is currently not available.' => '',
         'No data found' => '',
         'No notification method found.' => '',
-        'Notification' => 'Upozornění',
+        'Notification Text' => '',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
+        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi nebo zákazníkovi',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku Řešitele)',
@@ -1729,6 +1593,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '',
         'Downgrade to OTRS Free' => '',
+        'Read documentation' => '',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
         'Unauthorized Usage Detected' => '',
@@ -1902,10 +1767,17 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
+        'Example processes' => '',
+        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
+            '',
+        'Import example process' => '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+            '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
+        'Processes' => 'Procesy',
         'Process name' => '',
         'Print' => 'Tisknout',
         'Export Process Configuration' => '',
@@ -2175,46 +2047,6 @@ sub Data {
         'Please visit our' => '',
         'portal' => '',
         'and file a request.' => '',
-        'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
-            '',
-        'All passwords are automatically made unrecognizable before the information is sent.' =>
-            '',
-        'Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.' =>
-            '',
-        'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
-            '',
-        'Data Handling with \'System Registration\'' => '',
-        'Information received through the \'Service Center\' is saved by OTRS Group.' =>
-            '',
-        'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
-            '',
-        'Safety of Personal Details' => '',
-        'OTRS Group protects your personal data from unauthorized access, use or publication.' =>
-            '',
-        'OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.' =>
-            '',
-        'Disclosure of Details' => '',
-        'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
-            '',
-        'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
-            '',
-        'Amendment of Data Protection Policy' => '',
-        'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
-            '',
-        'In this case we will also adapt our information regarding data protection accordingly.' =>
-            '',
-        'Please regularly refer to the latest version of our Data Protection Policy.' =>
-            '',
-        'Right to Information' => '',
-        'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
-            '',
-        'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
-            '',
-        'Further Information' => '',
-        'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
-            '',
-        'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
-            '',
         'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -2228,6 +2060,9 @@ sub Data {
             '',
         'Attribute' => '',
         'FQDN' => '',
+        'OTRS Version' => 'Verze OTRS ',
+        'Operating System' => 'Operační systém',
+        'Perl Version' => 'Verze Perlu',
         'Optional description of this system.' => '',
         'Register' => '',
         'Deregister System' => '',
@@ -2257,6 +2092,7 @@ sub Data {
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '',
         'Filter for Roles' => '',
+        'Roles' => 'Role',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             '',
@@ -2280,6 +2116,7 @@ sub Data {
         'Manage Agent-Role Relations' => '',
         'Add agent' => 'Přidat řešitele',
         'Filter for Agents' => '',
+        'Agents' => 'Řešitelé',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
         'Change Agent Relations for Role' => '',
@@ -2657,6 +2494,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'mimo kancelář',
+        'Selected agent is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'do',
@@ -2729,13 +2567,13 @@ sub Data {
             '',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of Ticket' => '',
-        'Change Owner of Ticket' => 'Změnit vlastníka Tiketu',
-        'Close Ticket' => 'Uzavřít Tiket',
-        'Add Note to Ticket' => 'Přidat poznámku k Tiketu',
-        'Set Pending' => 'Nastavit - čeká na vyřízení',
-        'Change Priority of Ticket' => 'Změnit prioritu Tiketu',
-        'Change Responsible of Ticket' => '',
+        'Change Free Text of %s%s' => '',
+        'Change Owner of %s%s' => '',
+        'Close %s%s' => '',
+        'Add Note to %s%s' => '',
+        'Set Pending Time for %s%s' => '',
+        'Change Priority of %s%s' => '',
+        'Change Responsible of %s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Všechna pole označena hvězdičkou (*) jsou povinná.',
         'Service invalid.' => 'Služba je neplatná.',
         'New Owner' => 'Nový vlastník',
@@ -2777,7 +2615,7 @@ sub Data {
         'Unlock tickets' => 'Odemkni tikety',
 
         # Template: AgentTicketCompose
-        'Compose answer for ticket' => 'Sestavit odpověď pro tiket',
+        'Compose Answer for %s%s' => '',
         'Please include at least one recipient' => 'Prosíme, uveďte alespoň jednoho příjemce',
         'Remove Ticket Customer' => '',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2788,7 +2626,7 @@ sub Data {
         'Date Invalid!' => 'Neplatné datum!',
 
         # Template: AgentTicketCustomer
-        'Change customer of ticket' => 'Změnit zákazníkaa tiketu',
+        'Change Customer of %s%s' => '',
         'Customer user' => 'Zákaznický uživatel',
 
         # Template: AgentTicketEmail
@@ -2800,9 +2638,10 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '',
+        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
-        'E-Mail Outbound' => 'Odchozí e-mail',
+        'Outbound Email for %s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
@@ -2812,23 +2651,23 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
-        'Forward ticket: %s - %s' => 'Přeposlat tiket: %s - %s',
+        'Forward %s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of' => 'Historie',
+        'History of %s%s' => '',
         'History Content' => '',
         'Zoom view' => '',
 
         # Template: AgentTicketMerge
-        'Ticket Merge' => 'Sloučení Tiketu',
+        'Merge %s%s' => '',
+        'Merge Settings' => '',
         'You need to use a ticket number!' => 'Notno použít číslo Tiketu',
         'A valid ticket number is required.' => '',
         'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
-        'Move Ticket' => 'Přesunout tiket',
+        'Move %s%s' => '',
         'New Queue' => 'Nová fronta',
-        'Previous Owner' => 'Předchozí vlastník',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => '',
@@ -2859,8 +2698,11 @@ sub Data {
         'Chat protocol' => '',
         'The chat will be appended as a separate article.' => '',
 
+        # Template: AgentTicketPhoneCommon
+        'Phone Call for %s%s' => '',
+
         # Template: AgentTicketPlain
-        'Email Text Plain View' => 'Zobrazení zdroje tiketu',
+        'View Email Plain Text for %s%s' => '',
         'Plain' => 'Jednoduché',
         'Download this email' => 'Stáhnout tento email',
 
@@ -2971,6 +2813,10 @@ sub Data {
         'Close this dialog' => 'Zavřít toto okno',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '',
+        'If you now leave this page, all open popup windows will be closed, too!' =>
+            '',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
+            '',
         'There are currently no elements available to select from.' => '',
         'Please turn off Compatibility Mode in Internet Explorer!' => '',
         'The browser you are using is too old.' => 'Váš prohlížeč je příliš starý.',
@@ -2980,6 +2826,13 @@ sub Data {
             '',
         'Switch to mobile mode' => '',
         'Switch to desktop mode' => '',
+        'Not available' => '',
+        'Clear all' => '',
+        'Clear search' => '',
+        '%s selection(s)...' => '',
+        'and %s more...' => '',
+        'Filters' => '',
+        'Confirm' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript není povolen',
@@ -3028,6 +2881,7 @@ sub Data {
         'e. g. 10*5155 or 105658*' => 'např. 10*5155 or 105658*',
         'Customer ID' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Fulltextové vyhledávání v tiketech (např. "John*n" or "Will*")',
+        'Recipient' => 'Příjemce',
         'Carbon Copy' => 'Skrytá kopie',
         'e. g. m*file or myfi*' => '',
         'Types' => '',
@@ -3049,9 +2903,12 @@ sub Data {
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
+        'Start a chat from this ticket' => '',
         'Expand article' => '',
+        'Information' => 'Informace',
         'Next Steps' => 'Další kroky',
         'Reply' => 'Odpovědět',
+        'Chat Protocol' => '',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
@@ -3087,10 +2944,6 @@ sub Data {
         'Error Details' => '',
 
         # Template: FooterJS
-        'If you now leave this page, all open popup windows will be closed, too!' =>
-            '',
-        'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
-            '',
         'Please enter at least one search value or * to find anything.' =>
             '',
         'Please remove the following words from your search as they cannot be searched for:' =>
@@ -3098,20 +2951,21 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
-        'Not available' => '',
-        'Clear all' => '',
-        'Clear search' => '',
-        '%s selection(s)...' => '',
-        'and %s more...' => '',
-        'Filters' => '',
-        'Confirm' => '',
-        'This feature is part of %s. Please contact %s for more information.' =>
+        'Unavailable for chat' => '',
+        'Available for internal chats only' => '',
+        'Available for chats' => '',
+        'Please visit the chat manager' => '',
+        'New personal chat request' => '',
+        'New customer chat request' => '',
+        'New public chat request' => '',
+        'New activity' => '',
+        'New activity on one of your monitored chats.' => '',
+        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
+        'Find out more about the %s' => '',
 
         # Template: Header
         'You are logged in as' => 'Jste přihlášen jako',
-        'There are new chat requests available. Please visit the chat manager.' =>
-            '',
 
         # Template: Installer
         'JavaScript not available' => '',
@@ -3191,6 +3045,7 @@ sub Data {
         'Accept license and continue' => '',
 
         # Template: InstallerSystem
+        'SystemID' => 'Systémové ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '',
         'System FQDN' => 'Systém FQDN',
@@ -3219,6 +3074,11 @@ sub Data {
         'Request New Password' => '',
         'Back to login' => '',
 
+        # Template: MobileNotAvailableWidget
+        'Feature not available' => '',
+        'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
+            '',
+
         # Template: Motd
         'Message of the Day' => '',
 
@@ -3239,6 +3099,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PreferencesNotificationEvent
+        'Notification' => 'Upozornění',
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
@@ -3299,6 +3160,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No subject' => '',
+        'Previous Owner' => 'Předchozí vlastník',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => '',
@@ -3308,8 +3170,8 @@ sub Data {
         'Ticket Dynamic Fields' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Pending Date' => '',
-        'for pending* states' => '',
+        'Pending Date' => 'Očekávaný čas vyřízení',
+        'for pending* states' => 'pro stavy očekávání*',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Invalid Users' => '',
@@ -3320,7 +3182,6 @@ sub Data {
         'Fields with no group' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-        'Reached max. count of %s search hits!' => '',
         'Please remove the following words because they cannot be used for the search:' =>
             '',
 
@@ -3333,6 +3194,12 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'This ticket has no title or subject' => '',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'This user is currently offline' => '',
+        'This user is currently active' => '',
+        'This user is currently away' => '',
+        'This user is currently unavailable' => '',
+
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
@@ -3343,6 +3210,9 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => '',
+
+        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
+        'Please contact your administrator!' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
@@ -3357,7 +3227,11 @@ sub Data {
         'The selected end time is later than the allowed end time.' => '',
         'The selected time period is larger than the allowed time period.' =>
             '',
+        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
+            '',
         'The selected time scale is smaller than the allowed time scale.' =>
+            '',
+        'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
         'The selected date is not valid.' => '',
         'The selected end time is before the start time.' => '',
@@ -3409,6 +3283,214 @@ sub Data {
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Dnů',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
+        'Table Presence' => '',
+        'Internal Error: Could not open file.' => 'Chyba serveru: Soubor nelze otevřít.',
+        'Table Check' => 'Kontrola tabulek',
+        'Internal Error: Could not read file.' => 'Chyba serveru: Soubor nelze načíst.',
+        'Tables found which are not present in the database.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
+        'Database Size' => 'Velikost databáze',
+        'Could not determine database size.' => 'Nebylo možno zjistit velikost databáze.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
+        'Database Version' => 'Verze databáze',
+        'Could not determine database version.' => 'Nebylo možno zjistit verzi databáze.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+        'Client Connection Charset' => '',
+        'Setting character_set_client needs to be utf8.' => 'Nastavení character_set_client musi být UNICODE nebo UTF8.',
+        'Server Database Charset' => 'Kódová stránka databáze',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => 'Nastavení character_set_database musi být UNICODE nebo UTF8.',
+        'Table Charset' => '',
+        'There were tables found which do not have utf8 as charset.' => 'Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
+        'InnoDB Log File Size' => 'Velikost InnoDB logu',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
+        'Maximum Query Size' => 'Maximální velikost SQL dotazu',
+        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
+            'Nastavení \'max_allowed_packet\' musí být větší než 20 MB.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
+        'Query Cache Size' => 'Velikost Query Cache',
+        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
+        'Default Storage Engine' => 'Výchozí typ úložiště tabulek',
+        'Table Storage Engine' => '',
+        'Tables with a different storage engine than the default engine were found.' =>
+            'Byly nalezeny tabulky z jiným než výchozím formátem úložiště tabulek.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+        'MySQL 5.x or higher is required.' => 'MySQL 5.x a vyšší je vyžadována.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
+        'NLS_LANG Setting' => 'NLS_LANG nastavení,',
+        'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
+            '',
+        'NLS_DATE_FORMAT Setting' => 'Nastavení NLS_DATE_FORMAT',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
+        'NLS_DATE_FORMAT Setting SQL Check' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
+        'Setting client_encoding needs to be UNICODE or UTF8.' => 'Nastavení client_encoding musi být UNICODE nebo UTF8.',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => 'Nastavení server_encoding musi být UNICODE nebo UTF8.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
+        'Date Format' => 'Formát datumu',
+        'Setting DateStyle needs to be ISO.' => 'Nastavení stylu data musí být ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
+        'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x a vyšší je vyžadováno.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTRS.pm
+        'OTRS Disk Partition' => 'OTRS diskový oddíl',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
+        'Disk Usage' => 'Využití disku',
+        'The partition where OTRS is located is almost full.' => 'Particie kde je umístněno OTRS je téměř plná.',
+        'The partition where OTRS is located has no disk space problems.' =>
+            'Na particii, kde je nainstalováno OTRS není problém s diskovým prostorem.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
+        'Distribution' => 'Linuxová distribuce ',
+        'Could not determine distribution.' => 'Nemohu zjistit typ Linuxové distribuce.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+        'Kernel Version' => 'Verze jádra',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
+        'System Load' => 'Zatížení systému',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
+        'Perl Modules' => 'Moduly Perlu',
+        'Not all required Perl modules are correctly installed.' => 'Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
+        'Free Swap Space (%)' => 'Volný swap prostor (%)',
+        'No swap enabled.' => '',
+        'Used Swap Space (MB)' => 'Využitý prostor swap (MB)',
+        'There should be more than 60% free swap space.' => 'Mělo by být více jak 60 % volného prostoru swapu',
+        'There should be no more than 200 MB swap space used.' => 'Nemělo by být využito více jak 200 MB swapu',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'Could not determine value.' => 'Nelze zjistit hodnotu.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+        'OTRS' => 'OTRS',
+        'Daemon' => '',
+        'Daemon is not running.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'Tickets' => 'Tikety',
+        'Ticket History Entries' => '',
+        'Articles' => '',
+        'Attachments (DB, Without HTML)' => '',
+        'Customers With At Least One Ticket' => '',
+        'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
+        'GenericInterface Webservices' => '',
+        'Months Between First And Last Ticket' => '',
+        'Tickets Per Month (avg)' => 'Tiketů za měsíc ( prům.)',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
+        'Default SOAP Username And Password' => '',
+        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
+        'Default Admin Password' => 'Výchozí heslo admina',
+        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
+            'Bezpečnostní riziko: heslo účtu operátora root@localhost má stále výchozí heslo. Prosím změňte ho nebo deaktivujte tento účet.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
+        'Error Log' => 'Chybový log',
+        'There are error reports in your system log.' => 'V systémovém logu jsou chybová hlášení.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+        'FQDN (domain name)' => '',
+        'Please configure your FQDN setting.' => '',
+        'Domain Name' => 'Doménové jméno',
+        'Your FQDN setting is invalid.' => 'Vaše nastavení FQDN je neplatné.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
+        'File System Writable' => 'Na souborový systém lze zapisovat',
+        'The file system on your OTRS partition is not writable.' => 'Na souborový systém na vaší OTRS particii není možné zapisovat.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+        'Package Installation Status' => '',
+        'Some packages are not correctly installed.' => 'Některé balíčky nejsou korektně nainstalované.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
+        'Your SystemID setting is invalid, it should only contain digits.' =>
+            'Nastavení vašeho SystemID je neplatné, mělo by obsahovat jen čísla.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
+        'Ticket Index Module' => '',
+        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
+        'Open Tickets' => 'Otevřených tiketů',
+        'You should not have more than 8,000 open tickets in your system.' =>
+            'Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
+        'Ticket Search Index Module' => '',
+        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+        'Orphaned Records In ticket_lock_index Table' => '',
+        'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
+            '',
+        'Orphaned Records In ticket_index Table' => '',
+        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
+        'Webserver' => 'Webový server',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
+        'CGI Accelerator Usage' => '',
+        'You should use FastCGI or mod_perl to increase your performance.' =>
+            'Použijte FastCGI nebo mod_perl pro zvýšení výkonu',
+        'mod_deflate Usage' => '',
+        'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
+        'mod_headers Usage' => '',
+        'Please install mod_headers to improve GUI speed.' => '',
+        'Apache::Reload Usage' => '',
+        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
+            '',
+        'Apache2::DBI Usage' => '',
+        'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
+        'You should use PerlEx to increase your performance.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
+        'Webserver Version' => 'Verze webového serveru',
+        'Could not determine webserver version.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
+        'Unknown' => 'Neznámí',
+        'OK' => 'Ano',
+        'Problem' => 'Problém',
+
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Reset password unsuccessful. Please contact your administrator' =>
             '',
@@ -3438,32 +3520,32 @@ sub Data {
         'system standard signature (en)' => '',
         'Standard Signature.' => '',
         'Standard Address.' => '',
-        'Follow ups after closed(+|-) possible. Ticket will be reopen.' =>
+        'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
             '',
-        'Follow ups after closed(+|-) not possible. No new ticket will be created.' =>
+        'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
         'new ticket' => '',
-        'Follow ups after closed(+|-) not possible. A new ticket will be created..' =>
+        'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
             '',
         'Postmaster queue.' => '',
         'All default incoming tickets.' => '',
         'All junk tickets.' => '',
         'All misc tickets.' => '',
-        'Auto reply which will be sent out after a new ticket has been created.' =>
+        'Automatic reply which will be sent out after a new ticket has been created.' =>
             '',
-        'Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").' =>
+        'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
             '',
-        'Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").' =>
+        'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
             '',
-        'Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").' =>
+        'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
             '',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
         'default reply (after new ticket has been created)' => '',
-        'default reject (after follow up and rejected of a closed ticket)' =>
+        'default reject (after follow-up and rejected of a closed ticket)' =>
             '',
-        'default follow up (after a ticket follow up has been added)' => '',
-        'default reject/new ticket created (after closed follow up with new ticket creation)' =>
+        'default follow-up (after a ticket follow-up has been added)' => '',
+        'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             '',
         'Unclassified' => '',
         'tmp_lock' => '',
@@ -3472,6 +3554,18 @@ sub Data {
         'fax' => '',
 
         # SysConfig
+        '
+Dear Customer,
+
+Unfortunately we could not detect a valid ticket number
+in your subject, so this email can\'t be processed.
+
+Please create a new ticket via the customer panel.
+
+Thanks for your help!
+
+ Your Helpdesk Team
+' => '',
         ' (work units)' => '',
         '"%s" notification was sent to "%s" by "%s".' => '',
         '%s' => '%s',
@@ -3762,11 +3856,15 @@ sub Data {
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
             '',
+        'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
+            '',
+        'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
+            '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
-        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
+        'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             '',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -3939,7 +4037,7 @@ sub Data {
             '',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
             '',
-        'Defines the default next state for a ticket after customer follow up in the customer interface.' =>
+        'Defines the default next state for a ticket after customer follow-up in the customer interface.' =>
             '',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             '',
@@ -3969,7 +4067,7 @@ sub Data {
             '',
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.' =>
+        'Defines the default priority of follow-up customer tickets in the ticket zoom screen in the customer interface.' =>
             '',
         'Defines the default priority of new customer tickets in the customer interface.' =>
             '',
@@ -4106,6 +4204,8 @@ sub Data {
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
+            '',
+        'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
             '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             '',
@@ -4406,7 +4506,7 @@ sub Data {
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
-        'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
+        'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
             '',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             '',
@@ -4566,19 +4666,13 @@ sub Data {
         'Execute SQL statements.' => '',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
-        'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
+        'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Executes follow up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
+        'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Executes follow up checks on email body for mails that don\'t have a ticket number in the subject.' =>
+        'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Executes follow up checks on the raw source email for mails that don\'t have a ticket number in the subject.' =>
-            '',
-        'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
-            '',
-        'Executes follow up mail body checks in mails that don\'t have a ticket number in the subject.' =>
-            '',
-        'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
+        'Executes follow-up checks on the raw source email for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
@@ -4622,6 +4716,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Motiv prostředí',
+        'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -4789,6 +4884,7 @@ sub Data {
             '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
+        'JavaScript function for the search frontend.' => '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Left' => '',
@@ -4869,6 +4965,7 @@ sub Data {
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Merge this ticket and all articles into a another ticket' => '',
+        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
@@ -4985,14 +5082,6 @@ sub Data {
         'Parameters of the example service attribute Comment2.' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'Path of the file that stores all the settings for the QueueObject object for the agent interface.' =>
-            '',
-        'Path of the file that stores all the settings for the QueueObject object for the customer interface.' =>
-            '',
-        'Path of the file that stores all the settings for the TicketObject for the agent interface.' =>
-            '',
-        'Path of the file that stores all the settings for the TicketObject for the customer interface.' =>
-            '',
         'People' => '',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
@@ -5015,7 +5104,7 @@ sub Data {
             '',
         'Queue view' => 'Zobrazit frontu',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh interval' => 'Interval obnovy',
         'Removed subscription for user "%s".' => 'Poznámka pro uživatele odebrána "%s".',
@@ -5512,13 +5601,13 @@ sub Data {
         'Specifies the directory where SSL certificates are stored.' => '',
         'Specifies the directory where private SSL certificates are stored.' =>
             '',
-        'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
+        'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
             '',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             '',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
             '',
-        'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
+        'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
             '',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             '',
@@ -5562,8 +5651,6 @@ sub Data {
         'System Request (%s).' => '',
         'Templates <-> Queues' => 'Šablony <-> Fronty',
         'Textarea' => 'Textové pole',
-        'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
-            '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -5579,7 +5666,7 @@ sub Data {
             '',
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
             '',
-        'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the last case you should enable PostmasterFollowupSearchInRaw or PostmasterFollowUpSearchInReferences to recognize followups based on email headers and/or body.' =>
+        'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
             '',
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
@@ -5601,6 +5688,8 @@ sub Data {
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             '',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximum number of mails fetched at once before reconnecting to the server.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
@@ -5661,7 +5750,9 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
-        'Use new type of select and autocomplete fields, where applicable (InputFields).' =>
+        'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
+            '',
+        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
         'UserFirstname' => '',
         'UserLastname' => '',
@@ -5680,6 +5771,8 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Yes, but hide archived tickets' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
+            '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Selekce Front z Oblíbených. Bude zasíláno oznámení, je-li zapnuto.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
