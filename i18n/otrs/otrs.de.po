@@ -1,4 +1,4 @@
-# 
+#
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2015
 # jb_otrs <jens.bothe@otrs.com>, 2014
@@ -1525,7 +1525,7 @@ msgstr "Die Nutzungsvereinbarung für Ihre %s läuft in Kürze aus. Bitte kontak
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update der %s!  "
+msgstr "Es ist ein Update für Ihre %s verfügbar, jedoch ist die verwendete Version des Frameworks nicht auf dem aktuellen Stand! Bitte aktualisieren Sie zuerst das Framework und installieren im Anschluss das Update!  "
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
