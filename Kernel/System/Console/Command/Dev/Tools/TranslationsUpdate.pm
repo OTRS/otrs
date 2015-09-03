@@ -180,7 +180,7 @@ sub HandleLanguage {
 
         # remove underscores and/or version numbers and following from module name
         # i.e. FAQ_2_0 or FAQ20
-        $Module =~ s{ [_0-9]+ .+ \z }{}xms;
+        $Module =~ s{ [[(?:_|\-)0-9]+ .+ \z }{}xms;
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
@@ -759,7 +759,7 @@ sub WritePerlLanguageFile {
         $Translation =~ s/'/\\'/g;
 
         if ( $Param{IsSubTranslation} ) {
-            if ( index( $Key, "\n") > -1 || length($Key) < $BreakLineAfterChars ) {
+            if ( index( $Key, "\n" ) > -1 || length($Key) < $BreakLineAfterChars ) {
                 $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
             }
             else {
@@ -768,7 +768,7 @@ sub WritePerlLanguageFile {
             }
         }
         else {
-            if ( index( $Key, "\n") > -1 || length($Key) < $BreakLineAfterChars ) {
+            if ( index( $Key, "\n" ) > -1 || length($Key) < $BreakLineAfterChars ) {
                 $Data .= $Indent . "'$Key' => '$Translation',\n";
             }
             else {
