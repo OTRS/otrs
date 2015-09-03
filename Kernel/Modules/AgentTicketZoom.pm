@@ -797,9 +797,9 @@ sub MaskAgentZoom {
 
         $Article->{Count} = $Count;
 
-        next if !$Self->{ArticleID};
-        next if !$Article->{ArticleID};
-        next if $Self->{ArticleID} ne $Article->{ArticleID};
+        next ARTICLE if !$Self->{ArticleID};
+        next ARTICLE if !$Article->{ArticleID};
+        next ARTICLE if $Self->{ArticleID} ne $Article->{ArticleID};
 
         $ArticleIDFound = 1;
     }
