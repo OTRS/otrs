@@ -189,8 +189,8 @@ sub HandleLanguage {
         $Module = basename $Module;
 
         # remove underscores and/or version numbers and following from module name
-        # i.e. FAQ_2_0 or FAQ20
-        $Module =~ s{ [_0-9]+ .+ \z }{}xms;
+        # i.e. FAQ_2_0, FAQ-2_0 or FAQ20
+        $Module =~ s{ [(?:_|\-)0-9]+ .+ \z }{}xms;
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
