@@ -2411,7 +2411,8 @@ sub _GenerateDynamicStats {
 
         # in these constellation $Count > 1 is not useful!!
         if (
-            $Param{UseAsValueSeries}[0]{Block}
+            $Param{UseAsValueSeries}
+            && $Param{UseAsValueSeries}[0]{Block}
             && $Param{UseAsValueSeries}[0]{Block} eq 'Time'
             && $Element->{SelectedValues}[0] eq 'Day'
             )
