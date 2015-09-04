@@ -140,7 +140,7 @@ sub StatsParamsWidget {
             Name => 'FormatFixed',
             Data => {
                 Format    => ( values %SelectFormat )[0],
-                FormatKey => $Stat->{Format}->[0],
+                FormatKey => ( keys %SelectFormat )[0],
             },
         );
     }
