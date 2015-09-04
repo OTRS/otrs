@@ -36,6 +36,20 @@ our @ObjectDependencies = (
 
 use Kernel::Language qw(Translatable);
 
+=head1 NAME
+
+Kernel::Output::HTML::Statistics::View - View object for statistics
+
+=head1 SYNOPSIS
+
+Provides several functions to generate statistics GUI elements.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -45,6 +59,25 @@ sub new {
 
     return $Self;
 }
+
+=item StatsParamsWidget()
+
+generate HTML for statistics run widget.
+
+    my $HTML = $StatsViewObject->StatsParamsWidget(
+        StatID => $StatID,
+
+        Formats => {            # optional, limit the available formats
+            Print => 'Print',
+        }
+
+        OutputCounter => 1,     # optional, counter to append to ElementIDs
+                                # This is needed if there is more than one stat on the page.
+
+        AJAX          => 0,     # optional, keep script tags for AJAX responses
+    );
+
+=cut
 
 sub StatsParamsWidget {
     my ( $Self, %Param ) = @_;
@@ -470,7 +503,8 @@ sub StatsParamsWidget {
                                     || $Self->_GetSelectedXAxisTimeScaleValue( Stat => $Stat );
 
                                 # save the x axis time scale element id for the output
-                                $BlockData{XAxisTimeScaleElementID} = $XAxisElementName . '-' . $StatID . '-' . $Param{OutputCounter};
+                                $BlockData{XAxisTimeScaleElementID}
+                                    = $XAxisElementName . '-' . $StatID . '-' . $Param{OutputCounter};
                             }
                             else {
 
@@ -1244,7 +1278,7 @@ sub StatsParamsGet {
                                 # Use Values of the stat as fallback
                                 $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
                                 $Time{TimeRelativeUpcomingCount} //= $Element->{TimeRelativeUpcomingCount};
-                                $Time{TimeRelativeUnit}          ||= $Element->{TimeRelativeUnit};
+                                $Time{TimeRelativeUnit} ||= $Element->{TimeRelativeUnit};
 
                                 my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(
                                     TimeUnit => $Element->{TimeRelativeUnit},
@@ -1344,8 +1378,10 @@ sub StatsParamsGet {
 
             # integrate this functionality in the completenesscheck
             my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
-            if ( ( $TimePeriod + $TimeUpcomingPeriod ) / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
-                > $MaxAttr )
+            if (
+                ( $TimePeriod + $TimeUpcomingPeriod ) / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
+                > $MaxAttr
+                )
             {
                 push @Errors, Translatable('The selected time period is larger than the allowed time period.');
             }
@@ -1358,7 +1394,9 @@ sub StatsParamsGet {
             );
 
             if ( !IsHashRefWithData($TimeScale) ) {
-                push @Errors, Translatable('No time scale value available for the current selected time scale value on the X axis.');
+                push @Errors,
+                    Translatable(
+                    'No time scale value available for the current selected time scale value on the X axis.');
             }
         }
     }
@@ -1563,8 +1601,10 @@ sub StatsConfigurationValidate {
                                 = Translatable('The selected end time is before the start time.');
                         }
                     }
-                    elsif ( !$Xvalue->{TimeRelativeUnit}
-                        || ( !$Xvalue->{TimeRelativeCount} && !$Xvalue->{TimeRelativeUpcomingCount} ) )
+                    elsif (
+                        !$Xvalue->{TimeRelativeUnit}
+                        || ( !$Xvalue->{TimeRelativeCount} && !$Xvalue->{TimeRelativeUpcomingCount} )
+                        )
                     {
                         $XAxisFieldErrors{ $Xvalue->{Element} }
                             = Translatable('There is something wrong with your time selection.');
@@ -1613,7 +1653,8 @@ sub StatsConfigurationValidate {
                     );
 
                     if ( !IsHashRefWithData($TimeScale) ) {
-                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('No time scale value available for the current selected time scale value on the X axis.');
+                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable(
+                            'No time scale value available for the current selected time scale value on the X axis.');
                     }
 
                     $TimeUsed++;
@@ -1684,8 +1725,10 @@ sub StatsConfigurationValidate {
                                 = Translatable('The selected end time is before the start time.');
                         }
                     }
-                    elsif ( !$Restriction->{TimeRelativeUnit}
-                        || ( !$Restriction->{TimeRelativeCount} && !$Restriction->{TimeRelativeUpcomingCount} ) )
+                    elsif (
+                        !$Restriction->{TimeRelativeUnit}
+                        || ( !$Restriction->{TimeRelativeCount} && !$Restriction->{TimeRelativeUpcomingCount} )
+                        )
                     {
                         $RestrictionsFieldErrors{ $Restriction->{Element} }
                             = Translatable('There is something wrong with your time selection.');
@@ -1899,7 +1942,6 @@ sub _TimeOutput {
                     Sort       => 'NumericKey',
                 );
             }
-
 
             if ( $Param{Output} eq 'View' ) {
                 %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
@@ -2416,3 +2458,15 @@ sub _StopWordFieldsGet {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
