@@ -105,7 +105,7 @@ sub Run {
             NewCustomerID NewPendingTime NewPendingTimeType NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID NewResponsibleID
             NewTypeID NewServiceID NewSLAID
-            NewNoteFrom NewNoteSubject NewNoteBody NewNoteTimeUnits NewModule
+            NewNoteFrom NewNoteSubject NewNoteBody NewArticleType NewNoteTimeUnits NewModule
             NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
             NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
             NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
@@ -1160,6 +1160,27 @@ sub _MaskUpdate {
 
         push @EventTypeList, $Type;
     }
+
+    my %ArticleTypeData = (
+        'note-internal' => 'note-internal',
+        'note-external' => 'note-external',
+    );
+
+    my $NewArticleType = $LayoutObject->BuildSelection(
+        Data        => \%ArticleTypeData,
+        Name        => 'NewArticleType',
+        Multiple    => 0,
+        Size        => 2,
+        Translation => 1,
+        SelectedID  => $JobData{NewArticleType} || 'note-internal',
+        Class       => 'Modernize',
+    );
+    $LayoutObject->Block(
+        Name => 'NewArticleType',
+        Data => {
+            NewArticleType => $NewArticleType,
+        },
+    );
 
     # create event type selector
     my $EventTypeStrg = $LayoutObject->BuildSelection(
