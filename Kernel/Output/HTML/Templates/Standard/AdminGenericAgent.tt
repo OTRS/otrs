@@ -761,6 +761,13 @@ Core.Agent.Admin.GenericAgent.Init({
                         </div>
                         <div class="Clear"></div>
 
+[% RenderBlockStart("NewArticleType") %]
+                        <label for="NewArticleType">[% Translate("Type") | html %]:</label>
+                        <div class="Field">
+                            [% Data.NewArticleType %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("NewArticleType") %]
                         <label for="NewNoteTimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
                         <div class="Field">
                             <input type="text" name="NewNoteTimeUnits" id="NewNoteTimeUnits" value="[% Data.NewNoteTimeUnits | html %]" class="W20pc"/>
