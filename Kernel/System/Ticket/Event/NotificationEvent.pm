@@ -179,7 +179,7 @@ sub Run {
                 TicketID              => $Param{Data}->{TicketID},
                 Recipient             => $Recipient,
                 Notification          => \%Notification,
-                CustomerMessageParams => $Param{CustomerMessageParams},
+                CustomerMessageParams => $Param{Data}->{CustomerMessageParams},
                 UserID                => $Param{UserID},
             );
 
