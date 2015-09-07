@@ -2,6 +2,7 @@
 # Translators:
 # Adonai Silveira Canez <adonaicanez@gmail.com>, 2015
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
+# Cleberson Balbino Rosa <cleberson.balbino@gmail.com>, 2015
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
 # José Junior <joserribeiro26@gmail.com>, 2014-2015
@@ -16,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-03 16:46+0000\n"
+"Last-Translator: Cleberson Balbino Rosa <cleberson.balbino@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3150,7 +3151,7 @@ msgstr "Resposta de exemplo"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Gestão de Serviço de Nuvem"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"

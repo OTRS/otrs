@@ -3,6 +3,7 @@
 # Alexey Yusov <yusovas@gmail.com>, 2015
 # Anton <anton.astashkin@gmail.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
+# Makdorf <makdorf@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:14+0000\n"
-"Last-Translator: Alexey Yusov <yusovas@gmail.com>\n"
+"PO-Revision-Date: 2015-09-04 06:31+0000\n"
+"Last-Translator: Makdorf <makdorf@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1483,7 +1484,7 @@ msgstr "Повторить"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "Служба OTRS не запущена"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -2792,11 +2793,11 @@ msgstr "Информация о заявке"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "включая подочереди"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "исключая подочереди"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -3145,15 +3146,15 @@ msgstr "Пример ответа"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Управление Облаком"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Сбор данных для поддержки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Сбор данных для поддержки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3161,7 +3162,7 @@ msgstr "Подсказка"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "В настоящее время эти данные для поддержки только отображаются в этой системе."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3214,11 +3215,11 @@ msgstr "Регистрация системы - это сервис от OTRS Gr
 msgid ""
 "Please note that you using OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Обращаем внимание, что использование облачных сервисов OTRS требует регистрации системы."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Зарегистрировать эту систему"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3228,7 +3229,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Доступные облачные сервисы"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
@@ -4238,7 +4239,7 @@ msgstr "Интерфейс отладки для Веб-сервисов"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Вы здесь"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4433,11 +4434,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "Умолчания для не назначенных кнопок"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "Это правило будет использоваться для всех не назначенных кнопок"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
@@ -4940,11 +4941,11 @@ msgstr "например, /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Опции сортировки"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "Добавить новый элемент первого уровня"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5290,7 +5291,7 @@ msgstr "Онлайн-руководство администратора"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Управление уведомлениями"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5298,11 +5299,11 @@ msgstr "Добавить уведомление"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Экспорт уведомлений"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Импорт конфигурации"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5313,15 +5314,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Перезаписать существующие уведомления?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Загрузить конфигурацию уведомлений"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Импортировать настройки Уведомлений"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5329,7 +5330,7 @@ msgstr "Удалить это уведомление"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Вы действительно желаете удалить это Уведомление?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5341,7 +5342,7 @@ msgstr "Редактировать уведомления"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Показать в настройках агента"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -5429,7 +5430,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Один раз в день"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5439,7 +5440,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Способы уведомлений"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5448,7 +5449,7 @@ msgid ""
 "reach all selected recipients, please take a look on the documentation of "
 "each merthod to get more information. Please select at least one method "
 "below."
-msgstr ""
+msgstr "Возможные способы уведомлений для каждого подписчика. Примечание: Любые другие способы, кроме e-mail, не могут быть гарантированно доставлены получателю, пожалуйста обратитесь к документации чтобы ознакомиться более подробно о каждом способе доставки уведомлений. Выберите хотя бы один способ."
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
@@ -5456,15 +5457,15 @@ msgstr "Передача"
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Активировать этот способ уведомлений"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Должен быть выбран хотя бы один способ для каждого уведомления"
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Эта функция в данный момент не доступна"
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
@@ -5476,7 +5477,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Текст уведомления"
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -7727,7 +7728,7 @@ msgstr "Редактировать настройки конфигурации"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Этот параметр изменить нельзя - только для чтения"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -8394,7 +8395,7 @@ msgstr "Заявка была заблокирована"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Отменить и закрыть"
 
 #. Template: AgentInfo
 msgid "Info"

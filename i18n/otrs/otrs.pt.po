@@ -1,12 +1,15 @@
 # 
 # Translators:
+# Helder Araújo <helderpos@gmail.com>, 2015
+# Nuno Ricardo Santos Loureiro da Silva Ferreira <nunolf@gmail.com>, 2015
+# Paulo Rafael <paulo.rafael@isjd.pt>, 2015
 # Sandra Dias Correia <scorreia@itsquare.pt>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-05 00:22+0000\n"
+"Last-Translator: Nuno Ricardo Santos Loureiro da Silva Ferreira <nunolf@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,19 +183,19 @@ msgstr "semana(s)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "quarto"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "quarto(s)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "meio ano"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "meio(s) ano(s)"
 
 #. Template: AAABase
 msgid "year"
@@ -644,7 +647,7 @@ msgstr "entre"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "antes/depois"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -851,7 +854,7 @@ msgstr "Agente atualizado"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Seleção da Base de Dados"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -1012,7 +1015,7 @@ msgstr "Não é possível criar %s"
 
 #. Template: AAABase
 msgid "Check to activate this date"
-msgstr ""
+msgstr "Confirma para ativar esta data"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -1104,11 +1107,11 @@ msgstr "Conta de Mail actualizada!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr ""
+msgstr "Endereço de e-mail de sistema adicionado"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr ""
+msgstr "Endereço de email de sistema atualizado"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1340,7 +1343,7 @@ msgstr "Mostrar"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr ""
+msgstr "Mostrar utilizadores do cliente"
 
 #. Template: AAABase
 msgid "News"
@@ -1381,11 +1384,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Marca"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Desmarca"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1413,7 +1416,7 @@ msgstr "Limpar formação"
 
 #. Template: AAABase
 msgid "Show/Hide Hidden Elements"
-msgstr ""
+msgstr "Mostra/Oculta Elementos Ocultos"
 
 #. Template: AAABase
 msgid "Align Left"
@@ -1493,7 +1496,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Utilizador e senha não coincidem. Por favor tente novamente."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
@@ -1553,27 +1556,27 @@ msgstr ""
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "Dia de Ano Novo"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "Dia do Trabalhador"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
-msgstr ""
+msgstr "Vespera de Natal"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr ""
+msgstr "Dia de Natal"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr ""
+msgstr "Segundo Dia de Natal"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
-msgstr ""
+msgstr "Vespera de Ano Novo"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
@@ -1709,7 +1712,7 @@ msgstr "Mudar a Palavra-passe"
 
 #. Template: AAAPreferences
 msgid "Current password"
-msgstr ""
+msgstr "Senha atual"
 
 #. Template: AAAPreferences
 msgid "New password"
@@ -2129,7 +2132,7 @@ msgstr "Aberto"
 
 #. Template: AAATicket
 msgid "Open tickets"
-msgstr ""
+msgstr "Tickets abertos"
 
 #. Template: AAATicket
 msgid "closed"
@@ -2141,7 +2144,7 @@ msgstr "Fechado"
 
 #. Template: AAATicket
 msgid "Closed tickets"
-msgstr ""
+msgstr "Tickets fechados"
 
 #. Template: AAATicket
 msgid "removed"
@@ -2189,7 +2192,7 @@ msgstr "telefone"
 
 #. Template: AAATicket
 msgid "sms"
-msgstr ""
+msgstr "sms"
 
 #. Template: AAATicket
 msgid "webrequest"
@@ -2213,7 +2216,7 @@ msgstr "baixa"
 
 #. Template: AAATicket
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #. Template: AAATicket
 msgid "high"
@@ -2233,7 +2236,7 @@ msgstr "2 baixa"
 
 #. Template: AAATicket
 msgid "3 normal"
-msgstr ""
+msgstr "3 normal"
 
 #. Template: AAATicket
 msgid "4 high"
@@ -2305,15 +2308,15 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "Ticket selecionado"
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr ""
+msgstr "Ticket bloqueado por outro agente"
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "Ticket bloqueado"
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -2449,11 +2452,11 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Print this ticket"
-msgstr ""
+msgstr "Imprimir este ticket"
 
 #. Template: AAATicket
 msgid "Print this article"
-msgstr ""
+msgstr "Imprimir este artigo"
 
 #. Template: AAATicket
 msgid "Split"
@@ -2501,7 +2504,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr ""
+msgstr "Fechar este ticket"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
@@ -2509,7 +2512,7 @@ msgstr "Ver detalhe do ticket!"
 
 #. Template: AAATicket
 msgid "Delete this ticket"
-msgstr ""
+msgstr "Apagar este ticket"
 
 #. Template: AAATicket
 msgid "Mark as Spam!"
@@ -2525,7 +2528,7 @@ msgstr "Mostrar Tickets"
 
 #. Template: AAATicket
 msgid "Shown Columns"
-msgstr ""
+msgstr "Mostrar colunas"
 
 #. Template: AAATicket
 msgid ""
@@ -2731,7 +2734,7 @@ msgstr "Realizar chamada telefónica"
 
 #. Template: AAATicket
 msgid "Phone Call Inbound"
-msgstr ""
+msgstr "Chamada telefónica de entrada"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
@@ -2782,7 +2785,7 @@ msgstr "Tickets não arquivados"
 
 #. Template: AAATicket
 msgid "Ticket Information"
-msgstr ""
+msgstr "Informação do ticket"
 
 #. Template: AAATicket
 msgid "including subqueues"
@@ -2822,11 +2825,11 @@ msgstr "Sábado"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Gestão de ACLs"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filtro para ACLs"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -2834,7 +2837,7 @@ msgstr "Filtro"
 
 #. Template: AdminACL
 msgid "ACL Name"
-msgstr ""
+msgstr "Nome da ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -2842,19 +2845,19 @@ msgstr "Ações"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Criar nova ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Implementar ACLs"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Exportar ACLs"
 
 #. Template: AdminACL
 msgid "Configuration import"
-msgstr ""
+msgstr "Importar configuração"
 
 #. Template: AdminACL
 msgid ""
@@ -2868,7 +2871,7 @@ msgstr "Campo obrigatório"
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Substituir ACLs existentes?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
@@ -2893,7 +2896,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACLs"
 
 #. Template: AdminACL
 msgid ""
@@ -2904,7 +2907,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Nome da ACL"
 
 #. Template: AdminACL
 msgid "Validity"
@@ -2912,7 +2915,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -2920,7 +2923,7 @@ msgstr "não há resultados"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -2928,11 +2931,11 @@ msgstr "Vista geral"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Eliminar ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Eliminar ACL inválida"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -2947,7 +2950,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Alterar definições"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -3161,7 +3164,7 @@ msgstr ""
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "É bastante recomendável enviar estes dados para o Grupo OTRS para obter um melhor apoio."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -3169,24 +3172,24 @@ msgstr "Configuração"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Enviar dados de suporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr ""
+msgstr "Isso permite que o sistema envie informações de dados de suporte adicionais para o Groupo OTRS."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr ""
+msgstr "Registo de Sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Para permitir o envio de dados, por favor registe o seu sistema no Group OTRS ou atualise a informação de registo do sitstema (confirme que a opção 'Enviar dados de suporte' está ativa)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -6353,7 +6356,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "Atividades"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
@@ -9618,7 +9621,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "Todo o dia"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"

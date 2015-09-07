@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.342650361866733;
+    $Self->{Completeness}        = 0.343898178188171;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -73,10 +73,10 @@ sub Data {
         'month(s)' => 'ay',
         'week' => 'hafta',
         'week(s)' => 'hafta',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'çeyrek',
+        'quarter(s)' => 'çeyrek(ler)',
+        'half-year' => 'yarı-yıl',
+        'half-year(s)' => 'yarı-yıl(lar)',
         'year' => 'yıl',
         'years' => 'yıl',
         'year(s)' => 'yıl',
@@ -151,7 +151,7 @@ sub Data {
         'CustomerID' => 'Müşteri IDsi',
         'CustomerIDs' => 'Müşteri IDleri',
         'customer' => 'müşteri',
-        'agent' => 'aracı',
+        'agent' => 'temsilci',
         'system' => 'sistem',
         'Customer Info' => 'Müşteri Bilgisi',
         'Customer Information' => 'Müşteri Bilgileri',
@@ -273,7 +273,7 @@ sub Data {
         'Time Zone' => 'Zaman Dilimi',
         'Pending till' => 'Şu zamana kadar askıda',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
+            'Tam yetkili hesapla OTRS\'yi kullanmayın. Onun yerine yeni bir temsilci hesabı oluşturun ve bunu kullanın.',
         'Dispatching by email To: field.' => 'Elektronik posta Kime: alanına göre gönderiliyor.',
         'Dispatching by selected Queue.' => 'Seçili Kuyruğa göre gönderiliyor.',
         'No entry found!' => 'Kayıt bulunamadı!',

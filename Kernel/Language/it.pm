@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.550536561018218;
+    $Self->{Completeness}        = 0.554280009982531;
 
     # csv separator
     $Self->{Separator} = '';
@@ -81,10 +81,10 @@ sub Data {
         'month(s)' => 'mese(i)',
         'week' => 'settimana',
         'week(s)' => 'settimana(e)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'trimestre',
+        'quarter(s)' => 'trimestre(i)',
+        'half-year' => 'semestre',
+        'half-year(s)' => 'semestre(i)',
         'year' => 'anno',
         'years' => 'anni',
         'year(s)' => 'anno(i)',
@@ -425,19 +425,19 @@ sub Data {
         'Username and password do not match. Please try again.' => 'Il nome utente e la password non combaciano. Prova ancora.',
         'The selected process is invalid!' => 'Il processo selezionato non è valido!',
         'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        '%s Go to the upgrade center %s' => '%s Vai al centro aggiornamento %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'La tua licenza %s sta per scadere. Contatta %s per rinnovare il tuo contratto.',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            'E\' disponibile un aggiornamento per te %s, ma è in conflitto con la versione del framework! Aggiorna prima il tuo framework!',
         'Your system was successfully upgraded to %s.' => '',
         'There was a problem during the upgrade to %s.' => '',
         '%s was correctly reinstalled.' => '',
         'There was a problem reinstalling %s.' => '',
         'Your %s was successfully updated.' => '',
         'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        '%s was correctly uninstalled.' => '%s è stato correttamente disinstallato.',
+        'There was a problem uninstalling %s.' => 'C\'è stato un problema disinstallando %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Capodanno',
@@ -510,7 +510,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Visualizzazione Stato',
-        'Service View' => '',
+        'Service View' => 'Vista per Servizio',
         'Bulk' => 'Aggiornamento Multiplo',
         'Lock' => 'Gestici',
         'Unlock' => 'Rilascia',
@@ -593,7 +593,7 @@ sub Data {
         'Forwarded message from' => 'Messaggio inoltrato da',
         'End forwarded message' => 'Fine messaggio inoltrato',
         'Bounce Article to a different mail address' => 'Reinvia l\'Articolo ad un diverso indirizzo mail',
-        'Reply to note' => '',
+        'Reply to note' => 'Rispondere alla nota',
         'new' => 'nuovo',
         'open' => 'aperto',
         'Open' => 'aperto',
@@ -655,8 +655,8 @@ sub Data {
         'Create new Email Ticket' => 'Crea una nuova richiesta via email',
         'Phone-Ticket' => 'Richiesta-Telefonica',
         'Search Tickets' => 'Ricerca Richieste',
-        'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer Realname' => 'Nome Reale Utente',
+        'Customer History' => 'Storico Utente',
         'Edit Customer Users' => 'Modifica Utenti Clienti',
         'Edit Customer' => 'Modifica cliente',
         'Bulk Action' => 'Operazioni Multiple',
@@ -769,8 +769,8 @@ sub Data {
         'Archived tickets' => 'Ticket archiviati',
         'Unarchived tickets' => 'Ticket non archiviati',
         'Ticket Information' => 'Informazioni sul Ticket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'incluse le sottocode',
+        'excluding subqueues' => 'escluse le sottocode',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-03 12:34+0000\n"
+"Last-Translator: Sefer <sefersimsek@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/otrs/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,19 +181,19 @@ msgstr "hafta"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "çeyrek"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "çeyrek(ler)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "yarı-yıl"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "yarı-yıl(lar)"
 
 #. Template: AAABase
 msgid "year"
@@ -493,7 +493,7 @@ msgstr "müşteri"
 
 #. Template: AAABase
 msgid "agent"
-msgstr "aracı"
+msgstr "temsilci"
 
 #. Template: AAABase
 msgid "system"
@@ -961,7 +961,7 @@ msgstr "Şu zamana kadar askıda"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr ""
+msgstr "Tam yetkili hesapla OTRS'yi kullanmayın. Onun yerine yeni bir temsilci hesabı oluşturun ve bunu kullanın."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."

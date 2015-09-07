@@ -1,11 +1,13 @@
 # 
 # Translators:
+# David Van Uffelen <david.van.uffelen@bnl.yusen-logistics.com>, 2015
+# Sander G. <transifex@sander.goudswaard.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-04 07:32+0000\n"
+"Last-Translator: Sander G. <transifex@sander.goudswaard.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -179,19 +181,19 @@ msgstr "weken"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "kwartaal"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "kwarta(a)l(en)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "half-jaar"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "halve-jaren"
 
 #. Template: AAABase
 msgid "year"
@@ -747,15 +749,15 @@ msgstr "Toon boomweergave"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "De inhoud van het veld is te lang!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "De maximumlengte bedraagt %s karakters."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Dit veld is verplicht of "
 
 #. Template: AAABase
 msgid "New message"
@@ -825,12 +827,12 @@ msgstr "Neem contact op met uw beheerder"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Inloggen is geslaagd, maar er is geen klantenrecord gevonden in het klantenbeheer. Gelieve uw beheerder te contacteren."
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te resetten."
 
 #. Template: AAABase
 msgid "Logout"
@@ -917,7 +919,7 @@ msgstr "Inloggen is nodig."
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Het is momenteel niet mogelijk om in te loggen omwille van een gepland systeemonderhoud."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -1019,7 +1021,7 @@ msgstr "U staat geregistreerd als afwezig. Wilt u dit aanpassen?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Nieuws over OTRS versies!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1290,7 +1292,7 @@ msgstr "Beste %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Het is niet toegestaan om u met dit e-mailadres te registreren. Gelieve contact op te nemen met de Support afdeling."
 
 #. Template: AAABase
 msgid ""
@@ -1476,7 +1478,7 @@ msgstr "Herhalen"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Daemon is niet actief."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1496,15 +1498,15 @@ msgstr "Gebruikersnaam en wachtwoord komen niet overeen."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "Het geselecteerde proces is niet geldig!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Upgrade nu naar %s!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Ga naar het upgrade center %s"
 
 #. Template: AAABase
 msgid ""
@@ -1516,39 +1518,39 @@ msgstr ""
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Er is een update beschikbaar voor uw %s, maar er is een probleem met de versie van uw framework! Gelieve eerst uw framework te updaten!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Het systeem is succesvol geupgraded naar %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het upgraden naar %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s is opnieuw geïnstalleerd zonder problemen."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het herinstalleren van %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Uw %s werd succesvol geupdated."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Er is een probleem opgetreden tijdens het upgraden van %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s werd zonder problemen verwijderd."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het verwijderen van %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2108,11 +2110,11 @@ msgstr "Einde doorgestuurd bericht"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Artikel terugsturen naar een ander e-mailadres"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Opmerking beantwoorden"
 
 #. Template: AAATicket
 msgid "new"
@@ -2244,23 +2246,23 @@ msgstr "5 zeer hoog"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr ""
+msgstr "automatisch opvolgen"
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr ""
+msgstr "automatisch weigeren"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "automatisch verwijderen"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "automatisch antwoorden"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "automatisch antwoord/nieuw ticket"
 
 #. Template: AAATicket
 msgid "Create"
@@ -2356,11 +2358,11 @@ msgstr "Zoek tickets"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Werkelijke naam van klant"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Klantgeschiedenis"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -2785,11 +2787,11 @@ msgstr "Ticket-informatie"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "Inclusief sub-wachtrijen"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "Exclusief sub-wachtrijen"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -3138,15 +3140,15 @@ msgstr "Voorbeeld"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Cloud Service Beheer"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Verzamelaar van supportgegevens"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Verzamelaar van supportgegevens"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3154,13 +3156,13 @@ msgstr "Opmerking"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "Momenteel worden enkel ondersteuningsgegevens getoond in dit systeem."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "Het is aangeraden om deze gegevens naar de OTRS Group te versturen om een betere ondersteuning te bekomen."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -3168,13 +3170,13 @@ msgstr "Configuratie"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Ondersteuningsgegevens versturen"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr ""
+msgstr "Hierdoor mag het systeem aanvullende ondersteuningsinformatie doorsturen naar de OTRS Groep."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
@@ -3185,17 +3187,17 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Gelieve uw systeem te registreren bij de OTRS Groep of de informatie van uw systeem registratie bij te werken om het versturen van gegevens mogelijk te maken (zorg ervoor dat optie 'ondersteuningsgegevens verzenden' geactiveerd is)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "Registreer dit Systeem"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "Systeemregistratie is uitgeschakeld voor uw systeem. Gelieve uw configuratie na te kijken."
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3207,25 +3209,25 @@ msgstr "Systeemregistratie is een service van de OTRS Groep, die een aantal voor
 msgid ""
 "Please note that you using OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Gelieve er rekening mee te houden dat om gebruik te maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Registreer dit systeem"
 
 #. Template: AdminCloudServices
 msgid ""
 "Here you can configure available cloud services that communicate securely "
 "with %s."
-msgstr ""
+msgstr "Hier kan u beschikbare Cloud diensten configureren die beveiligd communiceren met %s."
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Beschikbare Cloud Diensten"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Upgrade naar %s"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -3350,7 +3352,7 @@ msgstr "Filter op groepen"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Start met typen om te filteren"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -3463,7 +3465,7 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr ""
+msgstr "Om een nieuw veld toe te voegen selecteert u het veldtype uit de objectlijst, het object definieert de grens van het veld en deze kan na het aanmaken niet worden gewijzigd."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -3627,11 +3629,11 @@ msgstr "Hier kunt u een optionele hyperlink opgeven die getoond wordt in de over
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Beperk het invoeren van datumgegevens"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Hier kunt u het invoeren van datumgegevens van tickets beperken."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
@@ -3711,21 +3713,21 @@ msgstr "Geef de breedte van het invoervak voor dit veld (in kolommen)"
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Controleer RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will"
 " be executed with the modifiers xms."
-msgstr ""
+msgstr "Hier kunt u een reguliere expressie opgeven om de waarde te controleren. De regex zal met de xms modifier worden uitgevoerd."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Ongeldig RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -3733,7 +3735,7 @@ msgstr "Foutmelding"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Regex toevoegen"
 
 #. Template: AdminEmail
 msgid "Admin Notification"
@@ -3889,7 +3891,7 @@ msgstr "Nieuwe event trigger toevoegen"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Gebeurtenis toevoegen"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3911,11 +3913,11 @@ msgstr "Verwijder deze event trigger."
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Selectie verwijderen"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Selecteer Tickets"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -3963,19 +3965,19 @@ msgstr "Ticket aangemaakt tussen"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Tijdstip van laatste wijziging"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "Geen instellingen voor tijdstip laatste wijziging."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Laatste wijziging ticket"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Laatste wijziging ticket tussen"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -4083,7 +4085,7 @@ msgstr "Zoek in archief"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Update/toevoegen ticketattributen"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4159,7 +4161,7 @@ msgstr "Bestede tijd"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Ticketcommando's uitvoeren"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -4231,7 +4233,7 @@ msgstr "GenericInterface Debugger voor webservice %s"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Hier bent u"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4396,7 +4398,7 @@ msgstr "De invoker wordt aangeroepen door de geconfigureerde events."
 msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
-msgstr ""
+msgstr "Asynchrone event-triggers worden in de achtergrond afgehandeld door de OTRS Scheduler Daemon (aangeraden)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4518,11 +4520,11 @@ msgstr "Sjabloon"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
-msgstr ""
+msgstr "De ingevoerde data is geen geldig XSLT stylesheet."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "XLST stylesheet toevoegen."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -4684,11 +4686,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Standaard opdracht"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "De standaard HTTP opdracht die gebruikt wordt bij verzoeken."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -4724,7 +4726,7 @@ msgstr "Certificaat-bestand"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "Het volledige pad en naam van het SSL certificaat bestand."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
@@ -4736,7 +4738,7 @@ msgstr "Bestand dat wachtwoord van het certificaaat bevat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Het volledige pad en naam van het SSL sleutel bestand."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
@@ -5279,11 +5281,11 @@ msgstr "Beheer systeem"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Online Admin Handleiding"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Ticket Melding Management"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5291,11 +5293,11 @@ msgstr "Melding toevoegen"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Meldingen exporteren"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Configuratie importeren"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5306,15 +5308,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Bestaande meldingen overschrijven?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Upload meldingconfiguratie"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Melding configuratie importeren"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5322,7 +5324,7 @@ msgstr "Melding verwijderen"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Wenst u deze melding te verwijderen?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5334,7 +5336,7 @@ msgstr "Bewerk melding"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Tonen bij voorkeuren Agent"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -10589,27 +10591,27 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
-msgstr ""
+msgstr "Dagen"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Presence"
-msgstr ""
+msgstr "Uiterlijk Tabel"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Internal Error: Could not open file."
-msgstr ""
+msgstr "Interne Fout: kan bestand niet openen."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Check"
-msgstr ""
+msgstr "Tabel Controle"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Internal Error: Could not read file."
-msgstr ""
+msgstr "Interne fout: kan het bestand niet lezen."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
@@ -11111,31 +11113,31 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Apach2::DBI Gebruik"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
-msgstr ""
+msgstr "Gelieve Apache2:DBI te gebruiken om de performantie met vooraf gelegde connecties met databases te verbeteren"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
 msgid "You should use PerlEx to increase your performance."
-msgstr ""
+msgstr "Gelieve gebruik te maken van PerlEx om de performantie te verbeteren."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
-msgstr ""
+msgstr "Webserver versie"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Could not determine webserver version."
-msgstr ""
+msgstr "Kan versie van webserver niet bepalen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "OK"

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.367606688295483;
+    $Self->{Completeness}        = 0.378088345395558;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -75,10 +75,10 @@ sub Data {
         'month(s)' => 'månad(er)',
         'week' => 'vecka',
         'week(s)' => 'veck(or)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'kvartal',
+        'quarter(s)' => 'kvartal',
+        'half-year' => 'halvår',
+        'half-year(s)' => 'halvår',
         'year' => 'år',
         'years' => 'år',
         'year(s)' => 'år',
@@ -264,7 +264,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'Databasen innehåller redan information - den bör vara tom!',
         'Login is needed!' => 'Inloggning krävs!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Det är för tillfället inte möjligt att logga in på grund av systemunderhåll.',
         'Password is needed!' => 'Lösenord krävs!',
         'Take this Customer' => 'Välj denna kund',
         'Take this User' => 'Välj denna användare',
@@ -363,7 +363,7 @@ sub Data {
         'Dear %s,' => 'Bäste %s,',
         'Hello %s,' => 'Hej %s,',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Denna e-post adress är inte tillåten att registrera. Vänligen kontakta support personal.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Nytt konto skapat. Skickade inloggningsuppgifter till %s. Titta i din inkorg.',
         'Please press Back and try again.' => 'Tryck på bakåtknappen och försök igen.',
@@ -411,7 +411,7 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Ångra',
         'Redo' => 'Gör om',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'OTRS Daemon körs inte.',
         'Can\'t contact registration server. Please try again later.' => 'Kan inte ansluta till registreringsservern. Försök senare.',
         'No content received from registration server. Please try again later.' =>
             'Inget innehåll togs emot från registreringsservern. Försök senare.',
@@ -419,13 +419,13 @@ sub Data {
         'Username and password do not match. Please try again.' => 'Användarnamn och lösenord är fel. Försök igen senare.',
         'The selected process is invalid!' => 'Den valda processen är ogiltig!',
         'Upgrade to %s now!' => 'Uppgradera till %s nu!',
-        '%s Go to the upgrade center %s' => '',
+        '%s Go to the upgrade center %s' => '%s Gå till uppgraderingscentret %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Din licens för %s håller på att gå ut. Vänligen ta kontakt med %s för att förnya ditt kontrakt!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Ditt system är nu lyckad uppgraderad till %s.',
+        'There was a problem during the upgrade to %s.' => 'Det blev ett problem under uppgraderingen till %s.',
         '%s was correctly reinstalled.' => '%s blev ominstallerat korrekt.',
         'There was a problem reinstalling %s.' => 'Det blev ett problem med att ominstallera %s.',
         'Your %s was successfully updated.' => '',
@@ -644,7 +644,7 @@ sub Data {
         'New Article' => 'Ny artikel',
         'Unread article(s) available' => 'Olästa artiklar tillgängliga',
         'Remove from list of watched tickets' => 'Ta bort från lista av bevakade ärenden.',
-        'Add to list of watched tickets' => '',
+        'Add to list of watched tickets' => 'Lägg till i listan av bevakade ärenden',
         'Email-Ticket' => 'E-postärende',
         'Create new Email Ticket' => 'Skapa nytt e-postärende',
         'Phone-Ticket' => 'Telefonärende',
@@ -740,7 +740,7 @@ sub Data {
         'Ticket limit per page for Ticket Overview "Preview"' => '',
         'Ticket watch notification' => '',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
-            '',
+            'Skicka mig samma notifieringar av mina bevakade ärenden som ägaren av ärendet mottager.',
         'Send ticket watch notifications' => '',
         'Out Of Office Time' => 'Frånvarande',
         'New Ticket' => 'Nytt ärende',
@@ -1169,7 +1169,7 @@ sub Data {
         'New title' => 'Ny titel',
         'New type' => 'Ny typ',
         'New Dynamic Field Values' => '',
-        'Archive selected tickets' => '',
+        'Archive selected tickets' => 'Arkivera markerade ärenden',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
         'Execute Ticket Commands' => '',
@@ -1179,18 +1179,18 @@ sub Data {
             'Detta kommando kommer utföras. ARG[0] blir dess ärendenummer. ARG[1] dess ärende-id.',
         'Delete tickets' => 'Radera ärenden',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            '',
+            'Varning: Alla påverkade ärenden kommer raderas från databasen och kan inte återställas!',
         'Execute Custom Module' => '',
         'Param %s key' => '',
         'Param %s value' => '',
         'Save Changes' => 'Spara ändringar',
         'Results' => 'Resultat',
-        '%s Tickets affected! What do you want to do?' => '',
+        '%s Tickets affected! What do you want to do?' => '%s Påverkade ärenden! Vad vill du göra?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             '',
         'Edit job' => 'Ändra jobb',
         'Run job' => 'Kör jobb',
-        'Affected Tickets' => '',
+        'Affected Tickets' => 'Påverkade ärenden',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -2479,8 +2479,8 @@ sub Data {
         'My locked tickets' => 'Mina låsta ärenden',
         'My watched tickets' => 'Mina bevakade ärenden',
         'My responsibilities' => 'Mina uppdrag',
-        'Tickets in My Queues' => 'Ärenden i mina köer',
-        'Tickets in My Services' => '',
+        'Tickets in My Queues' => 'Ärenden i Mina Köer',
+        'Tickets in My Services' => 'Ärenden i Mina Tjänster',
         'Service Time' => 'Tjänsttid',
         'Remove active filters for this widget.' => 'Ta bort aktiva filter för denna widget.',
 
@@ -2875,7 +2875,7 @@ sub Data {
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => '',
         'Customer ID' => 'KundID',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Fulltext-sök i ärenden (ex. "John*n" or "Will*")',
         'Recipient' => 'Mottagare',
         'Carbon Copy' => 'Kopia',
         'e. g. m*file or myfi*' => '',
@@ -3431,7 +3431,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'Du har mer än 60,000 ärenden och bör använda StaticDB. Se administratörs manualen (Prestandajustering) för mer information.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
         'Open Tickets' => 'Öppna ärenden',
@@ -3441,7 +3441,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'Du har mer än 50,000 ärenden och bör använda StaticDB. Se administratörs manualen (Prestandajustering) för mer information.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => '',
@@ -3718,18 +3718,18 @@ Thanks for your help!
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
-        'Cache time in seconds for the DB ACL backend.' => '',
-        'Cache time in seconds for the DB process backend.' => '',
-        'Cache time in seconds for the SSL certificate attributes.' => '',
+        'Cache time in seconds for the DB ACL backend.' => 'Cache tid i sekunder för DB ACL.',
+        'Cache time in seconds for the DB process backend.' => 'Cache tid i sekunder för DB processer.',
+        'Cache time in seconds for the SSL certificate attributes.' => 'Cache tid i sekunder för SSL certifikatsattribut.',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             '',
-        'Cache time in seconds for the web service config backend.' => '',
-        'Change password' => '',
-        'Change queue!' => '',
+        'Cache time in seconds for the web service config backend.' => 'Cache minne i sekunder för webbtjänsten konfiguration.',
+        'Change password' => 'Byt lösenord',
+        'Change queue!' => 'Ändra kö!',
         'Change the customer for this ticket' => 'Byt kund för detta ärende',
         'Change the free fields for this ticket' => 'Redigera anpassade fält för detta ärende',
         'Change the priority for this ticket' => 'Ändra prioritet för detta ärende',
-        'Change the responsible for this ticket' => '',
+        'Change the responsible for this ticket' => 'Ändra ansvarige för ärendet',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Changed priority from "%s" (%s) to "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
@@ -3742,10 +3742,10 @@ Thanks for your help!
             '',
         'Checks the entitlement status of OTRS Business Solution™.' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            '',
-        'Closed tickets (customer user)' => '',
-        'Closed tickets (customer)' => '',
-        'Cloud Services' => '',
+            'Välj vilken typ av ärendeförändringar du vill få notifieringar om.',
+        'Closed tickets (customer user)' => 'Stängda ärenden (kundanvändare)',
+        'Closed tickets (customer)' => 'Stängda ärenden (kunder)',
+        'Cloud Services' => 'Molntjänster',
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
@@ -5627,9 +5627,9 @@ Thanks for your help!
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Specify the password to authenticate for the first mirror database.' =>
-            '',
+            'Specificera lösenordet för autentisering av den första spegeldatabasen.',
         'Specify the username to authenticate for the first mirror database.' =>
-            '',
+            'Specificera användarnamnet för autentisering av den första spegeldatabasen.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -5642,10 +5642,10 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
-        'System Maintenance' => '',
-        'System Request (%s).' => '',
+        'System Maintenance' => 'System Underhåll',
+        'System Request (%s).' => 'Systemförfrågning (%s).',
         'Templates <-> Queues' => 'Mallar <-> Köer',
-        'Textarea' => '',
+        'Textarea' => 'Textarea',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -5681,11 +5681,11 @@ Thanks for your help!
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
-            '',
+            'Det maximala antalet artiklar som utökats på en sida i AgentTicketZoom.',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
-            '',
+            'Det maximala antalet artiklar som visas på en sida i AgentTicketZoom.',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
-            '',
+            'Det maximala antalet e-post som hämtas på en gång innan återanslutning till servern.',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
@@ -5722,7 +5722,7 @@ Thanks for your help!
             '',
         'Toolbar Item for a shortcut.' => '',
         'Transport selection for ticket notifications.' => '',
-        'Tree view' => '',
+        'Tree view' => 'Träd-vy',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5733,7 +5733,7 @@ Thanks for your help!
         'Unlock tickets that are past their unlock timeout.' => '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
-        'Unlocked ticket.' => 'Unlocked ticket.',
+        'Unlocked ticket.' => 'Upplåst ärende.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
@@ -5758,14 +5758,14 @@ Thanks for your help!
             '',
         'View performance benchmark results.' => '',
         'View system log messages.' => 'Visa systemlogg-meddelanden.',
-        'Watch this ticket' => '',
+        'Watch this ticket' => 'Bevaka detta ärende',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Ja, men dölj arkiverade ärenden',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>

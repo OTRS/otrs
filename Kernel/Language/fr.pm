@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.516595957075119;
+    $Self->{Completeness}        = 0.520089842775143;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -417,7 +417,7 @@ sub Data {
         'SHIFT' => 'Shift',
         'Undo' => 'Annuler',
         'Redo' => 'Refaire',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'La tâche de fond d\'OTRS n\'est pas lancée',
         'Can\'t contact registration server. Please try again later.' => 'Impossible de contacter le serveur d\'enregistrement. Veuillez réessayer ultérieurement. ',
         'No content received from registration server. Please try again later.' =>
             'Aucune donnée reçue depuis le serveur d\'enregistrement. Veuillez réessayer ultérieurement. ',
@@ -427,17 +427,17 @@ sub Data {
         'Upgrade to %s now!' => 'Mettre à jour vers %s maintenant ! ',
         '%s Go to the upgrade center %s' => '%s Se rendre sur le serveur de mise à jour %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'La License pour %s va expirer. Merci de prendre contact avec %s pour renouveler votre contrat!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            'Une mise à jour de votre %s est disponible, mais il existe un conflit avec votre version de framework! Merci de mettre a jour votre framework en premier.',
         'Your system was successfully upgraded to %s.' => 'Votre système a bien été mis à jour en %s. ',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'There was a problem during the upgrade to %s.' => 'Il y a eu un problème pendant la mise à jour %s.',
+        '%s was correctly reinstalled.' => '%s a été correctement réinstallé.',
+        'There was a problem reinstalling %s.' => 'Il y a eu un problème en réinstallant %s.',
+        'Your %s was successfully updated.' => 'Votre %s a été mise à jour avec succès.',
+        'There was a problem during the upgrade of %s.' => 'Il y a eu un problème pendant la mise à jour %s.',
+        '%s was correctly uninstalled.' => '%s a été correctement désinstallé.',
+        'There was a problem uninstalling %s.' => 'Il y a eu un problème en désinstallant %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour de l\'An',
@@ -592,7 +592,7 @@ sub Data {
         'End message' => 'Fin du message',
         'Forwarded message from' => 'Message transféré par',
         'End forwarded message' => 'Fin du message tranféré',
-        'Bounce Article to a different mail address' => '',
+        'Bounce Article to a different mail address' => 'Faire suivre l\'article à une adresse mail différente.',
         'Reply to note' => 'Répondre à une note',
         'new' => 'nouveau',
         'open' => 'ouvert',
@@ -5755,8 +5755,8 @@ Thanks for your help!
             '',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
-        'UserFirstname' => '',
-        'UserLastname' => '',
+        'UserFirstname' => 'Prénom utilisateur',
+        'UserLastname' => 'Nom de famille utilisateur',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing ticket notification.' => '',
@@ -5764,7 +5764,7 @@ Thanks for your help!
             '',
         'View performance benchmark results.' => 'Voir les résultats du benchmark de performance.',
         'View system log messages.' => 'Voir les messages du journal système.',
-        'Watch this ticket' => '',
+        'Watch this ticket' => 'Surveiller ce ticket.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le texte de cette note (ce texte ne peut pas être modifié par les agents). ',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

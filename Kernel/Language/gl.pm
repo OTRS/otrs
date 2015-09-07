@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.889443473920639;
+    $Self->{Completeness}        = 0.915148490142251;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -73,10 +73,10 @@ sub Data {
         'month(s)' => 'mes(es)',
         'week' => 'semana',
         'week(s)' => 'semana(s)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'cuadrimestre',
+        'quarter(s)' => 'cuadrimestre(s)',
+        'half-year' => 'medio ano',
+        'half-year(s)' => 'medio ano(s)',
         'year' => 'ano',
         'years' => 'anos',
         'year(s)' => 'ano(s)',
@@ -409,7 +409,7 @@ sub Data {
         'SHIFT' => 'MAIÚSCULAS',
         'Undo' => 'Desfacer',
         'Redo' => 'Refacer',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'Daemon OTRS non se está a executar',
         'Can\'t contact registration server. Please try again later.' => 'Non se pode contactar co servizo de rexistro. Por favor, volva a intentalo mais tarde.',
         'No content received from registration server. Please try again later.' =>
             'Non se recibiu ningún contido do servidor de rexistro. Ténteo de novo máis tarde.',
@@ -761,8 +761,8 @@ sub Data {
         'Archived tickets' => 'Tíckets arquivados',
         'Unarchived tickets' => 'Tickets sen archivar',
         'Ticket Information' => 'Información Ticket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'incluíndo subconsultas',
+        'excluding subqueues' => 'excluíndo subconsultas',
 
         # Template: AAAWeekDay
         'Sun' => 'Do',
@@ -867,11 +867,11 @@ sub Data {
         'Example response' => 'Resposta de exemplo',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Cloud Service Management' => 'Xestión Servizos na Nube',
+        'Support Data Collector' => 'Recolledor Datos Soporte',
+        'Support data collector' => 'Recolledor datos soporte',
         'Hint' => 'Suxestión',
-        'Currently support data is only shown in this system.' => '',
+        'Currently support data is only shown in this system.' => 'Actualmente os datos de soporte mostranse soamente neste sistema.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Recoméndase moito enviar estes datos ao Grupo OTRS para obter mellor axuda.',
         'Configuration' => 'Configuración',
@@ -889,11 +889,11 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'O rexistro do sistema é un servizo do Grupo OTRS, que fornece numerosas vantaxes!',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            '',
-        'Register this system' => '',
+            'Por favor fíxese en que que vostede utiliza servizos na nube de OTRS que esixen o sistema estar rexistrado.',
+        'Register this system' => 'Rexistrar este sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
-        'Available Cloud Services' => '',
+            'Aquí pode configurar os servizos na nube dispoñibles que comunican de forma segura con %s.',
+        'Available Cloud Services' => 'Servizos na Nube Dispoñibles',
         'Upgrade to %s' => 'Mellorado a %s',
 
         # Template: AdminCustomerCompany
@@ -1192,7 +1192,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'Debugger da InterfazXenerica para o Servizo Web %s',
-        'You are here' => '',
+        'You are here' => 'Vostede está aquí',
         'Web Services' => 'Servizos Web',
         'Debugger' => 'Depurador',
         'Go back to web service' => 'Volte ao Servizo Web',
@@ -1239,7 +1239,7 @@ sub Data {
         'Asynchronous' => 'Asíncrono',
         'This invoker will be triggered by the configured events.' => 'Este invocador será disparado polos eventos configurados.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            '',
+            'Disparadores de evento asincrónicos son manexados polo Planificador Daemon OTRS en segundo plano (recomendado).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Desecadeantes de eventos sincrónicos serán procesados directamente durante a petición web.',
         'Save and continue' => 'Garde e continue',
@@ -1271,11 +1271,11 @@ sub Data {
         'Delete this Key Mapping' => 'Borre esta Chave de Mapeado',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'GenericInterface Mapping XSLT for Web Service %s' => '',
-        'Mapping XML' => '',
+        'GenericInterface Mapping XSLT for Web Service %s' => 'Mapeo InterfaceXenerica XSLT para Servizo Web %s',
+        'Mapping XML' => 'Mapeo XML',
         'Template' => 'Modelo',
-        'The entered data is not a valid XSLT stylesheet.' => '',
-        'Insert XSLT stylesheet.' => '',
+        'The entered data is not a valid XSLT stylesheet.' => 'Os datos introducidos non son unha folla de estilos XSLT válida.',
+        'Insert XSLT stylesheet.' => 'Insertar folla de estilo XSLT.',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => 'Engadir unha operación nova para o servizo web %s',
@@ -1355,21 +1355,21 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI para lles dar un contexto aos métodos SOAP, reducindo ambigüidades.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'ex. urn:otrs-com:soap:functions ou http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => '',
+        'Request name scheme' => 'Petición de nome de esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
-            '',
+            'Selecione como o colector de funcion de peticións SOAP debe ser construido.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
-            '',
+            '\'NomeFunción\' é usado coma exemplo para os nomes de invocador/operación actuáis.',
         '\'FreeText\' is used as example for actual configured value.' =>
-            '',
-        'Response name free text' => '',
+            '\'TextoLibre\' é usado coma exemplo para os valores configurados actuáis.',
+        'Response name free text' => 'Nome resposta texto libre',
         'Text to be used to as function wrapper name suffix or replacement.' =>
-            '',
+            'Texto para ser usado nun sufixo do nome do colector de función ou remplazo.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
-            '',
-        'Response name scheme' => '',
+            'Por favor considere as restriccións de nomeado de elementos XML (ex. non use \'<\' e \'&\').',
+        'Response name scheme' => 'Esquema nome resposta',
         'Select how SOAP response function wrapper should be constructed.' =>
-            '',
+            'Seleccione como o colector de función de resposta SOAP debe ser construido.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Aquí pode especificar o tamaño máximo (en bytes) de mensaxes SOAP que OTRS procesará.',
         'Encoding' => 'Codificando',
@@ -1400,10 +1400,10 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'A ruta completa do directorio da autoridade de certificación onde os certificados AC son gardados no arquivo do sistema.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'ex. /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
-        'Add new first level element' => '',
+        'Sort options' => 'Clasificar opcións',
+        'Add new first level element' => 'Engadir novo elemento de primeiro nivel',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            '',
+            'Orde de clasificación de saída para campos xml (estructura comezando abaixo do nome do colecter da función) - vexa a documentación para transporte SOAP.',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => 'InterfaceXenérica de Xestión do Servizo Web',
@@ -1511,25 +1511,25 @@ sub Data {
         'Online Admin Manual' => 'Manual de administración na rede',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Xestión de Notificación de Ticket',
         'Add notification' => 'Engadir unha notificación',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Exportar Notificacións',
+        'Configuration Import' => 'Importar Configuración',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+            'Aquí vostede pode cargar un arquivo de configuración para importar Notificacións de Ticket ao seu sistema. O arquivo necesita estar en formato .yml como exportado polo módulo de Notificación de Ticket.',
+        'Overwrite existing notifications?' => 'Sobrescribir notificacións existentes?',
+        'Upload Notification configuration' => 'Configuración Notificación de Carga',
+        'Import Notification configuration' => 'Importar configuración de Notificación',
         'Delete this notification' => 'Elimine esta notificación',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Desexa realmente eliminar esta notificación?',
         'Add Notification' => 'Engadir unha notificación',
         'Edit Notification' => 'Edite Notificación',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Mostrar nas preferencias de axente',
+        'Agent preferences tooltip' => 'Ferramentas de preferencias de axente',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Esta mensaxe será mostrada na pantalla de preferencias de axente como ferramenta para esta notificación.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            '',
+            'Aquí vostede pode decidir que acontecementos desencadearán esta notificación. Un filtro de ticket adicional pode ser aplicado abaixo para soamente mandar buscar ticket con certos criterios.',
         'Ticket Filter' => 'Filtro do Ticket',
         'Article Filter' => 'Filtro de artigos',
         'Only for ArticleCreate and ArticleSend event' => 'Soamente para evento de CrearArtigo e EnviarArtigo',
@@ -1541,30 +1541,30 @@ sub Data {
         'Body match' => 'Corpo coincide',
         'Include attachments to notification' => 'Incluír os anexos na notificación',
         'Recipients' => 'Destinatarios',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Send to' => 'Enviar a',
+        'Send to these agents' => 'Enviar a estes axentes',
+        'Send to all group members' => 'Enviar a todos os membros do grupo',
+        'Send to all role members' => 'Enviar a todos os membros do rol',
+        'Send on out of office' => 'Enviar fora da oficina',
+        'Also send if the user is currently out of office.' => 'Enviar tamén se o usuario está actualmente fóra da oficina.',
+        'Once per day' => 'Unha vez por día',
         'Notify user just once per day about a single ticket using a selected transport.' =>
-            '',
-        'Notification Methods' => '',
+            'Notificar ao usuario só unha vez por día sobre un tícket único empregando un transporte seleccionado.',
+        'Notification Methods' => 'Métodos de notificación',
         'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            '',
-        'Transport' => '',
-        'Enable this notification method' => '',
-        'At least one method is needed per notification.' => '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
-        'Remove Notification Language' => '',
-        'Message body' => '',
-        'Add new notification language' => '',
-        'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
+            'Estes son os posibles métodos que poden ser utilizados para enviar esta notificación a cada un dos receptores. Nota: Con excepción de Correo Electrónico, outros métodos poderían non alcanzar todos os receptores seleccionados, por favor botar unha ollada na documentación de cada método para conseguir máis información. Por favor seleccione polo menos un método abaixo.',
+        'Transport' => 'Transporte',
+        'Enable this notification method' => 'Activar este método de notificación',
+        'At least one method is needed per notification.' => 'Precísase ao menos un método por notificación.',
+        'This feature is currently not available.' => 'Esta funcionalidade non está dispoñíbel actualmente.',
+        'No data found' => 'Non se atoparon datos',
+        'No notification method found.' => 'Non se atopou ningún método de notificación.',
+        'Notification Text' => 'Texto da notificación',
+        'Remove Notification Language' => 'Retirar o idioma da notificación',
+        'Message body' => 'Corpo da mensaxe',
+        'Add new notification language' => 'Engadir un idioma de notificación novo',
+        'Do you really want to delete this notification language?' => 'Confirma que desexa eliminar este idioma de notificación?',
+        'Tag Reference' => 'Referencia de Etiqueta',
         'Notifications are sent to an agent or a customer.' => 'As notificacións envíanselle a un axente ou a un cliente.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Conseguir os primeiros 20 carácteres do tema (do último artigo de axente).',
@@ -1579,14 +1579,14 @@ sub Data {
         'Recipient email addresses' => 'Direccións correo receptoras',
         'Notification article type' => 'Tipo de artigo de notificación',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Un artigo será creado se a notificación é enviada ao cliente ou a un enderezo de correo electrónico adicional.',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Utilice este modelo para xerar o correo electrónico completo (soamente para correos electrónicos HTML).',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Administrar %s',
         'Downgrade to OTRS Free' => 'Degrade a OTRS Gratis',
-        'Read documentation' => '',
+        'Read documentation' => 'Leer documentación',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s contacta frecuentemente con cloud.otrs.com para comprobar as actualizacións dispoñíbeis e a validez do contrato en vigor.',
         'Unauthorized Usage Detected' => 'Uso Non Autorizado Detectado',
@@ -1760,12 +1760,12 @@ sub Data {
         'Overwrite existing entities' => 'Sobreescriba as entidades existentes',
         'Upload process configuration' => 'Cargue a configuración do procedemento',
         'Import process configuration' => 'Configuración do proceso de importación',
-        'Example processes' => '',
+        'Example processes' => 'Procesos de exemplo',
         'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
-        'Import example process' => '',
+            'Aquí pode activar uns procesos de exemplo de bóas prácticas que son parte de %s. Tenga en conta que algunha configuración adicional pode ser requirida.',
+        'Import example process' => 'Importar proceso de exemplo',
         'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
+            'Vostede quere beneficiarse de procesos creados por expertos? Ascenda a %s para ser capaz de importar algúns procesos de exemplo sofisticados.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Para crear un novo Procedemento pode importar un que fora exportado doutro sistema ou crear un completamente novo.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1777,7 +1777,7 @@ sub Data {
         'Copy Process' => 'Copiar proceso',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Cancelar e pechar',
         'Go Back' => 'Volte Atrás',
         'Please note, that changing this activity will affect the following processes' =>
             'Por favor lembre, cambiando esta actividade afectará os seguintes procedementos',
@@ -2457,11 +2457,11 @@ sub Data {
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
             '',
-        'Download as SVG file' => '',
-        'Download as PNG file' => '',
-        'Download as CSV file' => '',
-        'Download as Excel file' => '',
-        'Download as PDF file' => '',
+        'Download as SVG file' => 'Descargar como ficheiro SVG',
+        'Download as PNG file' => 'Descargar como ficheiro PNG',
+        'Download as CSV file' => 'Descargar como ficheiro CSV',
+        'Download as Excel file' => 'Descargar como ficheiro do Excel',
+        'Download as PDF file' => 'Descargar como ficheiro PDF',
         'Grouped' => 'Agrupado',
         'Stacked' => 'Amoreados',
         'Expanded' => 'Expandido',
@@ -2494,7 +2494,7 @@ sub Data {
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'O tícket foi bloqueado',
-        'Undo & close' => '',
+        'Undo & close' => 'Desfacer e pechar',
 
         # Template: AgentInfo
         'Info' => 'Información',
@@ -2511,7 +2511,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Edite as súas preferencias',
-        'Did you know? You can help translating OTRS at %s.' => '',
+        'Did you know? You can help translating OTRS at %s.' => 'Sabíao? Pode axudar na tradución do OTRS en %s.',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Verificador Deletrear',
@@ -2519,9 +2519,9 @@ sub Data {
         'Apply these changes' => 'Aplicar estes cambios',
 
         # Template: AgentStatisticsAdd
-        'Statistics » Add' => '',
+        'Statistics » Add' => 'Estatísticas » Engadir',
         'Add New Statistic' => '',
-        'Dynamic Matrix' => '',
+        'Dynamic Matrix' => 'Matriz dinámica',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
         'Dynamic List' => '',
@@ -2530,39 +2530,39 @@ sub Data {
         'Static' => '',
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
             '',
-        'General Specification' => '',
-        'Create Statistic' => '',
+        'General Specification' => 'Especificación xeral',
+        'Create Statistic' => 'Crear estatísticas',
 
         # Template: AgentStatisticsEdit
-        'Statistics » Edit %s%s — %s' => '',
-        'Run now' => '',
-        'Statistics Preview' => '',
-        'Save statistic' => '',
+        'Statistics » Edit %s%s — %s' => 'Estatísticas » Editar ',
+        'Run now' => 'Executar agora',
+        'Statistics Preview' => 'Visualización das estatísticas',
+        'Save statistic' => 'Gardar as estatísticas',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
-        'Import Statistic Configuration' => '',
+        'Statistics » Import' => 'Estatísticas » Importar',
+        'Import Statistic Configuration' => 'Importar configuración de estatísticas',
 
         # Template: AgentStatisticsOverview
-        'Statistics » Overview' => '',
+        'Statistics » Overview' => 'Estatísticas » Vista xeral',
         'Statistics' => 'Estatísticas',
-        'Run' => '',
-        'Edit statistic "%s".' => '',
-        'Export statistic "%s"' => '',
-        'Export statistic %s' => '',
-        'Delete statistic "%s"' => '',
-        'Delete statistic %s' => '',
-        'Do you really want to delete this statistic?' => '',
+        'Run' => 'Executar',
+        'Edit statistic "%s".' => 'Editar as estatísticas «%s».',
+        'Export statistic "%s"' => 'Exportar as estatísticas «%s»',
+        'Export statistic %s' => 'Exportar as estatísticas %s',
+        'Delete statistic "%s"' => 'Eliminar as estatísticas «%s»',
+        'Delete statistic %s' => 'Eliminar as estatísticas %s',
+        'Do you really want to delete this statistic?' => 'Confirma que desexa eliminar estas estatísticas?',
 
         # Template: AgentStatisticsView
-        'Statistics » View %s%s — %s' => '',
+        'Statistics » View %s%s — %s' => 'Estatísticas » Ver %s%s',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of %s%s' => '',
-        'Change Owner of %s%s' => '',
-        'Close %s%s' => '',
+        'Change Owner of %s%s' => 'Cambiar o propietario de ',
+        'Close %s%s' => 'Pechar ',
         'Add Note to %s%s' => '',
         'Set Pending Time for %s%s' => '',
         'Change Priority of %s%s' => '',
