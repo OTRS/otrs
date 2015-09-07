@@ -45,14 +45,9 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'generate-pot',
-        Description => "Generate POT (translation template) file.",
-        Required    => 0,
-        HasValue    => 0,
-    );
-    $Self->AddOption(
         Name        => 'generate-po',
-        Description => "Generate PO (translation content) files.",
+        Description =>
+            "Generate PO (translation content) files. This is only needed if a module is not yet available in transifex to force initial creation of the gettext files.",
         Required    => 0,
         HasValue    => 0,
     );
@@ -66,8 +61,6 @@ sub Configure {
 Make sure that you have a clean system with a current configuration. No modules may be installed or linked into the system!
 
     <green>otrs.Console.pl $Name --language ...</green>
-
-Since OTRS 4 public translations are managed in transifex. Use the <yellow>--generate-pot</yellow> switch to update the .pot files and the <yellow>--generate-po</yellow> switch to update both .pot and .po files (usually not needed).
 
 <yellow>Translating Extension Modules</yellow>
 
@@ -111,7 +104,6 @@ sub Run {
         $Self->HandleLanguage(
             Language => $Language,
             Module   => $Self->GetOption('module-directory'),
-            WritePOT => $Self->GetOption('generate-po') || $Self->GetOption('generate-pot'),
             WritePO  => $Self->GetOption('generate-po'),
             Stats    => \%Stats,
         );
@@ -189,6 +181,8 @@ sub HandleLanguage {
         $TargetPOFile  = "$ModuleDirectory/i18n/$Module/$Module.$TransifexLanguage.po";
     }
 
+    my $WritePOT = $Param{WritePO} || -e $TargetPOTFile;
+
     if ( !-w $TargetFile ) {
         $Self->PrintError("Ignoring nonexisting file $TargetFile!");
         return;
@@ -239,7 +233,7 @@ sub HandleLanguage {
 
     my %POTranslations;
 
-    if ( $Param{WritePOT} || $Param{WritePO} ) {
+    if ( $WritePOT || $Param{WritePO} ) {
         %POTranslations = $Self->LoadPOFile(
             TargetPOFile => $TargetPOFile,
         );
@@ -577,7 +571,7 @@ sub HandleLanguage {
         $Param{Stats}->{ $Param{Language} }->{$String} = $Translation;
     }
 
-    if ( $Param{WritePOT} && !$Self->{POTFileWritten}++ ) {
+    if ( $WritePOT && !$Self->{POTFileWritten}++ ) {
         $Self->WritePOTFile(
             TranslationStrings => \@TranslationStrings,
             TargetPOTFile      => $TargetPOTFile,
