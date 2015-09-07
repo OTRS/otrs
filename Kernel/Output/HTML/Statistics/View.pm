@@ -454,11 +454,11 @@ sub StatsParamsWidget {
                         elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
                             $Time{TimeRelativeCount} = $LocalGetParam->(
                                 Param => $ObjectAttribute->{Element} . 'TimeRelativeCount',
-                            ) || $ObjectAttribute->{TimeRelativeCount};
+                            ) // $ObjectAttribute->{TimeRelativeCount};
 
                             $Time{TimeRelativeUpcomingCount} = $LocalGetParam->(
                                 Param => $ObjectAttribute->{Element} . 'TimeRelativeUpcomingCount',
-                            ) || $ObjectAttribute->{TimeRelativeUpcomingCount};
+                            ) // $ObjectAttribute->{TimeRelativeUpcomingCount};
 
                             $Time{TimeScaleCount} = $LocalGetParam->(
                                 Param => $ObjectAttribute->{Element} . 'TimeScaleCount',
@@ -1274,6 +1274,10 @@ sub StatsParamsGet {
                                     = $LocalGetParam->( Param => $ElementName . 'TimeRelativeCount' );
                                 $Time{TimeRelativeUpcomingCount}
                                     = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
+
+                                if ( !$Time{TimeRelativeCount} && !$Time{TimeRelativeUpcomingCount} ) {
+                                    push @Errors, Translatable('No past complete or the current+upcoming complete relative time value selected.');
+                                }
 
                                 # Use Values of the stat as fallback
                                 $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
