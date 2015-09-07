@@ -3,12 +3,14 @@
 # Luca Maranzano <liuk@linux.it>, 2014
 # Luca Maranzano <liuk@linux.it>, 2014
 # Luca Maranzano <liuk@linux.it>, 2014
+# Marthe Ngo Temb <ngotemb@gmail.com>, 2015
+# Ricardo Marinucci <marinucci.ricardo@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-04 12:57+0000\n"
+"Last-Translator: Marthe Ngo Temb <ngotemb@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,19 +184,19 @@ msgstr "settimana(e)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "trimestre"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "trimestre(i)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "semestre"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "semestre(i)"
 
 #. Template: AAABase
 msgid "year"
@@ -1507,19 +1509,19 @@ msgstr ""
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Vai al centro aggiornamento %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "La tua licenza %s sta per scadere. Contatta %s per rinnovare il tuo contratto."
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "E' disponibile un aggiornamento per te %s, ma è in conflitto con la versione del framework! Aggiorna prima il tuo framework!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -1547,11 +1549,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s è stato correttamente disinstallato."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "C'è stato un problema disinstallando %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -1787,7 +1789,7 @@ msgstr "Visualizzazione Stato"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Vista per Servizio"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2115,7 +2117,7 @@ msgstr "Reinvia l'Articolo ad un diverso indirizzo mail"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Rispondere alla nota"
 
 #. Template: AAATicket
 msgid "new"
@@ -2359,11 +2361,11 @@ msgstr "Ricerca Richieste"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Nome Reale Utente"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Storico Utente"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -2788,11 +2790,11 @@ msgstr "Informazioni sul Ticket"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "incluse le sottocode"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "escluse le sottocode"
 
 #. Template: AAAWeekDay
 msgid "Sun"

@@ -1,6 +1,8 @@
 # 
 # Translators:
+# Dominik <dominik@reichardt-online.it>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2015
+# Florian Edlhuber <florian.edlhuber@otrs.com>, 2015
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # Marc A. Bonsels, 2014
@@ -18,12 +20,13 @@
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
+# Stefan Simmerstatter <stefan.simmerstatter@gmx.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 12:36+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-04 15:37+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1494,7 +1497,7 @@ msgstr "Wiederholen"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Dienst läuft nicht."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -2803,11 +2806,11 @@ msgstr "Ticket-Informationen"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "inklusiv untergeordnete Queues"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "exklusiv untergeordnete Queues"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -3156,15 +3159,15 @@ msgstr "Beispielantwort"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Cloud Service Verwaltung"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Supportdaten-Sammler"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Supportdaten-Sammler"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3172,7 +3175,7 @@ msgstr "Hinweis"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "Aktuelle Supportdaten werden nur auf diesem System angezeigt"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3229,7 +3232,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "System registrieren"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3239,7 +3242,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Verfügbare Cloud Dienste"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
@@ -4249,7 +4252,7 @@ msgstr "GenericInterface Debugger für Webservice"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Sie sind hier"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4536,11 +4539,11 @@ msgstr "Vorlage"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
-msgstr ""
+msgstr "Die eingegebenen Daten ist kein gültiges XSLT Stylesheet."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "XSLT Stylesheet hinzufügen."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -4806,7 +4809,7 @@ msgstr "z. B. urn:otrs-com:soap:functions oder http://www.otrs.com/GenericInterf
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr ""
+msgstr "Namens Shema anfordern"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
@@ -4822,7 +4825,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr ""
+msgstr "Antwort Name Frei Text"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -4951,11 +4954,11 @@ msgstr "z. B. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Sortierungs Optionen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "Neues First-Level Element hinzufügen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5301,7 +5304,7 @@ msgstr "Online-Administrationshandbuch"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Ticket Informationsmanagement"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5309,11 +5312,11 @@ msgstr "Benachrichtigung hinzufügen"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Benachrichtigungen exportieren"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Konfiguration Importieren"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5324,15 +5327,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Bestehende Informationen überschreiben?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Informationseinstellung hochladen"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Informationseinstellungen importieren"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5352,7 +5355,7 @@ msgstr "Benachrichtigung bearbeiten"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "In Agenteinstellungen anzeigen"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -5416,19 +5419,19 @@ msgstr "Empfänger"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Senden an"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "An diese Agenten senden"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "An Gruppenmitglieder senden"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "An Rollenmitglieder senden"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
@@ -5436,7 +5439,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Auch senden wenn der Benutzer nicht am Arbeitsplatz ist."
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
@@ -5467,7 +5470,7 @@ msgstr "Transport"
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Benachrichtigungsart aktivieren"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
@@ -5475,35 +5478,35 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Funktion derzeit nicht verfügbar"
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Keine Daten gefunden"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Keine Benachrichtigungsmethode gefunden."
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Benachrichtigungstext"
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Benachrichtigungssprache entfernen"
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Nachrichteninhalt"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Neue Sprache für Benachrichtigungen hinzufügen"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "Möchten Sie diese Benachrichtigungssprache wirklich löschen?"
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
@@ -5549,7 +5552,7 @@ msgstr ""
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Benutze dieses Template um die komplette E-Mail zu generieren (Nur für HTML E-Mails)"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -5561,7 +5564,7 @@ msgstr "Zu OTRS Free downgraden"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
-msgstr ""
+msgstr "Dokumentation lesen"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6126,7 +6129,7 @@ msgstr "Prozesskonfiguration importieren"
 
 #. Template: AdminProcessManagement
 msgid "Example processes"
-msgstr ""
+msgstr "Beispielprozess"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6136,7 +6139,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
-msgstr ""
+msgstr "Beispielprozess importieren"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -7738,7 +7741,7 @@ msgstr "Konfigurationseinstellungen bearbeiten"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Dies Einstellungen sind nur lesbar"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -8190,7 +8193,7 @@ msgstr "Allgemeine Informationen"
 
 #. Template: AgentDaemonInfo
 msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
-msgstr ""
+msgstr "OTRS Service ist ein eigener Prozess zum Ausführen asynchroner Aufgaben"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8206,7 +8209,7 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "Starting OTRS Daemon"
-msgstr ""
+msgstr "Starte OTRS Dienst"
 
 #. Template: AgentDaemonInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -8304,23 +8307,23 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Download als SVG-Datei"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Download als PNG-Datei"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Download als CSV-Datei"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Download als Excel-Datei"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Download als PDF-Datei"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
@@ -8393,7 +8396,7 @@ msgstr "abwesend"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "Der ausgewählte Agent ist im Chat nicht verfügbar"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8449,7 +8452,7 @@ msgstr "Persönliche Einstellungen bearbeiten"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "Wussten Sie? Sie können bei der Übersetzung von OTRS helfen unter %s"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8465,35 +8468,35 @@ msgstr "Änderungen übernehmen"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Statistiken >> hinzufügen"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Neue Statistik hinzufügen"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
-msgstr ""
+msgstr "Dynamische Matrix"
 
 #. Template: AgentStatisticsAdd
 msgid ""
 "Tabular reporting data where each cell contains a singular data point (e. g."
 " the number of tickets)."
-msgstr ""
+msgstr "Tabularische Berichtsdaten, worin jede Zelle einen Datensatz eines Objekts beinhaltet (z.B. die Anzahl der Tickets)"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic List"
-msgstr ""
+msgstr "Dynamische Liste"
 
 #. Template: AgentStatisticsAdd
 msgid ""
 "Tabular reporting data where each row contains data of one entity (e. g. a "
 "ticket)."
-msgstr ""
+msgstr "Tabularische Berichtsdaten, worin jede Reihe Daten eines Objekts beinhaltet (z.B. ein Ticket)"
 
 #. Template: AgentStatisticsAdd
 msgid "Static"
-msgstr ""
+msgstr "Statisch"
 
 #. Template: AgentStatisticsAdd
 msgid ""
@@ -8503,27 +8506,27 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "General Specification"
-msgstr ""
+msgstr "Allgemeine Angabe"
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "Statistik erstellen"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
-msgstr ""
+msgstr "Statistiken >> Ändern %s%s — %s"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Jetzt starten"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "Statistik Vorschau"
 
 #. Template: AgentStatisticsEdit
 msgid "Save statistic"
-msgstr ""
+msgstr "Statistik speichern"
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
@@ -8531,7 +8534,7 @@ msgstr "Statistiken » Import"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
-msgstr ""
+msgstr "Statistikeinstellung importieren"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
@@ -8547,27 +8550,27 @@ msgstr "Start"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
-msgstr ""
+msgstr "Ändere Statistik \"%s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic \"%s\""
-msgstr ""
+msgstr "Exportiere Statistik \"%s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic %s"
-msgstr ""
+msgstr "Exportiere Statistik %s"
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic \"%s\""
-msgstr ""
+msgstr "Lösche Statistik \"%s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
-msgstr ""
+msgstr "Lösche Statistik %s"
 
 #. Template: AgentStatisticsOverview
 msgid "Do you really want to delete this statistic?"
-msgstr ""
+msgstr "Wollen Sie die Statistik wirklich löschen?"
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
@@ -8580,19 +8583,19 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s"
-msgstr ""
+msgstr "Den Freitext von %s%s ändern"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s"
-msgstr ""
+msgstr "Besitzer von %s%s wechseln"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s"
-msgstr ""
+msgstr "Schliesse %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s"
-msgstr ""
+msgstr "Notiz zu %s%s hinzufügen"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s"
@@ -8600,7 +8603,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s"
-msgstr ""
+msgstr "Andere Priorität von %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s"
@@ -8774,7 +8777,7 @@ msgstr "Ungültiges Datum!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s"
-msgstr ""
+msgstr "Kunden von %s%s wechseln"
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
@@ -8814,11 +8817,11 @@ msgstr "Alles holen"
 
 #. Template: AgentTicketEmail
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "Möchten Sie wirklich weitermachen?"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
-msgstr ""
+msgstr "Ausgehende EMail für %s%s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
@@ -8842,11 +8845,11 @@ msgstr "Ticket %s: Lösungszeit wird ablaufen in %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s"
-msgstr ""
+msgstr "%s%s weiterleiten"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s"
-msgstr ""
+msgstr "Verlauf von %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
@@ -8858,7 +8861,7 @@ msgstr "Großansicht"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s"
-msgstr ""
+msgstr "%s%s zusammenfassen"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -8878,7 +8881,7 @@ msgstr "Benötige gültige E-Mail-Adresse."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s"
-msgstr ""
+msgstr "%s%s verschieben"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -8970,11 +8973,11 @@ msgstr "Der Chat wird als separater Artikel angefügt."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s"
-msgstr ""
+msgstr "Anruf für %s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s"
-msgstr ""
+msgstr "E-Mail-Klartext für %s%s ansehen"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9361,11 +9364,11 @@ msgstr "Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadmin
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Zur mobilen Ansicht wechseln"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Zur Desktopansicht wechseln"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
@@ -9373,11 +9376,11 @@ msgstr "Nicht verfügbar"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Alles löschen"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "Suche löschen"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
@@ -9385,11 +9388,11 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr ""
+msgstr "und %s weitere..."
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
@@ -9765,7 +9768,7 @@ msgstr "Verschieben Sie die Navigationsleiste"
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "Nicht für den Chat verfügbar"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
@@ -9773,7 +9776,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "Verfügbar für Chats"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
@@ -9793,7 +9796,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity"
-msgstr ""
+msgstr "Neue Aktivität"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
@@ -10139,7 +10142,7 @@ msgstr "Zurück zur Anmeldung"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
-msgstr ""
+msgstr "Funktion nicht verfügbar"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
@@ -10234,7 +10237,7 @@ msgstr "Neues E-Mail-Ticket"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
-msgstr ""
+msgstr "Aktuell"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid ""
@@ -10244,15 +10247,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" updated!"
-msgstr ""
+msgstr "Web Service \"%s\" aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr ""
+msgstr "Web Service \"%s\" erstellt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr ""
+msgstr "Web Service \"%s\" gelöscht!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -10317,7 +10320,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
-msgstr ""
+msgstr "Kein Betreff"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -10355,7 +10358,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
-msgstr ""
+msgstr "Felder ohne Gruppe"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
@@ -10383,19 +10386,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
-msgstr ""
+msgstr "Dieser Benutzer ist aktuell online"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently active"
-msgstr ""
+msgstr "Dieser Benutzer ist aktuell aktiv"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
-msgstr ""
+msgstr "Dieser Benutzer ist aktuell abwesend"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
-msgstr ""
+msgstr "Dieser Benutzer ist aktuell nicht erreichbar"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
@@ -10418,15 +10421,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "Please contact your administrator!"
-msgstr ""
+msgstr "Bitte kontaktieren Sie ihren Administrator"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(in Arbeit)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "Bitte bestätigen Sie ihr neues Passwort"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "X-axis"
@@ -10466,7 +10469,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr ""
+msgstr "Das ausgewählte Datum ist ungültig."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
@@ -10504,7 +10507,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "Bitte wählen Sie eine Zeitskala aus."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -10840,7 +10843,7 @@ msgstr "Freier Auslagerungsspeicher (%)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "No swap enabled."
-msgstr ""
+msgstr "Kein Auslagerungsspeicher aktiviert."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Used Swap Space (MB)"
@@ -10961,11 +10964,11 @@ msgstr "Im System wurden Einträge im Fehlerprotokoll gefunden."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (Domainname)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Please configure your FQDN setting."
-msgstr ""
+msgstr "Bitte konfigurieren Sie ihre FQDN Einstellungen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Domain Name"
@@ -11129,7 +11132,7 @@ msgstr "Apache::Reload oder Apache2::Reload sollten als PerlModule und PerlInitH
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Verwendung Apache2::DBI"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -11165,19 +11168,19 @@ msgstr "Problem"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr ""
+msgstr "Passwort zurücksetzen fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Panic! Invalid Session!!!"
-msgstr ""
+msgstr "Panik! Ungültige Sitzung!!!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
-msgstr ""
+msgstr "Gruppe für den Standardzugriff."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group of all administrators."
-msgstr ""
+msgstr "Gruppe aller Administratoren."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for statistics access."
@@ -11217,7 +11220,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
-msgstr ""
+msgstr "Ticket erfolgreich geschlossen."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
@@ -11225,7 +11228,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "Offene Tickets"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
@@ -11257,11 +11260,11 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Signature."
-msgstr ""
+msgstr "Standard Signatur"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Address."
-msgstr ""
+msgstr "Standard Adresse"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
@@ -11275,7 +11278,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "neues Ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -11545,7 +11548,7 @@ msgstr "Fügt die permanenten Ferien-Tage hinzu. Bitte benutzen Sie ein Ein-Zahl
 
 #. SysConfig
 msgid "After"
-msgstr ""
+msgstr "nach"
 
 #. SysConfig
 msgid "Agent called customer."
@@ -11961,7 +11964,7 @@ msgstr "Geschlossene Tickets (Kunden)"
 
 #. SysConfig
 msgid "Cloud Services"
-msgstr ""
+msgstr "Cloud Service"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
@@ -12057,7 +12060,7 @@ msgstr "Kommentar2"
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "Kommunikation"
 
 #. SysConfig
 msgid "Company Status"
@@ -12375,7 +12378,7 @@ msgstr "Standard-Skin für die Agentenoberfläche"
 
 #. SysConfig
 msgid "Default skin for the customer interface."
-msgstr ""
+msgstr "Standard-Skin für das Kunden Interface."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
@@ -15856,7 +15859,7 @@ msgstr "Verwaltung von event- oder zeitbasierten Aufgaben."
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "Dieses Ticket als Junk markieren!"
 
 #. SysConfig
 msgid ""
@@ -15924,7 +15927,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Merge this ticket and all articles into a another ticket"
-msgstr ""
+msgstr "Dieses Ticket und alle Artikel in ein anderes Ticket zusammenfassen."
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -17649,7 +17652,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows a link to see a zoomed email ticket in plain text."
-msgstr ""
+msgstr "Zeigt einen Link um das geöffnete Ticket im Rohformat anzuzeigen."
 
 #. SysConfig
 msgid ""
@@ -18589,7 +18592,7 @@ msgstr "Systemprotokollnachrichten ansehen."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Dieses Ticket beobachten"
 
 #. SysConfig
 msgid ""

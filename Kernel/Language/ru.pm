@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.876216620913402;
+    $Self->{Completeness}        = 0.884202645370601;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -420,7 +420,7 @@ sub Data {
         'SHIFT' => 'Shift',
         'Undo' => 'Отменить',
         'Redo' => 'Повторить',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'Служба OTRS не запущена',
         'Can\'t contact registration server. Please try again later.' => 'Не удалось соединиться с сервером, попробуйте повторить позже.',
         'No content received from registration server. Please try again later.' =>
             'Данные не получены с сервера регистрации. Повторите запрос позже.',
@@ -772,8 +772,8 @@ sub Data {
         'Archived tickets' => 'Архивированные заявки',
         'Unarchived tickets' => 'Неархивированные заявки',
         'Ticket Information' => 'Информация о заявке',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'включая подочереди',
+        'excluding subqueues' => 'исключая подочереди',
 
         # Template: AAAWeekDay
         'Sun' => 'Вск',
@@ -878,11 +878,11 @@ sub Data {
         'Example response' => 'Пример ответа',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Cloud Service Management' => 'Управление Облаком',
+        'Support Data Collector' => 'Сбор данных для поддержки',
+        'Support data collector' => 'Сбор данных для поддержки',
         'Hint' => 'Подсказка',
-        'Currently support data is only shown in this system.' => '',
+        'Currently support data is only shown in this system.' => 'В настоящее время эти данные для поддержки только отображаются в этой системе.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Настоятельно рекомендуется отправлять эти данные в OTRS Group для получения более точной поддержки.',
         'Configuration' => 'Конфигурация',
@@ -900,11 +900,11 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрация системы - это сервис от OTRS Group, который предоставляет много преимуществ!',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            '',
-        'Register this system' => '',
+            'Обращаем внимание, что использование облачных сервисов OTRS требует регистрации системы.',
+        'Register this system' => 'Зарегистрировать эту систему',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
-        'Available Cloud Services' => '',
+        'Available Cloud Services' => 'Доступные облачные сервисы',
         'Upgrade to %s' => 'Обновление до %s',
 
         # Template: AdminCustomerCompany
@@ -1203,7 +1203,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'Интерфейс отладки для Веб-сервисов',
-        'You are here' => '',
+        'You are here' => 'Вы здесь',
         'Web Services' => 'Веб-сервисы',
         'Debugger' => 'Отладчик',
         'Go back to web service' => 'Перейти назад к веб-сервису',
@@ -1260,8 +1260,8 @@ sub Data {
         'GenericInterface Mapping Simple for Web Service %s' => '',
         'Go back to' => 'Вернуться к',
         'Mapping Simple' => '',
-        'Default rule for unmapped keys' => '',
-        'This rule will apply for all keys with no mapping rule.' => '',
+        'Default rule for unmapped keys' => 'Умолчания для не назначенных кнопок',
+        'This rule will apply for all keys with no mapping rule.' => 'Это правило будет использоваться для всех не назначенных кнопок',
         'Default rule for unmapped values' => 'Правило по-умолчанию для неопределенных значений',
         'This rule will apply for all values with no mapping rule.' => 'Это правило будет применено для всех значений без правил',
         'New key map' => 'Новая карта ключкй',
@@ -1411,8 +1411,8 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Полный путь к каталогу certification authority, в котором хранятся CA certificates. ',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'например, /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
-        'Add new first level element' => '',
+        'Sort options' => 'Опции сортировки',
+        'Add new first level element' => 'Добавить новый элемент первого уровня',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
 
@@ -1522,20 +1522,20 @@ sub Data {
         'Online Admin Manual' => 'Онлайн-руководство администратора',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Управление уведомлениями',
         'Add notification' => 'Добавить уведомление',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Экспорт уведомлений',
+        'Configuration Import' => 'Импорт конфигурации',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Перезаписать существующие уведомления?',
+        'Upload Notification configuration' => 'Загрузить конфигурацию уведомлений',
+        'Import Notification configuration' => 'Импортировать настройки Уведомлений',
         'Delete this notification' => 'Удалить это уведомление',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Вы действительно желаете удалить это Уведомление?',
         'Add Notification' => 'Добавить уведомление',
         'Edit Notification' => 'Редактировать уведомления',
-        'Show in agent preferences' => '',
+        'Show in agent preferences' => 'Показать в настройках агента',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -1558,19 +1558,19 @@ sub Data {
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Один раз в день',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Способы уведомлений',
         'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            '',
+            'Возможные способы уведомлений для каждого подписчика. Примечание: Любые другие способы, кроме e-mail, не могут быть гарантированно доставлены получателю, пожалуйста обратитесь к документации чтобы ознакомиться более подробно о каждом способе доставки уведомлений. Выберите хотя бы один способ.',
         'Transport' => 'Передача',
-        'Enable this notification method' => '',
-        'At least one method is needed per notification.' => '',
-        'This feature is currently not available.' => '',
+        'Enable this notification method' => 'Активировать этот способ уведомлений',
+        'At least one method is needed per notification.' => 'Должен быть выбран хотя бы один способ для каждого уведомления',
+        'This feature is currently not available.' => 'Эта функция в данный момент не доступна',
         'No data found' => '',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Текст уведомления',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
@@ -2275,7 +2275,7 @@ sub Data {
 
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => 'Редактировать настройки конфигурации',
-        'This setting is read only.' => '',
+        'This setting is read only.' => 'Этот параметр изменить нельзя - только для чтения',
         'This config item is only available in a higher config level!' =>
             'Этот пункт конфигурации доступен только при более высоком уровне допуска к конфигурации, чем у вас!',
         'Reset this setting' => 'Сбросить эту настройку',
@@ -2505,7 +2505,7 @@ sub Data {
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Заявка была заблокирована',
-        'Undo & close' => '',
+        'Undo & close' => 'Отменить и закрыть',
 
         # Template: AgentInfo
         'Info' => 'Информация',

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.656351385076117;
+    $Self->{Completeness}        = 0.656600948340404;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -872,7 +872,7 @@ sub Data {
         'Example response' => 'Resposta de exemplo',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => 'Gestão de Serviço de Nuvem',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => 'Dica',

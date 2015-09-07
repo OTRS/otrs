@@ -3,6 +3,7 @@
 # andre1217 <andre.pache@otrs.com>, 2014
 # andre1217 <andre.pache@otrs.com>, 2014
 # Egareg JAOUEN <egareg.jaouen@elitt.com>, 2015
+# Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2015
 # Marc A. Bonsels, 2015
 # Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-03 13:23+0000\n"
+"Last-Translator: Gaudin vincent <vincent.gaudin@cprpsncf.fr>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1485,7 +1486,7 @@ msgstr "Refaire"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "La tâche de fond d'OTRS n'est pas lancée"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1519,13 +1520,13 @@ msgstr "%s Se rendre sur le serveur de mise à jour %s"
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "La License pour %s va expirer. Merci de prendre contact avec %s pour renouveler votre contrat!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Une mise à jour de votre %s est disponible, mais il existe un conflit avec votre version de framework! Merci de mettre a jour votre framework en premier."
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -1533,31 +1534,31 @@ msgstr "Votre système a bien été mis à jour en %s. "
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Il y a eu un problème pendant la mise à jour %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s a été correctement réinstallé."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Il y a eu un problème en réinstallant %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Votre %s a été mise à jour avec succès."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Il y a eu un problème pendant la mise à jour %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s a été correctement désinstallé."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Il y a eu un problème en désinstallant %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2117,7 +2118,7 @@ msgstr "Fin du message tranféré"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Faire suivre l'article à une adresse mail différente."
 
 #. Template: AAATicket
 msgid "Reply to note"
@@ -18548,11 +18549,11 @@ msgstr ""
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "Prénom utilisateur"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "Nom de famille utilisateur"
 
 #. SysConfig
 msgid ""
@@ -18580,7 +18581,7 @@ msgstr "Voir les messages du journal système."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Surveiller ce ticket."
 
 #. SysConfig
 msgid ""

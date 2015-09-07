@@ -3,12 +3,13 @@
 # andreasberger <andreas.berger@hagfors.se>, 2014
 # andreasberger <andreas.berger@hagfors.se>, 2014-2015
 # Anthon Nilsson <superdos@gmail.com>, 2015
+# Dan Ekström <daekstrom@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-03 20:57+0000\n"
+"Last-Translator: Dan Ekström <daekstrom@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/otrs/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,19 +183,19 @@ msgstr "veck(or)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "kvartal"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "kvartal"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "halvår"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "halvår"
 
 #. Template: AAABase
 msgid "year"
@@ -920,7 +921,7 @@ msgstr "Inloggning krävs!"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Det är för tillfället inte möjligt att logga in på grund av systemunderhåll."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -1293,7 +1294,7 @@ msgstr "Hej %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Denna e-post adress är inte tillåten att registrera. Vänligen kontakta support personal."
 
 #. Template: AAABase
 msgid ""
@@ -1479,7 +1480,7 @@ msgstr "Gör om"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Daemon körs inte."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1507,7 +1508,7 @@ msgstr "Uppgradera till %s nu!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Gå till uppgraderingscentret %s"
 
 #. Template: AAABase
 msgid ""
@@ -1523,11 +1524,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Ditt system är nu lyckad uppgraderad till %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Det blev ett problem under uppgraderingen till %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
@@ -2339,7 +2340,7 @@ msgstr "Ta bort från lista av bevakade ärenden."
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
-msgstr ""
+msgstr "Lägg till i listan av bevakade ärenden"
 
 #. Template: AAATicket
 msgid "Email-Ticket"
@@ -2701,7 +2702,7 @@ msgstr ""
 msgid ""
 "Send me the same notifications for my watched tickets that the ticket owners"
 " will get."
-msgstr ""
+msgstr "Skicka mig samma notifieringar av mina bevakade ärenden som ägaren av ärendet mottager."
 
 #. Template: AAATicket
 msgid "Send ticket watch notifications"
@@ -4150,7 +4151,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr ""
+msgstr "Arkivera markerade ärenden"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -4186,7 +4187,7 @@ msgstr "Radera ärenden"
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr ""
+msgstr "Varning: Alla påverkade ärenden kommer raderas från databasen och kan inte återställas!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -4210,7 +4211,7 @@ msgstr "Resultat"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr ""
+msgstr "%s Påverkade ärenden! Vad vill du göra?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
@@ -4226,7 +4227,7 @@ msgstr "Kör jobb"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
-msgstr ""
+msgstr "Påverkade ärenden"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Debugger for Web Service %s"
@@ -8354,11 +8355,11 @@ msgstr "Mina uppdrag"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Ärenden i mina köer"
+msgstr "Ärenden i Mina Köer"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Ärenden i Mina Tjänster"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -9520,7 +9521,7 @@ msgstr "KundID"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr ""
+msgstr "Fulltext-sök i ärenden (ex. \"John*n\" or \"Will*\")"
 
 #. Template: CustomerTicketSearch
 msgid "Recipient"
@@ -10994,7 +10995,7 @@ msgstr ""
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Du har mer än 60,000 ärenden och bör använda StaticDB. Se administratörs manualen (Prestandajustering) för mer information."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -11016,7 +11017,7 @@ msgstr ""
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Du har mer än 50,000 ärenden och bör använda StaticDB. Se administratörs manualen (Prestandajustering) för mer information."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -11854,15 +11855,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
-msgstr ""
+msgstr "Cache tid i sekunder för DB ACL."
 
 #. SysConfig
 msgid "Cache time in seconds for the DB process backend."
-msgstr ""
+msgstr "Cache tid i sekunder för DB processer."
 
 #. SysConfig
 msgid "Cache time in seconds for the SSL certificate attributes."
-msgstr ""
+msgstr "Cache tid i sekunder för SSL certifikatsattribut."
 
 #. SysConfig
 msgid ""
@@ -11871,15 +11872,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
-msgstr ""
+msgstr "Cache minne i sekunder för webbtjänsten konfiguration."
 
 #. SysConfig
 msgid "Change password"
-msgstr ""
+msgstr "Byt lösenord"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr ""
+msgstr "Ändra kö!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -11895,7 +11896,7 @@ msgstr "Ändra prioritet för detta ärende"
 
 #. SysConfig
 msgid "Change the responsible for this ticket"
-msgstr ""
+msgstr "Ändra ansvarige för ärendet"
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
@@ -11934,19 +11935,19 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr ""
+msgstr "Välj vilken typ av ärendeförändringar du vill få notifieringar om."
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Stängda ärenden (kundanvändare)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "Stängda ärenden (kunder)"
 
 #. SysConfig
 msgid "Cloud Services"
-msgstr ""
+msgstr "Molntjänster"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
@@ -18149,11 +18150,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Specify the password to authenticate for the first mirror database."
-msgstr ""
+msgstr "Specificera lösenordet för autentisering av den första spegeldatabasen."
 
 #. SysConfig
 msgid "Specify the username to authenticate for the first mirror database."
-msgstr ""
+msgstr "Specificera användarnamnet för autentisering av den första spegeldatabasen."
 
 #. SysConfig
 msgid ""
@@ -18198,11 +18199,11 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
-msgstr ""
+msgstr "System Underhåll"
 
 #. SysConfig
 msgid "System Request (%s)."
-msgstr ""
+msgstr "Systemförfrågning (%s)."
 
 #. SysConfig
 msgid "Templates <-> Queues"
@@ -18210,7 +18211,7 @@ msgstr "Mallar <-> Köer"
 
 #. SysConfig
 msgid "Textarea"
-msgstr ""
+msgstr "Textarea"
 
 #. SysConfig
 msgid ""
@@ -18316,18 +18317,18 @@ msgstr ""
 #. SysConfig
 msgid ""
 "The maximal number of articles expanded on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Det maximala antalet artiklar som utökats på en sida i AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles shown on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Det maximala antalet artiklar som visas på en sida i AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximum number of mails fetched at once before reconnecting to the "
 "server."
-msgstr ""
+msgstr "Det maximala antalet e-post som hämtas på en gång innan återanslutning till servern."
 
 #. SysConfig
 msgid ""
@@ -18451,7 +18452,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Träd-vy"
 
 #. SysConfig
 msgid ""
@@ -18487,7 +18488,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "Unlocked ticket."
+msgstr "Upplåst ärende."
 
 #. SysConfig
 msgid ""
@@ -18574,7 +18575,7 @@ msgstr "Visa systemlogg-meddelanden."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Bevaka detta ärende"
 
 #. SysConfig
 msgid ""
@@ -18599,7 +18600,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Ja, men dölj arkiverade ärenden"
 
 #. SysConfig
 msgid ""

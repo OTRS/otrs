@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.543299226353881;
+    $Self->{Completeness}        = 0.567506862989768;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -79,10 +79,10 @@ sub Data {
         'month(s)' => 'maand(en)',
         'week' => 'week',
         'week(s)' => 'weken',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'kwartaal',
+        'quarter(s)' => 'kwarta(a)l(en)',
+        'half-year' => 'half-jaar',
+        'half-year(s)' => 'halve-jaren',
         'year' => 'jaar',
         'years' => 'jaren',
         'year(s)' => 'jaren',
@@ -221,9 +221,9 @@ sub Data {
         'Large' => 'Groot',
         'Date picker' => 'Datumkiezer',
         'Show Tree Selection' => 'Toon boomweergave',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'The field content is too long!' => 'De inhoud van het veld is te lang!',
+        'Maximum size is %s characters.' => 'De maximumlengte bedraagt %s karakters.',
+        'This field is required or' => 'Dit veld is verplicht of ',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -243,9 +243,9 @@ sub Data {
         'There is no acount with that user name.' => 'Deze gebruikersnaam is niet bekend.',
         'Please contact your administrator' => 'Neem contact op met uw beheerder',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'Inloggen is geslaagd, maar er is geen klantenrecord gevonden in het klantenbeheer. Gelieve uw beheerder te contacteren.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te resetten.',
         'Logout' => 'Uitloggen',
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
@@ -268,7 +268,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'Database bevat al data - deze moet leeg zijn!',
         'Login is needed!' => 'Inloggen is nodig.',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Het is momenteel niet mogelijk om in te loggen omwille van een gepland systeemonderhoud.',
         'Password is needed!' => 'Een wachtwoord is vereist.',
         'Take this Customer' => 'Selecteer deze klant',
         'Take this User' => 'Selecteer deze gebruiker',
@@ -296,7 +296,7 @@ sub Data {
         'Check to activate this date' => 'Selecteer om deze datum te gebruiken',
         'You have Out of Office enabled, would you like to disable it?' =>
             'U staat geregistreerd als afwezig. Wilt u dit aanpassen?',
-        'News about OTRS releases!' => '',
+        'News about OTRS releases!' => 'Nieuws over OTRS versies!',
         'Customer %s added' => 'Klant %s toegevoegd.',
         'Role added!' => 'Rol toegevoegd.',
         'Role updated!' => 'Rol bijgewerkt.',
@@ -367,7 +367,7 @@ sub Data {
         'Dear %s,' => 'Geachte %s,',
         'Hello %s,' => 'Beste %s,',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Het is niet toegestaan om u met dit e-mailadres te registreren. Gelieve contact op te nemen met de Support afdeling.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Nieuw account aangemaakt. Login informatie gestuurd aan %s. Controleer uw e-mail.',
         'Please press Back and try again.' => 'Druk op Terug en probeer opnieuw.',
@@ -415,27 +415,27 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Ongedaan maken',
         'Redo' => 'Herhalen',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'OTRS Daemon is niet actief.',
         'Can\'t contact registration server. Please try again later.' => 'Kan registratieserver niet bereiken. Probeer het later nogmaals.',
         'No content received from registration server. Please try again later.' =>
             'Geen data ontvangen van registratieserver. Probeer het later nogmaals.',
         'Problems processing server result. Please try again later.' => 'Problemen met het verwerken van data van registratieserver. Probeer het later nogmaals.',
         'Username and password do not match. Please try again.' => 'Gebruikersnaam en wachtwoord komen niet overeen.',
-        'The selected process is invalid!' => '',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        'The selected process is invalid!' => 'Het geselecteerde proces is niet geldig!',
+        'Upgrade to %s now!' => 'Upgrade nu naar %s!',
+        '%s Go to the upgrade center %s' => '%s Ga naar het upgrade center %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+            'Er is een update beschikbaar voor uw %s, maar er is een probleem met de versie van uw framework! Gelieve eerst uw framework te updaten!',
+        'Your system was successfully upgraded to %s.' => 'Het systeem is succesvol geupgraded naar %s.',
+        'There was a problem during the upgrade to %s.' => 'Er is een probleem opgetreden bij het upgraden naar %s.',
+        '%s was correctly reinstalled.' => '%s is opnieuw geïnstalleerd zonder problemen.',
+        'There was a problem reinstalling %s.' => 'Er is een probleem opgetreden bij het herinstalleren van %s.',
+        'Your %s was successfully updated.' => 'Uw %s werd succesvol geupdated.',
+        'There was a problem during the upgrade of %s.' => 'Er is een probleem opgetreden tijdens het upgraden van %s.',
+        '%s was correctly uninstalled.' => '%s werd zonder problemen verwijderd.',
+        'There was a problem uninstalling %s.' => 'Er is een probleem opgetreden bij het verwijderen van %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nieuwjaarsdag',
@@ -590,8 +590,8 @@ sub Data {
         'End message' => 'Einde van het bericht',
         'Forwarded message from' => 'Doorgestuurd bericht van',
         'End forwarded message' => 'Einde doorgestuurd bericht',
-        'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Bounce Article to a different mail address' => 'Artikel terugsturen naar een ander e-mailadres',
+        'Reply to note' => 'Opmerking beantwoorden',
         'new' => 'nieuw',
         'open' => 'open',
         'Open' => 'Open',
@@ -624,11 +624,11 @@ sub Data {
         '3 normal' => '3 normaal',
         '4 high' => '4 hoog',
         '5 very high' => '5 zeer hoog',
-        'auto follow up' => '',
-        'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto follow up' => 'automatisch opvolgen',
+        'auto reject' => 'automatisch weigeren',
+        'auto remove' => 'automatisch verwijderen',
+        'auto reply' => 'automatisch antwoorden',
+        'auto reply/new ticket' => 'automatisch antwoord/nieuw ticket',
         'Create' => 'Aanmaken',
         'Answer' => 'Antwoord',
         'Phone call' => 'Telefoongesprek',
@@ -653,8 +653,8 @@ sub Data {
         'Create new Email Ticket' => 'Maak nieuw e-mail ticket aan',
         'Phone-Ticket' => 'Telefoon ticket',
         'Search Tickets' => 'Zoek tickets',
-        'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer Realname' => 'Werkelijke naam van klant',
+        'Customer History' => 'Klantgeschiedenis',
         'Edit Customer Users' => 'Wijzig klanten',
         'Edit Customer' => 'Klant bewerken',
         'Bulk Action' => 'Bulk actie',
@@ -767,8 +767,8 @@ sub Data {
         'Archived tickets' => 'Gearchiveerde tickets',
         'Unarchived tickets' => 'Ongearchiveerde tickets',
         'Ticket Information' => 'Ticket-informatie',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'Inclusief sub-wachtrijen',
+        'excluding subqueues' => 'Exclusief sub-wachtrijen',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',
@@ -873,34 +873,34 @@ sub Data {
         'Example response' => 'Voorbeeld',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Cloud Service Management' => 'Cloud Service Beheer',
+        'Support Data Collector' => 'Verzamelaar van supportgegevens',
+        'Support data collector' => 'Verzamelaar van supportgegevens',
         'Hint' => 'Opmerking',
-        'Currently support data is only shown in this system.' => '',
+        'Currently support data is only shown in this system.' => 'Momenteel worden enkel ondersteuningsgegevens getoond in dit systeem.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            '',
+            'Het is aangeraden om deze gegevens naar de OTRS Group te versturen om een betere ondersteuning te bekomen.',
         'Configuration' => 'Configuratie',
-        'Send support data' => '',
+        'Send support data' => 'Ondersteuningsgegevens versturen',
         'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
+            'Hierdoor mag het systeem aanvullende ondersteuningsinformatie doorsturen naar de OTRS Groep.',
         'System Registration' => 'Systeemregistratie',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
-        'Register this System' => '',
+            'Gelieve uw systeem te registreren bij de OTRS Groep of de informatie van uw systeem registratie bij te werken om het versturen van gegevens mogelijk te maken (zorg ervoor dat optie \'ondersteuningsgegevens verzenden\' geactiveerd is).',
+        'Register this System' => 'Registreer dit Systeem',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Systeemregistratie is uitgeschakeld voor uw systeem. Gelieve uw configuratie na te kijken.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            '',
-        'Register this system' => '',
+            'Gelieve er rekening mee te houden dat om gebruik te maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn.',
+        'Register this system' => 'Registreer dit systeem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
-        'Available Cloud Services' => '',
-        'Upgrade to %s' => '',
+            'Hier kan u beschikbare Cloud diensten configureren die beveiligd communiceren met %s.',
+        'Available Cloud Services' => 'Beschikbare Cloud Diensten',
+        'Upgrade to %s' => 'Upgrade naar %s',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Beheer klanten',
@@ -942,7 +942,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filter op groepen',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Start met typen om te filteren',
         'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien).',
@@ -976,7 +976,7 @@ sub Data {
         'Dynamic Fields Management' => 'Beheer van dynamische velden',
         'Add new field for object' => 'Nieuw veld voor object',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '',
+            'Om een nieuw veld toe te voegen selecteert u het veldtype uit de objectlijst, het object definieert de grens van het veld en deze kan na het aanmaken niet worden gewijzigd.',
         'Dynamic Fields List' => 'Lijst met dynamische velden',
         'Dynamic fields per page' => 'Dynamische velden per pagina',
         'Label' => 'Label',
@@ -1027,8 +1027,8 @@ sub Data {
         'Show link' => 'Toon koppeling',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen.',
-        'Restrict entering of dates' => '',
-        'Here you can restrict the entering of dates of tickets.' => '',
+        'Restrict entering of dates' => 'Beperk het invoeren van datumgegevens',
+        'Here you can restrict the entering of dates of tickets.' => 'Hier kunt u het invoeren van datumgegevens van tickets beperken.',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Mogelijke waarden',
@@ -1055,13 +1055,13 @@ sub Data {
         'Number of cols' => 'Aantal kolommen',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Geef de breedte van het invoervak voor dit veld (in kolommen)',
-        'Check RegEx' => '',
+        'Check RegEx' => 'Controleer RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
-            '',
-        'RegEx' => '',
-        'Invalid RegEx' => '',
+            'Hier kunt u een reguliere expressie opgeven om de waarde te controleren. De regex zal met de xms modifier worden uitgevoerd.',
+        'RegEx' => 'RegEx',
+        'Invalid RegEx' => 'Ongeldig RegEx',
         'Error Message' => 'Foutmelding',
-        'Add RegEx' => '',
+        'Add RegEx' => 'Regex toevoegen',
 
         # Template: AdminEmail
         'Admin Notification' => 'Melding van de beheerder',
@@ -1107,15 +1107,15 @@ sub Data {
             'Als een ticket-event plaatsvindt zal dit filter worden toegepast om te toetsen of dit ticket voldoet. Alleen dan wordt deze taak uitgevoerd.',
         'Do you really want to delete this event trigger?' => 'Wilt u deze event trigger verwijderen?',
         'Add Event Trigger' => 'Nieuwe event trigger toevoegen',
-        'Add Event' => '',
+        'Add Event' => 'Gebeurtenis toevoegen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
         'Duplicate event.' => 'Dupliceer event.',
         'This event is already attached to the job, Please use a different one.' =>
             'Dit event is al gekoppeld aan deze taak. Kies een andere.',
         'Delete this Event Trigger' => 'Verwijder deze event trigger.',
-        'Remove selection' => '',
-        'Select Tickets' => '',
+        'Remove selection' => 'Selectie verwijderen',
+        'Select Tickets' => 'Selecteer Tickets',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
         '(e. g. 234321)' => '(bijvoorbeeld 234321)',
         'Customer login' => 'Klant login',
@@ -1127,10 +1127,10 @@ sub Data {
         'No create time settings.' => 'Alle',
         'Ticket created' => 'Ticket aangemaakt',
         'Ticket created between' => 'Ticket aangemaakt tussen',
-        'Last changed times' => '',
-        'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Last changed times' => 'Tijdstip van laatste wijziging',
+        'No last changed time settings.' => 'Geen instellingen voor tijdstip laatste wijziging.',
+        'Ticket last changed' => 'Laatste wijziging ticket',
+        'Ticket last changed between' => 'Laatste wijziging ticket tussen',
         'Change times' => 'Tijdstip van wijzigen',
         'No change time settings.' => 'Alle',
         'Ticket changed' => 'Ticket gewijzigd',
@@ -1157,7 +1157,7 @@ sub Data {
         'Ticket solution time reached' => 'Escalatiemoment - tijd van oplossen bereikt',
         'Ticket solution time reached between' => 'Escalatiemoment - tijd van oplossen bereikt tussen',
         'Archive search option' => 'Zoek in archief',
-        'Update/Add Ticket Attributes' => '',
+        'Update/Add Ticket Attributes' => 'Update/toevoegen ticketattributen',
         'Set new service' => 'Nieuwe service',
         'Set new Service Level Agreement' => 'Nieuwe Service Level Agreement',
         'Set new priority' => 'Nieuwe prioriteit',
@@ -1176,7 +1176,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        'Execute Ticket Commands' => '',
+        'Execute Ticket Commands' => 'Ticketcommando\'s uitvoeren',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -1198,7 +1198,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger voor webservice %s',
-        'You are here' => '',
+        'You are here' => 'Hier bent u',
         'Web Services' => 'Webservices',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Ga terug naar webservice',
@@ -1245,7 +1245,7 @@ sub Data {
         'Asynchronous' => 'Asynchroon',
         'This invoker will be triggered by the configured events.' => 'De invoker wordt aangeroepen door de geconfigureerde events.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            '',
+            'Asynchrone event-triggers worden in de achtergrond afgehandeld door de OTRS Scheduler Daemon (aangeraden).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Synchrone event triggers worden afgehandeld direct tijdens het event (blocking).',
         'Save and continue' => 'Opslaan en doorgaan',
@@ -1280,8 +1280,8 @@ sub Data {
         'GenericInterface Mapping XSLT for Web Service %s' => '',
         'Mapping XML' => '',
         'Template' => 'Sjabloon',
-        'The entered data is not a valid XSLT stylesheet.' => '',
-        'Insert XSLT stylesheet.' => '',
+        'The entered data is not a valid XSLT stylesheet.' => 'De ingevoerde data is geen geldig XSLT stylesheet.',
+        'Insert XSLT stylesheet.' => 'XLST stylesheet toevoegen.',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => 'Voeg nieuwe operatie toe voor Web Service %s',
@@ -1331,8 +1331,8 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
-        'The default HTTP command to use for the requests.' => '',
+        'Default command' => 'Standaard opdracht',
+        'The default HTTP command to use for the requests.' => 'De standaard HTTP opdracht die gebruikt wordt bij verzoeken.',
         'Authentication' => 'Authenticatie',
         'The authentication mechanism to access the remote system.' => 'Het authenticatie-mechanisme voor het andere systeem.',
         'A "-" value means no authentication.' => 'De waarde "-" betekent geen authenticatie.',
@@ -1341,10 +1341,10 @@ sub Data {
         'Use SSL Options' => 'Configureer SSL opties',
         'Show or hide SSL options to connect to the remote system.' => 'Toon of verberg SSL opties om te verbinden naar het andere systeem',
         'Certificate File' => 'Certificaat-bestand',
-        'The full path and name of the SSL certificate file.' => '',
+        'The full path and name of the SSL certificate file.' => 'Het volledige pad en naam van het SSL certificaat bestand.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => 'Bestand dat wachtwoord van het certificaaat bevat',
-        'The full path and name of the SSL key file.' => '',
+        'The full path and name of the SSL key file.' => 'Het volledige pad en naam van het SSL sleutel bestand.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
         'Certification Authority (CA) File' => 'Certification Authority (CA) bestand',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
@@ -1514,23 +1514,23 @@ sub Data {
         'Queue Settings' => 'Wachtrij instellingen',
         'Ticket Settings' => 'Ticket instellingen',
         'System Administration' => 'Beheer systeem',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Online Admin Handleiding',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Ticket Melding Management',
         'Add notification' => 'Melding toevoegen',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Meldingen exporteren',
+        'Configuration Import' => 'Configuratie importeren',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Bestaande meldingen overschrijven?',
+        'Upload Notification configuration' => 'Upload meldingconfiguratie',
+        'Import Notification configuration' => 'Melding configuratie importeren',
         'Delete this notification' => 'Melding verwijderen',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Wenst u deze melding te verwijderen?',
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
-        'Show in agent preferences' => '',
+        'Show in agent preferences' => 'Tonen bij voorkeuren Agent',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -3280,13 +3280,13 @@ sub Data {
         'Historic Time Range' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
-        'Days' => '',
+        'Days' => 'Dagen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
-        'Table Presence' => '',
-        'Internal Error: Could not open file.' => '',
-        'Table Check' => '',
-        'Internal Error: Could not read file.' => '',
+        'Table Presence' => 'Uiterlijk Tabel',
+        'Internal Error: Could not open file.' => 'Interne Fout: kan bestand niet openen.',
+        'Table Check' => 'Tabel Controle',
+        'Internal Error: Could not read file.' => 'Interne fout: kan het bestand niet lezen.',
         'Tables found which are not present in the database.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -3474,19 +3474,19 @@ sub Data {
         'Apache::Reload Usage' => '',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
-        'Apache2::DBI Usage' => '',
+        'Apache2::DBI Usage' => 'Apach2::DBI Gebruik',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
-            '',
+            'Gelieve Apache2:DBI te gebruiken om de performantie met vooraf gelegde connecties met databases te verbeteren',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => '',
+        'You should use PerlEx to increase your performance.' => 'Gelieve gebruik te maken van PerlEx om de performantie te verbeteren.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
-        'Webserver Version' => '',
-        'Could not determine webserver version.' => '',
+        'Webserver Version' => 'Webserver versie',
+        'Could not determine webserver version.' => 'Kan versie van webserver niet bepalen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
-        'Unknown' => '',
+        'Unknown' => 'Onbekend',
         'OK' => 'OK',
         'Problem' => '',
 

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.349638133266783;
+    $Self->{Completeness}        = 0.352383329173946;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -45,8 +45,8 @@ sub Data {
         'Done' => 'Atlikta',
         'Cancel' => 'Atšaukti',
         'Reset' => 'Atstatyti',
-        'more than ... ago' => '',
-        'in more than ...' => '',
+        'more than ... ago' => 'daugiau nei prieš ...',
+        'in more than ...' => 'daugiau nei per ...',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -62,7 +62,7 @@ sub Data {
         'hours' => 'valandos',
         'hour(s)' => 'valanda(-os)',
         'Hours' => 'Valandos',
-        'h' => 'h',
+        'h' => 'val.',
         'minute' => 'minutė',
         'minutes' => 'minutės',
         'minute(s)' => 'minutė(-ės)',
@@ -73,10 +73,10 @@ sub Data {
         'month(s)' => 'mėnesis(-iai)',
         'week' => 'savaitė',
         'week(s)' => 'savaitė(-ės)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'ketvirtis',
+        'quarter(s)' => 'ketvirtis (čiai)',
+        'half-year' => 'pusmetis',
+        'half-year(s)' => 'pusmečiai',
         'year' => 'metai',
         'years' => 'metų',
         'year(s)' => 'metai(-ų)',
@@ -189,7 +189,7 @@ sub Data {
         'Search' => 'Ieškoti',
         'and' => 'ir',
         'between' => 'tarp',
-        'before/after' => '',
+        'before/after' => 'prieš/po',
         'Fulltext Search' => 'Pilno teksto paieška',
         'Data' => 'Data',
         'Options' => 'Parinktys',
@@ -217,7 +217,7 @@ sub Data {
         'Show Tree Selection' => '',
         'The field content is too long!' => '',
         'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'This field is required or' => 'Šis laukas yra privalomas arba ',
         'New message' => 'Nauja žinutė',
         'New message!' => 'Nauja žinutė!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -254,7 +254,7 @@ sub Data {
         'License' => 'Licenzija',
         'Database' => 'Duomenų bazė',
         'Configure Mail' => '',
-        'Database deleted.' => '',
+        'Database deleted.' => 'Duoemnų bazė ištrinta.',
         'Enter the password for the administrative database user.' => '',
         'Enter the password for the database user.' => '',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
@@ -385,8 +385,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Pažymėti',
+        'Unmark' => 'Nuimti žymėjimą',
         'Bold' => 'Paryškintas',
         'Italic' => 'Pasviręs',
         'Underline' => 'Pabrauktas',
@@ -4601,7 +4601,7 @@ Thanks for your help!
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'El. pašto adresai',
-        'Email sent to "%s".' => 'El. laikas nusiųstas į "%s".',
+        'Email sent to "%s".' => 'El. laiškas nusiųstas į "%s".',
         'Email sent to customer.' => 'Klientui nusiųstas el. laiškas.',
         'Enable keep-alive connection header for SOAP responses.' => '',
         'Enabled filters.' => '',
@@ -5738,7 +5738,7 @@ Thanks for your help!
         'Updated SLA to %s (ID=%s).' => 'SLA pakeistas į "%s" (ID=%s).',
         'Updated Service to %s (ID=%s).' => 'Servisas pakeistas į "%s" (ID=%s).',
         'Updated Type to %s (ID=%s).' => 'Tipas pakeistas į "%s" (ID=%s).',
-        'Updated: %s' => 'Aktualisiert: %s',
+        'Updated: %s' => 'Atnaujinta: %s',
         'Updated: %s=%s;%s=%s;%s=%s;' => '',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',

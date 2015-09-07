@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Mohammed AlGarni <mjalgarni@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-05 21:01+0000\n"
+"Last-Translator: Mohammed AlGarni <mjalgarni@gmail.com>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/otrs/OTRS/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,39 +68,39 @@ msgstr "إعادة"
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "أكثر من ... في الماضي"
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr ""
+msgstr "في أكثر من ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "خلال ال ... الماضيه"
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "خلال ال ... القادمة"
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "تم إنشائها خلال ... الماضية"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "تم إنشائها منذ أكثر من"
 
 #. Template: AAABase
 msgid "Today"
-msgstr ""
+msgstr "اليوم"
 
 #. Template: AAABase
 msgid "Tomorrow"
-msgstr ""
+msgstr "غداً"
 
 #. Template: AAABase
 msgid "Next week"
-msgstr ""
+msgstr "الأسبوع القادم"
 
 #. Template: AAABase
 msgid "day"
@@ -115,7 +116,7 @@ msgstr "يوم/أيام"
 
 #. Template: AAABase
 msgid "d"
-msgstr ""
+msgstr "ي"
 
 #. Template: AAABase
 msgid "hour"
@@ -131,11 +132,11 @@ msgstr "ساعة/ساعات"
 
 #. Template: AAABase
 msgid "Hours"
-msgstr ""
+msgstr "ساعات"
 
 #. Template: AAABase
 msgid "h"
-msgstr ""
+msgstr "س"
 
 #. Template: AAABase
 msgid "minute"
@@ -151,11 +152,11 @@ msgstr "دقسقة/دقائق"
 
 #. Template: AAABase
 msgid "Minutes"
-msgstr ""
+msgstr "دقائق"
 
 #. Template: AAABase
 msgid "m"
-msgstr ""
+msgstr "ش"
 
 #. Template: AAABase
 msgid "month"
@@ -179,15 +180,15 @@ msgstr "أسبوع/أسابيع"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "ربع سنوي"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "ربع (أرباع) سنويه"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "نصف سنوي"
 
 #. Template: AAABase
 msgid "half-year(s)"
@@ -219,11 +220,11 @@ msgstr "ثانية"
 
 #. Template: AAABase
 msgid "s"
-msgstr ""
+msgstr "ث"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "وحدات قياس الوقت"
 
 #. Template: AAABase
 msgid "wrote"
@@ -267,11 +268,11 @@ msgstr "خط"
 
 #. Template: AAABase
 msgid "Setting"
-msgstr ""
+msgstr "اعداد"
 
 #. Template: AAABase
 msgid "Settings"
-msgstr ""
+msgstr "اعدادات"
 
 #. Template: AAABase
 msgid "Example"
@@ -363,7 +364,7 @@ msgstr "بدون!"
 
 #. Template: AAABase
 msgid "none - answered"
-msgstr ""
+msgstr "لا شيء تم الإجابة عليه"
 
 #. Template: AAABase
 msgid "please do not edit!"
@@ -371,7 +372,7 @@ msgstr "الرجاء عدم التعديل!"
 
 #. Template: AAABase
 msgid "Need Action"
-msgstr ""
+msgstr "تحتاج اجراء"
 
 #. Template: AAABase
 msgid "AddLink"
@@ -383,7 +384,7 @@ msgstr "رابط"
 
 #. Template: AAABase
 msgid "Unlink"
-msgstr ""
+msgstr "الغاء الإرتباط"
 
 #. Template: AAABase
 msgid "Linked"
@@ -427,7 +428,7 @@ msgstr "نص"
 
 #. Template: AAABase
 msgid "Standard"
-msgstr ""
+msgstr "قياسي"
 
 #. Template: AAABase
 msgid "Lite"
@@ -463,7 +464,7 @@ msgstr "التحية"
 
 #. Template: AAABase
 msgid "Salutations"
-msgstr ""
+msgstr "تحايا"
 
 #. Template: AAABase
 msgid "Signature"
@@ -503,15 +504,15 @@ msgstr "معلومات العميل"
 
 #. Template: AAABase
 msgid "Customer Information"
-msgstr ""
+msgstr "بيانات العميل"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr ""
+msgstr "شركات العميل"
 
 #. Template: AAABase
 msgid "Company"
-msgstr ""
+msgstr "شركة"
 
 #. Template: AAABase
 msgid "go!"
@@ -643,7 +644,7 @@ msgstr "بين"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "قبل/بعد"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -711,7 +712,7 @@ msgstr "أضف"
 
 #. Template: AAABase
 msgid "Added!"
-msgstr ""
+msgstr "تمت اضافتها!"
 
 #. Template: AAABase
 msgid "Category"
@@ -723,39 +724,39 @@ msgstr "مستعرض"
 
 #. Template: AAABase
 msgid "Expand"
-msgstr ""
+msgstr "توسيع"
 
 #. Template: AAABase
 msgid "Small"
-msgstr ""
+msgstr "صغير"
 
 #. Template: AAABase
 msgid "Medium"
-msgstr ""
+msgstr "وسط"
 
 #. Template: AAABase
 msgid "Large"
-msgstr ""
+msgstr "كبير"
 
 #. Template: AAABase
 msgid "Date picker"
-msgstr ""
+msgstr "محدد التاريخ"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "عرض الاختيار الشجري"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "محتوى الحقل طويل جداً!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "الحجم الأقصى %s حرف."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "الحقل مطلوب أو"
 
 #. Template: AAABase
 msgid "New message"
@@ -783,11 +784,11 @@ msgstr "الترميز المفضل للغتك هو %s !"
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr ""
+msgstr "قم بتغيير كلمة المرور الخاصة بك."
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr ""
+msgstr "فضلاً فعل %s أولاً!"
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -811,15 +812,15 @@ msgstr "لا يوجد حساب مربوط مع اسم الدخول."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr ""
+msgstr "فشل في تسجيل الدخول! تم إدخال اسم المستخدم أو كلمة المرور بشكل خاطيء."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr ""
+msgstr "لا يوجد حساب بإسم المستخدم المدخل."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "فضلاً اتصل بمشرف النظام"
 
 #. Template: AAABase
 msgid ""
@@ -830,7 +831,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "عنوان البريد الإلكتروني المدخل موجود بالفعل. فضلاً قم بتسجيل الدخول أو إعادة تعيين كلمة المرور."
 
 #. Template: AAABase
 msgid "Logout"
@@ -850,11 +851,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "اختيار قاعدة البيانات"
 
 #. Template: AAABase
 msgid "Create Database"
-msgstr ""
+msgstr "إنشاء قاعدة بيانات"
 
 #. Template: AAABase
 msgid "System Settings"
@@ -862,7 +863,7 @@ msgstr "إعدادات النظام"
 
 #. Template: AAABase
 msgid "Mail Configuration"
-msgstr ""
+msgstr "اعدادات البريد الإلكتروني"
 
 #. Template: AAABase
 msgid "Finished"
@@ -870,35 +871,35 @@ msgstr "انتهى"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "تثبيت OTRS"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "مقدمة"
 
 #. Template: AAABase
 msgid "License"
-msgstr "الرخصة"
+msgstr "الترخيص"
 
 #. Template: AAABase
 msgid "Database"
-msgstr ""
+msgstr "قاعدة البيانات"
 
 #. Template: AAABase
 msgid "Configure Mail"
-msgstr ""
+msgstr "ضبط اعدادات البريد الإلكتروني"
 
 #. Template: AAABase
 msgid "Database deleted."
-msgstr ""
+msgstr "تم حذف قاعدة البيانات."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "ادخل كلمة المرور المستخدم المسؤول لقاعدة البيانات."
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "ادخل كلمة المرور لمستخدم قاعدة البيانات."
 
 #. Template: AAABase
 msgid ""
@@ -908,16 +909,16 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "تحتوي قاعدة البيانات على بيانات حالياً - يفترض أن تكون فارغه!"
 
 #. Template: AAABase
 msgid "Login is needed!"
-msgstr ""
+msgstr "يتطلب تسجيل الدخول!"
 
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "لا يمكن تسجيل الدخول في الوقت الحالي نظراً لإجراء الصيانة المجدولة للنظام."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -925,11 +926,11 @@ msgstr "كلمة المرور مطلوبة!"
 
 #. Template: AAABase
 msgid "Take this Customer"
-msgstr ""
+msgstr "اختر هذا العميل"
 
 #. Template: AAABase
 msgid "Take this User"
-msgstr ""
+msgstr "اختر هذا المستخدم"
 
 #. Template: AAABase
 msgid "possible"
@@ -945,15 +946,15 @@ msgstr "عكس"
 
 #. Template: AAABase
 msgid "Facility"
-msgstr ""
+msgstr "مرفق"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr ""
+msgstr "المنطقة الزمنية"
 
 #. Template: AAABase
 msgid "Pending till"
-msgstr ""
+msgstr "معلق حتى"
 
 #. Template: AAABase
 msgid ""
@@ -1067,47 +1068,47 @@ msgstr ""
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr ""
+msgstr "تم تحديث الحالة!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr ""
+msgstr "تمت اضافة النوع!"
 
 #. Template: AAABase
 msgid "Type updated!"
-msgstr ""
+msgstr "تم تحديث النوع!"
 
 #. Template: AAABase
 msgid "Customer updated!"
-msgstr ""
+msgstr "تم تحديث العميل!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "تمت اضافة شركة العميل!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "تم تحديث شركة العميل!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "ملاحظة: الشركة غير صحيحة!"
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr ""
+msgstr "تمت اضافة حساب البريد الإلكتروني!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr ""
+msgstr "تم تحديث حساب البريد الإلكتروني!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr ""
+msgstr "تمت إضافة عنوان البريد الإلكتروني الخاص بالنظام!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr ""
+msgstr "تم تحديث عنوان البريد الإلكتروني الخاص بالنظام!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1115,11 +1116,11 @@ msgstr "العقد"
 
 #. Template: AAABase
 msgid "Online Customer: %s"
-msgstr "العملاء المتواجدين حالياً : %s"
+msgstr "العملاء المتواجدون حالياً : %s"
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr "المشغلين الموجودين حالياً : %s"
+msgstr "المشغلون المتواجدون حالياً : %s"
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1207,7 +1208,7 @@ msgstr "رقم الجوال"
 
 #. Template: AAABase
 msgid "Zip"
-msgstr ""
+msgstr "الرمز البريدي"
 
 #. Template: AAABase
 msgid "City"
@@ -1215,7 +1216,7 @@ msgstr "المدينة"
 
 #. Template: AAABase
 msgid "Street"
-msgstr ""
+msgstr "الشارع"
 
 #. Template: AAABase
 msgid "Country"
@@ -1223,21 +1224,21 @@ msgstr "الدولة"
 
 #. Template: AAABase
 msgid "Location"
-msgstr ""
+msgstr "الموقع"
 
 #. Template: AAABase
 msgid "installed"
-msgstr "تم تخزين البرنامج"
+msgstr "تم التثبيت بنجاح"
 
 #. Template: AAABase
 msgid "uninstalled"
-msgstr "تم حذف البرنامج"
+msgstr "تم الحذف بنجاح"
 
 #. Template: AAABase
 msgid ""
 "Security Note: You should activate %s because application is already "
 "running!"
-msgstr ""
+msgstr "ملاحظة أمان: يُفضل أن تقوم  بتنشيط %s لأن التطبيق قيد التشغيل حالياً!"
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
@@ -1251,17 +1252,17 @@ msgstr ""
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
-msgstr ""
+msgstr "لا يوجد حزم، او لا يوجد حزم جديدة في مخزن الحزم المختار."
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
-msgstr ""
+msgstr "تحرير إعدادات تكوين النظام."
 
 #. Template: AAABase
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "معلومات ال ACL في قاعدة البيانات غير متزامنة مع إعدادات تكوين النظام. فضلاً قم بتمرير كل ال ACLs."
 
 #. Template: AAABase
 msgid "printed at"
@@ -1269,57 +1270,57 @@ msgstr "طبع في"
 
 #. Template: AAABase
 msgid "Loading..."
-msgstr ""
+msgstr "جاري التحميل..."
 
 #. Template: AAABase
 msgid "Dear Mr. %s,"
-msgstr ""
+msgstr "عزيزي السيد %s،"
 
 #. Template: AAABase
 msgid "Dear Mrs. %s,"
-msgstr ""
+msgstr "عزيزتي السيدة %s،"
 
 #. Template: AAABase
 msgid "Dear %s,"
-msgstr ""
+msgstr "عزيزي %s،"
 
 #. Template: AAABase
 msgid "Hello %s,"
-msgstr ""
+msgstr "مرحباً %s،"
 
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "غير مسموح لعنوان البريد الإلكتروني هذا بالتسجيل. فضلاً اتصل بموظفي الدعم."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr ""
+msgstr "تم إنشاء حساب جديد. تم ارسال معلومات الدخول إلى %s. فضلاً افحص بريدك الإلكتروني."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
-msgstr ""
+msgstr "فضلاً اضغط للخلف وحاول مرة أخرى."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr ""
+msgstr "تم ارسال تعليمات إعادة تعيين كلمة المرور. فضلاً افحص بريدك الإلكتروني."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr ""
+msgstr "تم إرسال كلمة المرور الجديدة إلى %s. فضلاً افحص بريدك الإلكتروني."
 
 #. Template: AAABase
 msgid "Upcoming Events"
-msgstr ""
+msgstr "الأحداث القادمة"
 
 #. Template: AAABase
 msgid "Event"
-msgstr ""
+msgstr "حدث"
 
 #. Template: AAABase
 msgid "Events"
-msgstr ""
+msgstr "أحداث"
 
 #. Template: AAABase
 msgid "Invalid Token!"
