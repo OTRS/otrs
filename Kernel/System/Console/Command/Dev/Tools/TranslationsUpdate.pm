@@ -16,6 +16,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 use File::Basename;
 use Lingua::Translit;
 use Pod::Strip;
+use Storable ();
 
 use Kernel::Language;
 
@@ -45,11 +46,11 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'generate-po',
+        Name => 'generate-po',
         Description =>
             "Generate PO (translation content) files. This is only needed if a module is not yet available in transifex to force initial creation of the gettext files.",
-        Required    => 0,
-        HasValue    => 0,
+        Required => 0,
+        HasValue => 0,
     );
 
     my $Name = $Self->Name();
@@ -109,20 +110,14 @@ sub Run {
         );
     }
 
-    my %Summary;
-    for my $Language ( sort keys %Stats ) {
-        $Summary{$Language}->{Translated} = scalar grep {$_} values %{ $Stats{$Language} };
-        $Summary{$Language}->{Total} = scalar values %{ $Stats{$Language} };
-    }
-
     $Self->Print("\n<yellow>Translation statistics:</yellow>\n");
     for my $Language (
-        sort { $Summary{$b}->{Translated} <=> $Summary{$a}->{Translated} }
+        sort { $Stats{$b}->{Translated} <=> $Stats{$a}->{Translated} }
         keys %Stats
         )
     {
-        my $Strings      = $Summary{$Language}->{Total};
-        my $Translations = $Summary{$Language}->{Translated};
+        my $Strings      = $Stats{$Language}->{Total};
+        my $Translations = $Stats{$Language}->{Translated};
         $Self->Print( "\t" . sprintf( "%7s", $Language ) . ": " );
         $Self->Print( sprintf( "%02d", int( ( $Translations / $Strings ) * 100 ) ) );
         $Self->Print( sprintf( "%% (%4d/%4d)\n", $Translations, $Strings ) );
@@ -133,6 +128,8 @@ sub Run {
 
     return $Self->ExitCodeOk();
 }
+
+my @OriginalTranslationStrings;
 
 sub HandleLanguage {
     my ( $Self, %Param ) = @_;
@@ -199,6 +196,191 @@ sub HandleLanguage {
         );
     }
 
+    if ( !@OriginalTranslationStrings ) {
+
+        $Self->Print(
+            "Extracting source strings, this can take a moment...\n"
+        );
+
+        # open .tt files and write new translation file
+        my %UsedWords;
+        my $Directory = $IsSubTranslation
+            ? "$ModuleDirectory/Kernel/Output/HTML/Templates/$DefaultTheme"
+            : "$Home/Kernel/Output/HTML/Templates/$DefaultTheme";
+
+        my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $Directory,
+            Filter    => '*.tt',
+        );
+
+        for my $File (@TemplateList) {
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+            );
+
+            if ( !ref $ContentRef ) {
+                die "Can't open $File: $!";
+            }
+
+            my $Content = ${$ContentRef};
+
+            $File =~ s{^.*/(.+?)\.tt}{$1}smx;
+
+            # do translation
+            $Content =~ s{
+                Translate\(
+                    \s*
+                    (["'])(.*?)(?<!\\)\1
+            }
+            {
+                my $Word = $2 // '';
+
+                # unescape any \" or \' signs
+                $Word =~ s{\\"}{"}smxg;
+                $Word =~ s{\\'}{'}smxg;
+
+                if (!$UsedWords{$Word}++) {
+
+                    push @OriginalTranslationStrings, {
+                        Location => "Template: $File",
+                        Source => $Word,
+                    };
+
+                }
+
+                '';
+            }egx;
+        }
+
+        # add translatable strings from Perl code
+        my @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $IsSubTranslation ? "$ModuleDirectory/Kernel" : "$Home/Kernel",
+            Filter    => '*.pm',
+            Recursive => 1,
+        );
+
+        FILE:
+        for my $File (@PerlModuleList) {
+
+            next FILE if ( $File =~ m{cpan-lib}xms );
+            next FILE if ( $File =~ m{Kernel/Config/Files}xms );
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+            );
+
+            if ( !ref $ContentRef ) {
+                die "Can't open $File: $!";
+            }
+
+            $File =~ s{^.*/(Kernel/)}{$1}smx;
+
+            my $Content = ${$ContentRef};
+
+            # Remove POD
+            my $PodStrip = Pod::Strip->new();
+            $PodStrip->replace_with_comments(1);
+            my $Code;
+            $PodStrip->output_string( \$Code );
+            $PodStrip->parse_string_document($Content);
+
+            # Purge all comments
+            $Code =~ s{^ \s* # .*? \n}{\n}xmsg;
+
+            # do translation
+            $Code =~ s{
+                (?:
+                    ->Translate | Translatable
+                )
+                \(
+                    \s*
+                    (["'])(.*?)(?<!\\)\1
+            }
+            {
+                my $Word = $2 // '';
+
+                # unescape any \" or \' signs
+                $Word =~ s{\\"}{"}smxg;
+                $Word =~ s{\\'}{'}smxg;
+
+                # Ignore strings containing variables
+                my $SkipWord;
+                $SkipWord = 1 if $Word =~ m{\$}xms;
+
+                if ($Word && !$SkipWord && !$UsedWords{$Word}++ ) {
+
+                    push @OriginalTranslationStrings, {
+                        Location => "Perl Module: $File",
+                        Source => $Word,
+                    };
+
+                }
+                '';
+            }egx;
+        }
+
+        # add translatable strings from XB XML
+        my @DBXMLFiles = "$Home/scripts/database/otrs-initial_insert.xml";
+        if ($IsSubTranslation) {
+            @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => "$ModuleDirectory",
+                Filter    => '*.sopm',
+            );
+        }
+
+        FILE:
+        for my $File (@DBXMLFiles) {
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+            );
+
+            if ( !ref $ContentRef ) {
+                die "Can't open $File: $!";
+            }
+
+            $File =~ s{^.*/(scripts/)}{$1}smx;
+
+            my $Content = ${$ContentRef};
+
+            # do translation
+            $Content =~ s{
+                <Data[^>]+Translatable="1"[^>]*>(.*?)</Data>
+            }
+            {
+                my $Word = $1 // '';
+
+                if ($Word && !$UsedWords{$Word}++) {
+
+                    push @OriginalTranslationStrings, {
+                        Location => "Database XML Definition: $File",
+                        Source => $Word,
+                    };
+
+                }
+                '';
+            }egx;
+        }
+
+        # add translatable strings from SysConfig
+        my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemTranslatableStrings();
+
+        STRING:
+        for my $String ( sort @Strings ) {
+
+            next STRING if !$String || $UsedWords{$String}++;
+
+            push @OriginalTranslationStrings, {
+                Location => 'SysConfig',
+                Source   => $String,
+            };
+        }
+    }
+
     # Language file, which only contains the OTRS core translations
     my $LanguageCoreObject = Kernel::Language->new(
         UserLanguage    => $Language,
@@ -239,308 +421,11 @@ sub HandleLanguage {
         );
     }
 
-    # open .tt files and write new translation file
-    my %UsedWords;
-    my $Directory = $IsSubTranslation
-        ? "$ModuleDirectory/Kernel/Output/HTML/Templates/$DefaultTheme"
-        : "$Home/Kernel/Output/HTML/Templates/$DefaultTheme";
-
-    my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $Directory,
-        Filter    => '*.tt',
-    );
-
     my @TranslationStrings;
 
-    for my $File (@TemplateList) {
+    for my $OriginalTranslationString (@OriginalTranslationStrings) {
 
-        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location => $File,
-            Mode     => 'utf8',
-        );
-
-        if ( !ref $ContentRef ) {
-            die "Can't open $File: $!";
-        }
-
-        my $Content = ${$ContentRef};
-
-        $File =~ s{^.*/(.+?)\.tt}{$1}smx;
-
-        # do translation
-        $Content =~ s{
-            Translate\(
-                \s*
-                (["'])(.*?)(?<!\\)\1
-        }
-        {
-            my $Word = $2 // '';
-
-            # unescape any \" or \' signs
-            $Word =~ s{\\"}{"}smxg;
-            $Word =~ s{\\'}{'}smxg;
-
-            if ($Word && !exists $UsedWords{$Word}) {
-
-                # if we translate a module, we must handle also that possibly
-                # there is already a translation in the core files
-                if ($IsSubTranslation) {
-
-                    if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
-                        my $Translation;
-
-                        # transliterate word from existing translation if language supports it
-                        if ( $TranslitLanguagesMap{$Language} ) {
-                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
-                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                        }
-
-                        # lookup for existing translation in module language object
-                        else {
-                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                            $Translation = $UsedWords{$Word} || '';
-                        }
-
-                        push @TranslationStrings, {
-                            Location => "Template: $File",
-                            Source => $Word,
-                            Translation => $Translation,
-                        };
-                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                    }
-                }
-                else {
-                    my $Translation;
-
-                    # transliterate word from existing translation if language supports it
-                    if ( $TranslitLanguagesMap{$Language} ) {
-                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                    }
-
-                    # lookup for existing translation in core language object
-                    else {
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $UsedWords{$Word} || '';
-                    }
-
-                    push @TranslationStrings, {
-                        Location => "Template: $File",
-                        Source => $Word,
-                        Translation => $Translation,
-                    };
-                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                }
-            }
-            '';
-        }egx;
-    }
-
-    # add translatable strings from Perl code
-    my @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $IsSubTranslation ? "$ModuleDirectory/Kernel" : "$Home/Kernel",
-        Filter    => '*.pm',
-        Recursive => 1,
-    );
-
-    FILE:
-    for my $File (@PerlModuleList) {
-
-        next FILE if ( $File =~ m{cpan-lib}xms );
-        next FILE if ( $File =~ m{Kernel/Config/Files}xms );
-
-        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location => $File,
-            Mode     => 'utf8',
-        );
-
-        if ( !ref $ContentRef ) {
-            die "Can't open $File: $!";
-        }
-
-        $File =~ s{^.*/(Kernel/)}{$1}smx;
-
-        my $Content = ${$ContentRef};
-
-        # Remove POD
-        my $PodStrip = Pod::Strip->new();
-        $PodStrip->replace_with_comments(1);
-        my $Code;
-        $PodStrip->output_string( \$Code );
-        $PodStrip->parse_string_document($Content);
-
-        # Purge all comments
-        $Code =~ s{^ \s* # .*? \n}{\n}xmsg;
-
-        # do translation
-        $Code =~ s{
-            (?:
-                ->Translate | Translatable
-            )
-            \(
-                \s*
-                (["'])(.*?)(?<!\\)\1
-        }
-        {
-            my $Word = $2 // '';
-
-            # unescape any \" or \' signs
-            $Word =~ s{\\"}{"}smxg;
-            $Word =~ s{\\'}{'}smxg;
-
-            # Ignore strings containing variables
-            my $SkipWord;
-            $SkipWord = 1 if $Word =~ m{\$}xms;
-
-            if ($Word && !exists $UsedWords{$Word} && !$SkipWord) {
-
-                # if we translate a module, we must handle also that possibly
-                # there is already a translation in the core files
-                if ($IsSubTranslation) {
-                    if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
-                        my $Translation;
-
-                        # transliterate word from existing translation if language supports it
-                        if ( $TranslitLanguagesMap{$Language} ) {
-                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
-                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                        }
-
-                        # lookup for existing translation in module language object
-                        else {
-                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                            $Translation = $UsedWords{$Word} || '';
-                        }
-
-                        push @TranslationStrings, {
-                            Location => "Perl Module: $File",
-                            Source => $Word,
-                            Translation => $Translation,
-                        };
-                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                    }
-                }
-                else {
-                    my $Translation;
-
-                    # transliterate word from existing translation if language supports it
-                    if ( $TranslitLanguagesMap{$Language} ) {
-                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                    }
-
-                    # lookup for existing translation in core language object
-                    else {
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $UsedWords{$Word} || '';
-                    }
-
-                    push @TranslationStrings, {
-                        Location => "Perl Module: $File",
-                        Source => $Word,
-                        Translation => $Translation,
-                    };
-                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                }
-            }
-            '';
-        }egx;
-    }
-
-    # add translatable strings from XB XML
-    my @DBXMLFiles = "$Home/scripts/database/otrs-initial_insert.xml";
-    if ($IsSubTranslation) {
-        @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => "$ModuleDirectory",
-            Filter    => '*.sopm',
-        );
-    }
-
-    FILE:
-    for my $File (@DBXMLFiles) {
-
-        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location => $File,
-            Mode     => 'utf8',
-        );
-
-        if ( !ref $ContentRef ) {
-            die "Can't open $File: $!";
-        }
-
-        $File =~ s{^.*/(scripts/)}{$1}smx;
-
-        my $Content = ${$ContentRef};
-
-        # do translation
-        $Content =~ s{
-            <Data[^>]+Translatable="1"[^>]*>(.*?)</Data>
-        }
-        {
-            my $Word = $1 // '';
-
-            if ($Word && !exists $UsedWords{$Word}) {
-
-                # if we translate a module, we must handle also that possibly
-                # there is already a translation in the core files
-                if ($IsSubTranslation) {
-                    if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
-                        my $Translation;
-
-                        # transliterate word from existing translation if language supports it
-                        if ( $TranslitLanguagesMap{$Language} ) {
-                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
-                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                        }
-
-                        # lookup for existing translation in module language object
-                        else {
-                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                            $Translation = $UsedWords{$Word} || '';
-                        }
-
-                        push @TranslationStrings, {
-                            Location => "Database XML Definition: $File",
-                            Source => $Word,
-                            Translation => $Translation,
-                        };
-                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                    }
-                }
-                else {
-                    my $Translation;
-
-                    # transliterate word from existing translation if language supports it
-                    if ( $TranslitLanguagesMap{$Language} ) {
-                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
-                    }
-
-                    # lookup for existing translation in core language object
-                    else {
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                        $Translation = $UsedWords{$Word} || '';
-                    }
-
-                    push @TranslationStrings, {
-                        Location => "Database XML Definition: $File",
-                        Source => $Word,
-                        Translation => $Translation,
-                    };
-                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
-                }
-            }
-            '';
-        }egx;
-    }
-
-    # add translatable strings from SysConfig
-    my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemTranslatableStrings();
-
-    STRING:
-    for my $String ( sort @Strings ) {
-
-        next STRING if !$String || exists $UsedWords{$String};
+        my $String = $OriginalTranslationString->{Source};
 
         # skip if we translate a module and the word already exists in the core translation
         next STRING if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
@@ -549,26 +434,27 @@ sub HandleLanguage {
 
         # transliterate word from existing translation if language supports it
         if ( $TranslitLanguagesMap{$Language} ) {
-            $UsedWords{$String}
-                = ( $IsSubTranslation ? $TranslitLanguageObject : $TranslitLanguageCoreObject )->{Translation}
+            $Translation = ( $IsSubTranslation ? $TranslitLanguageObject : $TranslitLanguageCoreObject )->{Translation}
                 ->{$String};
-            $Translation = $TranslitObject->translit( $UsedWords{$String} ) || '';
+            $Translation = $TranslitObject->translit($Translation) || '';
         }
 
         # lookup for existing translation
         else {
-            $UsedWords{$String} = $POTranslations{$String}
+            $Translation = $POTranslations{$String}
                 || ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
                 ->{$String};
-            $Translation = $UsedWords{$String} || '';
+            $Translation ||= '';
         }
 
         push @TranslationStrings, {
-            Location    => 'SysConfig',
+            Location    => $OriginalTranslationString->{Location},
             Source      => $String,
             Translation => $Translation,
         };
-        $Param{Stats}->{ $Param{Language} }->{$String} = $Translation;
+
+        $Param{Stats}->{ $Param{Language} }->{Total}++;
+        $Param{Stats}->{ $Param{Language} }->{Translated}++ if $Translation;
     }
 
     if ( $WritePOT && !$Self->{POTFileWritten}++ ) {
