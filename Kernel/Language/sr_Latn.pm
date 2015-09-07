@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.81457449463439;
+    $Self->{Completeness}        = 0.891689543299226;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -79,10 +79,10 @@ sub Data {
         'month(s)' => 'mesec(i)',
         'week' => 'nedelja',
         'week(s)' => 'nedelja(e)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'tromesečje',
+        'quarter(s)' => 'tromesečje(a)',
+        'half-year' => 'polugodište',
+        'half-year(s)' => 'polugodište(a)',
         'year' => 'godina',
         'years' => 'godine',
         'year(s)' => 'godina(e)',
@@ -767,8 +767,8 @@ sub Data {
         'Archived tickets' => 'Arhivirani tiketi',
         'Unarchived tickets' => 'Nearhivirani tiketi',
         'Ticket Information' => 'Informacije o tiketu',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'uključujući podredove',
+        'excluding subqueues' => 'isključujući podredove',
 
         # Template: AAAWeekDay
         'Sun' => 'ned',
@@ -874,8 +874,8 @@ sub Data {
 
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Support Data Collector' => 'Sakupljač podataka podrške',
+        'Support data collector' => 'Sakupljač podataka podrške',
         'Hint' => 'Savet',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
@@ -896,10 +896,10 @@ sub Data {
             'Registracija sistema je usluga OTRS Grupe, koja obezbeđuje mnoge prednosti.',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
             '',
-        'Register this system' => '',
+        'Register this system' => 'Registruj ovaj sistem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
-        'Available Cloud Services' => '',
+        'Available Cloud Services' => 'Raspoloživi servisi u oblaku',
         'Upgrade to %s' => 'Unapredi na %s',
 
         # Template: AdminCustomerCompany
@@ -1198,7 +1198,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'Otklanjanje grešaka u opštem interfejsu veb servisa %s',
-        'You are here' => '',
+        'You are here' => 'Vi ste ovde',
         'Web Services' => 'Veb servisi',
         'Debugger' => 'Program za otklanjanje grešaka',
         'Go back to web service' => 'Idi nazad na veb servis',
@@ -1278,7 +1278,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => '',
-        'Mapping XML' => '',
+        'Mapping XML' => 'Mapiranje „XML”',
         'Template' => 'Šablon',
         'The entered data is not a valid XSLT stylesheet.' => '',
         'Insert XSLT stylesheet.' => '',
@@ -1368,12 +1368,12 @@ sub Data {
             '',
         '\'FreeText\' is used as example for actual configured value.' =>
             '',
-        'Response name free text' => '',
+        'Response name free text' => 'Slobodan tekst imena odgovora',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             '',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
             '',
-        'Response name scheme' => '',
+        'Response name scheme' => 'Šema imena odgovora',
         'Select how SOAP response function wrapper should be constructed.' =>
             '',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
@@ -1406,8 +1406,8 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Cela putanja direktorijuma sertifikacionog tela gde se skladište CA sertifikati u sistemu datoteka.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'npr. /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
-        'Add new first level element' => '',
+        'Sort options' => 'Opcije sortiranja',
+        'Add new first level element' => 'Dodaj novi element prvog nivoa',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
 
@@ -1517,17 +1517,17 @@ sub Data {
         'Online Admin Manual' => 'Administrativno uputstvo na mreži',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Upravljanje obaveštenjima o tiketima',
         'Add notification' => 'Dodaj obaveštenje',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Obaveštenja o izvozu',
+        'Configuration Import' => 'Uvoz konfiguracije',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Prepiši preko postojećih obaveštenja?',
+        'Upload Notification configuration' => 'Otpremi konfiguraciju obaveštavanja',
+        'Import Notification configuration' => 'Uvezi konfiguraciju obaveštenja',
         'Delete this notification' => 'Obriši ovo obaveštenje',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Da li stvarno želite da obrišete ovo obaveštenje?',
         'Add Notification' => 'Dodaj Obaveštenje',
         'Edit Notification' => 'Uredi obaveštenje',
         'Show in agent preferences' => '',
@@ -1535,7 +1535,7 @@ sub Data {
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            '',
+            'Ovde možete izabrati koji događaji će pokrenuti obaveštavanje. Dodatni filter za tikete može biti primenjen radi slanja samo za tikete po određenom kriterijumu.',
         'Ticket Filter' => 'Filter tiketa',
         'Article Filter' => 'Filter članka',
         'Only for ArticleCreate and ArticleSend event' => 'Samo za događaj kreiranje članka i slanje članka',
@@ -1547,29 +1547,29 @@ sub Data {
         'Body match' => 'Poklapanje sadržaja',
         'Include attachments to notification' => 'Uključi priloge uz obavštenje',
         'Recipients' => 'Promaoci',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members' => '',
-        'Send to all role members' => '',
+        'Send to' => 'Pošalji za ',
+        'Send to these agents' => 'Pošalji ovim operaterima',
+        'Send to all group members' => 'Pošalji svim članovima grupe',
+        'Send to all role members' => 'Pošalji svim pripadnicima uloge',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Jednom dnevno',
         'Notify user just once per day about a single ticket using a selected transport.' =>
-            '',
-        'Notification Methods' => '',
+            'Obaveti korisnika samo jednom dnevno o pojedinom tiketu korišćenjem izabranog transporta.',
+        'Notification Methods' => 'Metode obaveštavanja',
         'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            '',
-        'Transport' => '',
-        'Enable this notification method' => '',
-        'At least one method is needed per notification.' => '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
-        'Remove Notification Language' => '',
-        'Message body' => '',
-        'Add new notification language' => '',
-        'Do you really want to delete this notification language?' => '',
+            'Ovo su moguće metode koje se mogu koristiti za slanje obaveštenja za svakog primaoca. Napomena: Isključujući imejl, druge metode možda ne mogu da dopru do svih primaoca, pa molimo da za dodatne informacije proučite dokumentaciju svake metode. Molimo da izaberete bar jednu od ponuđenih metoda.',
+        'Transport' => 'Transport',
+        'Enable this notification method' => 'Aktiviraj ovaj metod obaveštavanja',
+        'At least one method is needed per notification.' => 'Potreban je najmanje jedan metod po obaveštenju.',
+        'This feature is currently not available.' => 'Ovo svojstvo trenutno nije dostupno.',
+        'No data found' => 'Ništa nije pronađeno',
+        'No notification method found.' => 'Nije pronađena metoda obaveštavanja.',
+        'Notification Text' => 'Tekst obaveštenja',
+        'Remove Notification Language' => 'Ukloni jezik obaveštenja',
+        'Message body' => 'Sadržaj poruke',
+        'Add new notification language' => 'Ukloni novi jezik obaveštenja',
+        'Do you really want to delete this notification language?' => 'Da li zaista želite da izbrišete ovaj jezik za obaveštenja?',
         'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Obaveštenje poslato operateru ili klijentu.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
@@ -1587,12 +1587,12 @@ sub Data {
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Upotrebite ovaj šablon za generisanje kompletnog imejla (samo za „HTML” imejlove).',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Upravljaj sa %s',
         'Downgrade to OTRS Free' => '',
-        'Read documentation' => '',
+        'Read documentation' => 'Pročitaj dokumentaciju',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
         'Unauthorized Usage Detected' => 'Detektovana neovlaštena upotreba',
@@ -1766,10 +1766,10 @@ sub Data {
         'Overwrite existing entities' => 'Napiši preko postojećih entiteta',
         'Upload process configuration' => 'Učitaj konfiguraciju procesa',
         'Import process configuration' => 'Uvezi konfiguraciju procesa',
-        'Example processes' => '',
+        'Example processes' => 'Primer procesa',
         'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
             '',
-        'Import example process' => '',
+        'Import example process' => 'Izvezi primer procesa',
         'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
             '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1783,7 +1783,7 @@ sub Data {
         'Copy Process' => 'Kopiraj proces',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Poništi & zatvori',
         'Go Back' => 'Vrati se nazad',
         'Please note, that changing this activity will affect the following processes' =>
             'Napominjemo da će izmene ove aktivnosti uticati na prateće procese.',
@@ -2270,7 +2270,7 @@ sub Data {
 
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => 'Uredi konfiguraciona podešavanja',
-        'This setting is read only.' => '',
+        'This setting is read only.' => 'Ovo podešavanje se može samo pregledati.',
         'This config item is only available in a higher config level!' =>
             'Ova konfiguraciona stavka je dostupna samo na višem konfiguracionom nivou',
         'Reset this setting' => 'Poništi ovo podešavanje',
@@ -2462,18 +2462,18 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
-            '',
-        'Download as SVG file' => '',
-        'Download as PNG file' => '',
-        'Download as CSV file' => '',
-        'Download as Excel file' => '',
-        'Download as PDF file' => '',
+            'Konfiguracija za ovaj statistički dodatak sadrži greške, molomo proverite vaša podešavanja.',
+        'Download as SVG file' => 'Preuzmi kao „SVG” datoteku',
+        'Download as PNG file' => 'Preuzmi kao „PNG” datoteku',
+        'Download as CSV file' => 'Preuzmi kao „CSV” datoteku',
+        'Download as Excel file' => 'Preuzmi kao „Excel” datoteku',
+        'Download as PDF file' => 'Preuzmi kao „PDF” datoteku',
         'Grouped' => 'Grupisano',
         'Stacked' => 'Naslagano',
         'Expanded' => 'Prošireno',
         'Stream' => 'Protok',
         'Please select a valid graph output format in the configuration of this widget.' =>
-            '',
+            'Molimo da u konfiguraciji ovog dodatka izaberete važeći izlazni format grafikona.',
         'The content of this statistic is being prepared for you, please be patient.' =>
             'Sadržaj ove statistike se priprema za vas, molimo budite strpljivi.',
         'This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.' =>
@@ -2493,14 +2493,14 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'Van kancelarije',
-        'Selected agent is not available for chat' => '',
+        'Selected agent is not available for chat' => 'Izabrani operater nije dostupan za ćaskanje',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'dok',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Tiket je zaključan.',
-        'Undo & close' => '',
+        'Undo & close' => 'Odustani & zatvori',
 
         # Template: AgentInfo
         'Info' => 'Info',
@@ -2525,59 +2525,59 @@ sub Data {
         'Apply these changes' => 'Primeni ove izmene',
 
         # Template: AgentStatisticsAdd
-        'Statistics » Add' => '',
-        'Add New Statistic' => '',
-        'Dynamic Matrix' => '',
+        'Statistics » Add' => 'Statistika » Dodaj',
+        'Add New Statistic' => 'Dodaj novu statistiku',
+        'Dynamic Matrix' => 'Dinamička matrica',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
-        'Dynamic List' => '',
+        'Dynamic List' => 'Dinamička lista',
         'Tabular reporting data where each row contains data of one entity (e. g. a ticket).' =>
             '',
-        'Static' => '',
+        'Static' => 'Statički',
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
-            '',
-        'General Specification' => '',
-        'Create Statistic' => '',
+            'Komplikovana statistika koja se ne može podesiti i može da vrati neformatirane podatke.',
+        'General Specification' => 'Opšta specifikacija',
+        'Create Statistic' => 'Kreiraj statistiku',
 
         # Template: AgentStatisticsEdit
-        'Statistics » Edit %s%s — %s' => '',
-        'Run now' => '',
-        'Statistics Preview' => '',
-        'Save statistic' => '',
+        'Statistics » Edit %s%s — %s' => 'Statistika » Izmeni %s%s — %s',
+        'Run now' => 'Pokreni sad',
+        'Statistics Preview' => 'Pregled statistike',
+        'Save statistic' => 'Sačuvaj statistiku',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
-        'Import Statistic Configuration' => '',
+        'Statistics » Import' => 'Statistika » Uvoz',
+        'Import Statistic Configuration' => 'Uvezi konfiguraciju statistike',
 
         # Template: AgentStatisticsOverview
-        'Statistics » Overview' => '',
+        'Statistics » Overview' => 'Statistika » Pregled',
         'Statistics' => 'Statistike',
-        'Run' => '',
-        'Edit statistic "%s".' => '',
-        'Export statistic "%s"' => '',
-        'Export statistic %s' => '',
-        'Delete statistic "%s"' => '',
-        'Delete statistic %s' => '',
-        'Do you really want to delete this statistic?' => '',
+        'Run' => 'Pokreni',
+        'Edit statistic "%s".' => 'Izmeni statistiku "%s".',
+        'Export statistic "%s"' => 'Izvezi statistiku "%s".',
+        'Export statistic %s' => 'Izmeni statistiku %s',
+        'Delete statistic "%s"' => 'Obriši statistiku "%s".',
+        'Delete statistic %s' => 'Obriši statistiku %s',
+        'Do you really want to delete this statistic?' => 'Da li stvarno želite da obrišete ovu statistiku?',
 
         # Template: AgentStatisticsView
-        'Statistics » View %s%s — %s' => '',
+        'Statistics » View %s%s — %s' => 'Statistika » Pogledaj %s%s — %s',
         'This statistic contains configuration errors and can currently not be used.' =>
-            '',
+            'Ova statistika sadrži konfiguracione greške i sad se ne može koristiti.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => '',
-        'Change Owner of %s%s' => '',
-        'Close %s%s' => '',
-        'Add Note to %s%s' => '',
-        'Set Pending Time for %s%s' => '',
-        'Change Priority of %s%s' => '',
-        'Change Responsible of %s%s' => '',
+        'Change Free Text of %s%s' => 'Promeni slobodni tekst za %s%s',
+        'Change Owner of %s%s' => 'Promeni vlasnika za %s%s',
+        'Close %s%s' => 'Zatvori %s%s',
+        'Add Note to %s%s' => 'Dodaj obaveštenje %s%s',
+        'Set Pending Time for %s%s' => 'Postavi vreme čekanja za %s%s',
+        'Change Priority of %s%s' => 'Promeni prioritet za %s%s',
+        'Change Responsible of %s%s' => 'Promeni odgovornog za %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Sva polja označena zvezdicom (*) su obavezna.',
         'Service invalid.' => 'Neispravna usluga',
         'New Owner' => 'Novi vlasnik',
         'Please set a new owner!' => 'Molimo odredite novog vlasnika',
-        'New Responsible' => '',
+        'New Responsible' => 'Novi odgovorni',
         'Next state' => 'Sledeći status',
         'For all pending* states.' => 'Za sva stanja* čekanja.',
         'Add Article' => 'Dodaj članak',
@@ -2614,7 +2614,7 @@ sub Data {
         'Unlock tickets' => 'Otključaj tikete',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s' => 'Napiši odgovor za %s%s',
         'Please include at least one recipient' => 'Molimo da uključite bar jednog primaoca',
         'Remove Ticket Customer' => 'Ukloni klijent sa tiketa **',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2625,7 +2625,7 @@ sub Data {
         'Date Invalid!' => 'Neispravan datum!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => '',
+        'Change Customer of %s%s' => 'Promeni klijenta %s%s',
         'Customer user' => 'Klijent korisnik',
 
         # Template: AgentTicketEmail
@@ -2637,10 +2637,10 @@ sub Data {
         'Select this customer as the main customer.' => 'Označi ovog klijenta kao glavnog klijenta.',
         'Remove Ticket Customer User' => 'Ukloni tiket klijenta korisnika **',
         'Get all' => 'Uzmi sve',
-        'Do you really want to continue?' => '',
+        'Do you really want to continue?' => 'Da li zaista želite da nastavite?',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => '',
+        'Outbound Email for %s%s' => 'Izlazni imejl za %s%s',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Tiket %s: vreme odziva je preko (%s)!',
@@ -2650,28 +2650,28 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Tiket %s: vreme rešavanja ističe za %s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => '',
+        'Forward %s%s' => 'Prosledi %s%s',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => '',
+        'History of %s%s' => 'Istorijat od %s%s',
         'History Content' => 'Sadržaj istorije',
         'Zoom view' => 'Uvećani pregled',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => '',
-        'Merge Settings' => '',
+        'Merge %s%s' => 'Spoji %s%s',
+        'Merge Settings' => 'Podešavanja spajanja',
         'You need to use a ticket number!' => 'Molimo vas da koristite broj tiketa!',
         'A valid ticket number is required.' => 'Neophodan je ispravan broj tiketa.',
         'Need a valid email address.' => 'Potrebna je ispravna imejl adresa.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => '',
+        'Move %s%s' => 'Premesti %s%s',
         'New Queue' => 'Novi Red',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Izaberi sve',
         'No ticket data found.' => 'Nisu nađeni podaci o tiketu',
-        'Open / Close ticket action menu' => '',
+        'Open / Close ticket action menu' => 'Akcioni meni Otvaranja / Zatvaranja tiketa',
         'Select this ticket' => 'Izaberite ovaj tiket',
         'First Response Time' => 'Vreme prvog odgovora',
         'Update Time' => 'Vreme ažuriranja',
@@ -2698,10 +2698,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'Ćaskanje će biti dodato kao poseban članak.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => '',
+        'Phone Call for %s%s' => 'Telefonski poziv za %s%s',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => '',
+        'View Email Plain Text for %s%s' => 'Prikaz imejla kao običan tekst za %s%s',
         'Plain' => 'Neformatirano',
         'Download this email' => 'Preuzmi ovu poruku',
 
@@ -2823,15 +2823,15 @@ sub Data {
             'OTRS funcioniše na velikom broju veb pretraživača, molimo da instalirate i koristite jedan od ovih.',
         'Please see the documentation or ask your admin for further information.' =>
             'Molimo da pregledate dokumentaciju ili pitate vašeg administratora za dodatne informacije.',
-        'Switch to mobile mode' => '',
-        'Switch to desktop mode' => '',
-        'Not available' => '',
-        'Clear all' => '',
-        'Clear search' => '',
+        'Switch to mobile mode' => 'Pređi na mobilni mod',
+        'Switch to desktop mode' => 'Pređi na desktop mod',
+        'Not available' => 'Nije dostupno',
+        'Clear all' => 'Očisti sve',
+        'Clear search' => 'Očisti pretragu',
         '%s selection(s)...' => '',
-        'and %s more...' => '',
-        'Filters' => '',
-        'Confirm' => '',
+        'and %s more...' => 'i %s više...',
+        'Filters' => 'Filteri',
+        'Confirm' => 'Potvrdi',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nije dostupan.',
@@ -2902,12 +2902,12 @@ sub Data {
         'Remove this Search Term.' => 'Ukloni ovaj izraz za pretragu.',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'Počni ćaskanje iz ovog tiketa',
         'Expand article' => 'Raširi članak',
         'Information' => 'Informacija',
         'Next Steps' => 'Sledeći koraci',
         'Reply' => 'Odgovori',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Protokol ćaskanja',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => 'Celodnevno',
@@ -2950,18 +2950,18 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'Molimo proverite polja označena crvenim za važeće unose.',
         'Please perform a spell check on the the text first.' => 'Molimo da prvo proverite pravopis na tekstu.',
         'Slide the navigation bar' => 'Pomerite navigacionu traku',
-        'Unavailable for chat' => '',
-        'Available for internal chats only' => '',
-        'Available for chats' => '',
-        'Please visit the chat manager' => '',
-        'New personal chat request' => '',
-        'New customer chat request' => '',
-        'New public chat request' => '',
-        'New activity' => '',
-        'New activity on one of your monitored chats.' => '',
+        'Unavailable for chat' => 'Nedostupan za ćaskanje',
+        'Available for internal chats only' => 'Dostupan samo za interno ćaskanje',
+        'Available for chats' => 'Dostupan za ćaskanje',
+        'Please visit the chat manager' => 'Molimo posetite upravljač ćaskanjem',
+        'New personal chat request' => 'Nov lični zahtev za ćaskanje',
+        'New customer chat request' => 'Nov klijentski zahtev za ćaskanje',
+        'New public chat request' => 'Nov javni zahtev za ćaskanje',
+        'New activity' => 'Nova aktivnost',
+        'New activity on one of your monitored chats.' => 'Nova aktivnost u jednom od nadgledanih ćaskanja.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            '',
-        'Find out more about the %s' => '',
+            'Ovo svojstvo je deo %s.  Molimo da na s kontaktirate na %s za ažuriranje.',
+        'Find out more about the %s' => 'Pronađi još informacija o %s',
 
         # Template: Header
         'You are logged in as' => 'Prijavljeni ste kao',
@@ -3074,9 +3074,9 @@ sub Data {
         'Back to login' => 'Nazad na prijavljivanje',
 
         # Template: MobileNotAvailableWidget
-        'Feature not available' => '',
+        'Feature not available' => 'Svojstvo nije dostupno',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            '',
+            'Na žalost, ovo svojstvo momentalno nije dostupno za mobilne uređaje. Ako želite da ga koristite, možete de vratiti na desktop mod ili koristiti standardni desktop uređaj.',
 
         # Template: Motd
         'Message of the Day' => 'Današnja poruka',
@@ -3104,7 +3104,7 @@ sub Data {
             '',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Dobrodošli',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS test strana',
@@ -3119,11 +3119,11 @@ sub Data {
         'New email ticket' => 'Novi imejl tiket',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Currently' => '',
+        'Currently' => 'Trenutno',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
         'Please remove the following words because they cannot be used for the ticket selection:' =>
-            '',
+            'Molimo da uklonite sledeće reči jer se ne mogu koristiti za izbor tiketa:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'Web service "%s" updated!' => '',
@@ -3131,38 +3131,38 @@ sub Data {
         'Web service "%s" deleted!' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
-        'All agents subscribed to the ticket\'s queue' => '',
-        'All agents subscribed to the ticket\'s service' => '',
+        'Agent who owns the ticket' => 'Operater koji je vlasnik tiketa',
+        'Agent who is responsible for the ticket' => 'Operater koji je odgovoran za tiket',
+        'All agents watching the ticket' => 'Svi operateri koji nadziru tiket',
+        'All agents with write permission for the ticket' => 'Svi operateri sa dozvolom pisanja za tiket',
+        'All agents subscribed to the ticket\'s queue' => 'Svi operateri pretplaćeni na red tiketa',
+        'All agents subscribed to the ticket\'s service' => 'Svi operateri pretplaćeni na servis tiketa',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            '',
-        'Customer of the ticket' => '',
+            'Svi operateri pretplaćeni i na red i na servis tiketa',
+        'Customer of the ticket' => 'Klijent za tiket',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
-            '',
+            'Paket nije verifikovan zbog komunikacijskog problema sa verifikacionim serverom!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => 'Statistika',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Can not delete link with %s!' => '',
-        'Can not create link with %s!' => '',
-        'Object already linked as %s.' => '',
+        'Can not delete link with %s!' => 'Ne može se obrisati veza sa %s!',
+        'Can not create link with %s!' => 'Ne može se kreirati veza sa %s!',
+        'Object already linked as %s.' => 'Objekt je već povezan sa %s!',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Statistic could not be imported.' => '',
+        'Statistic could not be imported.' => 'Statistika se ne može uvesti.',
         'Please upload a valid statistic file.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
-        'No subject' => '',
+        'No subject' => 'Nema predmet',
         'Previous Owner' => 'Prethodni vlasnik',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Ticket is locked by another agent and will be ignored!' => '',
+        'Ticket is locked by another agent and will be ignored!' => 'Tiket je zaključan od strane drugog operatera i biće ignorisan!',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'štampao',
@@ -3173,16 +3173,16 @@ sub Data {
         'for pending* states' => 'za stanja* čekanja',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Invalid Users' => '',
+        'Invalid Users' => 'Pogrešni korisnici',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            '',
-        'Fields with no group' => '',
+            'Žao nam je, vi više nemate dozvolu za pristup ovom tiketu u njegovom sadašnjem stanju.',
+        'Fields with no group' => 'Polja bez grupe',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
-            '',
+            'Molimo da uklonite sledeće reči  jer se ne mogu koristiti za pretragu:',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
@@ -3191,77 +3191,77 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Ovaj tiket nema naslov ili predmet',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
-        'This user is currently away' => '',
-        'This user is currently unavailable' => '',
+        'This user is currently offline' => 'Ovaj korisnik je sada neaktivan',
+        'This user is currently active' => 'Ovaj korisnik je sada aktivan',
+        'This user is currently away' => 'Ovaj korisnik je sada odsutan',
+        'This user is currently unavailable' => 'Ovaj korisnik je sada nedostupan',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
-        ' You can take one of the next actions:' => '',
+            'Žao nam je, vi više nemate dozvolu za pristup ovom tiketu u njegovom sadašnjem stanju.',
+        ' You can take one of the next actions:' => 'Možete preduzeti jednu od sledećih akcija:',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => '',
+        '%s Upgrade to %s now! %s' => '%s ažurirajte na %s sada! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: ' => 'Period održavanja sistema će otpočeti u:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => '',
+        'Please contact your administrator!' => 'Molimo kontaktirajte vašeg administratora!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(u toku)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Please supply your new password!' => '',
+        'Please supply your new password!' => 'Molimo da obezbedite novu lozinku!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'H-osa',
-        'Y-axis' => '',
-        'The selected start time is before the allowed start time.' => '',
-        'The selected end time is later than the allowed end time.' => '',
+        'Y-axis' => 'Y-osa',
+        'The selected start time is before the allowed start time.' => 'Izabrano vreme početka je pre dozvoljenog početnog vremena.',
+        'The selected end time is later than the allowed end time.' => 'Izabrano vreme završetka je posle dozvoljenog vremena završetka.',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'Izabrani vremenski period je duži od dozvoljenog.',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
             '',
         'The selected time scale is smaller than the allowed time scale.' =>
-            '',
+            'Izabrani vremenski opseg je kraći od dozvoljenog!',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
-        'The selected date is not valid.' => '',
-        'The selected end time is before the start time.' => '',
-        'There is something wrong with your time selection.' => '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+            'Nema dostupnog vremenskog opsega za aktuelnu izabranu vrednost opsega na X osi.',
+        'The selected date is not valid.' => 'Izabrani datum nije važeći.',
+        'The selected end time is before the start time.' => 'Izabrano vreme završetka je pre vremena početka.',
+        'There is something wrong with your time selection.' => 'Nešto nije u redu sa vašim izborom vremena.',
+        'Please select one element for the X-axis.' => 'Molimo da izaberete jedan element za X-osu.',
+        'You can only use one time element for the Y axis.' => 'Možete koristiti samo jedan vremenski element za Y osu.',
+        'You can only use only one or two elements for the Y axis.' => 'Možete koristiti samo jedan ili dva elementa za Y osu.',
         'Please select only one element or allow modification at stat generation time.' =>
-            '',
-        'Please select at least one value of this field.' => '',
+            'Molimo da izaberete samo jedan element ili dozvolite izmene u vreme generisanja starta!',
+        'Please select at least one value of this field.' => 'Molimo da izaberete bar jednu vrednost za ovo polje.',
         'Please provide a value or allow modification at stat generation time.' =>
-            '',
-        'Please select a time scale.' => '',
+            'Molimo da obezbedite vrednost ili dozvolite izmene u vreme generisanja starta.',
+        'Please select a time scale.' => 'Molimo da odaberete vremenski opseg.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
-            '',
+            'Vaš interval izveštavanja je prekratak, molimo upotrebite veći raspon vremena.',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
-            '',
+            'Molimo da uklonite sledeće reči jer se ne mogu koristiti zbog ograničenja tiketa: %s.',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortiraj po',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
+        'State Type' => 'Tip statusa',
         'Created Priority' => 'Napravljeni prioriteti',
         'Created State' => 'Kreirani status',
         'CustomerUserLogin' => 'Prijava klijenta korisnika',
         'Create Time' => 'Vreme kreiranja',
         'Close Time' => 'Vreme zatvaranja',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
+        'Escalation - First Response Time' => 'Eskalacija - vreme prvog odziva',
+        'Escalation - Update Time' => 'Eskalacija - vreme ažuriranja',
+        'Escalation - Solution Time' => 'Eskalacija - vreme rešavanja',
         'Agent/Owner' => 'Operater/Vlasnik',
         'Created by Agent/Owner' => 'Kreirao Operater/Vlasnik',
 
@@ -3275,8 +3275,8 @@ sub Data {
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'Attributes to be printed' => 'Atributi za štampu',
         'Sort sequence' => 'Redosled sortiranja',
-        'State Historic' => '',
-        'State Type Historic' => '',
+        'State Historic' => 'Istorijat statusa',
+        'State Type Historic' => 'Istorijat tipa statusa',
         'Historic Time Range' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -3321,7 +3321,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Podrazumevani mehanizam za skladištenje',
-        'Table Storage Engine' => '',
+        'Table Storage Engine' => 'Mehanizam za skladištenje tabele',
         'Tables with a different storage engine than the default engine were found.' =>
             'Pronađene su tabele sa različitim mehanizmom za skladištenje nego što je predefinisani mehanizam.',
 
@@ -3374,7 +3374,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Slobodni Swap prostor (%)',
-        'No swap enabled.' => '',
+        'No swap enabled.' => 'Razmenjivanje nije aktivirano.',
         'Used Swap Space (MB)' => 'Upotrebljen Swap prostor (MB)',
         'There should be more than 60% free swap space.' => 'Mora postojati više od 60 % slobodnog swap prostora',
         'There should be no more than 200 MB swap space used.' => 'Ne treba da bude više od 200 MB upotrebljenog Swap prostora.',
@@ -3425,7 +3425,7 @@ sub Data {
         'The file system on your OTRS partition is not writable.' => 'Nije moguće pisanje u sistem datoteka na vašoj OTRS particiji.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
-        'Package Installation Status' => '',
+        'Package Installation Status' => 'Status instalacije paketa',
         'Some packages are not correctly installed.' => 'Neki paketi nisu ispravno instalirani.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
@@ -3492,46 +3492,46 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Reset password unsuccessful. Please contact your administrator' =>
-            '',
-        'Panic! Invalid Session!!!' => '',
+            'Poništavanje lozinke nije uspelo. Molimo kontaktirajte vašeg administratora',
+        'Panic! Invalid Session!!!' => 'Pažnja! Neispravna sesija!!!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'Group for default access.' => '',
-        'Group of all administrators.' => '',
-        'Group for statistics access.' => '',
-        'All new state types (default: viewable).' => '',
-        'All open state types (default: viewable).' => '',
-        'All closed state types (default: not viewable).' => '',
-        'All \'pending reminder\' state types (default: viewable).' => '',
-        'All \'pending auto *\' state types (default: viewable).' => '',
-        'All \'removed\' state types (default: not viewable).' => '',
-        'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
-        'Ticket is closed successful.' => '',
-        'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
-        'Customer removed ticket.' => '',
-        'Ticket is pending for agent reminder.' => '',
-        'Ticket is pending for automatic close.' => '',
-        'State for merged tickets.' => '',
-        'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
-        'system standard signature (en)' => '',
-        'Standard Signature.' => '',
-        'Standard Address.' => '',
+        'Group for default access.' => 'Grupa za podrazumevan pristup.',
+        'Group of all administrators.' => 'Grupa svih administratora.',
+        'Group for statistics access.' => 'Grupa za pristup statistici.',
+        'All new state types (default: viewable).' => 'Svi novi tipovi stanja (podrazumevano: vidljivo).',
+        'All open state types (default: viewable).' => 'Svi otvoreni tipovi stanja (podrazumevano: vidljivo).',
+        'All closed state types (default: not viewable).' => 'Svi zatvoreni tipovi stanja (podrazumevano: vidljivo).',
+        'All \'pending reminder\' state types (default: viewable).' => 'Svi tipovi stanja „podsetnik na čekanju” (podrazumevano: vidljivo).',
+        'All \'pending auto *\' state types (default: viewable).' => 'Svi tipovi stanja „podsetnik automatski *” (podrazumevano: vidljivo).',
+        'All \'removed\' state types (default: not viewable).' => 'Svi tipovi stanja „uklonjeno” (podrazumevano: vidljivo).',
+        'State type for merged tickets (default: not viewable).' => 'Tip stanja za spojene tikete (podrazumevano: nije vidljivo).',
+        'New ticket created by customer.' => 'Novi tiket koji je kreirao klijent.',
+        'Ticket is closed successful.' => 'Tiket je zatvoren „uspešno”.',
+        'Ticket is closed unsuccessful.' => 'Tiket je zatvoren „neuspešno”.',
+        'Open tickets.' => 'Otvoreni tiketi.',
+        'Customer removed ticket.' => 'Klijent je uklonio tiket.',
+        'Ticket is pending for agent reminder.' => 'Tiket je na čekanju za operaterski podsetnik.',
+        'Ticket is pending for automatic close.' => 'Tiket je na čekanju za automatsko zatvaranje.',
+        'State for merged tickets.' => 'Status za spojene tikete.',
+        'system standard salutation (en)' => 'standardni sistemski pozdrav (en)',
+        'Standard Salutation.' => 'Standardni Pozdrav',
+        'system standard signature (en)' => 'standardni sistemski potpis (en)',
+        'Standard Signature.' => 'Standardni potpis.',
+        'Standard Address.' => 'Standardna adresa.',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
             '',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
-        'new ticket' => '',
+        'new ticket' => 'novi tiket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
             '',
-        'Postmaster queue.' => '',
-        'All default incoming tickets.' => '',
-        'All junk tickets.' => '',
-        'All misc tickets.' => '',
+        'Postmaster queue.' => '„Postmaster” red.',
+        'All default incoming tickets.' => ' Svi podrazumevani dolazni tiketi.',
+        'All junk tickets.' => 'Svi besmisleni tiketi „junk”.',
+        'All misc tickets.' => 'Svi drugi tiketi.',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
-            '',
+            'Automatski odgovor koji će biti poslat posle kreiranja novog tiketa.',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
             '',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
@@ -3540,17 +3540,17 @@ sub Data {
             '',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
-        'default reply (after new ticket has been created)' => '',
+        'default reply (after new ticket has been created)' => 'podrazumevani odgovor (posle kreiranja novog tiketa)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
             '',
         'default follow-up (after a ticket follow-up has been added)' => '',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             '',
-        'Unclassified' => '',
+        'Unclassified' => 'Nerazvrstano',
         'tmp_lock' => '',
         'email-notification-ext' => '',
         'email-notification-int' => '',
-        'fax' => '',
+        'fax' => 'faks',
 
         # SysConfig
         '
@@ -3595,8 +3595,8 @@ Thanks for your help!
             'Aktivira arhivski sistem radi ubrzanja rada, tako što ćete neke tikete ukloniti van dnevnog praćenja. Da biste pronašli ove tikete, marker arhive mora biti omogućen za pretragu tiketa.',
         'Activates time accounting.' => 'Aktivira merenje vremena.',
         'ActivityID' => 'ID aktivnosti',
-        'Add an inbound phone call to this ticket' => '',
-        'Add an outbound phone call to this ticket' => '',
+        'Add an inbound phone call to this ticket' => 'Dodaj dolazni telefonski poziv ovom tiketu.',
+        'Add an outbound phone call to this ticket' => 'Dodaj odlazni telefonski poziv ovom tiketu.',
         'Added email. %s' => 'Imejl poslat korisniku',
         'Added link to ticket "%s".' => 'Veza na "%s" postavljena.',
         'Added note (%s)' => 'Dodata napomena (%s)',
@@ -3613,7 +3613,7 @@ Thanks for your help!
             'Trajno dodaje neradne dane za izabrani kalendar. Molimo Vas da koristite jednu cifru za brojeve od 1 do 9 (umesto 01 - 09).',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Trajno dodaje neradne dane. Molimo Vas da koristite jednu cifru za brojeve od 1 do 9 (umesto 01 - 09).',
-        'After' => '',
+        'After' => 'Posle',
         'Agent called customer.' => 'Operater je pozvao klijenta',
         'Agent interface article notification module to check PGP.' => 'Modul interfejsa operatera za obaveštavanja o članku, provera PGP.',
         'Agent interface article notification module to check S/MIME.' =>
@@ -3733,7 +3733,7 @@ Thanks for your help!
         'Change the customer for this ticket' => 'Promeni klijenta za ovaj tiket',
         'Change the free fields for this ticket' => 'Promeni slobodna polja ovog tiketa',
         'Change the priority for this ticket' => 'Promeni prioritete za ovaj tiket.',
-        'Change the responsible for this ticket' => '',
+        'Change the responsible for this ticket' => 'Promeni odgovornog za ovaj tiket',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Ažuriran prioritet sa "%s" (%s) na "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Promeni vlasnika tiketa za sve (korisno za ASP). Obično se pokazuje samo agent sa dozvlama za čitanje/pisanje u redu tiketa.',
@@ -3746,13 +3746,13 @@ Thanks for your help!
             '',
         'Checks the entitlement status of OTRS Business Solution™.' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            '',
+            'Izaberi za kakve promene tiketa želiš da primiš obaveštenja.',
         'Closed tickets (customer user)' => 'Zatvoreni tiketi (klijent korisnik)',
         'Closed tickets (customer)' => 'Zatvoreni tiketi (klijent)',
-        'Cloud Services' => '',
+        'Cloud Services' => 'Servisi u oblaku',
         'Cloud service admin module registration for the transport layer.' =>
             '',
-        'Collect support data for asynchronous plug-in modules.' => '',
+        'Collect support data for asynchronous plug-in modules.' => 'Prikupi podatke podrške za asinhdone priključne module.',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Filteri kolona tiketa za preglede tiketa tipa "Malo".',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -3772,7 +3772,7 @@ Thanks for your help!
             '',
         'Comment for new history entries in the customer interface.' => 'Komentar za nove stavke istorije u klijentskom interfejsu.',
         'Comment2' => 'Komentar 2',
-        'Communication' => '',
+        'Communication' => 'Komunikacija',
         'Company Status' => 'Status firme',
         'Company Tickets' => 'Tiketi firmi',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3780,11 +3780,11 @@ Thanks for your help!
         'Configure Processes.' => 'Konfiguriši procese.',
         'Configure and manage ACLs.' => 'Konfiguriši i upravljaj ACL listama.',
         'Configure any additional readonly mirror databases that you want to use.' =>
-            '',
+            'Konfiguriše bilo koju dodatnu preslikanu bazu podataka, koju želite da koristite, samo za čitanje.',
         'Configure sending of support data to OTRS Group for improved support.' =>
             '',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
+            'Konfiguriše koji ekran bi trebalo prikazati nakon kreiranja novog tiketa.',
         'Configure your own log text for PGP.' => 'Konfiguriši sopstveni log tekst za PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
             '',
@@ -3816,7 +3816,7 @@ Thanks for your help!
         'Create and manage services.' => 'Kreiranje i upravljanje uslugama.',
         'Create and manage signatures.' => 'Kreiranje i upravljanje potpisima.',
         'Create and manage templates.' => 'Kreiranje i upravljanje šablonima.',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => 'Kreiranje i upravljanje obaveštenjima za tikete.',
         'Create and manage ticket priorities.' => 'Kreiranje i upravljanje prioritetima tiketa.',
         'Create and manage ticket states.' => 'Kreiranje i upravljanje statusima tiketa.',
         'Create and manage ticket types.' => 'Kreiranje i upravljanje tipovima tiketa.',
@@ -3880,7 +3880,7 @@ Thanks for your help!
         'Define the max depth of queues.' => 'Definiši maksimalnu dubinu za redove.',
         'Define the queue comment 2.' => 'Definiše komentar reda 2.',
         'Define the service comment 2.' => 'Definiše servisni komentar 2.',
-        'Define the sla comment 2.' => '',
+        'Define the sla comment 2.' => 'Definiše sla komentar 2.',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiši prvi dan u nedelji za izbor datuma za navedeni kalendar.',
         'Define the start day of the week for the date picker.' => 'Definiši prvi dan u nedelji za izbor datuma.',
@@ -3909,7 +3909,7 @@ Thanks for your help!
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
             'Definiše regularni izraz koji kiltrira sve email adrese koje ne bi smele da se koriste u aplikaciji.',
         'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
-            '',
+            'Definiše vreme spavanja u mikrosekundama između tiketa dok se obrađuju od strane posla.',
         'Defines a useful module to load specific user options or to display news.' =>
             'Definiše koristan modul za učitavanje određenih korisničkih opcija ili za prikazivanje novosti.',
         'Defines all the X-headers that should be scanned.' => 'Određuje sva H-zaglavlja koja treba skenirati.',
@@ -3921,7 +3921,7 @@ Thanks for your help!
             'Određuje sve parametre za objekat Prikazani Tiketi u postavkama klijenta u klijentskom interfejsu.',
         'Defines all the parameters for this item in the customer preferences.' =>
             'Određuje sve parametre za ovu stavku u klijentskim podešavanjima.',
-        'Defines all the parameters for this notification transport.' => '',
+        'Defines all the parameters for this notification transport.' => 'Definiše sve parametre za ovaj transport obaveštenja.',
         'Defines all the possible stats output formats.' => 'Određuje sve moguće izlazne formate statistike.',
         'Defines an alternate URL, where the login link refers to.' => 'Određuje alternativnu URL adresu, na koju ukazuje veza za prijavljivanje.',
         'Defines an alternate URL, where the logout link refers to.' => 'Određuje alternativnu URL adresu, na koju ukazuje veza za odavljivanje.',
@@ -4296,12 +4296,12 @@ Thanks for your help!
             'Definiše maksimalnu veličinu (u bajtovima) za slanje datoteke preko pretraživača. Upozorenje: Podešavanje ove opcije na suviše malu vrednost može uzrokovati mnoge maske u vašem OTRS-u da prestane da radi (verovatno svaka maska koja ima ulaz od korisnika).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Definiše maksimalno vreme važenja (u sekundama) za ID sesije.',
-        'Defines the maximum number of affected tickets per job.' => '',
+        'Defines the maximum number of affected tickets per job.' => 'Definiše maksimalni broj obuhvaćenih tiketa po poslu.',
         'Defines the maximum number of pages per PDF file.' => 'Definiše maksimalni broj strana po PDF datoteci.',
         'Defines the maximum number of quoted lines to be added to responses.' =>
             'Definiše maksimalni broj citiranih linija za dodavanje u odgovore.',
         'Defines the maximum number of tasks to be executed as the same time.' =>
-            '',
+            'Definiše maksimalni broj zadataka koji će se izvršavati u isto vreme.',
         'Defines the maximum size (in MB) of the log file.' => 'Definiše maksimalnu veličinu log datoteke (u megabajtima).',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '',
@@ -4327,7 +4327,7 @@ Thanks for your help!
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Definiše modul za prikazivanje obaveštenja u interfejsu operatera ako se sistem koristi od strane admin korisnika (normalno ne treba da rade kao administrator).',
         'Defines the module to generate code for periodic page reloads.' =>
-            '',
+            'Definiše modul za generisanje koda za periodično učitavanje stranica.',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
             'Definiše module za slanje imejlova. "Sendmail" (pošalji mail) direktno koristi pošalji mejl binarni kod vašeg operativnog sistema. Svaki od SMTP mehanizama koristi specifični (eksterni) mejl server. "DoNotSendEmail" ne šalje imejlove i to je korisno pri testiranju sistema.',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
@@ -4485,9 +4485,9 @@ Thanks for your help!
             'Definiše koji tip članka treba da bude proširen prilikom ulaska u pregled. Ako ništa nije definisano, poslednji članak će biti proširen.',
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             'Definiše, koji tiketi od kojih tipova statusa tiketa ne treba da budu prikazani u listi povezanih tiketa.',
-        'Delete expired cache from core modules.' => '',
+        'Delete expired cache from core modules.' => 'Brisanje isteklog keša iz modula jezgra.',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
-        'Delete expired sessions.' => '',
+        'Delete expired sessions.' => 'Briše istekle sesije',
         'Deleted link to ticket "%s".' => 'Veza na "%s" obrisana.',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Briše sesiju ukoliko je ID sesije korišćen preko nevažeće udaljene IP adrese.',
@@ -4633,7 +4633,7 @@ Thanks for your help!
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             'Aktivira funkciju odgovornog za tiket radi evidentiranja specifičnog tiketa',
         'Enables ticket watcher feature only for the listed groups.' => 'Aktivira funkciju nadzora tiketa samo za izlistane grupe.',
-        'Enroll process for this ticket' => '',
+        'Enroll process for this ticket' => 'Upiši proces za ovaj tiket',
         'Enter your shared secret to enable two factor authentication.' =>
             '',
         'Escalation response time finished' => 'Isteklo vreme odgovora na eskalaciju',
@@ -4664,7 +4664,7 @@ Thanks for your help!
         'Events Ticket Calendar' => 'Kalendar događaja tiketa',
         'Execute SQL statements.' => 'Izvrši SQL naredbe.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
-            '',
+            'Izvršava prilagođenu komandu ili modul. Napomena: ako je upotrebljen modul, funkcija je neophodna.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
@@ -4696,9 +4696,9 @@ Thanks for your help!
         'Firstname Lastname (UserLogin)' => 'Ime Prezime (Prijava korisnika)',
         'FollowUp for [%s]. %s' => 'Nastavak za [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
-            '',
+            'Nameće šifriranje odlaznih imejlova (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
-            '',
+            'Nameće izbor različitog statusa tiketa (od aktuelnog) posle akcije zaključavanja. Definiše aktuelni status kao ključ, a sledeći status posle zaključavanja kao sadržaj.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Prinudno otključava tikete posle premeštanja u drugi red.',
         'Forwarded to "%s".' => 'Prosleđeno "%s".',
@@ -4715,7 +4715,7 @@ Thanks for your help!
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
-        'Full value' => '',
+        'Full value' => 'Cela vrednost',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Tekst za pretragu',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -4741,7 +4741,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Go back' => 'Idi nazad',
-        'Google Authenticator' => '',
+        'Google Authenticator' => 'Gugl autentifikacija',
         'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
             'Dozvoljava pristup, ako se ID klijenta na tiketu poklapa sa ID klijenta korisnika i klijent korisnik  ima grupne dozvole za red u kom je tiket.',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -4821,11 +4821,11 @@ Thanks for your help!
         'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
             'Ako je operater dodao napomenu, podešava status tiketa na ekranu odgovornog za tiket interfejsa operatera.',
         'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Ako je operater dodao napomenu, podešava status tiketa na ekranu vlasnika tiketa u detaljnom prikazu tiketa interfejsa operatera.',
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Ako je operater dodao napomenu, podešava status tiketa na ekranu tiketa na čekanju u detaljnom prikazu tiketa interfejsa operatera.',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Ako je operater dodao napomenu, podešava status tiketa na ekranu prioriteta tiketa u detaljnom prikazu tiketa interfejsa operatera.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             'Ako je aktivno, ni jedan regularni izraz se ne može poklopiti sa korisnikovom imejl adresom da bi dozvolio registraciju.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -4845,15 +4845,15 @@ Thanks for your help!
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
-            '',
+            'Ako je aktivirano, telefonski i imejl tiketi će biti otvoreni u novom prozoru.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
-            '',
+            'Ako je aktivirano, klijent može pretraživati tikete u svim servisima (bez obzira na to koji servisi su dodeljeni klijentu).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
-            '',
+            'Ako je aktivirano, prvi nivo glavnog menija se otvara na prelaz miša (umesto samo na klik).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
@@ -4865,9 +4865,9 @@ Thanks for your help!
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            '',
+            'Ignoriši članak sa sistemskim tipom pošiljaoca za svojstvo novog članka (npr automatski odgovori ili imejl obaveštenja).',
         'Include tickets of subqueues per default when selecting a queue.' =>
-            '',
+            'Kod izbora reda, podrazumevano uključi i tikete podredova.',
         'Includes article create times in the ticket search of the agent interface.' =>
             'Uključuje vremena kreiranja tiketa u pretragu na operaterskom interfejsu.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
@@ -4914,13 +4914,13 @@ Thanks for your help!
         'List of all queue events to be displayed in the GUI.' => 'Lista svih događaja u redu koji će biti prikazani u GKI.',
         'List of all ticket events to be displayed in the GUI.' => 'Lista svih događaja na tiketima koja će biti prikazana u GKI',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
-            '',
+            'Lista podrazumevanih standardnih šablona koji se automatski dodeljiju novom Redu nakon kreiranja.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
             '',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List view' => 'Pregled liste',
-        'Lock / unlock this ticket' => '',
+        'Lock / unlock this ticket' => 'Zaključaj / otključaj ovaj tiket',
         'Locked ticket.' => 'Zaključan tiket.',
         'Log file for the ticket counter.' => 'Datoteka dnevnika za brojač tiketa.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Zaštita od petlje! Automatski odgovor nije poslat na "%s".',
@@ -4936,10 +4936,10 @@ Thanks for your help!
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Upravljanje POP3 ili IMAP nalozima za preuzimanje email-a od.',
         'Manage S/MIME certificates for email encryption.' => 'Upravljaj S/MIME sertifikatima za imej enkripciju.',
         'Manage existing sessions.' => 'Upravljanje postojećim sesijama.',
-        'Manage support data.' => '',
+        'Manage support data.' => 'Upravljanje podacima podrške.',
         'Manage system registration.' => 'Upravljanje sistem registracijom.',
         'Manage tasks triggered by event or time based execution.' => 'Upravlja zadacima pokrenutim od događaja ili na osnovu vremenskog izvršavanja.',
-        'Mark this ticket as junk!' => '',
+        'Mark this ticket as junk!' => 'Označi ovaj tiket kao besmislen „junk”!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maksimalna dužina (u znacima) klijentske info tabele (telefon i imejl) na ekranu pisanja imejla.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4963,9 +4963,9 @@ Thanks for your help!
             'Maksimalni broj tiketa koji će biti prikazani u rezultatu ove operacije.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maksimalna dužina (u znacima) klijentske info tabele na detaljnom pregledu tiketa.',
-        'Merge this ticket and all articles into a another ticket' => '',
+        'Merge this ticket and all articles into a another ticket' => 'Spoji ovaj tiket i sve članke u drugi tiket',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'Razno',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Modul za proveru klijentskih dozvola.',
@@ -5036,7 +5036,7 @@ Thanks for your help!
         'PGP Key Management' => 'Upravljanje PGP ključem',
         'PGP Key Upload' => 'Slanje PGP ključa',
         'Package event module file a scheduler task for update registration.' =>
-            '',
+            'Datoteka paketa modula događaja za zadatak planera za ažuriranje registracije.',
         'Parameters for .' => 'Parametri za .',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
@@ -5081,7 +5081,7 @@ Thanks for your help!
         'Parameters of the example service attribute Comment2.' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'People' => '',
+        'People' => 'Osobe',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             'Izvršava podešenu akciju za svaki događaj (kao pozivaoc) za svaki podešeni veb servis.',
         'Permitted width for compose email windows.' => 'Dozvoljena širina prozora za pisanje poruke.',
@@ -5111,10 +5111,10 @@ Thanks for your help!
             'Uklanja informacije posmatrača tiketa kada se tiket arhivira.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Zamenjuje originalnog pošiljaoca sa imejl adresom aktuelnog klijenta pri kreiranju odgovora u prozoru za pisanje odgovora interfejsa operatera.',
-        'Reports' => '',
-        'Reports (OTRS Business Solution™)' => '',
+        'Reports' => 'Izveštaji',
+        'Reports (OTRS Business Solution™)' => 'Izveštaji („OTRS” Poslovno Rešenje™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
-            '',
+            'Ponovo obradi imejlove iz direktorijuma reda čekanja koji prvi put nisu mogli biti uvezeni.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             'Potrebne dozvole za promenu klijenta na tiketu u interfejsu operatera.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
@@ -5150,7 +5150,7 @@ Thanks for your help!
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Vraća tiket iz arhive (samo ako je događaj promena statusa od zatvorenog na bilo koji dostupan otvoreni status).',
         'Retains all services in listings even if they are children of invalid elements.' =>
-            '',
+            'Zadrži sve servise u listi čak iako su deca neispravnih elemenata.',
         'Right' => 'Desno',
         'Roles <-> Groups' => 'Uloge <-> Grupe',
         'Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
@@ -5168,7 +5168,7 @@ Thanks for your help!
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => 'Planiranje perioda održavanja.',
-        'Screen' => '',
+        'Screen' => 'Ekran',
         'Search Customer' => 'Traži klijenta',
         'Search User' => 'Traži korisnika',
         'Search backend default router.' => '',
@@ -5180,20 +5180,20 @@ Thanks for your help!
             'Bira modul za rukovanje prenešenim datotekama preko veb interfejsa. "DB" skladišti sve prenešene datoteke u bazu podataka, "FS" koristi sistem datoteka.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Bira modul za generisanje broja tiketa. "AutoIncrement" uvećava broj tiketa, ID sistema i brojač se koriste u SistemID.brojač formatu (npr. 1010138, 1010139). Sa "Date" brojevi tiketa će biti generisani preko trenutnog datuma, ID-a sistema i brojača. Format će izgledati kao Godina.Mesec.Dan.SistemID.brojač (npr. 2002070110101520, 2002070110101535). Sa "DateChecksum" brojač će biti dodat kao kontrolni zbir nizu sačinjenom od datuma i ID-a sistema. Kontrolni zbir će se smenjivati na dnevnom nivou. Format izgleda ovako: Godina.Mesec.Dan.SistemID.Brojač.KontrolniZbir (npr. 2002070110101520, 2002070110101535). "Slučajno" generiše brojeve tiketa po slobodnom izboru u formatu "SistemID.Slučajno" (npr. 1010138, 1010139).',
-        'Send new outgoing mail from this ticket' => '',
+        'Send new outgoing mail from this ticket' => 'Pošalji novi odlazni imejl iz ovog tiketa',
         'Send notifications to users.' => 'Pošalji obaveštenja korisnicima.',
         'Sender type for new tickets from the customer inteface.' => 'Tip pošiljaoca za nove tikete iz interfejsa klijenta.',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
-            '',
+            'Šalje obaveštenje o nastavku samo operateru vlasniku, ako je tiket otključan (podrazumevano je da šalje svim operaterima).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
-            '',
+            'Šalje sve odlazne imejlove kao nevidljive kopije („bcc”) na određenu adresu. Molimo da ovo koristite samo za rezervne kopije.',
         'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
-        'Sends registration information to OTRS group.' => '',
+            'Šalje klijentska obaveštenja samo mapiranim klijenima. Normalno, ako klijent nije mapiran, poslednji klijent pošiljaoc dobija obaveštenje.',
+        'Sends registration information to OTRS group.' => 'Šalje registracione informacije za „OTRS group”.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
-            '',
+            'Šalje obaveštenje za potsećanje o otključanom tiketu kad se dostigne datum podsetnika (šalje samo vlasniku tiketa).',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            '',
+            'Šalje obaveštenja koja su u administrativnom interfejsu konfigurisana pod „Obaveštenje (događaj)”.',
         'Service view' => 'Pregled usluge',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
@@ -5338,19 +5338,19 @@ Thanks for your help!
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             'Postavlja odgovornog operatera za tiket u prozoru odgovornog za tiket u interfejsu operatera.',
         'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu zatvaranja tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu slobodnog teksta tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu napomene tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu vlasnika tiketa na detaljnom pregledu tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu tiketa na čekanju na detaljnom pregledu tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu prioriteta tiketa na detaljnom pregledu tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Podešava servis na ekranu odgovornog za tiket u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the stats hook.' => '',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             '',
@@ -5399,12 +5399,12 @@ Thanks for your help!
         'Should the cache data be stored in the selected cache backend?' =>
             '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
-            '',
+            'Prikaži izbor odgovornog u telefonskim i imejl tiketima u operaterskom interfejsu.',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
         'Show the current owner in the customer interface.' => 'Prikazuje aktuelnog vlasnika u klijentskom interfejsu.',
         'Show the current queue in the customer interface.' => 'Prikazuje aktuelni red u klijentskom interfejsu.',
-        'Show the history for this ticket' => '',
+        'Show the history for this ticket' => 'Prikaži istorijat za ovaj tiket',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             'Prikazuje broj ikona u detaljnom prikazu tiketa ako članak  ima priloge.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -5465,23 +5465,23 @@ Thanks for your help!
             '',
         'Shows a link to download article attachments in the zoom view of the article in the agent interface.' =>
             '',
-        'Shows a link to see a zoomed email ticket in plain text.' => '',
+        'Shows a link to see a zoomed email ticket in plain text.' => 'Prikazuje vezu za prikaz detaljnog pregleda tiketa kao običan tekst.',
         'Shows a link to set a ticket as junk in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a list of all the involved agents on this ticket, in the close ticket screen of the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu zatvaranja tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket free text screen of the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu slobodnog teksta tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu napomene tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu vlasnika tiketa na detaljnom prikazu tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu tiketa na čekanju na detaljnom prikazu tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu prioriteta tiketa na detaljnom prikazu tiketa u operaterskom interfejsu.',
         'Shows a list of all the involved agents on this ticket, in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Prikazuje listu svih uključenih operatera za ovaj tiket, na ekranu odgovornog za tiket u operaterskom interfejsu.',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the close ticket screen of the agent interface.' =>
             '',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket free text screen of the agent interface.' =>
@@ -5603,7 +5603,7 @@ Thanks for your help!
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
             '',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
-            '',
+            'Odredi imejl adresu koja će dobijati poruke obaveštenja od zadataka planera.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
             'Određuje grupu gde su klijentima potrebne „rw” dozvole kako bi mogli pristupiti svojstvu „SwitchToCustomer”.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
@@ -5631,9 +5631,9 @@ Thanks for your help!
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Specify the password to authenticate for the first mirror database.' =>
-            '',
+            'Navedi lozinku za autorizaciju na prvu preslikanu bazu podataka.',
         'Specify the username to authenticate for the first mirror database.' =>
-            '',
+            'Navedi korisničko ime za autorizaciju na prvu preslikanu bazu podataka.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Standardne raspoložive dozvole za operatere unutar aplikacije. Ukoliko je potrebno više dozvola oni mogu uneti ovde. Dozvole moraju biti definisane da budu efektivne. Neke druge dozvole su takođe obezbeđene ugrađivanjem u: napomenu, zatvori, na čekanju, klijent, slobodan tekst, pomeri, otvori, odgovoran, prosledi i povrati. Obezbedi da „rw” uvek bude poslednja registrovana dozvola.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -5689,7 +5689,7 @@ Thanks for your help!
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             '',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
-            '',
+            'Maksimalni broj imejlova preuzetih odjednom pre ponovne konekcije na server.',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
@@ -5702,39 +5702,39 @@ Thanks for your help!
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
             '',
-        'This option defines the process tickets default lock.' => '',
-        'This option defines the process tickets default priority.' => 'Ova opcija određuje podrazumevani prioritet procesa tiketa.',
-        'This option defines the process tickets default queue.' => '',
-        'This option defines the process tickets default state.' => '',
+        'This option defines the process tickets default lock.' => 'Ova opcija određuje podrazumevano zaključavanje tiketa u obradi.',
+        'This option defines the process tickets default priority.' => 'Ova opcija određuje podrazumevani prioritet tiketa u obradi.',
+        'This option defines the process tickets default queue.' => 'Ova opcija određuje podrazumevani red tiketa u obradi.',
+        'This option defines the process tickets default state.' => 'Ova opcija određuje podrazumevani status tiketa u obradi.',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            '',
+            'Ova opcija će odbiti pristup tiketima klijentove firme, ako ih  nije  kreirao klijent korisnik .',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
-            '',
-        'This will allow the system to send SMS messages.' => '',
-        'Ticket Notifications' => '',
+            'Ova opcija vam dozvoljava da ugrađenu listu država zamenite svojom. Ovo je posbno korisno ako u selekciji želite da koristite samo mali broj država.',
+        'This will allow the system to send SMS messages.' => 'Ovo će omogućiti sistemu da šalje SMS poruke.',
+        'Ticket Notifications' => 'Obaveštenja o tiketu',
         'Ticket Queue Overview' => 'Pregled reda tiketa',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Tiket premešten u red "%s" (%s) iz reda "%s" (%s).',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'Obaveštenja o tiketu',
         'Ticket overview' => 'Pregled tiketa',
-        'TicketNumber' => '',
+        'TicketNumber' => 'Broj tiketa',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            '',
+            'Vreme u sekundama koje se dodaje na trenutno vreme ako se postavlja status „na čekanju” (podrazumevano: 86400 = 1 dan).',
         'Title updated: Old: "%s", New: "%s"' => 'Ažuriranje naslova tiketa',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
-        'Transport selection for ticket notifications.' => '',
+        'Transport selection for ticket notifications.' => 'Izbor transporta za obaveštenja o tiketima.',
         'Tree view' => 'Prikaz u obliku stabla',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
-        'Turns on drag and drop for the main navigation.' => '',
+        'Turns on drag and drop for the main navigation.' => 'Aktivira prevuci i otpusti u glavnoj navigaciji.',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             'Uključivanje provere udaljene IP adrese. Treba biti podešeno na "Ne" ako se aplikacija koristi, na primer preko proxy farme ili dialup konekcije, zato što je udaljena IP adresa uglavnom drugačija za zahteve.',
-        'Unlock tickets that are past their unlock timeout.' => '',
+        'Unlock tickets that are past their unlock timeout.' => 'Otključaj tikete kojima je isteklo vreme odlaganja za otključavanje.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             'Otključavanje tiketa kad god se doda napomena i vlasnik je van kancelarije.',
         'Unlocked ticket.' => 'Otključano',
@@ -5762,7 +5762,7 @@ Thanks for your help!
             'Koristi richtekt format za pregled i uređivanje: članaka, pozdrava, potpisa, standardnih šablona, automatskih odgovora i obaveštenja.',
         'View performance benchmark results.' => 'Pregled rezultata provere performansi.',
         'View system log messages.' => 'Pregled poruka sistemskog dnevnika.',
-        'Watch this ticket' => '',
+        'Watch this ticket' => 'Nadgledaj ovaj tiket',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Kada su tiketi spojeni, napomena će biti automatski dodata tiketu koji nije više aktivan. Ovde možete definisati telo ove napomene (ovaj tekst se ne može promeniti od strane operatera).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
