@@ -1,5 +1,9 @@
-[main]
-host = https://www.transifex.com
+
+#
+# DISABLED. ACTIVE BRANCH IS CURRENTLY rel-5_0.
+#
+#[main]
+#host = https://www.transifex.com
 
 [OTRS.otrs]
 file_filter = i18n/otrs/otrs.<lang>.po
