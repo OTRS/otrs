@@ -283,7 +283,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 // check for elements to validate
                 $ClickedElement.closest('fieldset').find('.StatsSettingsBox').find('.TimeRelativeUnitView').each(function() {
-                    if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+                    if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-upcoming-max-seconds'), 10)) {
                         ValidationErrors = true;
                         $(this)
                             .add($(this).prev('select'))
@@ -293,6 +293,20 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     else {
                         $(this)
                             .add($(this).prev('select'))
+                            .add($(this).closest('.Value'))
+                            .removeClass('Error');
+                    }
+
+                    if (parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+                        ValidationErrors = true;
+                        $(this)
+                            .add($(this).prev('select').prev('select'))
+                            .add($(this).closest('.Value'))
+                            .addClass('Error');
+                    }
+                    else {
+                        $(this)
+                            .add($(this).prev('select').prev('select'))
                             .add($(this).closest('.Value'))
                             .removeClass('Error');
                     }
