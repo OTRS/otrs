@@ -29,7 +29,8 @@
 [% RenderBlockStart("BodyTransportColumn") %]
             <td class="Center">
 [% RenderBlockStart("BodyTransportColumnEnabled") %]
-                <input type="checkbox" class="" id="[% Data.Identifier | html %]" name="[% Data.Identifier | html %]" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
+                <input type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
+                <input type="hidden" name="[% Data.Identifier | html %]" value="[% Data.HiddenValue | html %]"/>
 [% RenderBlockEnd("BodyTransportColumnEnabled") %]
             </td>
 [% RenderBlockEnd("BodyTransportColumn") %]
@@ -38,3 +39,18 @@
     </tbody>
 </table>
 <div class="Clear SpacingTop"></div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.NotificationEvent').on("change",function(){
+        var Target = $(this).parent().find('input[type=hidden]').val();
+        if(Target == 0){
+            Target = 1;
+        }
+        else{
+            Target = 0;
+        }
+        $(this).parent().find('input[type=hidden]').val(Target);
+    });
+//]]></script>
+[% END %]

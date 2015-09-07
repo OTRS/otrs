@@ -149,9 +149,11 @@ sub Param {
                 #   notification default if there is no user preference
                 my $Use = $UserNotificationTransport->{$Identifier} // $TransportEnabled;
 
-                my $Checked = 'checked="checked"';
+                my $Checked     = 'checked="checked"';
+                my $HiddenValue = 1;
                 if ( !$Use ) {
-                    $Checked = '';
+                    $Checked     = '';
+                    $HiddenValue = 0;
                 }
 
                 # fill each transport column
@@ -167,6 +169,7 @@ sub Param {
                             TransportName    => $TransportName,
                             Identifier       => $Identifier,
                             Checked          => $Checked,
+                            HiddenValue      => $HiddenValue,
                         },
                     );
                 }
