@@ -12,8 +12,6 @@
     <input type="hidden" name="Subaction" value="SendEmail"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
     <input type="hidden" name="Email" value="[% Data.Email | html %]"/>
-    <input type="hidden" name="InReplyTo" value="[% Data.InReplyTo | html %]"/>
-    <input type="hidden" name="References" value="[% Data.References | html %]"/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
 
     <div class="LayoutPopup ARIARoleMain">
