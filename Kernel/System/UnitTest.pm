@@ -823,7 +823,14 @@ sub _Print {
                 .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
-            print color('red') . " not ok" . color('reset') . " $Self->{TestCount} - $Name\n";
+
+            my $PrintName = $Name;
+
+            if ( length $PrintName > 1000 ) {
+                $PrintName = substr( $PrintName, 0, 1000 ) . "...";
+            }
+
+            print color('red') . " not ok" . color('reset') . " $Self->{TestCount} - $PrintName\n";
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
