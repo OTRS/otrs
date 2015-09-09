@@ -35,7 +35,7 @@ sub Run {
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
-    my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent###CustomerSearch');
+    my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
     if ( $Self->{Subaction} eq 'SearchCustomerID' ) {
