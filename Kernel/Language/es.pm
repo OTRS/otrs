@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.757424507112553;
+    $Self->{Completeness}        = 0.754412130251056;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1579,6 +1579,7 @@ sub Data {
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
+        'Options of the recipient user for the notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Correo electrónico destinatario',
@@ -3223,6 +3224,8 @@ sub Data {
         'Y-axis' => 'Eje-Y',
         'The selected start time is before the allowed start time.' => 'El tiempo de inicio seleccionado es anterior al tiempo de inicio permitido.',
         'The selected end time is later than the allowed end time.' => 'El tiempo de finalización seleccionado es posterior al tiempo de finalización permitido.',
+        'No past complete or the current+upcoming complete relative time value selected.' =>
+            '',
         'The selected time period is larger than the allowed time period.' =>
             'El periodo de tiempo seleccionado es mayor que el periodo de tiempo permitido.',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3355,6 +3358,9 @@ sub Data {
         'The partition where OTRS is located has no disk space problems.' =>
             'La partición donde se localiza OTRS no tiene problemas de espacio de disco.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+        'Operating System/Disk Partitions Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribución',
         'Could not determine distribution.' => 'No se pudo determinar la distribución.',
@@ -3379,6 +3385,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Debe haber no mas de 200 MB de espacio de intercambio usado.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'OTRS/Config Settings' => '',
         'Could not determine value.' => 'No se pudo determinar el valor.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3387,6 +3394,7 @@ sub Data {
         'Daemon is not running.' => 'Daemon no se está ejecutando.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'OTRS/Database Records' => '',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Entradas Del Historial De Ticket',
         'Articles' => 'Artículos',
@@ -3427,6 +3435,9 @@ sub Data {
         'Package Installation Status' => 'Estado de Instalación del Paquete',
         'Some packages are not correctly installed.' => 'Algunos paquetes no estan correctamente instalados.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+        'OTRS/Package List' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'El ajuste del ID del Sistema es invalida, debe contener solamente dígitos.',
@@ -3454,6 +3465,20 @@ sub Data {
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             'La tabla ticket_index contiene registros huerfanos. Por favor ejecute otrs/bin/otrs.CleanTicketIndex.pl para limpiar el índice StaticDB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+        'OTRS/Time Settings' => '',
+        'Server time zone' => '',
+        'Computed server time offset' => '',
+        'OTRS TimeZone setting (global time offset)' => '',
+        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
+            '',
+        'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+        'Webserver/Loaded Apache Modules' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Servidor Web',
         'MPM model' => 'modelo MPM',
@@ -3476,6 +3501,9 @@ sub Data {
         'Apache2::DBI Usage' => 'Uso Apache2::DBI',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             'Apache2::DBI debe ser usado para obtener un rendimiento mejor con conexiones de base de datos prestablecidas.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+        'Webserver/Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Debe usar PerlEx para incrementar la performance.',

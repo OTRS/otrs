@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-05 08:34+0000\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5141,7 +5141,7 @@ msgstr "Webszolgáltatás-beállítás visszaállítása"
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
-msgstr "Valóba vissza szeretné állítani a webszolgáltatás beállításának ezen verzióját?"
+msgstr "Valóban vissza szeretné állítani a webszolgáltatás beállításának ezen verzióját?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
@@ -5522,6 +5522,10 @@ msgstr "(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekér
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez."
+
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -10436,6 +10440,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr "A kiválasztott befejezési idő későbbi a megengedett befejezési időnél."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr "A kiválasztott időszak nagyobb a megengedett időszaknál."
 
@@ -10795,6 +10805,11 @@ msgstr "Az OTRS-t tartalmazó partíció majdnem betelt."
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr "Az OTRS-t tartalmazó partíciónak nincs tárhely problémája."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr "Disztribúció"
@@ -10847,6 +10862,11 @@ msgstr "200 MB-nál nem kellene több lapozófájlt használni."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr "Nem sikerült meghatározni az értéket."
 
@@ -10864,6 +10884,11 @@ msgstr "Démon"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
 msgstr "A démon nem fut."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -10986,6 +11011,10 @@ msgstr "Csomagtelepítési állapot"
 msgid "Some packages are not correctly installed."
 msgstr "Néhány csomag nincs helyesen telepítve."
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "A rendszer-azonosító beállítás érvénytelen, csak számjegyeket tartalmazhat."
@@ -11048,6 +11077,45 @@ msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
 msgstr "A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa az otrs/bin/otrs.CleanTicketIndex.pl parancsot a StaticDB index tisztításához."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -11128,6 +11196,11 @@ msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
 msgstr "Az Apache2::DBI használata kellene az előre kiépített adatbázis-kapcsolatokkal való jobb teljesítmény eléréséhez."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
@@ -11514,25 +11587,25 @@ msgstr "Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői 
 msgid ""
 "Adds the one time vacation days for the indicated calendar. Please use "
 "single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Hozzáadja az egyszeri szabadság napjait a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
+msgstr "Hozzáadja az egyszeri munkaszüneti napokat a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
 
 #. SysConfig
 msgid ""
 "Adds the one time vacation days. Please use single digit pattern for numbers"
 " from 1 to 9 (instead of 01 - 09)."
-msgstr "Hozzáadja az egyszeri szabadság napjait. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
+msgstr "Hozzáadja az egyszeri munkaszüneti napokat. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
 
 #. SysConfig
 msgid ""
 "Adds the permanent vacation days for the indicated calendar. Please use "
 "single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Hozzáadja az állandó szabadság napjait a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
+msgstr "Hozzáadja az állandó munkaszüneti napokat a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
 
 #. SysConfig
 msgid ""
 "Adds the permanent vacation days. Please use single digit pattern for "
 "numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Hozzáadja az állandó szabadság napjait. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
+msgstr "Hozzáadja az állandó munkaszüneti napokat. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett)."
 
 #. SysConfig
 msgid "After"

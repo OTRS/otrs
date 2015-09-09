@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.875717494384827;
+    $Self->{Completeness}        = 0.872234650758141;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1578,6 +1578,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Kupata herufi 20 za kwanza za somo (kutoka kwa makala ya mteja wa karibuni)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Kupata mistari 5 ya kwanza ya kiini (kutoka kwa makala ya mteja wa karibuni)',
+        'Options of the recipient user for the notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Anuani ya barua pepe ya mpokeaji',
@@ -3222,6 +3223,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Y-axis' => '',
         'The selected start time is before the allowed start time.' => '',
         'The selected end time is later than the allowed end time.' => '',
+        'No past complete or the current+upcoming complete relative time value selected.' =>
+            '',
         'The selected time period is larger than the allowed time period.' =>
             '',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3354,6 +3357,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'The partition where OTRS is located has no disk space problems.' =>
             'Kitenga ambacho OTRS imewekwa kina matatizo ya nafasi katika disk.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+        'Operating System/Disk Partitions Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Usambazaji',
         'Could not determine distribution.' => 'Haikuweza kutambua usambazaji.',
@@ -3378,6 +3384,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'There should be no more than 200 MB swap space used.' => 'Hakuna zaidi ya MB 200 ya nafasi ilitumika ya kubadilishana.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'OTRS/Config Settings' => '',
         'Could not determine value.' => 'Haikuweza kutambua thamani',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3386,6 +3393,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'OTRS/Database Records' => '',
         'Tickets' => 'Tiketi',
         'Ticket History Entries' => 'Historia ya ingizo ya tiketi',
         'Articles' => 'Makala',
@@ -3426,6 +3434,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Package Installation Status' => '',
         'Some packages are not correctly installed.' => 'kuna vifurishi havijasanikishwa kwa usahihi.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+        'OTRS/Package List' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Mipangilio ya kitambulisho chako cha mfumo ni batili, lazima iwe na namba tu.',
@@ -3453,6 +3464,20 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             'Jedwali la Kielezo cha_Tiketi lina rekodi zilizoachwa. Tafadhali fanya otrs/bin/otrs.CleanTicketIndex.pl kusafisha kielezo cha DBTuli.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+        'OTRS/Time Settings' => '',
+        'Server time zone' => '',
+        'Computed server time offset' => '',
+        'OTRS TimeZone setting (global time offset)' => '',
+        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
+            '',
+        'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+        'Webserver/Loaded Apache Modules' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Seva ya tovuti',
         'MPM model' => '',
@@ -3475,6 +3500,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Apache2::DBI Usage' => '',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+        'Webserver/Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Tumia PerlEx kuongeza utendaji wako.',

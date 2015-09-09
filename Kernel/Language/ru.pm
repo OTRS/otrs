@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.884202645370601;
+    $Self->{Completeness}        = 0.880686055182699;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1585,6 +1585,7 @@ sub Data {
             'Первые 20 символов темы из последнего сообщения клиента',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Первые 5 строк последнего сообщения клиента',
+        'Options of the recipient user for the notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Получат адреса электронной почты',
@@ -3229,6 +3230,8 @@ sub Data {
         'Y-axis' => '',
         'The selected start time is before the allowed start time.' => '',
         'The selected end time is later than the allowed end time.' => '',
+        'No past complete or the current+upcoming complete relative time value selected.' =>
+            '',
         'The selected time period is larger than the allowed time period.' =>
             '',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3361,6 +3364,9 @@ sub Data {
         'The partition where OTRS is located has no disk space problems.' =>
             'Раздел с OTRS не имеет проблем с дисковым пространством.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+        'Operating System/Disk Partitions Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Распостранение',
         'Could not determine distribution.' => 'Не удалось определить дистрибутив ОС',
@@ -3385,6 +3391,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Нельзя использовать для подкачки более 200МВ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'OTRS/Config Settings' => '',
         'Could not determine value.' => 'Не удалось определить значение.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3393,6 +3400,7 @@ sub Data {
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'OTRS/Database Records' => '',
         'Tickets' => 'Заявки',
         'Ticket History Entries' => 'Записи истории заявки',
         'Articles' => 'Заметки/сообщения',
@@ -3433,6 +3441,9 @@ sub Data {
         'Package Installation Status' => '',
         'Some packages are not correctly installed.' => 'Некоторые пакеты установлены некорректно.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+        'OTRS/Package List' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Ваш SystemID неверен. Он должен состоять только из цифр.',
@@ -3460,6 +3471,20 @@ sub Data {
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             'Таблица ticket_index содержит потерянные записи. Выполните скрипт otrs/bin/otrs.CleanTicketIndex.pl для очистки индексов StaticDB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+        'OTRS/Time Settings' => '',
+        'Server time zone' => '',
+        'Computed server time offset' => '',
+        'OTRS TimeZone setting (global time offset)' => '',
+        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
+            '',
+        'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+        'Webserver/Loaded Apache Modules' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Веб-сервер',
         'MPM model' => 'MPM model',
@@ -3482,6 +3507,9 @@ sub Data {
         'Apache2::DBI Usage' => '',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+        'Webserver/Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Необходимо использовать PerlEx для повышения производительности',

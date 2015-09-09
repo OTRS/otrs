@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/otrs/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5521,6 +5521,10 @@ msgstr "Para obtener los primeros 20 caracters del Sujeto (del último artículo
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente)."
 
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
+
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
 msgstr "Direcciones de correo electrónico destinatarias"
@@ -10434,6 +10438,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
 
@@ -10793,6 +10803,11 @@ msgstr "La partición donde se encuentra localizado OTRS está casi llena."
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr "La partición donde se encuentra OTRS no tiene problemas de espacioen disco."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr "Distribución"
@@ -10845,6 +10860,11 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr ""
 
@@ -10861,6 +10881,11 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
 msgstr ""
 
 #. Perl Module:
@@ -10984,6 +11009,10 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
@@ -11045,6 +11074,45 @@ msgstr ""
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
 msgstr ""
 
 #. Perl Module:
@@ -11125,6 +11193,11 @@ msgstr ""
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
 msgstr ""
 
 #. Perl Module:

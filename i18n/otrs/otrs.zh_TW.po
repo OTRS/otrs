@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/otrs/OTRS/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5514,6 +5514,10 @@ msgstr "截取郵件主題的前20個字符（最新的用戶信件）"
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "截取郵件正文内容前5行（最新的用戶信件）"
 
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
+
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
 msgstr "收件人(郵件地址)"
@@ -10427,6 +10431,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
 
@@ -10786,6 +10796,11 @@ msgstr ""
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr ""
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr ""
@@ -10838,6 +10853,11 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr ""
 
@@ -10854,6 +10874,11 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
 msgstr ""
 
 #. Perl Module:
@@ -10977,6 +11002,10 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
@@ -11038,6 +11067,45 @@ msgstr ""
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
 msgstr ""
 
 #. Perl Module:
@@ -11118,6 +11186,11 @@ msgstr ""
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
 msgstr ""
 
 #. Perl Module:

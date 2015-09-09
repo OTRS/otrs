@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 16:46+0000\n"
-"Last-Translator: Cleberson Balbino Rosa <cleberson.balbino@gmail.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -192,19 +192,19 @@ msgstr "semana(s)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "trimestre"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "trimestre(s)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "semestre"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "semestre(s)"
 
 #. Template: AAABase
 msgid "year"
@@ -1489,7 +1489,7 @@ msgstr "Refazer"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Daemon não esta executando"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -2798,11 +2798,11 @@ msgstr "Informação do Chamado"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "incluindo subfilas"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "excluindo subfilas"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -3224,7 +3224,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Registrar o sistema"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -4244,7 +4244,7 @@ msgstr "Depurador GenericInterface para o Web Serviço %s"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Você esta aqui"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -5296,7 +5296,7 @@ msgstr "Manual Online do Administrador"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Gerenciamento de notificação de chamados"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5304,11 +5304,11 @@ msgstr "Adicionar Notificação"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Exportar notificações"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Importar configurações"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5319,7 +5319,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Sobrescrever notificações existentes?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
@@ -5335,7 +5335,7 @@ msgstr "Excluir esta notificação"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Você realmente quer apagar essa notificação ?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5347,7 +5347,7 @@ msgstr "Alterar Notificação"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Mostras nas preferências do atende"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -5411,31 +5411,31 @@ msgstr "Destinatários"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Enviar para"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Enviar para estes atendentes"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Enviar para todos os membros do grupo"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Enviar para todos os membros do papel"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Enviar em fora do esritório"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Também enviar se o usuário se encontra fora do escritório.."
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Uma vez por dia"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5445,7 +5445,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Métodos de notificação"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5462,7 +5462,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Ativar esse método de notificação"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
@@ -5474,15 +5474,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Dados não encontrado"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Método de notificação não existente"
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Texto da notificação"
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -5490,15 +5490,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Corpo da mensagem"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Adicionar novo idioma notificação"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "Você realmente quer apagar este idioma notificação?"
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
@@ -5526,6 +5526,10 @@ msgstr "Para buscar os primeiros 20 caracteres do assunto (do último artigo do 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Para buscar as primeiras 5 linhas do corpo (do último artigo do cliente)"
+
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -5556,7 +5560,7 @@ msgstr "Downgrade para o OTRS Free"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
-msgstr ""
+msgstr "Leia a documentação"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6098,7 +6102,7 @@ msgstr "Criar Novo Processo"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Implantar todos os processos"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6109,7 +6113,7 @@ msgstr "Você pode enviar um arquivo de configuração para importar processos e
 
 #. Template: AdminProcessManagement
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Substituir entidades existentes"
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -6121,7 +6125,7 @@ msgstr "Importar Configuração de Processo"
 
 #. Template: AdminProcessManagement
 msgid "Example processes"
-msgstr ""
+msgstr "Exemplo de processos"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6131,7 +6135,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
-msgstr ""
+msgstr "Importar exemplo de processo"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6174,7 +6178,7 @@ msgstr "Copiar Processo"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Cancelar e fechar"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -6281,11 +6285,11 @@ msgstr "O bloqueio requerido solicitado não existe."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr ""
+msgstr "Orientação do texto Enviar"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr ""
+msgstr "Texto do botão enviar"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
@@ -6721,7 +6725,7 @@ msgstr "Alterar Filas"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "Uma fila com esse nome já existe!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -6892,7 +6896,7 @@ msgstr "Última comunicação com o servidor de registro"
 
 #. Template: AdminRegistration
 msgid "System registration not possible"
-msgstr ""
+msgstr "Registro do sistema não é possível"
 
 #. Template: AdminRegistration
 msgid ""
@@ -7047,7 +7051,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "You don't have an OTRS-ID yet?"
@@ -7077,7 +7081,7 @@ msgstr "Atributo"
 
 #. Template: AdminRegistration
 msgid "FQDN"
-msgstr ""
+msgstr "FQDN"
 
 #. Template: AdminRegistration
 msgid "OTRS Version"
@@ -7307,7 +7311,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr ""
+msgstr "Para mostrar detalhes do certificado clique no ícone do certificado"
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
@@ -7376,7 +7380,7 @@ msgstr "Relacionar este certificado"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
-msgstr ""
+msgstr "Detalhes do certificado"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -7436,7 +7440,7 @@ msgstr "Aqui você pode entrar consultas SQL para enviá-las diretamente ao banc
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr ""
+msgstr "Apenas consultas estão liberadas"
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
@@ -7457,7 +7461,7 @@ msgstr "Executar Consulta"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "Consulta executada."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -7733,7 +7737,7 @@ msgstr "Alterar Configurações Config"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Essa configuração é apenas leitura"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -7927,7 +7931,7 @@ msgstr "Data de fim"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "Deletar manutenção do sistema"
 
 #. Template: AdminSystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
@@ -7935,7 +7939,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
-msgstr ""
+msgstr "Editar Manutenção do Sistema  %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance information"
@@ -8201,7 +8205,7 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "Starting OTRS Daemon"
-msgstr ""
+msgstr "Iniciando OTRS Daemon"
 
 #. Template: AgentDaemonInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -8269,7 +8273,7 @@ msgstr "Novo chamado via e-mail de %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Iniciar chat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8299,23 +8303,23 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Baixar como arquivo SVG"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Baixar como arquivo PNG"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Baixar como arquivo CSV"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Baixar como arquivo Excel"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Baixar como arquivo PDF"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
@@ -8464,7 +8468,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Adicionar Nova Estatística"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8510,15 +8514,15 @@ msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Executar agora"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "Pré-visualização da Estatística "
 
 #. Template: AgentStatisticsEdit
 msgid "Save statistic"
-msgstr ""
+msgstr "Salvar estatística"
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
@@ -8538,7 +8542,7 @@ msgstr "Estatísticas"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
-msgstr ""
+msgstr "Executar"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
@@ -8583,11 +8587,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s"
-msgstr ""
+msgstr "Fechar %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s"
-msgstr ""
+msgstr "Adicionar nota para %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s"
@@ -8619,7 +8623,7 @@ msgstr "Por favor, configure um novo proprietário!"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "Novo Responsável"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -8837,7 +8841,7 @@ msgstr ""
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s"
-msgstr ""
+msgstr "Encaminhar %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s"
@@ -8893,7 +8897,7 @@ msgstr ""
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Selecionar esse chamado"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9143,7 +9147,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Tipo de Evento"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
@@ -9259,7 +9263,7 @@ msgstr "Marcar este artigo como lido"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Mostrar Texto completo"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
@@ -9297,7 +9301,7 @@ msgstr "Carregar conteúdo bloqueado."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Primeira mensagem"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -9356,23 +9360,23 @@ msgstr "Por favor, consulte a documentação ou pergunte ao seu administrador pa
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Trocar para modo móvel"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Trocar para modo desktop"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
-msgstr ""
+msgstr "Não disponível"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Limpar todos"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "Limpar busca"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
@@ -9384,7 +9388,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
@@ -10440,6 +10444,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
 
@@ -10799,6 +10809,11 @@ msgstr "A partição onde o OTRS se encontra localizado encontra-se quase cheia.
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr "A partição onde o OTRS está localizado não apresenta problemas de espaço."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr "Distribuição"
@@ -10851,6 +10866,11 @@ msgstr "Não mais de 200 MB de espaço Swap deverá estar em utilização."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr "Não foi possível determinar o valor."
 
@@ -10867,6 +10887,11 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
 msgstr ""
 
 #. Perl Module:
@@ -10990,6 +11015,10 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr "Alguns pacotes não foram instalados corretamente."
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "Sua configuração de SystemID não é válida, ela precisa conter apenas dígitos."
@@ -11052,6 +11081,45 @@ msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
 msgstr "A tabela ticket_index contém registros órfãos. Por favor execute o comando otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDB."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -11131,6 +11199,11 @@ msgstr ""
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
 msgstr ""
 
 #. Perl Module:
@@ -11324,11 +11397,11 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "Resposta padrão ( depois que novo chamado foi criado)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "Rejeição padrão (após rejeição do acompanhamento de um chamado fechado)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
@@ -11342,23 +11415,23 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "Não classificado"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
-msgstr ""
+msgstr "tmp_lock"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-ext"
-msgstr ""
+msgstr "email-notification-ext"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-int"
-msgstr ""
+msgstr "email-notification-int"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
-msgstr ""
+msgstr "fax"
 
 #. SysConfig
 msgid ""
@@ -11401,7 +11474,7 @@ msgstr "(Login) Sobrenome, Nome"
 
 #. SysConfig
 msgid "A Website"
-msgstr ""
+msgstr "Um website"
 
 #. SysConfig
 msgid ""
@@ -11412,7 +11485,7 @@ msgstr ""
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "Uma figura"
 
 #. SysConfig
 msgid ""
@@ -11540,7 +11613,7 @@ msgstr "Adiciona os dias de vacância permanente. Por favor, utilize o padrão d
 
 #. SysConfig
 msgid "After"
-msgstr ""
+msgstr "Depois"
 
 #. SysConfig
 msgid "Agent called customer."
@@ -12052,7 +12125,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "Comunicação"
 
 #. SysConfig
 msgid "Company Status"
@@ -12198,7 +12271,7 @@ msgstr "Criar e gerenciar modelos."
 
 #. SysConfig
 msgid "Create and manage ticket notifications."
-msgstr ""
+msgstr "Criar e gerenciar notificações de chamados"
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -12230,7 +12303,7 @@ msgstr "Criar novo chamado via processo"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "RSS Feed customizado"
 
 #. SysConfig
 msgid ""
@@ -12370,7 +12443,7 @@ msgstr "Tema padrão para a interface de atendente."
 
 #. SysConfig
 msgid "Default skin for the customer interface."
-msgstr ""
+msgstr "Skin padrão para a interface do cliente"
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
@@ -18378,19 +18451,19 @@ msgstr ""
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
-msgstr ""
+msgstr "Essa opção define o bloqueio padrão para chamados de processo"
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Essa opção define a prioridade padrão para chamados de processo"
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
-msgstr ""
+msgstr "Essa opção define a fila padrão para chamados de processo"
 
 #. SysConfig
 msgid "This option defines the process tickets default state."
-msgstr ""
+msgstr "Essa opção define o estado padrão para chamados de processo"
 
 #. SysConfig
 msgid ""
@@ -18411,7 +18484,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "Notificações de Chamados"
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -18427,7 +18500,7 @@ msgstr "Chamado foi movido para a Fila \"%s\" (%s) vindo da Fila \"%s\" (%s)."
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "Notificações de chamados"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -18584,7 +18657,7 @@ msgstr "Ver mensagens de eventos do sistema."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Acompanhar esse chamado"
 
 #. SysConfig
 msgid ""

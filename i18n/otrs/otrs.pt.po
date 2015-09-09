@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-05 00:22+0000\n"
-"Last-Translator: Nuno Ricardo Santos Loureiro da Silva Ferreira <nunolf@gmail.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -747,7 +747,7 @@ msgstr "Selecionar data"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Mostre a seleção em árvore"
 
 #. Template: AAABase
 msgid "The field content is too long!"
@@ -908,7 +908,7 @@ msgstr "Insira a password para a base de dados"
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr ""
+msgstr "Se criou uma palavra passe para a raiz de Base de Dados tem que a colocar aqui. Se não deixo o campo em branco."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
@@ -963,7 +963,7 @@ msgstr "Pendente até"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr ""
+msgstr "Não utilizar a conta de Super utilizador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -1003,7 +1003,7 @@ msgstr "Prever"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr ""
+msgstr "O pacote não foi corretamente instalado! Por favor reinstal o pacote."
 
 #. Template: AAABase
 msgid "%s is not writable!"
@@ -1265,7 +1265,7 @@ msgstr "Edite as definições de configuração do sistema."
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "A informação da Lista de Controlo de Acesso (ACL) da base da dados não está a sincronizar com o sistema, por favor carregue toda a lista."
 
 #. Template: AAABase
 msgid "printed at"
@@ -1365,13 +1365,13 @@ msgstr "Estatísticas dos últimos 7 dias"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr ""
+msgstr "Informações do Processo de Manutenção da base de dados não está a sincronizar com o sistema de configuração, por favor, sincronizar todos os processos."
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "O Pacote não foi verificado pelo Groupo OTRS! Não é recomendado utilizar o Pacote."
 
 #. Template: AAABase
 msgid ""
@@ -1484,15 +1484,15 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Não é possivel contatar o servidor de registo. Por favor tente novamente mais tarde."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Não foi recebido nenhum conteudo do servidor de registo. Por favor tente novamente mais tarde."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Problemas a processar o resultado do servidor. Por favor tente novamente mais tarde."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
@@ -1500,59 +1500,59 @@ msgstr "Utilizador e senha não coincidem. Por favor tente novamente."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "O processo selecionado é invalido!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Atualização para %s agora!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Vá para o centro de atualização %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "A Licença para o seu %s está a terminar. Por favor entre em contato com %s para renovar o contrato!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "A atualização para o seu %s está disponivel, mas existe um conflito com a versão da sua estrutura! Por favor atualize a sua estrutura primeiro!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "O seu sistema foi atualizado com sucesso até %s"
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Ocorreu um problema durante a atualização aos %s"
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s foi corretamente reinstalado."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Existe um problema a reinstalar %s"
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "O seu %s foi atualizado com sucesso."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Existiu um problema durante a atualização de %s"
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s foi corretamente desinstalado."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Existiu um problema a desinstalar %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -1580,19 +1580,19 @@ msgstr "Vespera de Ano Novo"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr ""
+msgstr "ORTS como requisitante."
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
-msgstr ""
+msgstr "OTRS como prestador"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr ""
+msgstr "O serviço Web \"%s\" foi criado!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr ""
+msgstr "O serviço Web \"%s\" foi atualizado!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1788,7 +1788,7 @@ msgstr "Ver estado"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Vista do serviço"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -1832,11 +1832,11 @@ msgstr "Para"
 
 #. Template: AAATicket
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #. Template: AAATicket
 msgid "Bcc"
-msgstr ""
+msgstr "Bcc"
 
 #. Template: AAATicket
 msgid "Subject"
@@ -1868,19 +1868,19 @@ msgstr "Atualização de Prioridade"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr ""
+msgstr "Prioridade adicionada!"
 
 #. Template: AAATicket
 msgid "Priority updated!"
-msgstr ""
+msgstr "Prioridade atualizada!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr ""
+msgstr "Assinatura adicionada!"
 
 #. Template: AAATicket
 msgid "Signature updated!"
-msgstr ""
+msgstr "Assinatura atualizada!"
 
 #. Template: AAATicket
 msgid "SLA"
@@ -2076,7 +2076,7 @@ msgstr "Todos os tickets"
 
 #. Template: AAATicket
 msgid "Available tickets"
-msgstr ""
+msgstr "Pedidos Disponiveis"
 
 #. Template: AAATicket
 msgid "Escalation"
@@ -2096,19 +2096,19 @@ msgstr "Fila de tickets escalados"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "Mensagem de"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "Fim da mensagem"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "Mensagem reencaminhada de"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr ""
+msgstr "Fim da mensagem reencaminhada"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
@@ -2116,7 +2116,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Responder na nota"
 
 #. Template: AAATicket
 msgid "new"
@@ -2252,19 +2252,19 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr ""
+msgstr "rejeição automática"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "remoção automática"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "resposta automática"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "resposta automática/novo pedido"
 
 #. Template: AAATicket
 msgid "Create"
@@ -2272,7 +2272,7 @@ msgstr "Criar"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "Resposta"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -2296,15 +2296,15 @@ msgstr "Não existe Número de Ticket \"%s\"! Não é possível efectuar a liga�
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr ""
+msgstr "Não tem permissão de escrita neste pedido."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "Desculpe, precisa de ser o proprietario deste pedido para realizar esta ação"
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr ""
+msgstr "Por favor altere o proprietário primeiro."
 
 #. Template: AAATicket
 msgid "Ticket selected."
@@ -5517,6 +5517,10 @@ msgstr "Para obter os primeiros 20 carateres do assunto (do último artigo do cl
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Para obter as últimas 5 linhas do corpo do email (do último artigo do cliente)"
+
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -10431,6 +10435,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
 
@@ -10790,6 +10800,11 @@ msgstr ""
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr ""
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr ""
@@ -10842,6 +10857,11 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr ""
 
@@ -10858,6 +10878,11 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
 msgstr ""
 
 #. Perl Module:
@@ -10981,6 +11006,10 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
@@ -11042,6 +11071,45 @@ msgstr ""
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
 msgstr ""
 
 #. Perl Module:
@@ -11122,6 +11190,11 @@ msgstr ""
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
 msgstr ""
 
 #. Perl Module:
