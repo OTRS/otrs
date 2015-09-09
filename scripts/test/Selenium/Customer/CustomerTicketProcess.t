@@ -102,6 +102,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+        sleep 1;
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
@@ -109,9 +110,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject", 'css' )->submit();
-
-        sleep 1;
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length;' );
 
         # check for inputed values for first step in test process ticket
         $Self->True(
