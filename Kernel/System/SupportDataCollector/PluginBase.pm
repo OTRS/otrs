@@ -43,7 +43,7 @@ sub new {
 
 # Override this in the plugins to specify their DisplayPath
 sub GetDisplayPath {
-    return 'General';
+    return Translatable('General');
 }
 
 sub AddResultUnknown {
