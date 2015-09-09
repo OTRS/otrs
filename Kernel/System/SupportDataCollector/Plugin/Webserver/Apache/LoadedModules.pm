@@ -18,7 +18,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return 'Webserver/Loaded Apache Modules';
+    return Translatable('Webserver/Loaded Apache Modules');
 }
 
 sub Run {
