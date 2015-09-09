@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Oleg Sydorenko <oleg.sidorenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-03 11:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-09-09 18:52+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,11 +84,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "Створений протягом останніх"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "Створено понад ... назад"
 
 #. Template: AAABase
 msgid "Today"
@@ -99,7 +100,7 @@ msgstr "Завтра"
 
 #. Template: AAABase
 msgid "Next week"
-msgstr ""
+msgstr "Наступний тиждень"
 
 #. Template: AAABase
 msgid "day"
@@ -223,7 +224,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Часова одиниця"
 
 #. Template: AAABase
 msgid "wrote"
@@ -295,7 +296,7 @@ msgstr "недійсний"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr ""
+msgstr "Не правильний"
 
 #. Template: AAABase
 msgid "* invalid"
@@ -643,7 +644,7 @@ msgstr "між"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "до/після"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -743,19 +744,19 @@ msgstr "Видір дати"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Показати Дерево вибору"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Значення поля занадто довге!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "Максимальний розмір %s символів."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Це поле є обов'язковим або"
 
 #. Template: AAABase
 msgid "New message"
@@ -811,15 +812,15 @@ msgstr "Немає користувача за таким ім'ям"
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr ""
+msgstr "Помилка входу! Ваше ім'я користувача або пароль введено не правильно."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr ""
+msgstr "У цього користувача відсутній обліковий запис."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Будь ласка, зверніться до адміністратора"
 
 #. Template: AAABase
 msgid ""
@@ -5513,6 +5514,10 @@ msgstr "Перші 20 символів теми з останнього пові
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Перші 5 рядків останнього повідомлення клієнта"
+
+#. Template: AdminNotificationEvent
+msgid "Options of the recipient user for the notification"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -10427,6 +10432,12 @@ msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"No past complete or the current+upcoming complete relative time value "
+"selected."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
 
@@ -10786,6 +10797,11 @@ msgstr ""
 msgid "The partition where OTRS is located has no disk space problems."
 msgstr ""
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+msgid "Operating System/Disk Partitions Usage"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
 msgstr ""
@@ -10838,6 +10854,11 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "OTRS/Config Settings"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr ""
 
@@ -10854,6 +10875,11 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "OTRS/Database Records"
 msgstr ""
 
 #. Perl Module:
@@ -10977,6 +11003,10 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "OTRS/Package List"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
@@ -11038,6 +11068,45 @@ msgstr ""
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS/Time Settings"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Server time zone"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "Computed server time offset"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting (global time offset)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "TimeZone may only be activated for systems running in UTC."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid ""
+"TimeZoneUser may only be activated for systems running in UTC that don't "
+"have an OTRS TimeZone set."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Webserver/Loaded Apache Modules"
 msgstr ""
 
 #. Perl Module:
@@ -11118,6 +11187,11 @@ msgstr ""
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+msgid "Webserver/Environment Variables"
 msgstr ""
 
 #. Perl Module:

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.718243074619416;
+    $Self->{Completeness}        = 0.715386527467064;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1578,6 +1578,7 @@ sub Data {
             '表題の最初の20文字を取得 (最新の顧客記事)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '本文から最初の5行を取得 (最新の顧客記事)',
+        'Options of the recipient user for the notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => '受信 メールアドレス',
@@ -3223,6 +3224,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Y-axis' => '',
         'The selected start time is before the allowed start time.' => '',
         'The selected end time is later than the allowed end time.' => '',
+        'No past complete or the current+upcoming complete relative time value selected.' =>
+            '',
         'The selected time period is larger than the allowed time period.' =>
             '',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3355,6 +3358,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The partition where OTRS is located has no disk space problems.' =>
             'OTRS がインストールされているディスクパーティションはディスクスペースの問題は起こっていません',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+        'Operating System/Disk Partitions Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'ディストリビューション',
         'Could not determine distribution.' => 'ディストリビューションを特定できませんでした',
@@ -3379,6 +3385,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There should be no more than 200 MB swap space used.' => '200MB 以上のSwap 領域が存在してはいけない',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'OTRS/Config Settings' => '',
         'Could not determine value.' => 'value を特定できませんでした',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3387,6 +3394,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'OTRS/Database Records' => '',
         'Tickets' => 'チケット',
         'Ticket History Entries' => 'チケット履歴エントリ',
         'Articles' => '記事',
@@ -3427,6 +3435,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Package Installation Status' => '',
         'Some packages are not correctly installed.' => '正しくインストールされていないパッケージが存在します',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+        'OTRS/Package List' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'あなたのSystemID設定は不正です。数字以外は利用できません。',
@@ -3454,6 +3465,20 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             ' ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+        'OTRS/Time Settings' => '',
+        'Server time zone' => '',
+        'Computed server time offset' => '',
+        'OTRS TimeZone setting (global time offset)' => '',
+        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
+            '',
+        'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+        'Webserver/Loaded Apache Modules' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Webサーバー',
         'MPM model' => 'MPMモデル',
@@ -3476,6 +3501,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Apache2::DBI Usage' => '',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+        'Webserver/Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'パフォーマンス向上のため、Perl正規表現を使うべきです。',

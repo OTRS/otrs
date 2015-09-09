@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.259046668330422;
+    $Self->{Completeness}        = 0.261247825006214;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -49,11 +49,11 @@ sub Data {
         'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created within the last' => 'Створений протягом останніх',
+        'Created more than ... ago' => 'Створено понад ... назад',
         'Today' => 'Сьогодні',
         'Tomorrow' => 'Завтра',
-        'Next week' => '',
+        'Next week' => 'Наступний тиждень',
         'day' => 'день',
         'days' => 'днів',
         'day(s)' => 'днів',
@@ -84,7 +84,7 @@ sub Data {
         'seconds' => 'секунд',
         'second' => 'секунда',
         's' => '',
-        'Time unit' => '',
+        'Time unit' => 'Часова одиниця',
         'wrote' => 'написав(ла)',
         'Message' => 'Повідомлення',
         'Error' => 'Помилка',
@@ -102,7 +102,7 @@ sub Data {
         'valid' => 'дійсний',
         'Valid' => 'Дійсний',
         'invalid' => 'недійсний',
-        'Invalid' => '',
+        'Invalid' => 'Не правильний',
         '* invalid' => '* недійсний',
         'invalid-temporarily' => 'тимчасово недійсний',
         ' 2 minutes' => '2 хвилини',
@@ -189,7 +189,7 @@ sub Data {
         'Search' => 'Пошук',
         'and' => 'та',
         'between' => 'між',
-        'before/after' => '',
+        'before/after' => 'до/після',
         'Fulltext Search' => 'Повнотекстовий пошук',
         'Data' => 'Дата',
         'Options' => 'Опції',
@@ -214,10 +214,10 @@ sub Data {
         'Medium' => 'Середній',
         'Large' => 'Великий',
         'Date picker' => 'Видір дати',
-        'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'Show Tree Selection' => 'Показати Дерево вибору',
+        'The field content is too long!' => 'Значення поля занадто довге!',
+        'Maximum size is %s characters.' => 'Максимальний розмір %s символів.',
+        'This field is required or' => 'Це поле є обов\'язковим або',
         'New message' => 'Нове повідомлення',
         'New message!' => 'Нове повідомлення',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -233,9 +233,9 @@ sub Data {
         'replace with' => 'Замінити на',
         'There is no account with that login name.' => 'Немає користувача за таким ім\'ям',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '',
-        'There is no acount with that user name.' => '',
-        'Please contact your administrator' => '',
+            'Помилка входу! Ваше ім\'я користувача або пароль введено не правильно.',
+        'There is no acount with that user name.' => 'У цього користувача відсутній обліковий запис.',
+        'Please contact your administrator' => 'Будь ласка, зверніться до адміністратора',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
@@ -1574,6 +1574,7 @@ sub Data {
             'Перші 20 символів теми з останнього повідомлення клієнта',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Перші 5 рядків останнього повідомлення клієнта',
+        'Options of the recipient user for the notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => '',
@@ -3218,6 +3219,8 @@ sub Data {
         'Y-axis' => '',
         'The selected start time is before the allowed start time.' => '',
         'The selected end time is later than the allowed end time.' => '',
+        'No past complete or the current+upcoming complete relative time value selected.' =>
+            '',
         'The selected time period is larger than the allowed time period.' =>
             '',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3350,6 +3353,9 @@ sub Data {
         'The partition where OTRS is located has no disk space problems.' =>
             '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
+        'Operating System/Disk Partitions Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => '',
         'Could not determine distribution.' => '',
@@ -3374,6 +3380,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+        'OTRS/Config Settings' => '',
         'Could not determine value.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3382,6 +3389,7 @@ sub Data {
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+        'OTRS/Database Records' => '',
         'Tickets' => 'Заявки',
         'Ticket History Entries' => '',
         'Articles' => '',
@@ -3422,6 +3430,9 @@ sub Data {
         'Package Installation Status' => '',
         'Some packages are not correctly installed.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+        'OTRS/Package List' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             '',
@@ -3449,6 +3460,20 @@ sub Data {
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+        'OTRS/Time Settings' => '',
+        'Server time zone' => '',
+        'Computed server time offset' => '',
+        'OTRS TimeZone setting (global time offset)' => '',
+        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
+            '',
+        'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+        'Webserver/Loaded Apache Modules' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => '',
         'MPM model' => '',
@@ -3471,6 +3496,9 @@ sub Data {
         'Apache2::DBI Usage' => '',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
+        'Webserver/Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => '',
