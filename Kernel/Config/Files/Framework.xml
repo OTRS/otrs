@@ -6567,7 +6567,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin for OTRS 3.0.</Item>
+                <Item Key="Description">This is the default orange - black skin for the customer interface.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
