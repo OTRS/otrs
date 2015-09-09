@@ -40,7 +40,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent')->{CustomerSearch};
 
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
