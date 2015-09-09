@@ -401,9 +401,11 @@ sub MailTimeStamp {
     #   Therefore OTRS cannot generate the correct offset for the mail timestamp.
     #   So we need to use the real time configuration of the server to determine this properly.
 
-    my $ServerGMTime    = time();
-    my $ServerLocalTime = Time::Local::timegm_nocheck( localtime( $ServerGMTime ) );
-    my $ServerTimeDiff  = $ServerLocalTime - $ServerGMTime;
+    my $ServerTime      = time();
+    my $ServerLocalTime = Time::Local::timegm_nocheck( localtime($ServerTime) );
+
+    # Check if local time and UTC time are different
+    my $ServerTimeDiff = $ServerLocalTime - $ServerTime;
 
     # calculate offset - should be '+0200', '-0600', '+0545' or '+0000'
     my $Direction   = $ServerTimeDiff < 0 ? '-' : '+';
@@ -411,7 +413,7 @@ sub MailTimeStamp {
     my $DiffMinutes = abs int( ( $ServerTimeDiff % 3600 ) / 60 );
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->SystemTime2Date(
-        SystemTime => $ServerLocalTime,
+        SystemTime => $ServerTime,
     );
 
     my $TimeString = sprintf "%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
