@@ -21,6 +21,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Time',
 );
 
 sub GetDisplayPath {
@@ -39,11 +40,8 @@ sub Run {
         Value      => $ServerTimeZone,
     );
 
-    my $ServerTime      = time();
-    my $ServerLocalTime = Time::Local::timegm_nocheck( localtime($ServerTime) );
-
     # Check if local time and UTC time are different
-    my $ServerTimeDiff = $ServerLocalTime - $ServerTime;
+    my $ServerTimeDiff = $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds();
 
     # calculate offset - should be '+0200', '-0600', '+0545' or '+0000'
     my $Direction   = $ServerTimeDiff < 0 ? '-' : '+';
@@ -82,7 +80,8 @@ sub Run {
             Label      => Translatable('OTRS TimeZoneUser setting (per-user time zone support)'),
             Value      => $OTRSTimeZoneUser,
             Message    => Translatable(
-                'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.'),
+                'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.'
+            ),
         );
     }
     else {
