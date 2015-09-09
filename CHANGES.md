@@ -1,4 +1,5 @@
 #5.0.0.beta4 2015-??-??
+ - 2015-08-19 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
  - 2015-09-04 Improved modernized input fields to ignore accents when searching (thanks to Dusan Vuckovic). This will find México when you just search for Mexico.
  - 2015-09-02 Fixed bug#[11437](http://bugs.otrs.org/show_bug.cgi?id=11437) - Filter not available if Y-axis is not defined.
  - 2015-09-02 Fixed bug#[11321](http://bugs.otrs.org/show_bug.cgi?id=11321) - Translate is called twice on Months of Year.

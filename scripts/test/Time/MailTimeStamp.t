@@ -15,129 +15,72 @@ use vars (qw($Self));
 
 my @Tests = (
 
-    # UTC server tests
-    # UTC tests results should return the date as local (considering the TimeZone) and the offset
-    # should be the time zone (in RFC format)
+    {
+        Name      => 'UTC',
+        TimeStamp => '2014-01-10 11:12:13',
+        ServerTZ  => 'UTC',
+        Result    => 'Fri, 10 Jan 2014 11:12:13 +0000',
+    },
     {
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-01-10 11:12:13',
-        ServerTZ  => 'UTC',
-        TimeZone  => +1,
+        ServerTZ  => 'Europe/Berlin',
         Result    => 'Fri, 10 Jan 2014 12:12:13 +0100',
     },
     {
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => -8,
-        ServerTZ  => 'UTC',
+        ServerTZ  => 'America/Los_Angeles',
         Result    => 'Fri, 10 Jan 2014 03:12:13 -0800',
     },
     {
         Name      => 'Australia/Sydney',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => +10,
-        ServerTZ  => 'UTC',
-        Result    => 'Fri, 10 Jan 2014 21:12:13 +1000',
+        ServerTZ  => 'Australia/Sydney',
+        Result    => 'Fri, 10 Jan 2014 22:12:13 +1100',
     },
     {
         Name      => 'Europe/London',
         TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => +0,
-        ServerTZ  => 'UTC',
+        ServerTZ  => 'Europe/London',
         Result    => 'Fri, 10 Jan 2014 11:12:13 +0000',
     },
-
-    # this tests are odd the correct value should consider the  summer time or daylight time, but
-    # currently it is not possible to determine it, this also happens in other parts of otrs.
     {
         Name      => 'Europe/Berlin',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => +1,
-        ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 03:03:04 +0100',
+        ServerTZ  => 'Europe/Berlin',
+        Result    => 'Sun, 3 Aug 2014 04:03:04 +0200',
     },
     {
 
         Name      => 'America/Los_Angeles',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => -8,
-        ServerTZ  => 'UTC',
-        Result    => 'Sat, 2 Aug 2014 18:03:04 -0800',
+        ServerTZ  => 'America/Los_Angeles',
+        Result    => 'Sat, 2 Aug 2014 19:03:04 -0700',
     },
     {
         Name      => 'Australia/Sydney',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => +10,
-        ServerTZ  => 'UTC',
+        ServerTZ  => 'Australia/Sydney',
         Result    => 'Sun, 3 Aug 2014 12:03:04 +1000',
     },
     {
-        Name      => 'Europe/London',
+        Name      => 'Europe/London DST',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => +0,
-        ServerTZ  => 'UTC',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0000',
-    },
-
-    # none UTC server tests
-    # none UTC tests results should return the date as it is and the time zone should be calculated
-    # internally and set in RFC format
-    {
-        Name      => 'Europe/Berlin',
-        TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => 0,
-        ServerTZ  => 'Europe/Berlin',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0100',
-    },
-    {
-        Name      => 'America/Los_Angeles',
-        TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => -0,
-        ServerTZ  => 'America/Los_Angeles',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 -0800',
-    },
-    {
-        Name      => 'Australia/Sydney',
-        TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => 0,
-        ServerTZ  => 'Australia/Sydney',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +1100',
-    },
-    {
-        Name      => 'Europe/London',
-        TimeStamp => '2014-01-10 11:12:13',
-        TimeZone  => 0,
         ServerTZ  => 'Europe/London',
-        Result    => 'Fri, 10 Jan 2014 11:12:13 +0000',
+        Result    => 'Sun, 3 Aug 2014 03:03:04 +0100',
     },
     {
-        Name      => 'Europe/Berlin',
+        Name      => 'Europe/Berlin DST',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => 0,
         ServerTZ  => 'Europe/Berlin',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0200',
+        Result    => 'Sun, 3 Aug 2014 04:03:04 +0200',
     },
     {
-
-        Name      => 'America/Los_Angeles',
+        Name      => 'Asia/Kathmandu, offset with minutes',
         TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => 0,
-        ServerTZ  => 'America/Los_Angeles',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 -0700',
-    },
-    {
-        Name      => 'Australia/Sydney',
-        TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => 0,
-        ServerTZ  => 'Australia/Sydney',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +1000',
-    },
-    {
-        Name      => 'Europe/London',
-        TimeStamp => '2014-08-03 02:03:04',
-        TimeZone  => 0,
-        ServerTZ  => 'Europe/London',
-        Result    => 'Sun, 3 Aug 2014 02:03:04 +0100',
+        ServerTZ  => 'Asia/Kathmandu',
+        Result    => 'Sun, 3 Aug 2014 07:48:04 +0545',
     },
 );
 
@@ -150,10 +93,10 @@ for my $Test (@Tests) {
     # set the server time zone
     local $ENV{TZ} = $Test->{ServerTZ};
 
-    # set OTRS time zone setting
+    # Set OTRS time zone to arbitrary value to make sure it is ignored.
     $ConfigObject->Set(
         Key   => 'TimeZone',
-        Value => $Test->{TimeZone},
+        Value => int rand 20 - 10,
     );
 
     $Kernel::OM->ObjectsDiscard(
