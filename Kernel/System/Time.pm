@@ -67,6 +67,10 @@ returns the number of non-leap seconds since what ever time the
 system considers to be the epoch (that's 00:00:00, January 1, 1904
 for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 
+This will the time that the server considers to be the local time (based on
+time zone configuration) plus the configured OTRS "TimeZone" diff (only recommended
+for systems running in UTC).
+
     my $SystemTime = $TimeObject->SystemTime();
 
 =cut
@@ -79,7 +83,7 @@ sub SystemTime {
 
 =item SystemTime2TimeStamp()
 
-returns a time stamp in "yyyy-mm-dd 23:59:59" format.
+returns a time stamp for a given system time in "yyyy-mm-dd 23:59:59" format.
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
@@ -122,7 +126,8 @@ sub SystemTime2TimeStamp {
 
 =item CurrentTimestamp()
 
-returns a time stamp in "yyyy-mm-dd 23:59:59" format.
+returns a time stamp of the local system time (see L<SystemTime()>)
+in "yyyy-mm-dd 23:59:59" format.
 
     my $TimeStamp = $TimeObject->CurrentTimestamp();
 
@@ -136,7 +141,7 @@ sub CurrentTimestamp {
 
 =item SystemTime2Date()
 
-returns a array of time params.
+converts a system time to a structured date array.
 
     my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $TimeObject->SystemTime2Date(
         SystemTime => $TimeObject->SystemTime(),
@@ -173,9 +178,7 @@ sub SystemTime2Date {
 
 =item TimeStamp2SystemTime()
 
-returns the number of non-leap seconds since what ever time the
-system considers to be the epoch (that's 00:00:00, January 1, 1904
-for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
+converts a given time stamp to local system time.
 
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(
         String => '2004-08-14 22:45:00',
@@ -312,9 +315,7 @@ sub TimeStamp2SystemTime {
 
 =item Date2SystemTime()
 
-returns the number of non-leap seconds since what ever time the
-system considers to be the epoch (that's 00:00:00, January 1, 1904
-for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
+converts a structured date array to local system time.
 
     my $SystemTime = $TimeObject->Date2SystemTime(
         Year   => 2004,
@@ -424,7 +425,7 @@ sub MailTimeStamp {
 
 =item WorkingTime()
 
-get the working time in seconds between these times.
+get the working time in seconds between these local system times.
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
