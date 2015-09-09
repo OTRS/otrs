@@ -1,4 +1,6 @@
-#5.0.0.beta4 2015-??-??
+#5.0.0.beta5 2015-??-??
+
+#5.0.0.beta4 2015-09-15
  - 2015-09-09 Updated translations, thanks to all translators.
  - 2015-08-19 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
  - 2015-09-04 Improved modernized input fields to ignore accents when searching (thanks to Dusan Vuckovic). This will find México when you just search for Mexico.
