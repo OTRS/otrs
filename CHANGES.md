@@ -1,4 +1,6 @@
-#4.0.12 2015-??-??
+#4.0.13 2015-??-??
+
+#4.0.12 2015-09-15
  - 2015-09-03 Updated translations, thanks to all translators.
  - 2015-08-19 Followup for bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
  - 2015-09-02 Fixed bug#[11321](http://bugs.otrs.org/show_bug.cgi?id=11321) - Translate is called twice on Months of Year.
