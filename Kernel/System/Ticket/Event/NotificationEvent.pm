@@ -530,8 +530,9 @@ sub _RecipientsGet {
     # get recipients by Recipients
     if ( $Notification{Data}->{Recipients} ) {
 
-        # get queue object
-        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+        # get needed objects
+        my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         RECIPIENT:
         for my $Recipient ( @{ $Notification{Data}->{Recipients} } ) {
@@ -651,9 +652,6 @@ sub _RecipientsGet {
                         DynamicFields => 0,
                     );
                 }
-
-                # get needed objects
-                my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
                 my %Recipient;
 
