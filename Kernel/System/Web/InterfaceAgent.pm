@@ -467,7 +467,7 @@ sub Run {
                     UserID => $UserData{UserID},
                 );
 
-                if ( $Preferences{ChatAvailability} == 2 ) {
+                if ( $Preferences{ChatAvailability} && $Preferences{ChatAvailability} == 2 ) {
 
                     # User is available for external chats. Set his availability to internal only.
                     $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
