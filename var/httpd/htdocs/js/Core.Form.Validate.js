@@ -134,8 +134,8 @@ Core.Form.Validate = (function (TargetNS) {
         // if the element is an Input Field, than manually trigger the focus event
         if (Core.UI.InputFields.IsEnabled($Element)) {
             window.setTimeout(function () {
-                $('#' + Core.UI.InputFields.IsEnabled($Element)).focus();
-            }, 100);
+                $('#' + $Element.data('modernized')).focus();
+            }, 0);
         }
 
         // if the element is within a collapsed widget, expand that widget to show the error message to the user

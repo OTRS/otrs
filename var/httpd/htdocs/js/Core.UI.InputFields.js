@@ -435,7 +435,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                     setTimeout(function () {
                                         $SelectObj.trigger('change');
                                         ValidateFormElement($SelectObj);
-                                    }, 50);
+                                    }, 0);
                                     return false;
                                 })
                         );
@@ -561,7 +561,7 @@ Core.UI.InputFields = (function (TargetNS) {
             setTimeout(function () {
                 $SelectObj.trigger('change');
                 ValidateFormElement($SelectObj);
-            }, 50);
+            }, 0);
         }
     }
 
@@ -805,7 +805,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     CheckAvailability($SelectObj, $SearchObj);
                     setTimeout(function () {
                         $SearchObj.focus();
-                    }, 50);
+                    }, 0);
                 })
 
                 // Prevent clicks on action to steal focus from search field
@@ -834,7 +834,7 @@ Core.UI.InputFields = (function (TargetNS) {
         setTimeout(function () {
             $TabbableElements.eq($TabbableElements.index($Element) + 1)
                 .focus();
-        }, 50);
+        }, 0);
     }
 
     /**
@@ -1199,7 +1199,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
-                        }, 50);
+                        }, 0);
                     })
 
                     // Handle blur event for tree list
@@ -1210,7 +1210,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
-                        }, 50);
+                        }, 0);
                     })
 
                     // Handle node selection in tree list
@@ -1388,7 +1388,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
-                        }, 50);
+                        }, 0);
                     });
 
                     // Append tree code to the container and show it
@@ -1416,7 +1416,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 if (!Focused) {
                                     HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                                 }
-                            }, 50);
+                            }, 0);
                         });
 
                     if (Multiple) {
@@ -1672,7 +1672,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         if (!Focused) {
                             HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                         }
-                    }, 50);
+                    }, 0);
                     Core.Form.ErrorTooltips.HideTooltip();
                 })
 
@@ -1777,14 +1777,17 @@ Core.UI.InputFields = (function (TargetNS) {
      * @name IsEnabled
      * @memberof Core.UI.InputFields
      * @function
-     * @returns {String} ID of the Search field
+     * @returns {Boolean} True/false value depending whether the Input Field has been initialized.
      * @param {jQueryObject} $Element - The jQuery object of the element that is being tested.
      * @description
      *      This function check if Input Field is initialized for the supplied element,
-     *      and returns corresponding ID of the Search field.
+     *      and returns appropriate boolean value.
      */
     TargetNS.IsEnabled = function ($Element) {
-        return $Element.data('modernized');
+        if ($Element.data('modernized') && $Element.data('modernized') !== '') {
+            return true;
+        }
+        return false;
     };
 
     // jsTree plugin for multi selection without modifier key
