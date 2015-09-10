@@ -1741,7 +1741,7 @@ sub Run {
             Name       => 'Profile',
             ID         => 'SearchProfile',
             SelectedID => $Profile,
-            Class      => 'Modernize',
+            # Do not modernize this field as this causes problems with the automatic focussing of the first element.
         );
 
         $Param{StatesStrg} = $LayoutObject->BuildSelection(
