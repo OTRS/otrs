@@ -633,7 +633,10 @@ sub _RecipientsGet {
                     push @{ $Notification{Data}->{RecipientAgents} }, @UserIDs;
                 }
             }
-            else {
+
+            # Other OTRS packages might add other kind of recipients that are normally handled by
+            #   other modules then an elsif condition here is useful.
+            elsif ( $Recipient eq 'Customer' ) {
 
                 # get old article for quoting
                 my %Article = $TicketObject->ArticleLastCustomerArticle(
