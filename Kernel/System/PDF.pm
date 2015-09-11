@@ -589,16 +589,19 @@ sub DocumentOutput {
 
 =item Table()
 
-Add a table
+Add a table.
+
+In case of missing or misused parameters, C<undef> is returned in scalar context
+and an empty list is returned in list context.
 
     Return
         $Return{State}
         $Return{RequiredWidth}
         $Return{RequiredHeight}
-        $CellData                # (reference) complete calculated
-        $ColumnData              # (reference) complete calculated
+        $Return{CellData}                # (reference) complete calculated
+        $Return{ColumnData}              # (reference) complete calculated
 
-    (%Return, $CellData, $ColumnData) = $PDFObject->Table(
+    %Return = $PDFObject->Table(
         CellData            => $CellData,    # 2D arrayref (see example)
         ColumnData          => $ColumnData,  # arrayref (see example)
         RowData             => $RowData,     # arrayref (see example)
@@ -1733,12 +1736,17 @@ sub DimGet {
 
 =item _TableCalculate()
 
-calculate params of table
+calculate params of table.
 
     Return  # normally no return required, only references
         %Param
 
-    (%Return, $CellData, $ColumnData) = $PDFObject->_TableCalculate(
+The returned hash is usually not needed, as the passed in references are
+modified in place.
+In case of missing or misused parameters, C<undef> is returned in scalar context
+and an empty list is returned in list context.
+
+    %Return = $PDFObject->_TableCalculate(
         CellData            => $CellData,     # 2D arrayref (see example)
         ColumnData          => $ColumnData,   # arrayref (see example)
         RowData             => $RowData,      # arrayref (see example)
