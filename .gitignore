@@ -158,6 +158,7 @@ scripts/test/Selenium/Agent/Chat.t
 scripts/test/Selenium/Customer/Chat.t
 scripts/test/Selenium/Customer/CustomerDynamicFieldDatabase.t
 scripts/test/Selenium/Public/Chat.t
+scripts/test/Selenium/Output/FilterElementPost/SLASelectionDialog.t
 scripts/test/StatsReport.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
 var/cron/cleanupchats.dist
