@@ -178,7 +178,7 @@ var/httpd/htdocs/skins/Agent/default/css/DynamicFieldDatabase.css
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
 var/httpd/htdocs/skins/Customer/default/css/DynamicFieldDatabase.css
 var/packagesetup/OTRSBusiness.pm
-var/processes/examples/ITIL Incident Management.yml
-var/processes/examples/Order Request Management.yml
-var/processes/examples/Request For Leave Management.yml
+var/processes/examples/ITIL_Incident_Management.yml
+var/processes/examples/Order_Request_Management.yml
+var/processes/examples/Request_For_Leave_Management.yml
 var/thirdparty/phantomjs
