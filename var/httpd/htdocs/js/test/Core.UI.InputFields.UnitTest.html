@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="../thirdparty/qunit-1.18.0/qunit.css" type="text/css"/>
+    <link rel="stylesheet" href="../../skins/Agent/default/css/Core.InputFields.css" type="text/css"/>
+
+    <title>OTRS &ndash; JavaScript UnitTest Results</title>
+</head>
+<body>
+    <h1 id="qunit-header">OTRS &ndash; JavaScript UnitTest Results</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+
+    <!-- UnitTest code goes here -->
+    <script type="text/javascript" src="../thirdparty/qunit-1.18.0/qunit.js"></script>
+    <!--
+        Now always load library first and then the UnitTest file for it.
+        The UnitTest file is responsible for running the tests.
+    -->
+    <script type="text/javascript" src="../thirdparty/jquery-2.1.4/jquery.js"></script>
+    <!--<script type="text/javascript" src="../thirdparty/jquery-migrate-1.2.1/jquery-migrate.js"></script>-->
+    
+    <script type="text/javascript" src="../thirdparty/jquery-pubsub/pubsub.js"></script>
+    <script type="text/javascript" src="../thirdparty/jquery-validate-1.13.1/jquery.validate.js"></script>
+    <script type="text/javascript" src="../thirdparty/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="../thirdparty/jquery-jstree-3.1.1/jquery.jstree.js"></script>
+    <script type="text/javascript" src="../Core.Debug.js"></script>
+    <script type="text/javascript" src="../Core.Data.js"></script>
+    <script type="text/javascript" src="../Core.Config.js"></script>
+    <script type="text/javascript" src="../Core.Exception.js"></script>
+    <script type="text/javascript" src="../Core.App.js"></script>
+    <script type="text/javascript" src="../Core.UI.Accessibility.js"></script>
+    <script type="text/javascript" src="../Core.UI.RichTextEditor.js"></script>
+    <script type="text/javascript" src="../Core.UI.TreeSelection.js"></script>
+    <script type="text/javascript" src="../Core.UI.InputFields.js"></script>
+    <script type="text/javascript" src="../Core.UI.Dialog.js"></script>
+    <script type="text/javascript" src="../Core.Form.ErrorTooltips.js"></script>
+    <script type="text/javascript" src="../Core.Form.Validate.js"></script>
+    <script type="text/javascript" src="Core.UI.InputFields.UnitTest.js"></script>
+    <script type="text/javascript">
+        Core.UI.InputFields.RunUnitTests();
+    </script>
+
+</body>
+</html>

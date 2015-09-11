@@ -225,7 +225,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 $SearchObj.parents('.InputField_Container')
                     .blur()
                     .remove();
-                $SelectObj.show();
+                $SelectObj.show()
+                    .removeData('modernized');
                 $ShowTreeObj.show();
             }
         });
@@ -541,6 +542,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     .jstree('destroy')
                     .remove();
                 $(this).remove();
+                Core.App.Publish('Event.UI.InputFields.Closed', $SearchObj);
             });
             $InputContainerObj.find('.InputField_ClearSearch')
                 .remove();
@@ -1372,6 +1374,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + SelectedID + '"]'));
                             }
                         }
+                        Core.App.Publish('Event.UI.InputFields.Expanded', $SearchObj);
                     });
 
                     // Prevent loss of focus when using scrollbar
