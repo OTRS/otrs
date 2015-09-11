@@ -131,14 +131,6 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get config settings
-    my $ZoomExpandSort = $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort');
-
-    # resort article order
-    if ( $ZoomExpandSort eq 'reverse' ) {
-        @ArticleBox = reverse(@ArticleBox);
-    }
-
     # show total accounted time if feature is active:
     if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
         $Ticket{TicketTimeUnits} = $TicketObject->TicketAccountedTimeGet(
@@ -925,8 +917,19 @@ sub _PDFOutputArticles {
     my $PDFObject    = $Kernel::OM->Get('Kernel::System::PDF');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    my @ArticleData  = @{ $Param{ArticleData} };
+    my $ArticleCount = scalar @ArticleData;
+
+    # get config settings
+    my $ZoomExpandSort = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ZoomExpandSort');
+
+    # resort article order
+    if ( $ZoomExpandSort eq 'reverse' ) {
+        @ArticleData = reverse(@ArticleData);
+    }
+
     my $ArticleCounter = 1;
-    for my $ArticleTmp ( @{ $Param{ArticleData} } ) {
+    for my $ArticleTmp ( @ArticleData ) {
 
         my %Article = %{$ArticleTmp};
 
@@ -960,9 +963,11 @@ sub _PDFOutputArticles {
             Y    => -6,
         );
 
+        my $ArticleNumber = $ZoomExpandSort eq 'reverse' ? $ArticleCount - $ArticleCounter + 1 : $ArticleCounter;
+
         # article number tag
         $PDFObject->Text(
-            Text     => $LayoutObject->{LanguageObject}->Translate('Article') . ' #' . $ArticleCounter,
+            Text     => $LayoutObject->{LanguageObject}->Translate('Article') . ' #' . $ArticleNumber,
             Height   => 10,
             Type     => 'Cut',
             Font     => 'Proportional',
