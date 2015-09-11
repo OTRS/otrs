@@ -84,6 +84,20 @@ Core.Form.Validate = (function (TargetNS) {
             ErrorType = 'Error';
         }
 
+        // If the element, which has an validation error, is a richtext element, than manually trigger the focus event
+        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+            window.setTimeout(function () {
+                $Element.focus();
+            }, 0);
+        }
+
+        // If the element is an Input Field, than manually trigger the focus event
+        if (Core.UI.InputFields.IsEnabled($Element)) {
+            window.setTimeout(function () {
+                $('#' + $Element.data('modernized')).focus();
+            }, 0);
+        }
+
         // Check if the element has already an error class
         // (that means, this function call is an additional call)
         if ($Element.hasClass(Options.ErrorClass)) {
@@ -123,20 +137,6 @@ Core.Form.Validate = (function (TargetNS) {
 
         // speak the error message for screen reader users
         Core.UI.Accessibility.AudibleAlert(InputErrorMessageText);
-
-        // if the element, which has an validation error, is a richtext element, than manually trigger the focus event
-        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            window.setTimeout(function () {
-                $Element.focus();
-            }, 0);
-        }
-
-        // if the element is an Input Field, than manually trigger the focus event
-        if (Core.UI.InputFields.IsEnabled($Element)) {
-            window.setTimeout(function () {
-                $('#' + $Element.data('modernized')).focus();
-            }, 0);
-        }
 
         // if the element is within a collapsed widget, expand that widget to show the error message to the user
         if ($Element.closest('.WidgetSimple.Collapsed').find('.WidgetAction.Toggle > a').length) {
