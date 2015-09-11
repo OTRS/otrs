@@ -147,9 +147,15 @@ scripts/test/Console/Command/Maint/Chat*
 scripts/test/Console/Command/Maint/NotificationView*
 scripts/test/Console/Command/Maint/Stats/Reports*
 scripts/test/NotificationView*
+scripts/test/Selenium/Agent/Admin/AdminContactWithData.t
+scripts/test/Selenium/Agent/Admin/AdminDynamicFieldContactWithData.t
+scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
+scripts/test/Selenium/Agent/AgentDynamicFieldDatabase.t
+scripts/test/Selenium/Agent/AgentContactWithDataSearch.t
 scripts/test/Selenium/Agent/AgentNotificationView.t
 scripts/test/Selenium/Agent/Chat.t
 scripts/test/Selenium/Customer/Chat.t
+scripts/test/Selenium/Customer/CustomerDynamicFieldDatabase.t
 scripts/test/Selenium/Public/Chat.t
 scripts/test/StatsReport.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
