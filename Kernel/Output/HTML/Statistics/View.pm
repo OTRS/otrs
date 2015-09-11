@@ -1671,7 +1671,7 @@ sub StatsConfigurationValidate {
                 push @YAxisGeneralErrors, Translatable('You can only use one time element for the Y axis.');
             }
             elsif ( $Counter > 2 ) {
-                push @YAxisGeneralErrors, Translatable('You can only use only one or two elements for the Y axis.');
+                push @YAxisGeneralErrors, Translatable('You can only use one or two elements for the Y axis.');
             }
         }
 
