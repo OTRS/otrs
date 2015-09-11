@@ -14,6 +14,7 @@
 /**
  * @subsection  General
  */
+
 div.InputField_Container {
     position: static;
     display: inline-block;
@@ -34,6 +35,27 @@ div.InputField_InputContainer {
 .InputField_Search,
 .InputField_Autocomplete {
     min-width: 190px;
+}
+
+#Header div.InputField_Container {
+    color: #000;
+}
+
+#ToolBar li.Extended form div.InputField_Container * {
+	float: none;
+}
+
+#ToolBar div.InputField_Container li {
+    height: auto;
+    margin: inherit;
+    width: auto;
+}
+
+#ToolBar div.InputField_Container a {
+    display: inline-block;
+    height: auto;
+    text-indent: 0;
+    width: auto;
 }
 
 #ToolBar .InputField_Search,
