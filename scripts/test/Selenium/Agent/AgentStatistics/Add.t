@@ -216,7 +216,8 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Title",       'css' )->send_keys( $StatsData->{Title} );
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
             $Selenium->execute_script(
-                "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');");
+                "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->click();
 
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".EditXAxis").length' );
@@ -233,12 +234,15 @@ $Selenium->RunTest(
             # check Y-axis configuration dialog
             $Selenium->find_element( ".EditYAxis", 'css' )->click();
             $Selenium->execute_script(
-                "\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');");
+                "\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');"
+            );
 
             if ( $StatsData->{Object} eq 'Kernel::System::Stats::Dynamic::TicketList' ) {
 
                 # wait for load selected Restriction
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{YAxis}').length;" );
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{YAxis}').length;"
+                );
 
                 # select order by option
                 $Selenium->execute_script(
@@ -254,7 +258,9 @@ $Selenium->RunTest(
             );
 
             # wait for load selected Restriction
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{RestrictionID}').length;" );
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{RestrictionID}').length;"
+            );
 
             # add restriction
             $Selenium->execute_script(

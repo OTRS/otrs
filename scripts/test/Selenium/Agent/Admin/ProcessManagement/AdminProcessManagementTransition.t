@@ -101,7 +101,8 @@ $Selenium->RunTest(
         my $TransitionValueName = "Value" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionRandom);
         $Selenium->execute_script(
-            "\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');");
+            "\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element(".//*[\@id='ConditionLinking[_INDEX_]']/option[2]")->click();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][1]']")->send_keys($TransitionFieldName);
         $Selenium->find_element(".//*[\@id='ConditionFieldType[_INDEX_][_FIELDINDEX_]']/option[3]")->click();
@@ -116,7 +117,10 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test Transition using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#Transitions li:contains($TransitionRandom)').length" );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#Transitions li:contains($TransitionRandom)').length"
+        );
         $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
@@ -186,7 +190,8 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
         $Selenium->execute_script(
-            "\$('#OverallConditionLinking').val('and').trigger('redraw.InputField').trigger('change');");
+            "\$('#OverallConditionLinking').val('and').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")
             ->send_keys($TransitionFieldNameEdit);

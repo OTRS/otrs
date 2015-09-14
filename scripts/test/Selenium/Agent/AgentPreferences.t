@@ -77,7 +77,8 @@ $Selenium->RunTest(
         {
             # change AgentPreference language
             $Selenium->execute_script(
-                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
+                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->click();
 
             # check edited language value

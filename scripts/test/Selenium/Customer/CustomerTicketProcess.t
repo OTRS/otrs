@@ -100,7 +100,8 @@ $Selenium->RunTest(
 
         # create first scenarion for test customer ticket process
         $Selenium->execute_script(
-            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
+            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
@@ -164,7 +165,8 @@ $Selenium->RunTest(
         # create second scenarion for test customer ticket process
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
         $Selenium->execute_script(
-            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');");
+            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test

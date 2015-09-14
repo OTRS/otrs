@@ -125,7 +125,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localhost.com" );
         $Selenium->execute_script(
-            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');");
+            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # check overview page
@@ -141,7 +142,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserEmail",           'css' )->send_keys( $RandomID2 . "\@localhost.com" );
         $Selenium->execute_script(
-            "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');");
+            "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # test search filter only for test Customer users

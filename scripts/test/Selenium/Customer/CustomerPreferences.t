@@ -90,7 +90,8 @@ $Selenium->RunTest(
         {
             # change CustomerPreference language
             $Selenium->execute_script(
-                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
+                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->submit();
 
             # check edited language value

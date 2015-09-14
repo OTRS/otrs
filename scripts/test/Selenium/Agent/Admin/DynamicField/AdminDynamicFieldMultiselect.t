@@ -40,7 +40,8 @@ $Selenium->RunTest(
 
             my $ObjectType = $Type . "DynamicField";
             $Selenium->execute_script(
-                "\$('#$ObjectType').val('Dropdown').trigger('redraw.InputField').trigger('change');");
+                "\$('#$ObjectType').val('Dropdown').trigger('redraw.InputField').trigger('change');"
+            );
 
             # wait until page has finished loading
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
@@ -107,7 +108,8 @@ $Selenium->RunTest(
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
             $Selenium->execute_script(
-                "\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');");
+                "\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");

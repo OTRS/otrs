@@ -115,7 +115,8 @@ $Selenium->RunTest(
 
         # now lets play around with the match & change settings
         $Selenium->execute_script(
-            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');");
+            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
+        );
 
         # after clicking an ItemAddLevel1 element, there should be now a new .ItemAdd element
         $Self->Is(
@@ -142,7 +143,8 @@ JAVASCRIPT
 
         # now we should not be able to add the same element again, an alert box should appear
         $Selenium->execute_script(
-            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');");
+            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
+        );
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,

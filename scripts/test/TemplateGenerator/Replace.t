@@ -127,16 +127,16 @@ my %TestUser4 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
 );
 
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket_Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => $TestCustomerLogin,
-    OwnerID      => $TestUser{UserID},
-    ResponsibleID      => $TestUser2{UserID},
-    UserID       => $TestUser3{UserID},
+    Title         => 'Some Ticket_Title',
+    Queue         => 'Raw',
+    Lock          => 'unlock',
+    Priority      => '3 normal',
+    State         => 'closed successful',
+    CustomerNo    => '123465',
+    CustomerUser  => $TestCustomerLogin,
+    OwnerID       => $TestUser{UserID},
+    ResponsibleID => $TestUser2{UserID},
+    UserID        => $TestUser3{UserID},
 );
 $Self->IsNot(
     $TicketID,
@@ -254,7 +254,7 @@ my @Tests = (
         Result   => "Test $TestUser2{UserFirstname} -",
     },
     {
-        Name => 'OTRS_TICKET_RESPONSIBLE firstname',                     # <OTRS_RESPONSIBLE_UserFirstname>
+        Name => 'OTRS_TICKET_RESPONSIBLE firstname',              # <OTRS_RESPONSIBLE_UserFirstname>
         Data => {
             From => 'test@home.com',
         },
@@ -272,7 +272,7 @@ my @Tests = (
         Result   => "Test $TestUser{UserFirstname} -",
     },
     {
-        Name => 'OTRS_TICKET_OWNER firstname',                           # <OTRS_OWNER_*>
+        Name => 'OTRS_TICKET_OWNER firstname',                    # <OTRS_OWNER_*>
         Data => {
             From => 'test@home.com',
         },
@@ -466,12 +466,12 @@ mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_F
 
 for my $Test (@Tests) {
     my $Result = $TemplateGeneratorObject->_Replace(
-        Text      => $Test->{Template},
-        Data      => $Test->{Data},
-        DataAgent => $Test->{DataAgent},
-        RichText  => $Test->{RichText},
-        TicketID  => $TicketID,
-        UserID    => $TestUser3{UserID},
+        Text        => $Test->{Template},
+        Data        => $Test->{Data},
+        DataAgent   => $Test->{DataAgent},
+        RichText    => $Test->{RichText},
+        TicketID    => $TicketID,
+        UserID      => $TestUser3{UserID},
         RecipientID => $TestUser4{UserID},
     );
     $Self->Is(

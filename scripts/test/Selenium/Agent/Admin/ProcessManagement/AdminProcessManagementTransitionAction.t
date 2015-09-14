@@ -83,7 +83,8 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionActionRandom);
         $Selenium->execute_script(
-            "\$('#Module').val('$TransitionActionModule').trigger('redraw.InputField').trigger('change');");
+            "\$('#Module').val('$TransitionActionModule').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
         $Selenium->find_element( "#Name", 'css' )->submit();
@@ -97,7 +98,8 @@ $Selenium->RunTest(
 
         # check for created test TransitionAction using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
         );
         $Selenium->find_element( "Transition Actions",      'link_text' )->click();
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandom);

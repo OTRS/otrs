@@ -206,27 +206,31 @@ $Selenium->RunTest(
         $Selenium->find_element( ".EditXAxis",                   'css' )->click();
         $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');");
+            "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # check Y-axis configuration dialog
         $Selenium->find_element( ".EditYAxis",                   'css' )->click();
         $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');");
+            "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # check Restrictions configuration dialog
         $Selenium->find_element( ".EditRestrictions", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');");
+            "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');"
+        );
 
         # wait for load selected Restriction - QueueIDs
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#RestrictionsQueueIDs").length;' );
 
         # add restriction per Queue - Junk
         $Selenium->execute_script(
-            "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');");
+            "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # save and finish edit

@@ -117,7 +117,8 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
 
             $Selenium->execute_script(
-                "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');");
+                "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element( "#$Test->{Update}", 'css' )->click();
 
             $Self->True(

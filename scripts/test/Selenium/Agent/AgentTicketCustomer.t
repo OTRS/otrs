@@ -127,7 +127,10 @@ $Selenium->RunTest(
         # go to ticket zoom page of created test ticket
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
+        );
 
         # go to AgentTicketCustomer
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();

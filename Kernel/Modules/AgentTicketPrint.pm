@@ -929,7 +929,7 @@ sub _PDFOutputArticles {
     }
 
     my $ArticleCounter = 1;
-    for my $ArticleTmp ( @ArticleData ) {
+    for my $ArticleTmp (@ArticleData) {
 
         my %Article = %{$ArticleTmp};
 

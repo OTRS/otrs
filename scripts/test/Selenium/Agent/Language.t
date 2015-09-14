@@ -45,7 +45,8 @@ $Selenium->RunTest(
 
             # check for the language selection box
             $Selenium->execute_script(
-                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
+                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
+            );
             $Selenium->find_element( "select#UserLanguage", 'css' )->submit();
 
             # now check if the language was correctly applied in the interface
