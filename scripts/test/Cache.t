@@ -47,6 +47,11 @@ for my $ModuleFile (@BackendModuleFiles) {
         Value => "Kernel::System::Cache::$Module",
     );
 
+    my $MaxSubdirLevel = 0;
+    if ( $ModuleFile =~ m{ FileStorable\.pm \z }xms ) {
+        $MaxSubdirLevel = 3;
+    }
+
     for my $SubdirLevels ( 0 .. 3 ) {
 
         # make sure that the CacheObject gets recreated for each loop.
@@ -418,6 +423,9 @@ for my $ModuleFile (@BackendModuleFiles) {
                 .= $String2
                 . $Count
                 . "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZöäüßЖЛЮѬ ";
+
+            next COUNT if $Count % 2;
+
             my $Size = length $String1;
 
             if ( $Size > ( 1024 * 1024 ) ) {
@@ -517,6 +525,128 @@ for my $ModuleFile (@BackendModuleFiles) {
                 next TYPE if !$CacheSet;
 
                 $KeyList{2}->{ $Type . $Key } = $CacheTests2{$Type};
+            }
+        }
+
+        # get all avaliable test files
+        my @TestFiles = $MainObject->DirectoryRead(
+            Directory => $HomeDir . '/scripts/test/sample/Cache/',
+            Filter    => '*',
+            Silent    => 1,
+        );
+
+        TESTFILE:
+        for my $TestFile (@TestFiles) {
+
+            my @FileParts = split '/', $TestFile;
+            my $FileName = $FileParts[-1];
+
+            # read content of the testfile
+            my $FileContent = $MainObject->FileRead(
+                Location        => $TestFile,
+                Mode            => 'binmode',
+                Type            => 'Local',
+                Result          => 'SCALAR',
+                DisableWarnings => 1,
+            );
+
+            # read content of the testfile
+            my $FileContentFileMD5 = $MainObject->MD5sum(
+                Filename => $TestFile,
+            );
+
+            # create md5 from string reference
+            my $FileContentStringMD5 = $MainObject->MD5sum(
+                String => $FileContent,
+            );
+
+            $Self->Is(
+                $FileContentFileMD5 || '',
+                $FileContentStringMD5 || '',
+                "#9 - $Module - $SubdirLevels - MD5 check",
+            );
+
+            # store file content in cache
+            my $CacheSet = $CacheObject->Set(
+                Type  => 'CacheTestFiles',
+                Key   => 'Files',
+                Value => $FileContent,
+                TTL   => 24 * 60 * 60,
+            );
+
+            $Self->True(
+                $CacheSet,
+                "#9 - $Module - $SubdirLevels - Files CacheSet() File $FileName",
+            );
+
+            # get filecontent from cache
+            my $CacheContent = $CacheObject->Get(
+                Type => 'CacheTestFiles',
+                Key  => 'Files',
+            );
+
+            # create md sum of string from cache
+            my $CacheContentStringMD5 = $MainObject->MD5sum(
+                String => $CacheContent,
+            );
+
+            $Self->Is(
+                $FileContentStringMD5,
+                $CacheContentStringMD5,
+                "#9 - $Module - $SubdirLevels - File Content check",
+            );
+
+            my $MultipleFileContent ;
+            for my $Times ( 1 .. 10 ) {
+
+                $MultipleFileContent = $MultipleFileContent ? $MultipleFileContent .= ${$FileContent} : ${$FileContent};
+
+                my $MultipleSize = length $MultipleFileContent;
+
+                if ( $MultipleSize > ( 1024 * 1024 ) ) {
+                    $MultipleSize = sprintf "%.1f MBytes", ( $MultipleSize / ( 1024 * 1024 ) );
+                }
+                elsif ( $MultipleSize > 1024 ) {
+                    $MultipleSize = sprintf "%.1f KBytes", ( ( $MultipleSize / 1024 ) );
+                }
+                else {
+                    $MultipleSize = $MultipleSize . ' Bytes';
+                }
+
+                # create md sum of multiple file content string
+                my $MultipleFileContentMD5 = $MainObject->MD5sum(
+                    String => $MultipleFileContent,
+                );
+
+                # store file content in cache
+                my $CacheSet = $CacheObject->Set(
+                    Type  => 'CacheTestFiles',
+                    Key   => 'MultipleFiles',
+                    Value => $MultipleFileContent,
+                    TTL   => 24 * 60 * 60,
+                );
+
+                $Self->True(
+                    $CacheSet,
+                    "#9 - $Module - $SubdirLevels - MultipleFiles CacheSet() File $FileName - Size $MultipleSize",
+                );
+
+                # get multiple filecontent from cache
+                my $MultipleCacheContent = $CacheObject->Get(
+                    Type => 'CacheTestFiles',
+                    Key  => 'MultipleFiles',
+                );
+
+                # create md sum of string from cache
+                my $MultipleCacheContentStringMD5 = $MainObject->MD5sum(
+                    String => $MultipleCacheContent,
+                );
+
+                $Self->Is(
+                    $MultipleFileContentMD5,
+                    $MultipleCacheContentStringMD5,
+                    "#9 - $Module - $SubdirLevels - MultipleFiles Content check - Size $MultipleSize",
+                );
             }
         }
 
