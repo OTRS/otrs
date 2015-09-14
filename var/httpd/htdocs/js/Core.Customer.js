@@ -60,8 +60,6 @@ Core.Customer = (function (TargetNS) {
      *      This function initializes the application and executes the needed functions.
      */
     TargetNS.Init = function () {
-        var $TableElements = $('table.Overview tbody tr');
-
         TargetNS.SupportedBrowser = Core.App.BrowserCheck('Customer');
         TargetNS.IECompatibilityMode = Core.App.BrowserCheckIECompatibilityMode();
 
