@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Adam Sadovsky <sadovsky.adam@gmail.com>, 2015
 # Daniel Pogač <dano.pogac@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:36+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,27 +69,27 @@ msgstr ""
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "pred viac ako ..."
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr ""
+msgstr "vo viacej ako ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "v posledných ..."
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "v nasledujúcich ..."
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "Vytvorený v posledných"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "Vytvorený pred viacej ako ..."
 
 #. Template: AAABase
 msgid "Today"
@@ -180,19 +181,19 @@ msgstr "týždne"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "štvrťrok"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "štvrťroky"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "polrok"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "polroky"
 
 #. Template: AAABase
 msgid "year"
@@ -372,7 +373,7 @@ msgstr "Prosím neupravovať!"
 
 #. Template: AAABase
 msgid "Need Action"
-msgstr ""
+msgstr "Potreba akcie"
 
 #. Template: AAABase
 msgid "AddLink"
@@ -416,11 +417,11 @@ msgstr "dieťa"
 
 #. Template: AAABase
 msgid "Hit"
-msgstr "úder"
+msgstr "výsledok"
 
 #. Template: AAABase
 msgid "Hits"
-msgstr "údery"
+msgstr "výsledky"
 
 #. Template: AAABase
 msgid "Text"
@@ -428,7 +429,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Standard"
-msgstr ""
+msgstr "Štandard"
 
 #. Template: AAABase
 msgid "Lite"
@@ -480,7 +481,7 @@ msgstr "Zákazník"
 
 #. Template: AAABase
 msgid "CustomerID"
-msgstr "Zákaznícke č"
+msgstr "Zákaznícke č."
 
 #. Template: AAABase
 msgid "CustomerIDs"
@@ -532,7 +533,7 @@ msgstr "všetko"
 
 #. Template: AAABase
 msgid "Sorry"
-msgstr "Pardon"
+msgstr "Pardón"
 
 #. Template: AAABase
 msgid "update!"
@@ -612,7 +613,7 @@ msgstr "Popis "
 
 #. Template: AAABase
 msgid "Theme"
-msgstr "Schema"
+msgstr "Schéma"
 
 #. Template: AAABase
 msgid "Created"
@@ -772,15 +773,15 @@ msgstr "Prosim odpovedajte na tento tiket"
 
 #. Template: AAABase
 msgid "You have %s new message(s)!"
-msgstr "Máte % nových správ!"
+msgstr ""
 
 #. Template: AAABase
 msgid "You have %s reminder ticket(s)!"
-msgstr "Máte % pripomienok!"
+msgstr ""
 
 #. Template: AAABase
 msgid "The recommended charset for your language is %s!"
-msgstr "Odporúčaná znaková sada pre váš jazyk je %"
+msgstr ""
 
 #. Template: AAABase
 msgid "Change your password."
@@ -826,7 +827,7 @@ msgstr "Prosím kontaktujte administrátora."
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr "Prihlásenie úspešné, ale "
+msgstr "Prihlásenie úspešné, ale meno Vašej firmz nie je v zozname"
 
 #. Template: AAABase
 msgid ""
@@ -960,7 +961,7 @@ msgstr "Odložené do."
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr ""
+msgstr "Nepoužívajte správcovský prístup na prácu s OTRS, najprv vytvorte agentov a potom pracujte s nimi!"
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -968,7 +969,7 @@ msgstr "Posielam emailom =>  prijemca: pole"
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Posielam vybraným radom."
+msgstr "Posielam vybraným queue."
 
 #. Template: AAABase
 msgid "No entry found!"
@@ -1004,19 +1005,19 @@ msgstr "Balík sa nepodarilo nasadiť. Reinštalujte balík prosím."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr "Zápis do %s zakázzaný!"
+msgstr "Zápis do %s je zakázaný!"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
-msgstr "%s nieje možné vytvoriť!"
+msgstr "%s nie je možné vytvoriť!"
 
 #. Template: AAABase
 msgid "Check to activate this date"
-msgstr ""
+msgstr "Preverte či aktivovať tento dátum"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr "Máte nastavenú neprítomnosť. Chcete toto nastavenie zrušiť ?"
+msgstr "Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
@@ -1116,11 +1117,11 @@ msgstr "Zmluva"
 
 #. Template: AAABase
 msgid "Online Customer: %s"
-msgstr "Online užívateľ: %"
+msgstr ""
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr "Online Agent %"
+msgstr ""
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1242,31 +1243,31 @@ msgstr "Bezpečnostná poznámka: Mali by ste aktivovať %s nakoľko aplikácia 
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
-msgstr ""
+msgstr "Nie je možné určit úložisko indexu dokumentu"
 
 #. Template: AAABase
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr ""
+msgstr "Žiadne balíčky pre Váš framework neboli nájdené vo vybranom repozitáry, sú tu len pre iné verzie"
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
-msgstr ""
+msgstr "Žiadne balíčky neboli nájdené vo vybranom repozitáry"
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
-msgstr ""
+msgstr "Upraviť systémové nastavenia"
 
 #. Template: AAABase
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "ACL nie su synchronizované s databázou, nasaďte všetky ACL"
 
 #. Template: AAABase
 msgid "printed at"
-msgstr ""
+msgstr "vytlačené na"
 
 #. Template: AAABase
 msgid "Loading..."
@@ -1291,12 +1292,12 @@ msgstr "Ahoj %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Zadanú adresu nieje možné použiť pre registráciu. Kontaktujte systémovú podporu."
+msgstr "Zadanú adresu nie je možné použiť pre registráciu. Kontaktujte prosím systémovú podporu."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte si svoj email."
+msgstr "Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte svoj email."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
@@ -1362,13 +1363,13 @@ msgstr "7 dňová štatistika"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Process Management infromácie nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy."
+msgstr "Informácie Process Management-u nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy."
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Balík nieje overený OTRS skupinou. Neodporúča sa používať tento balík."
+msgstr "Balík nie je overený OTRS skupinou. Neodporúča sa používať tento balík."
 
 #. Template: AAABase
 msgid ""
@@ -1477,7 +1478,7 @@ msgstr "Znova"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS démon nebeží."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1489,7 +1490,7 @@ msgstr "Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr p
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr "Nieje možné spracovať odpoveď zo servera. Vyskúšajte neskôr prosím."
+msgstr "Nie je možné spracovať odpoveď zo servera. Vyskúšajte neskôr prosím."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
@@ -1557,7 +1558,7 @@ msgstr "Nový rok"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr "Medzinárodný deň práce"
+msgstr "Sviatok práce"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
@@ -1573,11 +1574,11 @@ msgstr "2. sviatok vianočný"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
-msgstr ""
+msgstr "Nový rok"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr "OTRS ako requester"
+msgstr "OTRS ako žiadateľ"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
@@ -1729,7 +1730,7 @@ msgstr "Predvolený slovník pravopisu"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
-msgstr "Maximálny počet požiadaviek zobrazovaných v prehľade."
+msgstr "Maximálny počet tiketov zobrazovaných v prehľade."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
@@ -1738,7 +1739,7 @@ msgstr "Aktuálne heslo je nesprávne. Opakujte znovu prosím!"
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Nové heslá nesúhlasia. Opakujte znovu prosím!"
+msgstr "Nie je možné zaktualizovať heslo, nové heslá sa nezhodujú!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
@@ -1781,15 +1782,15 @@ msgstr "CSV oddeľovač"
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr ""
+msgstr "Zobraziť stav"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Zobraziť podla služieb"
 
 #. Template: AAATicket
 msgid "Bulk"
-msgstr ""
+msgstr "Hromadný"
 
 #. Template: AAATicket
 msgid "Lock"
@@ -1829,11 +1830,11 @@ msgstr "Príjemca"
 
 #. Template: AAATicket
 msgid "Cc"
-msgstr ""
+msgstr "Kópia na"
 
 #. Template: AAATicket
 msgid "Bcc"
-msgstr ""
+msgstr "Skrytá kópia"
 
 #. Template: AAATicket
 msgid "Subject"
@@ -1861,23 +1862,23 @@ msgstr "Priorita"
 
 #. Template: AAATicket
 msgid "Priority Update"
-msgstr ""
+msgstr "Zmena priority"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr ""
+msgstr "Priorita pridaná"
 
 #. Template: AAATicket
 msgid "Priority updated!"
-msgstr ""
+msgstr "Priorita zaktualizovaná!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr ""
+msgstr "Pridaná signatúra"
 
 #. Template: AAATicket
 msgid "Signature updated!"
-msgstr ""
+msgstr "Signatúra zaktualizovaná!"
 
 #. Template: AAATicket
 msgid "SLA"
@@ -1885,19 +1886,19 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr ""
+msgstr "SLA zmluva"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr ""
+msgstr "SLA zmluvy"
 
 #. Template: AAATicket
 msgid "Service"
-msgstr ""
+msgstr "Servis"
 
 #. Template: AAATicket
 msgid "Services"
-msgstr ""
+msgstr "Servisy"
 
 #. Template: AAATicket
 msgid "State"
@@ -1905,23 +1906,23 @@ msgstr "Stav"
 
 #. Template: AAATicket
 msgid "States"
-msgstr ""
+msgstr "Stavy"
 
 #. Template: AAATicket
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr ""
+msgstr "Stavy"
 
 #. Template: AAATicket
 msgid "Ticket Type"
-msgstr ""
+msgstr "Typ tiketu"
 
 #. Template: AAATicket
 msgid "Ticket Types"
-msgstr ""
+msgstr "Typy tiketu"
 
 #. Template: AAATicket
 msgid "Compose"
@@ -1941,11 +1942,11 @@ msgstr "aktualizácia vlastníka"
 
 #. Template: AAATicket
 msgid "Responsible"
-msgstr ""
+msgstr "Zodpovedný"
 
 #. Template: AAATicket
 msgid "Responsible Update"
-msgstr ""
+msgstr "Aktualizácia Zodpovedného"
 
 #. Template: AAATicket
 msgid "Sender"
@@ -1957,7 +1958,7 @@ msgstr "článok"
 
 #. Template: AAATicket
 msgid "Ticket"
-msgstr "Požiadavka"
+msgstr "Tiket"
 
 #. Template: AAATicket
 msgid "Createtime"
@@ -1997,7 +1998,7 @@ msgstr "Táto správa bola napísaná v inej znakovej sade =>  ako je vaša."
 
 #. Template: AAATicket
 msgid "If it is not displayed correctly,"
-msgstr ""
+msgstr "Pokial sa Vám nezobrazuje správne"
 
 #. Template: AAATicket
 msgid "This is a"
@@ -2021,11 +2022,11 @@ msgstr "Zlúčiť"
 
 #. Template: AAATicket
 msgid "merged"
-msgstr ""
+msgstr "zlúčené"
 
 #. Template: AAATicket
 msgid "closed successful"
-msgstr "zatvorené úspešne"
+msgstr "úspešne zatvorené"
 
 #. Template: AAATicket
 msgid "closed unsuccessful"
@@ -2033,87 +2034,87 @@ msgstr "zatvorené neúspešne"
 
 #. Template: AAATicket
 msgid "Locked Tickets Total"
-msgstr ""
+msgstr "Zamknuté tickety celkovo"
 
 #. Template: AAATicket
 msgid "Locked Tickets Reminder Reached"
-msgstr ""
+msgstr "Prekročený počet zamknutých ticketov"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr ""
+msgstr "Nové zamknuté tickety"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
-msgstr ""
+msgstr "Tickety priradené na Zodpovedného celkovo"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr ""
+msgstr "Nové tikety Zodpovedného"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr ""
+msgstr "Prekročený pripomínač Zodpovedného na tiketoch"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr ""
+msgstr "Sledované tickety celkovo"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr ""
+msgstr "Nové Sledované tickety"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr ""
+msgstr "Prekročený pripomínač na sledovaných tiketoch"
 
 #. Template: AAATicket
 msgid "All tickets"
-msgstr ""
+msgstr "Všetky tikety"
 
 #. Template: AAATicket
 msgid "Available tickets"
-msgstr ""
+msgstr "Volné tikety"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr ""
+msgstr "Eskalácia"
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr ""
+msgstr "predošlé vyhladávanie"
 
 #. Template: AAATicket
 msgid "QueueView"
-msgstr ""
+msgstr "Pohľad Queue"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr ""
+msgstr "Pohľad Eskalované tikety"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "Správa od"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "Koniec správy"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "Preposlaná správa od"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr ""
+msgstr "Koniec preposlanej správy"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Priradiť článok na novú mailovú adresu"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Odpovedať na poznámku"
 
 #. Template: AAATicket
 msgid "new"
@@ -2125,11 +2126,11 @@ msgstr "otvoriť"
 
 #. Template: AAATicket
 msgid "Open"
-msgstr ""
+msgstr "Otvorený"
 
 #. Template: AAATicket
 msgid "Open tickets"
-msgstr ""
+msgstr "otvorené tikety"
 
 #. Template: AAATicket
 msgid "closed"
@@ -2137,11 +2138,11 @@ msgstr "zatvorený"
 
 #. Template: AAATicket
 msgid "Closed"
-msgstr ""
+msgstr "Zatvorený"
 
 #. Template: AAATicket
 msgid "Closed tickets"
-msgstr ""
+msgstr "Uzatvorené tikety"
 
 #. Template: AAATicket
 msgid "removed"
@@ -2153,7 +2154,7 @@ msgstr "nevybavená pripomienka"
 
 #. Template: AAATicket
 msgid "pending auto"
-msgstr ""
+msgstr "automaticky nevybaviť"
 
 #. Template: AAATicket
 msgid "pending auto close+"
@@ -2189,7 +2190,7 @@ msgstr "telefón"
 
 #. Template: AAATicket
 msgid "sms"
-msgstr ""
+msgstr "SMS"
 
 #. Template: AAATicket
 msgid "webrequest"
@@ -2245,31 +2246,31 @@ msgstr "5 veľmi vysoká"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr ""
+msgstr "automatické nasledovanie"
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr ""
+msgstr "automatické zamietnutie"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "automatické vymazanie"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "automatická odozva"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "automatická odozva/nový ticket"
 
 #. Template: AAATicket
 msgid "Create"
-msgstr ""
+msgstr "Vytvoriť"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "Odpovedať"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -2277,15 +2278,15 @@ msgstr "hovor"
 
 #. Template: AAATicket
 msgid "Ticket \"%s\" created!"
-msgstr ""
+msgstr "Tiket \"%s\" je vytvorený"
 
 #. Template: AAATicket
 msgid "Ticket Number"
-msgstr "číslo požiadavky"
+msgstr "Číslo tiketu"
 
 #. Template: AAATicket
 msgid "Ticket Object"
-msgstr "predmet požiadavky"
+msgstr "Predmet tiketu"
 
 #. Template: AAATicket
 msgid "No such Ticket Number \"%s\"! Can't link it!"
@@ -2293,35 +2294,35 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr ""
+msgstr "Nemáte oprávnenie na tento tiket"
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "Na túto operáciu musite byť vlastníkom tiketu"
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr ""
+msgstr "Najprv zmente vlastníka tiketu"
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "Tiket vybraný"
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr ""
+msgstr "Tiket je už uzamknutý iným agentom"
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "Tiket uzamknutý"
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
-msgstr "Nezobrazuj uzavreté požiadavky."
+msgstr "Nezobrazuj uzavreté tikety."
 
 #. Template: AAATicket
 msgid "Show closed Tickets"
-msgstr "Zobraz uzavreté požiadavky."
+msgstr "Zobraz uzavreté tikety."
 
 #. Template: AAATicket
 msgid "New Article"
@@ -2329,39 +2330,39 @@ msgstr "Nový článok"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
-msgstr ""
+msgstr "Neprečítaný článok(y) je k dispozícii"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr ""
+msgstr "Vymaž zo zoznamu sledovaných tiketov"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
-msgstr ""
+msgstr "Pridaj do zoznamu sledovaných tiketov"
 
 #. Template: AAATicket
 msgid "Email-Ticket"
-msgstr "e-mailová požiadavka"
+msgstr "e-mailový tiket"
 
 #. Template: AAATicket
 msgid "Create new Email Ticket"
-msgstr "Vytvor novú e-mailovú požiadavku"
+msgstr "Vytvor nový e-mailový tiket"
 
 #. Template: AAATicket
 msgid "Phone-Ticket"
-msgstr "Telefonická požiadavka"
+msgstr "Telefonický tiket"
 
 #. Template: AAATicket
 msgid "Search Tickets"
-msgstr "Hľadaj požiadavky"
+msgstr "Hľadaj tiket"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Skutočné meno zákazníka"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "História zákazníka"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -2369,7 +2370,7 @@ msgstr "Uprav zákazníckeho užívateľa."
 
 #. Template: AAATicket
 msgid "Edit Customer"
-msgstr ""
+msgstr "Uprav zákazníka"
 
 #. Template: AAATicket
 msgid "Bulk Action"
@@ -2377,139 +2378,139 @@ msgstr "Hromadná akcia"
 
 #. Template: AAATicket
 msgid "Bulk Actions on Tickets"
-msgstr "hromadné akcie na požiadavkách."
+msgstr "Hromadné akcie na tiketoch."
 
 #. Template: AAATicket
 msgid "Send Email and create a new Ticket"
-msgstr "Pošli e-mail a vytvor novú požiadavku"
+msgstr "Pošli e-mail a vytvor novú tiket"
 
 #. Template: AAATicket
 msgid "Create new Email Ticket and send this out (Outbound)"
-msgstr ""
+msgstr "Vytvor nový E-Mail tiket a pošli ho von"
 
 #. Template: AAATicket
 msgid "Create new Phone Ticket (Inbound)"
-msgstr ""
+msgstr "Vytvor nový Telefón tiket"
 
 #. Template: AAATicket
 msgid "Address %s replaced with registered customer address."
-msgstr ""
+msgstr "Adresa %s bola nahradená adresou registrovaného zákazníka"
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "Používateľ bol automaticky pridaný do kópie"
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
-msgstr "Prehľad všetkých otvorených požiadaviek."
+msgstr "Prehľad všetkých otvorených tiketov."
 
 #. Template: AAATicket
 msgid "Locked Tickets"
-msgstr "Lockované požiadavky"
+msgstr "Uzamknuté tikety"
 
 #. Template: AAATicket
 msgid "My Locked Tickets"
-msgstr ""
+msgstr "Tikety uzamknuté na mna"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr ""
+msgstr "Mnou sledovane tikety"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
-msgstr ""
+msgstr "Tikety kde som Zodpovedný"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
-msgstr ""
+msgstr "Sledované tikety"
 
 #. Template: AAATicket
 msgid "Watched"
-msgstr ""
+msgstr "Sledované"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr ""
+msgstr "Sleduj"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr ""
+msgstr "Zruš sledovanie"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
-msgstr ""
+msgstr "Uzamkni na dalšiu prácu"
 
 #. Template: AAATicket
 msgid "Unlock to give it back to the queue"
-msgstr ""
+msgstr "Odomkni na vrátenie naspäť do queue"
 
 #. Template: AAATicket
 msgid "Show the ticket history"
-msgstr ""
+msgstr "Ukáž históriu tiketu"
 
 #. Template: AAATicket
 msgid "Print this ticket"
-msgstr ""
+msgstr "Vytlač tento tiket"
 
 #. Template: AAATicket
 msgid "Print this article"
-msgstr ""
+msgstr "Vytlač tento článok"
 
 #. Template: AAATicket
 msgid "Split"
-msgstr ""
+msgstr "Rozdeliť"
 
 #. Template: AAATicket
 msgid "Split this article"
-msgstr ""
+msgstr "Rozdel tento článok"
 
 #. Template: AAATicket
 msgid "Forward article via mail"
-msgstr ""
+msgstr "Prepošli článok cez e-mail"
 
 #. Template: AAATicket
 msgid "Change the ticket priority"
-msgstr ""
+msgstr "Zmeň prioritu tiketu"
 
 #. Template: AAATicket
 msgid "Change the ticket free fields!"
-msgstr "Zmeň voľné polia požiadavky."
+msgstr "Zmeň voľné polia tiketu."
 
 #. Template: AAATicket
 msgid "Link this ticket to other objects"
-msgstr ""
+msgstr "Naviaž tiket na iný objekt"
 
 #. Template: AAATicket
 msgid "Change the owner for this ticket"
-msgstr ""
+msgstr "Zmeň vlastníka tiketu"
 
 #. Template: AAATicket
 msgid "Change the  customer for this ticket"
-msgstr ""
+msgstr "Zmeň zákazníka tiketu"
 
 #. Template: AAATicket
 msgid "Add a note to this ticket"
-msgstr ""
+msgstr "Pridaj poznámku pre tiket"
 
 #. Template: AAATicket
 msgid "Merge into a different ticket"
-msgstr ""
+msgstr "Zlúč s druhým tiketom"
 
 #. Template: AAATicket
 msgid "Set this ticket to pending"
-msgstr ""
+msgstr "Nastav tiket na Odložený"
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr ""
+msgstr "Uzatvor tiket"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
-msgstr "Vyhľadaj požiadavku."
+msgstr "Vyhľadaj tiket."
 
 #. Template: AAATicket
 msgid "Delete this ticket"
-msgstr ""
+msgstr "Vymaž tiket"
 
 #. Template: AAATicket
 msgid "Mark as Spam!"
@@ -2517,21 +2518,21 @@ msgstr "Označ ako Spam!"
 
 #. Template: AAATicket
 msgid "My Queues"
-msgstr "Moje rady."
+msgstr "Moje Queues."
 
 #. Template: AAATicket
 msgid "Shown Tickets"
-msgstr "Zobraz požiadavky."
+msgstr "Zobraz tiket."
 
 #. Template: AAATicket
 msgid "Shown Columns"
-msgstr ""
+msgstr "Zobraz riadky"
 
 #. Template: AAATicket
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr ""
+msgstr "Váš e-mail na tikete číslo \"<OTRS_TICKET>\" bol zlúčený do \"<OTRS_MERGE_TO_TICKET>\"."
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time is over (%s)!"
@@ -2539,7 +2540,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time will be over in %s!"
-msgstr ""
+msgstr "Tiket %s: čas na prvú odozvu bude prekročený za %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: update time is over (%s)!"
@@ -2547,7 +2548,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket %s: update time will be over in %s!"
-msgstr ""
+msgstr "Tiket %s: čas na aktualizáciu bude prekročený za %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time is over (%s)!"
@@ -2555,167 +2556,167 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
-msgstr ""
+msgstr "Tiket %s: čas na vyriešenie bude prekročený za %s!"
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
-msgstr ""
+msgstr "Je tu viacej vyeskalovaných tiketov"
 
 #. Template: AAATicket
 msgid "Plain Format"
-msgstr ""
+msgstr "Jednoduchý formát"
 
 #. Template: AAATicket
 msgid "Reply All"
-msgstr ""
+msgstr "Odpovedať všetkým"
 
 #. Template: AAATicket
 msgid "Direction"
-msgstr ""
+msgstr "Smerovanie"
 
 #. Template: AAATicket
 msgid "New ticket notification"
-msgstr "Hlásenie novej požiadavky."
+msgstr "Hlásenie nového tiketu."
 
 #. Template: AAATicket
 msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr ""
+msgstr "Pošli mi notifikáciu po pridaní nového tiektu do \"My Queues\""
 
 #. Template: AAATicket
 msgid "Send new ticket notifications"
-msgstr ""
+msgstr "Pošli notifikáciu o novom tikete"
 
 #. Template: AAATicket
 msgid "Ticket follow up notification"
-msgstr ""
+msgstr "Notifikácia o nasledovaní tiketu"
 
 #. Template: AAATicket
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr ""
+msgstr "Pošli mi notifikáciu, ak je na tiket kde som vlastníkom, zákazníkom nastavené nasledovanie na tiket alebo na odomknutie tiketu v mojich pohľadoch"
 
 #. Template: AAATicket
 msgid "Send ticket follow up notifications"
-msgstr ""
+msgstr "Pošli notifikáciu o nasledovaní tiketu"
 
 #. Template: AAATicket
 msgid "Ticket lock timeout notification"
-msgstr "Požiadavka blokuje časový limit oznámenia."
+msgstr "Notifikácia o prekročení časového limit uzamknutia tiketu."
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr "Pošli mi oznámenie =>  ak je požiadavka odblokovaná systémom."
+msgstr "Pošli mi notifikáciu =>  ak je tiket odblokovaný systémom."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
-msgstr ""
+msgstr "Pošli notifikáciu o prekročení časového limit uzamknutia tiketu."
 
 #. Template: AAATicket
 msgid "Ticket move notification"
-msgstr ""
+msgstr "Notifikácia o presunutí tiketu"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is moved into one of \"My Queues\"."
-msgstr ""
+msgstr "Pošli mi notifikáciu o presunutí tiketu do jedného z \"My Queues\"."
 
 #. Template: AAATicket
 msgid "Send ticket move notifications"
-msgstr ""
+msgstr "Pošli notifikáciu o presunutí tiketu"
 
 #. Template: AAATicket
 msgid ""
 "Your queue selection of your favourite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Vybrali ste Váš oblubený queue, budete tiež notifikovaný o tomto queue cez email, pokiaľ to bude povolené"
 
 #. Template: AAATicket
 msgid "Custom Queue"
-msgstr "Klientské rady."
+msgstr "Klientské Queue."
 
 #. Template: AAATicket
 msgid "QueueView refresh time"
-msgstr "?"
+msgstr "Čas obnovovania pohľadu Queue"
 
 #. Template: AAATicket
 msgid ""
 "If enabled, the QueueView will automatically refresh after the specified "
 "time."
-msgstr ""
+msgstr "Pokial toto povolite, tak pohľad QueueView sa bude aktualizovať v nastavenom intervale"
 
 #. Template: AAATicket
 msgid "Refresh QueueView after"
-msgstr ""
+msgstr "Aktualizuj pohľad QueueView po"
 
 #. Template: AAATicket
 msgid "Screen after new ticket"
-msgstr "Okno po novej požiadavke."
+msgstr "Okno po novom tikete."
 
 #. Template: AAATicket
 msgid "Show this screen after I created a new ticket"
-msgstr ""
+msgstr "Otvor toto okno, keď otvorím nový tiket"
 
 #. Template: AAATicket
 msgid "Closed Tickets"
-msgstr "Zatvorené požiadavky."
+msgstr "Zatvorené tikety."
 
 #. Template: AAATicket
 msgid "Show closed tickets."
-msgstr "Ukáž zatvorené požiadavky."
+msgstr "Ukáž zatvorené tikety."
 
 #. Template: AAATicket
 msgid "Max. shown Tickets a page in QueueView."
-msgstr "Maximálny počet požiadaviek zobrazovaných v prehľade."
+msgstr "Maximálny počet tiketov zobrazovaných v prehľade."
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Small\" Limit"
-msgstr ""
+msgstr "Prehľad tiketov s \"Small\" limitom"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr ""
+msgstr "Počet tiketov na stranu pre pohlad Ticket overview \"Small\""
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Medium\" Limit"
-msgstr ""
+msgstr "Prehľad tiketov s \"Medium\" limitom"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr ""
+msgstr "Počet tiketov na stranu pre pohlad Ticket overview \"Medium\""
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr ""
+msgstr "Prehlad tiketov s \"Preview\" limitom"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr ""
+msgstr "Počet tiketov na stranu pre pohľad \"Preview\""
 
 #. Template: AAATicket
 msgid "Ticket watch notification"
-msgstr ""
+msgstr "Notifikácia o sledovaní ticketu"
 
 #. Template: AAATicket
 msgid ""
 "Send me the same notifications for my watched tickets that the ticket owners"
 " will get."
-msgstr ""
+msgstr "Pošli mi notifikáciu o sledovaní ticketu, pokial získa používatela"
 
 #. Template: AAATicket
 msgid "Send ticket watch notifications"
-msgstr ""
+msgstr "Pošli notifikáciu o sledovaní ticketu"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr ""
+msgstr "Čas \"Neprítomnosť v kancelárii\""
 
 #. Template: AAATicket
 msgid "New Ticket"
-msgstr "Nová požiadavka"
+msgstr "Nový tiket"
 
 #. Template: AAATicket
 msgid "Create new Ticket"
-msgstr "Vytvor novú požiadavku"
+msgstr "Vytvor nový tiket"
 
 #. Template: AAATicket
 msgid "Customer called"
@@ -2723,74 +2724,74 @@ msgstr "Zákaznícky hovor"
 
 #. Template: AAATicket
 msgid "phone call"
-msgstr ""
+msgstr "Telefónny hovor"
 
 #. Template: AAATicket
 msgid "Phone Call Outbound"
-msgstr ""
+msgstr "Odchádzajúci hovor"
 
 #. Template: AAATicket
 msgid "Phone Call Inbound"
-msgstr ""
+msgstr "Prichádzajúci hovor"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
-msgstr ""
+msgstr "Vyexpirovanie pripomienky"
 
 #. Template: AAATicket
 msgid "Reminder Tickets"
-msgstr ""
+msgstr "Pripomenuté tikety"
 
 #. Template: AAATicket
 msgid "Escalated Tickets"
-msgstr ""
+msgstr "Vyeskalovaný tiket"
 
 #. Template: AAATicket
 msgid "New Tickets"
-msgstr ""
+msgstr "Nové tikety"
 
 #. Template: AAATicket
 msgid "Open Tickets / Need to be answered"
-msgstr ""
+msgstr "Otvorené tikety / potrebné odpovedať"
 
 #. Template: AAATicket
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr ""
+msgstr "Všetky otvorené tikety - rozpracované s potrebou odozvy"
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr ""
+msgstr "Všetky otvorené tikety - na ktorých sa ešte nezačalo pracovať"
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr ""
+msgstr "Všetky vyeskalované tikety"
 
 #. Template: AAATicket
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr ""
+msgstr "Všetky tikety s prekročným pripomínačom"
 
 #. Template: AAATicket
 msgid "Archived tickets"
-msgstr ""
+msgstr "Archivované tikety"
 
 #. Template: AAATicket
 msgid "Unarchived tickets"
-msgstr ""
+msgstr "Nezarchivované tikety"
 
 #. Template: AAATicket
 msgid "Ticket Information"
-msgstr ""
+msgstr "Informácia o tikete"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "zahrnúť pod-queue"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "vyradiť pod-queue"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -3230,7 +3231,7 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
-msgstr ""
+msgstr "Správa zákazníkov"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
@@ -3238,11 +3239,11 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Add customer"
-msgstr ""
+msgstr "Pridať zákazníka"
 
 #. Template: AdminCustomerCompany
 msgid "Select"
-msgstr ""
+msgstr "Vybrať"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3250,7 +3251,7 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
-msgstr ""
+msgstr "Pridať zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -3262,7 +3263,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr ""
+msgstr "Pridať používateľa"
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -3272,43 +3273,43 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
-msgstr ""
+msgstr "Posledné prihlásenie"
 
 #. Template: AdminCustomerUser
 msgid "Login as"
-msgstr ""
+msgstr "Prihlásiť sa ako"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr ""
+msgstr "Prepnúť na zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr ""
+msgstr "Pridať používateľa"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr ""
+msgstr "Upraviť používateľa"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr ""
+msgstr "Toto pole je vyhradené a musí byť platnou e-mail adresou"
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
-msgstr ""
+msgstr "Tento e-mail nie je v systémovom nastavení povolený"
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
-msgstr ""
+msgstr "Tento e-mail zlyhal na MX kontrolu"
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
-msgstr ""
+msgstr "Problém s DNS, overte Vašu konfiguráciu a error log"
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
-msgstr ""
+msgstr "Chybná e-mail adresa - syntax"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer-Group Relations"
@@ -3347,7 +3348,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for Groups"
-msgstr ""
+msgstr "Filter pre Skupinu"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
@@ -3365,19 +3366,19 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Search Results"
-msgstr ""
+msgstr "Výsledky vyhľadávania"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customers"
-msgstr ""
+msgstr "Zákazníci"
 
 #. Template: AdminCustomerUserGroup
 msgid "No matches found."
-msgstr ""
+msgstr "Nebola nájdená zhoda"
 
 #. Template: AdminCustomerUserGroup
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
@@ -3409,7 +3410,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Čítaj iba prístup k požiadavkám v tejto skupine/rade."
+msgstr "Read-only prístup k tiketom v tejto skupine/rade."
 
 #. Template: AdminCustomerUserGroup
 msgid "rw"
@@ -3417,7 +3418,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Message sent to"
+msgstr "Plný prístup k tiketom v tejto skupine/rade."
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer-Services Relations"
@@ -5415,7 +5416,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Pošli Neprítomnosť v kancelárii"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -8125,31 +8126,31 @@ msgstr ""
 
 #. Template: AgentBook
 msgid "Address Book"
-msgstr "adresár"
+msgstr "Adresár"
 
 #. Template: AgentBook
 msgid "Search for a customer"
-msgstr ""
+msgstr "Vyhľadávať podla zákazníka"
 
 #. Template: AgentBook
 msgid "Add email address %s to the To field"
-msgstr ""
+msgstr "Pridať email adresu %s do pola Komu"
 
 #. Template: AgentBook
 msgid "Add email address %s to the Cc field"
-msgstr ""
+msgstr "Pridať email adresu %s do pola Kópia"
 
 #. Template: AgentBook
 msgid "Add email address %s to the Bcc field"
-msgstr ""
+msgstr "Pridať email adresu %s do pola Skrytá kópia"
 
 #. Template: AgentBook
 msgid "Apply"
-msgstr ""
+msgstr "Aplikuj"
 
 #. Template: AgentCustomerInformationCenter
 msgid "Customer Information Center"
-msgstr ""
+msgstr "Zákaznícke informačné centrum"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
@@ -8157,23 +8158,23 @@ msgstr "Klient-užívateľ"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
-msgstr ""
+msgstr "Duplicitný záznam"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "Táto adresa je už v zoznamen adries"
 
 #. Template: AgentCustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "Z pola sa vymazáva, skúste neskôr"
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
-msgstr ""
+msgstr "Upozornenie: Zákazník je chybný"
 
 #. Template: AgentDaemonInfo
 msgid "General Information"
-msgstr ""
+msgstr "Všeobecná informácia"
 
 #. Template: AgentDaemonInfo
 msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
@@ -8213,186 +8214,186 @@ msgstr ""
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
-msgstr ""
+msgstr "v"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
-msgstr ""
+msgstr "Dostupné stĺpce"
 
 #. Template: AgentDashboardCommon
 msgid "Visible Columns (order by drag & drop)"
-msgstr ""
+msgstr "Viditelné stĺpce(zoraditelné cez drag & drop)"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
-msgstr ""
+msgstr "Vyeskalované tikety"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
-msgstr ""
+msgstr "Zákaznícke informácie"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
-msgstr ""
+msgstr "Telefonický tiket"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Email ticket"
-msgstr ""
+msgstr "Emailový tiket"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Četovať"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
-msgstr ""
+msgstr "%s otvoril ticket(y) %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s closed ticket(s) of %s"
-msgstr ""
+msgstr "%s uztvoril ticket(y) %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New phone ticket from %s"
-msgstr ""
+msgstr "Nový telefonický tiket na %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
-msgstr ""
+msgstr "Nový emailový tiket na %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Četovať"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
-msgstr ""
+msgstr "%s %s je dostupný!"
 
 #. Template: AgentDashboardProductNotify
 msgid "Please update now."
-msgstr ""
+msgstr "rosím pridajte aktualizáciu"
 
 #. Template: AgentDashboardProductNotify
 msgid "Release Note"
-msgstr ""
+msgstr "Poznámka k vydaniu"
 
 #. Template: AgentDashboardProductNotify
 msgid "Level"
-msgstr ""
+msgstr "Úroveň"
 
 #. Template: AgentDashboardRSSOverview
 msgid "Posted %s ago."
-msgstr ""
+msgstr "Pridané pred %s"
 
 #. Template: AgentDashboardStats
 msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
-msgstr ""
+msgstr "Konfigurácia nástroja pre túto štatistiku obsahuje chybu prosím skontrolovať Vaše nastavenia"
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Stiahnuť ako SVG súbor"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Stiahnuť ako PNG súbor"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Stiahnuť ako CSV súbor"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Stiahnuť ako Excel súbor"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Stiahnuť ako PDF súbor"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
-msgstr ""
+msgstr "Zoskupené"
 
 #. Template: AgentDashboardStats
 msgid "Stacked"
-msgstr ""
+msgstr "Zložené"
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "Rozložené"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Vyhrnúť"
 
 #. Template: AgentDashboardStats
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
-msgstr ""
+msgstr "Prosím nastavte správny grafický výstup"
 
 #. Template: AgentDashboardStats
 msgid ""
 "The content of this statistic is being prepared for you, please be patient."
-msgstr ""
+msgstr "Pre Vás sú pripravované štatistiky, prosím budte trpezlivý"
 
 #. Template: AgentDashboardStats
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
-msgstr ""
+msgstr "Tieto štatistiky nemôžu byť aktuálne použité, do opravenie ich konfigurácie administrátorom"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr ""
+msgstr "Moje uzamknuté tikety"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
-msgstr ""
+msgstr "Moje sledované tikety"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My responsibilities"
-msgstr ""
+msgstr "Tikety kde som Zodpovedný"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr ""
+msgstr "Tikety v mojich Queue"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tikety v mojich Servisoch"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
-msgstr ""
+msgstr "Servisný čas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Remove active filters for this widget."
-msgstr ""
+msgstr "Vymazať aktívne filtre pre toto riešenie"
 
 #. Template: AgentDashboardTicketQueueOverview
 msgid "Totals"
-msgstr ""
+msgstr "Celkový prehlad"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "Neprítomnosť v kancelárii"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "Výbraný agent nie je dostupný pre čatovanie"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr ""
+msgstr "dokiaľ"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
-msgstr ""
+msgstr "Tiket bol uzamknutý"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Vrátit naspäť a uzatvoriť okno"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -8400,23 +8401,23 @@ msgstr ""
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
-msgstr ""
+msgstr "Akceptovať novinky, licencie alebo zmeny"
 
 #. Template: AgentLinkObject
 msgid "Link Object: %s"
-msgstr ""
+msgstr "Naviaž objekt: %s"
 
 #. Template: AgentLinkObject
 msgid "go to link delete screen"
-msgstr ""
+msgstr "Choď na obrazovku na vymazanie väzby"
 
 #. Template: AgentLinkObject
 msgid "Select Target Object"
-msgstr ""
+msgstr "Vyber cielový objekt"
 
 #. Template: AgentLinkObject
 msgid "Link Object"
-msgstr ""
+msgstr "Naviaž objekt"
 
 #. Template: AgentLinkObject
 msgid "with"
@@ -8424,39 +8425,39 @@ msgstr "s"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
-msgstr ""
+msgstr "Zruš väzbu objektu: %s"
 
 #. Template: AgentLinkObject
 msgid "go to link add screen"
-msgstr ""
+msgstr "Choď na obrazovku na pridanie väzby"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
-msgstr ""
+msgstr "Zmeniť nastavenia"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "Vedeli ste že aj Vy možete pomôcť s prekladaním OTRS na %s."
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
-msgstr ""
+msgstr "Kontrola pravopisu"
 
 #. Template: AgentSpelling
 msgid "spelling error(s)"
-msgstr ""
+msgstr "chyba pravopisu"
 
 #. Template: AgentSpelling
 msgid "Apply these changes"
-msgstr ""
+msgstr "Uplatniť zmeny"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Štatistiku » pridať"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Pridať novú štatistiku"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8567,401 +8568,401 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s"
-msgstr ""
+msgstr "Zmeniť volný text v %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s"
-msgstr ""
+msgstr "Zmeniť vlastníka v %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s"
-msgstr ""
+msgstr "Uzatvoriť %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s"
-msgstr ""
+msgstr "Pridať poznámku do %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s"
-msgstr ""
+msgstr "Nastaviť pozastavenie pre %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s"
-msgstr ""
+msgstr "Zmeniť prioritu %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s"
-msgstr ""
+msgstr "Zmeniť Zodpovedného %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
-msgstr ""
+msgstr "Všetky polia vyznačené hviezdičkou(*) sú povinné"
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
-msgstr ""
+msgstr "Chybný servis"
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
-msgstr "Nový "
+msgstr "Nový vlastník"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr ""
+msgstr "Prosím nastavte nového vlastníka"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "Nový Zodpovedný"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
-msgstr ""
+msgstr "Nový stav"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Pre všetky stavy pre pozastavenie"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Pridať článok"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Vytvoriť článok"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
-msgstr ""
+msgstr "Skontroluj gramatiku"
 
 #. Template: AgentTicketActionCommon
 msgid "Text Template"
-msgstr ""
+msgstr "Textová šablóna"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Použitím šablóny prepíšete text alebo prílohy"
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
-msgstr ""
+msgstr "Typ poznámky"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform Agent"
-msgstr ""
+msgstr "Informuj agenta"
 
 #. Template: AgentTicketActionCommon
 msgid "Optional"
-msgstr ""
+msgstr "Volitelný"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved Agents"
-msgstr ""
+msgstr "Informuj agentov ktorých sa to týka"
 
 #. Template: AgentTicketActionCommon
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "Tu je možné vybrať dalších agentov ktorí budú prijimať notifikácie o novom článku"
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
-msgstr ""
+msgstr "Poznámka bude tiež odoslaná na:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
-msgstr ""
+msgstr "Prehoď tiket"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
-msgstr ""
+msgstr "Prehodiť na"
 
 #. Template: AgentTicketBounce
 msgid "You need a email address."
-msgstr ""
+msgstr "Potrebujete email adresu."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr ""
+msgstr "Potrebujete platnú email adresu alebo nepoužívajte lokálnu"
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
-msgstr ""
+msgstr "Nový stav tiketu"
 
 #. Template: AgentTicketBounce
 msgid "Inform sender"
-msgstr ""
+msgstr "Informuj odosielateľa"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
-msgstr ""
+msgstr "Pošli email"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
-msgstr ""
+msgstr "Hromadné akcia na tikete"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Poslať email"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
-msgstr ""
+msgstr "Zlúčiť do"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr ""
+msgstr "Chybný identifikátor tiketu"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
-msgstr ""
+msgstr "Zlúčiť najstaršie"
 
 #. Template: AgentTicketBulk
 msgid "Link together"
-msgstr ""
+msgstr "Naviazať spolu"
 
 #. Template: AgentTicketBulk
 msgid "Link to parent"
-msgstr ""
+msgstr "Naviazať na rodiča"
 
 #. Template: AgentTicketBulk
 msgid "Unlock tickets"
-msgstr ""
+msgstr "Odomknúť tikety"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
-msgstr ""
+msgstr "Vytvorte odpoveď pre %s%s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
-msgstr ""
+msgstr "Prosím doplňte aspoň jedného prijemcu"
 
 #. Template: AgentTicketCompose
 msgid "Remove Ticket Customer"
-msgstr ""
+msgstr "Vymažte zákazníka tiketu"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
-msgstr ""
+msgstr "Vymažte tento vstup a vložte nový so správnou hodnotou"
 
 #. Template: AgentTicketCompose
 msgid "Remove Cc"
-msgstr ""
+msgstr "Vymazať Kópiu"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
-msgstr ""
+msgstr "Vymazať Skrytú kópiu"
 
 #. Template: AgentTicketCompose
 msgid "Address book"
-msgstr ""
+msgstr "Adresár"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
-msgstr ""
+msgstr "Chybný dátum"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s"
-msgstr ""
+msgstr "Zmeň klienta na %s%s"
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
-msgstr ""
+msgstr "Používateľ"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
-msgstr ""
+msgstr "Vytvoriť nový e-mail tiket"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Príklad šablóny"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr ""
+msgstr "Z queue"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr ""
+msgstr "Používateľovi"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr ""
+msgstr "Pridajte aspon jedného používateľa pre tiket"
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
-msgstr ""
+msgstr "Vybrat tohoto použivateľa ako hlavného"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr ""
+msgstr "Vymaž použivateľa z tiketu"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
-msgstr ""
+msgstr "Vybrať všetko"
 
 #. Template: AgentTicketEmail
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "Naozaj chcete pokračovať?"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
-msgstr ""
+msgstr "Odchádzajúci email pre %s%s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "Tiket %s: čas na prvú odozvu bol prekročený o (%s/%s)"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "Tiket %s: čas na prvú odozvu bude prekročený za (%s/%s)"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "Tiket %s: čas na aktualizáciu bude prekročený za %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "Tiket %s: čas na vyriešenie bol prekročený o (%s/%s)"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "Tiket %s: čas na vyriešenie bude prekročený za (%s/%s)"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s"
-msgstr ""
+msgstr "Preposlať %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s"
-msgstr ""
+msgstr "História z %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
-msgstr ""
+msgstr "Obsah histórie"
 
 #. Template: AgentTicketHistory
 msgid "Zoom view"
-msgstr ""
+msgstr "Zväčšiť pohľad"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s"
-msgstr ""
+msgstr "Zlúčiť s %s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
-msgstr ""
+msgstr "Nastavenie zlučovania"
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr ""
+msgstr "Potrebujete číslo tiketu!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
-msgstr ""
+msgstr "Je potrebné platné číslo tiketu."
 
 #. Template: AgentTicketMerge
 msgid "Need a valid email address."
-msgstr ""
+msgstr "Je potrebná platná email adresa"
 
 #. Template: AgentTicketMove
 msgid "Move %s%s"
-msgstr ""
+msgstr "Presunúť do %s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "Nový rad"
+msgstr "Nový queue"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select all"
-msgstr ""
+msgstr "Vybrať všetko"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
-msgstr ""
+msgstr "Neboli nájdené žiadne dáta ticketu"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Open / Close ticket action menu"
-msgstr ""
+msgstr "Otvoriť / Uzatvoriť menu akcíí na tikete"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Vyber tento tiket"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
-msgstr ""
+msgstr "Čas prvej odozvy"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Update Time"
-msgstr ""
+msgstr "Čas aktualizácie"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Solution Time"
-msgstr ""
+msgstr "Čas vyriešenia"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr ""
+msgstr "Presunúť tiket do iného queue"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
-msgstr ""
+msgstr "Zmeniť queue"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Change search options"
-msgstr ""
+msgstr "Zmeniť parametre vyhladávania"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
-msgstr ""
+msgstr "Vymaž aktívne filtre pre túto obrazovku"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
-msgstr ""
+msgstr "Počet zobrazených tiketov na stránku"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
-msgstr ""
+msgstr "Resetnúť prehľad"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Column Filters Form"
-msgstr ""
+msgstr "Formulár stĺpcových filtrov"
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
-msgstr ""
+msgstr "Oddeľ do nového Telefón tiketu"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "Ulož čat do nového Telefón tiketu"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
-msgstr ""
+msgstr "Vytvor nový Telefón tiket"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr ""
+msgstr "Prosím doplňte aspoň jedného zákazníka pre tiket"
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr ""
+msgstr "Do queue"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "Četovací protokol"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "Tento čet bude pridaný ako samostatný článok"
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s"
-msgstr ""
+msgstr "Telefón tiket pre %s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s"
-msgstr ""
+msgstr "Prezriet email s prázdnym textom pre %s%s"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -8969,55 +8970,55 @@ msgstr "čistý"
 
 #. Template: AgentTicketPlain
 msgid "Download this email"
-msgstr ""
+msgstr "Stiahnuť tento email"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
-msgstr ""
+msgstr "Vytvoriť nový Proces tiket"
 
 #. Template: AgentTicketProcess
 msgid "Process"
-msgstr ""
+msgstr "Proces"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
-msgstr ""
+msgstr "Zapíš tiket do procesu"
 
 #. Template: AgentTicketSearch
 msgid "Search template"
-msgstr ""
+msgstr "Vyhľadať šablónu"
 
 #. Template: AgentTicketSearch
 msgid "Create Template"
-msgstr ""
+msgstr "Vytvoriť šablónu"
 
 #. Template: AgentTicketSearch
 msgid "Create New"
-msgstr ""
+msgstr "Vytvoriť nový"
 
 #. Template: AgentTicketSearch
 msgid "Profile link"
-msgstr ""
+msgstr "Profil väzby"
 
 #. Template: AgentTicketSearch
 msgid "Save changes in template"
-msgstr ""
+msgstr "Uložiť zmeny na šablóne"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "Filtre na použitie"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr ""
+msgstr "Ďalšie filtre"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
-msgstr ""
+msgstr "Pridať ďalší atribút"
 
 #. Template: AgentTicketSearch
 msgid "Output"
-msgstr ""
+msgstr "Výstup"
 
 #. Template: AgentTicketSearch
 msgid "Fulltext"
@@ -9025,133 +9026,133 @@ msgstr "Keyword"
 
 #. Template: AgentTicketSearch
 msgid "Remove"
-msgstr ""
+msgstr "Vymazať"
 
 #. Template: AgentTicketSearch
 msgid ""
 "Searches in the attributes From, To, Cc, Subject and the article body, "
 "overriding other attributes with the same name."
-msgstr ""
+msgstr "Vyhľadávať v atribútoch Od koho, Komu, Kópia, Predmet a v tele článku, nahradiť ostatné atribúty rovnakého mena"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
-msgstr ""
+msgstr "Prihlásenie zákazníka"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Meno prílohy"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "napríklad m*súbor alebo môjsú*"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr ""
+msgstr "Vytvorene v queue"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
-msgstr ""
+msgstr "Uzamkni stav"
 
 #. Template: AgentTicketSearch
 msgid "Watcher"
-msgstr ""
+msgstr "Sledovač"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (before/after)"
-msgstr ""
+msgstr "Čas vytvorenia článku(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
-msgstr ""
+msgstr "Čas vytvorenia článku(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
-msgstr ""
+msgstr "Čas vytvorenia tiketu(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (between)"
-msgstr ""
+msgstr "Čas vytvorenia tiketu(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (before/after)"
-msgstr ""
+msgstr "Čas aktualizácie tiketu(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (between)"
-msgstr ""
+msgstr "Čas aktualizácie tiketu(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Čas poslednej aktualizácie tiketu(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Čas poslednej aktualizácie tiketu(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
-msgstr ""
+msgstr "Čas uzatvorenia tiketu(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (between)"
-msgstr ""
+msgstr "Čas uzatvorenia tiketu(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "Čas eskalácie tiketu(pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "Čas eskalácie tiketu(medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
-msgstr ""
+msgstr "Prehľadávať archív"
 
 #. Template: AgentTicketSearch
 msgid "Run search"
-msgstr ""
+msgstr "Spustit vyhľadávanie"
 
 #. Template: AgentTicketZoom
 msgid "Article filter"
-msgstr ""
+msgstr "Filter článku"
 
 #. Template: AgentTicketZoom
 msgid "Article Type"
-msgstr ""
+msgstr "Typ článku"
 
 #. Template: AgentTicketZoom
 msgid "Sender Type"
-msgstr ""
+msgstr "Typ odosielateľa"
 
 #. Template: AgentTicketZoom
 msgid "Save filter settings as default"
-msgstr ""
+msgstr "Uložiť nastavenie filtra ako predvolené"
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Filter na typ udalosti"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Typ udalosti"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Uložiť do prednastavených"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
-msgstr ""
+msgstr "Archív"
 
 #. Template: AgentTicketZoom
 msgid "This ticket is archived."
-msgstr ""
+msgstr "Tento ticket je zaarchivovaný"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
-msgstr ""
+msgstr "Uzamknutý"
 
 #. Template: AgentTicketZoom
 msgid "Accounted time"
@@ -9159,63 +9160,63 @@ msgstr "Escalation in"
 
 #. Template: AgentTicketZoom
 msgid "Linked Objects"
-msgstr ""
+msgstr "Naviazané objekty"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr ""
+msgstr "Zmeň queue"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
-msgstr ""
+msgstr "V tejto časti procesu nie je žiadna možnosť dialógu"
 
 #. Template: AgentTicketZoom
 msgid "This item has no articles yet."
-msgstr ""
+msgstr "Táto položka už nemá žiaden článok"
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Pohľad Články podľa času"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Prehľad článkov"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
-msgstr ""
+msgstr "Článok(y)"
 
 #. Template: AgentTicketZoom
 msgid "Page"
-msgstr ""
+msgstr "Stránka"
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
-msgstr ""
+msgstr "Pridať filter"
 
 #. Template: AgentTicketZoom
 msgid "Set"
-msgstr ""
+msgstr "Nastav"
 
 #. Template: AgentTicketZoom
 msgid "Reset Filter"
-msgstr ""
+msgstr "Resetni filter"
 
 #. Template: AgentTicketZoom
 msgid "Show one article"
-msgstr ""
+msgstr "Ukáž jeden článok"
 
 #. Template: AgentTicketZoom
 msgid "Show all articles"
-msgstr ""
+msgstr "Ukáž všetky články"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "ukáž pohľad Články podľa času"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
-msgstr ""
+msgstr "Neprečítané články"
 
 #. Template: AgentTicketZoom
 msgid "No."
@@ -9223,39 +9224,39 @@ msgstr "Nie"
 
 #. Template: AgentTicketZoom
 msgid "Important"
-msgstr ""
+msgstr "Dôležité"
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
-msgstr ""
+msgstr "Neprečitaný článok"
 
 #. Template: AgentTicketZoom
 msgid "Incoming message"
-msgstr ""
+msgstr "Prichádzajúca správa"
 
 #. Template: AgentTicketZoom
 msgid "Outgoing message"
-msgstr ""
+msgstr "Odchádzajúca správa"
 
 #. Template: AgentTicketZoom
 msgid "Internal message"
-msgstr ""
+msgstr "Interná správa"
 
 #. Template: AgentTicketZoom
 msgid "Resize"
-msgstr ""
+msgstr "Zmeniť veľkosť"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Označ článok ako prečítaný"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Ukáž celý"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Celý text článku"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
@@ -9263,41 +9264,41 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "by"
-msgstr "žiadny"
+msgstr "podľa"
 
 #. Template: AgentTicketZoom
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "Na otvorenie linky k článku, možete stlačiť klávesy Ctrl alebo Cmd ale Shift v závislosti podľa operačného systému alebo browsera"
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
-msgstr ""
+msgstr "Uzatvoriť túto správu"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "Článok nie je možné otvoriť, možno je na inej stránke."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
-msgstr ""
+msgstr "Na ochranu súkromia bol vzdialený obsah zablokovaný"
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
-msgstr ""
+msgstr "Načítať zablokovaný obsah."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Prvá správa"
 
 #. Template: CustomerError
 msgid "Traceback"
-msgstr "Print"
+msgstr "Tlačiť"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr "Login"
+msgstr "Prihlásiť sa"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -9305,192 +9306,192 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Close this dialog"
-msgstr ""
+msgstr "Uzatvorte toto okno"
 
 #. Template: CustomerFooterJS
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr ""
+msgstr "Neviem otvorit popup okno, zrušte prosím všetky popup blokovania pre túto aplikáciu"
 
 #. Template: CustomerFooterJS
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr ""
+msgstr "Pokiaľ odídete z tejto stránky, všetky otvorené popup okná budú uzatvorené!"
 
 #. Template: CustomerFooterJS
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr ""
+msgstr "Popup okno k tejto obrazovke je už otvorené, chcete ho uzatvoriť a otvoriť nové?"
 
 #. Template: CustomerFooterJS
 msgid "There are currently no elements available to select from."
-msgstr ""
+msgstr "Na výber nie je k dispozícii žiaden z prvkov"
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Prosím vypnite Compatibility Mode v Internet Exploreri"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
-msgstr ""
+msgstr "Browser ktorý používate je privelmi starý"
 
 #. Template: CustomerFooterJS
 msgid ""
 "OTRS runs with a huge lists of browsers, please upgrade to one of these."
-msgstr ""
+msgstr "OTRS podporuje velké množstvo browserov, poprosím zaktualizujte na jeden z nich"
 
 #. Template: CustomerFooterJS
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr ""
+msgstr "Posím prečítajte si dokumentáciu alebo oslovte Vášho správcu aplikácie"
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Prepnúť do mobilného módu"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Prepnúť do normálneho módu"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
-msgstr ""
+msgstr "Nie je dostupný"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Všetko vyčistiť"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "Čisté vyhľadávanie"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
-msgstr ""
+msgstr "%s výber(y)..."
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr ""
+msgstr "a %s je viacej..."
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdiť"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
-msgstr ""
+msgstr "Nie je dostupný JavaSrcipt"
 
 #. Template: CustomerLogin
 msgid ""
 "In order to experience OTRS, you'll need to enable JavaScript in your "
 "browser."
-msgstr ""
+msgstr "Ak chcete pracovat s OTRS musíte najprv povoliť JavaScript vo Vašom browsery"
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
-msgstr ""
+msgstr "Problém s browserom"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr ""
+msgstr "Počkajte prosím, zanedlho budete presmerovaný"
 
 #. Template: CustomerLogin
 msgid "Login"
-msgstr "Lost your password?"
+msgstr "Prihlásenie"
 
 #. Template: CustomerLogin
 msgid "User name"
-msgstr ""
+msgstr "Meno používateľa"
 
 #. Template: CustomerLogin
 msgid "Your user name"
-msgstr ""
+msgstr "Vaše prihlasovacie meno"
 
 #. Template: CustomerLogin
 msgid "Your password"
-msgstr ""
+msgstr "Vaše heslo"
 
 #. Template: CustomerLogin
 msgid "Forgot password?"
-msgstr ""
+msgstr "Zabudli ste heslo?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr ""
+msgstr "2-zložkový Token"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr ""
+msgstr "Váš 2-zložkový Token"
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr "Lost your password?"
+msgstr "Prihlásenie"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
-msgstr ""
+msgstr "Ešte nie ste zaregistrovaný?"
 
 #. Template: CustomerLogin
 msgid "Request new password"
-msgstr ""
+msgstr "Vypýtať nové heslo"
 
 #. Template: CustomerLogin
 msgid "Your User Name"
-msgstr ""
+msgstr "Vaše prihlasovacie meno"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr ""
+msgstr "Nové heslo Vám bude poslané emailom"
 
 #. Template: CustomerLogin
 msgid "Create Account"
-msgstr ""
+msgstr "Vytvoriť účet"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr ""
+msgstr "Prosím vyplnte formulár na získanie prístupu"
 
 #. Template: CustomerLogin
 msgid "How we should address you"
-msgstr ""
+msgstr "Ako Vás oslovovať?"
 
 #. Template: CustomerLogin
 msgid "Your First Name"
-msgstr ""
+msgstr "Meno"
 
 #. Template: CustomerLogin
 msgid "Your Last Name"
-msgstr ""
+msgstr "Priezvisko"
 
 #. Template: CustomerLogin
 msgid "Your email address (this will become your username)"
-msgstr ""
+msgstr "Vaša emailová adresa(bude z nej prihlasovacie meno)"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "Prichádzajúca žiadosť o čet"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "Máte žiadosť o čet, na ktorú ste este neodpovedali"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
-msgstr ""
+msgstr "Zmeniť osobné nastavenia"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "Odhlásiť %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
-msgstr ""
+msgstr "Rozdelit odstavec"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9498,306 +9499,306 @@ msgstr ""
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
-msgstr ""
+msgstr "Vitajte!"
 
 #. Template: CustomerTicketOverview
 msgid "Please click the button below to create your first ticket."
-msgstr ""
+msgstr "Na vytvorenie Vášho prvého tiketu stlačte tlačítko dole"
 
 #. Template: CustomerTicketOverview
 msgid "Create your first ticket"
-msgstr ""
+msgstr "Vytvoriť tiket"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. 10*5155 or 105658*"
-msgstr ""
+msgstr "napríklad 10*5155 alebo 105658*"
 
 #. Template: CustomerTicketSearch
 msgid "Customer ID"
-msgstr ""
+msgstr "ID zákazníka"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr ""
+msgstr "Fulltextové vyhľadávanie v tiketoch (napríklad \"John*n\" or \"Will*\""
 
 #. Template: CustomerTicketSearch
 msgid "Recipient"
-msgstr ""
+msgstr "Príjemca"
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
-msgstr ""
+msgstr "Skrytá kópia"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "napríklad m*súbor alebo môjsú*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
-msgstr ""
+msgstr "Typy"
 
 #. Template: CustomerTicketSearch
 msgid "Time restrictions"
-msgstr ""
+msgstr "Časové obmedzenia"
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
-msgstr ""
+msgstr "Bez nastavenia času"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created"
-msgstr ""
+msgstr "Len tikety vytvorené"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
-msgstr ""
+msgstr "Len tikety vytvorené medzi"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket archive system"
-msgstr ""
+msgstr "Systém na archiváciu tiketov"
 
 #. Template: CustomerTicketSearch
 msgid "Save search as template?"
-msgstr ""
+msgstr "Uložiť vyhladávanie ako šablónu?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
-msgstr ""
+msgstr "Uložiť ako šablónu?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
-msgstr ""
+msgstr "Uložiť ako šablónu"
 
 #. Template: CustomerTicketSearch
 msgid "Template Name"
-msgstr ""
+msgstr "Meno šablóny"
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
-msgstr ""
+msgstr "Vyberte meno profilu"
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "Výstup na"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr "žiadny"
+msgstr "z"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
-msgstr ""
+msgstr "Hladať výsledky pre"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "Vymazať hľadaný výraz"
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "Začať četovať z tohoto tiketu"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr ""
+msgstr "Rozšíriť článok"
 
 #. Template: CustomerTicketZoom
 msgid "Information"
-msgstr ""
+msgstr "Informácie"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
-msgstr ""
+msgstr "Nasledujúce kroky"
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
-msgstr ""
+msgstr "Odpovedať"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "Četovací protokol"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "Všetky dni"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
-msgstr ""
+msgstr "Nedeľa"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
-msgstr ""
+msgstr "Pondelok"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tuesday"
-msgstr ""
+msgstr "Utorok"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Wednesday"
-msgstr ""
+msgstr "Streda"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Thursday"
-msgstr ""
+msgstr "Štvrtok"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Friday"
-msgstr ""
+msgstr "Piatok"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Saturday"
-msgstr ""
+msgstr "Sobota"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Su"
-msgstr ""
+msgstr "Ne"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr ""
+msgstr "Po"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr "mar"
+msgstr "Ut"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr "zapnúť"
+msgstr "St"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr "Príjemca"
+msgstr "Št"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
-msgstr ""
+msgstr "Pi"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sa"
-msgstr ""
+msgstr "So"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
-msgstr ""
+msgstr "Informácia o udalosti"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "Polia tiketu"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr ""
+msgstr "Dynamické polia"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr ""
+msgstr "Chybný dátum(treba zadať dátum v budúcnosti)"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "Chybný dátum(treba zadať dátum v minulosti)"
 
 #. Template: Datepicker
 msgid "Previous"
-msgstr ""
+msgstr "Predchádzajúci"
 
 #. Template: Datepicker
 msgid "Open date selection"
-msgstr ""
+msgstr "tvoriť výber dátumu"
 
 #. Template: Error
 msgid "Oops! An Error occurred."
-msgstr ""
+msgstr "Ach, došlo k chybe"
 
 #. Template: Error
 msgid "You can"
-msgstr ""
+msgstr "Môžete"
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr ""
+msgstr "Pošli report o chybách"
 
 #. Template: Error
 msgid "go back to the previous page"
-msgstr ""
+msgstr "choďte naspať na predchádzajúcu stránku"
 
 #. Template: Error
 msgid "Error Details"
-msgstr ""
+msgstr "Detaily chyby"
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
-msgstr ""
+msgstr "Na vyhľadávanie prosim vložte aspoň jednu hodnotu alebo * na vyhľadanie všetkého"
 
 #. Template: FooterJS
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Prosím vymažte nasledujúce slová z Vášho vyhľadávania, nie je ich možné použiť na tento účel"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
-msgstr ""
+msgstr "Prosím skontrolujte hodnoty polí označených červeným"
 
 #. Template: FooterJS
 msgid "Please perform a spell check on the the text first."
-msgstr ""
+msgstr "Prosím najprv v texte skontrolujte pravopis."
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "Posuňte navigačný panel"
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "Nedostupný pre čet"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
-msgstr ""
+msgstr "Dostupný len pre interný čet"
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "Dostupný pre četovanie"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
-msgstr ""
+msgstr "Prosím choďte na manažér četu"
 
 #. Template: FooterJS
 msgid "New personal chat request"
-msgstr ""
+msgstr "Osobná čet požiadavka"
 
 #. Template: FooterJS
 msgid "New customer chat request"
-msgstr ""
+msgstr "Nový zákazník žiada o čet"
 
 #. Template: FooterJS
 msgid "New public chat request"
-msgstr ""
+msgstr "Verejná požiadavka o čet"
 
 #. Template: FooterJS
 msgid "New activity"
-msgstr ""
+msgstr "Nová aktivita"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
-msgstr ""
+msgstr "Nová aktivita v jednom zo sledovaných četov"
 
 #. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr ""
+msgstr "Táto funkcionalita je častou %s. Prosím kontaktujte nás ak chcete vyššiu verziu %s"
 
 #. Template: FooterJS
 msgid "Find out more about the %s"
-msgstr ""
+msgstr "Zistit viacej o %s"
 
 #. Template: Header
 msgid "You are logged in as"
-msgstr ""
+msgstr "Ste prihlásený ako"
 
 #. Template: Installer
 msgid "JavaScript not available"
@@ -10102,102 +10103,102 @@ msgstr ""
 
 #. Template: LinkObject
 msgid "Object#"
-msgstr ""
+msgstr "Objekt#"
 
 #. Template: LinkObject
 msgid "Add links"
-msgstr ""
+msgstr "Pridať väzbu"
 
 #. Template: LinkObject
 msgid "Delete links"
-msgstr ""
+msgstr "Zrušiť väzbu"
 
 #. Template: Login
 msgid "Lost your password?"
-msgstr ""
+msgstr "Zabudli ste heslo?"
 
 #. Template: Login
 msgid "Request New Password"
-msgstr ""
+msgstr "Vyžiadať nové heslo"
 
 #. Template: Login
 msgid "Back to login"
-msgstr ""
+msgstr "Naspať k prihláseniu"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
-msgstr ""
+msgstr "Funkcionalita nie je dostupná"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
 "Sorry, but this feature of OTRS is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
-msgstr ""
+msgstr "Funkcionalita nie je dostupná pre mobilné zariadenia, prepnite sa do desktopového módu"
 
 #. Template: Motd
 msgid "Message of the Day"
-msgstr ""
+msgstr "Správa dňa(MOTD)"
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
-msgstr ""
+msgstr "Nedostatočné oprávnenia"
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
+msgstr "Naspäť na predchádzajúcu stránku"
 
 #. Template: Pagination
 msgid "Show first page"
-msgstr ""
+msgstr "Ukázať prvú stránku"
 
 #. Template: Pagination
 msgid "Show previous pages"
-msgstr ""
+msgstr "Ukázať predchádzajúcu stránku"
 
 #. Template: Pagination
 msgid "Show page %s"
-msgstr ""
+msgstr "Ukázať stránku %s"
 
 #. Template: Pagination
 msgid "Show next pages"
-msgstr ""
+msgstr "Ukázať nasledujúcu stránku"
 
 #. Template: Pagination
 msgid "Show last page"
-msgstr ""
+msgstr "Ukázať poslednú stránku"
 
 #. Template: PictureUpload
 msgid "Need FormID!"
-msgstr ""
+msgstr "Potrebujem ID formuláru"
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr ""
+msgstr "Súbor nebol nájdený"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr ""
+msgstr "Súbor nemá vhodný formát obrázku, nebude zobrazený"
 
 #. Template: PreferencesNotificationEvent
 msgid "Notification"
-msgstr ""
+msgstr "Notifikácia"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "Pre používateľa nebola nájdená konfigurovatelná notifikácia"
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "Prijať správu pre notifikáciu '%s' metódou '%s'"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Vitajte"
 
 #. Template: Test
 msgid "OTRS Test Page"
-msgstr "OTRS test strany"
+msgstr "OTRS test stránka"
 
 #. Template: Test
 msgid "Welcome %s %s"
@@ -10209,15 +10210,15 @@ msgstr "Počítadlo"
 
 #. Template: Warning
 msgid "Go back to the previous page"
-msgstr ""
+msgstr "Choďte naspať na predchádzajúcu stránku"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New phone ticket"
-msgstr ""
+msgstr "Vytvor nový Telefón tiket"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New email ticket"
-msgstr ""
+msgstr "Vytvor nový E-mail tiket"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
@@ -10280,7 +10281,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "Štatistika"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10304,11 +10305,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
-msgstr ""
+msgstr "Chýba predmet"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
-msgstr ""
+msgstr "Predchádzajúci vlastník"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -10348,7 +10349,7 @@ msgstr ""
 msgid ""
 "Please remove the following words because they cannot be used for the "
 "search:"
-msgstr ""
+msgstr "Prosím vymažte nasleduúce slová, nakolko nemôžu byť použité na vyhľadávanie"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -10366,54 +10367,54 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
+msgstr "Tomuto tiketu chýba predmet alebo popis"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
-msgstr ""
+msgstr "Tento používateľ je aktuálne nedostupný"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently active"
-msgstr ""
+msgstr "Tento používateľ je aktívny"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
-msgstr ""
+msgstr "Tento používateľ je aktuálne neprítomný"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
-msgstr ""
+msgstr "Tento používateľ je aktuálne nedostupný"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state."
-msgstr ""
+msgstr "Prepáčte ale už nemáte práva na tiket v aktuálnom stave"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid " You can take one of the next actions:"
-msgstr ""
+msgstr "Môžete si vybrať z nasledovných akcii:"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
-msgstr ""
+msgstr "%s momentálne prebieha upgrade na %s %s"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
-msgstr ""
+msgstr "Plánovaná systémová údržba začína o:"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "Please contact your administrator!"
-msgstr ""
+msgstr "Prosím kontaktujte Vášho správcu"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(v procese)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "Prosím zadajte Vaše nové heslo"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "X-axis"
@@ -10421,7 +10422,7 @@ msgstr "Os X"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Y-axis"
-msgstr ""
+msgstr "Os Y"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected start time is before the allowed start time."
@@ -10478,7 +10479,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10512,11 +10513,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
-msgstr ""
+msgstr "Zoradiť podla"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
-msgstr ""
+msgstr "Typ stavu"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created Priority"
@@ -10528,7 +10529,7 @@ msgstr "Vytvorené so stavom"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "CustomerUserLogin"
-msgstr ""
+msgstr "Prihlasovacie údaje zákazníka"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -10536,7 +10537,7 @@ msgstr "Čas vytvorenia"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Close Time"
-msgstr ""
+msgstr "Čas uzatvorenia"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
@@ -10568,11 +10569,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Create Time"
-msgstr ""
+msgstr "Čas vytvorenia tiketu"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Close Time"
-msgstr ""
+msgstr "Čas uzatvorenia tiketu"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Accounted time by Agent"
@@ -10885,32 +10886,32 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Tickets"
-msgstr "Požiadavka"
+msgstr "Tikety"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "História tiketu"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Articles"
-msgstr ""
+msgstr "Články"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Attachments (DB, Without HTML)"
-msgstr ""
+msgstr "Prílohy"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "Zákazník s aspoň jedným tiketom"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Dynamic Field Values"
-msgstr ""
+msgstr "Hodnota dynamických polí"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -11209,7 +11210,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámy"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "OK"
@@ -11217,11 +11218,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Problem"
-msgstr ""
+msgstr "Problém"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr ""
+msgstr "Neúspešný reset hesla, prosím kontaktujte Vášho správcu systému"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Panic! Invalid Session!!!"
@@ -11446,11 +11447,11 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "História: "
+msgstr ""
 
 #. SysConfig
 msgid "%s time unit(s) accounted. Now total %s time unit(s)."
-msgstr "História: časový účet"
+msgstr "História: časový účet %s, celkovo je %s časových jednotiek "
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -11488,7 +11489,7 @@ msgstr ""
 
 #. SysConfig
 msgid "AccountedTime"
-msgstr ""
+msgstr "ˇUčtovaný čas"
 
 #. SysConfig
 msgid ""
@@ -11548,19 +11549,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "História: Email klienta"
+msgstr "História: Email klienta %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "História: "
+msgstr ""
 
 #. SysConfig
 msgid "Added note (%s)"
-msgstr "História: Pridaj poznámku"
+msgstr "História: Pridaj poznámku (%s)"
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Added subscription for user \"%s\"."
+msgstr "Pridané predplatné pre používateľa \"%s\"."
 
 #. SysConfig
 msgid ""
@@ -11841,15 +11842,15 @@ msgstr ""
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
-msgstr "História: SendAutoFollowUp"
+msgstr ""
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr "História: pošli automatickú odpoveď"
+msgstr ""
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
-msgstr "História: pošli automatické zamietnutie"
+msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -11901,7 +11902,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr "História: "
+msgstr ""
 
 #. SysConfig
 msgid "Builds an article index right after the article's creation."
@@ -11970,7 +11971,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "História: aktualizácia priorít"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14423,7 +14424,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "História: "
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14810,7 +14811,7 @@ msgstr "Emailové adresy"
 
 #. SysConfig
 msgid "Email sent to \"%s\"."
-msgstr "História:: Pošli odpoveď"
+msgstr ""
 
 #. SysConfig
 msgid "Email sent to customer."
@@ -15099,7 +15100,7 @@ msgstr ""
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
-msgstr "História: sleduj"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15119,7 +15120,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "História: Forward"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15851,7 +15852,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
-msgstr "História: LoopProtection"
+msgstr ""
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -16087,15 +16088,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Multiselect"
-msgstr ""
+msgstr "Hromadný výber"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Moje služby"
 
 #. SysConfig
 msgid "My Tickets"
-msgstr ""
+msgstr "Moje tikety"
 
 #. SysConfig
 msgid ""
@@ -16115,7 +16116,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
-msgstr "História: Nová pripomienka"
+msgstr ""
 
 #. SysConfig
 msgid "New Window"
@@ -16123,7 +16124,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New owner is \"%s\" (ID=%s)."
-msgstr "História: aktualizácia majiteľa"
+msgstr ""
 
 #. SysConfig
 msgid "New process ticket"
@@ -16151,7 +16152,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
-msgstr "História:: Pošli zákaznícku notifikáciu"
+msgstr ""
 
 #. SysConfig
 msgid "Number of displayed tickets"
@@ -16184,7 +16185,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr "História: Aktualizácia stavu"
+msgstr ""
 
 #. SysConfig
 msgid "Online"
@@ -16711,15 +16712,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Screen"
-msgstr ""
+msgstr "Obrazovka"
 
 #. SysConfig
 msgid "Search Customer"
-msgstr "Hľadať klienta"
+msgstr "Hľadať zákazníka"
 
 #. SysConfig
 msgid "Search User"
-msgstr ""
+msgstr "Vyhľadať používateľa"
 
 #. SysConfig
 msgid "Search backend default router."
@@ -18269,7 +18270,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
-msgstr ""
+msgstr "Systémová údržba"
 
 #. SysConfig
 msgid "System Request (%s)."
@@ -18484,7 +18485,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
-msgstr "História: pohyb"
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -18584,11 +18585,11 @@ msgstr "Updated Type to %s (ID=%s)."
 
 #. SysConfig
 msgid "Updated: %s"
-msgstr "História: Nastav čas riešenia"
+msgstr ""
 
 #. SysConfig
 msgid "Updated: %s=%s;%s=%s;%s=%s;"
-msgstr "História: "
+msgstr ""
 
 #. SysConfig
 msgid ""

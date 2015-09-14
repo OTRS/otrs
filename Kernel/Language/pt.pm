@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.370867511807109;
+    $Self->{Completeness}        = 0.382798906288839;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -215,7 +215,7 @@ sub Data {
         'Medium' => 'Médio',
         'Large' => 'Grande',
         'Date picker' => 'Selecionar data',
-        'Show Tree Selection' => '',
+        'Show Tree Selection' => 'Mostre a seleção em árvore',
         'The field content is too long!' => 'O conteúdo do campo é muito longo!',
         'Maximum size is %s characters.' => 'O Tamanho máximo são %s caracteres',
         'This field is required or' => 'O campo é necessário ou',
@@ -259,7 +259,7 @@ sub Data {
         'Enter the password for the administrative database user.' => 'Insira a password para a base de dados de administrador',
         'Enter the password for the database user.' => 'Insira a password para a base de dados',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
+            'Se criou uma palavra passe para a raiz de Base de Dados tem que a colocar aqui. Se não deixo o campo em branco.',
         'Database already contains data - it should be empty!' => 'A base de dado já contém dados - deveria estar vazia!',
         'Login is needed!' => 'Entrada necessária',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
@@ -274,7 +274,7 @@ sub Data {
         'Time Zone' => 'Fuso horário',
         'Pending till' => 'Pendente até',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
+            'Não utilizar a conta de Super utilizador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas.',
         'Dispatching by email To: field.' => 'Despachado através do campo Para:',
         'Dispatching by selected Queue.' => 'Despachado pela Fila escolhida',
         'No entry found!' => 'Não se encontrou nada!',
@@ -285,7 +285,7 @@ sub Data {
         '(Click here to add)' => '(Clique aqui para adicionar)',
         'Preview' => 'Prever',
         'Package not correctly deployed! Please reinstall the package.' =>
-            '',
+            'O pacote não foi corretamente instalado! Por favor reinstal o pacote.',
         '%s is not writable!' => '%s não modificável',
         'Cannot create %s!' => 'Não é possível criar %s',
         'Check to activate this date' => 'Confirma para ativar esta data',
@@ -354,7 +354,7 @@ sub Data {
             'Não existem pacotes no repositório selecionado',
         'Edit the system configuration settings.' => 'Edite as definições de configuração do sistema.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'A informação da Lista de Controlo de Acesso (ACL) da base da dados não está a sincronizar com o sistema, por favor carregue toda a lista.',
         'printed at' => 'impresso em',
         'Loading...' => 'A carregar...',
         'Dear Mr. %s,' => 'Exmo Sr, %s',
@@ -381,9 +381,9 @@ sub Data {
         'OTRS News' => 'Notícias OTRS',
         '7 Day Stats' => 'Estatísticas dos últimos 7 dias',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            '',
+            'Informações do Processo de Manutenção da base de dados não está a sincronizar com o sistema de configuração, por favor, sincronizar todos os processos.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'O Pacote não foi verificado pelo Groupo OTRS! Não é recomendado utilizar o Pacote.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Mark' => 'Marca',
@@ -411,26 +411,26 @@ sub Data {
         'Undo' => 'Desfazer',
         'Redo' => 'Refazer',
         'OTRS Daemon is not running.' => '',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'Não é possivel contatar o servidor de registo. Por favor tente novamente mais tarde.',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
+            'Não foi recebido nenhum conteudo do servidor de registo. Por favor tente novamente mais tarde.',
+        'Problems processing server result. Please try again later.' => 'Problemas a processar o resultado do servidor. Por favor tente novamente mais tarde.',
         'Username and password do not match. Please try again.' => 'Utilizador e senha não coincidem. Por favor tente novamente.',
-        'The selected process is invalid!' => '',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        'The selected process is invalid!' => 'O processo selecionado é invalido!',
+        'Upgrade to %s now!' => 'Atualização para %s agora!',
+        '%s Go to the upgrade center %s' => '%s Vá para o centro de atualização %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'A Licença para o seu %s está a terminar. Por favor entre em contato com %s para renovar o contrato!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+            'A atualização para o seu %s está disponivel, mas existe um conflito com a versão da sua estrutura! Por favor atualize a sua estrutura primeiro!',
+        'Your system was successfully upgraded to %s.' => 'O seu sistema foi atualizado com sucesso até %s',
+        'There was a problem during the upgrade to %s.' => 'Ocorreu um problema durante a atualização aos %s',
+        '%s was correctly reinstalled.' => '%s foi corretamente reinstalado.',
+        'There was a problem reinstalling %s.' => 'Existe um problema a reinstalar %s',
+        'Your %s was successfully updated.' => 'O seu %s foi atualizado com sucesso.',
+        'There was a problem during the upgrade of %s.' => 'Existiu um problema durante a atualização de %s',
+        '%s was correctly uninstalled.' => '%s foi corretamente desinstalado.',
+        'There was a problem uninstalling %s.' => 'Existiu um problema a desinstalar %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Dia de Ano Novo',
@@ -441,10 +441,10 @@ sub Data {
         'New Year\'s Eve' => 'Vespera de Ano Novo',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
-        'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'OTRS as requester' => 'ORTS como requisitante.',
+        'OTRS as provider' => 'OTRS como prestador',
+        'Webservice "%s" created!' => 'O serviço Web "%s" foi criado!',
+        'Webservice "%s" updated!' => 'O serviço Web "%s" foi atualizado!',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
@@ -503,7 +503,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Ver estado',
-        'Service View' => '',
+        'Service View' => 'Vista do serviço',
         'Bulk' => 'Em bloco',
         'Lock' => 'Bloquear',
         'Unlock' => 'Desbloquear',
@@ -514,8 +514,8 @@ sub Data {
         'Forward' => 'Encaminhar',
         'From' => 'De',
         'To' => 'Para',
-        'Cc' => '',
-        'Bcc' => '',
+        'Cc' => 'Cc',
+        'Bcc' => 'Bcc',
         'Subject' => 'Assunto',
         'Move' => 'Mover',
         'Queue' => 'Fila',
@@ -523,10 +523,10 @@ sub Data {
         'Priority' => 'Prioridade',
         'Priorities' => 'Prioridades',
         'Priority Update' => 'Atualização de Prioridade',
-        'Priority added!' => '',
-        'Priority updated!' => '',
-        'Signature added!' => '',
-        'Signature updated!' => '',
+        'Priority added!' => 'Prioridade adicionada!',
+        'Priority updated!' => 'Prioridade atualizada!',
+        'Signature added!' => 'Assinatura adicionada!',
+        'Signature updated!' => 'Assinatura atualizada!',
         'SLA' => 'SLA',
         'Service Level Agreement' => 'Nível de serviço',
         'Service Level Agreements' => 'Níveís de serviço',
@@ -576,17 +576,17 @@ sub Data {
         'Watched Tickets New' => 'Novos tickets vigiados',
         'Watched Tickets Reminder Reached' => 'Lembrete de tickets vigiados',
         'All tickets' => 'Todos os tickets',
-        'Available tickets' => '',
+        'Available tickets' => 'Pedidos Disponiveis',
         'Escalation' => 'Escalagem',
         'last-search' => 'última pesquisa',
         'QueueView' => 'Filas',
         'Ticket Escalation View' => 'Fila de tickets escalados',
-        'Message from' => '',
-        'End message' => '',
-        'Forwarded message from' => '',
-        'End forwarded message' => '',
+        'Message from' => 'Mensagem de',
+        'End message' => 'Fim da mensagem',
+        'Forwarded message from' => 'Mensagem reencaminhada de',
+        'End forwarded message' => 'Fim da mensagem reencaminhada',
         'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Reply to note' => 'Responder na nota',
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => 'Aberto',
@@ -620,21 +620,21 @@ sub Data {
         '4 high' => '4 alta',
         '5 very high' => '5 muito alta',
         'auto follow up' => '',
-        'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto reject' => 'rejeição automática',
+        'auto remove' => 'remoção automática',
+        'auto reply' => 'resposta automática',
+        'auto reply/new ticket' => 'resposta automática/novo pedido',
         'Create' => 'Criar',
-        'Answer' => '',
+        'Answer' => 'Resposta',
         'Phone call' => 'Chamada telefónica',
         'Ticket "%s" created!' => 'Ticket "%s" criado!',
         'Ticket Number' => 'Número do Ticket',
         'Ticket Object' => 'Objeto Ticket',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Não existe Número de Ticket "%s"! Não é possível efectuar a ligação!',
-        'You don\'t have write access to this ticket.' => '',
+        'You don\'t have write access to this ticket.' => 'Não tem permissão de escrita neste pedido.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Please change the owner first.' => '',
+            'Desculpe, precisa de ser o proprietario deste pedido para realizar esta ação',
+        'Please change the owner first.' => 'Por favor altere o proprietário primeiro.',
         'Ticket selected.' => 'Ticket selecionado',
         'Ticket is locked by another agent.' => 'Ticket bloqueado por outro agente',
         'Ticket locked.' => 'Ticket bloqueado',
@@ -3235,7 +3235,7 @@ sub Data {
         'There is something wrong with your time selection.' => '',
         'Please select one element for the X-axis.' => '',
         'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field.' => '',

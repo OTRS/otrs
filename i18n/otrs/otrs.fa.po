@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:36+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10477,7 +10477,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11445,11 +11445,11 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "سابقه::سایر"
+msgstr ""
 
 #. SysConfig
 msgid "%s time unit(s) accounted. Now total %s time unit(s)."
-msgstr "سابقه::حساب زمان"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -11547,15 +11547,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "سابقه::نامه مشترک"
+msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "سابقه::لینک افزودن درخواست "
+msgstr ""
 
 #. SysConfig
 msgid "Added note (%s)"
-msgstr "سابقه::افزودن یادداشت"
+msgstr ""
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
@@ -11840,15 +11840,15 @@ msgstr "پاسخ خودکار <-> لیست درخواست"
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
-msgstr "سابقه:: ارسال پیگیری خودکار"
+msgstr ""
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr "سابقه::ارسال رد کردن خودکار "
+msgstr ""
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
-msgstr "سابقه::ارسال پاسخ خودکار"
+msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -11900,7 +11900,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr "سابقه:: ارجاع"
+msgstr ""
 
 #. SysConfig
 msgid "Builds an article index right after the article's creation."
@@ -11969,7 +11969,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "سابقه::بروزرسانی اولویت"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14422,7 +14422,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "سابقه::لینک حذف درخواست "
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14809,7 +14809,7 @@ msgstr "آدرس‌های ایمیل"
 
 #. SysConfig
 msgid "Email sent to \"%s\"."
-msgstr "سابقه::ارسال پاسخ"
+msgstr ""
 
 #. SysConfig
 msgid "Email sent to customer."
@@ -15098,7 +15098,7 @@ msgstr ""
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
-msgstr "سابقه::پیگیری"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15118,7 +15118,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "سابقه::ارسال به دیگری"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15850,7 +15850,7 @@ msgstr "فایل ثبت وقایع برای شمارنده درخواست"
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
-msgstr "سابقه::حفاظت گردشی"
+msgstr ""
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -16114,7 +16114,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
-msgstr "درخواست جدید::سابقه"
+msgstr ""
 
 #. SysConfig
 msgid "New Window"
@@ -16122,7 +16122,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New owner is \"%s\" (ID=%s)."
-msgstr "سابقه::بروزرسانی صاحب درخواست"
+msgstr ""
 
 #. SysConfig
 msgid "New process ticket"
@@ -16130,7 +16130,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
-msgstr "سابقه::به روزرسانی مسئولیت"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16150,7 +16150,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
-msgstr "سابقه::ارسال اعلام به مشترک"
+msgstr ""
 
 #. SysConfig
 msgid "Number of displayed tickets"
@@ -16183,7 +16183,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr "سابقه::بروزرسانی وضعیت"
+msgstr ""
 
 #. SysConfig
 msgid "Online"
@@ -18272,7 +18272,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Request (%s)."
-msgstr "سابقه::درخواست سیستم"
+msgstr ""
 
 #. SysConfig
 msgid "Templates <-> Queues"
@@ -18483,7 +18483,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
-msgstr "سابقه::انتقال"
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -18583,11 +18583,11 @@ msgstr "نوع بروز شده به %s (ID=%s)."
 
 #. SysConfig
 msgid "Updated: %s"
-msgstr "سابقه::تنظیم زمان تعلیق"
+msgstr ""
 
 #. SysConfig
 msgid "Updated: %s=%s;%s=%s;%s=%s;"
-msgstr "سابقه::بروزرسانی درخواست متنی"
+msgstr ""
 
 #. SysConfig
 msgid ""

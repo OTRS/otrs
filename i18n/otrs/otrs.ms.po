@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:35+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1307,7 +1307,7 @@ msgstr "Hantar arahan set semula kata laluan. Sila periksa emel anda."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr "Hantar kata laluan baru kepada &s. Sila periksa emel anda."
+msgstr ""
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -3388,11 +3388,11 @@ msgstr "Tukar Perhubungan Pelanggan untuk Kumpulan"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
-msgstr "Undang-undang% s untuk semua suis"
+msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s permission for %s"
-msgstr "Kebenaran untuk% s% ubah"
+msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
@@ -4538,7 +4538,7 @@ msgstr "Tamabh operasi baru"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr "Ubah operasi"
+msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -10477,7 +10477,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11449,7 +11449,7 @@ msgstr "%s"
 
 #. SysConfig
 msgid "%s time unit(s) accounted. Now total %s time unit(s)."
-msgstr "%s Unit masa (s) dikira. % Unit masa dijumpai(s)."
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -11844,11 +11844,11 @@ msgstr "Susulan Auto \"%s\" telah menghantar."
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr "Menolak auto dihantar kepada \"% s\"."
+msgstr ""
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
-msgstr "AutoBalas \"% S\" telah menghantar."
+msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -16114,7 +16114,7 @@ msgstr "NamaX"
 
 #. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
-msgstr "Tiket baru [% s] dicipta (Q=%s;P=%s;S=%s)."
+msgstr ""
 
 #. SysConfig
 msgid "New Window"
@@ -18483,7 +18483,7 @@ msgstr "Modul acara tiket yang mencetuskan lambungan hentian acara.."
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
-msgstr "Tiket berpindah ke Queue \"% s\" (%s) dari \"%s\" beratur (% s)."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

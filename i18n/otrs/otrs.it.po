@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:35+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8041,7 +8041,7 @@ msgstr "Imposta attivo per tutti"
 
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
-msgstr "Collega %s con %"
+msgstr ""
 
 #. Template: AdminType
 msgid "Type Management"
@@ -10482,7 +10482,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11829,7 +11829,7 @@ msgstr "Permette di impostare un nuovo stato di ticket nella schermata di movime
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
-msgstr "Aggiornamento Flag Archivio"
+msgstr ""
 
 #. SysConfig
 msgid "ArticleTree"
@@ -16135,7 +16135,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
-msgstr "Aggiornamento responsabile"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18277,7 +18277,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Request (%s)."
-msgstr "Richiesta di sistema"
+msgstr ""
 
 #. SysConfig
 msgid "Templates <-> Queues"
@@ -18510,7 +18510,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
-msgstr "Aggiornamento Titolo Ticket"
+msgstr ""
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."

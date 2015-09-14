@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:34+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7192,7 +7192,7 @@ msgstr "Cambie Relacións de Grupo para o Rol"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
-msgstr "Activar o permiso % s para todos"
+msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "move_into"
@@ -8499,7 +8499,7 @@ msgstr "Crear estatísticas"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
-msgstr "Estatísticas » Editar "
+msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -8559,7 +8559,7 @@ msgstr "Confirma que desexa eliminar estas estatísticas?"
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
-msgstr "Estatísticas » Ver %s%s"
+msgstr ""
 
 #. Template: AgentStatisticsView
 msgid ""
@@ -8572,11 +8572,11 @@ msgstr "Cambiar Texto Libre de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s"
-msgstr "Cambiar o propietario de "
+msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s"
-msgstr "Pechar "
+msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s"
@@ -10479,7 +10479,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11561,7 +11561,7 @@ msgstr "Engadiuse unha nota (%s)"
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Engadiuse unha subscrición"
+msgstr ""
 
 #. SysConfig
 msgid ""
