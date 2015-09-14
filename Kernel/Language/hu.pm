@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99602286850609;
+    $Self->{Completeness}        = 0.995774297787721;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1466,7 +1466,7 @@ sub Data {
         'Export web service configuration' => 'Webszolgáltatás-beállítás exportálása',
         'Restore web service configuration' => 'Webszolgáltatás-beállítás visszaállítása',
         'Do you really want to restore this version of the web service configuration?' =>
-            'Valóba vissza szeretné állítani a webszolgáltatás beállításának ezen verzióját?',
+            'Valóban vissza szeretné állítani a webszolgáltatás beállításának ezen verzióját?',
         'Your current web service configuration will be overwritten.' => 'A jelenlegi webszolgáltatás-beállítás felül lesz írva.',
         'Restore' => 'Visszaállítás',
 
@@ -3239,7 +3239,7 @@ sub Data {
         'There is something wrong with your time selection.' => 'Valami baj van az időkiválasztással.',
         'Please select one element for the X-axis.' => 'Válasszon egy elemet az X-tengelyhez.',
         'You can only use one time element for the Y axis.' => 'Csak egy időelemet használhat az Y-tengelynél.',
-        'You can only use only one or two elements for the Y axis.' => 'Csak egy vagy két elemet használhat az Y-tengelynél.',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             'Csak egy elemet válasszon, vagy engedélyezze a módosítást a statisztika előállításakor.',
         'Please select at least one value of this field.' => 'Válasszon legalább egy értéket ebből a mezőből.',
@@ -3644,13 +3644,13 @@ Az Ön segélyszolgálat csapata
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői felület jegykészítés képernyőjén. Az ügyfelek e-mail címei nem lesznek hozzáadva, ha a bejegyzés típusa belső e-mail.',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Hozzáadja az egyszeri szabadság napjait a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
+            'Hozzáadja az egyszeri munkaszüneti napokat a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Hozzáadja az egyszeri szabadság napjait. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
+            'Hozzáadja az egyszeri munkaszüneti napokat. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Hozzáadja az állandó szabadság napjait a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
+            'Hozzáadja az állandó munkaszüneti napokat a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Hozzáadja az állandó szabadság napjait. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
+            'Hozzáadja az állandó munkaszüneti napokat. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'After' => 'Ez után:',
         'Agent called customer.' => 'Ügyintéző hívta az ügyfelet.',
         'Agent interface article notification module to check PGP.' => 'Ügyintézői felület bejegyzés értesítési modul a PGP ellenőrzéséhez.',

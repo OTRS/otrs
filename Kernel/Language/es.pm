@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.754412130251056;
+    $Self->{Completeness}        = 0.755903554561273;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3239,7 +3239,7 @@ sub Data {
         'There is something wrong with your time selection.' => 'Hay un error con su selección de tiempo.',
         'Please select one element for the X-axis.' => 'Por favor seleccione un elemento para el Eje-X.',
         'You can only use one time element for the Y axis.' => 'Sólo puede utilizar un elemento de tiempo para el eje Y.',
-        'You can only use only one or two elements for the Y axis.' => 'Sólo puede utilizar uno o dos elementos para el eje Y.',
+        'You can only use one or two elements for the Y axis.' => 'Sólo puedes usar uno o dos elementos para el eje Y.',
         'Please select only one element or allow modification at stat generation time.' =>
             'Por favor seleccione sólo un elemento o permita su modificación al momento de generación de la estadística.',
         'Please select at least one value of this field.' => 'Por favor seleccione al menos un valor para este campo.',
@@ -3359,7 +3359,7 @@ sub Data {
             'La partición donde se localiza OTRS no tiene problemas de espacio de disco.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Operating System/Disk Partitions Usage' => 'Sistema operativo/Uso de las particiones del disco',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribución',
@@ -3385,7 +3385,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Debe haber no mas de 200 MB de espacio de intercambio usado.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS/Config Settings' => 'OTRS/Ajustes Configuración',
         'Could not determine value.' => 'No se pudo determinar el valor.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3394,7 +3394,7 @@ sub Data {
         'Daemon is not running.' => 'Daemon no se está ejecutando.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'OTRS/Database Records' => 'OTRS/Registros de la base de datos',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Entradas Del Historial De Ticket',
         'Articles' => 'Artículos',
@@ -3436,7 +3436,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Algunos paquetes no estan correctamente instalados.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'OTRS/Package List' => 'OTRS/Lista de paquetes',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -3466,8 +3466,8 @@ sub Data {
             'La tabla ticket_index contiene registros huerfanos. Por favor ejecute otrs/bin/otrs.CleanTicketIndex.pl para limpiar el índice StaticDB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => '',
-        'Server time zone' => '',
+        'OTRS/Time Settings' => 'OTRS/Configuración de tiempo',
+        'Server time zone' => 'Zona horaria del servidor',
         'Computed server time offset' => '',
         'OTRS TimeZone setting (global time offset)' => '',
         'TimeZone may only be activated for systems running in UTC.' => '',

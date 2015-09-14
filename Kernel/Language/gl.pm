@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.911508824260502;
+    $Self->{Completeness}        = 0.936614466815809;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2000,7 +2000,7 @@ sub Data {
         'Last communication with registration server' => 'Derradeira comunicación co servidor de rexistro',
         'System registration not possible' => 'O rexistro do sistema non é posíbel',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            '',
+            'Por favor tenga en conta que non pode rexistrar o seu sistema se o Daemon OTRS non se está a executar correctamente!',
         'Instructions' => 'Instrucións',
         'System deregistration not possible' => 'O desrexistro do sistema non é posible',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
@@ -2265,7 +2265,7 @@ sub Data {
 
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => 'Edite Axustes Configuración',
-        'This setting is read only.' => '',
+        'This setting is read only.' => 'Este axuste é de só lectura.',
         'This config item is only available in a higher config level!' =>
             'Este elemento de configuración está só dispoñible nun nivel de configuración maior!',
         'Reset this setting' => 'Restablezca este axuste',
@@ -2412,12 +2412,12 @@ sub Data {
         # Template: AgentDaemonInfo
         'General Information' => 'Información xeral',
         'OTRS Daemon is a separated process that perform asynchronous tasks' =>
-            '',
+            'Daemon OTRS é un proceso separa que executa tarefas asincrónicas',
         '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
-            '',
+            '(ex. Tarefas invocador asincrónico da Interface Xenérica, disparadores escalado Ticket, envíos Email, etc)',
         'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
-            '',
-        'Starting OTRS Daemon' => '',
+            'E necesario ter un Daemon OTRS executándose para facer que o sistema funcione correctamente!',
+        'Starting OTRS Daemon' => 'Comenzando Daemon OTRS',
         'Make sure that %s exists (without .dist extension)' => 'Asegúrese de que %s existe (sen extensión .dist)',
         'Check that cron deamon is running in the system' => 'Comprobar que o daemon cron está en execución no sistema',
         'Confirm that OTRS cron jobs are running, execute %s start' => 'Confirme que OTRS cron jobs se están a executar, execute %s o comezo',
@@ -2457,7 +2457,7 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
-            '',
+            'A configuración para este widget estático contén erros, por favor revise os seus axustes.',
         'Download as SVG file' => 'Descargar como ficheiro SVG',
         'Download as PNG file' => 'Descargar como ficheiro PNG',
         'Download as CSV file' => 'Descargar como ficheiro CSV',
@@ -2468,11 +2468,11 @@ sub Data {
         'Expanded' => 'Expandido',
         'Stream' => 'Fluxo',
         'Please select a valid graph output format in the configuration of this widget.' =>
-            '',
+            'Por favor seleccione un formato de saída de gráficos valido na configuración deste widget.',
         'The content of this statistic is being prepared for you, please be patient.' =>
             'O contido desta estatística está a ser preparado para vostede, por favor sexa paciente.',
         'This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.' =>
-            '',
+            'Esta estatística pode non estra a ser usada actualmente debido a que a súa configuración precisa ser correxida polo administrador de estatísticas.',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Os meus tíckets bloqueados',
@@ -2488,7 +2488,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'fóra da oficina',
-        'Selected agent is not available for chat' => '',
+        'Selected agent is not available for chat' => 'Axente seleccionado non está dispoñible para chat',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'ata',
@@ -2521,16 +2521,16 @@ sub Data {
 
         # Template: AgentStatisticsAdd
         'Statistics » Add' => 'Estatísticas » Engadir',
-        'Add New Statistic' => '',
+        'Add New Statistic' => 'Engadir Nova Estatística',
         'Dynamic Matrix' => 'Matriz dinámica',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
-            '',
-        'Dynamic List' => '',
+            'Datos reporte tabular onde cada celda contén un punto de dato singular (ex. número de tickets).',
+        'Dynamic List' => 'Lista Dinámica',
         'Tabular reporting data where each row contains data of one entity (e. g. a ticket).' =>
-            '',
-        'Static' => '',
+            'Datos reporte tabular onde cada fila contén datos dunha entidade (ex. ticket).',
+        'Static' => 'Estático',
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
-            '',
+            'Estatísiticas complexas que non poden ser configuradas e poden devolver datos non tabulares.',
         'General Specification' => 'Especificación xeral',
         'Create Statistic' => 'Crear estatísticas',
 
@@ -2558,21 +2558,21 @@ sub Data {
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Estatísticas » Ver %s%s',
         'This statistic contains configuration errors and can currently not be used.' =>
-            '',
+            'Esta estatística contén erros de configuración e actualmente non pode ser usada.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => '',
+        'Change Free Text of %s%s' => 'Cambiar Texto Libre de %s%s',
         'Change Owner of %s%s' => 'Cambiar o propietario de ',
         'Close %s%s' => 'Pechar ',
-        'Add Note to %s%s' => '',
-        'Set Pending Time for %s%s' => '',
-        'Change Priority of %s%s' => '',
-        'Change Responsible of %s%s' => '',
+        'Add Note to %s%s' => 'Engadir Nota a %s%s',
+        'Set Pending Time for %s%s' => 'Establecer Tempo Pendente para %s%s',
+        'Change Priority of %s%s' => 'Cambiar Prioridade de %s%s',
+        'Change Responsible of %s%s' => 'Cambiar Responsable de %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Todos os campos marcados cun asterisco (*) son obrigatorios.',
         'Service invalid.' => 'Servizo incorrecto.',
         'New Owner' => 'Novo dono',
         'Please set a new owner!' => 'Por favor estableza novo propietario!',
-        'New Responsible' => '',
+        'New Responsible' => 'Novo Responsable',
         'Next state' => 'Estado seguinte',
         'For all pending* states.' => 'Para tódolos estados pendentes.',
         'Add Article' => 'Engadir un artigo',
@@ -2609,7 +2609,7 @@ sub Data {
         'Unlock tickets' => 'Desbloquear tickets',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s' => 'Composición Resposta para %s%s',
         'Please include at least one recipient' => 'Por favor inclúa polo menos un receptor',
         'Remove Ticket Customer' => 'Elimine Ticket Cliente',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2620,7 +2620,7 @@ sub Data {
         'Date Invalid!' => 'A data é incorrecta!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => '',
+        'Change Customer of %s%s' => 'Cambiar Cliente de %s%s',
         'Customer user' => 'Usuario cliente',
 
         # Template: AgentTicketEmail
@@ -2632,10 +2632,10 @@ sub Data {
         'Select this customer as the main customer.' => 'Seleccionar este cliente como cliente principal.',
         'Remove Ticket Customer User' => 'Elimine Ticket Usuario Cliente',
         'Get all' => 'Obteña todos',
-        'Do you really want to continue?' => '',
+        'Do you really want to continue?' => 'Desexa realmente continuar?',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => '',
+        'Outbound Email for %s%s' => 'Email Saínte para %s%s',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: primeiro tempo de resposta está por enriba (%s/%s)!',
@@ -2645,28 +2645,28 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: o tempo de solución vai estar por enriba en %s%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => '',
+        'Forward %s%s' => 'Reenviar %s%s',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => '',
+        'History of %s%s' => 'Histórico de %s%s',
         'History Content' => 'Contido do historial',
         'Zoom view' => 'Vista zoom',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => '',
-        'Merge Settings' => '',
+        'Merge %s%s' => 'Fusionar %s%s',
+        'Merge Settings' => 'Axustes Fusionar',
         'You need to use a ticket number!' => 'Necsita un número de ticket!',
         'A valid ticket number is required.' => 'Un número de ticket válido é requirido.',
         'Need a valid email address.' => 'Precisa dun enderezo de correo electrónico correcto.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => '',
+        'Move %s%s' => 'Mover %s%s',
         'New Queue' => 'Nova fila',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Seleccionar todo',
         'No ticket data found.' => 'Non se atoparon datos do ticket.',
-        'Open / Close ticket action menu' => '',
+        'Open / Close ticket action menu' => 'Abrir / Pechar menú acción ticket',
         'Select this ticket' => 'Selecciones este ticket.',
         'First Response Time' => 'Tempo de Primeira Resposta',
         'Update Time' => 'Tempo Actualización',
@@ -2693,10 +2693,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'O chat será engadido como artigo separado.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => '',
+        'Phone Call for %s%s' => 'Chamada Telefónica para %s%s',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => '',
+        'View Email Plain Text for %s%s' => 'Vista Texto Plano Email para %s%s',
         'Plain' => 'Simple',
         'Download this email' => 'Descargue este email',
 
@@ -2818,15 +2818,15 @@ sub Data {
             'OTRS pode ser executado nunha enorme cantidade de navegadores; actualice a un destes.',
         'Please see the documentation or ask your admin for further information.' =>
             'Por favor vexa a documentación ou pregunte o seu administrador para mais información.',
-        'Switch to mobile mode' => '',
-        'Switch to desktop mode' => '',
-        'Not available' => '',
-        'Clear all' => '',
-        'Clear search' => '',
-        '%s selection(s)...' => '',
-        'and %s more...' => '',
-        'Filters' => '',
-        'Confirm' => '',
+        'Switch to mobile mode' => 'Cambiar a modo móbil',
+        'Switch to desktop mode' => 'Cambiar a modo escritorio',
+        'Not available' => 'Non dispoñible',
+        'Clear all' => 'Limpar todo',
+        'Clear search' => 'Limpar busca',
+        '%s selection(s)...' => '%s selección(s)...',
+        'and %s more...' => 'e %s mais...',
+        'Filters' => 'Filtros',
+        'Confirm' => 'Confirmar',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript non dispoñible',
@@ -2839,8 +2839,8 @@ sub Data {
         'Your user name' => 'O seu nome de usuario',
         'Your password' => 'O seu contrasinal',
         'Forgot password?' => 'Esqueceu o contrasinal?',
-        '2 Factor Token' => '',
-        'Your 2 Factor Token' => '',
+        '2 Factor Token' => '2 Factor Token',
+        'Your 2 Factor Token' => 'Teus 2 Factor Token',
         'Log In' => 'Acceso',
         'Not yet registered?' => 'Aínda non se rexistrou?',
         'Request new password' => 'Solicitar un contrasinal novo',
@@ -2897,12 +2897,12 @@ sub Data {
         'Remove this Search Term.' => 'Elimine este Termo de Busca',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'Comence un chat dende este ticket',
         'Expand article' => 'Expanda artigo',
         'Information' => 'Información',
         'Next Steps' => 'Pasos seguintes',
         'Reply' => 'Responder',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Protocolo Chat',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => 'Todo o día',
@@ -2945,18 +2945,18 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'Por favor revise os campos marcados en vermello para entradas válidas.',
         'Please perform a spell check on the the text first.' => 'Por favor, realice una revisión ortográfica no primeiro el texto ',
         'Slide the navigation bar' => 'Desprazar a barra de navegación',
-        'Unavailable for chat' => '',
-        'Available for internal chats only' => '',
-        'Available for chats' => '',
-        'Please visit the chat manager' => '',
-        'New personal chat request' => '',
-        'New customer chat request' => '',
-        'New public chat request' => '',
-        'New activity' => '',
-        'New activity on one of your monitored chats.' => '',
+        'Unavailable for chat' => 'Non dispoñible para chat',
+        'Available for internal chats only' => 'Dispoñible para chats internos soamente',
+        'Available for chats' => 'Dispoñible para chats',
+        'Please visit the chat manager' => 'Por favor visite o manager de chat',
+        'New personal chat request' => 'Nova petición de chat personal',
+        'New customer chat request' => 'Nova petición de chat de cliente',
+        'New public chat request' => 'Nova petición de chat público',
+        'New activity' => 'Nova actividade',
+        'New activity on one of your monitored chats.' => 'Nova actividade nun dos seus chats monitoreados.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            '',
-        'Find out more about the %s' => '',
+            'Esta función é parte de %s. Por favor contecte con nos en %s para unha mellora.',
+        'Find out more about the %s' => 'Encontre mais sobre o %s',
 
         # Template: Header
         'You are logged in as' => 'Está logeado como',
@@ -3069,9 +3069,9 @@ sub Data {
         'Back to login' => 'Retornar á pantalla de acceso',
 
         # Template: MobileNotAvailableWidget
-        'Feature not available' => '',
+        'Feature not available' => 'Función non dispoñible',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            '',
+            'O sentimos, pero esta función de OTRS non é dispoñible actualmente para dispositivos móbiles. Se quere usala, pode ou ben cambiar a modo escritorio ou usar o dispositivo de escritorio regular.',
 
         # Template: Motd
         'Message of the Day' => 'Mensaxe do día',
@@ -3094,12 +3094,12 @@ sub Data {
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Notificación',
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'Non se atoparon notificacións configurables de usuario.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            '',
+            'Recibir mensaxes para notificación \'%s\' polo método de transporte \'%s\'.',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Benvido',
 
         # Template: Test
         'OTRS Test Page' => 'Páxina de probas do OTRS',
@@ -3114,90 +3114,90 @@ sub Data {
         'New email ticket' => 'Novo ticket correo electrónico',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Currently' => '',
+        'Currently' => 'Actualmente',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
         'Please remove the following words because they cannot be used for the ticket selection:' =>
-            '',
+            'Por favor elimine as seguintes palabras porque non poden ser usadas para a selección de ticket:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'Web service "%s" updated!' => '',
-        'Web service "%s" created!' => '',
-        'Web service "%s" deleted!' => '',
+        'Web service "%s" updated!' => 'Servizo web "%s" actualizado!',
+        'Web service "%s" created!' => 'Servizo web "%s" creado!',
+        'Web service "%s" deleted!' => 'Servizo web "%s" eliminado!',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
-        'All agents subscribed to the ticket\'s queue' => '',
-        'All agents subscribed to the ticket\'s service' => '',
+        'Agent who owns the ticket' => 'Axente que é dono do ticket',
+        'Agent who is responsible for the ticket' => 'Axente que é responsable do ticket',
+        'All agents watching the ticket' => 'Tódolos axentes vendo o ticket',
+        'All agents with write permission for the ticket' => 'Tódolos axentes con permisos de escritura para o ticket',
+        'All agents subscribed to the ticket\'s queue' => 'Tódolos axentes suscritos a cola do ticket',
+        'All agents subscribed to the ticket\'s service' => 'Tódolos axentes suscritos o servizo do ticket',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            '',
-        'Customer of the ticket' => '',
+            'Tódolos axentes suscritos aos dous cola e servizo de ticket',
+        'Customer of the ticket' => 'Cliente do ticket',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
-            '',
+            'Paquete non verificado debido a un problema co servidor de verificación!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => 'Estatística',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Can not delete link with %s!' => '',
-        'Can not create link with %s!' => '',
-        'Object already linked as %s.' => '',
+        'Can not delete link with %s!' => 'Non se pode eliminar a ligazón con %s!',
+        'Can not create link with %s!' => 'Non se pode crear a ligazón con %s!',
+        'Object already linked as %s.' => 'Obxecto xa ligado coma %s.',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Statistic could not be imported.' => '',
-        'Please upload a valid statistic file.' => '',
+        'Statistic could not be imported.' => 'Estatística non puido ser importada.',
+        'Please upload a valid statistic file.' => 'Por favor cargue un arquivo de estatística valido.',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
-        'No subject' => '',
+        'No subject' => 'Ningún tema',
         'Previous Owner' => 'Anterior Propietario',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Ticket is locked by another agent and will be ignored!' => '',
+        'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por outro axente e vai ser ignorado!',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'imprimido por',
         'Ticket Dynamic Fields' => 'Campos Dinámicos do Ticket',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Pending Date' => '',
-        'for pending* states' => '',
+        'Pending Date' => 'Á Espera de Data',
+        'for pending* states' => 'para estados de espera* ',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Invalid Users' => '',
+        'Invalid Users' => 'Usuarios Inválidos',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            '',
-        'Fields with no group' => '',
+            'Sentímolo, non ten permisos nunca mais para acceder a este ticket no seu estado actual.',
+        'Fields with no group' => 'Campos sen grupo',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
-            '',
+            'Por favor elimine as seguintes palabras porque non poden ser usadas para a busca:',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            '',
+            'Erro: Por favor asegúrese de que a súa base de datos acepta paquetes de mais de %s MB en tamaño (actualmente só acepta paquetes de ata %s MB). Por favor adapte o axuste max_allowed_packet a súa base de datos para evitar erros.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
-            '',
+            'Erro: Por favor estableza o valor para innodb_log_file_size na súa base de datos ata polo menos %s MB (actualmente: %s MB, recomendado: %s MB). Para mais información, por favor bote unha ollada en %s.',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Este ticket non ten título ou tema',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
-        'This user is currently away' => '',
-        'This user is currently unavailable' => '',
+        'This user is currently offline' => 'Este usuario está actualmente desconectado',
+        'This user is currently active' => 'Este usuario está actualmente activo',
+        'This user is currently away' => 'Este usuario está actualmente fora',
+        'This user is currently unavailable' => 'Este usuario está actualmente non dispoñible',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
-        ' You can take one of the next actions:' => '',
+            'Sentímolo, pero non ten permisos nunca mais para acceder a este ticket no seu estado actual.',
+        ' You can take one of the next actions:' => 'Pode coller unha das seguintes accións:',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
@@ -3234,7 +3234,7 @@ sub Data {
         'There is something wrong with your time selection.' => '',
         'Please select one element for the X-axis.' => '',
         'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field.' => '',

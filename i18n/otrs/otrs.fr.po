@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:34+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1013,7 +1013,7 @@ msgstr "Package incorrectement déployé! Merci de réinstaller le package."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr "% n'est pas accessible en écriture"
+msgstr ""
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -2929,7 +2929,7 @@ msgstr "Aucune donnée trouvée"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr "Modifier ACL"
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -10487,7 +10487,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11834,7 +11834,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
-msgstr "Mise à jour de l'indicateur d'archivage"
+msgstr ""
 
 #. SysConfig
 msgid "ArticleTree"
@@ -16140,7 +16140,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
-msgstr "Mise à jour du responsable"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18282,7 +18282,7 @@ msgstr "Maintenance Système"
 
 #. SysConfig
 msgid "System Request (%s)."
-msgstr "Requête système"
+msgstr ""
 
 #. SysConfig
 msgid "Templates <-> Queues"

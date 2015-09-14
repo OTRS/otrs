@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:34+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (Canada) (http://www.transifex.com/otrs/OTRS/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10477,7 +10477,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11824,7 +11824,7 @@ msgstr "Permet d'établir un nouvel état de la demande dans l'écran de déplac
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
-msgstr "Mise à jour de l'indicateur d'archivage"
+msgstr ""
 
 #. SysConfig
 msgid "ArticleTree"
@@ -16130,7 +16130,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
-msgstr "Mise à jour du responsable"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18272,7 +18272,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Request (%s)."
-msgstr "Requête système"
+msgstr ""
 
 #. SysConfig
 msgid "Templates <-> Queues"

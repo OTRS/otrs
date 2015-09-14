@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.554064131245339;
+    $Self->{Completeness}        = 0.559035545612727;
 
     # csv separator
     $Self->{Separator} = '';
@@ -79,8 +79,8 @@ sub Data {
         'month(s)' => '月',
         'week' => '星期',
         'week(s)' => '星期',
-        'quarter' => '',
-        'quarter(s)' => '',
+        'quarter' => '一刻钟',
+        'quarter(s)' => '一刻钟',
         'half-year' => '',
         'half-year(s)' => '',
         'year' => '年',
@@ -873,7 +873,7 @@ sub Data {
         'Example response' => '这里有一个范例',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => '云服务管理',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => '提示',
@@ -1517,17 +1517,17 @@ sub Data {
         'Online Admin Manual' => '管理员在线手册',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => '工单通知管理',
         'Add notification' => '添加通知',
-        'Export Notifications' => '',
+        'Export Notifications' => '导出通知',
         'Configuration Import' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => '覆盖已存在的通知?',
+        'Upload Notification configuration' => '上传通知配置',
+        'Import Notification configuration' => '导入通知配置',
         'Delete this notification' => '删除通知',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => '你确定要删除这个通知?',
         'Add Notification' => '添加通知',
         'Edit Notification' => '编辑通知',
         'Show in agent preferences' => '',
@@ -3109,7 +3109,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS测试页',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => '欢迎 %s %s',
         'Counter' => '计数器',
 
         # Template: Warning
@@ -3240,7 +3240,7 @@ sub Data {
         'There is something wrong with your time selection.' => '',
         'Please select one element for the X-axis.' => '',
         'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field.' => '',
@@ -3420,7 +3420,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
         'Error Log' => '',
-        'There are error reports in your system log.' => '',
+        'There are error reports in your system log.' => '这是你系统中的错误报告.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => '',
@@ -3777,7 +3777,7 @@ Thanks for your help!
             '',
         'Closed tickets (customer user)' => '',
         'Closed tickets (customer)' => '',
-        'Cloud Services' => '',
+        'Cloud Services' => '云服务',
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
@@ -3844,7 +3844,7 @@ Thanks for your help!
         'Create and manage services.' => '创建和管理服务',
         'Create and manage signatures.' => '创建和管理签名',
         'Create and manage templates.' => '创建和管理模板',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => '创建和管理工单通知.',
         'Create and manage ticket priorities.' => '创建和管理工单优先级别.',
         'Create and manage ticket states.' => '创建和管理工单状态',
         'Create and manage ticket types.' => '创建和管理工单类型. ',
@@ -4959,15 +4959,15 @@ Thanks for your help!
         'Makes the application check the syntax of email addresses.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => '管理 OTRS 集团云服务',
         'Manage PGP keys for email encryption.' => '管理邮件加密的PGP密钥.',
         'Manage POP3 or IMAP accounts to fetch email from.' => '管理收取邮件的POP3或IMAP帐号.',
         'Manage S/MIME certificates for email encryption.' => '管理邮件的S/MIME加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
-        'Manage support data.' => '',
+        'Manage support data.' => '管理支持数据.',
         'Manage system registration.' => '管理系统注册',
         'Manage tasks triggered by event or time based execution.' => '管理基于事件或时间触发的任务',
-        'Mark this ticket as junk!' => '',
+        'Mark this ticket as junk!' => '标记该工单为垃圾!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -5139,8 +5139,8 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => '',
-        'Reports (OTRS Business Solution™)' => '',
+        'Reports' => '报告',
+        'Reports (OTRS Business Solution™)' => '报告 (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -5739,12 +5739,12 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send SMS messages.' => '',
-        'Ticket Notifications' => '',
+        'Ticket Notifications' => '工单通知',
         'Ticket Queue Overview' => '工单队列',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-        'Ticket notifications' => '',
+        'Ticket notifications' => '工单通知',
         'Ticket overview' => '工单一览',
         'TicketNumber' => '工单编号',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>

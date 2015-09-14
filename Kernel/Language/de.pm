@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.805369127516778;
+    $Self->{Completeness}        = 0.819786229182202;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2609,7 +2609,7 @@ sub Data {
         'Unlock tickets' => 'Tickets entsperren',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s' => 'Antwort für %s%s verfassen',
         'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
         'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2654,7 +2654,7 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Merge %s%s' => '%s%s zusammenfassen',
-        'Merge Settings' => '',
+        'Merge Settings' => 'Zusammenführungseinstellungen',
         'You need to use a ticket number!' => 'Bitte eine Ticketnummer benutzen!',
         'A valid ticket number is required.' => 'Eine gültige Ticketnummer ist erforderlich.',
         'Need a valid email address.' => 'Benötige gültige E-Mail-Adresse.',
@@ -2946,17 +2946,17 @@ sub Data {
         'Please perform a spell check on the the text first.' => 'Bitte führen Sie zuerst eine Rechtschreibprüfung aus.',
         'Slide the navigation bar' => 'Verschieben Sie die Navigationsleiste',
         'Unavailable for chat' => 'Nicht für den Chat verfügbar',
-        'Available for internal chats only' => '',
+        'Available for internal chats only' => 'Nur für interne Chats verfügbar',
         'Available for chats' => 'Verfügbar für Chats',
         'Please visit the chat manager' => '',
-        'New personal chat request' => '',
-        'New customer chat request' => '',
-        'New public chat request' => '',
+        'New personal chat request' => 'Neue persönliche Chatanfrage',
+        'New customer chat request' => 'Neue Kundenchatanfrage',
+        'New public chat request' => 'Neue öffentliche Chatanfrage',
         'New activity' => 'Neue Aktivität',
         'New activity on one of your monitored chats.' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
-        'Find out more about the %s' => '',
+        'Find out more about the %s' => 'Erfahren Sie mehr über den %s',
 
         # Template: Header
         'You are logged in as' => 'Angemeldet als',
@@ -3094,7 +3094,7 @@ sub Data {
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Benachrichtigung',
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'Keine vom Benutzer konfigurierbaren Benachrichtigungen gefunden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
 
@@ -3126,15 +3126,15 @@ sub Data {
         'Web service "%s" deleted!' => 'Web Service "%s" gelöscht!',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Agent who owns the ticket' => '',
+        'Agent who owns the ticket' => 'Agent, dem das Ticket gehört',
         'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
+        'All agents watching the ticket' => 'Alle Agenten beobachten das Ticket',
+        'All agents with write permission for the ticket' => 'Alle Agenten mit Schreibberechtigung für das Ticket',
         'All agents subscribed to the ticket\'s queue' => '',
         'All agents subscribed to the ticket\'s service' => '',
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
-        'Customer of the ticket' => '',
+        'Customer of the ticket' => 'Kunde des Tickets',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3146,18 +3146,18 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Can not delete link with %s!' => '',
         'Can not create link with %s!' => '',
-        'Object already linked as %s.' => '',
+        'Object already linked as %s.' => 'Objekt bereits verknüpft als %s.',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Statistic could not be imported.' => '',
-        'Please upload a valid statistic file.' => '',
+        'Statistic could not be imported.' => 'Statistik konnte nicht importiert werden.',
+        'Please upload a valid statistic file.' => 'Bitte laden Sie eine gültige Statistikdatei hoch.',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No subject' => 'Kein Betreff',
         'Previous Owner' => 'Vorheriger Besitzer',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Ticket is locked by another agent and will be ignored!' => '',
+        'Ticket is locked by another agent and will be ignored!' => 'Ticket ist von einem anderen Agenten gesperrt und wird ignoriert!',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'gedruckt von',
@@ -3186,7 +3186,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Dieses Ticket hat keinen Titel oder Betreff',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
         'This user is currently offline' => 'Dieser Benutzer ist aktuell online',
@@ -3203,7 +3203,7 @@ sub Data {
         '%s Upgrade to %s now! %s' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: ' => 'Eine Systemwartungsperiode beginnt um: ',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'Please contact your administrator!' => 'Bitte kontaktieren Sie ihren Administrator',
@@ -3217,12 +3217,12 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'X-Achse',
         'Y-axis' => 'Y-Achse',
-        'The selected start time is before the allowed start time.' => '',
-        'The selected end time is later than the allowed end time.' => '',
+        'The selected start time is before the allowed start time.' => 'Die ausgewählte Startzeit ist vor der erlaubten Startzeit.',
+        'The selected end time is later than the allowed end time.' => 'Die ausgewählte Endzeit ist später als die erlaubte Endzeit.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'Der ausgewählte Zeitraum ist größer als der erlaubte Zeitraum.',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
             '',
         'The selected time scale is smaller than the allowed time scale.' =>
@@ -3230,14 +3230,14 @@ sub Data {
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
         'The selected date is not valid.' => 'Das ausgewählte Datum ist ungültig.',
-        'The selected end time is before the start time.' => '',
+        'The selected end time is before the start time.' => 'Die ausgewählte Endzeit ist vor der Startzeit.',
         'There is something wrong with your time selection.' => '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+        'Please select one element for the X-axis.' => 'Bitte wählen Sie ein Element für die X-Achse aus.',
+        'You can only use one time element for the Y axis.' => 'Sie können nur ein Zeitelement für die Y-Achse verwenden.',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
-        'Please select at least one value of this field.' => '',
+        'Please select at least one value of this field.' => 'Bitte wählen Sie mindestens einen Wert in diesem Feld aus.',
         'Please provide a value or allow modification at stat generation time.' =>
             '',
         'Please select a time scale.' => 'Bitte wählen Sie eine Zeitskala aus.',
@@ -3250,7 +3250,7 @@ sub Data {
         'Order by' => 'Sortieren nach',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
+        'State Type' => 'Statustyp',
         'Created Priority' => 'Erstellt mit der Priorität',
         'Created State' => 'Erstellt mit dem Status',
         'CustomerUserLogin' => 'Kundenlogin',
@@ -3272,8 +3272,8 @@ sub Data {
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'Attributes to be printed' => 'Auszugebene Attribute',
         'Sort sequence' => 'Sortierreihenfolge',
-        'State Historic' => '',
-        'State Type Historic' => '',
+        'State Historic' => 'Statuschronik',
+        'State Type Historic' => 'Statustypchronik',
         'Historic Time Range' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -3328,7 +3328,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Einstellung NLS_LANG',
         'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
-            '',
+            'NLS_LANG muss auf al32utf8 festgelegt sein (z.B. GERMAN_GERMANY.AL32UTF8).',
         'NLS_DATE_FORMAT Setting' => 'Einstellung NLS_DATE_FORMAT',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT muss auf \'YYYY-MM-DD HH24:MI:SS\' gesetzt sein.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'SQL-Prüfung NLS_DATE_FORMAT',
@@ -3354,7 +3354,7 @@ sub Data {
             'Die Partition, auf der OTRS sich befindet, hat keine Platzprobleme.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Operating System/Disk Partitions Usage' => 'Betriebssystem/Festplattenpartitionsbelegung',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribution',
@@ -3380,16 +3380,16 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Es sollten nicht mehr als 200 MB Auslagerungsspeicher verwendet werden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS/Config Settings' => 'OTRS/Konfigurationseinstellungen',
         'Could not determine value.' => 'Konnte Wert nicht ermitteln.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
         'OTRS' => 'OTRS',
         'Daemon' => 'Prozess',
-        'Daemon is not running.' => '',
+        'Daemon is not running.' => 'Daemon läuft nicht.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'OTRS/Database Records' => 'OTRS/Datenbankeinträge',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Ticket-Historien-Einträge',
         'Articles' => 'Artikel',
@@ -3427,11 +3427,11 @@ sub Data {
         'The file system on your OTRS partition is not writable.' => 'Das Dateisystem auf Ihrer OTRS-Partition ist nicht schreibbar.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
-        'Package Installation Status' => '',
+        'Package Installation Status' => 'Paketinstallationsstatus',
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'OTRS/Package List' => 'OTRS/Paketliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -3448,7 +3448,7 @@ sub Data {
             'Sie sollten nicht mehr als 8.000 offene Tickets im System haben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
-        'Ticket Search Index Module' => '',
+        'Ticket Search Index Module' => 'Ticket-Suchindex-Modul',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'Sie haben mehr als 50.000 Artikel und sollten das StaticDB-Backend verwenden. Bitte schauen Sie im Administratorhandbuch (Performance Tuning) nach.',
 
@@ -3461,18 +3461,18 @@ sub Data {
             'Die Tabelle ticket_index enthält verwaiste Einträge. Bitte führen Sie otrs/bin/otrs.CleanTicketIndex.pl aus um sie zu entfernen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => '',
-        'Server time zone' => '',
-        'Computed server time offset' => '',
-        'OTRS TimeZone setting (global time offset)' => '',
+        'OTRS/Time Settings' => 'OTRS/Zeiteinstellungen',
+        'Server time zone' => 'Serverzeitzone',
+        'Computed server time offset' => 'Berechneter Serverzeitversatz',
+        'OTRS TimeZone setting (global time offset)' => 'OTRS-Zeitzoneneinstellung (globaler Zeitversatz)',
         'TimeZone may only be activated for systems running in UTC.' => '',
         'OTRS TimeZoneUser setting (per-user time zone support)' => '',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             '',
-        'OTRS TimeZone setting for calendar ' => '',
+        'OTRS TimeZone setting for calendar ' => 'OTRS-Zeitzoneneinstellung für Kalender',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => '',
+        'Webserver/Loaded Apache Modules' => 'Webserver/Geladene Apache-Module',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Webserver',
@@ -3498,7 +3498,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => '',
+        'Webserver/Environment Variables' => 'Webserver/Umgebungsvariablen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Sie sollten PerlEx verwenden, um die Geschwindigkeit zu steigern.',
@@ -3521,24 +3521,24 @@ sub Data {
         'Group for default access.' => 'Gruppe für den Standardzugriff.',
         'Group of all administrators.' => 'Gruppe aller Administratoren.',
         'Group for statistics access.' => '',
-        'All new state types (default: viewable).' => '',
-        'All open state types (default: viewable).' => '',
-        'All closed state types (default: not viewable).' => '',
+        'All new state types (default: viewable).' => 'Alle neuen Statustypen (Standard: sichtbar).',
+        'All open state types (default: viewable).' => 'Alle offenen Statustypen (Standard: sichtbar).',
+        'All closed state types (default: not viewable).' => 'Alle geschlossenen Statustypen (Standard: nicht sichtbar).',
         'All \'pending reminder\' state types (default: viewable).' => '',
         'All \'pending auto *\' state types (default: viewable).' => '',
-        'All \'removed\' state types (default: not viewable).' => '',
+        'All \'removed\' state types (default: not viewable).' => 'Alle "entfernten" Statustypen (Standard: nicht sichtbar).',
         'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
+        'New ticket created by customer.' => 'Neues Ticket von Kunden erstellt.',
         'Ticket is closed successful.' => 'Ticket erfolgreich geschlossen.',
         'Ticket is closed unsuccessful.' => '',
         'Open tickets.' => 'Offene Tickets',
-        'Customer removed ticket.' => '',
+        'Customer removed ticket.' => 'Kunde entfernte Ticket.',
         'Ticket is pending for agent reminder.' => '',
         'Ticket is pending for automatic close.' => '',
         'State for merged tickets.' => '',
-        'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
-        'system standard signature (en)' => '',
+        'system standard salutation (en)' => 'Systemstandardanrede (en)',
+        'Standard Salutation.' => 'Standardanrede.',
+        'system standard signature (en)' => 'Systemstandardsignatur (en)',
         'Standard Signature.' => 'Standard Signatur',
         'Standard Address.' => 'Standard Adresse',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
@@ -3572,7 +3572,7 @@ sub Data {
         'tmp_lock' => '',
         'email-notification-ext' => '',
         'email-notification-int' => '',
-        'fax' => '',
+        'fax' => 'Fax',
 
         # SysConfig
         '
@@ -3838,7 +3838,7 @@ Thanks for your help!
         'Create and manage services.' => 'Services erzeugen und verwalten.',
         'Create and manage signatures.' => 'Signaturen erzeugen und verwalten.',
         'Create and manage templates.' => 'Vorlagen erzeugen und verwalten.',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => 'Ticket-Benachrichtigungen erstellen und verwalten.',
         'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
         'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
         'Create and manage ticket types.' => 'Ticket-Typen erzeugen und verwalten.',
@@ -4530,7 +4530,7 @@ Thanks for your help!
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
             '',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
-            'Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastScreenOverview wechselt zur letzten Übersichtsseite. TicketZoom wechselt zur Ticket Detailansicht.',
+            'Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastScreenOverview wechselt zur letzten Übersichtsseite. TicketZoom wechselt zur Ticket-Detailansicht.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             '',
         'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
@@ -4737,12 +4737,12 @@ Thanks for your help!
         'Frontend module registration for the agent interface.' => 'Frontend-Modulregistrierung im Agent-Interface.',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
-        'Full value' => '',
+        'Full value' => 'Vollständiger Wert',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Volltextsuche',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
-        'Generate dashboard statistics.' => '',
+        'Generate dashboard statistics.' => 'Übersichtsseitenstatistiken erzeugen.',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -5733,12 +5733,12 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send SMS messages.' => '',
-        'Ticket Notifications' => '',
+        'Ticket Notifications' => 'Ticket-Benachrichtigungen',
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'Ticket-Benachrichtigungen',
         'Ticket overview' => 'Ticket-Übersicht',
         'TicketNumber' => 'Ticketnummer',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>

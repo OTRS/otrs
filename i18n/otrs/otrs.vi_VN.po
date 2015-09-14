@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:37+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/otrs/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1006,7 +1006,7 @@ msgstr "Đóng gói không được triển khai một cách chính xác! Hãy c
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr "% S không cho phép ghi!"
+msgstr ""
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -1276,15 +1276,15 @@ msgstr "Đang tải"
 
 #. Template: AAABase
 msgid "Dear Mr. %s,"
-msgstr "Thưa ông% s,"
+msgstr ""
 
 #. Template: AAABase
 msgid "Dear Mrs. %s,"
-msgstr "Thưa bà% s,"
+msgstr ""
 
 #. Template: AAABase
 msgid "Dear %s,"
-msgstr "Thưa% s,"
+msgstr ""
 
 #. Template: AAABase
 msgid "Hello %s,"
@@ -1298,7 +1298,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Tài khoản mới tạo ra. Gửi thông tin đăng nhập vào% s. Hãy kiểm tra email của bạn."
+msgstr ""
 
 #. Template: AAABase
 msgid "Please press Back and try again."
@@ -1310,7 +1310,7 @@ msgstr "Gửi hướng dẫn thiết lập lại mật khẩu. Hãy kiểm tra e
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr "Gửi mật khẩu mới tới% s. Hãy kiểm tra email của bạn."
+msgstr ""
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1503,55 +1503,55 @@ msgstr "Quá trình chọn không hợp lệ!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr "Bây giờ! nâng cấp lên % s "
+msgstr ""
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr "% s Tới trung tâm nâng cấp% s"
+msgstr ""
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr "Các giấy phép cho% s của bạn sắp hết hạn. Hãy liên hệ với% s để gia hạn hợp đồng của bạn!"
+msgstr ""
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Bản cập nhật cho% s của bạn có sẵn, nhưng có một cuộc xung đột với phiên bản khuôn khổ của bạn! Vui lòng cập nhật khuôn khổ của bạn trước !"
+msgstr ""
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr "Hệ thống của bạn đã được nâng cấp thành công đến% s."
+msgstr ""
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr "Có một vấn đề trong quá trình nâng cấp đến% s"
+msgstr ""
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr "% s đã được cài đặt lại một cách chính xác."
+msgstr ""
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr "Có một vấn đề trong lúc cài đặt lại% s."
+msgstr ""
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr "% S của bạn đã được cập nhật thành công."
+msgstr ""
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr "Có một vấn đề trong quá trình nâng cấp của% s."
+msgstr ""
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr "% s đã được gỡ bỏ cài đặt một cách chính xác."
+msgstr ""
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr "Có một vấn đề gỡ bỏ cài đặt% s."
+msgstr ""
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -1587,11 +1587,11 @@ msgstr "OTRS là nhà cung cấp "
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr "Webservice \"% s\" được tạo ra!"
+msgstr ""
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr "Webservice \"% s\" được cập nhật!"
+msgstr ""
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1748,7 +1748,7 @@ msgstr "Không thể cập nhật mật khẩu, nó chứa các ký tự không 
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Không thể cập nhật mật khẩu, nó phải được ít nhất ký tự% s dài! "
+msgstr ""
 
 #. Template: AAAPreferences
 msgid ""
@@ -2553,11 +2553,11 @@ msgstr "Thẻ %s: lần cập nhật sẽ quá %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time is over (%s)!"
-msgstr "Vé% s: thời gian giải pháp đã qua (% s)!"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
-msgstr "Vé% s: thời gian giải pháp sẽ được qua trong% s!"
+msgstr ""
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
@@ -2922,7 +2922,7 @@ msgstr "Không tìm thấy dữ liệu."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr "Chỉnh sửa ACL% s Danh sách kiểm soát truy cập"
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -3391,11 +3391,11 @@ msgstr "Thay đổi quan hệ khách hàng cho Tập đoàn"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
-msgstr "Toggle% s Cho phép tất cả"
+msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s permission for %s"
-msgstr "Toggle cho phép% s cho% s"
+msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
@@ -3451,7 +3451,7 @@ msgstr "Hoạt động"
 
 #. Template: AdminCustomerUserService
 msgid "Toggle active state for %s"
-msgstr "Toggle trạng thái hoạt động cho% s"
+msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
@@ -10480,7 +10480,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -11448,11 +11448,11 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "Lịch sử::Khác"
+msgstr ""
 
 #. SysConfig
 msgid "%s time unit(s) accounted. Now total %s time unit(s)."
-msgstr "Lịch sử::Giải thích thời gian"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -11550,15 +11550,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "Lịch sử::Email khách hàng"
+msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "Lịch sử::Thêm liên kết thẻ"
+msgstr ""
 
 #. SysConfig
 msgid "Added note (%s)"
-msgstr "Lịch sử::Thêm lưu ý"
+msgstr ""
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
@@ -11843,15 +11843,15 @@ msgstr "Các trả lời tự động <-> Hàng đợi"
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
-msgstr "Lịch sử::Gửi theo dõi tự động."
+msgstr ""
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr "Lịch sử::Gửi từ chối tự động."
+msgstr ""
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
-msgstr "Lịch sử::Gửi phản hồi tự động."
+msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -11903,7 +11903,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr "Lịch sử::Từ bỏ"
+msgstr ""
 
 #. SysConfig
 msgid "Builds an article index right after the article's creation."
@@ -11972,7 +11972,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "Lịch sử::Cập nhật ưu tiên"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14425,7 +14425,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Lịch sử::Xóa liên kết thẻ"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14812,7 +14812,7 @@ msgstr "Địa chỉ email"
 
 #. SysConfig
 msgid "Email sent to \"%s\"."
-msgstr "Lịch sử::Gửi trả lời"
+msgstr ""
 
 #. SysConfig
 msgid "Email sent to customer."
@@ -15101,7 +15101,7 @@ msgstr ""
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
-msgstr "Lịch sử::Theo dõi"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15121,7 +15121,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "Lịch sử::Chuyển tiếp."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15853,7 +15853,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
-msgstr "Lịch sử::Bảo vệ vòng lặp"
+msgstr ""
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -16125,7 +16125,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New owner is \"%s\" (ID=%s)."
-msgstr "Lịch sử::Cập nhật phụ trách"
+msgstr ""
 
 #. SysConfig
 msgid "New process ticket"
@@ -16153,7 +16153,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
-msgstr "Lịch sử::Gửi thông báo khách hàng"
+msgstr ""
 
 #. SysConfig
 msgid "Number of displayed tickets"
@@ -16186,7 +16186,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr "Lịch sử::Cập nhật trạng thái"
+msgstr ""
 
 #. SysConfig
 msgid "Online"
@@ -18486,7 +18486,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
-msgstr "Lịch sử::Chuyển."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -18578,19 +18578,19 @@ msgstr "Lịch sử::Cập nhật SLA \"%s\" (ID=%s)."
 
 #. SysConfig
 msgid "Updated Service to %s (ID=%s)."
-msgstr "Lịch sử::Cập nhật dịch vụ."
+msgstr ""
 
 #. SysConfig
 msgid "Updated Type to %s (ID=%s)."
-msgstr "Lịch sử::Cập nhật loại."
+msgstr ""
 
 #. SysConfig
 msgid "Updated: %s"
-msgstr "Lịch sử::Đặt thời gian treo"
+msgstr ""
 
 #. SysConfig
 msgid "Updated: %s=%s;%s=%s;%s=%s;"
-msgstr "Lịch sử::Cập nhật thẻ"
+msgstr ""
 
 #. SysConfig
 msgid ""

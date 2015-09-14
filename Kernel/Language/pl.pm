@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.764354958985832;
+    $Self->{Completeness}        = 0.767089236887895;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -76,10 +76,10 @@ sub Data {
         'month(s)' => 'miesiąc(-cy)',
         'week' => 'tydzień',
         'week(s)' => 'tydzień(tygodnie)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'kwartał',
+        'quarter(s)' => 'kwartał(y)',
+        'half-year' => 'półrocze',
+        'half-year(s)' => 'półrocze(a)',
         'year' => 'rok',
         'years' => 'lat',
         'year(s)' => 'rok(lat)',
@@ -412,7 +412,7 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Cofnij',
         'Redo' => 'Ponów',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'Demon OTRS nie jest uruchomiony.',
         'Can\'t contact registration server. Please try again later.' => 'Nie można połączyć się z serwerem rejestracji. Prosimy spróbuj ponownie później.',
         'No content received from registration server. Please try again later.' =>
             'Z serwera rejestracji nie otrzymano żadnych danych. Prosimy spróbuj ponownie później.',
@@ -764,8 +764,8 @@ sub Data {
         'Archived tickets' => 'Zarchiwizowane zgłoszenia',
         'Unarchived tickets' => 'Zgłoszenia przywrócone z archiwum',
         'Ticket Information' => 'Informacje o zgłoszeniu',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'włączając podkolejki',
+        'excluding subqueues' => 'wyłączając podkolejki',
 
         # Template: AAAWeekDay
         'Sun' => 'Nd',
@@ -870,7 +870,7 @@ sub Data {
         'Example response' => 'Przykładowa odpowiedź',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => 'Zarządzanie usługami w chmurze',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => 'Podpowiedź',
@@ -884,7 +884,7 @@ sub Data {
         'System Registration' => 'Rejestracja systemu',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Zarejestruj ten system',
         'System Registration is disabled for your system. Please check your configuration.' =>
             '',
 
@@ -1195,7 +1195,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger dla serwisu sieciowego %s',
-        'You are here' => '',
+        'You are here' => 'Jesteś tu',
         'Web Services' => 'Usługi Sieciowe',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Powróć do usług sieciowych',
@@ -1543,7 +1543,7 @@ sub Data {
         'Subject match' => 'Wyszukiwanie w temacie',
         'Body match' => 'Wyszukiwanie w treści',
         'Include attachments to notification' => 'Umieść załączniki w powiadomieniu',
-        'Recipients' => '',
+        'Recipients' => 'Odbiorcy',
         'Send to' => '',
         'Send to these agents' => '',
         'Send to all group members' => '',
@@ -3237,7 +3237,7 @@ sub Data {
         'There is something wrong with your time selection.' => '',
         'Please select one element for the X-axis.' => '',
         'You can only use one time element for the Y axis.' => '',
-        'You can only use only one or two elements for the Y axis.' => '',
+        'You can only use one or two elements for the Y axis.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field.' => '',

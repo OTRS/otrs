@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:36+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1751,7 +1751,7 @@ msgstr "Nie można zmienić hasła ponieważ zawiera niedozwolone znaki!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Nie można zmienić hasła. Hasło musi składać się z co najmniej $s znaków!"
+msgstr ""
 
 #. Template: AAAPreferences
 msgid ""
@@ -8250,11 +8250,11 @@ msgstr "Rozpocznij czat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
-msgstr "% otwartych zgłoszeń z %s"
+msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s closed ticket(s) of %s"
-msgstr "% zamknietych zgłoszeń z %s"
+msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New phone ticket from %s"
@@ -10483,7 +10483,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -18511,7 +18511,7 @@ msgstr "Czas w sekundach, ktory zostanie dodany do czasu właściwego jeśli ust
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
-msgstr "Zmiana tytułu zgłoszenia"
+msgstr ""
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -18593,7 +18593,7 @@ msgstr "Ustawiony czas przypomnienia: %s"
 
 #. SysConfig
 msgid "Updated: %s=%s;%s=%s;%s=%s;"
-msgstr "Aktualizacja pola dynamicznego: %s=%s;%s=%s;"
+msgstr ""
 
 #. SysConfig
 msgid ""

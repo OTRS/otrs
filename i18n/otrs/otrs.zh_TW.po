@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-09 18:52+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-09-14 11:34+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/otrs/OTRS/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -838,7 +838,7 @@ msgstr "退出"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr "成功退出，謝謝使用!"
+msgstr ""
 
 #. Template: AAABase
 msgid "Feature not active!"
@@ -2554,7 +2554,7 @@ msgstr "工單%s: 解決時間已超過(%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
-msgstr "解決時間將在(%s)内超時!"
+msgstr ""
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
@@ -10477,7 +10477,7 @@ msgid "You can only use one time element for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "You can only use only one or two elements for the Y axis."
+msgid "You can only use one or two elements for the Y axis."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -16130,7 +16130,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
-msgstr "Archive state changed: \"%s\""
+msgstr ""
 
 #. SysConfig
 msgid ""
