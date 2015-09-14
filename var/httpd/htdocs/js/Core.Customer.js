@@ -60,8 +60,6 @@ Core.Customer = (function (TargetNS) {
      *      This function initializes the application and executes the needed functions.
      */
     TargetNS.Init = function () {
-        var $TableElements = $('table.Overview tbody tr');
-
         TargetNS.SupportedBrowser = Core.App.BrowserCheck('Customer');
         TargetNS.IECompatibilityMode = Core.App.BrowserCheckIECompatibilityMode();
 
@@ -84,10 +82,7 @@ Core.Customer = (function (TargetNS) {
 
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
-        // Add table functions here (because of performance reasons only do this if table has not more than 200 rows)
-        if ($TableElements.length < 200) {
-            $TableElements.filter(':nth-child(even)').addClass('Even');
-        }
+
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
 
