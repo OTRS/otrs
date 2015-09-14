@@ -67,7 +67,8 @@ $Selenium->RunTest(
                 # create a real test DynamicField
                 my $RandomID = $Helper->GetRandomID();
                 $Selenium->execute_script(
-                    "\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');");
+                    "\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');"
+                );
 
                 # wait until page has finished loading
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
@@ -78,7 +79,8 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # check if test DynamicField show on AdminDynamicField screen
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
                 $Self->True(
                     index( $Selenium->get_page_source(), $RandomID ) > -1,
                     "$RandomID $ID $Type DynamicField found on page",
@@ -93,7 +95,8 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Name", 'css' )->submit();
 
                 # wait to load overview screen
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
 
                 # check class of invalid DynamicField in the overview table
                 $Self->True(
@@ -164,7 +167,8 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 my $Success;

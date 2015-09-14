@@ -1119,6 +1119,7 @@ sub _Replace {
 
     # get recipient data and replace it with <OTRS_...
     $Tag = $Start . 'OTRS_';
+
     # include more readable tag <OTRS_NOTIFICATION_RECIPIENT
     my $RecipientTag = $Start . 'OTRS_NOTIFICATION_RECIPIENT_';
 
@@ -1143,6 +1144,7 @@ sub _Replace {
 
     # get owner data and replace it with <OTRS_OWNER_...
     $Tag = $Start . 'OTRS_OWNER_';
+
     # include more readable version <OTRS_TICKET_OWNER
     my $OwnerTag = $Start . 'OTRS_TICKET_OWNER_';
 
@@ -1174,6 +1176,7 @@ sub _Replace {
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
     $Tag = $Start . 'OTRS_RESPONSIBLE_';
+
     # include more readable version <OTRS_TICKET_RESPONSIBLE
     my $ResponsibleTag = $Start . 'OTRS_TICKET_RESPONSIBLE_';
 

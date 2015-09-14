@@ -303,7 +303,7 @@ sub DeleteAction {
         StatID => $StatID,
         UserID => $Self->{UserID},
     );
-    return $LayoutObject->Redirect( OP => $Self->{LastStatsOverview}  );
+    return $LayoutObject->Redirect( OP => $Self->{LastStatsOverview} );
 }
 
 sub EditScreen {
@@ -537,8 +537,10 @@ sub EditAction {
                 my %TimeScaleLookup = map { $_ => 1 } sort keys %{$TimeScale};
 
                 # set the first allowed time scale value as default
-                if (   !$Data{UseAsValueSeries}[$Index]{SelectedValues}[0]
-                    || !exists $TimeScaleLookup{ $Data{UseAsValueSeries}[$Index]{SelectedValues}[0] } )
+                if (
+                    !$Data{UseAsValueSeries}[$Index]{SelectedValues}[0]
+                    || !exists $TimeScaleLookup{ $Data{UseAsValueSeries}[$Index]{SelectedValues}[0] }
+                    )
                 {
 
                     my @TimeScaleSorted

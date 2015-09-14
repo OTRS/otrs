@@ -87,9 +87,9 @@ $Selenium->RunTest(
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
         my $TextRandom    = "Text" . $Helper->GetRandomID();
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",                     'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
-        $Selenium->find_element( "#submitRichText",              'css' )->click();
+        $Selenium->find_element( "#Subject",        'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#RichText",       'css' )->send_keys($TextRandom);
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Wait until form has loaded, if neccessary
         sleep 3;

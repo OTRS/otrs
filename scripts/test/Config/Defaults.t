@@ -80,9 +80,9 @@ my %CheckSubEntries = (
 );
 
 my %IgnoreEntries = (
-    'Frontend::CommonParam'          => 1,
-    'CustomerFrontend::CommonParam'  => 1,
-    'PublicFrontend::CommonParam'    => 1,
+    'Frontend::CommonParam'         => 1,
+    'CustomerFrontend::CommonParam' => 1,
+    'PublicFrontend::CommonParam'   => 1,
 );
 
 DEFAULTCONFIGENTRY:

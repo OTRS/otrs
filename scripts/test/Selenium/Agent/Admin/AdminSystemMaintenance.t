@@ -89,7 +89,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->click();
         $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#StopDateYear').val('$YearWrong').trigger('redraw.InputField').trigger('change');");
+            "\$('#StopDateYear').val('$YearWrong').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->click();
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->click();
 
@@ -113,13 +114,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->click();
         $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#StartDateYear').val('$YearStart').trigger('redraw.InputField').trigger('change');");
+            "\$('#StartDateYear').val('$YearStart').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->click();
         $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->click();
         $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->click();
         $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->click();
         $Selenium->execute_script(
-            "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');");
+            "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->click();
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->click();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);

@@ -75,7 +75,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->submit();
 
         # wait to load overview screen
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length" );
 
         # check if test SLA show on AdminSLA screen
         $Self->True(
@@ -108,7 +109,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->submit();
 
         # wait to load overview screen
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length" );
 
         # check class of invalid SLA in the overview table
         $Self->True(

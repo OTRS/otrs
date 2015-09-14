@@ -185,7 +185,7 @@ sub Run {
     my ( $s, $m, $h, $D, $M, $Y ) =
         $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
         SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-    );
+        );
 
     my %GetParam;
     my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
@@ -242,9 +242,9 @@ sub Run {
     # run stat...
     my @StatArray = @{
         $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-            StatID   => $Self->{StatID},
-            GetParam => \%GetParam,
-            UserID   => 1,
+            StatID       => $Self->{StatID},
+            GetParam     => \%GetParam,
+            UserID       => 1,
             UserLanguage => $Self->{Language},
         ),
     };

@@ -1276,7 +1276,10 @@ sub StatsParamsGet {
                                     = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
 
                                 if ( !$Time{TimeRelativeCount} && !$Time{TimeRelativeUpcomingCount} ) {
-                                    push @Errors, Translatable('No past complete or the current+upcoming complete relative time value selected.');
+                                    push @Errors,
+                                        Translatable(
+                                        'No past complete or the current+upcoming complete relative time value selected.'
+                                        );
                                 }
 
                                 # Use Values of the stat as fallback
@@ -1400,7 +1403,8 @@ sub StatsParamsGet {
             if ( !IsHashRefWithData($TimeScale) ) {
                 push @Errors,
                     Translatable(
-                    'No time scale value available for the current selected time scale value on the X axis.');
+                    'No time scale value available for the current selected time scale value on the X axis.'
+                    );
             }
         }
     }
@@ -1658,7 +1662,8 @@ sub StatsConfigurationValidate {
 
                     if ( !IsHashRefWithData($TimeScale) ) {
                         $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable(
-                            'No time scale value available for the current selected time scale value on the X axis.');
+                            'No time scale value available for the current selected time scale value on the X axis.'
+                        );
                     }
 
                     $TimeUsed++;

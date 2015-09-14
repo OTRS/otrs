@@ -90,7 +90,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MatchNot1",   'css' )->click();
         $Selenium->find_element( "#MatchValue1", 'css' )->send_keys($PostMasterBody);
         $Selenium->execute_script(
-            "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');");
+            "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
         $Selenium->find_element( "#EditName",  'css' )->submit();
 

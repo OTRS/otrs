@@ -91,15 +91,19 @@ $Selenium->RunTest(
 
         # set filter to test queue
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;" );
+        $Selenium->WaitFor( JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;" );
         $Selenium->execute_script(
-            "\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length" );
+            "\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length" );
 
         # set tickets per page to 10
         $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->execute_script(
-            "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');");
+            "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div#OverviewBody').length" );
 

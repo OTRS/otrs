@@ -89,7 +89,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom);
         $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($DescriptionShort);
         $Selenium->execute_script(
-            "\$('#Interface').val('BothInterfaces').trigger('redraw.InputField').trigger('change');");
+            "\$('#Interface').val('BothInterfaces').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->execute_script("\$('#Permission').val('rw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->submit();
 
@@ -101,7 +102,9 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test activity dialog using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
+        $Selenium->WaitFor( JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length"
+        );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandom);
 
@@ -158,7 +161,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",             'css' )->send_keys("edit");
         $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys(" Edit");
         $Selenium->execute_script(
-            "\$('#Interface').val('AgentInterface').trigger('redraw.InputField').trigger('change');");
+            "\$('#Interface').val('AgentInterface').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->execute_script("\$('#Permission').val('ro').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->submit();
 
@@ -174,7 +178,8 @@ $Selenium->RunTest(
         my $DescriptionShortEdit     = $DescriptionShort . " Edit";
 
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length"
         );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandomEdit);

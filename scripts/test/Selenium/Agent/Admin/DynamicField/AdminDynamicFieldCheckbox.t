@@ -40,7 +40,8 @@ $Selenium->RunTest(
 
             my $ObjectType = $Type . "DynamicField";
             $Selenium->execute_script(
-                "\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');");
+                "\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');"
+            );
 
             # wait until page has finished loading
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );

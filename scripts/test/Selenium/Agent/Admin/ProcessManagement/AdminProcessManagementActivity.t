@@ -93,7 +93,8 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for created test activity using filter on AdminProcessManagement screen
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#Activities li:contains($ActivityRandom)').length" );
+        $Selenium->WaitFor( JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#Activities li:contains($ActivityRandom)').length" );
         $Selenium->find_element( "#ActivityFilter", 'css' )->send_keys($ActivityRandom);
 
         # wait for filter to kick in
