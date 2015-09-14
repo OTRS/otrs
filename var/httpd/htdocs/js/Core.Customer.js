@@ -84,10 +84,7 @@ Core.Customer = (function (TargetNS) {
 
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
-        // Add table functions here (because of performance reasons only do this if table has not more than 200 rows)
-        if ($TableElements.length < 200) {
-            $TableElements.filter(':nth-child(even)').addClass('Even');
-        }
+
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
 

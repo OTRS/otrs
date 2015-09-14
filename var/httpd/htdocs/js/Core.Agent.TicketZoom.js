@@ -342,16 +342,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // Table sorting
-        Core.UI.Table.Sort.Init($('#ArticleTable'), function () {
-            $(this).find('tr')
-                .removeClass('Even')
-                .filter(':even')
-                .addClass('Even')
-                .end()
-                .removeClass('Last')
-                .filter(':last')
-                .addClass('Last');
-        });
+        Core.UI.Table.Sort.Init($('#ArticleTable'));
 
         // load another article, if in "show one article" mode and article id is provided by location hash
         if (!ZoomExpand) {

@@ -120,11 +120,7 @@ Core.UI.ActionRow = (function (TargetNS) {
             $ActionRow
                 .find('li').filter(':not(.AlwaysPresent)').remove()
                 .end().end()
-                .find('#BulkAction').addClass('Inactive')
-                .end()
-                .find('li.Last').removeClass('Last')
-                .end()
-                .find('li:last').addClass('Last');
+                .find('#BulkAction').addClass('Inactive');
         }
         // Exactly one checkbox is selected
         else if ($Checkboxes.length === 1 && !$('#SelectAllTickets').is(':checked')) {
@@ -151,12 +147,6 @@ Core.UI.ActionRow = (function (TargetNS) {
                     }
                 });
             }
-
-            // Apply the Last class to the right element
-            $ActionRow
-                .find('li.Last').removeClass('Last')
-                .end()
-                .find('li:last').addClass('Last');
         }
         // Two ore more checkboxes selected
         else {
@@ -164,11 +154,7 @@ Core.UI.ActionRow = (function (TargetNS) {
             $ActionRow
                 .find('li').filter(':not(.AlwaysPresent)').remove()
                 .end().end()
-                .find('#BulkAction').removeClass('Inactive')
-                .end()
-                .find('li.Last').removeClass('Last')
-                .end()
-                .find('li:last').addClass('Last');
+                .find('#BulkAction').removeClass('Inactive');
         }
     };
 
