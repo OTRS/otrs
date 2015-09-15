@@ -121,8 +121,10 @@ for my $Test (@Tests) {
     $Self->Is(
         $MailTimeStamp,
         $Test->{Result},
-        "$Test->{Name} ($Test->{ServerTZ}) Timestamp $Test->{TimeStamp}:",
+        "$Test->{Name} ($Test->{ServerTZ}) Timestamp $Test->{TimeStampUTC}:",
     );
+
+    $HelperObject->FixedTimeUnset();
 }
 
 1;
