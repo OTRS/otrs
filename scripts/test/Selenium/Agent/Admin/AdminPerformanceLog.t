@@ -58,6 +58,8 @@ $Selenium->RunTest(
             # click on Admin
             $Selenium->find_element("//a[contains(\@href, \'Interface=Agent;Minute=$Time' )]")->click();
 
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.table').length" );
+
             # check screen layout
             $Selenium->find_element( "table",             'css' );
             $Selenium->find_element( "table thead tr th", 'css' );

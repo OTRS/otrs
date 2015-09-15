@@ -137,12 +137,12 @@ $Selenium->RunTest(
                 )->{ID};
 
                 # click on delete icon
-                my $CheckConfirmJS = <<"JAVASCRIPT";
+                my $CheckConfirmJSBlock = <<"JAVASCRIPT";
 (function () {
     var lastConfirm = undefined;
     window.confirm = function (message) {
         lastConfirm = message;
-        return true;
+        return false; // stop procedure at first try
     };
     window.getLastConfirm = function () {
         var result = lastConfirm;
@@ -151,7 +151,7 @@ $Selenium->RunTest(
     };
 }());
 JAVASCRIPT
-                $Selenium->execute_script($CheckConfirmJS);
+                $Selenium->execute_script($CheckConfirmJSBlock);
 
                 $Selenium->find_element(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
@@ -168,6 +168,26 @@ JAVASCRIPT
                     ),
                     'Check for opened confirm text',
                 );
+
+                my $CheckConfirmJSProceed = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return true; // allow procedure at second try
+    };
+    window.getLastConfirm = function () {
+        var result = lastConfirm;
+        lastConfirm = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+                $Selenium->execute_script($CheckConfirmJSProceed);
+
+                $Selenium->find_element(
+                    "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
+                )->click();
 
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'

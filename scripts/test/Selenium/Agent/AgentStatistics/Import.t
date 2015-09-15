@@ -238,9 +238,7 @@ $Selenium->RunTest(
 
         my $CheckConfirmJS = <<"JAVASCRIPT";
 (function () {
-    var lastConfirm = undefined;
     window.confirm = function (message) {
-        lastConfirm = message;
         return true;
     };
 }());

@@ -26,6 +26,11 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # enable tool bar CICSearchCustomerID
         my %CICSearchCustomerID = (
             Block       => "ToolBarCICSearchCustomerID",

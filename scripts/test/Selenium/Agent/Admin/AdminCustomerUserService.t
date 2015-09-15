@@ -32,6 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # create test CustomerUser

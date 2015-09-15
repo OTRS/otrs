@@ -26,6 +26,11 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # Use a calendar with the same business hours for every day so that the UT runs correctly
         #   on every day of the week and outside usual business hours.
         my %Week;
