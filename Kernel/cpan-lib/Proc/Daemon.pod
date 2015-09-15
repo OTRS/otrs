@@ -144,11 +144,18 @@ Defines the path to the working directory of your daemon. Defaults to C</>.
 
 Sets the real user identifier (C<< $< >>) and the effective user identifier
 (C<< $> >>) for the daemon process using C<POSIX::setuid( ... )>, in case you
-want to run your daemon under an other user then the parent. Obviously the
+want to run your daemon under an other user than the parent. Obviously the
 first user must have the rights to switch to the new user otherwise it will
 stay the same. It is helpful to define the argument C<setuid> if you start your
 script at boot time by init with the superuser, but wants the daemon to run
 under a normal user account.
+
+=item setgid
+
+Sets the real group identifier (C<$(>) and the effective group identifier
+(C<$)>) for the daemon process using C<POSXI::setgid( ... )>, just like
+C<setuid>.  As with C<setuid>, the first user must have the rights to switch to the
+new group, otherwise the group id will not be changed.
 
 
 =item child_STDIN
@@ -200,6 +207,13 @@ you write the numeric file descriptors inside the arrayref.
 
 Defines the path to a file (owned by the parent user) where the PID of the
 daemon process will be stored. Defaults to C<undef> (= write no file).
+
+
+=item file_umask
+
+Defines umask for C<pid_file>, C<child_STDIN>, C<child_STDOUT> and
+C<child_STDERR> files. Defaults to C<066> (other users may not modify or
+read the files).
 
 
 =item exec_command
@@ -391,7 +405,7 @@ the C<Proc::ProcessTable> module to be installed.
 
 C<Proc::Daemon::init> is still available for backwards capability.
 
-
+Proc::Daemon is now taint safe (assuming it is not passed any tainted parameters).
 
 
 =head1 AUTHORS
@@ -407,7 +421,7 @@ Earl Hood, earl@earlhood.com, http://www.earlhood.com/
 =back
 
 
-Co-maintainer and code writer since version 0.04:
+Co-maintainer and code writer since version 0.04 until version 0.14:
 
 =over 4
 
@@ -415,6 +429,17 @@ Co-maintainer and code writer since version 0.04:
 
 Detlef Pilzecker, http://search.cpan.org/~deti/,
 http://www.secure-sip-server.net/
+
+=back
+
+
+Co-maintainer and code writer since version 0.15:
+
+=over 4
+
+=item *
+
+Pavel Denisov, http://search.cpan.org/~akreal/
 
 =back
 
@@ -451,6 +476,12 @@ useful if it is installed (see above).
 
 
 
+=head1 REPOSITORY
+
+L<https://github.com/akreal/Proc-Daemon>
+
+
+
 
 =head1 SEE ALSO
 
@@ -461,7 +492,7 @@ L<perl(1)>, L<POSIX>, L<Proc::ProcessTable>
 
 =head1 COPYRIGHT
 
-This module is Copyright (C) 1997-2011 by Earl Hood and Detlef Pilzecker.
+This module is Copyright (C) 1997-2015 by Earl Hood, Detlef Pilzecker and Pavel Denisov.
 
 All Rights Reserved.
 

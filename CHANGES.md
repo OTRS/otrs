@@ -1,4 +1,5 @@
 #4.0.13 2015-??-??
+ - 2015-09-15 Updated CPAN module Proc::Daemon to version 0.21.
  - 2015-09-11 Fixed bug#[11462](http://bugs.otrs.org/show_bug.cgi?id=11462) - Article sort order not respected in Print.
 
 #4.0.12 2015-09-15
