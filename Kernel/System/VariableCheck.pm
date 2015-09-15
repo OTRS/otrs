@@ -399,7 +399,7 @@ they are different, undef otherwise.
 Data parameters need to be passed by reference and can be SCALAR,
 ARRAY or HASH.
 
-    my $DataIsDifferent = DataDiff(
+    my $DataIsDifferent = DataIsDifferent(
         Data1 => \$Data1,
         Data2 => \$Data2,
     );
