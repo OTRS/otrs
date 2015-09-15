@@ -1,4 +1,5 @@
 #3.3.15 ????-??-??
+ - 2015-09-15 Updated CPAN module Proc::Daemon to version 0.21.
  - 2015-08-19 Fixed bug#[11440](http://bugs.otrs.org/show_bug.cgi?id=11440) - TransitionAction TicketLockSet typo, thanks to Torsten Thau (c.a.p.e. IT).
  - 2015-08-18 Fixed bug#[11279](http://bugs.otrs.org/show_bug.cgi?id=11279) - auto reply with DynamicFields from webservice.
  - 2015-06-19 Added option to package manager list action, to show deployment info of installed packages.
