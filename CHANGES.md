@@ -1,4 +1,5 @@
 #3.2.18 ??-??-??
+ - 2015-09-15 Updated CPAN module Proc::Daemon to version 0.21.
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
 
 #3.2.17 2014-12-16
