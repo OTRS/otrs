@@ -241,7 +241,8 @@ $Selenium->RunTest(
 
                 # wait for load selected Restriction
                 $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{YAxis}').length;" );
+                    JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{YAxis}').length;"
+                );
 
                 # select order by option
                 $Selenium->execute_script(
@@ -258,7 +259,8 @@ $Selenium->RunTest(
 
             # wait for load selected Restriction
             $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{RestrictionID}').length;" );
+                JavaScript => "return typeof(\$) === 'function' && \$('#$StatsData->{RestrictionID}').length;"
+            );
 
             # add restriction
             $Selenium->execute_script(
@@ -288,9 +290,7 @@ $Selenium->RunTest(
 
             my $CheckConfirmJS = <<"JAVASCRIPT";
 (function () {
-    var lastConfirm = undefined;
     window.confirm = function (message) {
-        lastConfirm = message;
         return true;
     };
 }());

@@ -20,6 +20,11 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],

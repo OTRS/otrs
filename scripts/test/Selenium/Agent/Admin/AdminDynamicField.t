@@ -80,7 +80,8 @@ $Selenium->RunTest(
 
                 # check if test DynamicField show on AdminDynamicField screen
                 $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
+                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
+                );
                 $Self->True(
                     index( $Selenium->get_page_source(), $RandomID ) > -1,
                     "$RandomID $ID $Type DynamicField found on page",
@@ -96,7 +97,8 @@ $Selenium->RunTest(
 
                 # wait to load overview screen
                 $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length" );
+                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
+                );
 
                 # check class of invalid DynamicField in the overview table
                 $Self->True(
@@ -135,12 +137,12 @@ $Selenium->RunTest(
                 )->{ID};
 
                 # click on delete icon
-                my $CheckConfirmJS = <<"JAVASCRIPT";
+                my $CheckConfirmJSBlock = <<"JAVASCRIPT";
 (function () {
     var lastConfirm = undefined;
     window.confirm = function (message) {
         lastConfirm = message;
-        return true;
+        return false; // stop procedure at first try
     };
     window.getLastConfirm = function () {
         var result = lastConfirm;
@@ -149,7 +151,7 @@ $Selenium->RunTest(
     };
 }());
 JAVASCRIPT
-                $Selenium->execute_script($CheckConfirmJS);
+                $Selenium->execute_script($CheckConfirmJSBlock);
 
                 $Selenium->find_element(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
@@ -167,8 +169,29 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
+                my $CheckConfirmJSProceed = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return true; // allow procedure at second try
+    };
+    window.getLastConfirm = function () {
+        var result = lastConfirm;
+        lastConfirm = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+                $Selenium->execute_script($CheckConfirmJSProceed);
+
+                $Selenium->find_element(
+                    "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
+                )->click();
+
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
+                );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 my $Success;
