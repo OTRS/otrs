@@ -75,11 +75,16 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
             $Selenium->find_element( "#Name",  'css' )->submit();
 
+            # wait to load overview screen
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
+            );
+
             # check for test DynamicFieldCheckbox on AdminDynamicField screen
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
                 "DynamicFieldCheckbox $RandomID found on table"
-            );
+            ) || die;
 
             # edit test DynamicFieldCheckbox default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();

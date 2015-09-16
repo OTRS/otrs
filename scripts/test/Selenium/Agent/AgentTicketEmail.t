@@ -117,11 +117,16 @@ $Selenium->RunTest(
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-        sleep 1;
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->submit();
+
+        # Wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
 
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
@@ -130,6 +135,11 @@ $Selenium->RunTest(
         );
         my $TicketNumber = (%TicketIDs)[1];
         my $TicketID     = (%TicketIDs)[0];
+
+        $Self->True(
+            $TicketID,
+            "Ticket created"
+        ) || die;
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,

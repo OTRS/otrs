@@ -112,6 +112,11 @@ $Selenium->RunTest(
         );
         my $TicketID = (%TicketIDs)[0];
 
+        $Self->True(
+            $TicketID,
+            "Ticket created"
+        ) || die;
+
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
@@ -142,6 +147,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ComposeStateID').val('4').trigger('redraw.InputField').trigger('change');");
 
         $Selenium->find_element( "#ToCustomer", 'css' )->submit();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        sleep 1;
 
         # return back to AgentTicketZoom
         $Selenium->switch_to_window( $Handles->[0] );
