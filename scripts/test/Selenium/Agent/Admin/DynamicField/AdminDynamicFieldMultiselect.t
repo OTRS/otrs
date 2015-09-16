@@ -98,11 +98,16 @@ $Selenium->RunTest(
 
             $Selenium->find_element( "#Name", 'css' )->submit();
 
+            # wait to load overview screen
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
+            );
+
             # check for test DynamicFieldMultiselect on AdminDynamicField screen
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
                 "DynamicFieldMultiselect $RandomID found on table"
-            );
+            ) || die;
 
             # edit test DynamicFieldMultiselect possiblenone, default value, treeview and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();

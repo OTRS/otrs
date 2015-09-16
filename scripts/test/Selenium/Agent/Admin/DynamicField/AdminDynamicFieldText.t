@@ -78,11 +78,16 @@ $Selenium->RunTest(
             $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
             $Selenium->find_element( "#Name",                        'css' )->submit();
 
+            # wait to load overview screen
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
+            );
+
             # check for test DynamicFieldText on AdminDynamicField screen
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
                 "DynamicFieldText $RandomID found on table"
-            );
+            ) || die;
 
             # edit test DynamicFieldText default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
