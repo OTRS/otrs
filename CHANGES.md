@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-16 Fixed a nasty JSON::XS crash on some platforms.
  - 2015-09-11 Fixed bug#[11462](http://bugs.otrs.org/show_bug.cgi?id=11462) - Article sort order not respected in Print.
 
 #5.0.0.beta4 2015-09-15
