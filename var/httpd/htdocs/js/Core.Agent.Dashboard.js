@@ -451,35 +451,51 @@ Core.Agent.Dashboard = (function (TargetNS) {
          * @function
          * @description
          *      Check for validity of relative time settings
-         *      Each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
+         *      Each time setting has its own maximum value in data-max-seconds and data-upcoming-max-seconds attribute on the .Value div.
          *      If the combination of unit and count is higher than this value, the select boxes will be
          *      colored with red and the submit button will be blocked.
          */
         function ValidateTimeSettings() {
 
             $Container.find('.TimeRelativeUnitView').each(function() {
+                var ErrorPastCompleteCount = false,
+                ErrorUpcomingCompleteCount = false;
+
                 if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-upcoming-max-seconds'), 10)) {
-                    $(this)
-                        .add($(this).prev('select'))
-                        .add($(this).closest('.Value'))
-                        .addClass('Error');
+                    ErrorUpcomingCompleteCount = true;
                 }
                 else {
-                    $(this)
-                        .add($(this).prev('select'))
-                        .add($(this).closest('.Value'))
-                        .removeClass('Error');
+                    ErrorUpcomingCompleteCount = false;
                 }
 
                 if (parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+                    ErrorPastCompleteCount = true;
+                }
+                else {
+                    ErrorPastCompleteCount = false;
+                }
+
+                if (ErrorUpcomingCompleteCount) {
+                    $(this).prev('select').addClass('Error');
+                }
+                else {
+                    $(this).prev('select').removeClass('Error');
+                }
+
+                if (ErrorPastCompleteCount) {
+                    $(this).prev('select').prev('select').addClass('Error');
+                }
+                else {
+                    $(this).prev('select').prev('select').removeClass('Error');
+                }
+
+                if (ErrorUpcomingCompleteCount || ErrorPastCompleteCount) {
                     $(this)
-                        .add($(this).prev('select').prev('select'))
                         .add($(this).closest('.Value'))
                         .addClass('Error');
                 }
                 else {
                     $(this)
-                        .add($(this).prev('select').prev('select'))
                         .add($(this).closest('.Value'))
                         .removeClass('Error');
                 }
