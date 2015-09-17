@@ -64,6 +64,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM valid");
         $Selenium->find_element( "#SQL", 'css' )->submit();
 
+        sleep 5;
+
         # verify results
         my @Elements = $Selenium->find_elements( 'table thead tr', 'css' );
         $Self->Is(

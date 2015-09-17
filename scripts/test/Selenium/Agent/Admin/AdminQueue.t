@@ -90,6 +90,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
         $Selenium->find_element( "#Name",                              'css' )->submit();
 
+        sleep 5;
+
         # check Queue - Responses page
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -154,6 +156,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Comment",                   'css' )->submit();
+
+        sleep 5;
 
         # check overview page
         $Self->True(

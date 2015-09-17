@@ -100,6 +100,8 @@ JAVASCRIPT
         # send form
         $Selenium->find_element( "#Name", 'css' )->submit();
 
+        sleep 5;
+
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
         $Self->Is(
