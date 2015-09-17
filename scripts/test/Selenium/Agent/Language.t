@@ -69,6 +69,15 @@ $Selenium->RunTest(
                 UserLanguage => $Language,
             );
 
+            # Wait until form has loaded, if neccessary
+            ACTIVESLEEP:
+            for my $Second ( 1 .. 20 ) {
+                if ( $Selenium->execute_script('return typeof($) === "function" && $(".MainBox h1").length') ) {
+                    last ACTIVESLEEP;
+                }
+                sleep 0.5;
+            }
+
             $Element = $Selenium->find_element( '.MainBox h1', 'css' );
             $Self->Is(
                 $Element->get_text(),
