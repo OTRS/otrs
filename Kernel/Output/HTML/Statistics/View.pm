@@ -181,6 +181,24 @@ sub StatsParamsWidget {
         return;    # no possible output format
     }
 
+    # provide the time zone field only, if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
+    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && $Stat->{StatType} eq 'dynamic' ) {
+        my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
+
+        my %Frontend;
+        $Frontend{SelectTimeZone} = $LayoutObject->BuildSelection(
+            %TimeZoneBuildSelection,
+            Name        => 'TimeZone',
+            Class       => 'Modernize',
+            SelectedID  => $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
+        );
+
+        $LayoutObject->Block(
+            Name => 'TimeZone',
+            Data => \%Frontend,
+        );
+    }
+
     if ( $ConfigObject->Get('Stats::ExchangeAxis') ) {
         my $ExchangeAxis = $LayoutObject->BuildSelection(
             Data => {
@@ -755,6 +773,19 @@ sub GeneralSpecificationsWidget {
         SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
     );
 
+    # provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
+    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && ( ( $Stat->{StatType} && $Stat->{StatType} eq 'dynamic' ) || ( $Frontend{StatType} && $Frontend{StatType} eq 'dynamic' ) ) ) {
+
+        my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
+
+        $Stat->{SelectTimeZone} = $LayoutObject->BuildSelection(
+            %TimeZoneBuildSelection,
+            Name        => 'TimeZone',
+            Class       => 'Modernize ' . ( $Errors{TimeZoneServerError} ? ' ServerError' : '' ),
+            SelectedID  => $GetParam{TimeZone} // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
+        );
+    }
+
     my $Output .= $LayoutObject->Output(
         TemplateFile => 'Statistics/GeneralSpecificationsWidget',
         Data         => {
@@ -1123,6 +1154,11 @@ sub StatsParamsGet {
 
     my ( %GetParam, @Errors );
 
+    # get the time zone param
+    if ( !$TimeObject->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && length $LocalGetParam->( Param => 'TimeZone' ) ) {
+        $GetParam{TimeZone} = $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone};
+    }
+
     #
     # Static statistics
     #
@@ -1436,7 +1472,8 @@ sub StatsResultRender {
 
     # Generate Filename
     my $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . ' Created',
+        String   => $Stat->{Title} . ' Created',
+        TimeZone => $Param{TimeZone},
     );
 
     # Translate the column and row description
@@ -1522,6 +1559,7 @@ sub StatsResultRender {
             Title        => $Title,
             HeadArrayRef => $HeadArrayRef,
             StatArray    => \@StatArray,
+            TimeZone     => $Param{TimeZone},
             UserID       => $Param{UserID},
         );
         return $LayoutObject->Attachment(
@@ -1887,6 +1925,7 @@ sub _TimeOutput {
 
             # default time configuration
             $TimeConfig{Format}                     = $Param{TimePeriodFormat};
+            $TimeConfig{OverrideTimeZone}           = 1;
             $TimeConfig{ $Element . 'StartYear' }   = $Year - 1;
             $TimeConfig{ $Element . 'StartMonth' }  = 1;
             $TimeConfig{ $Element . 'StartDay' }    = 1;
@@ -2172,6 +2211,42 @@ sub _TimeScaleYAxis {
     );
 
     return \%TimeScaleYAxis;
+}
+
+sub _TimeZoneBuildSelection {
+    my ( $Self, %Param ) = @_;
+
+    my %TimeZoneBuildSelection = (
+        Data => {
+            '0'   => '+ 0',
+            '+1'  => '+ 1',
+            '+2'  => '+ 2',
+            '+3'  => '+ 3',
+            '+4'  => '+ 4',
+            '+5'  => '+ 5',
+            '+6'  => '+ 6',
+            '+7'  => '+ 7',
+            '+8'  => '+ 8',
+            '+9'  => '+ 9',
+            '+10' => '+10',
+            '+11' => '+11',
+            '+12' => '+12',
+            '-1'  => '- 1',
+            '-2'  => '- 2',
+            '-3'  => '- 3',
+            '-4'  => '- 4',
+            '-5'  => '- 5',
+            '-6'  => '- 6',
+            '-7'  => '- 7',
+            '-8'  => '- 8',
+            '-9'  => '- 9',
+            '-10' => '-10',
+            '-11' => '-11',
+            '-12' => '-12',
+        },
+    );
+
+    return %TimeZoneBuildSelection;
 }
 
 =item _ColumnAndRowTranslation()

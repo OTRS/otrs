@@ -80,23 +80,32 @@ sub Run {
         },
     );
 
-    my $ClosedText     = $LayoutObject->{LanguageObject}->Translate('Closed');
-    my $CreatedText    = $LayoutObject->{LanguageObject}->Translate('Created');
-    my $StateText      = $LayoutObject->{LanguageObject}->Translate('State');
-    my @TicketsCreated = ();
-    my @TicketsClosed  = ();
-    my @TicketWeekdays = ();
-    my $Max            = 0;
+    my $ClosedText      = $LayoutObject->{LanguageObject}->Translate('Closed');
+    my $CreatedText     = $LayoutObject->{LanguageObject}->Translate('Created');
+    my $StateText       = $LayoutObject->{LanguageObject}->Translate('State');
+    my @TicketsCreated  = ();
+    my @TicketsClosed   = ();
+    my @TicketWeekdays  = ();
+    my $Max             = 0;
+    my $UseUserTimeZone = 0;
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    # get the time object
+    my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
+
+    # use the UserTimeObject, if the system use UTC as system time and the TimeZoneUser feature is active
+    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
+        $UseUserTimeZone = 1;
+        $TimeObject      = $LayoutObject->{UserTimeObject};
+    }
+
     for my $Key ( 0 .. 6 ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
+        # get the system time
         my $TimeNow = $TimeObject->SystemTime();
+
         if ($Key) {
             $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
         }
@@ -109,16 +118,39 @@ sub Run {
             $LayoutObject->{LanguageObject}->Translate( $Axis{'7Day'}->{$WeekDay} )
         );
 
+        my $TimeStart = "$Year-$Month-$Day 00:00:00";
+        my $TimeStop  = "$Year-$Month-$Day 23:59:59";
+
+        if ($UseUserTimeZone) {
+
+            my $SystemTimeStart = $TimeObject->TimeStamp2SystemTime(
+                String => $TimeStart,
+            );
+            my $SystemTimeStop = $TimeObject->TimeStamp2SystemTime(
+                String => $TimeStop,
+            );
+
+            $SystemTimeStart = $SystemTimeStart - ( $Self->{UserTimeZone} * 3600 );
+            $SystemTimeStop  = $SystemTimeStop - ( $Self->{UserTimeZone} * 3600 );
+
+            $TimeStart = $TimeObject->SystemTime2TimeStamp(
+                SystemTime => $SystemTimeStart,
+            );
+            $TimeStop = $TimeObject->SystemTime2TimeStamp(
+                SystemTime => $SystemTimeStop,
+            );
+        }
+
         my $CountCreated = $TicketObject->TicketSearch(
 
             # cache search result 30 min
             CacheTTL => 60 * 30,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
-            TicketCreateTimeNewerDate => "$Year-$Month-$Day 00:00:00",
+            TicketCreateTimeNewerDate => $TimeStart,
 
             # tickets with created time before ... (ticket older than this date) (optional)
-            TicketCreateTimeOlderDate => "$Year-$Month-$Day 23:59:59",
+            TicketCreateTimeOlderDate => $TimeStop,
 
             CustomerID => $Param{Data}->{UserCustomerID},
             Result     => 'COUNT',
@@ -138,10 +170,10 @@ sub Run {
             CacheTTL => 60 * 30,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
-            TicketCloseTimeNewerDate => "$Year-$Month-$Day 00:00:00",
+            TicketCloseTimeNewerDate => $TimeStart,
 
             # tickets with created time before ... (ticket older than this date) (optional)
-            TicketCloseTimeOlderDate => "$Year-$Month-$Day 23:59:59",
+            TicketCloseTimeOlderDate => $TimeStop,
 
             CustomerID => $Param{Data}->{UserCustomerID},
             Result     => 'COUNT',

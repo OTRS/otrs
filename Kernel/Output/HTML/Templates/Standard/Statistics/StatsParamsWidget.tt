@@ -27,6 +27,17 @@
     <div class="Clear"></div>
 [% RenderBlockEnd("FormatFixed") %]
 
+[% RenderBlockStart("TimeZone") %]
+    <label for="TimeZone">[% Translate("Time Zone") | html %]:</label>
+    <div class="Value">
+        [% Data.SelectTimeZone %]
+        <p class="FieldExplanation">
+            [% Translate('The selected time periods in the statistic are time zone neutral.') | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("TimeZone") %]
+
 [% RenderBlockStart("ExchangeAxis") %]
     <label>[% Translate("Exchange Axis") | html %]:</label>
     <div class="Value">[% Data.ExchangeAxis %]</div>
@@ -90,7 +101,7 @@
             [% Translate('Between') | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
         </p>
         <p class="FieldExplanation">
-            [% Translate("The maximal period is from") | html %] [% Data.TimeStartMax | Localize("TimeLong") %] [% Translate("to") | html %] [% Data.TimeStopMax | Localize("TimeLong") %].
+            [% Translate("The maximal period is from") | html %] [% Data.TimeStartMax %] [% Translate("to") | html %] [% Data.TimeStopMax %].
         </p>
     </div>
     <div class="Clear"></div>

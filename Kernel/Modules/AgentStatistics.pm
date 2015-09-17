@@ -333,10 +333,6 @@ sub EditScreen {
         );
 
     if ( $Stat->{StatType} eq 'dynamic' ) {
-        $Frontend{PreviewWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->PreviewWidget(
-            Stat   => $Stat,
-            UserID => $Self->{UserID},
-        );
         $Frontend{XAxisWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->XAxisWidget(
             Stat   => $Stat,
             UserID => $Self->{UserID},
@@ -346,6 +342,10 @@ sub EditScreen {
             UserID => $Self->{UserID},
         );
         $Frontend{RestrictionsWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->RestrictionsWidget(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
+        );
+        $Frontend{PreviewWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->PreviewWidget(
             Stat   => $Stat,
             UserID => $Self->{UserID},
         );
@@ -393,6 +393,10 @@ sub EditAction {
         if ( !length $Data{$Key} ) {    # Valid can be 0
             $Errors{ $Key . 'ServerError' } = 'ServerError';
         }
+    }
+
+    if ( length $ParamObject->GetParam( Param => 'TimeZone' ) ) {
+        $Data{TimeZone} = $ParamObject->GetParam( Param => 'TimeZone' );
     }
 
     for my $Key (qw(SumRow SumCol Cache ShowAsDashboardWidget)) {
@@ -819,6 +823,10 @@ sub AddAction {
         }
     }
 
+    if ( length $ParamObject->GetParam( Param => 'TimeZone' ) ) {
+        $Data{TimeZone} = $ParamObject->GetParam( Param => 'TimeZone' );
+    }
+
     # This seems to be historical metadata that is needed for display.
     my $Object = $Data{ObjectModule};
     $Object = [ split( m{::}, $Object ) ]->[-1];
@@ -999,11 +1007,12 @@ sub RunAction {
     return $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsResultRender(
         StatArray => \@StatArray,
         Stat      => $Stat,
+        TimeZone  => $GetParam{TimeZone},
         UserID    => $Self->{UserID},
         %Param
     );
 
-    return
+    return;
 }
 
 sub GeneralSpecificationsWidgetAJAX {
