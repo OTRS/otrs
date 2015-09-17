@@ -65,6 +65,10 @@ $Selenium->RunTest(
 
         # check for some of Core::Ticket default values
         $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
+
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->get_value(),
             "My Queues",
@@ -88,6 +92,9 @@ $Selenium->RunTest(
             "\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->submit();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
 
         # check for edited values
         $Self->Is(

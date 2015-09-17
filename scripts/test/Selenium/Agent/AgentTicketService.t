@@ -115,6 +115,10 @@ $Selenium->RunTest(
 
         # verify that there are no tickets with My Service filter
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=0;\' )]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         $Self->True(
             index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
             "No tickets found with My Service filter",
@@ -139,6 +143,9 @@ $Selenium->RunTest(
                 "//a[contains(\@href, \'Filter=Unlocked;View=$View;ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=Small;\' )]"
             )->click();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # verify that all expected tickets are present
             for my $TicketID (@TicketIDs) {
 
@@ -155,6 +162,9 @@ $Selenium->RunTest(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=Unlocked\' )]"
                     )->click();
 
+                    # wait until page has loaded, if neccessary
+                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
                     # check for unlocked tickets with 'Available tickets' filter on
                     $Self->True(
                         index( $Selenium->get_page_source(), $TicketData{TicketNumber} ) > -1,
@@ -165,6 +175,9 @@ $Selenium->RunTest(
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=All\' )]"
                     )->click();
+
+                    # wait until page has loaded, if neccessary
+                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
                     # check for unlocked tickets with 'All tickets' filter on
                     $Self->True(
@@ -179,6 +192,9 @@ $Selenium->RunTest(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=All\' )]"
                     )->click();
 
+                    # wait until page has loaded, if neccessary
+                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
                     # check for locked tickets with  'All ticket' filter
                     $Self->True(
                         index( $Selenium->get_page_source(), $TicketData{TicketNumber} ) > -1,
@@ -189,6 +205,9 @@ $Selenium->RunTest(
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=Unlocked\' )]"
                     )->click();
+
+                    # wait until page has loaded, if neccessary
+                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
                     # check for locked tickets with 'Available tickets' filter on
                     $Self->True(

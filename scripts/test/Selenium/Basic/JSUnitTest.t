@@ -34,7 +34,11 @@ $Selenium->RunTest(
 
             $Selenium->get("${WebPath}js/test/$File");
 
+            my $JSModuleName = $File;
+            $JSModuleName =~ s{\.UnitTest\.html}{}xms;
+
             # Wait for the tests to complete.
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;" );
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.result span.total").length;' );
 
             $Selenium->find_element( "p.result span.failed", 'css' );
@@ -55,6 +59,11 @@ $Selenium->RunTest(
             $Self->True( $Passed, "$File - found passed tests" );
             $Self->Is( $Passed, $Total, "$File - total number of tests" );
             $Self->False( $Failed, "$File - failed tests" );
+
+            # Generate screenshot on failure
+            if ( $Failed || !$Passed || $Passed != $Total ) {
+                $Selenium->HandleError("Failed JS unit tests found.");
+            }
         }
 
     }

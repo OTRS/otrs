@@ -148,7 +148,7 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length;' );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check stored value
         $Self->Is(
@@ -223,6 +223,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check edited values
         $Self->Is(

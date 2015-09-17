@@ -122,7 +122,7 @@ $Selenium->RunTest(
             $Self->True(
                 index( $Selenium->get_page_source(), $TestText ) > -1,
                 "Link text $TestText - found on screen"
-            );
+            ) || die;
         }
 
         # delete created test ticket

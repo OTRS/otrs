@@ -149,6 +149,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Comment", 'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
         # check overview page

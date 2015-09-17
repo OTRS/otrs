@@ -104,6 +104,9 @@ $Selenium->RunTest(
                     "//a[contains(\@href, \'Action=AgentTicketStatusView;Filter=$Filter;View=$View;\' )]"
                 )->click();
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
+
                 # check screen output
                 $Selenium->find_element( "table",             'css' );
                 $Selenium->find_element( "table tbody tr td", 'css' );
