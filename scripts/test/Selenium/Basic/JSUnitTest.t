@@ -39,8 +39,10 @@ $Selenium->RunTest(
                 last ACTIVESLEEP;
             }
 
-            sleep(1);
+            sleep 1;
         }
+
+        sleep 1;
 
         $Selenium->find_element( "p.result span.failed", 'css' );
         $Selenium->find_element( "p.result span.passed", 'css' );
@@ -70,6 +72,11 @@ $Selenium->RunTest(
                 0,
                 'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
             );
+        }
+
+        # Generate screenshot
+        if ( $Failed || !$Passed || $Passed != $Total ) {
+            die;
         }
     }
 );
