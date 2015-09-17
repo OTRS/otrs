@@ -96,6 +96,9 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").length' );
+
         # check ticket bulk page
         for my $ID (
             qw(StateID OwnerID QueueID PriorityID OptionMergeTo MergeTo

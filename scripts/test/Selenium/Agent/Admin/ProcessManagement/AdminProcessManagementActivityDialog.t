@@ -63,6 +63,8 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+
         # check AdminProcessManagementActivityDialog screen
         for my $ID (
             qw(Name Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
@@ -136,6 +138,8 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+
         # check stored value
         $Self->Is(
             $Selenium->find_element( "#Name", 'css' )->get_value(),
@@ -196,6 +200,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check edited values
         $Self->Is(

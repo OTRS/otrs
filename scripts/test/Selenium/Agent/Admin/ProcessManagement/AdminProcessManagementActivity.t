@@ -60,6 +60,8 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+
         # check AdminProcessManagementActivity screen
         for my $ID (
             qw(Name FilterAvailableActivityDialogs AvailableActivityDialogs AssignedActivityDialogs)
@@ -124,6 +126,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),

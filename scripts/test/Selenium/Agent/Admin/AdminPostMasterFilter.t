@@ -143,6 +143,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($EditPostMasterPriority);
         $Selenium->find_element( "#EditName",  'css' )->submit();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length' );
+
         # check edited test PostMasterFilter values
         $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
         $Self->Is(
