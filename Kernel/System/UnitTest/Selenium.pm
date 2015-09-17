@@ -250,7 +250,7 @@ sub Login {
         # Wait until form has loaded, if neccessary
         ACTIVESLEEP:
         for my $Second ( 1 .. 20 ) {
-            if ( $Self->execute_script("return \$('a#LogoutButton').length") ) {
+            if ( $Self->execute_script('return typeof($) === "function" && $("a#LogoutButton").length') ) {
                 last ACTIVESLEEP;
             }
             sleep 1;
