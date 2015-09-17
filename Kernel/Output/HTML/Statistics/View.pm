@@ -1311,17 +1311,17 @@ sub StatsParamsGet {
                                 $Time{TimeRelativeUpcomingCount}
                                     = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
 
+                                # Use Values of the stat as fallback
+                                $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
+                                $Time{TimeRelativeUpcomingCount} //= $Element->{TimeRelativeUpcomingCount};
+                                $Time{TimeRelativeUnit} ||= $Element->{TimeRelativeUnit};
+
                                 if ( !$Time{TimeRelativeCount} && !$Time{TimeRelativeUpcomingCount} ) {
                                     push @Errors,
                                         Translatable(
                                         'No past complete or the current+upcoming complete relative time value selected.'
                                         );
                                 }
-
-                                # Use Values of the stat as fallback
-                                $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
-                                $Time{TimeRelativeUpcomingCount} //= $Element->{TimeRelativeUpcomingCount};
-                                $Time{TimeRelativeUnit} ||= $Element->{TimeRelativeUnit};
 
                                 my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(
                                     TimeUnit => $Element->{TimeRelativeUnit},
