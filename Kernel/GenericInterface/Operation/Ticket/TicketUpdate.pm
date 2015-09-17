@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Ticket TicketCreate Operation backend
+Kernel::GenericInterface::Operation::Ticket::TicketUpdate - GenericInterface Ticket TicketUpdate Operation backend
 
 =head1 SYNOPSIS
 
@@ -64,7 +64,8 @@ sub new {
 
 =item Run()
 
-perform TicketCreate Operation. This will return the created ticket number.
+perform TicketUpdate Operation. This will return the updated TicketID and
+if applicable the created ArticleID.
 
     my $Result = $OperationObject->Run(
         Data => {
@@ -172,10 +173,9 @@ perform TicketCreate Operation. This will return the created ticket number.
         ErrorMessage    => '',                      # in case of error
         Data            => {                        # result data payload after Operation
             TicketID    => 123,                     # Ticket  ID number in OTRS (help desk system)
-            TicketNumber => 2324454323322           # Ticket Number in OTRS (Help desk system)
             ArticleID   => 43,                      # Article ID number in OTRS (help desk system)
             Error => {                              # should not return errors
-                    ErrorCode    => 'Ticket.Create.ErrorCode'
+                    ErrorCode    => 'TicketUpdate.ErrorCode'
                     ErrorMessage => 'Error Description'
             },
         },
@@ -505,9 +505,9 @@ sub Run {
         for my $AttachmentItem (@AttachmentList) {
             if ( !IsHashRefWithData($AttachmentItem) ) {
                 return {
-                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorCode => 'TicketUpdate.InvalidParameter',
                     ErrorMessage =>
-                        "TicketCreate: Ticket->Attachment parameter is invalid!",
+                        "TicketUpdate: Ticket->Attachment parameter is invalid!",
                 };
             }
 
