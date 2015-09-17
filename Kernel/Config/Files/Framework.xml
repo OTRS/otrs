@@ -6350,8 +6350,8 @@ via the Preferences button after logging in.
                 <Item>Core.Config.js</Item>
                 <Item>Core.Exception.js</Item>
                 <Item>Core.JSON.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
@@ -6433,8 +6433,8 @@ via the Preferences button after logging in.
                 <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.Accessibility.js</Item>
                 <Item>Core.UI.Dialog.js</Item>
