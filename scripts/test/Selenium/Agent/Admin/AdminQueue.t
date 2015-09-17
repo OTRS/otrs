@@ -156,6 +156,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Comment",                   'css' )->submit();
 
+        sleep 5;
+
         # check overview page
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
