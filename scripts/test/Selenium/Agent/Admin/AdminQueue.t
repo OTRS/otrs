@@ -89,6 +89,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
         $Selenium->find_element( "#Name",                              'css' )->submit();
 
+        sleep 5;
+
         # check Queue - Responses page
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
