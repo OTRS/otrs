@@ -94,6 +94,12 @@ sub GeneratePDF {
         $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No matches found.');
     }
 
+    my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
+
+    if ( length $Param{TimeZone} ) {
+        $Title .= " ($TranslateTimeZone $Param{TimeZone})";
+    }
+
     # page params
     my %PageParam;
     $PageParam{PageOrientation} = 'landscape';
@@ -101,6 +107,7 @@ sub GeneratePDF {
     $PageParam{MarginRight}     = 40;
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
+
     $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
     $PageParam{HeadlineLeft}    = $Title;
 

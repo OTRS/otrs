@@ -85,6 +85,13 @@ sub Configure {
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
+        Name        => 'timezone',
+        Description => "Target time zone (e.g. +2) for which the file should be generated (only provided, if the system use UTC as system time, the TimeZoneUser feature is active and for dynamic statistics).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
         Name => 'language',
         Description =>
             "Target language (e.g. de) for which the file should be generated (will be OTRS default language or english as fallback if left empty).",
@@ -150,13 +157,17 @@ sub PreRun {
     # if there is a recipient, we also need a mail body
     if ( $Self->GetOption('mail-recipient') && !$Self->{MailBody} ) {
         die
-            "You defined at least one --mail-recipient which means that you also need to define a mail body using --mail-body.'\n";
+            "You defined at least one --mail-recipient which means that you also need to define a mail body using --mail-body.\n";
     }
 
     # if a target directory has been passed, check if it exists
     $Self->{TargetDirectory} = $Self->GetOption('target-directory');
     if ( $Self->{TargetDirectory} && !-e $Self->{TargetDirectory} ) {
         die "The target directory '$Self->{TargetDirectory}' does not exist.\n";
+    }
+
+    if ( $Self->GetOption('timezone') && ( $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() || !$Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') ) ) {
+        die "You defined a timzone but this is only provided, if the system use UTC as system time and the time zone user support is active.\n";
     }
 
     # set up used language
@@ -169,6 +180,7 @@ sub PreRun {
             },
         );
     }
+
 
     # set up used format & separator
     $Self->{Format}    = $Self->GetOption('format')    || 'CSV';
@@ -237,6 +249,12 @@ sub Run {
     }
     elsif ( $Stat->{StatType} eq 'dynamic' ) {
         %GetParam = %{$Stat};
+
+        # overwrite the default stats timezone with the given timezone
+        my $TimeZone = $Self->GetOption('timezone');
+        if ( length $TimeZone ) {
+            $GetParam{TimeZone} = $TimeZone;
+        }
     }
 
     # run stat...
@@ -267,6 +285,7 @@ sub Run {
             Title        => $Title,
             HeadArrayRef => $HeadArrayRef,
             StatArray    => \@StatArray,
+            TimeZone     => $GetParam{TimeZone},
         );
 
         # save the pdf with the title and timestamp as filename, or read it from param
@@ -276,7 +295,8 @@ sub Run {
         }
         else {
             $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
-                String => $Stat->{Title} . " Created",
+                String   => $Stat->{Title} . " Created",
+                TimeZone => $GetParam{TimeZone},
             );
         }
         %Attachment = (
@@ -303,7 +323,8 @@ sub Run {
         }
         else {
             $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
-                String => $Stat->{Title} . " Created",
+                String   => $Stat->{Title} . " Created",
+                TimeZone => $GetParam{TimeZone},
             );
         }
 
@@ -331,7 +352,8 @@ sub Run {
         }
         else {
             $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
-                String => $Stat->{Title} . " Created",
+                String   => $Stat->{Title} . " Created",
+                TimeZone => $GetParam{TimeZone},
             );
         }
 

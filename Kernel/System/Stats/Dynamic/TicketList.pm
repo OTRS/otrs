@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Service',
     'Kernel::System::SLA',
     'Kernel::System::State',
+    'Kernel::System::Stats',
     'Kernel::System::Ticket',
     'Kernel::System::Time',
     'Kernel::System::Type',
@@ -1256,6 +1257,15 @@ sub GetStatTable {
         ATTRIBUTE:
         for my $Attribute ( @{$SortedAttributesRef} ) {
             next ATTRIBUTE if !$TicketAttributes{$Attribute};
+
+            # add the given TimeZone for time values
+            if ( $Param{TimeZone} && $Ticket{$Attribute} && $Ticket{$Attribute} =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/ ) {
+                    $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::Stats')->_AddTimeZone(
+                        TimeStamp => $Ticket{$Attribute},
+                        TimeZone  => $Param{TimeZone},
+                    );
+                    $Ticket{$Attribute} .= " ($Param{TimeZone})";
+            }
             push @ResultRow, $Ticket{$Attribute};
         }
         push @StatArray, \@ResultRow;

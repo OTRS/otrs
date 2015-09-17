@@ -72,6 +72,23 @@
     </div>
     <div class="Clear"></div>
 
+[% IF Data.SelectTimeZone %]
+    <label class="Mandatory" for="TimeZone">
+        <span class="Marker">*</span>
+        [% Translate("Time Zone") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectTimeZone %]
+        <p class="FieldExplanation">
+            [% Translate('The selected time periods in the statistic are time zone neutral.') | html %]
+        </p>
+        <div id="TimeZoneError" class="TooltipErrorMessage">
+            <p>[% Translate("This field is required.") | html %]</p>
+        </div>
+    </div>
+    <div class="Clear"></div>
+[% END %]
+
     <label for="SumRow">
         [% Translate("Create summation row") | html %]:
     </label>
