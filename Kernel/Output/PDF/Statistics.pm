@@ -96,7 +96,8 @@ sub GeneratePDF {
 
     my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
 
-    if ( length $Param{TimeZone} ) {
+    # if a time zone was selected
+    if ( $Param{TimeZone} ) {
         $Title .= " ($TranslateTimeZone $Param{TimeZone})";
     }
 

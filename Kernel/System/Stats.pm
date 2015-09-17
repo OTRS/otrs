@@ -1847,7 +1847,7 @@ sub StringAndTimestamp2Filename {
 
     my $Filename = $Param{String} . '_' . "$Y-$M-$D" . '_' . "$h-$m";
 
-    if ( length $Param{TimeZone} ) {
+    if ( $Param{TimeZone} ) {
         $Filename .= '_TimeZone_' . $Param{TimeZone};
     }
 
