@@ -74,7 +74,7 @@ $Selenium->RunTest(
             );
         }
 
-        # Generate screenshot
+        # Generate screenshot on failure
         if ( $Failed || !$Passed || $Passed != $Total ) {
             die;
         }
