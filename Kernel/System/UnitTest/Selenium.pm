@@ -249,7 +249,7 @@ sub Login {
         $Element->submit();
 
         # Wait until form has loaded, if neccessary
-        $Self->WaitFor( JavaScript => "return \$('a#LogoutButton').length" );
+        $Self->WaitFor( JavaScript => 'return typeof($) === "function" && $("a#LogoutButton").length' );
 
         # login succressful?
         $Element = $Self->find_element( 'a#LogoutButton', 'css' );
