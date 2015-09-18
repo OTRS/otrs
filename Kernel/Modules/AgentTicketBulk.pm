@@ -1076,13 +1076,13 @@ sub _Mask {
     $Param{LinkTogetherYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'LinkTogether',
-        SelectedID => $Param{LinkTogether} || 0,
+        SelectedID => $Param{LinkTogether} // 0,
     );
 
     $Param{UnlockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Unlock',
-        SelectedID => $Param{Unlock} || 1,
+        SelectedID => $Param{Unlock} // 1,
     );
 
     # show spell check
