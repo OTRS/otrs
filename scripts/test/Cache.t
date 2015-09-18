@@ -52,7 +52,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         $MaxSubdirLevel = 3;
     }
 
-    for my $SubdirLevels ( 0 .. 3 ) {
+    for my $SubdirLevels ( 0 .. $MaxSubdirLevel ) {
 
         # make sure that the CacheObject gets recreated for each loop.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Cache'] );
@@ -439,7 +439,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             }
 
             # create key
-            my $Key = 'Unittest' . rand 999_999_999;
+            my $Key = 'Unittest' . int rand 999_999_999;
 
             # copy strings to safe the reference
             my $StringRef1 = $String1;
@@ -563,7 +563,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             $Self->Is(
                 $FileContentFileMD5 || '',
                 $FileContentStringMD5 || '',
-                "#9 - $Module - $SubdirLevels - MD5 check",
+                "#9 - $Module - $SubdirLevels - Files - $FileName - MD5 check",
             );
 
             # store file content in cache
@@ -576,7 +576,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
             $Self->True(
                 $CacheSet,
-                "#9 - $Module - $SubdirLevels - Files CacheSet() File $FileName",
+                "#9 - $Module - $SubdirLevels - Files - $FileName - CacheSet()",
             );
 
             # get filecontent from cache
@@ -593,13 +593,13 @@ for my $ModuleFile (@BackendModuleFiles) {
             $Self->Is(
                 $FileContentStringMD5,
                 $CacheContentStringMD5,
-                "#9 - $Module - $SubdirLevels - File Content check",
+                "#9 - $Module - $SubdirLevels - Files - $FileName - Content check",
             );
 
             my $MultipleFileContent ;
-            for my $Times ( 1 .. 10 ) {
+            for my $Times ( 1 .. 5 ) {
 
-                $MultipleFileContent = $MultipleFileContent ? $MultipleFileContent .= ${$FileContent} : ${$FileContent};
+                $MultipleFileContent = $MultipleFileContent ? $MultipleFileContent .= ${$FileContent} . ${$FileContent} : ${$FileContent};
 
                 my $MultipleSize = length $MultipleFileContent;
 
@@ -628,7 +628,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
                 $Self->True(
                     $CacheSet,
-                    "#9 - $Module - $SubdirLevels - MultipleFiles CacheSet() File $FileName - Size $MultipleSize",
+                    "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - CacheSet() - Size $MultipleSize",
                 );
 
                 # get multiple filecontent from cache
@@ -645,7 +645,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                 $Self->Is(
                     $MultipleFileContentMD5,
                     $MultipleCacheContentStringMD5,
-                    "#9 - $Module - $SubdirLevels - MultipleFiles Content check - Size $MultipleSize",
+                    "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - Content check - Size $MultipleSize",
                 );
             }
         }
@@ -711,7 +711,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                         $Self->IsDeeply(
                             $CacheGet,
                             $CacheItem,
-                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test",
+                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test IsDeeply $Key",
                         );
                     }
                     else {
@@ -719,7 +719,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                         # Don't use Is(), produces too much output.
                         $Self->True(
                             $CacheGet eq $CacheItem,
-                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test",
+                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test True $Key",
                         );
                     }
                 }
