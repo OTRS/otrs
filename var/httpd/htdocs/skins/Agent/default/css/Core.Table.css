@@ -751,7 +751,7 @@ thead .headerSortDown > a:before {
     position: absolute;
     right: 0px;
     top: 2px;
-    width: 160px;
+    width: 180px;
     z-index: 100;
 }
 
