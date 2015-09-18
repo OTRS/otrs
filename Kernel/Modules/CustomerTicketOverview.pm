@@ -330,8 +330,9 @@ sub Run {
         my $TitleSort  = '';
         my $AgeSort    = '';
         my $QueueSort  = '';
+        my $OwnerSort  = '';
 
-        # this sets the opposit to the $OrderBy
+        # this sets the opposite to the $OrderBy
         if ( $OrderBy eq 'Down' ) {
             $Sort = 'SortAscending';
         }
@@ -354,6 +355,9 @@ sub Run {
         elsif ( $Self->{SortBy} eq 'Queue' ) {
             $QueueSort = $Sort;
         }
+        elsif ( $Self->{SortBy} eq 'Owner' ) {
+            $OwnerSort = $Sort;
+        }
         $Self->{LayoutObject}->Block(
             Name => 'Filled',
             Data => {
@@ -371,6 +375,11 @@ sub Run {
         if ( $Self->{Owner} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewNavBarPageOwner',
+                Data => {
+                    OrderBy   => $OrderBy,
+                    OwnerSort => $OwnerSort,
+                    Filter    => $Self->{Filter},
+                },
             );
         }
 
