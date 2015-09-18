@@ -143,7 +143,7 @@
 <script type="text/javascript">//<![CDATA[
     $('.CustomerTicketRadio').bind('change', function () {
         var CustomerKey;
-        if ( $(this).attr('checked') ){
+        if ( $(this).prop('checked') ){
 
             CustomerKey = $( '#CustomerKey_' +$(this).val() ).val();
             // get customer tickets
