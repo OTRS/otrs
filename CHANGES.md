@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-18 Fixed bug#[10878](http://bugs.otrs.org/show_bug.cgi?id=10878) - bulk action for owner change: tickets are not locked.
  - 2015-09-18 Fixed bug#[11283](http://bugs.otrs.org/show_bug.cgi?id=11283) - Cropped upper part of the column filters.
  - 2015-09-18 Fixed bug#[10984](http://bugs.otrs.org/show_bug.cgi?id=10984) - Issues when adding customer users using "Customer user" link.
  - 2015-09-18 Fixed bug#[11112](http://bugs.otrs.org/show_bug.cgi?id=11112) - Number of affected tickets of GenericAgent job via web interface is limited hardcoded.
