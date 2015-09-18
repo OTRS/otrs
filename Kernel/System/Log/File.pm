@@ -35,7 +35,7 @@ sub new {
     if ( $ConfigObject->Get('LogModule::LogFile::Date') ) {
         my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );    ## no critic
         $Y = $Y + 1900;
-        $M++;
+        $M = sprintf '%02d', ++$M;
         $Self->{LogFile} .= ".$Y-$M";
     }
 
