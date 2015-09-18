@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-18 Fixed bug#[11441](http://bugs.otrs.org/show_bug.cgi?id=11441) - It is not possible to sort by Owner.
  - 2015-09-18 Added new console command to create customer companies, thanks to babafou.
  - 2015-09-18 Fixed bug#[10878](http://bugs.otrs.org/show_bug.cgi?id=10878) - bulk action for owner change: tickets are not locked.
  - 2015-09-18 Fixed bug#[11283](http://bugs.otrs.org/show_bug.cgi?id=11283) - Cropped upper part of the column filters.
