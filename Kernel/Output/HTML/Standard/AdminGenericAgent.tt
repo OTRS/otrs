@@ -903,6 +903,12 @@ Core.Agent.Admin.GenericAgent.Init({
                 </p>
 [% RenderBlockEnd("DeleteWarning") %]
 
+[% RenderBlockStart("RunLimit") %]
+                <p class="Error">
+                    [% Translate("Warning: There are %s tickets affected but only %s may be modified during one job execution!", Data.Counter, Data.RunLimit) | html %]
+                </p>
+[% RenderBlockEnd("RunLimit") %]
+
                 <div class="SpacingTop">
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Profile=[% Data.Name | uri %]">
                         <span>[% Translate("Edit job") | html %]</span>

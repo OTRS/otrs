@@ -25,6 +25,8 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -1239,6 +1241,17 @@ sub _MaskRun {
             AffectedIDs => $Counter,
         },
     );
+
+    my $RunLimit = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentRunLimit');
+    if ( $Counter > $RunLimit ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RunLimit',
+            Data => {
+                Counter  => $Counter,
+                RunLimit => $RunLimit,
+            }
+        );
+    }
 
     if (@TicketIDs) {
         $Self->{LayoutObject}->Block( Name => 'ResultBlock' );

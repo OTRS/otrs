@@ -9083,6 +9083,14 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::GenericAgentRunLimit" Required="0" Valid="1">
+        <Description Translatable="1">Set the limit of tickets that will be executed on a single genericagent job execution.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,6}$">4000</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::UnlockOnAway" Required="1" Valid="1">
         <Description Translatable="1">Unlock tickets whenever a note is added and the owner is out of office.</Description>
         <Group>Ticket</Group>

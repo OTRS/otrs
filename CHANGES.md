@@ -1,4 +1,5 @@
 #4.0.13 2015-??-??
+ - 2015-09-18 Fixed bug#[11112](http://bugs.otrs.org/show_bug.cgi?id=11112) - Number of affected tickets of GenericAgent job via web interface is limited hardcoded.
  - 2015-09-18 Fixed bug#[11307](http://bugs.otrs.org/show_bug.cgi?id=11307) - Reference to uninitialized value at change of sort order of search result in AgentTicketSearch.
  - 2015-09-18 Fixed bug#[11330](http://bugs.otrs.org/show_bug.cgi?id=11330) - LogModule::LogFile::Date creates log files ending in single digit.
  - 2015-09-16 Fixed a nasty JSON::XS crash on some platforms.
