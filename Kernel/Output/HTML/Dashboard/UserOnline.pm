@@ -109,6 +109,8 @@ sub Config {
     return (
         %{ $Self->{Config} },
 
+        CanRefresh => 1,
+
         # remember, do not allow to use page cache
         # (it's not working because of internal filter)
         CacheKey => undef,
