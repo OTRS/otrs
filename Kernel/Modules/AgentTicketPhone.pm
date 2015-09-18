@@ -1411,9 +1411,87 @@ sub Run {
                 );
             }
             if ($ChatArticleID) {
-                $ChatObject->ChatDelete(
+
+                # check is customer actively present
+                # it means customer has accepted this chat and not left it!
+                my $CustomerPresent = $ChatObject->CustomerPresent(
                     ChatID => $GetParam{FromChatID},
+                    Active => 1,
                 );
+
+                my $Success;
+
+                # if there is no customer present in the chat
+                # just remove the chat
+                if ( !$CustomerPresent ) {
+                    $Success = $ChatObject->ChatDelete(
+                        ChatID => $GetParam{FromChatID},
+                    );
+                }
+
+                # otherwise set chat status to closed and inform other agents
+                else {
+                    $Success = $ChatObject->ChatUpdate(
+                        ChatID     => $GetParam{FromChatID},
+                        Status     => 'closed',
+                        Deprecated => 1,
+                    );
+
+                    # get user data
+                    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                        UserID => $Self->{UserID},
+                    );
+
+                    my $RequesterName = $User{UserFullname};
+                    $RequesterName ||= $Self->{UserID};
+
+                    my $LeaveMessage = $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "%s has left the chat.",
+                        $RequesterName,
+                    );
+
+                    $Success = $ChatObject->ChatMessageAdd(
+                        ChatID          => $GetParam{FromChatID},
+                        ChatterID       => $Self->{UserID},
+                        ChatterType     => 'User',
+                        MessageText     => $LeaveMessage,
+                        SystemGenerated => 1,
+                    );
+
+                    # time after chat will be removed
+                    my $ChatTTL = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::ChatTTL');
+
+                    my $ChatClosedMessage = $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "This chat has been closed and will be removed in %s hours.",
+                        $ChatTTL,
+                    );
+
+                    $Success = $ChatObject->ChatMessageAdd(
+                        ChatID          => $GetParam{FromChatID},
+                        ChatterID       => $Self->{UserID},
+                        ChatterType     => 'User',
+                        MessageText     => $ChatClosedMessage,
+                        SystemGenerated => 1,
+                    );
+
+                    # remove all AGENT participants from chat
+                    my @ParticipantsList = $ChatObject->ChatParticipantList(
+                        ChatID => $GetParam{FromChatID},
+                    );
+                    CHATPARTICIPANT:
+                    for my $ChatParticipant (@ParticipantsList) {
+
+                        # skip it this participant is not agent
+                        next CHATPARTICIPANT if $ChatParticipant->{ChatterType} ne 'User';
+
+                        # remove this participants from the chat
+                        $Success = $ChatObject->ChatParticipantRemove(
+                            ChatID      => $GetParam{FromChatID},
+                            ChatterID   => $ChatParticipant->{ChatterID},
+                            ChatterType => 'User',
+                        );
+                    }
+                }
             }
         }
 
