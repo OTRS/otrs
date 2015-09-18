@@ -42,8 +42,10 @@
                         </a>
                     </th>
 [% RenderBlockStart("OverviewNavBarPageOwner") %]
-                    <th class="Owner">
-                        <span>[% Translate("Owner") | html %]</span>
+                    <th class="Owner [% Data.OwnerSort | uri %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];SortBy=Owner;OrderBy=[% Data.OrderBy | uri %];Filter=[% Data.Filter | uri %]">
+                            [% Translate("Owner") | html %]
+                        </a>
                     </th>
 [% RenderBlockEnd("OverviewNavBarPageOwner") %]
 [% RenderBlockStart("OverviewNavBarPageQueue") %]
