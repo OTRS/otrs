@@ -320,6 +320,9 @@ sub JobRun {
 
     # escalation tickets
     my %Tickets;
+
+    # get ticket limit on job run
+    my $RunLimit = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentRunLimit');
     if ( $Job{Escalation} ) {
 
         # Find all tickets which will escalate within the next five days.
@@ -366,7 +369,7 @@ sub JobRun {
                     %DynamicFieldSearchParameters,
                     ConditionInline => 1,
                     StateType       => $Type,
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -384,7 +387,7 @@ sub JobRun {
                         ConditionInline => 1,
                         Queues          => [$_],
                         StateType       => $Type,
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -399,7 +402,7 @@ sub JobRun {
                     ConditionInline => 1,
                     StateType       => $Type,
                     Queues          => [ $Job{Queue} ],
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -451,7 +454,7 @@ sub JobRun {
                 %Job,
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
@@ -466,7 +469,7 @@ sub JobRun {
                         %DynamicFieldSearchParameters,
                         ConditionInline => 1,
                         Queues          => [$_],
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -479,7 +482,7 @@ sub JobRun {
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
                 Queues          => [ $Job{Queue} ],
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
