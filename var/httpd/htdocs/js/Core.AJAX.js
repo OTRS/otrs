@@ -21,6 +21,14 @@ Core.AJAX = (function (TargetNS) {
     var AJAXLoaderPrefix = 'AJAXLoader',
         ActiveAJAXCalls = {};
 
+    if (!Core.Debug.CheckDependency('Core.AJAX', 'Core.Exception', 'Core.Exception')) {
+        return;
+    }
+
+    if (!Core.Debug.CheckDependency('Core.AJAX', 'Core.App', 'Core.App')) {
+        return;
+    }
+
     /**
      * @function
      * @private
