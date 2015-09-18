@@ -546,6 +546,22 @@ sub Run {
             },
         );
 
+        # show refresh link if refreshing is available
+        if ($Element{Config}->{CanRefresh}) {
+
+            my $NameHTML = $Name;
+            $NameHTML =~ s{-}{_}xmsg;
+
+            $LayoutObject->Block(
+                Name => $Element{Config}->{Block} . 'Refresh',
+                Data => {
+                    %{ $Element{Config} },
+                    Name     => $Name,
+                    NameHTML => $NameHTML,
+                },
+            );
+        }
+
         # show settings link if preferences are available
         if ( $Element{Preferences} && @{ $Element{Preferences} } ) {
             $LayoutObject->Block(
