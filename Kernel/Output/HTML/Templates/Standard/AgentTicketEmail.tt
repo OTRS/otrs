@@ -89,7 +89,7 @@ $('#Dest').bind('change', function (Event) {
 <script type="text/javascript">//<![CDATA[
     $('.CustomerTicketRadio').bind('change', function () {
         var CustomerKey;
-        if ( $(this).attr('checked') ){
+        if ( $(this).prop('checked') ){
 
             CustomerKey = $( '#CustomerKey_' +$(this).val() ).val();
             // get customer tickets
@@ -141,7 +141,7 @@ $('#Dest').bind('change', function (Event) {
                             <div>
                                 <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="[% Data.Count | html %]" [% Data.CustomerSelected | html %]  [% Data.CustomerDisabled | html %] />
                                 <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
                                 <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
