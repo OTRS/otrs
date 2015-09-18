@@ -404,6 +404,13 @@ sub Run {
                     NewUser   => $GetParam{'Owner'},
                     NewUserID => $GetParam{'OwnerID'},
                 );
+                if ( !$Self->{Config}->{RequiredLock} && $Ticket{StateType} !~ /^close/i ) {
+                    $Self->{TicketObject}->TicketLockSet(
+                        TicketID => $TicketID,
+                        Lock     => 'lock',
+                        UserID   => $Self->{UserID},
+                    );
+                }
             }
 
             # set responsible
