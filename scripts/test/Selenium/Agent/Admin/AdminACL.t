@@ -64,6 +64,8 @@ JAVASCRIPT
         # click 'Create new ACL' link
         $Selenium->find_element( "a.Create", 'css' )->click();
 
+        sleep 5;
+
         # check add page
         for my $ID (
             qw(Name Comment Description StopAfterMatch ValidID)
