@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-21 Fixed bug#[11470](http://bugs.otrs.org/show_bug.cgi?id=11470) - AgentPreferences shows "My Services" even when Ticket::Service is disabled.
  - 2015-09-21 Fixed bug#[11481](http://bugs.otrs.org/show_bug.cgi?id=11481) - AutoResponse will be sent altough it is set to invalid.
  - 2015-09-18 Fixed bug#[11441](http://bugs.otrs.org/show_bug.cgi?id=11441) - It is not possible to sort by Owner.
  - 2015-09-18 Added new console command to create customer companies, thanks to babafou.
