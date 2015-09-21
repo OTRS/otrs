@@ -113,6 +113,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketService");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # verify that there are no tickets with My Service filter
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=0;\' )]")->click();
 
@@ -132,11 +135,17 @@ $Selenium->RunTest(
         $Element->is_displayed();
         $Element->click();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check different views for filters
         for my $View (qw(Small Medium Preview)) {
 
             # go to default small view
             $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketService;ServiceID=$ServiceID;View=Small");
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # click on viewer controler
             $Selenium->find_element(

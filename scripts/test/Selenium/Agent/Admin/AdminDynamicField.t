@@ -43,6 +43,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check overview AdminDynamicField
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -131,6 +134,9 @@ $Selenium->RunTest(
 
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
                 # delete DynamicFields, check button for deleting Dynamic Field
                 my $DynamicFieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
                     Name => $RandomID
@@ -193,6 +199,9 @@ JAVASCRIPT
                     JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
                 );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
+
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
                 my $Success;
                 eval {

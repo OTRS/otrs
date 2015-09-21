@@ -99,6 +99,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketResponsibleView");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # test if tickets show with appropriate filters
         FILTER:
         for my $Filter (qw(All New Reminder ReminderReached)) {
@@ -110,6 +113,9 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
             $Element->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # expect to find no tickets for Reminder Reached filter
             if ( $Filter eq 'ReminderReached' ) {
@@ -163,9 +169,14 @@ $Selenium->RunTest(
                 my $Handles = $Selenium->get_window_handles();
                 $Selenium->switch_to_window( $Handles->[1] );
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").length' );
+
                 # change state to 'pending reminder'
                 $Selenium->execute_script("\$('#StateID').val('6').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+                $Selenium->WaitFor( WindowCount => 1 );
 
                 # switch back to AgentTicketResponsibleView
                 $Selenium->switch_to_window( $Handles->[0] );
@@ -175,6 +186,8 @@ $Selenium->RunTest(
             # switch back to AgentTicketResponsibleView
             $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketResponsibleView");
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
         }
 
         # delete created test tickets

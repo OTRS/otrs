@@ -111,12 +111,18 @@ $Selenium->RunTest(
         # go to AgentTicketWatchView
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketWatchView");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         my $Element = $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]"
         );
         $Element->is_enabled();
         $Element->is_displayed();
         $Element->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check different views for filters
         for my $View (qw(Small Medium Preview)) {

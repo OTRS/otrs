@@ -60,6 +60,9 @@ $Selenium->RunTest(
             $Element2->send_keys("");
             $Element2->submit();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#Name').hasClass('Error')"
@@ -96,14 +99,23 @@ $Selenium->RunTest(
             # edit test DynamicFieldTextArea name, default value and set it to invalid
             $Selenium->find_element( $RandomID, 'link_text' )->click();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
             $Selenium->find_element( "#Name",         'css' )->clear();
             $Selenium->find_element( "#Name",         'css' )->send_keys($RandomID);
             $Selenium->find_element( "#DefaultValue", 'css' )->send_keys("Default");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name", 'css' )->submit();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # check new and edited DynamicFieldTextArea values
             $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -148,6 +160,9 @@ $Selenium->RunTest(
 
             # go back to AdminDynamicField screen
             $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # delete DynamicFields
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');

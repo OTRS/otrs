@@ -60,6 +60,9 @@ $Selenium->RunTest(
             $Element->send_keys("");
             $Element->submit();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#Name').hasClass('Error')"
@@ -120,8 +123,14 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Name", 'css' )->submit();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # check new and edited DynamicFieldDropdown values
             $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -176,6 +185,9 @@ $Selenium->RunTest(
 
             # go back to AdminDynamicField screen
             $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # delete DynamicFields
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');

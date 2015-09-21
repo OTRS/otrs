@@ -168,6 +168,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         for my $Test (@Tests) {
 
             # for ticket in queue that escalate in more then 1 week we want filter to be NextWeek
@@ -183,6 +186,9 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
             $Element->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check different views
             for my $View (qw(Small Medium Preview)) {
@@ -231,6 +237,9 @@ $Selenium->RunTest(
 
             # switch back to AgentTicketEscalationView
             $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down");
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
         }
 
         # delete created test tickets

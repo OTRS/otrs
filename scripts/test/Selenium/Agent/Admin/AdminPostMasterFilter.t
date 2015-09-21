@@ -35,6 +35,9 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check overview AdminPostMasterFilter
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -42,6 +45,9 @@ $Selenium->RunTest(
 
         # click 'Add filter'
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminPostMasterFilter;Subaction=AddAction' )]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length' );
 
         # check client side validation
         $Selenium->find_element( "#EditName", 'css' )->clear();
@@ -95,6 +101,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
         $Selenium->find_element( "#EditName",  'css' )->submit();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check for created test PostMasterFilter on screen
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterRandomID ) > -1,
@@ -103,6 +112,8 @@ $Selenium->RunTest(
 
         # check new test PostMasterFilter values
         $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length' );
         $Self->Is(
             $Selenium->find_element( '#EditName', 'css' )->get_value(),
             $PostMasterRandomID,
@@ -144,10 +155,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditName",  'css' )->submit();
 
         # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check edited test PostMasterFilter values
         $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length' );
         $Self->Is(
             $Selenium->find_element( '#StopAfterMatch', 'css' )->get_value(),
             1,
@@ -167,8 +181,14 @@ $Selenium->RunTest(
         # go back to AdminPostMasterFilter screen
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # delete test PostMasterFilter with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
     }
 

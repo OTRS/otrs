@@ -132,8 +132,15 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketQueue");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # verify that there is no tickets with My Queue filter
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketQueue;QueueID=0;\' )]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         $Self->True(
             index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
             "No tickets found with My Queue filters",
@@ -153,6 +160,9 @@ $Selenium->RunTest(
             $Element->is_displayed();
             $Element->click();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # check different views for filters
             for my $View (qw(Small Medium Preview)) {
 
@@ -161,10 +171,16 @@ $Selenium->RunTest(
                     "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small"
                 );
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
                 # click on viewer controler
                 $Selenium->find_element(
                     "//a[contains(\@href, \'Action=AgentTicketQueue;Filter=Unlocked;View=$View;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small;\' )]"
                 )->click();
+
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
                 # verify that all expected tickets are present
                 for my $TicketID (@TicketIDs) {

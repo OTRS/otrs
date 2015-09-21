@@ -146,10 +146,16 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # test search filter only for test Customer users
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomer');
         $Selenium->find_element( "#Search", 'css' )->submit();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for another customer user
         $Self->True(
@@ -204,6 +210,9 @@ $Selenium->RunTest(
         # set test customer user to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
