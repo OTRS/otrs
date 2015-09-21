@@ -131,7 +131,7 @@ Core.Agent = (function (TargetNS) {
                 var $Element = $(this);
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
-                if ($('body').hasClass('Visible-ScreenXL') && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
 
                     // Set Timeout for opening nav
                     CreateSubnavOpenTimeout($Element, function () {
@@ -179,7 +179,7 @@ Core.Agent = (function (TargetNS) {
 
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
-                if ($('body').hasClass('Visible-ScreenXL') && Core.Config.Get('OpenMainMenuOnHover')) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && Core.Config.Get('OpenMainMenuOnHover')) {
                     return true;
                 }
 
