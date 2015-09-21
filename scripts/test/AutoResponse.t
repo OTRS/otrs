@@ -101,6 +101,37 @@ $Self->True(
     'AutoResponseList()',
 );
 
+my $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
+    QueueID         => 1,
+    AutoResponseIDs => [$AutoResponseID],
+    UserID          => 1,
+);
+$Self->True(
+    $AutoResponseQueue,
+    'AutoResponseQueue()',
+);
+
+my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
+    QueueID => 1,
+    Type    => 'auto reply',
+);
+$Self->Is(
+    $Address{Address} || '',
+    $SystemAddressNameRand0 . '@example.com',
+    'AutoResponseGetByTypeQueueID() - Address',
+);
+$Self->Is(
+    $Address{Realname} || '',
+    $SystemAddressNameRand0,
+    'AutoResponseGetByTypeQueueID() - Realname',
+);
+
+$AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
+    QueueID         => 1,
+    AutoResponseIDs => [],
+    UserID          => 1,
+);
+
 my $AutoResponseUpdate = $AutoResponseObject->AutoResponseUpdate(
     ID          => $AutoResponseID,
     Name        => $AutoResponseNameRand0 . '1',
@@ -155,37 +186,6 @@ $Self->Is(
     $AutoResponse{ValidID} || '',
     2,
     'AutoResponseGet() - ValidID',
-);
-
-my $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
-    QueueID         => 1,
-    AutoResponseIDs => [$AutoResponseID],
-    UserID          => 1,
-);
-$Self->True(
-    $AutoResponseQueue,
-    'AutoResponseQueue()',
-);
-
-my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
-    QueueID => 1,
-    Type    => 'auto reply',
-);
-$Self->Is(
-    $Address{Address} || '',
-    $SystemAddressNameRand0 . '@example.com',
-    'AutoResponseGetByTypeQueueID() - Address',
-);
-$Self->Is(
-    $Address{Realname} || '',
-    $SystemAddressNameRand0,
-    'AutoResponseGetByTypeQueueID() - Realname',
-);
-
-$AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
-    QueueID         => 1,
-    AutoResponseIDs => [],
-    UserID          => 1,
 );
 
 1;
