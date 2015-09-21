@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
     'Kernel::System::DB',
@@ -40,8 +41,14 @@ sub Param {
     my @Params;
     my @CustomServiceIDs;
 
-    # check needed param, if no user id is given, do not show this box
-    if ( !$Param{UserData}->{UserID} ) {
+    # check needed param,
+    # if no user id is given or Ticket::Service is disabled
+    # do not show this box
+    if (
+        !$Param{UserData}->{UserID}
+        || !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service')
+        )
+    {
         return ();
     }
 
