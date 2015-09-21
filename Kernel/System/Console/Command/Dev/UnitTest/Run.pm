@@ -65,6 +65,7 @@ sub Run {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest' => {
             Output => $Self->GetOption('output') || '',
+            ANSI   => $Self->{ANSI},
         },
     );
 
