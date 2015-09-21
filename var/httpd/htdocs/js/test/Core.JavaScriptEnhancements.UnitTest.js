@@ -9,7 +9,7 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 Core.JavaScriptEnhancements = {};
 Core.JavaScriptEnhancements.RunUnitTests = function(){
