@@ -15,6 +15,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::SystemAddress',
+    'Kernel::System::Valid',
 );
 
 =head1 NAME
@@ -297,13 +298,14 @@ sub AutoResponseGetByTypeQueueID {
 
     # SQL query
     return if !$DBObject->Prepare(
-        SQL => '
+        SQL => "
             SELECT ar.text0, ar.text1, ar.content_type, ar.system_address_id
             FROM auto_response_type art, auto_response ar, queue_auto_response qar
-            WHERE qar.queue_id = ?
+            WHERE ar.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )
+                AND qar.queue_id = ?
                 AND art.id = ar.type_id
                 AND qar.auto_response_id = ar.id
-                AND art.name = ?',
+                AND art.name = ?",
         Bind => [
             \$Param{QueueID},
             \$Param{Type},
