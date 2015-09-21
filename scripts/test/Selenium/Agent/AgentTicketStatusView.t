@@ -85,6 +85,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # test if tickets show with appropriate filters
         for my $Filter (qw(Open Closed)) {
 
@@ -95,6 +98,9 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
             $Element->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check different views for filters
             for my $View (qw(Small Medium Preview)) {
@@ -140,14 +146,21 @@ $Selenium->RunTest(
                 my $Handles = $Selenium->get_window_handles();
                 $Selenium->switch_to_window( $Handles->[1] );
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").length' );
+
                 # change state to 'closed successful'
                 $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+                $Selenium->WaitFor( WindowCount => 1 );
 
                 # switch back to AgentTicketStatusView
                 $Selenium->switch_to_window( $Handles->[0] );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
+                # wait until page has loaded, if neccessary
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
             }
 
         }
