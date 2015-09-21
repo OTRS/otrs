@@ -85,6 +85,9 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUser");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
+
         # check AdminCustomerCompany screen
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -94,6 +97,9 @@ $Selenium->RunTest(
 
         # click 'Add customer user' link
         $Selenium->find_element( "button.CallForAction", 'css' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
 
         # check add customer user screen
         for my $ID (
@@ -129,6 +135,9 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
+
         # check overview page
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -137,6 +146,10 @@ $Selenium->RunTest(
 
         # create another test customer user for filter search test
         $Selenium->find_element( "button.CallForAction", 'css' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
+
         $Selenium->find_element( "#UserFirstname",       'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLastname",        'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
@@ -168,6 +181,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Search", 'css' )->submit();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
@@ -180,6 +196,9 @@ $Selenium->RunTest(
 
         # check and edit new customer user
         $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
 
         $Self->Is(
             $Selenium->find_element( '#UserFirstname', 'css' )->get_value(),
@@ -218,6 +237,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Search", 'css' )->submit();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # chack class of invalid customer user in the overview table
         $Self->True(

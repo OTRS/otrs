@@ -35,6 +35,9 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminAttachment");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check overview AdminGroup
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -46,6 +49,9 @@ $Selenium->RunTest(
             # click 'add new attachment' link
             $Selenium->find_element("//a[contains(\@href, \'Action=AdminAttachment;Subaction=Add' )]")->click();
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # file checks
             my $Location = $ConfigObject->Get('Home')
                 . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
@@ -54,6 +60,9 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->find_element( "#Name",       'css' )->submit();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check if standard attachment show on AdminAttacnment screen
             $Self->True(
@@ -66,9 +75,16 @@ $Selenium->RunTest(
 
             # go to new standard attacment again and edit
             $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ValidID").length' );
+
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');
             $Selenium->find_element( "#Name",    'css' )->submit();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check overview page
             $Self->True(
@@ -76,6 +92,9 @@ $Selenium->RunTest(
                 '$RandomID found on table'
             );
             $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ValidID").length' );
 
             # check updated standard attacment values
             $Self->Is(
@@ -92,6 +111,9 @@ $Selenium->RunTest(
             # go back to AdminAttachment overview screen
             $Selenium->get("${ScriptAlias}index.pl?Action=AdminAttachment");
 
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # chack class of invalid Attachment in the overview table
             $Self->True(
                 $Selenium->execute_script(
@@ -105,6 +127,9 @@ $Selenium->RunTest(
                 StdAttachment => $RandomID,
             );
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->click();
+
+            # wait until page has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check overview page
             $Self->True(
