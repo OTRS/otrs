@@ -11,7 +11,7 @@ package Kernel::System::UnitTest;
 use strict;
 use warnings;
 
-use Term::ANSIColor;
+use Term::ANSIColor();
 use SOAP::Lite;
 
 use Kernel::System::ObjectManager;
@@ -65,6 +65,8 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     $Self->{Output} = $Param{Output} || 'ASCII';
+
+    $Self->{ANSI} = $Param{ANSI};
 
     if ( $Self->{Output} eq 'HTML' ) {
         print "
@@ -798,8 +800,12 @@ sub _PrintHeadlineEnd {
 
 sub _Print {
     my ( $Self, $Test, $Name ) = @_;
-    if ( !$Name ) {
-        $Name = '->>No Name!<<-';
+
+    $Name ||= '->>No Name!<<-';
+
+    my $PrintName = $Name;
+    if ( length $PrintName > 1000 ) {
+        $PrintName = substr( $PrintName, 0, 1000 ) . "...";
     }
 
     $Self->{TestCount}++;
@@ -810,7 +816,7 @@ sub _Print {
                 .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
-            print color('green') . " ok" . color('reset') . " $Self->{TestCount} - $Name\n";
+            print " " . $Self->_Color('green', "ok") . " $Self->{TestCount} - $PrintName\n";
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
@@ -823,14 +829,7 @@ sub _Print {
                 .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
-
-            my $PrintName = $Name;
-
-            if ( length $PrintName > 1000 ) {
-                $PrintName = substr( $PrintName, 0, 1000 ) . "...";
-            }
-
-            print color('red') . " not ok" . color('reset') . " $Self->{TestCount} - $PrintName\n";
+            print " " . $Self->_Color('red', "not ok") . " $Self->{TestCount} - $PrintName\n";
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
@@ -850,6 +849,22 @@ sub _Print {
 
         return;
     }
+}
+
+=item _Color()
+
+this will color the given text (see Term::ANSIColor::color()) if
+ANSI output is available and active, otherwise the text stays unchanged.
+
+    my $PossiblyColoredText = $CommandObject->_Color('green', $Text);
+
+=cut
+
+sub _Color {
+    my ( $Self, $Color, $Text ) = @_;
+
+    return $Text if !$Self->{ANSI};
+    return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }
 
 sub DESTROY {
