@@ -41,8 +41,14 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # click 'Create new ACL' link
         $Selenium->find_element( "a.Create", 'css' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check add page
         for my $ID (
@@ -77,6 +83,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->submit();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".ItemAddLevel1").length' );
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -238,6 +247,9 @@ JAVASCRIPT
 
         # sync ACL information from database with the system configuration
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(

@@ -74,6 +74,9 @@ $Selenium->RunTest(
         # click on 'Create your first ticket'
         $Selenium->find_element( ".Button", 'css' )->click();
 
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # create needed variables
         my $SubjectRandom  = "Subject" . $Helper->GetRandomID();
         my $TextRandom     = "Text" . $Helper->GetRandomID();
@@ -113,13 +116,16 @@ $Selenium->RunTest(
             "Ticket was created and found",
         );
 
-        # click on test created ticket on CustomerTicketOverview screen
-        $Selenium->find_element( $TicketNumber, 'link_text' )->click();
-
         # get article id
         my @ArticleIDs = $TicketObject->ArticleIndex(
             TicketID => (%TicketIDs)[0],
         );
+
+        # click on test created ticket on CustomerTicketOverview screen
+        $Selenium->find_element( $TicketNumber, 'link_text' )->click();
+
+        # wait until page has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # click on attachment to open it
         $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
@@ -127,6 +133,9 @@ $Selenium->RunTest(
         # switch to another window
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait for page load, no JS available.
+        sleep 3;
 
         # check if attachment is genuine
         my $ExpectedAttachmentContent = "Some German Text with Umlaut: ÄÖÜß";
