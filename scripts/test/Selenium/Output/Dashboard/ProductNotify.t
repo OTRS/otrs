@@ -50,54 +50,52 @@ $Selenium->RunTest(
 
         # get content of RELEASE
         my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $Content = $MainObject->FileRead(
-            Location => "$Home/RELEASE",
-            Result   => 'ARRAY',
-        );
+        my $Content = $MainObject->FileRead( Location => "$Home/RELEASE" );
 
-        # change version in RELEASE to one lower then current
-        my $Version;
-        my $OriginalContent = '';
-        my $TestContent     = '';
-        for my $Line ( @{$Content} ) {
-            $OriginalContent .= $Line;
-            if ( $Line =~ /^VERSION\s{0,2}=\s{0,2}(.*)$/i ) {
-                $Version = $1;
-                substr( $Version, 0, 1, substr( $Version, 0, 1 ) - 1 );
-                $Line =~ s/$1/$Version/;
-            }
-            $TestContent .= $Line;
-        }
+        my $OriginalContent = ${$Content};
 
-        # update RELEASE with test version
-        my $FileLocation = $MainObject->FileWrite(
-            Location => "$Home/RELEASE",
-            Content  => \$TestContent,
-        );
+        # Fake an OTRS 4.0.0 release so that we always have update news available.
+        my $TestContent     =<<EOF;
+PRODUCT = OTRS
+VERSION = 4.0.0
+EOF
 
-        # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
+        eval {
+            # update RELEASE with test version
+            $MainObject->FileWrite(
+                Location => "$Home/RELEASE",
+                Content  => \$TestContent,
+            );
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
+            # create test user and login
+            my $TestUserLogin = $Helper->TestUserCreate(
+                Groups => [ 'admin', 'users' ],
+            ) || die "Did not get test user";
 
-        # test if ProductNotify plugin shows correct link
-        my $ProductNotifyLink = "https://www.otrs.com/release-notes-otrs-help-desk";
-        $Self->True(
-            index( $Selenium->get_page_source(), $ProductNotifyLink ) > -1,
-            "ProductNotify dashboard plugin link - found",
-        );
+            $Selenium->Login(
+                Type     => 'Agent',
+                User     => $TestUserLogin,
+                Password => $TestUserLogin,
+            );
+
+            # test if ProductNotify plugin shows correct link
+            my $ProductNotifyLink = "https://www.otrs.com/release-notes-otrs-help-desk";
+            $Self->True(
+                index( $Selenium->get_page_source(), $ProductNotifyLink ) > -1,
+                "ProductNotify dashboard plugin link - found",
+            );
+        };
+
+        my $EvalError = $@;
 
         # restore default RELEASE version
-        $FileLocation = $MainObject->FileWrite(
+        $MainObject->FileWrite(
             Location => "$Home/RELEASE",
             Content  => \$OriginalContent,
         );
+
+        die $EvalError if $EvalError;
+
     }
 );
 
