@@ -103,6 +103,8 @@ $Selenium->RunTest(
         # go to new queue again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
+        sleep 5;
+
         # check new queue values
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),

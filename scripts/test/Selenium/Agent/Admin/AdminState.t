@@ -96,6 +96,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        sleep 5;
+
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
