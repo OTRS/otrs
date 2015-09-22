@@ -106,6 +106,8 @@ $Selenium->RunTest(
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
+        sleep 5;
+
         # check new state values
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
