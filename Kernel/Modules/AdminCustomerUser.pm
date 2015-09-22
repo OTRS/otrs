@@ -910,7 +910,7 @@ sub _Edit {
         {
             my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
             my %CompanyList           = (
-                $CustomerCompanyObject->CustomerCompanyList(),
+                $CustomerCompanyObject->CustomerCompanyList( Limit => 0 ),
                 '' => '-',
             );
             if ( $Param{ $Entry->[0] } ) {
