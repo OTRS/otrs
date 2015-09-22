@@ -76,6 +76,9 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # create test params
         my @Tests = (
             {
@@ -120,6 +123,9 @@ $Selenium->RunTest(
                 "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
             );
             $Selenium->find_element( "#$Test->{Update}", 'css' )->click();
+
+            # wait until form has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             $Self->True(
                 index( $Selenium->get_page_source(), $UpdateMessage ) > -1,

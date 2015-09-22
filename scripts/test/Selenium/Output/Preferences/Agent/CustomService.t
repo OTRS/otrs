@@ -67,9 +67,15 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # add test service to 'My Services' preference
         $Selenium->execute_script("\$('#ServiceID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#ServiceIDUpdate", 'css' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";
