@@ -542,10 +542,6 @@ dd {
     height: 100px;
 }
 
-#Header #Logo {
-    background-size: contain !important;
-}
-
 
 /**
  * @subsection  MessageBox
