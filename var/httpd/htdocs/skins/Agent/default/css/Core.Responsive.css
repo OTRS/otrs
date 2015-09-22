@@ -356,6 +356,12 @@
         width: auto;
     }
 
+    form label.Mandatory span.Marker {
+        display: inline-block;
+        margin-right: 3px;
+        position: static;
+    }
+
     .AJAXLoader {
         position: relative;
         top: -10px;
