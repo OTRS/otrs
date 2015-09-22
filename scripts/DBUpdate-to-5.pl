@@ -2006,7 +2006,7 @@ Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
             'zh_CN' => {
                 'Body' => '您好  <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级已被更新！
+票据工单 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 将升级！
 
 升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
 升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
@@ -2565,7 +2565,7 @@ o agente responsável do ticket [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumb
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据的负责代理工单的服务人员 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
+工单的负责人 [<OTRS_CONFIG_TicketHook><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
