@@ -35,12 +35,16 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new queue' link
         $Selenium->find_element( "a.Create", 'css' )->click();
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check add page
         for my $ID (
@@ -69,6 +73,8 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
         $Selenium->find_element( "a.Create", 'css' )->click();
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         # create a real test queue
         my $RandomID = "Queue" . $Helper->GetRandomID();
 
@@ -82,7 +88,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
         $Selenium->find_element( "#Name",    'css' )->submit();
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table').length" );
 
         # check Queue - Responses page
         $Self->True(
@@ -95,6 +105,8 @@ $Selenium->RunTest(
 
         # go to new queue again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check new queue values
         $Self->Is(
@@ -150,9 +162,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->submit();
 
         # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table').length" );
 
         # check overview page
         $Self->True(
@@ -174,6 +188,8 @@ $Selenium->RunTest(
 
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
         # check new queue values
         $Self->Is(

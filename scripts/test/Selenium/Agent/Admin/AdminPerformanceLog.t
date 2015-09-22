@@ -50,6 +50,8 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminPerformanceLog");
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         # check for Admin on different range time screens
         for my $Time (
             qw(5 30 60 120 1440 2880)
@@ -58,7 +60,7 @@ $Selenium->RunTest(
             # click on Admin
             $Selenium->find_element("//a[contains(\@href, \'Interface=Agent;Minute=$Time' )]")->click();
 
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.table').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table').length" );
 
             # check screen layout
             $Selenium->find_element( "table",             'css' );
@@ -68,6 +70,8 @@ $Selenium->RunTest(
 
             # click on "Go to overview"
             $Selenium->find_element("//a[contains(\@href, \'Action=AdminPerformanceLog' )]")->click();
+
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
         }
 
     }
