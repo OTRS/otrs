@@ -464,7 +464,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                 <div class="Content TransportsContent">
                     <fieldset class="TableLike">
                         <p class="FieldExplanation">
-                            [% Translate("These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.") | html %]
+                            [% Translate("These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.") | html %]
                         </p>
                     </fieldset>
 [% RenderBlockStart("TransportRow") %]
@@ -745,51 +745,51 @@ Core.Agent.Admin.NotificationEvent.Init({
 
                     <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of the current customer user data") | html %]
+                        [% Translate("Attributes of the current customer user data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_OWNER_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Ticket owner options") | html %]
+                        [% Translate("Attibutes of the current ticket owner's user data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_OWNER_UserFirstname&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_OWNER_UserFirstname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_RESPONSIBLE_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Ticket responsible options") | html %]
+                        [% Translate("Attibutes of the current ticket responsible's user data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_RESPONSIBLE_UserFirstname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of the current user who requested this action") | html %]
+                        [% Translate("Attributes of the current agent user who requested this action") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_*&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_NOTIFICATION_RECIPIENT_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of the recipient user for the notification") | html %]
+                        [% Translate("Attributes of the recipient user for the notification") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_UserFullname&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_NOTIFICATION_RECIPIENT_UserFullname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of the ticket data") | html %]
+                        [% Translate("Attributes of the ticket data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
                         &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of ticket dynamic fields internal key values") | html %]
+                        [% Translate("Ticket dynamic fields internal key values") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
                         &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
                     <dd>
-                        [% Translate("Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields") | html %]
+                        [% Translate("Ticket dynamic fields display values, useful for Dropdown and Multiselect fields") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
                         &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
                     </dd>
@@ -802,14 +802,14 @@ Core.Agent.Admin.NotificationEvent.Init({
                 </dl>
 
                 <p class="SpacingTop">
-                    [% Translate("Example response") | html %]:
+                    [% Translate("Example notification") | html %]:
                 </p>
                 <label for="SubjectExample">[% Translate("Subject") | html %]</label>:
-                <input type="text" name="SubjectExample" id="SubjectExample" value="Ticket Created: &lt;OTRS_TICKET_Title&gt;" size="80" maxlength="80"/>
+                <input type="text" name="SubjectExample" id="SubjectExample" value="Ticket Created: &lt;OTRS_TICKET_Title&gt;" size="80" maxlength="80" readonly />
                 <br/>
                 <label for="ResponseExample">[% Translate("Text") | html %]</label>:
                 <br/>
-                <textarea rows="12" cols="70" name="ResponseExample" id="ResponseExample">
+                <textarea rows="12" cols="70" name="ResponseExample" id="ResponseExample" readonly>
 Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,
 
 ticket [&lt;OTRS_CONFIG_TicketHook&gt;&lt;OTRS_TICKET_TicketNumber&gt;] has been created in queue &lt;OTRS_TICKET_Queue&gt;.
