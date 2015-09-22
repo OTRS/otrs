@@ -55,6 +55,8 @@ $Selenium->RunTest(
         # click 'add new state' link
         $Selenium->find_element( "a.Create", 'css' )->click();
 
+        sleep 5;
+
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->is_displayed();
@@ -65,6 +67,9 @@ $Selenium->RunTest(
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->submit();
+
+        sleep 5;
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
