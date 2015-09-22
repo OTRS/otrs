@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.872234650758141;
+    $Self->{Completeness}        = 0.870591157476403;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1190,6 +1190,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         '%s Tickets affected! What do you want to do?' => 'Tiketi %s zimeathirika. Unataka kufanya nini?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Onyo: Umetumia chaguo la kufuta. Tiketi zote zilizofutwa zitapotea!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Hariri kazi',
         'Run job' => 'Fanya kazi',
         'Affected Tickets' => 'Tiketi zilizoathirika',
@@ -2414,17 +2416,17 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Note: Customer is invalid!' => 'Kidokezo: Mteja ni batili!',
 
         # Template: AgentDaemonInfo
-        'General Information' => 'Taarifa kwa ujumla',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             '',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
-        'Starting OTRS Daemon' => '',
-        'Make sure that %s exists (without .dist extension)' => 'Hakikisha kwamba %s ipo (bila kiendelezi .dist)',
-        'Check that cron deamon is running in the system' => 'Angalia hiyo dimoni inayofanyakazi katika mfumo.',
-        'Confirm that OTRS cron jobs are running, execute %s start' => 'Thibitisha kwamba kazi za cron za OTRS, fanya % anza',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Dashibodi',
@@ -2958,6 +2960,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3162,6 +3165,10 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'Imechapishwa na ',
@@ -5230,6 +5237,8 @@ Mfano:
         'Set sender email addresses for this system.' => 'Weka anwani za barua pepe ya mtumaji kwa mfumo huu. ',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Weka urefu wa chaguo-msingi (katika pikseli) ya ndani ya makala ya HTML katika kikuzaji cha tiketi cha wakala.',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Weka upeo wa juu wa urefu (katika pikseli) ya ndani ya mstari wa makala za HTML katika kikuzaji cha tiketi cha wakala',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>

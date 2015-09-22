@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.755903554561273;
+    $Self->{Completeness}        = 0.753353204172876;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1191,6 +1191,8 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '¡%s tickets afectados! ¿Qué desea hacer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Advertencia: Ha usado la opción BORRAR. ¡Se perderán todos los tickets borrados!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Editar el trabajo',
         'Run job' => 'Ejecutar el trabajo',
         'Affected Tickets' => 'Tickets afectados',
@@ -2415,17 +2417,17 @@ sub Data {
         'Note: Customer is invalid!' => 'Nota: ¡el cliente no es válido!',
 
         # Template: AgentDaemonInfo
-        'General Information' => 'Información General',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
-            'OTRS Daemon es un proceso separado que ejecuta tareas asíncronas',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
-            '(ej. invocador tareas asíncronas de la Interfaz Genérica, desencadenando escalado Ticket, enviando Email, etc.)',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
-            'Es necesario tener el OTRS Daemon ejecutándose para hacer que el sistema funcione correctamente!',
-        'Starting OTRS Daemon' => 'Comenzando OTRS Daemon',
-        'Make sure that %s exists (without .dist extension)' => 'Asegúrese de que %s existe (sin la extensión .dist)',
-        'Check that cron deamon is running in the system' => 'Compruebe que cron daemon esta ejecutándose en el sistema',
-        'Confirm that OTRS cron jobs are running, execute %s start' => 'Confirme que los trabajos cron de OTRS se están ejecutando, ejecute inicio %s',
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
+            '',
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
+            '',
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
+            '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Panel principal',
@@ -2959,6 +2961,7 @@ sub Data {
         'New public chat request' => 'Nueva petición de chat público',
         'New activity' => 'Nueva actividad',
         'New activity on one of your monitored chats.' => 'Nueva actividad en uno de sus chats monitorizados.',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Esta función es parte de %s. Por favor contacte con nosotros en %s para una mejora.',
         'Find out more about the %s' => 'Encuentre más sobre el %s',
@@ -3163,6 +3166,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por otro agente y será ignorado!',
+
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'impreso por',
@@ -5237,6 +5244,8 @@ Tu Equipo de Soporte
             '',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',

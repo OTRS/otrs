@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-11 07:42+0000\n"
+"PO-Revision-Date: 2015-09-22 11:57+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -4223,6 +4223,12 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "Figyelem: A TÖRLÉS lehetőséget használta. Minden törölt jegy el fog veszni!"
 
 #. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr "Feladat szerkesztése"
 
@@ -5525,7 +5531,7 @@ msgstr "(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséh
 
 #. Template: AdminNotificationEvent
 msgid "Options of the recipient user for the notification"
-msgstr ""
+msgstr "A címzett felhasználó beállításai az értesítésnél"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -8180,40 +8186,36 @@ msgid "Note: Customer is invalid!"
 msgstr "Megjegyzés: Az ügyfél érvénytelen!"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
-msgstr "Általános információk"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
-msgstr "Az OTRS démon egy elválasztott folyamat, amely aszinkron feladatokat hajt végre"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
+msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
-msgstr "(például Általános felület aszinkron meghívó feladatok, jegyeszkaláció aktiválás, e-mail küldés, stb.)"
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
+msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
-msgstr "Szükséges egy futó OTRS démon megléte a rendszer helyes működtetéséhez!"
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr "Az OTRS démon indítása"
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "Győződjön meg arról, hogy a(z) %s létezik-e (.dist kiterjesztés nélkül)"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "Ellenőrizze, hogy a cron démon fut-e a rendszeren"
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr "Erősítse meg, hogy az OTRS cron feladatok futnak, hajtsa végre: %s start"
+msgid ""
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
+msgstr ""
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -9795,6 +9797,10 @@ msgid "New activity on one of your monitored chats."
 msgstr "Új tevékenység a megfigyelt csevegések valamelyikén."
 
 #. Template: FooterJS
+msgid "Information about the OTRS Daemon"
+msgstr ""
+
+#. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
 msgstr "Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
@@ -10322,6 +10328,14 @@ msgstr "Korábbi tulajdonos"
 msgid "Ticket is locked by another agent and will be ignored!"
 msgstr "A jegyet egy másik ügyintéző zárolta és mellőzve lesz!"
 
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
 msgstr "nyomtatta"
@@ -10443,7 +10457,7 @@ msgstr "A kiválasztott befejezési idő későbbi a megengedett befejezési id�
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr ""
+msgstr "Nincs már teljes vagy a jelenlegi+közelgő teljes relatív időérték kiválasztva."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
@@ -10487,7 +10501,7 @@ msgstr "Csak egy időelemet használhat az Y-tengelynél."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "Csak egy vagy két elemet használhat az Y-tengelynél."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -10808,7 +10822,7 @@ msgstr "Az OTRS-t tartalmazó partíciónak nincs tárhely problémája."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
 msgid "Operating System/Disk Partitions Usage"
-msgstr ""
+msgstr "Operációs rendszer/Lemezpartíciók használata"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
@@ -10863,7 +10877,7 @@ msgstr "200 MB-nál nem kellene több lapozófájlt használni."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "OTRS/Config Settings"
-msgstr ""
+msgstr "OTRS/Beállítások konfigurálása"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
@@ -10888,7 +10902,7 @@ msgstr "A démon nem fut."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "OTRS/Database Records"
-msgstr ""
+msgstr "OTRS/Adatbázis rekordok"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -11013,7 +11027,7 @@ msgstr "Néhány csomag nincs helyesen telepítve."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
 msgid "OTRS/Package List"
-msgstr ""
+msgstr "OTRS/Csomaglista"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -11080,42 +11094,42 @@ msgstr "A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa az otrs/b
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS/Time Settings"
-msgstr ""
+msgstr "OTRS/Időbeállítások"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
-msgstr ""
+msgstr "Kiszolgáló időzónája"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Computed server time offset"
-msgstr ""
+msgstr "Számított kiszolgáló időeltolás"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting (global time offset)"
-msgstr ""
+msgstr "OTRS TimeZone beállítás (globális időeltolás)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "TimeZone may only be activated for systems running in UTC."
-msgstr ""
+msgstr "A TimeZone csak UTC-ben futó rendszereknél kapcsolható be."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZoneUser setting (per-user time zone support)"
-msgstr ""
+msgstr "OTRS TimeZoneUser beállítás (felhasználónkénti időzóna támogatás)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid ""
 "TimeZoneUser may only be activated for systems running in UTC that don't "
 "have an OTRS TimeZone set."
-msgstr ""
+msgstr "A TimeZoneUser csak olyan UTC-ben futó rendszereknél kapcsolható be, amelyeknek nincs OTRS TimeZone beállításuk."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
-msgstr ""
+msgstr "OTRS TimeZone beállítás a naptárhoz "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver/Loaded Apache Modules"
-msgstr ""
+msgstr "Webkiszolgáló/Betöltött Apache modulok"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -11200,7 +11214,7 @@ msgstr "Az Apache2::DBI használata kellene az előre kiépített adatbázis-kap
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Webserver/Environment Variables"
-msgstr ""
+msgstr "Webkiszolgáló/Környezeti változók"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
@@ -16835,6 +16849,12 @@ msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "A beágyazott HTML bejegyzések alapértelmezett magasságának beállítása (képpontban) az AgentTicketZoom felületen."
+
+#. SysConfig
+msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
 
 #. SysConfig
 msgid ""

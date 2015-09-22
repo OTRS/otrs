@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.936614466815809;
+    $Self->{Completeness}        = 0.939145553899652;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1186,6 +1186,8 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '%s Tickets afectados! Que quere facer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Alerta: Usou a opción BORRAR. Tódolos tickets borrados serán perdidos!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Edite tarefa',
         'Run job' => 'Execute tarefa',
         'Affected Tickets' => 'Tíckets afectados',
@@ -1574,7 +1576,7 @@ sub Data {
             'Para obter os primeiros vinte caracteres do asunto (do último artigo de cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obter as cinco primeiras liñas do corpo (do último artigo de cliente).',
-        'Options of the recipient user for the notification' => '',
+        'Options of the recipient user for the notification' => 'Opcions do usuario receptor para a notificación',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Direccións correo receptoras',
@@ -2092,7 +2094,7 @@ sub Data {
             'Se nada é seleccionado, entón non hai permisos neste grupo (os tickets non estarán dispoñibles para o rol).',
         'Change Role Relations for Group' => 'Cambie Relacións de Rol para o Grupo',
         'Change Group Relations for Role' => 'Cambie Relacións de Grupo para o Rol',
-        'Toggle %s permission for all' => 'Activar o permiso % s para todos',
+        'Toggle %s permission for all' => 'Conmutar permiso %s para todos',
         'move_into' => 'moverse_en',
         'Permissions to move tickets into this group/queue.' => 'Permisos para mover tickets neste grupo/cola.',
         'create' => 'crear',
@@ -2410,17 +2412,17 @@ sub Data {
         'Note: Customer is invalid!' => 'Nota: O cliente non é correcto!',
 
         # Template: AgentDaemonInfo
-        'General Information' => 'Información xeral',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
-            'Daemon OTRS é un proceso separa que executa tarefas asincrónicas',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
-            '(ex. Tarefas invocador asincrónico da Interface Xenérica, disparadores escalado Ticket, envíos Email, etc)',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
-            'E necesario ter un Daemon OTRS executándose para facer que o sistema funcione correctamente!',
-        'Starting OTRS Daemon' => 'Comenzando Daemon OTRS',
-        'Make sure that %s exists (without .dist extension)' => 'Asegúrese de que %s existe (sen extensión .dist)',
-        'Check that cron deamon is running in the system' => 'Comprobar que o daemon cron está en execución no sistema',
-        'Confirm that OTRS cron jobs are running, execute %s start' => 'Confirme que OTRS cron jobs se están a executar, execute %s o comezo',
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
+            '',
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
+            '',
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
+            '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Taboleiro',
@@ -2535,7 +2537,7 @@ sub Data {
         'Create Statistic' => 'Crear estatísticas',
 
         # Template: AgentStatisticsEdit
-        'Statistics » Edit %s%s — %s' => 'Estatísticas » Editar ',
+        'Statistics » Edit %s%s — %s' => 'Estatísticas » Editar %s%s — %s',
         'Run now' => 'Executar agora',
         'Statistics Preview' => 'Visualización das estatísticas',
         'Save statistic' => 'Gardar as estatísticas',
@@ -2556,14 +2558,14 @@ sub Data {
         'Do you really want to delete this statistic?' => 'Confirma que desexa eliminar estas estatísticas?',
 
         # Template: AgentStatisticsView
-        'Statistics » View %s%s — %s' => 'Estatísticas » Ver %s%s',
+        'Statistics » View %s%s — %s' => 'Estatísticas » Ver %s%s — %s',
         'This statistic contains configuration errors and can currently not be used.' =>
             'Esta estatística contén erros de configuración e actualmente non pode ser usada.',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of %s%s' => 'Cambiar Texto Libre de %s%s',
-        'Change Owner of %s%s' => 'Cambiar o propietario de ',
-        'Close %s%s' => 'Pechar ',
+        'Change Owner of %s%s' => 'Cambiar o Propietario de %s%s',
+        'Close %s%s' => 'Pechar %s%s',
         'Add Note to %s%s' => 'Engadir Nota a %s%s',
         'Set Pending Time for %s%s' => 'Establecer Tempo Pendente para %s%s',
         'Change Priority of %s%s' => 'Cambiar Prioridade de %s%s',
@@ -2954,6 +2956,7 @@ sub Data {
         'New public chat request' => 'Nova petición de chat público',
         'New activity' => 'Nova actividade',
         'New activity on one of your monitored chats.' => 'Nova actividade nun dos seus chats monitoreados.',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Esta función é parte de %s. Por favor contecte con nos en %s para unha mellora.',
         'Find out more about the %s' => 'Encontre mais sobre o %s',
@@ -3159,6 +3162,10 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por outro axente e vai ser ignorado!',
 
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
+
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'imprimido por',
         'Ticket Dynamic Fields' => 'Campos Dinámicos do Ticket',
@@ -3200,43 +3207,43 @@ sub Data {
         ' You can take one of the next actions:' => 'Pode coller unha das seguintes accións:',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => '',
+        '%s Upgrade to %s now! %s' => '%s Actualice a %s agora! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: ' => 'Un período de mantemento do sistema comezará en:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => '',
+        'Please contact your administrator!' => 'Por favor contacte co seu administrador!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(en proceso)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Please supply your new password!' => '',
+        'Please supply your new password!' => 'Por favor proporcione o seu novo contrasinal!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'Eixo X',
-        'Y-axis' => '',
-        'The selected start time is before the allowed start time.' => '',
-        'The selected end time is later than the allowed end time.' => '',
+        'Y-axis' => 'Eixo Y',
+        'The selected start time is before the allowed start time.' => 'O tempo de inicio seleccionado é anterior o tempo de inicio permitido.',
+        'The selected end time is later than the allowed end time.' => 'O tempo de finalización seleccionado é posterior o tempo de finalización permitido.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'Ningún pasado completo ou o actual+vindeiro valor de tempo relativo completo seleccionado.',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'O período de tempo seleccionado é maior que o período de tempo permitido.',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            '',
+            'O periodo de tempo vindeiro seleccionado e maior que o periodo de tempo vindeiro permitido.',
         'The selected time scale is smaller than the allowed time scale.' =>
-            '',
+            'A escala de tempo seleccionada e menor que a escala de tempo permitida.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
-        'The selected date is not valid.' => '',
-        'The selected end time is before the start time.' => '',
-        'There is something wrong with your time selection.' => '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use one or two elements for the Y axis.' => '',
+            'Non hai dispoñible valor de escala de tempo para o actual valor seleccionado da escala de tempo no eixo X.',
+        'The selected date is not valid.' => 'A data seleccionada non é válida.',
+        'The selected end time is before the start time.' => 'O tempo de finalización seleccionado é anterior o tempo de comezo.',
+        'There is something wrong with your time selection.' => 'Hai algo mal coa súa selección de tempo.',
+        'Please select one element for the X-axis.' => 'Por favor seleccione un elemento para o eixo X.',
+        'You can only use one time element for the Y axis.' => 'So pode usar un elemento de tempo para o eixo Y.',
+        'You can only use one or two elements for the Y axis.' => 'So pode usar un ou dous elementos para o eixo Y.',
         'Please select only one element or allow modification at stat generation time.' =>
-            '',
+            'Por favor seleccione un elemento ou permita a modificación no tempo de xeneración de estatística.',
         'Please select at least one value of this field.' => '',
         'Please provide a value or allow modification at stat generation time.' =>
             '',
@@ -5222,6 +5229,8 @@ Thanks for your help!
         'Set sender email addresses for this system.' => 'Estableza enderezos de correo electrónico de remitente para este sistema.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Estableza a altura por defecto (en pixels) de artigos de HTML inline en AxenteTicketZoom.',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Estableza a altura máxima (en pixels) de artigos de HTML inline en AxenteTicketZoom.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>

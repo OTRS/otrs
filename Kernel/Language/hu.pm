@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995774297787721;
+    $Self->{Completeness}        = 0.997267759562842;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1191,6 +1191,8 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '%s jegy érintett! Mit szeretne tenni?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Figyelem: A TÖRLÉS lehetőséget használta. Minden törölt jegy el fog veszni!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Feladat szerkesztése',
         'Run job' => 'Feladat futtatása',
         'Affected Tickets' => 'Érintett jegyek',
@@ -1579,7 +1581,7 @@ sub Data {
             '(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekéréséhez.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez.',
-        'Options of the recipient user for the notification' => '',
+        'Options of the recipient user for the notification' => 'A címzett felhasználó beállításai az értesítésnél',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Címzett e-mail címek',
@@ -2415,17 +2417,17 @@ sub Data {
         'Note: Customer is invalid!' => 'Megjegyzés: Az ügyfél érvénytelen!',
 
         # Template: AgentDaemonInfo
-        'General Information' => 'Általános információk',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
-            'Az OTRS démon egy elválasztott folyamat, amely aszinkron feladatokat hajt végre',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
-            '(például Általános felület aszinkron meghívó feladatok, jegyeszkaláció aktiválás, e-mail küldés, stb.)',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
-            'Szükséges egy futó OTRS démon megléte a rendszer helyes működtetéséhez!',
-        'Starting OTRS Daemon' => 'Az OTRS démon indítása',
-        'Make sure that %s exists (without .dist extension)' => 'Győződjön meg arról, hogy a(z) %s létezik-e (.dist kiterjesztés nélkül)',
-        'Check that cron deamon is running in the system' => 'Ellenőrizze, hogy a cron démon fut-e a rendszeren',
-        'Confirm that OTRS cron jobs are running, execute %s start' => 'Erősítse meg, hogy az OTRS cron feladatok futnak, hajtsa végre: %s start',
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
+            '',
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
+            '',
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
+            '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Vezérlőpult',
@@ -2959,6 +2961,7 @@ sub Data {
         'New public chat request' => 'Új nyilvános csevegéskérés',
         'New activity' => 'Új tevékenység',
         'New activity on one of your monitored chats.' => 'Új tevékenység a megfigyelt csevegések valamelyikén.',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'Find out more about the %s' => 'Tudjon meg többet a következőről: %s',
@@ -3164,6 +3167,10 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => 'A jegyet egy másik ügyintéző zárolta és mellőzve lesz!',
 
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
+
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'nyomtatta',
         'Ticket Dynamic Fields' => 'Jegy dinamikus mezők',
@@ -3225,7 +3232,7 @@ sub Data {
         'The selected start time is before the allowed start time.' => 'A kiválasztott kezdési idő a megengedett kezdési idő előtt van.',
         'The selected end time is later than the allowed end time.' => 'A kiválasztott befejezési idő későbbi a megengedett befejezési időnél.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'Nincs már teljes vagy a jelenlegi+közelgő teljes relatív időérték kiválasztva.',
         'The selected time period is larger than the allowed time period.' =>
             'A kiválasztott időszak nagyobb a megengedett időszaknál.',
         'The selected time upcoming period is larger than the allowed time upcoming period.' =>
@@ -3239,7 +3246,7 @@ sub Data {
         'There is something wrong with your time selection.' => 'Valami baj van az időkiválasztással.',
         'Please select one element for the X-axis.' => 'Válasszon egy elemet az X-tengelyhez.',
         'You can only use one time element for the Y axis.' => 'Csak egy időelemet használhat az Y-tengelynél.',
-        'You can only use one or two elements for the Y axis.' => '',
+        'You can only use one or two elements for the Y axis.' => 'Csak egy vagy két elemet használhat az Y-tengelynél.',
         'Please select only one element or allow modification at stat generation time.' =>
             'Csak egy elemet válasszon, vagy engedélyezze a módosítást a statisztika előállításakor.',
         'Please select at least one value of this field.' => 'Válasszon legalább egy értéket ebből a mezőből.',
@@ -3359,7 +3366,7 @@ sub Data {
             'Az OTRS-t tartalmazó partíciónak nincs tárhely problémája.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Operating System/Disk Partitions Usage' => 'Operációs rendszer/Lemezpartíciók használata',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Disztribúció',
@@ -3385,7 +3392,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => '200 MB-nál nem kellene több lapozófájlt használni.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS/Config Settings' => 'OTRS/Beállítások konfigurálása',
         'Could not determine value.' => 'Nem sikerült meghatározni az értéket.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -3394,7 +3401,7 @@ sub Data {
         'Daemon is not running.' => 'A démon nem fut.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'OTRS/Database Records' => 'OTRS/Adatbázis rekordok',
         'Tickets' => 'Jegyek',
         'Ticket History Entries' => 'Jegy előzmény bejegyzések',
         'Articles' => 'Bejegyzések',
@@ -3436,7 +3443,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Néhány csomag nincs helyesen telepítve.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'OTRS/Package List' => 'OTRS/Csomaglista',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -3466,18 +3473,18 @@ sub Data {
             'A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa az otrs/bin/otrs.CleanTicketIndex.pl parancsot a StaticDB index tisztításához.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => '',
-        'Server time zone' => '',
-        'Computed server time offset' => '',
-        'OTRS TimeZone setting (global time offset)' => '',
-        'TimeZone may only be activated for systems running in UTC.' => '',
-        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'OTRS/Time Settings' => 'OTRS/Időbeállítások',
+        'Server time zone' => 'Kiszolgáló időzónája',
+        'Computed server time offset' => 'Számított kiszolgáló időeltolás',
+        'OTRS TimeZone setting (global time offset)' => 'OTRS TimeZone beállítás (globális időeltolás)',
+        'TimeZone may only be activated for systems running in UTC.' => 'A TimeZone csak UTC-ben futó rendszereknél kapcsolható be.',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => 'OTRS TimeZoneUser beállítás (felhasználónkénti időzóna támogatás)',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
-            '',
-        'OTRS TimeZone setting for calendar ' => '',
+            'A TimeZoneUser csak olyan UTC-ben futó rendszereknél kapcsolható be, amelyeknek nincs OTRS TimeZone beállításuk.',
+        'OTRS TimeZone setting for calendar ' => 'OTRS TimeZone beállítás a naptárhoz ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => '',
+        'Webserver/Loaded Apache Modules' => 'Webkiszolgáló/Betöltött Apache modulok',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'Webserver' => 'Webkiszolgáló',
@@ -3503,7 +3510,7 @@ sub Data {
             'Az Apache2::DBI használata kellene az előre kiépített adatbázis-kapcsolatokkal való jobb teljesítmény eléréséhez.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => '',
+        'Webserver/Environment Variables' => 'Webkiszolgáló/Környezeti változók',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'A PerlEx használata kellene a teljesítmény növeléséhez.',
@@ -5238,6 +5245,8 @@ Az Ön segélyszolgálat csapata
         'Set sender email addresses for this system.' => 'A küldő e-mail címeinek beállítása a rendszerhez.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések alapértelmezett magasságának beállítása (képpontban) az AgentTicketZoom felületen.',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések legnagyobb magasságának beállítása (képpontban) az AgentTicketZoom felületen.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>

@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-14 11:35+0000\n"
+"PO-Revision-Date: 2015-09-22 12:05+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1497,7 +1497,7 @@ msgstr "Wiederholen"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr "OTRS Dienst läuft nicht."
+msgstr "Der OTRS Daemon läuft nicht."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -4235,6 +4235,12 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "Warnung: Sie verwenden die Option LÖSCHEN. Alle gelöschten Tickets gehen verloren!"
 
 #. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr "Job bearbeiten"
 
@@ -4417,7 +4423,7 @@ msgstr "Dieser Invoker wird von den konfigurierten Events ausgelöst."
 msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
-msgstr ""
+msgstr "Asynchrone Ereignisauslöser werden vom OTRS Scheduler Daemon im Hintergrund verarbeitet (empfohlen)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -6910,7 +6916,7 @@ msgstr "Systemregistrierung nicht möglich"
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr ""
+msgstr "Bitte beachten Sie, dass Sie ihr System nicht registrieren können, wenn der OTRS Daemon nicht läuft!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -8192,40 +8198,36 @@ msgid "Note: Customer is invalid!"
 msgstr "Hinweis: Kunde ist ungültig!"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
-msgstr "Allgemeine Informationen"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
+msgstr "Der OTRS Daemon ist ein Daemon-Prozess der asynchrone Aufgaben übernimmt, z.B. das Auslösen von Ticket-Eskalationen oder das Versenden von E-Mails."
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
-msgstr "OTRS Service ist ein eigener Prozess zum Ausführen asynchroner Aufgaben"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr "Ein laufender OTRS Daemon ist für die korrekte Funktion des Systems erforderlich."
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
+msgstr "Den OTRS Daemon starten"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
-msgstr ""
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
+msgstr "Stellen Sie sicher, dass die Datei '%s' existiert (ohne die Endung .dist). Dieser Cronjob wird alle 5 Minuten prüfen, ob der OTRS Daemon läuft, und ihn ggf. starten."
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
-msgstr ""
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
+msgstr "Führen Sie '%s start' aus um sicherzustellen, dass die Cronjobs des 'otrs'-Nutzers aktiv sind."
 
 #. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr "Starte OTRS Dienst"
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "Stellen Sie sicher, dass %s existiert (ohne die Endung .dist)"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "Stellen Sie sicher, dass der Cron-Daemon gestartet wurde."
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr "Stellen Sie sicher, dass die OTRS Cronjobs gestartet wurden. Führen Sie '%s start' aus"
+msgid ""
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
+msgstr "Prüfen Sie nach 5 Minuten, ob der OTRS Daemon läuft  ('bin/otrs.Daemon.pl status')."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -9807,6 +9809,10 @@ msgid "New activity on one of your monitored chats."
 msgstr ""
 
 #. Template: FooterJS
+msgid "Information about the OTRS Daemon"
+msgstr "Informationen über den OTRS Daemon"
+
+#. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
 msgstr ""
@@ -10333,6 +10339,14 @@ msgstr "Vorheriger Besitzer"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
 msgstr "Ticket ist von einem anderen Agenten gesperrt und wird ignoriert!"
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
@@ -13903,7 +13917,7 @@ msgstr ""
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTRS Daemon is not running."
-msgstr ""
+msgstr "Definiert das Modul, dass eine Benachrichtigung im Agentenbereich anzeigt, wenn der OTRS Daemon nicht läuft."
 
 #. SysConfig
 msgid ""
@@ -16850,6 +16864,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr ""
@@ -17901,7 +17921,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr ""
+msgstr "Informationen über das Starten des OTRS Daemons anzeigen"
 
 #. SysConfig
 msgid ""

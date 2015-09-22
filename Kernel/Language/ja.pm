@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.717623663932389;
+    $Self->{Completeness}        = 0.727521112767014;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -413,7 +413,7 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => '元に戻す',
         'Redo' => 'やり直し',
-        'OTRS Daemon is not running.' => 'OTRS Daemonが起動していません。',
+        'OTRS Daemon is not running.' => 'OTRSデーモンが起動していません。',
         'Can\'t contact registration server. Please try again later.' => '登録サーバに接続できません。しばらくしてから再試行してください。',
         'No content received from registration server. Please try again later.' =>
             '登録サーバから受信した内容がありません。しばらくしてから再試行してください。',
@@ -872,29 +872,29 @@ sub Data {
 
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => 'クラウドサービスマネジメント',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Support Data Collector' => 'サポート情報コレクター',
+        'Support data collector' => 'サポート情報コレクター',
         'Hint' => 'ヒント',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             '',
         'Configuration' => '設定',
-        'Send support data' => '',
+        'Send support data' => 'サポート情報の送信',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'System Registration' => 'システム登録',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'このシステムをサポート登録する',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'システムのサポート登録機能が無効になっています。設定をご確認ください。',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
-            '',
+            'OTRSグループへのシステムのサポート登録により、多くのメリットが提供されます。',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
             '',
-        'Register this system' => '',
+        'Register this system' => 'このシステムをサポート登録する',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => '利用可能なクラウドサービス',
@@ -1190,13 +1190,15 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '%s チケットは影響を受けます。どうしますか？',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             '警告: 削除オプションを使用します。削除された全てのチケットは消失します。',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'ジョブ編集',
         'Run job' => 'ジョブ実行',
         'Affected Tickets' => '影響を受けるチケット',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
-        'You are here' => '',
+        'You are here' => 'あなたの現在地',
         'Web Services' => 'Webサービス',
         'Debugger' => 'デバッガー',
         'Go back to web service' => 'Webサービスに戻る',
@@ -1257,29 +1259,29 @@ sub Data {
         'This rule will apply for all keys with no mapping rule.' => '',
         'Default rule for unmapped values' => '',
         'This rule will apply for all values with no mapping rule.' => '',
-        'New key map' => '',
-        'Add key mapping' => '',
-        'Mapping for Key ' => '',
-        'Remove key mapping' => '',
-        'Key mapping' => '',
-        'Map key' => '',
+        'New key map' => '新しいキー割り当て',
+        'Add key mapping' => 'キー割り当ての追加',
+        'Mapping for Key ' => 'キーの割り当て',
+        'Remove key mapping' => 'キー割り当ての削除',
+        'Key mapping' => 'キー割り当て',
+        'Map key' => 'キーの割り当て',
         'matching the' => '',
-        'to new key' => '',
-        'Value mapping' => '',
-        'Map value' => '',
-        'to new value' => '',
-        'Remove value mapping' => '',
-        'New value map' => '',
-        'Add value mapping' => '',
-        'Do you really want to delete this key mapping?' => '',
-        'Delete this Key Mapping' => '',
+        'to new key' => 'へ新しいキーを割り当てる',
+        'Value mapping' => '値のマッピング',
+        'Map value' => '値の割り当て',
+        'to new value' => 'へ新しい値を割り当てる',
+        'Remove value mapping' => '割り当てた値の削除',
+        'New value map' => '新しい値の割り当て',
+        'Add value mapping' => '値の割り当てを追加',
+        'Do you really want to delete this key mapping?' => 'このキー割り当てを削除しますか？',
+        'Delete this Key Mapping' => 'このキー割り当ての削除',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => '',
         'Mapping XML' => 'XMLのマッピング',
         'Template' => 'テンプレート',
-        'The entered data is not a valid XSLT stylesheet.' => '',
-        'Insert XSLT stylesheet.' => '',
+        'The entered data is not a valid XSLT stylesheet.' => '入力されたXSLT形式スタイルシートは有効なデータ形式ではありません。',
+        'Insert XSLT stylesheet.' => 'XSLT形式スタイルシートの挿入',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => '',
@@ -1471,7 +1473,7 @@ sub Data {
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            '警告: あなたの名前を変更するグループの管理者はsysconfigの中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください',
+            '警告: あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください',
         'Group Management' => 'グループ管理',
         'Add group' => 'グループ追加',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
@@ -1654,7 +1656,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Use this feature if you want to work with PGP keys.' => 'PGP鍵を利用される際に本機能をご利用ください。',
         'Add PGP key' => 'PGP鍵追加',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
-            'この方法で直接SysConfigからキーリング設定を編集できます。',
+            'この方法で直接システム設定からキーリング設定を編集できます。',
         'Introduction to PGP' => 'PGPの導入',
         'Result' => '結果',
         'Identifier' => '識別子',
@@ -2005,7 +2007,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Last communication with registration server' => '',
         'System registration not possible' => '',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            '注意：OTRS Daemonが起動していないと、システムの登録が正常に行えません。',
+            '注意：OTRSデーモンが起動していないと、システムの登録が正常に行えません。',
         'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
@@ -2256,12 +2258,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Details' => '詳細',
 
         # Template: AdminSysConfig
-        'SysConfig' => 'システムコンフィグ',
+        'SysConfig' => 'システム設定',
         'Navigate by searching in %s settings' => '検索した %s の設定へ移動',
         'Navigate by selecting config groups' => '選択した設定グループへ移動',
         'Download all system config changes' => '変更された全システム設定をダウンロード',
         'Export settings' => '設定のエクスポート',
-        'Load SysConfig settings from file' => 'ファイルからSysConfig設定を読み込み',
+        'Load SysConfig settings from file' => 'ファイルからシステム設定を読み込み',
         'Import settings' => '設定のインポート',
         'Import Settings' => '設定のインポート',
         'Please enter a search term to look for settings.' => '設定を検索するための条件を入力してください。',
@@ -2415,17 +2417,17 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Note: Customer is invalid!' => '注意: 顧客が無効です。',
 
         # Template: AgentDaemonInfo
-        'General Information' => '',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             '',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
-            'システムを正常に運用するために、OTRS Daemonが正常に起動している必要があります。',
-        'Starting OTRS Daemon' => 'OTRS Daemonを起動しています。',
-        'Make sure that %s exists (without .dist extension)' => '%s (”.dist"拡張子なし)が存在することをご確認ください。',
-        'Check that cron deamon is running in the system' => 'cronデーモンが起動していることをご確認ください。',
-        'Confirm that OTRS cron jobs are running, execute %s start' => '%s startを実行して、OTRSのcronジョブが起動することを確認して下さい。',
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
+            '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'ダッシュボード',
@@ -2823,15 +2825,15 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'OTRSは次のいずれかのブラウザで実行してください。ブラウザ内で巨大なリストを使用します。',
         'Please see the documentation or ask your admin for further information.' =>
             '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
-        'Switch to mobile mode' => '',
-        'Switch to desktop mode' => '',
+        'Switch to mobile mode' => 'モバイルモードへ',
+        'Switch to desktop mode' => 'デスクトップモードへ',
         'Not available' => '',
-        'Clear all' => '',
-        'Clear search' => '',
+        'Clear all' => 'すべてクリア',
+        'Clear search' => '検索条件をクリア',
         '%s selection(s)...' => '',
         'and %s more...' => '',
         'Filters' => '',
-        'Confirm' => '',
+        'Confirm' => '確認',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScriptが有効になっていません。',
@@ -2926,7 +2928,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Fr' => '金',
         'Sa' => '土',
         'Event Information' => '',
-        'Ticket fields' => '',
+        'Ticket fields' => 'チケット・フィールド',
         'Dynamic fields' => 'ダイナミック・フィールド',
 
         # Template: Datepicker
@@ -2959,8 +2961,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            '',
+            'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
         'Find out more about the %s' => '',
 
         # Template: Header
@@ -3022,7 +3025,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'A new database user with limited permissions will be created for this OTRS system.' =>
             'このOTRSシステム用に限られた権限の新規データベースユーザーが作成されます。',
         'Repeat Password' => 'パスワードを再度入力',
-        'Generated password' => '',
+        'Generated password' => 'パスワードを生成しました。',
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'パスワードが一致しません',
@@ -3037,7 +3040,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Restart your webserver' => 'Webサーバを再起動してください。',
         'After doing so your OTRS is up and running.' => 'その後、OTRSの起動を実行してください。',
         'Start page' => 'スタートページ',
-        'Your OTRS Team' => '',
+        'Your OTRS Team' => 'Your OTRS Team',
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'ライセンスに同意しない',
@@ -3104,11 +3107,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'ようこそ',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS テストページ',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => 'ようこそ %s %s',
         'Counter' => 'カウンター',
 
         # Template: Warning
@@ -3126,9 +3129,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'Web service "%s" updated!' => '',
-        'Web service "%s" created!' => '',
-        'Web service "%s" deleted!' => '',
+        'Web service "%s" updated!' => 'Webサービス "%s" を更新しました。',
+        'Web service "%s" created!' => 'Webサービス "%s" を作成しました。',
+        'Web service "%s" deleted!' => 'Webサービス "%s" を削除しました。',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Agent who owns the ticket' => '',
@@ -3146,7 +3149,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => '統計',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Can not delete link with %s!' => '',
@@ -3163,6 +3166,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'printed by',
@@ -3773,7 +3780,7 @@ Thanks for your help!
             '',
         'Checks the entitlement status of OTRS Business Solution™.' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            '',
+            '通知を受け取りたいチケットの変更の種類を選択してください。',
         'Closed tickets (customer user)' => '完了チケット(顧客ユーザー)',
         'Closed tickets (customer)' => '完了チケット(顧客)',
         'Cloud Services' => '',
@@ -3799,7 +3806,7 @@ Thanks for your help!
             '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
         'Comment2' => '',
-        'Communication' => '',
+        'Communication' => 'コミュニケーション',
         'Company Status' => '企業ステータス',
         'Company Tickets' => '企業チケット',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3811,7 +3818,7 @@ Thanks for your help!
         'Configure sending of support data to OTRS Group for improved support.' =>
             '',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
+            '新規チケットが作成された後に表示する画面を選択してください。',
         'Configure your own log text for PGP.' => 'PGPのための利用者独自のログテキストを設定します。',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
             '',
@@ -4995,7 +5002,7 @@ Thanks for your help!
             'チケットズームビューにおける、顧客情報テーブルの最大サイズ (文字) です。',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'その他',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '顧客インタフェースで、新規チケット画面におけるTo-selectionのモジュールです。',
         'Module to check customer permissions.' => '顧客の許可をチェックするためのモジュールです。',
@@ -5112,7 +5119,7 @@ Thanks for your help!
         'Parameters of the example service attribute Comment2.' => 'example service attribute Comment2のパラメータです。',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'ログ・ファイルのパスです（LoopProtectionModuleに関して“FS”が選択されており、それが強制である場合にのみ適用されます）。',
-        'People' => '',
+        'People' => '担当者/顧客',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => 'Eメール・ウィンドウを構成するために許容される幅です。',
@@ -5231,6 +5238,8 @@ Thanks for your help!
         'Set sender email addresses for this system.' => 'このシステムのメール送信者を設定',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoomで、インラインHTML項目のデフォルトの高さ（pixel）を設定します。',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoomで、インラインHTML項目の最大高さ（pixel）を設定します。',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
@@ -5249,7 +5258,7 @@ Thanks for your help!
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' =>
             'タッチされていないチケットを含むキューをハイライトするための、経過時間を分で設定します（第2レベル）。',
         'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' =>
-            '管理者のコンフィグ・レベルの設定です。コンフィグ・レベルに拠り、いくつかのシステム・コンフィグ・オプションは表示されなくなります。コンフィグ・レベルは昇順です：Expert, Advanced, Beginner。コンフィグ・レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。',
+            '管理者の設定レベルの設定です。設定レベルに拠り、いくつかのシステム設定オプションは表示されなくなります。設定レベルは昇順です：Expert, Advanced, Beginner。設定レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。',
         'Sets the count of articles visible in preview mode of ticket overviews.' =>
             '',
         'Sets the default article type for new email tickets in the agent interface.' =>
@@ -5551,7 +5560,7 @@ Thanks for your help!
             '最後の顧客の項目の件名またはチケットのタイトルを、小さいフォーマットの一覧で表示します。',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'システム内に存在する親/子キューのリストを、ツリーまたはリストの形式で表示します。',
-        'Shows information on how to start OTRS Daemon' => 'OTRS Daemonの起動手順を紹介します。',
+        'Shows information on how to start OTRS Daemon' => 'OTRSデーモンの起動手順を紹介します。',
         'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '顧客インタフェースで有効化されたチケット属性を表示します（0 = Disabled、 1 = Enabled)。',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
@@ -5742,12 +5751,12 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send SMS messages.' => '',
-        'Ticket Notifications' => '',
+        'Ticket Notifications' => 'チケット通知',
         'Ticket Queue Overview' => 'チケットキュー一覧',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'チケット通知',
         'Ticket overview' => 'チケット一覧',
         'TicketNumber' => 'チケット番号',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
