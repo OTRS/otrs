@@ -98,7 +98,8 @@ Core.App.Ready(function () {
         NewChatActivity: [% Translate("New activity") | JSON %],
         NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
         AgentLogoURL: '[% Config("AgentLogo").URL %]',
-        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10)
+        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
+        OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %]
     });
 
     Core.Agent.Init();
