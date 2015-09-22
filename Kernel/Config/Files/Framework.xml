@@ -6246,9 +6246,9 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
+                <Item>Core.Exception.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.Exception.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
@@ -6333,8 +6333,8 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.Debug.js</Item>
-                <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>
+                <Item>Core.Data.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
