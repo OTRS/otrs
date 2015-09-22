@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-14 11:34+0000\n"
+"PO-Revision-Date: 2015-09-22 11:57+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -4216,6 +4216,12 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "Alerta: Usou a opción BORRAR. Tódolos tickets borrados serán perdidos!"
 
 #. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr "Edite tarefa"
 
@@ -5518,7 +5524,7 @@ msgstr "Para obter as cinco primeiras liñas do corpo (do último artigo de clie
 
 #. Template: AdminNotificationEvent
 msgid "Options of the recipient user for the notification"
-msgstr ""
+msgstr "Opcions do usuario receptor para a notificación"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Recipient email addresses"
@@ -7192,7 +7198,7 @@ msgstr "Cambie Relacións de Grupo para o Rol"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
-msgstr ""
+msgstr "Conmutar permiso %s para todos"
 
 #. Template: AdminRoleGroup
 msgid "move_into"
@@ -8173,40 +8179,36 @@ msgid "Note: Customer is invalid!"
 msgstr "Nota: O cliente non é correcto!"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
-msgstr "Información xeral"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
-msgstr "Daemon OTRS é un proceso separa que executa tarefas asincrónicas"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
+msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
-msgstr "(ex. Tarefas invocador asincrónico da Interface Xenérica, disparadores escalado Ticket, envíos Email, etc)"
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
+msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
-msgstr "E necesario ter un Daemon OTRS executándose para facer que o sistema funcione correctamente!"
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr "Comenzando Daemon OTRS"
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "Asegúrese de que %s existe (sen extensión .dist)"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "Comprobar que o daemon cron está en execución no sistema"
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr "Confirme que OTRS cron jobs se están a executar, execute %s o comezo"
+msgid ""
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
+msgstr ""
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -8499,7 +8501,7 @@ msgstr "Crear estatísticas"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
-msgstr ""
+msgstr "Estatísticas » Editar %s%s — %s"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -8559,7 +8561,7 @@ msgstr "Confirma que desexa eliminar estas estatísticas?"
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
-msgstr ""
+msgstr "Estatísticas » Ver %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid ""
@@ -8572,11 +8574,11 @@ msgstr "Cambiar Texto Libre de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s"
-msgstr ""
+msgstr "Cambiar o Propietario de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s"
-msgstr ""
+msgstr "Pechar %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s"
@@ -9788,6 +9790,10 @@ msgid "New activity on one of your monitored chats."
 msgstr "Nova actividade nun dos seus chats monitoreados."
 
 #. Template: FooterJS
+msgid "Information about the OTRS Daemon"
+msgstr ""
+
+#. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
 msgstr "Esta función é parte de %s. Por favor contecte con nos en %s para unha mellora."
@@ -10315,6 +10321,14 @@ msgstr "Anterior Propietario"
 msgid "Ticket is locked by another agent and will be ignored!"
 msgstr "Ticket está bloqueado por outro axente e vai ser ignorado!"
 
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
 msgstr "imprimido por"
@@ -10397,24 +10411,24 @@ msgstr "Pode coller unha das seguintes accións:"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
-msgstr ""
+msgstr "%s Actualice a %s agora! %s"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
-msgstr ""
+msgstr "Un período de mantemento do sistema comezará en:"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "Please contact your administrator!"
-msgstr ""
+msgstr "Por favor contacte co seu administrador!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(en proceso)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "Por favor proporcione o seu novo contrasinal!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "X-axis"
@@ -10422,71 +10436,71 @@ msgstr "Eixo X"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Y-axis"
-msgstr ""
+msgstr "Eixo Y"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected start time is before the allowed start time."
-msgstr ""
+msgstr "O tempo de inicio seleccionado é anterior o tempo de inicio permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is later than the allowed end time."
-msgstr ""
+msgstr "O tempo de finalización seleccionado é posterior o tempo de finalización permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr ""
+msgstr "Ningún pasado completo ou o actual+vindeiro valor de tempo relativo completo seleccionado."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "O período de tempo seleccionado é maior que o período de tempo permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "The selected time upcoming period is larger than the allowed time upcoming "
 "period."
-msgstr ""
+msgstr "O periodo de tempo vindeiro seleccionado e maior que o periodo de tempo vindeiro permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time scale is smaller than the allowed time scale."
-msgstr ""
+msgstr "A escala de tempo seleccionada e menor que a escala de tempo permitida."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "Non hai dispoñible valor de escala de tempo para o actual valor seleccionado da escala de tempo no eixo X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr ""
+msgstr "A data seleccionada non é válida."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
-msgstr ""
+msgstr "O tempo de finalización seleccionado é anterior o tempo de comezo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
-msgstr ""
+msgstr "Hai algo mal coa súa selección de tempo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
-msgstr ""
+msgstr "Por favor seleccione un elemento para o eixo X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one time element for the Y axis."
-msgstr ""
+msgstr "So pode usar un elemento de tempo para o eixo Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "So pode usar un ou dous elementos para o eixo Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select only one element or allow modification at stat generation "
 "time."
-msgstr ""
+msgstr "Por favor seleccione un elemento ou permita a modificación no tempo de xeneración de estatística."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
@@ -16828,6 +16842,12 @@ msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "Estableza a altura por defecto (en pixels) de artigos de HTML inline en AxenteTicketZoom."
+
+#. SysConfig
+msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
 
 #. SysConfig
 msgid ""

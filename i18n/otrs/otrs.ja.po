@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-11 07:42+0000\n"
+"PO-Revision-Date: 2015-09-22 11:57+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1483,7 +1483,7 @@ msgstr "やり直し"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr "OTRS Daemonが起動していません。"
+msgstr "OTRSデーモンが起動していません。"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -3149,11 +3149,11 @@ msgstr "クラウドサービスマネジメント"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "サポート情報コレクター"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "サポート情報コレクター"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3175,7 +3175,7 @@ msgstr "設定"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "サポート情報の送信"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3196,19 +3196,19 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "このシステムをサポート登録する"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "システムのサポート登録機能が無効になっています。設定をご確認ください。"
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTRS Group, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "OTRSグループへのシステムのサポート登録により、多くのメリットが提供されます。"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3218,7 +3218,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "このシステムをサポート登録する"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -4221,6 +4221,12 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "警告: 削除オプションを使用します。削除された全てのチケットは消失します。"
 
 #. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr "ジョブ編集"
 
@@ -4238,7 +4244,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "あなたの現在地"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4449,27 +4455,27 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "新しいキー割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "キー割り当ての追加"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "キーの割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "キー割り当ての削除"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "キー割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "キーの割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
@@ -4477,39 +4483,39 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "へ新しいキーを割り当てる"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "値のマッピング"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "値の割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "へ新しい値を割り当てる"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "割り当てた値の削除"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "新しい値の割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "値の割り当てを追加"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "このキー割り当てを削除しますか？"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "このキー割り当ての削除"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
@@ -4525,11 +4531,11 @@ msgstr "テンプレート"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
-msgstr ""
+msgstr "入力されたXSLT形式スタイルシートは有効なデータ形式ではありません。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "XSLT形式スタイルシートの挿入"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -5155,7 +5161,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "警告: あなたの名前を変更するグループの管理者はsysconfigの中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
+msgstr "警告: あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -5731,7 +5737,7 @@ msgstr "PGP鍵追加"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "この方法で直接SysConfigからキーリング設定を編集できます。"
+msgstr "この方法で直接システム設定からキーリング設定を編集できます。"
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -6896,7 +6902,7 @@ msgstr ""
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr "注意：OTRS Daemonが起動していないと、システムの登録が正常に行えません。"
+msgstr "注意：OTRSデーモンが起動していないと、システムの登録が正常に行えません。"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -7683,7 +7689,7 @@ msgstr "詳細"
 
 #. Template: AdminSysConfig
 msgid "SysConfig"
-msgstr "システムコンフィグ"
+msgstr "システム設定"
 
 #. Template: AdminSysConfig
 msgid "Navigate by searching in %s settings"
@@ -7703,7 +7709,7 @@ msgstr "設定のエクスポート"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
-msgstr "ファイルからSysConfig設定を読み込み"
+msgstr "ファイルからシステム設定を読み込み"
 
 #. Template: AdminSysConfig
 msgid "Import settings"
@@ -8178,40 +8184,36 @@ msgid "Note: Customer is invalid!"
 msgstr "注意: 顧客が無効です。"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
 msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
-msgstr "システムを正常に運用するために、OTRS Daemonが正常に起動している必要があります。"
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr "OTRS Daemonを起動しています。"
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "%s (”.dist\"拡張子なし)が存在することをご確認ください。"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "cronデーモンが起動していることをご確認ください。"
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr "%s startを実行して、OTRSのcronジョブが起動することを確認して下さい。"
+msgid ""
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
+msgstr ""
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -9354,11 +9356,11 @@ msgstr "詳細はマニュアルを参照するか、管理者にお問い合わ
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "モバイルモードへ"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "デスクトップモードへ"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
@@ -9366,11 +9368,11 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "すべてクリア"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "検索条件をクリア"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
@@ -9386,7 +9388,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -9692,7 +9694,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "チケット・フィールド"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
@@ -9793,9 +9795,13 @@ msgid "New activity on one of your monitored chats."
 msgstr ""
 
 #. Template: FooterJS
+msgid "Information about the OTRS Daemon"
+msgstr ""
+
+#. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr ""
+msgstr "この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。"
 
 #. Template: FooterJS
 msgid "Find out more about the %s"
@@ -9993,7 +9999,7 @@ msgstr "パスワードを再度入力"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr ""
+msgstr "パスワードを生成しました。"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
@@ -10027,7 +10033,7 @@ msgstr "スタートページ"
 
 #. Template: InstallerFinish
 msgid "Your OTRS Team"
-msgstr ""
+msgstr "Your OTRS Team"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
@@ -10199,7 +10205,7 @@ msgstr ""
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "ようこそ"
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10207,7 +10213,7 @@ msgstr "OTRS テストページ"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "ようこそ %s %s"
 
 #. Template: Test
 msgid "Counter"
@@ -10237,15 +10243,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" updated!"
-msgstr ""
+msgstr "Webサービス \"%s\" を更新しました。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr ""
+msgstr "Webサービス \"%s\" を作成しました。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr ""
+msgstr "Webサービス \"%s\" を削除しました。"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -10286,7 +10292,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "統計"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10318,6 +10324,14 @@ msgstr "以前の所有者"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
@@ -12011,7 +12025,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr ""
+msgstr "通知を受け取りたいチケットの変更の種類を選択してください。"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -12119,7 +12133,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "コミュニケーション"
 
 #. SysConfig
 msgid "Company Status"
@@ -12153,7 +12167,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "新規チケットが作成された後に表示する画面を選択してください。"
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -15994,7 +16008,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "その他"
 
 #. SysConfig
 msgid ""
@@ -16430,7 +16444,7 @@ msgstr "ログ・ファイルのパスです（LoopProtectionModuleに関して�
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "担当者/顧客"
 
 #. SysConfig
 msgid ""
@@ -16836,6 +16850,12 @@ msgstr "AgentTicketZoomで、インラインHTML項目のデフォルトの高�
 
 #. SysConfig
 msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "AgentTicketZoomで、インラインHTML項目の最大高さ（pixel）を設定します。"
@@ -16897,7 +16917,7 @@ msgid ""
 " ascending order: Expert, Advanced, Beginner. The higher the config level is"
 " (e.g. Beginner is the highest), the less likely is it that the user can "
 "accidentally configure the system in a way that it is not usable any more."
-msgstr "管理者のコンフィグ・レベルの設定です。コンフィグ・レベルに拠り、いくつかのシステム・コンフィグ・オプションは表示されなくなります。コンフィグ・レベルは昇順です：Expert, Advanced, Beginner。コンフィグ・レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
+msgstr "管理者の設定レベルの設定です。設定レベルに拠り、いくつかのシステム設定オプションは表示されなくなります。設定レベルは昇順です：Expert, Advanced, Beginner。設定レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
 
 #. SysConfig
 msgid ""
@@ -17887,7 +17907,7 @@ msgstr "システム内に存在する親/子キューのリストを、ツリ�
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr "OTRS Daemonの起動手順を紹介します。"
+msgstr "OTRSデーモンの起動手順を紹介します。"
 
 #. SysConfig
 msgid ""
@@ -18478,7 +18498,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "チケット通知"
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -18494,7 +18514,7 @@ msgstr "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "チケット通知"
 
 #. SysConfig
 msgid "Ticket overview"

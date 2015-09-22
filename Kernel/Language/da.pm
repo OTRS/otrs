@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.52572706935123;
+    $Self->{Completeness}        = 0.526577247888723;
 
     # csv separator
     $Self->{Separator} = '';
@@ -74,10 +74,10 @@ sub Data {
         'month(s)' => 'måned(er)',
         'week' => 'uge',
         'week(s)' => 'uge(r)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'kvartal',
+        'quarter(s)' => 'kvartal(er)',
+        'half-year' => 'halvår',
+        'half-year(s)' => 'halvår',
         'year' => 'år',
         'years' => 'år',
         'year(s)' => 'år',
@@ -362,7 +362,7 @@ sub Data {
         'Dear %s,' => 'Kære %s',
         'Hello %s,' => 'Hej %s',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Denne mail-adresse har ikke tilladelse til at registrere. Kontakt venligst supporten.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Ny konto oprettet. Login-information sendt til %s. Tjek venligst din mail.',
         'Please press Back and try again.' => 'Tryk venligst tilbage og prøv igen.',
@@ -410,7 +410,7 @@ sub Data {
         'SHIFT' => 'Shift',
         'Undo' => 'Fortryd',
         'Redo' => 'Gendan',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'OTRS-dæmonen kører ikke.',
         'Can\'t contact registration server. Please try again later.' => 'Kan ikke kontakte registrations-serveren. Prøv venligst igen senere.',
         'No content received from registration server. Please try again later.' =>
             'Modtog ikke noget fra registrations-serveren. Prøv venligst igen senere.',
@@ -1151,7 +1151,7 @@ sub Data {
         'Escalation - solution time' => 'Eskalation - frist for løsning',
         'Ticket solution time reached' => 'Sagens løsningsfrist er nået',
         'Ticket solution time reached between' => 'Sagens løsningsfrist er nået mellem',
-        'Archive search option' => 'Aktivt søgevalg',
+        'Archive search option' => 'Arkivsøgevalg',
         'Update/Add Ticket Attributes' => 'Opdater/Tilføj Sags-attributter',
         'Set new service' => 'Vælg ny service',
         'Set new Service Level Agreement' => 'Vælg ny Service Level Agreement',
@@ -1187,6 +1187,8 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '%s sager vil blive berørt. Hvad vil du gøre?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Advarsel: Du bruger SLET-muligheden. Alle slettede sager vil gå tabt!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Rediger job',
         'Run job' => 'Kør job',
         'Affected Tickets' => 'Berørte sager',
@@ -2411,17 +2413,17 @@ sub Data {
         'Note: Customer is invalid!' => 'Bemærk: Kunden er ugyldig',
 
         # Template: AgentDaemonInfo
-        'General Information' => 'Generel Information',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             '',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
-        'Starting OTRS Daemon' => '',
-        'Make sure that %s exists (without .dist extension)' => '',
-        'Check that cron deamon is running in the system' => '',
-        'Confirm that OTRS cron jobs are running, execute %s start' => '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Oversigt',
@@ -2740,7 +2742,7 @@ sub Data {
         'Ticket Close Time (between)' => 'Sag lukket (mellem)',
         'Ticket Escalation Time (before/after)' => 'Sag eskaleret (før/efter)',
         'Ticket Escalation Time (between)' => 'Sag eskaleret (mellem)',
-        'Archive Search' => 'Arkiver søgning',
+        'Archive Search' => 'Arkivsøgning',
         'Run search' => 'Søg',
 
         # Template: AgentTicketZoom
@@ -2955,6 +2957,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3159,6 +3162,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'udskrevet af',
@@ -5222,6 +5229,8 @@ Thanks for your help!
             '',
         'Set sender email addresses for this system.' => 'Administrer afsenderadresser for dette system.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',

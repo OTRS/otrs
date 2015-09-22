@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.636589609743972;
+    $Self->{Completeness}        = 0.677098857426726;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -44,12 +44,12 @@ sub Data {
         'Done' => 'Selesai',
         'Cancel' => 'Batal',
         'Reset' => 'Set Semula',
-        'more than ... ago' => '',
-        'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'more than ... ago' => 'lebih daripada ... lepas',
+        'in more than ...' => 'dalam lebih daripada',
+        'within the last ...' => 'dalam lingkungan lepas',
+        'within the next ...' => 'dalam lingkungan seterusnya',
+        'Created within the last' => 'Diwujudkan dalam lingkungan lepas ',
+        'Created more than ... ago' => 'Diwujudkan lebih daripada ... lepas',
         'Today' => 'Hari ini',
         'Tomorrow' => 'Esok',
         'Next week' => 'Minggu Hadapan',
@@ -72,10 +72,10 @@ sub Data {
         'month(s)' => 'Bulan(beberapa)',
         'week' => 'minggu',
         'week(s)' => 'minggu(beberapa)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'suku tahun',
+        'quarter(s)' => 'suku(beberapa) tahun',
+        'half-year' => 'setengah tahun',
+        'half-year(s)' => 'setengah tahun(beberapa)',
         'year' => 'tahun',
         'years' => 'beberapa tahun',
         'year(s)' => 'tahun(beberapa)',
@@ -83,7 +83,7 @@ sub Data {
         'seconds' => 'beberapa saat',
         'second' => 'saat',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Unit masa',
         'wrote' => 'menulis',
         'Message' => 'Mesej',
         'Error' => 'Kesilapan',
@@ -188,7 +188,7 @@ sub Data {
         'Search' => 'Carian',
         'and' => 'dan',
         'between' => 'diantara',
-        'before/after' => '',
+        'before/after' => 'sebelum/selepas',
         'Fulltext Search' => 'Carian Teks Penuh',
         'Data' => 'Data',
         'Options' => 'Pilihan',
@@ -213,10 +213,10 @@ sub Data {
         'Medium' => 'Sederhana',
         'Large' => 'Besar',
         'Date picker' => 'Pemilih tarikh',
-        'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'Show Tree Selection' => 'Papar Pilihan Pokok',
+        'The field content is too long!' => 'Kandungan medan terlalu panjang!',
+        'Maximum size is %s characters.' => 'Saiz maksimum ialah %s karakter.',
+        'This field is required or' => 'Medan diperlukan untuk',
         'New message' => 'Mesej baru',
         'New message!' => 'Mesej baru!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -236,14 +236,14 @@ sub Data {
         'There is no acount with that user name.' => 'Tiada akaun dengan nama pengguna tersebut.',
         'Please contact your administrator' => 'Sila hubungi pentadbir anda',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'Pengesahan berjaya , tetapi tiada rekod pelanggan didapati dilaman pelanggan. Sila hubungi pentadbir anda.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Alamat emel ini telah wujud. Sila log masuk atau tetapkan semula kata laluan anda. ',
         'Logout' => 'Log keluar',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout successful. Thank you for using %s!' => 'Log keluar berjaya. Terima kasih kerana menggunakan %s!',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
         'Agent updated!' => 'Ejen dikemaskini!',
-        'Database Selection' => '',
+        'Database Selection' => 'Pilihan pangkalan data',
         'Create Database' => 'Mencipta pangkalan data',
         'System Settings' => 'Pengaturan sistem',
         'Mail Configuration' => 'Konfigurasi mel',
@@ -254,14 +254,14 @@ sub Data {
         'Database' => 'Pangkalan data',
         'Configure Mail' => 'Konfigurasi emel',
         'Database deleted.' => 'Pangkalan data dipadam.',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the administrative database user.' => 'Masukkan kata laluan untuk pengguna pangkalan data pentadbiran.',
+        'Enter the password for the database user.' => 'Masukkan kata laluan untuk pengguna pangkalan data.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Database already contains data - it should be empty!' => '',
+            'Jika anda menetapkan kata laluan root untuk pangkalan data anda, ia mesti dimasukkan di sini. Jika tidak, biarkan medan ini kosong.',
+        'Database already contains data - it should be empty!' => 'Pangkalan data sudah mempunyai data - ia sepatutnya kosong!',
         'Login is needed!' => 'Log masuk diperlukan!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Log masuk tidak mungkin pada masa ini berikutan penyelenggaraan berkala sistem.',
         'Password is needed!' => 'Kata laluan diperlukan!',
         'Take this Customer' => 'Ambil pelanggan ini',
         'Take this User' => 'Ambil pengguna ini',
@@ -276,9 +276,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Menghantar oleh emel kepada: bidang.',
         'Dispatching by selected Queue.' => 'Menghantar oleh Barisan dipilih.',
         'No entry found!' => 'Tiada kemasukan ditemui!',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'Sesi tidak sah. Sila log masuk semula.',
         'Session has timed out. Please log in again.' => 'Sesi ini sudah tamat. Sila log masuk semula',
-        'Session limit reached! Please try again later.' => '',
+        'Session limit reached! Please try again later.' => 'Had sesi telah dicapai. Sila cuba sebentar lagi.',
         'No Permission!' => 'Tiada kebenaran!',
         '(Click here to add)' => '(Klik sini untuk tambah)',
         'Preview' => 'Perlihat',
@@ -373,7 +373,7 @@ sub Data {
         'more' => 'lagi',
         'Collapse' => 'Tumbang',
         'Shown' => 'Ditunjukkan',
-        'Shown customer users' => '',
+        'Shown customer users' => 'Pengguna pelanggan ditunjukkan',
         'News' => 'Berita',
         'Product News' => 'Berita produk',
         'OTRS News' => 'Berita OTRS',
@@ -408,11 +408,11 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Undur',
         'Redo' => 'Buat semula',
-        'OTRS Daemon is not running.' => '',
+        'OTRS Daemon is not running.' => 'OTRS Daemon tidak berjalan.',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
-        'Problems processing server result. Please try again later.' => '',
+        'Problems processing server result. Please try again later.' => 'Masalah memproses hasil pelayan. Sila cuba sebentar lagi.',
         'Username and password do not match. Please try again.' => '',
         'The selected process is invalid!' => '',
         'Upgrade to %s now!' => '',
@@ -583,8 +583,8 @@ sub Data {
         'End message' => 'Akhir mesej',
         'Forwarded message from' => 'Mesej dikemukan daripada',
         'End forwarded message' => 'Mesej akhir dikemukan',
-        'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Bounce Article to a different mail address' => 'Lantun Artikel pada alamat emel berbeza.',
+        'Reply to note' => 'Balas pada nota',
         'new' => 'baru',
         'open' => 'buka',
         'Open' => 'Buka',
@@ -623,7 +623,7 @@ sub Data {
         'auto reply' => 'balas auto',
         'auto reply/new ticket' => 'balas auto/tiket baru',
         'Create' => 'Buat',
-        'Answer' => '',
+        'Answer' => 'Jawapan',
         'Phone call' => 'Panggilan telefon',
         'Ticket "%s" created!' => 'Tiket "%s" dicipta!',
         'Ticket Number' => 'Nombor Tiket',
@@ -632,7 +632,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Anda tidak mempunyai akses menulis untuk tiket ini.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Maaf, anda perlu menjadi pemilik tiket untuk melaksanakan tindakan ini.',
-        'Please change the owner first.' => '',
+        'Please change the owner first.' => 'Sila tukar pemilik dahulu.',
         'Ticket selected.' => 'Tiket dipilih.',
         'Ticket is locked by another agent.' => 'Tiket dikunci oleh ejen lain!',
         'Ticket locked.' => 'Tiket dikunci.',
@@ -646,8 +646,8 @@ sub Data {
         'Create new Email Ticket' => 'Mencipta Emel Tiket baru',
         'Phone-Ticket' => 'Tiket-Telefon',
         'Search Tickets' => 'Cari Tiket',
-        'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer Realname' => 'Nama sebenar pelanggan',
+        'Customer History' => 'Sejarah pelanggan',
         'Edit Customer Users' => 'Audit Pengguna Pelanggan',
         'Edit Customer' => 'Audit pelanggan',
         'Bulk Action' => 'Tindakan pukal',
@@ -656,7 +656,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Cipta Tiket baru dan hantar ini keluar (Keluar)',
         'Create new Phone Ticket (Inbound)' => 'Cipta Tiket Telefon baru (Masuk)',
         'Address %s replaced with registered customer address.' => 'Alamat %s digantikan dengan alamat pelanggan yang didaftar.',
-        'Customer user automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => 'Pengguna pelanggan ditambah secara automatik ke dalam Cc.',
         'Overview of all open Tickets' => 'Lihat Semula kesemua tiket yang dibuka',
         'Locked Tickets' => 'Tiket Dikunci',
         'My Locked Tickets' => 'Tiket Kunci Saya',
@@ -671,7 +671,7 @@ sub Data {
         'Show the ticket history' => 'Tunjuk sejarah tiket',
         'Print this ticket' => 'Cetak tiket ini',
         'Print this article' => 'Cetak tiket ini',
-        'Split' => '',
+        'Split' => 'Pemecahan',
         'Split this article' => 'Pisahkan artikel ini',
         'Forward article via mail' => 'Kehadapankan artikel melalui mel',
         'Change the ticket priority' => 'Tukar kepentingan tiket',
@@ -688,7 +688,7 @@ sub Data {
         'Mark as Spam!' => 'Tanda sebagai Spam!',
         'My Queues' => 'Barisan saya',
         'Shown Tickets' => 'Perlihat Tiket',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Lajur dipamerkan',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Emel anda dengan nombor tiket "<OTRS_TICKET>" adalah digabungkan kepada "<OTRS_MERGE_TO_TICKET>"!',
         'Ticket %s: first response time is over (%s)!' => 'Tiket %s: Reaksi pertama masa adalah tamat (%s)!',
@@ -760,8 +760,8 @@ sub Data {
         'Archived tickets' => 'Tiket Disimpan',
         'Unarchived tickets' => 'Mengeluarkan tiket',
         'Ticket Information' => 'Informasi Tiket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'termasuk subjujukan',
+        'excluding subqueues' => 'tidak termasuk subjujukan',
 
         # Template: AAAWeekDay
         'Sun' => 'Ahd',
@@ -773,63 +773,63 @@ sub Data {
         'Sat' => 'Sab',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Pengurusan Senarai Kawalan Akses',
+        'Filter for ACLs' => 'Tapisan pada Senarai Kawalan Akses',
         'Filter' => 'Tapisan',
-        'ACL Name' => '',
+        'ACL Name' => 'Nama Senarai Kawalan Akses',
         'Actions' => 'Tindakan',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Cipta Senarai Kawalan Akses baru',
+        'Deploy ACLs' => 'Menggerakkan Senarai Kawalan Akses',
+        'Export ACLs' => 'Eksport Senarai Kawalan Akses',
         'Configuration import' => 'Import konfigurasi',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Di sini anda boleh memuat naik fail konfigurasi untuk mengimport Senarai Kawalan Akses kepada sistem anda. Fail tersebut perlu berada dalam format .yml sebagaimana dieksport oleh modul editor Senarai Kawalan Akses.',
         'This field is required.' => 'Bidang ini diperlukan.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Gantikan Senarai Kawalan Akses yang ada sekarang?',
+        'Upload ACL configuration' => 'Memuatnaik konfigurasi Senarai Kawalan Akses',
+        'Import ACL configuration(s)' => 'Import konfigurasi(beberapa) Senarai Kawalan Akses',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Untuk mencipta Senarai Kawalan Akses baharu, anda boleh mengimport Senarai Kawalan Akses yang telah dieksport oleh sistem lain atau mencipta yang baharu.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Perubahan kepada Senarai Kawalan Akses di sini hanya memberi kesan kepada kelakuan sistem, jika anda menggunakan data Senarai Kawalan Akses kemudiannya. Dengan menggunakan data Senarai Kawalan Akses, perubahan yang baru dibuat akan disalin pada konfigurasi.',
+        'ACLs' => 'Senarai Kawalan Akses',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
-        'ACL name' => '',
+            'Sila ambil perhatian: Jadual ini menunjukkan  susunan pelaksanaan program Senarai Kawalan Akses. Jika anda perlu mengubah perintah itu di mana Senarai Kawalan Akses dilaksanakan, sila tukar nama-nama Senarai Kawalan Akses yang terjejas.',
+        'ACL name' => 'Nama Senarai Kawalan Akses',
         'Validity' => 'Pengesahan',
         'Copy' => 'Salin',
         'No data found.' => 'Tiada data dijumpai.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Sunting Senarai Kawalan Akses',
         'Go to overview' => 'Pergi ke papar semua',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete ACL' => 'Padam Senarai Kawalan Akses',
+        'Delete Invalid ACL' => 'Padam Senarai Kawalan Akses tidak sah',
+        'Match settings' => 'Tetapan penyesuaian',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
-        'Change settings' => '',
+            'Menetapkan kriteria penyesuaian untuk Senarai Kawalan Akses. Gunakan \'Ciri-ciri\' untuk menyesuaikan skrin semasa atau \'Ciri-ciri pangkalan data\' untuk menyesuaikan sifat-sifat tiket semasa yang berada di dalam pangkalan data.',
+        'Change settings' => 'Menukar tetapan',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
-        'documentation' => '',
+            'Tetapkan apa yang ingin anda ubah jika ciri-ciri sesuai. Ingat bahawa \'Mungkin\' ialah senarai putih, \'Tidak mungkin\' ialah senarai hitam.',
+        'Check the official' => 'Menyemak rasmi',
+        'documentation' => 'dokumentasi',
         'Show or hide the content' => 'Menunjukkan atau menyembunyikan kandungan',
-        'Edit ACL information' => '',
+        'Edit ACL information' => 'Sunting maklumat Senarai Kawalan Akses',
         'Stop after match' => 'Berhenti selepas perlawanan',
-        'Edit ACL structure' => '',
+        'Edit ACL structure' => 'Sunting struktur Senarai Kawalan Akses',
         'Save' => 'Simpan',
         'or' => 'atau',
         'Save and finish' => 'Simpan dan tamat',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => 'Adakah anda benar-benar mahu memadam Senarai Kawalan Akses ini?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '',
+            'Item ini masih mengandungi barangan sub. Adakah anda pasti anda mahu mengeluarkan item ini termasuk barang-barang sub?',
         'An item with this name is already present.' => '',
-        'Add all' => '',
-        'There was an error reading the ACL data.' => '',
+        'Add all' => 'Tambah semua',
+        'There was an error reading the ACL data.' => 'Ralat berlaku pada bacaan data Senarai Kawalan Akses.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Cipta Senarai Kawalan Akses baru dengan mengemukakan bentuk data. Selepas mewujudkan Senarai Kawalan Akses, anda akan dapat menambah barangan konfigurasi dalam mod sunting. ',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Pengurusan Lampiran',
@@ -859,61 +859,61 @@ sub Data {
         'Ticket responsible options' => 'Atribut caj tiket',
         'Options of the current user who requested this action' => 'Pilihan pengguna semasa yang meminta tindakan ini',
         'Options of the ticket data' => 'Pilihan data tiket',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Pilihan tiket medan dinamik nilai utama dalaman',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Pilihan tiket medan dinamik memaparkan nilai , berguna untuk medan kotak pilihan dan medan pelbagai pilihan ',
         'Config options' => 'tetapan tatarajah',
         'Example response' => 'balas daripada sampel',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Cloud Service Management' => 'Awan Pengurusan Perkhidmatan',
+        'Support Data Collector' => 'Pengumpul Data Sokongan',
+        'Support data collector' => 'Pengumpul data sokongan',
         'Hint' => 'Petunjuk',
-        'Currently support data is only shown in this system.' => '',
+        'Currently support data is only shown in this system.' => 'Data yang disokong hanya dipaparkan dalam sistem ini.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            '',
-        'Configuration' => '',
-        'Send support data' => '',
+            'Adalah amat disyorkan untuk menghantar data ini kepada Kumpulan OTRS dalam usaha untuk mendapatkan sokongan yang lebih baik. ',
+        'Configuration' => 'Konfigurasi',
+        'Send support data' => 'Menghantar data sokongan',
         'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
-        'System Registration' => '',
+            'Ini akan membolehkan sistem untuk menghantar maklumat tambahan data sokongan kepada Kumpulan OTRS.',
+        'System Registration' => 'Sistem Pendaftaran',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
-        'Register this System' => '',
+            'Untuk membolehkan data dihantar, sila daftar sistem anda dengan Kumpulan OTRS atau kemas kini maklumat pendaftaran sistem anda (pastikan untuk mengaktif pilihan \'menghantar data sokongan\'.)',
+        'Register this System' => 'Daftar sistem ini',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Sistem Pendaftaran dilumpuhkan pada sistem anda. Sila semak konfigurasi anda.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
-            '',
+            'Sistem pendaftaran ialah perkhirmatan Kumpulan OTRS, yang memberikan banyak kelebihan!',
         'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            '',
-        'Register this system' => '',
+            'Sila ambil perhatian bahawa perkhidmatan penggunaan awan OTRS memerlukan pendaftaran sistem.',
+        'Register this system' => 'Daftar sistem ini',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
-        'Available Cloud Services' => '',
-        'Upgrade to %s' => '',
+            'Di sini anda boleh mengkonfigurasi perkhidmatan awan yang sedia ada yang berkomunikasi dengan selamat dengan %s.',
+        'Available Cloud Services' => 'Perkhidmatan awan sedia ada',
+        'Upgrade to %s' => 'Naik taraf kepada %s',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Pengurusan Pelanggan',
-        'Wildcards like \'*\' are allowed.' => '',
+        'Wildcards like \'*\' are allowed.' => 'Kad bebas seperti \'*\' adalah dibenarkan.',
         'Add customer' => 'menambah Pelanggan',
         'Select' => 'Pilih',
         'Please enter a search term to look for customers.' => 'Sila masukkan kata kunci untuk mencari pelanggan.',
         'Add Customer' => 'Tambah pelanggan',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
-        'Back to search results' => '',
-        'Add customer user' => '',
+        'Customer User Management' => 'Pengurusan Pengguna Pelanggan',
+        'Back to search results' => 'Kembali ke hasil carian',
+        'Add customer user' => 'Tambah pengguna pelanggan',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            '',
+            'Pengguna pelanggan diperlukan untuk mempunyai sejarah pelanggan dan untuk log masuk melalui panel pelanggan.',
         'Last Login' => 'Log masuk terakhir',
         'Login as' => 'Log masuk sebagai',
-        'Switch to customer' => '',
-        'Add Customer User' => '',
-        'Edit Customer User' => '',
+        'Switch to customer' => 'Tukar kepada pelanggan',
+        'Add Customer User' => 'Tambah Pengguna Pelanggan',
+        'Edit Customer User' => 'Sunting Pengguna Pelanggan',
         'This field is required and needs to be a valid email address.' =>
             'Bidang ini diperlukan dan mestilah alamat e-mel yang sah.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1048,13 +1048,13 @@ sub Data {
         'Number of cols' => 'Bilangan lajur',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Menetapkan lebar dalam aksara untuk bidang ini dalam mod edit.',
-        'Check RegEx' => '',
+        'Check RegEx' => 'Semak UngkapanBiasa',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
-            '',
-        'RegEx' => '',
-        'Invalid RegEx' => '',
+            'Di sini anda boleh menentukan ungkapan biasa untuk memeriksa nilai. Ungkapan biasa ini akan dilaksanakan dengan pengubah XMS.',
+        'RegEx' => 'UngkapanBiasa',
+        'Invalid RegEx' => 'UngkapanBiasa tidak sah',
         'Error Message' => 'Mesej kesilapan',
-        'Add RegEx' => '',
+        'Add RegEx' => 'Tambah UngkapanBiasa',
 
         # Template: AdminEmail
         'Admin Notification' => 'Pemberitahuan admin',
@@ -1081,8 +1081,8 @@ sub Data {
         'Job name' => 'Nama kerja',
         'The name you entered already exists.' => 'Nama yang anda masukkan sudah wujud.',
         'Toggle this widget' => 'ubah widget ini',
-        'Automatic execution (multiple tickets)' => '',
-        'Execution Schedule' => '',
+        'Automatic execution (multiple tickets)' => 'Pelaksanaan automatik (banyak tiket)',
+        'Execution Schedule' => 'Jadual pelaksanaan',
         'Schedule minutes' => 'Jadual minit(n)',
         'Schedule hours' => 'jadual waktu(n)',
         'Schedule days' => 'Jadual hari(en)',
@@ -1090,25 +1090,25 @@ sub Data {
             'Masa kerja ini ejen generik tidak akan berjalan secara automatik.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Untuk membolehkan pelaksanaan automatik pilih sekurang-kurangnya satu nilai daripada minit, jam dan hari!',
-        'Event based execution (single ticket)' => '',
+        'Event based execution (single ticket)' => 'Pelaksanaan berasaskan peristiwa (tiket tunggal)',
         'Event Triggers' => 'Pencentus Acara',
-        'List of all configured events' => '',
+        'List of all configured events' => 'Senarai semua peristiwa konfigurasi',
         'Delete this event' => 'Padam acara ini',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
-            '',
+            'Sebagai tambahan atau sebagai alternatif kepada pelaksanaan berkala, anda boleh menentukan peristiwa tiket yang akan mencetuskan kerja ini.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            '',
+            'Sekiranya peristiwa tiket dihentikan, penapis tiket akan digunakan untuk memeriksa jika tiket adalah padan. Hanya selepas itu tugas akan dijalankan ke atas tiket.',
         'Do you really want to delete this event trigger?' => 'Anda pasti mahu memadam pencetus acara ini?',
         'Add Event Trigger' => 'Tambah pencetus acara',
-        'Add Event' => '',
+        'Add Event' => 'Tambah Acara',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Untuk menambah acara baru pilih objek acara dan nama acara kemudian tekan pada butang "+"',
-        'Duplicate event.' => '',
+        'Duplicate event.' => 'Menyalin acara',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
+            'Acara ini sudah dilampirkan pada tugas. Sila gunakan yang lain.',
         'Delete this Event Trigger' => 'Padam pencetus acara ini',
-        'Remove selection' => '',
-        'Select Tickets' => '',
+        'Remove selection' => 'Alih pilihan',
+        'Select Tickets' => 'Memilih Tiket',
         '(e. g. 10*5155 or 105658*)' => 'contoh. 10*5144 atau 105658*',
         '(e. g. 234321)' => 'contoh. 234321',
         'Customer login' => 'Pelanggan Log Masuk',
@@ -1185,6 +1185,8 @@ sub Data {
         '%s Tickets affected! What do you want to do?' => '%s Tiket terjejas! Apa yang anda mahu lakukan?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Amaran: Anda menggunakan pilihan DELETE. Semua tiket yang dipadam akan hilang!',
+        'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
+            '',
         'Edit job' => 'Edit Kerja',
         'Run job' => 'Jalankan kerja',
         'Affected Tickets' => 'Tiket yang terjejas',
@@ -1238,7 +1240,7 @@ sub Data {
         'Asynchronous' => 'Asynchronous',
         'This invoker will be triggered by the configured events.' => 'Invoker ini akan dicetuskan oleh peristiwa-peristiwa yang dikonfigurasikan.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            '',
+            'Pencetus peristiwa tidak selari dikendalikan oleh Penjadual Daemon OTRS pada latar belakang (disyorkan).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Pencetus acara yang segerak akan diproses terus semasa permintaan web.',
         'Save and continue' => 'Simpan dan sambung',
@@ -1270,17 +1272,17 @@ sub Data {
         'Delete this Key Mapping' => 'Padam pemetaan kunci ini',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'GenericInterface Mapping XSLT for Web Service %s' => '',
-        'Mapping XML' => '',
-        'Template' => '',
-        'The entered data is not a valid XSLT stylesheet.' => '',
-        'Insert XSLT stylesheet.' => '',
+        'GenericInterface Mapping XSLT for Web Service %s' => 'Pemetaan antara muka generik XSLT untuk Perkhidmatan Web %s',
+        'Mapping XML' => 'Pemetaan XML',
+        'Template' => 'Templat',
+        'The entered data is not a valid XSLT stylesheet.' => 'Data yang dimasukkan bukan lembaran gaya XSLT yang sah.',
+        'Insert XSLT stylesheet.' => 'Masukkan lembaran gaya XSLT ',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => 'Tambah operasi baru ke perkhidmatan web %s',
         'Change Operation %s of Web Service %s' => 'Ubah operasi %s perkhidmatan web %s',
         'Add new operation' => 'Tamabh operasi baru',
-        'Change operation %s' => 'Ubah operasi',
+        'Change operation %s' => 'Ubah operasi %s',
         'Do you really want to delete this operation?' => 'Anda pasti mahu memadam operasi ini?',
         'Operation Details' => 'Butiran operasi',
         'The name is typically used to call up this web service operation from a remote system.' =>
@@ -1298,10 +1300,10 @@ sub Data {
         'Delete this Operation' => 'Padam operasi ini',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'GenericInterface Transport HTTP::REST for Web Service %s' => '',
+        'GenericInterface Transport HTTP::REST for Web Service %s' => 'Pengangkutan Generik Muka HTTP :: REST untuk Perkhidmatan Web %s',
         'Network transport' => 'Pengangkutan Rangkaian',
         'Properties' => 'Sifat',
-        'Route mapping for Operation' => '',
+        'Route mapping for Operation' => 'Pemetaan laluan bagi Operasi',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
             '',
         'Valid request methods for Operation' => '',
@@ -1539,7 +1541,7 @@ sub Data {
         'Subject match' => 'perlawanan tertakluk',
         'Body match' => 'perlawanan badan',
         'Include attachments to notification' => 'Termasuk lampiran pemberitahuan',
-        'Recipients' => '',
+        'Recipients' => 'Penerima',
         'Send to' => '',
         'Send to these agents' => '',
         'Send to all group members' => '',
@@ -2409,17 +2411,17 @@ sub Data {
         'Note: Customer is invalid!' => '',
 
         # Template: AgentDaemonInfo
-        'General Information' => '',
-        'OTRS Daemon is a separated process that perform asynchronous tasks' =>
+        'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             '',
-        '(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)' =>
+        'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
-        'It is necessary to have the OTRS Daemon running to make the system work correctly!' =>
+        'Starting the OTRS Daemon' => '',
+        'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
-        'Starting OTRS Daemon' => '',
-        'Make sure that %s exists (without .dist extension)' => '',
-        'Check that cron deamon is running in the system' => '',
-        'Confirm that OTRS cron jobs are running, execute %s start' => '',
+        'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
+            '',
+        'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Dashboard',
@@ -2487,14 +2489,14 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => '',
-        'Selected agent is not available for chat' => '',
+        'Selected agent is not available for chat' => 'Ejen dipilih tidak tersedia untuk sembang',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'sehingga',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Tiket telah dikunci',
-        'Undo & close' => '',
+        'Undo & close' => 'Buat semula & tutup',
 
         # Template: AgentInfo
         'Info' => 'Info',
@@ -2511,7 +2513,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Edit pilihan anda',
-        'Did you know? You can help translating OTRS at %s.' => '',
+        'Did you know? You can help translating OTRS at %s.' => 'Adakah anda tahu? Anda boleh membantu menterjemahkan OTRS di %s.',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Penyemak Ejaan',
@@ -2519,73 +2521,73 @@ sub Data {
         'Apply these changes' => 'Memohon perubahan ini',
 
         # Template: AgentStatisticsAdd
-        'Statistics » Add' => '',
-        'Add New Statistic' => '',
-        'Dynamic Matrix' => '',
+        'Statistics » Add' => 'Statistik » Tambah',
+        'Add New Statistic' => 'Tambah Statistik Baru',
+        'Dynamic Matrix' => 'Matrik Dinamik',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
-        'Dynamic List' => '',
+        'Dynamic List' => 'Senarai Dinamik',
         'Tabular reporting data where each row contains data of one entity (e. g. a ticket).' =>
             '',
-        'Static' => '',
+        'Static' => 'Statik',
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
             '',
-        'General Specification' => '',
-        'Create Statistic' => '',
+        'General Specification' => 'Spesifikasi Umum',
+        'Create Statistic' => 'Cipta Statistik',
 
         # Template: AgentStatisticsEdit
         'Statistics » Edit %s%s — %s' => '',
-        'Run now' => '',
-        'Statistics Preview' => '',
-        'Save statistic' => '',
+        'Run now' => 'Jalankan sekarang',
+        'Statistics Preview' => 'Pratonton Statistik',
+        'Save statistic' => 'Simpan statistik',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
-        'Import Statistic Configuration' => '',
+        'Statistics » Import' => 'Statistik » Import',
+        'Import Statistic Configuration' => 'Import Konfigurasi Statistik',
 
         # Template: AgentStatisticsOverview
-        'Statistics » Overview' => '',
+        'Statistics » Overview' => 'Statistik » Tinjauan',
         'Statistics' => 'Statistik',
-        'Run' => '',
-        'Edit statistic "%s".' => '',
-        'Export statistic "%s"' => '',
-        'Export statistic %s' => '',
-        'Delete statistic "%s"' => '',
-        'Delete statistic %s' => '',
-        'Do you really want to delete this statistic?' => '',
+        'Run' => 'Jalankan',
+        'Edit statistic "%s".' => 'Sunting statistik "%s".',
+        'Export statistic "%s"' => 'Eksport statistik "%s".',
+        'Export statistic %s' => 'Eksport statistik %s',
+        'Delete statistic "%s"' => 'Padam statistik "%s"',
+        'Delete statistic %s' => 'Padam statistik %s',
+        'Do you really want to delete this statistic?' => 'Adakah anda betul-betul ingin memadam statistik ini?',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
         'This statistic contains configuration errors and can currently not be used.' =>
-            '',
+            'Statistik ini mengandungi ralat konfigurasi dan tidak boleh digunakan pada masa sekarang.',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of %s%s' => '',
-        'Change Owner of %s%s' => '',
-        'Close %s%s' => '',
-        'Add Note to %s%s' => '',
-        'Set Pending Time for %s%s' => '',
-        'Change Priority of %s%s' => '',
-        'Change Responsible of %s%s' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'Change Owner of %s%s' => 'Mengubah pemilik %s%s',
+        'Close %s%s' => 'Tutup %s%s',
+        'Add Note to %s%s' => 'Tambah nota pada %s%s',
+        'Set Pending Time for %s%s' => 'Tetapkan masa menunggu untuk %s%s',
+        'Change Priority of %s%s' => 'Perubahan keutamaan %s%s',
+        'Change Responsible of %s%s' => 'Menukar tanggungjawab %s%s',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Semua medan bertanda bintang (*) adalah wajib.',
         'Service invalid.' => 'Perkhidmatan tidak sah.',
         'New Owner' => 'Pemilik baru',
         'Please set a new owner!' => 'Sila tetapkan pemilik baru!',
-        'New Responsible' => '',
-        'Next state' => 'Status Seterusnya',
-        'For all pending* states.' => '',
-        'Add Article' => '',
-        'Create an Article' => '',
+        'New Responsible' => 'Tanggungjawab baharu',
+        'Next state' => 'Keadaan seterusnya',
+        'For all pending* states.' => 'Untuk semua keadaan tergantung*.',
+        'Add Article' => 'Tambah Artikel',
+        'Create an Article' => 'Cipta Artikel',
         'Spell check' => 'semak ejaan',
-        'Text Template' => '',
-        'Setting a template will overwrite any text or attachment.' => '',
+        'Text Template' => 'Templat teks',
+        'Setting a template will overwrite any text or attachment.' => 'Menetapkan templat akan menulis ganti sebarang teks atau lampiran.',
         'Note type' => 'Jenis Nota',
         'Inform Agent' => 'Memaklumkan Agen.',
         'Optional' => 'Pilihan',
         'Inform involved Agents' => 'Beritahu Ejen terlibat',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
-            '',
-        'Note will be (also) received by:' => '',
+            'Di sini anda boleh memilih ejen tambahan yang sepatutnya menerima pemberitahuan mengenai artikel baru.',
+        'Note will be (also) received by:' => 'Nota akan (juga) diterima oleh:',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Bounce Tiket.',
@@ -2953,6 +2955,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3157,6 +3160,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Ticket is locked by another agent and will be ignored!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketPhone.pm
+        '%s has left the chat.' => '',
+        'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'dicetak oleh',
@@ -5221,6 +5228,8 @@ Thanks for your help!
         'Set sender email addresses for this system.' => 'Tetapkan alamat emel penghantar untuk sistem ini..',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Tetapkan ketinggian default (dalam piksel) artikel inline HTML dalam AgentTicketZoom.',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Tetapkan ketinggian maksimum (dalam piksel) artikel inline HTML dalam AgentTicketZoom.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
