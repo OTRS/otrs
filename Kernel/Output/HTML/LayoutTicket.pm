@@ -806,7 +806,7 @@ sub TicketListShow {
 
     # update preferences if needed
     my $Key = 'UserTicketOverview' . $Env->{Action};
-    if ( !$Self->{ConfigObject}->Get('DemoSystem') && $Self->{$Key} ne $View ) {
+    if ( !$Self->{ConfigObject}->Get('DemoSystem') && ($Self->{$Key} // '') ne $View ) {
         $Self->{UserObject}->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Key,
