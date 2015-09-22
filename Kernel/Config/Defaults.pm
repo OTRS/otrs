@@ -83,7 +83,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTRS 5';
+    $Self->{ProductName} = 'OTRS 6';
 
     # --------------------------------------------------- #
     # database settings                                   #
@@ -902,8 +902,8 @@ sub LoadDefaults {
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.1.1/jquery.jstree.js',
         'Core.Debug.js',
-        'Core.Data.js',
         'Core.Exception.js',
+        'Core.Data.js',
         'Core.JSON.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Config.js',
@@ -938,9 +938,9 @@ sub LoadDefaults {
         'thirdparty/jquery-jstree-3.1.1/jquery.jstree.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Debug.js',
+        'Core.Exception.js',
         'Core.Data.js',
         'Core.Config.js',
-        'Core.Exception.js',
         'Core.JSON.js',
         'Core.App.js',
         'Core.App.Responsive.js',
