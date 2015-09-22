@@ -7,21 +7,17 @@
 # --
 
 <div id="DaemonRunDialog" class="InnerContent DaemonInfoContent">
-    <legend>[% Translate("General Information") | html %]</legend>
-    <div class="InfoParagraph">
-        <p>[% Translate("OTRS Daemon is a separated process that perform asynchronous tasks") | html %]</p>
-        <p class="FieldExplanation">[% Translate("(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)") | html %]</p>
-        <div class="SpacingTop"></div>
-        <p class="Strong">[% Translate("It is necessary to have the OTRS Daemon running to make the system work correctly!") | html %]</p>
-    </div>
-    <div class="Clear Spacing"></div>
 
-    <legend>[% Translate("Starting OTRS Daemon") | html %]</legend>
+    <p>[% Translate("The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.") | html %]</p>
+
+    <p class="Strong SpacingTop">[% Translate("A running OTRS Daemon is mandatory for correct system operation.") | html %]</p>
+
+    <legend class="SpacingTop">[% Translate("Starting the OTRS Daemon") | html %]</legend>
     <div class="InfoParagraph">
         <ul>
-            <li>[% Translate("Make sure that %s exists (without .dist extension)", Data.DaemonCron) | html %]</li>
-            <li>[% Translate("Check that cron deamon is running in the system") | html %]</li>
-            <li>[% Translate("Confirm that OTRS cron jobs are running, execute %s start", Data.CronExecutable) | html %]</li>
+            <li>[% Translate("Make sure that the file '%s' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.", Data.DaemonCron) | html %]</li>
+            <li>[% Translate("Execute '%s start' to make sure the cron jobs of the 'otrs' user are active.", Data.CronExecutable) | html %]</li>
+            <li>[% Translate("After 5 minutes, check that the OTRS Daemon is running in the system ('bin/otrs.Daemon.pl status').") | html %]</li>
         </ul>
     </div>
     <div class="Clear Spacing"></div>
