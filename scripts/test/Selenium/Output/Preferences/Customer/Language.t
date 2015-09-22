@@ -35,9 +35,15 @@ $Selenium->RunTest(
         # go to customer preferences
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # change test user language preference to Deutsch
         $Selenium->execute_script("\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserLanguage option[value='de']", 'css' )->submit();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for update preference message on screen
         my $UpdateMessage = "Benutzereinstellungen erfolgreich aktualisiert!";
