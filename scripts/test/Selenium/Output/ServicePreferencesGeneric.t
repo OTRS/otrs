@@ -73,8 +73,14 @@ $Selenium->RunTest(
         # go to service admin
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminService");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # click "Add service"
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ServiceEdit' )]")->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check add page, and especially included service attribute Comment2
         for my $ID (
@@ -95,6 +101,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('ServicePreferences Comment2');
         $Selenium->find_element( "#Name",     'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check if test service is created
         $Self->True(
             index( $Selenium->get_page_source(), $RandomServiceName ) > -1,
@@ -103,6 +112,9 @@ $Selenium->RunTest(
 
         # go to new service again
         $Selenium->find_element( $RandomServiceName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check service value
         $Self->Is(
@@ -124,8 +136,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
         $Selenium->find_element( "#Comment2", 'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check updated values
         $Selenium->find_element( $RandomServiceName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         $Self->Is(
             $Selenium->find_element( '#Comment2', 'css' )->get_value(),

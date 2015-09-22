@@ -73,8 +73,14 @@ $Selenium->RunTest(
         # go to SLA admin
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSLA");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # click "Add SLA"
         $Selenium->find_element("//a[contains(\@href, \'Subaction=SLAEdit' )]")->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check add page, and especially included SLA attribute Comment2
         for my $ID (
@@ -96,6 +102,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('SLAPreferences Comment2');
         $Selenium->find_element( "#Name",     'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check if test SLA is created
         $Self->True(
             index( $Selenium->get_page_source(), $RandomSLAName ) > -1,
@@ -104,6 +113,9 @@ $Selenium->RunTest(
 
         # go to new SLA again
         $Selenium->find_element( $RandomSLAName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check SLA value
         $Self->Is(
@@ -125,8 +137,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
         $Selenium->find_element( "#Comment2", 'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check updated values
         $Selenium->find_element( $RandomSLAName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         $Self->Is(
             $Selenium->find_element( '#Comment2', 'css' )->get_value(),

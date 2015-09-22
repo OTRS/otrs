@@ -116,6 +116,9 @@ $Selenium->RunTest(
             my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
             $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+            # wait until form has loaded, if neccessary
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
             # check are there Downlaod and Viewer liks for test attachment
             $Self->True(
                 $Selenium->find_element("//a[contains(\@title, \'Download' )]"),
@@ -131,6 +134,8 @@ $Selenium->RunTest(
 
             my $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
+
+            sleep 3;
 
             # check expexted values in PDF test attachment
             for my $ExpextedValue (qw(OTRS.org TEST)) {

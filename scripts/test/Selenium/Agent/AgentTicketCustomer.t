@@ -67,6 +67,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -104,7 +107,6 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
-
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # Wait until form has loaded, if neccessary
@@ -148,6 +150,9 @@ $Selenium->RunTest(
         # set size for small screens, because of sidebar with customer info overflow form for customer data
         $Selenium->set_window_size( 1000, 700 );
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerAutoComplete").length' );
+
         # check AgentTicketCustomer screen
         for my $ID (
             qw(CustomerAutoComplete CustomerID Submit CustomerInfo CustomerTickets)
@@ -173,11 +178,13 @@ $Selenium->RunTest(
 
         # Wait for update
         $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
         sleep 1;
 
-        $Selenium->switch_to_window( $Handles->[0] );
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # verify that action worked as expected
         my $HistoryText = "CustomerID=$TestCustomers[1];CustomerUser=$TestCustomers[1]";

@@ -18,7 +18,20 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
+
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Service',
+            Value => '1',
+        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(

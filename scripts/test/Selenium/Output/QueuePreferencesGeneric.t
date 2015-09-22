@@ -63,8 +63,14 @@ $Selenium->RunTest(
         # go to queue admin
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # add new queue
         $Selenium->find_element( "a.Create", 'css' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check add page, and especially included queue attribute Comment2
         for my $ID (
@@ -91,6 +97,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('QueuePreferences Comment2');
         $Selenium->find_element( "#Name",     'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check if test queue is created
         $Self->True(
             index( $Selenium->get_page_source(), $RandomQueueName ) > -1,
@@ -99,6 +108,9 @@ $Selenium->RunTest(
 
         # go to new queue again
         $Selenium->find_element( $RandomQueueName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check queue value for Comment2
         $Self->Is(
@@ -116,8 +128,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
         $Selenium->find_element( "#Comment2", 'css' )->submit();
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # check updated values
         $Selenium->find_element( $UpdatedName, 'link_text' )->click();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
             $UpdatedName,
