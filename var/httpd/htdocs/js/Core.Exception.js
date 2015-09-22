@@ -19,6 +19,10 @@ var Core = Core || {};
  */
 Core.Exception = (function (TargetNS) {
 
+    if (!Core.Debug.CheckDependency('Core.Exception', 'Core.Debug', 'Core.Debug')) {
+        return false;
+    }
+
     /**
      * @name Init
      * @memberof Core.Exception
