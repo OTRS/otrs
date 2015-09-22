@@ -86,6 +86,8 @@ sub CustomerCompanyList {
         $Valid = 0;
     }
 
+    my $Limit = $Param{Limit} // $Self->{SearchListLimit};
+
     my $CacheType;
     my $CacheKey;
 
@@ -93,7 +95,7 @@ sub CustomerCompanyList {
     if ( $Self->{CacheObject} ) {
 
         $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-        $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
+        $CacheKey = "CustomerCompanyList::${Valid}::${Limit}::" . ( $Param{Search} || '' );
 
         my $Data = $Self->{CacheObject}->Get(
             Type => $CacheType,
@@ -164,7 +166,7 @@ sub CustomerCompanyList {
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
         Bind  => \@Bind,
-        Limit => $Self->{SearchListLimit},
+        Limit => $Limit,
     );
 
     # fetch the result

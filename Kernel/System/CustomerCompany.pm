@@ -306,6 +306,7 @@ get list of customer companies.
 
     my %List = $CustomerCompanyObject->CustomerCompanyList(
         Valid => 0,
+        Limit => 0,     # optional, override configured search result limit (0 means unlimited)
     );
 
     my %List = $CustomerCompanyObject->CustomerCompanyList(
@@ -315,8 +316,8 @@ get list of customer companies.
 Returns:
 
 %List = {
-          'example.com' => 'example.com Customer Inc.        ',
-          'acme.com'    => 'acme.com Acme, Inc.        '
+          'example.com' => 'example.com Customer Inc.',
+          'acme.com'    => 'acme.com Acme, Inc.'
         };
 
 =cut
