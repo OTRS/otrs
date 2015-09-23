@@ -230,18 +230,6 @@ You should be able to continue reading these lessons, however.
     },
     {
         Input => '<center>
-<BODY onload!#$%&()*~+-_.,:;?@[/|\]^`="alert("XSS")">
-</center>',
-        Result => {
-            Output => '<center>
-<BODY>
-</center>',
-            Replace => 1,
-        },
-        Name => 'Safety - onload'
-    },
-    {
-        Input => '<center>
 <SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>
 </center>',
         Result => {
@@ -809,6 +797,15 @@ You should be able to continue reading these lessons, however.
 ...
 </center>',
             Replace => 1,
+        },
+    },
+    {
+        Name  => 'Safety - bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
+        Input => '<a href="http://localhost/online/foo/bar.html">www</a>',
+        Config => {},
+        Result => {
+            Output => '<a href="http://localhost/online/foo/bar.html">www</a>',
+            Replace => 0,
         },
     },
 );
