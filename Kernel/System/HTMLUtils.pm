@@ -1083,7 +1083,7 @@ sub Safety {
 
                 # remove on action attributes
                 $Replaced += $Tag =~ s{
-                    (?:\s|/) on[a-zA-Z]+\s*=("[^"]+"|'[^']+'|.+?)($TagEnd|\s)
+                    (?:\s|/) on[a-z]+\s*=("[^"]+"|'[^']+'|.+?)($TagEnd|\s)
                 }
                 {$2}sgxim;
 
