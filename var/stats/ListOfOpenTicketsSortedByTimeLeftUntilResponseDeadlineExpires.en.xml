@@ -26,7 +26,7 @@ NOTE: Please check the output and configuration of the statistics carefully to m
 <SelectedValues>pending reminder</SelectedValues>
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
-<SelectedValues>SolutionTimeDestinationDate</SelectedValues>
+<SelectedValues>UpdateTimeDestinationDate</SelectedValues>
 </UseAsValueSeries>
 <UseAsValueSeries Element="SortSequence" Fixed="1">
 <SelectedValues>Up</SelectedValues>
