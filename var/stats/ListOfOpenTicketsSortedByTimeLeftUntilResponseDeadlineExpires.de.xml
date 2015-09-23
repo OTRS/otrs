@@ -27,7 +27,7 @@ Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Änd
 <SelectedValues>pending reminder</SelectedValues>
 </UseAsRestriction>
 <UseAsValueSeries Element="OrderBy" Fixed="1">
-<SelectedValues>SolutionTimeDestinationDate</SelectedValues>
+<SelectedValues>UpdateTimeDestinationDate</SelectedValues>
 </UseAsValueSeries>
 <UseAsValueSeries Element="SortSequence" Fixed="1">
 <SelectedValues>Up</SelectedValues>
