@@ -1,4 +1,5 @@
 #3.3.15 ????-??-??
+ - 2015-09-23 Fixed bug#[10530](http://bugs.otrs.org/show_bug.cgi?id=10530) - HTML emails not properly displayed (parts missing).
  - 2015-09-16 Fixed a nasty JSON::XS crash on some platforms.
  - 2015-09-15 Updated CPAN module Proc::Daemon to version 0.21.
  - 2015-08-19 Fixed bug#[11440](http://bugs.otrs.org/show_bug.cgi?id=11440) - TransitionAction TicketLockSet typo, thanks to Torsten Thau (c.a.p.e. IT).
