@@ -100,9 +100,6 @@
         <p>
             [% Translate('Between') | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
         </p>
-        <p class="FieldExplanation">
-            [% Translate("The maximal period is from") | html %] [% Data.TimeStartMax %] [% Translate("to") | html %] [% Data.TimeStopMax %].
-        </p>
     </div>
     <div class="Clear"></div>
 [% RenderBlockEnd("TimePeriod") %]
@@ -114,11 +111,6 @@
         [% Data.TimeScaleCount %]
     [% END %]
         [% Data.TimeScaleUnit %]
-        <p class="FieldExplanation">
-[% RenderBlockStart("TimeScaleInfo") %]
-            [% Translate("The minimal scale is") | html %] [% Data.TimeScaleCountMin %] [% Translate(Data.TimeScaleUnitMin) | html %].
-[% RenderBlockEnd("TimeScaleInfo") %]
-        </p>
     </div>
     <div class="Clear"></div>
 [% IF Data.Use == 'UseAsValueSeries' %]
@@ -150,11 +142,8 @@
 
 [% RenderBlockStart("TimePeriodRelative") %]
     <label><em>[% Translate("Relative period") | html %]</em>:</label>
-    <div class="Value" data-max-seconds="[% Data.TimeRelativeMaxSeconds %]" data-upcoming-max-seconds="[% Data.TimeRelativeUpcomingMaxSeconds %]">
+    <div class="Value">
         [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]
-        <p class="FieldExplanation">
-            [% Translate("The maximal past period is %s and the current+upcoming period is %s %s", Data.TimeRelativeCountMax, Data.TimeRelativeUpcomingCountMax, Translate(Data.TimeRelativeUnitMax) ) | html %].
-        </p>
     </div>
     <div class="Clear"></div>
 [% RenderBlockEnd("TimePeriodRelative") %]

@@ -37,7 +37,7 @@
         </label>
         <div class="Field">
             [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]
-            <p class="FieldExplanation">[% Translate("The selected time period defines the maximal time frame for this statistic to collect data from.") | html %]</p>
+            <p class="FieldExplanation">[% Translate("The selected time period defines the default time frame for this statistic to collect data from.") | html %]</p>
         </div>
         <div class="Clear"></div>
         <br/>

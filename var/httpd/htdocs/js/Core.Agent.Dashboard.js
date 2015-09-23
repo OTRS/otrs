@@ -283,29 +283,22 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 // check for elements to validate
                 $ClickedElement.closest('fieldset').find('.StatsSettingsBox').find('.TimeRelativeUnitView').each(function() {
-                    if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-upcoming-max-seconds'), 10)) {
-                        ValidationErrors = true;
-                        $(this)
-                            .add($(this).prev('select'))
-                            .add($(this).closest('.Value'))
-                            .addClass('Error');
-                    }
-                    else {
-                        $(this)
-                            .add($(this).prev('select'))
-                            .add($(this).closest('.Value'))
-                            .removeClass('Error');
-                    }
+                    var MaxXaxisAttributes = Core.Config.Get('StatsMaxXaxisAttributes') || 1000,
+                    TimePeriod             = parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10),
+                    TimeUpcomingPeriod     = parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10),
+                    $ScaleCount            = $(this).closest('.Value').prevAll('.Value').first().children('select').first(),
+                    ScalePeriod            = parseInt($ScaleCount.val(), 10) * parseInt($ScaleCount.next('select').find('option:selected').attr('data-seconds'), 10)
 
-                    if (parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
-                        ValidationErrors = true;
+                    if ((TimePeriod + TimeUpcomingPeriod) / ScalePeriod > MaxXaxisAttributes) {
                         $(this)
+                            .add($(this).prev('select'))
                             .add($(this).prev('select').prev('select'))
                             .add($(this).closest('.Value'))
                             .addClass('Error');
                     }
                     else {
                         $(this)
+                            .add($(this).prev('select'))
                             .add($(this).prev('select').prev('select'))
                             .add($(this).closest('.Value'))
                             .removeClass('Error');
@@ -427,7 +420,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
     TargetNS.InitStatsConfiguration = function($Container) {
 
         // Initialize the time multiplicators for the time validation.
-        $('.TimeRelativeUnitView', $Container).find('option').each(function() {
+        $('.TimeRelativeUnitView, .TimeScaleView', $Container).find('option').each(function() {
             var SecondsMapping = {
                 'Year': 31536000,
                 'HalfYear': 15724800,
@@ -458,44 +451,23 @@ Core.Agent.Dashboard = (function (TargetNS) {
         function ValidateTimeSettings() {
 
             $Container.find('.TimeRelativeUnitView').each(function() {
-                var ErrorPastCompleteCount = false,
-                ErrorUpcomingCompleteCount = false;
+                var MaxXaxisAttributes = Core.Config.Get('StatsMaxXaxisAttributes') || 1000,
+                TimePeriod             = parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10),
+                TimeUpcomingPeriod     = parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10),
+                $ScaleCount            = $(this).closest('.Value').prevAll('.Value').first().children('select').first(),
+                ScalePeriod            = parseInt($ScaleCount.val(), 10) * parseInt($ScaleCount.next('select').find('option:selected').attr('data-seconds'), 10)
 
-                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-upcoming-max-seconds'), 10)) {
-                    ErrorUpcomingCompleteCount = true;
-                }
-                else {
-                    ErrorUpcomingCompleteCount = false;
-                }
-
-                if (parseInt($(this).prev('select').prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
-                    ErrorPastCompleteCount = true;
-                }
-                else {
-                    ErrorPastCompleteCount = false;
-                }
-
-                if (ErrorUpcomingCompleteCount) {
-                    $(this).prev('select').addClass('Error');
-                }
-                else {
-                    $(this).prev('select').removeClass('Error');
-                }
-
-                if (ErrorPastCompleteCount) {
-                    $(this).prev('select').prev('select').addClass('Error');
-                }
-                else {
-                    $(this).prev('select').prev('select').removeClass('Error');
-                }
-
-                if (ErrorUpcomingCompleteCount || ErrorPastCompleteCount) {
+                if ((TimePeriod + TimeUpcomingPeriod) / ScalePeriod > MaxXaxisAttributes) {
                     $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).prev('select').prev('select'))
                         .add($(this).closest('.Value'))
                         .addClass('Error');
                 }
                 else {
                     $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).prev('select').prev('select'))
                         .add($(this).closest('.Value'))
                         .removeClass('Error');
                 }
