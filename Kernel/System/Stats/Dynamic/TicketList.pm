@@ -1817,11 +1817,6 @@ sub _IndividualResultOrder {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
     else {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "There is no possibility to order the stats by $Param{OrderBy}! Sort it alpha numerical",
-        );
         @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
     }
 
