@@ -438,7 +438,9 @@ if (%RegistrationInfo) {
 }
 
 # GenerateSupportData tests
-my %OriginalResult = $SupportDataCollectorObject->Collect();
+my %OriginalResult = $SupportDataCollectorObject->Collect(
+    WebTimeout => 40,
+);
 
 # for this test we will just check that both results has the same identifiers
 my %OriginalIdentifiers;
