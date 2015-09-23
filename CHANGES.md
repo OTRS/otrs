@@ -1,4 +1,5 @@
 #4.0.13 2015-??-??
+ - 2015-09-23 Fixed bug#[10530](http://bugs.otrs.org/show_bug.cgi?id=10530) - HTML emails not properly displayed (parts missing).
  - 2015-09-21 Fixed bug#[11470](http://bugs.otrs.org/show_bug.cgi?id=11470) - AgentPreferences shows "My Services" even when Ticket::Service is disabled.
  - 2015-09-18 Fixed bug#[11441](http://bugs.otrs.org/show_bug.cgi?id=11441) - It is not possible to sort by Owner.
  - 2015-09-18 Fixed bug#[10878](http://bugs.otrs.org/show_bug.cgi?id=10878) - bulk action for owner change: tickets are not locked.
