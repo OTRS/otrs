@@ -117,6 +117,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_AddZoomMenuClusters,
         },
         {
+            Message => 'Fixup dashboard statistics output format configuration',
+            Command => \&_FixupDashboardStatsFormats,
+        },
+        {
             Message => 'Uninstall Merged Feature Add-Ons',
             Command => \&_UninstallMergedFeatureAddOns,
         },
@@ -1741,6 +1745,57 @@ sub _MigrateSettings {
             WHERE preferences_key LIKE(\'UserSend%\')
         ',
     );
+
+    return 1;
+}
+
+=item _FixupDashboardStatsFormats()
+
+make sure that dashboard stats have the charts available as output formats.
+
+    _FixupDashboardStatsFormats();
+
+=cut
+
+sub _FixupDashboardStatsFormats {
+
+    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+
+    my $Stats = $StatsObject->StatsListGet( UserID => 1 );
+
+    print "\n";
+
+    STATID:
+    for my $StatID ( sort keys %{ $Stats // {} } ) {
+        my %Stat = %{ $Stats->{$StatID} // {} };
+
+        next STATID if !$Stat{ShowAsDashboardWidget};
+
+        my $Changed;
+
+        for my $Format (qw( D3::BarChart D3::LineChart D3::StackedAreaChart )) {
+            if ( !grep { $_ eq $Format } @{ $Stat{Format} // [] } ) {
+                push @{ $Stat{Format} }, $Format;
+                $Changed++;
+            }
+        }
+
+        if ($Changed) {
+            my $Success = $StatsObject->StatsUpdate(
+                StatID => $Stat{StatID},
+                Hash   => \%Stat,
+                UserID => 1,
+            );
+
+            if ($Success) {
+                print "Updated statistic $Stat{StatID} ($Stat{Title}).\n";
+            }
+            else {
+                print STDERR "Could not update statistic $Stat{StatID}.\n";
+                return;
+            }
+        }
+    }
 
     return 1;
 }
