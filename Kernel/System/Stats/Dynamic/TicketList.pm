@@ -1201,6 +1201,7 @@ sub GetStatTable {
             $Ticket{AccountedTime} = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
         }
 
+        $Ticket{Closed}                      ||= '';
         $Ticket{SolutionTime}                ||= '';
         $Ticket{SolutionDiffInMin}           ||= 0;
         $Ticket{SolutionInMin}               ||= 0;
