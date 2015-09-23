@@ -85,10 +85,19 @@ if ( !@ARGV ) {
     exit 0;
 }
 
+# to wait until all daemon stops (in seconds)
+my $DaemonStopWait = 30;
+my $ForceStop;
+
 # check for debug mode
 my %DebugDaemons;
 my $Debug;
-if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
+if (
+    lc $ARGV[0] eq 'start'
+    && $ARGV[1]
+    && lc $ARGV[1] eq '--debug'
+    )
+{
     $Debug = 1;
 
     # if no more arguments, then use debug mode for all daemons
@@ -109,6 +118,14 @@ if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
             $DebugDaemons{ $ARGV[$ArgIndex] } = 1;
         }
     }
+}
+elsif (
+    lc $ARGV[0] eq 'stop'
+    && $ARGV[1]
+    && lc $ARGV[1] eq '--force'
+    )
+{
+    $ForceStop = 1;
 }
 elsif ( $ARGV[1] ) {
     print STDERR "Invalid option: $ARGV[1]\n\n";
@@ -138,7 +155,7 @@ else {
 
 sub PrintUsage {
     my $UsageText = "Usage:\n";
-    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug]\n";
+    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug] [--force]\n";
     $UsageText .= "\nActions:\n";
     $UsageText .= sprintf " %-30s - %s", 'start', 'Starts the daemon process' . "\n";
     $UsageText .= sprintf " %-30s - %s", 'stop', 'Stops the daemon process' . "\n";
@@ -148,8 +165,10 @@ sub PrintUsage {
     $UsageText
         .= " In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
     $UsageText .= " Debug information is stored in the daemon log files localed under: $LogDir\n";
-    $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n";
-
+    $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n\n";
+    $UsageText
+        .= "\n Forced stop reduces the time the main daemon waits other daemons to stop from normal 30 seconds to 5.\n";
+    $UsageText .= "\n otrs.Daemon.pl stop --force\n\n";
     print STDOUT "$UsageText\n";
 
     return 1;
@@ -196,8 +215,8 @@ sub Start {
     }
 
     my $DaemonChecker = 1;
-    local $SIG{INT}  = sub { $DaemonChecker = 0; };
-    local $SIG{TERM} = sub { $DaemonChecker = 0; };
+    local $SIG{INT} = sub { $DaemonChecker = 0; };
+    local $SIG{TERM} = sub { $DaemonChecker = 0; $DaemonStopWait = 5; };
     local $SIG{CHLD} = "IGNORE";
 
     print STDOUT "Daemon started\n";
@@ -329,9 +348,9 @@ sub Start {
         kill 2, $DaemonModules{$Module}->{PID};
     }
 
-    # wait for active daemon processes to stop
+    # wait for active daemon processes to stop (typically 30 secs, or just 5 if forced)
     WAITTIME:
-    for my $WaitTime ( 1 .. 30 ) {
+    for my $WaitTime ( 1 .. $DaemonStopWait ) {
 
         my $ProcessesStillRunning;
         MODULE:
@@ -381,9 +400,18 @@ sub Stop {
 
     my $RunningDaemonPID = _PIDUnlock();
 
-    # send INT signal to running daemon
     if ($RunningDaemonPID) {
-        kill 2, $RunningDaemonPID;
+
+        if ($ForceStop) {
+
+            # send TERM signal to running daemon
+            kill 15, $RunningDaemonPID;
+        }
+        else {
+
+            # send INT signal to running daemon
+            kill 2, $RunningDaemonPID;
+        }
     }
 
     print STDOUT "Daemon stopped\n";
