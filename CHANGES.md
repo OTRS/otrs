@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-23 Added default values for statistic time field selections instead of max/min values.
  - 2015-09-23 Fixed bug#[10530](http://bugs.otrs.org/show_bug.cgi?id=10530) - HTML emails not properly displayed (parts missing).
  - 2015-09-22 Fixed bug#[11495](http://bugs.otrs.org/show_bug.cgi?id=11495) - AdminCustomerUser only shows the first 250 CustomerIDs in dropdown.
  - 2015-09-21 Fixed bug#[11470](http://bugs.otrs.org/show_bug.cgi?id=11470) - AgentPreferences shows "My Services" even when Ticket::Service is disabled.

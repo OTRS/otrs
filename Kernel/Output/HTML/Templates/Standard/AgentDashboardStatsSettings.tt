@@ -19,6 +19,7 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
+Core.Config.Set('StatsMaxXaxisAttributes', parseInt('[% Config("Stats::MaxXaxisAttributes") %]', 10) );
 Core.Agent.Dashboard.InitStatsConfiguration($('#StatsSettingsBox[% Data.NamePref | html %]'));
 //]]></script>
 [% END %]
