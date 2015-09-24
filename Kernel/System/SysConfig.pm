@@ -282,7 +282,11 @@ sub CreateConfig {
                 $Name =~ s/'/\'/g;
                 $Name =~ s/###/'}->{'/g;
 
-                if ( $Config{Valid} ) {
+                if (
+                    $Config{Valid}
+                    || ( $Config{ReadOnly} && $ConfigDefault{Valid} && $ConfigDefault{Required} )
+                    )
+                {
 
                     my $C = $Self->_XML2Perl( Data => \%Config );
                     my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
