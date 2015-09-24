@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Time',
     'Kernel::System::UnitTest',
 );
 
@@ -309,7 +310,7 @@ use this method to handle any Selenium exceptions.
     $SeleniumObject->HandleError($@);
 
 It will create a failing test result and store a screenshot of the page
-for analysis.
+for analysis (in folder /var/otrs-unittest if it exists, in /tmp otherwise).
 
 =cut
 
@@ -323,24 +324,26 @@ sub HandleError {
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
 
-    # This file should survive unit test scenario runs, so save it in a global directory.
-    my ( $FH, $Filename ) = File::Temp::tempfile(
-        DIR    => '/tmp/',
-        SUFFIX => '.png',
-        UNLINK => 0,
-    );
-    close $FH;
+    my $TmpDir = -d '/var/otrs-unittest/' ? '/var/otrs-unittest/' : '/tmp/';
+    $TmpDir .= $Self->{UnitTestObject}->{Product};
+    $TmpDir =~ s{[^a-z0-9_.\-]+}{_}smxig;
+
+    mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
+
+    my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+    $Filename .= '-' . (int rand 100_000_000) . '.png';
+    $Filename =~ s{[ :]}{-}smxg;
+
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location => $Filename,
-        Content  => \$Data,
-    );
+        Directory => $TmpDir,
+        Filename  => $Filename,
+        Content   => \$Data,
+    ) || return $Self->False( 1, "Could not write file $TmpDir/$Filename" );
 
     $Self->{UnitTestObject}->False(
         1,
-        "Saved screenshot in file://$Filename",
+        "Saved screenshot in file://$TmpDir/$Filename",
     );
-
-    #}
 }
 
 =item DESTROY()

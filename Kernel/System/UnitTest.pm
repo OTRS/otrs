@@ -126,6 +126,9 @@ sub Run {
     my $Product   = $Param{Product}
         || $Kernel::OM->Get('Kernel::Config')->Get('Product') . " "
         . $Kernel::OM->Get('Kernel::Config')->Get('Version');
+
+    $Self->{Product} = $Product; # we need this in the Selenium object
+
     my @Names = split( /:/, $Param{Name} || '' );
 
     $Self->{TestCountOk}    = 0;
