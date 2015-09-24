@@ -294,6 +294,10 @@ sub CreateConfig {
 
                         # do nothing
                     }
+                    elsif ( $Config{ReadOnly} ) {
+
+                        # do nothing (= reset to readonly value)
+                    }
                     elsif (
                         ( defined $A1 && !defined $A2 )
                         || ( !defined $A1 && defined $A2 )
