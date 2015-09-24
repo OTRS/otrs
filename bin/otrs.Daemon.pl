@@ -561,12 +561,22 @@ sub _LogFilesSet {
         move( "$FileStdErr.log", "$FileStdErr-$SystemTime.log" );
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $RedirectSTDOUT = $ConfigObject->Get('Daemon::Log::STDOUT') || 0;
+    my $RedirectSTDERR = $ConfigObject->Get('Daemon::Log::STDERR') || 0;
+
     # redirect STDOUT and STDERR
-    open STDOUT, '>>', "$FileStdOut.log";
-    open STDERR, '>>', "$FileStdErr.log";
+    if ($RedirectSTDOUT) {
+        open STDOUT, '>>', "$FileStdOut.log";
+    }
+    if ($RedirectSTDERR) {
+        open STDERR, '>>', "$FileStdErr.log";
+    }
 
     # remove not needed log files
-    my $DaysToKeep = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::DaysToKeep') || 1;
+    my $DaysToKeep = $ConfigObject->Get('Daemon::Log::DaysToKeep') || 1;
     my $DaysToKeepTime = $SystemTime - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob "$LogDir/*.log";
