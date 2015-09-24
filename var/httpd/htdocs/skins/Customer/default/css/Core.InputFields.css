@@ -149,6 +149,11 @@ div.InputField_TreeContainer {
     line-height: 18px;
 }
 
+.ExpandToTop div.InputField_TreeContainer {
+    border-top: 1px solid #ccc;
+    border-bottom: none;
+}
+
 div.InputField_ToolbarContainer {
     background-color: #f5f5f5;
     border: 1px solid #ccc;

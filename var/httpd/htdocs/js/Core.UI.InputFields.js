@@ -38,6 +38,7 @@ Core.UI.InputFields = (function (TargetNS) {
         SelectionNotAvailable: ' -',
         ResizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
         ResizeTimeout: 0,
+        SafeMargin: 30,
         Diacritics: {
             "\u24B6":"A", "\uFF21":"A", "\u00C0":"A", "\u00C1":"A", "\u00C2":"A", "\u1EA6":"A",
             "\u1EA4":"A", "\u1EAA":"A", "\u1EA8":"A", "\u00C3":"A", "\u0100":"A", "\u0102":"A",
@@ -328,6 +329,22 @@ Core.UI.InputFields = (function (TargetNS) {
         if ($FormObj.hasClass('Validate')) {
             Core.Form.Validate.ValidateElement($SelectObj);
         }
+    }
+
+    /**
+     * @private
+     * @name CloseOpenSelections
+     * @memberof Core.UI.InputFields
+     * @description
+     *      Triggers blur on all modern input fields in order to close them.
+     */
+    function CloseOpenSelections() {
+        // step through all select fields on the page.
+        // If the dropdown of the field is opened, close it (by calling blur event)
+        // TODO: nicer way to find opened select elements
+        $('select.Modernize').each(function () {
+            $('#' + $(this).data('modernized')).filter('[aria-expanded=true]').trigger('blur');
+        });
     }
 
     /**
@@ -920,7 +937,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 SearchLabel,
                 $FiltersObj,
                 $ShowTreeObj,
-                $FiltersListObj;
+                $FiltersListObj,
+                ScrollEventListener;
 
             // Only initialize new elements if original field is valid and visible
             if ($(SelectObj).is(':visible')) {
@@ -1063,6 +1081,21 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                 });
 
+                // Handle dialog dragging
+                Core.App.Subscribe('Event.UI.Dialog.ShowDialog.DragStart', function() {
+                    CloseOpenSelections();
+                });
+
+                // Handle dialog opening
+                Core.App.Subscribe('Event.UI.Dialog.ShowDialog.BeforeOpen', function() {
+                    CloseOpenSelections();
+                });
+
+                // Handle dialog closing
+                Core.App.Subscribe('Event.UI.Dialog.CloseDialog.Close', function() {
+                    CloseOpenSelections();
+                });
+
                 // Register handler for on focus event
                 $SearchObj.off('focus.InputField')
                     .on('focus.InputField', function () {
@@ -1072,9 +1105,56 @@ Core.UI.InputFields = (function (TargetNS) {
                         SelectedID,
                         Elements,
                         SelectedNodes,
+                        AvailableHeightBottom,
+                        AvailableHeightTop,
+                        AvailableMaxHeight,
                         $ClearAllObj,
                         $SelectAllObj,
                         $ConfirmObj;
+
+                    function CalculateListPosition() {
+                        // calculate available height to bottom of page
+                        AvailableHeightBottom = parseInt(
+                            $(window).scrollTop() + $(window).height()
+                            - (
+                                $InputContainerObj.offset().top
+                                + $InputContainerObj.outerHeight()
+                                + Config.SafeMargin
+                            ),
+                            10
+                        );
+
+                        // calculate available height to top of page
+                        AvailableHeightTop = parseInt($InputContainerObj.offset().top - $(window).scrollTop() - Config.SafeMargin, 10);
+
+                        // set left position
+                        $ListContainerObj
+                            .css({
+                                left: $InputContainerObj.offset().left
+                            });
+
+                        // decide wether list should be positioned on top or at the bottom of the input field
+                        if (AvailableHeightTop > AvailableHeightBottom) {
+                            AvailableMaxHeight = AvailableHeightTop;
+                            $ListContainerObj
+                                .removeClass('ExpandToBottom')
+                                .addClass('ExpandToTop')
+                                .css({
+                                    top: 'auto',
+                                    bottom: parseInt($('body').height() - $InputContainerObj.offset().top, 10)
+                                });
+                        }
+                        else {
+                            AvailableMaxHeight = AvailableHeightBottom;
+                            $ListContainerObj
+                                .removeClass('ExpandToTop')
+                                .addClass('ExpandToBottom')
+                                .css({
+                                    top: parseInt($InputContainerObj.offset().top + $InputContainerObj.outerHeight(), 10),
+                                    bottom: 'auto'
+                                });
+                        }
+                    }
 
                     // Show error tooltip if needed
                     if ($SelectObj.attr('id')) {
@@ -1107,14 +1187,57 @@ Core.UI.InputFields = (function (TargetNS) {
                     $InputContainerObj.find('.InputField_More').remove();
 
                     // Create list container
-                    $ListContainerObj = $('<div />').insertAfter($InputContainerObj);
-                    $ListContainerObj.addClass('InputField_ListContainer')
-                        .attr('tabindex', '-1');
+                    $ListContainerObj = $('<div />')
+                        .addClass('InputField_ListContainer')
+                        .attr('tabindex', '-1')
+                        .appendTo('body');
+
+                    // Calculate available height for the list
+                    CalculateListPosition();
+
+                    // define a named function here to use the variables of upper scope
+                    // (as it was before with anonymous function)
+                    // needed, to remove the event listener again later in the blur event
+                    // we cannot use jquery events, because scroll event on document does not bubble up
+                    ScrollEventListener = function(Event) {
+                        if (!$ListContainerObj) {
+                            return;
+                        }
+
+                        CalculateListPosition();
+
+                        // This checks, if an inner element is scrolled (e.g. dialog)
+                        // we only need to hide the list in this case, because scrolling the main window
+                        // will hide the dropdown list anyway from viewport
+                        if (Event.srcElement !== document) {
+                            if (
+                                $InputContainerObj.position().top + $InputContainerObj.outerHeight() - $(Event.srcElement).outerHeight()
+                                >= 0
+                            )
+                            {
+                                $ListContainerObj.hide();
+                            } else {
+                                $ListContainerObj.show();
+                            }
+                        }
+                    };
+
+                    // Listen for scroll event in order to move the list
+                    // Scroll event does not bubble, hence the need for listener
+                    document.addEventListener('scroll', ScrollEventListener, true);
 
                     // Create container for jsTree code
                     $TreeContainerObj = $('<div />').appendTo($ListContainerObj);
                     $TreeContainerObj.addClass('InputField_TreeContainer')
                         .attr('tabindex', '-1');
+
+                    // Ensure the minimum height of the list
+                    if (AvailableMaxHeight < 90) {
+                        AvailableMaxHeight = 90;
+                    }
+
+                    // Set maximum height of the list to available space
+                    $TreeContainerObj.css('max-height', AvailableMaxHeight + 'px');
 
                     // Calculate width for tree container
                     $TreeContainerObj.width($SearchObj.width()
@@ -1258,6 +1381,14 @@ Core.UI.InputFields = (function (TargetNS) {
 
                         // Delay triggering change event on original field (see bug#11419)
                         $SelectObj.data('changed', true);
+                    })
+
+                    // click is also triggered (besides select_node), which
+                    // could result in a bubbled-up event
+                    // prevents dialogs from accidently closing
+                    .on('click.jstree', function (Event) {
+                        Event.stopPropagation();
+                        return false;
                     })
 
                     // Handle node deselection in tree list
@@ -1668,19 +1799,24 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     });
 
-                    // Show list container
-                    $ListContainerObj.fadeIn(Config.FadeDuration, function () {
 
-                        // Scroll into view if in dialog
-                        if ($ListContainerObj.parents('.Dialog').length > 0) {
-                            this.scrollIntoView(false);
-                        }
-                    });
+                    // Show list container
+                    // (if field is completely visible)
+                    if (
+                        !$SearchObj.parents('.Dialog').length ||
+                        $SearchObj.parents('.Dialog').length &&
+                        ($InputContainerObj.position().top + $InputContainerObj.outerHeight() - $SearchObj.parents('.Dialog').find('.InnerContent').outerHeight() < 0)
+                        ) {
+                        $ListContainerObj.fadeIn(Config.FadeDuration);
+                    }
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
                 .off('blur.InputField').on('blur.InputField', function () {
                     Focused = null;
+
+                    document.removeEventListener('scroll', ScrollEventListener, true);
+
                     setTimeout(function () {
                         if (!Focused) {
                             HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
@@ -1710,12 +1846,20 @@ Core.UI.InputFields = (function (TargetNS) {
                             break;
 
                         // ArrowDown
+                        case $.ui.keyCode.UP:
+                            Event.preventDefault();
+                            $($TreeObj.find('a.jstree-anchor:visible')
+                                .not('.jstree-disabled')
+                                .last()
+                                .get(0)).trigger('focus.jstree');
+                            break;
+
+                        // ArrowDown
                         case $.ui.keyCode.DOWN:
                             Event.preventDefault();
                             $($TreeObj.find('a.jstree-anchor:visible')
                                 .not('.jstree-disabled')
-                                .get(0)
-                            ).trigger('focus.jstree');
+                                .get(0)).trigger('focus.jstree');
                             break;
 
                         // Ctrl (Cmd) + A
