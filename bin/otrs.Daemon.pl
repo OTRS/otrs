@@ -392,6 +392,9 @@ sub Start {
         kill 9, $DaemonModules{$Module};
     }
 
+    # remove current log files without content
+    _LogFilesCleanup();
+
     return 0;
 }
 
@@ -578,12 +581,40 @@ sub _LogFilesSet {
         next LOGFILE if ( ( $1 > $DaysToKeepTime ) && -s $LogFile );
 
         # delete file
-        if ( unlink $LogFile == 0 ) {
+        if ( !unlink $LogFile ) {
 
             # log old backup file cannot be deleted
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Daemon: $Param{Module} could not delete old log file $LogFile! $!",
+            );
+        }
+    }
+
+    return 1;
+}
+
+sub _LogFilesCleanup {
+    my %Param = @_;
+
+    my @LogFiles = glob "$LogDir/*.log";
+
+    LOGFILE:
+    for my $LogFile (@LogFiles) {
+
+        # skip if is not a backup file
+        next LOGFILE if ( $LogFile !~ m{ (?: OUT|ERR ) (?: -\d+)* \.log}igmx );
+
+        # do not delete files if they have content
+        next LOGFILE if -s $LogFile;
+
+        # delete file
+        if ( !unlink $LogFile ) {
+
+            # log old backup file cannot be deleted
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Daemon: could not delete empty log file $LogFile! $!",
             );
         }
     }
