@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-23 Fixed otrs.Daemon.pl old log files delete, added mechanism to also delete current log files if they have no content.
  - 2015-09-23 Added '--force' option to otrs.Daemon.pl 'stop' action to reduce the time the main daemon waits for its child processes to stop (from 30 secs to 5 secs).
  - 2015-09-23 Added default values for statistic time field selections instead of max/min values.
  - 2015-09-23 Fixed bug#[10530](http://bugs.otrs.org/show_bug.cgi?id=10530) - HTML emails not properly displayed (parts missing).
