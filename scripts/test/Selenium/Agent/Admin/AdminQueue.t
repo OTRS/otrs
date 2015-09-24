@@ -43,12 +43,16 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
+        sleep 5;
+
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new queue' link
         $Selenium->find_element( "a.Plus", 'css' )->click();
+
+        sleep 5;
 
         # check add page
         for my $ID (
@@ -64,6 +68,8 @@ $Selenium->RunTest(
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
         $Element->submit();
+
+        sleep 5;
 
         #$Element->click("button#Submit");
         $Self->Is(
