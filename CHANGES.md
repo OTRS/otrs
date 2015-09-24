@@ -1,4 +1,6 @@
-#5.0.0.beta5 2015-??-??
+#5.0.0.rc1 2015-??-??
+
+#5.0.0.beta5 2015-09-29
  - 2015-09-24 Updated translations, thanks to all translators.
  - 2015-09-23 Added SysConfig settings (Daemon::Log::STDOUT, Daemon::Log::STDERR) to control the redirection of standard streams to log files.
  - 2015-09-23 Added missing SysConfig setting (Daemon::Log::DaysToKeep) to customize the number of days to keep the otrs.Daemon.pl log files, default to 1 day.
