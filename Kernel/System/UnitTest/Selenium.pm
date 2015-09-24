@@ -325,9 +325,12 @@ sub HandleError {
     $Data = MIME::Base64::decode_base64($Data);
 
     my $TmpDir = -d '/var/otrs-unittest/' ? '/var/otrs-unittest/' : '/tmp/';
-    $TmpDir .= $Self->{UnitTestObject}->{Product};
-    $TmpDir =~ s{[^a-z0-9_.\-]+}{_}smxig;
+    $TmpDir .= 'SeleniumScreenshots/';
+    mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
 
+    my $Product = $Self->{UnitTestObject}->{Product};
+    $Product =~ s{[^a-z0-9_.\-]+}{_}smxig;
+    $TmpDir .= $Product;
     mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
 
     my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
