@@ -266,13 +266,27 @@ Core.UI.InputFields = (function (TargetNS) {
      * @private
      * @name CheckAvailability
      * @memberof Core.UI.InputFields
-     * @param {jQueryObject} $SelectObj - Original select field
-     * @param {jQueryObject} $SearchObj - Search input field
+     * @param {jQueryObject} $SelectObj         - Original select field
+     * @param {jQueryObject} $SearchObj         - Search input field
+     * @param {jQueryObject} $InputContainerObj - Input container element
      * @description
      *      Checks if there are available options for selection in the supplied field
      *      and disabled the field if that is not the case.
      */
-    function CheckAvailability($SelectObj, $SearchObj) {
+    function CheckAvailability($SelectObj, $SearchObj, $InputContainerObj) {
+
+        // Handle form <select> elements that are disabled and elements that were
+        //  disabled with Core.Form.DisableForm();
+        if ($SelectObj.attr('disabled') || $SearchObj.data('form-disabled')) {
+            $SearchObj.attr('disabled', 'disabled');
+            // Make background grey and elements white.
+            $SearchObj.attr('readonly', 'readonly');
+            $InputContainerObj.addClass('AlreadyDisabled');
+            return;
+        }
+
+        $SearchObj.removeAttr('readonly', 'readonly');
+        $InputContainerObj.removeClass('AlreadyDisabled');
 
         // Check if there are only empty and disabled options
         if ($SelectObj.find('option')
@@ -285,7 +299,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Disable the field, add the tooltip and dash string
             $SearchObj.attr('disabled', 'disabled')
-                .data('disabled', true)
                 .attr('title', Core.Config.Get('InputFieldsNotAvailable'))
                 .val(Config.SelectionNotAvailable);
         }
@@ -293,7 +306,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
             // Enable the field, remove the tooltip and dash string
             $SearchObj.removeAttr('disabled')
-                .removeData('disabled')
                 .removeAttr('title')
                 .val('');
         }
@@ -804,7 +816,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     $SearchObj = $('#' + $SelectObj.data('modernized'));
                     $SearchObj.width($SelectObj.outerWidth())
                         .trigger('blur');
-                    CheckAvailability($SelectObj, $SearchObj);
+                    CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                     setTimeout(function () {
                         $SearchObj.focus();
                     }, 0);
@@ -1033,23 +1045,21 @@ Core.UI.InputFields = (function (TargetNS) {
                 ShowSelectionBoxes($SelectObj, $InputContainerObj);
 
                 // Disable field if no selection available
-                CheckAvailability($SelectObj, $SearchObj);
+                CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
 
                 // Handle form disabling
                 Core.App.Subscribe('Event.Form.DisableForm', function ($Form) {
                     if ($Form.find($SearchObj).attr('readonly')) {
-                        $SearchObj.attr('disabled', 'disabled');
+                        $SearchObj.data('form-disabled', true);
+                        CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                     }
                 });
 
                 // Handle form enabling
                 Core.App.Subscribe('Event.Form.EnableForm', function ($Form) {
-                    if (
-                        !$Form.find($SearchObj).attr('readonly')
-                        && !$SearchObj.data('disabled')
-                       )
-                    {
-                        $SearchObj.removeAttr('disabled');
+                    if (!$Form.find($SearchObj).attr('readonly')) {
+                        $SearchObj.removeData('form-disabled');
+                        CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                     }
                 });
 
@@ -1747,7 +1757,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         $SelectObj.data('original', $SelectObj.children());
                         ApplyFilter($SelectObj, $ToolbarContainerObj, true);
                     }
-                    CheckAvailability($SelectObj, $SearchObj);
+                    CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                     $SearchObj.width($SelectObj.outerWidth());
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
