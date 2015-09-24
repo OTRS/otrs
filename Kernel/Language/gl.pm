@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.939145553899652;
+    $Self->{Completeness}        = 0.936027770890156;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1553,8 +1553,8 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Notificar ao usuario só unha vez por día sobre un tícket único empregando un transporte seleccionado.',
         'Notification Methods' => 'Métodos de notificación',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            'Estes son os posibles métodos que poden ser utilizados para enviar esta notificación a cada un dos receptores. Nota: Con excepción de Correo Electrónico, outros métodos poderían non alcanzar todos os receptores seleccionados, por favor botar unha ollada na documentación de cada método para conseguir máis información. Por favor seleccione polo menos un método abaixo.',
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
+            '',
         'Transport' => 'Transporte',
         'Enable this notification method' => 'Activar este método de notificación',
         'At least one method is needed per notification.' => 'Precísase ao menos un método por notificación.',
@@ -1576,7 +1576,17 @@ sub Data {
             'Para obter os primeiros vinte caracteres do asunto (do último artigo de cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obter as cinco primeiras liñas do corpo (do último artigo de cliente).',
-        'Options of the recipient user for the notification' => 'Opcions do usuario receptor para a notificación',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Direccións correo receptoras',
@@ -3224,16 +3234,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'Eixo X',
         'Y-axis' => 'Eixo Y',
-        'The selected start time is before the allowed start time.' => 'O tempo de inicio seleccionado é anterior o tempo de inicio permitido.',
-        'The selected end time is later than the allowed end time.' => 'O tempo de finalización seleccionado é posterior o tempo de finalización permitido.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Ningún pasado completo ou o actual+vindeiro valor de tempo relativo completo seleccionado.',
         'The selected time period is larger than the allowed time period.' =>
             'O período de tempo seleccionado é maior que o período de tempo permitido.',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            'O periodo de tempo vindeiro seleccionado e maior que o periodo de tempo vindeiro permitido.',
-        'The selected time scale is smaller than the allowed time scale.' =>
-            'A escala de tempo seleccionada e menor que a escala de tempo permitida.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             'Non hai dispoñible valor de escala de tempo para o actual valor seleccionado da escala de tempo no eixo X.',
         'The selected date is not valid.' => 'A data seleccionada non é válida.',
@@ -4403,6 +4407,7 @@ Thanks for your help!
             'Define o seguinte estado dun ticket despois de ser movido a outra cola, na pantalla de mover ticket da interface de axente.',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             '',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             'Define o número de campos da cabeceira nos modulos frontend para engadir e actualizar filtros postmaster. Pode ser ata 99 campos.',
         'Defines the parameters for the customer preferences table.' => 'Define os parametros para a táboa de preferencias de cliente.',
@@ -4869,6 +4874,10 @@ Thanks for your help!
             'Se calquera dos mecanismos "SMTP" foi seleccionado coma EnviarcorreoModulo, o porto onde o seu servidorcorreo está a escoitar para conexións entrantes debe ser especificado.',
         'If enabled debugging information for ACLs is logged.' => 'Se habilitado a información de depuración para ACLs é introducida.',
         'If enabled debugging information for transitions is logged.' => 'Se habilitado a información de depuración para transicións é introducida.',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Se habilitado, OTRS proporcionará tódolos arquivos de CSS en forma minimizada. ALERTA: Se vostede apaga isto, probablemente haberá problemas en IE 7, porque non pode cargar máis de 32 arquivos de CSS.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>

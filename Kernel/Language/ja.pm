@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.727521112767014;
+    $Self->{Completeness}        = 0.727250185965782;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -871,7 +871,7 @@ sub Data {
         'Example response' => '応答例',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => 'クラウドサービスマネジメント',
+        'Cloud Service Management' => 'クラウドサービス管理',
         'Support Data Collector' => 'サポート情報コレクター',
         'Support data collector' => 'サポート情報コレクター',
         'Hint' => 'ヒント',
@@ -1557,7 +1557,7 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Transport' => 'トランスポート',
         'Enable this notification method' => '',
@@ -1580,7 +1580,17 @@ sub Data {
             '表題の最初の20文字を取得 (最新の顧客記事)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '本文から最初の5行を取得 (最新の顧客記事)',
-        'Options of the recipient user for the notification' => '',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => '受信 メールアドレス',
@@ -3229,15 +3239,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'X軸',
         'Y-axis' => 'Y軸',
-        'The selected start time is before the allowed start time.' => '',
-        'The selected end time is later than the allowed end time.' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
-            '',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            '',
-        'The selected time scale is smaller than the allowed time scale.' =>
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
@@ -3783,7 +3787,7 @@ Thanks for your help!
             '通知を受け取りたいチケットの変更の種類を選択してください。',
         'Closed tickets (customer user)' => '完了チケット(顧客ユーザー)',
         'Closed tickets (customer)' => '完了チケット(顧客)',
-        'Cloud Services' => '',
+        'Cloud Services' => 'クラウドサービス',
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
@@ -3850,7 +3854,7 @@ Thanks for your help!
         'Create and manage services.' => 'サービスの作成と管理',
         'Create and manage signatures.' => '署名の作成と管理',
         'Create and manage templates.' => 'テンプレートの作成と管理',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => 'チケット通知の作成と管理',
         'Create and manage ticket priorities.' => 'チケット優先度の作成と管理',
         'Create and manage ticket states.' => 'チケット状態の作成と管理',
         'Create and manage ticket types.' => 'チケットタイプの作成と管理',
@@ -4408,6 +4412,7 @@ Thanks for your help!
             '担当者インタフェースの移動チケット画面で、チケットが他のキューへ移動させられた後の次の状態を定義します。',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             '',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '顧客プレファレンス・テーブルのためのパラメータを定義してください。',
@@ -4877,6 +4882,10 @@ Thanks for your help!
             '"SMTP"構造のいずれかがSendmailモジュールとして選択された場合、メール・サーバが受信接続をlistenしている（待っている）ポートが特定されている必要があります。',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '有効にすると、OTRSは全CSSファイルを縮小した形で配信します。もし、これをオフにすると、IE7においては32CSSファイル以上をロードできないため、問題が発生する可能性が高いです。',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -4968,7 +4977,7 @@ Thanks for your help!
         'Makes the application check the syntax of email addresses.' => 'アプリケーションにEメール・アドレスのシンタクスをチェックさせます。',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => 'OTRSグループのクラウドサービスの管理',
         'Manage PGP keys for email encryption.' => 'メール暗号用のPGP鍵管理',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
@@ -5150,7 +5159,7 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、オリジナルの送信者を、コンポーズ・アンサー上の現在の顧客のEメール・アドレスに置換します。',
         'Reports' => '',
-        'Reports (OTRS Business Solution™)' => '',
+        'Reports (OTRS Business Solution™)' => 'レポート（OTRSビジネスソリューション™）',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>

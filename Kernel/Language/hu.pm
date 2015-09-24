@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.997267759562842;
+    $Self->{Completeness}        = 0.994049094966526;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1558,8 +1558,8 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'A felhasználó értesítése csak egyszer egy nap egy egyedüli jegyről egy kiválasztott átvitel használatával.',
         'Notification Methods' => 'Értesítési módszerek',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            'Ezek azok a lehetséges módszerek, amelyek ezen értesítés küldéséhez használhatók az egyes címzettek részére. Megjegyzés: Az e-mail kivételével a többi módszer esetleg nem ér el minden kijelölt címzetthez. További információkért nézze meg az egyes módszerek dokumentációját. Válasszon lent legalább egy módszert.',
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
+            '',
         'Transport' => 'Átvitel',
         'Enable this notification method' => 'Értesítési módszer engedélyezése',
         'At least one method is needed per notification.' => 'Legalább egy módszer szükséges értesítésenként.',
@@ -1581,7 +1581,17 @@ sub Data {
             '(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekéréséhez.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez.',
-        'Options of the recipient user for the notification' => 'A címzett felhasználó beállításai az értesítésnél',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Címzett e-mail címek',
@@ -3229,16 +3239,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'X-tengely',
         'Y-axis' => 'Y-tengely',
-        'The selected start time is before the allowed start time.' => 'A kiválasztott kezdési idő a megengedett kezdési idő előtt van.',
-        'The selected end time is later than the allowed end time.' => 'A kiválasztott befejezési idő későbbi a megengedett befejezési időnél.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Nincs már teljes vagy a jelenlegi+közelgő teljes relatív időérték kiválasztva.',
         'The selected time period is larger than the allowed time period.' =>
             'A kiválasztott időszak nagyobb a megengedett időszaknál.',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            'A kiválasztott közelgő időszak nagyobb a megengedett közelgő időszaknál.',
-        'The selected time scale is smaller than the allowed time scale.' =>
-            'A kiválasztott időskála kisebb a megengedett időskálánál.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             'Nincs elérhető időskála érték a jelenleg kiválasztott időskála értékhez az X-tengelyen.',
         'The selected date is not valid.' => 'A kiválasztott dátum nem érvényes.',
@@ -4419,6 +4423,7 @@ Az Ön segélyszolgálat csapata
             'Meghatározza egy jegy következő állapotát egy másik várólistába helyezése után az ügyintézői felület jegyáthelyezés képernyőjén.',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             'Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az esemény-értesítésekhez.',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             'Meghatározza az előtétprogram modulokban lévő fejlécmezők számát a levelezési szűrők hozzáadásánál és frissítésénél. Akár 99 mező is lehet.',
         'Defines the parameters for the customer preferences table.' => 'Meghatározza az ügyfélbeállítások tábla paramétereit.',
@@ -4885,6 +4890,10 @@ Az Ön segélyszolgálat csapata
             'Ha az „SMTP” mechanizmusok bármelyike SendmailModule modulként lett kiválasztva, akkor meg kell adni azt a portot, ahol a levelező kiszolgáló a bejövő kapcsolatokat figyeli.',
         'If enabled debugging information for ACLs is logged.' => 'Ha engedélyezve van, akkor az ACL-ek hibakeresési információi naplózva lesznek.',
         'If enabled debugging information for transitions is logged.' => 'Ha engedélyezve van, akkor az átmenetek hibakeresési információi naplózva lesznek.',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Ha engedélyezve van, akkor az OTRS minden CSS fájlt minimalizált formában fog kiszolgálni. FIGYELEM: Ha ezt kikapcsolja, akkor valószínűleg problémái lesznek IE7 alatt, mert az nem tud 32 CSS fájlnál többet betölteni.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>

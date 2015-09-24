@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.938648782911078;
+    $Self->{Completeness}        = 0.937515497148525;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1559,8 +1559,8 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Obaveti korisnika samo jednom dnevno o pojedinom tiketu korišćenjem izabranog transporta.',
         'Notification Methods' => 'Metode obaveštavanja',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            'Ovo su moguće metode koje se mogu koristiti za slanje obaveštenja za svakog primaoca. Napomena: Isključujući imejl, druge metode možda ne mogu da dopru do svih primaoca, pa molimo da za dodatne informacije proučite dokumentaciju svake metode. Molimo da izaberete bar jednu od ponuđenih metoda.',
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
+            '',
         'Transport' => 'Transport',
         'Enable this notification method' => 'Aktiviraj ovaj metod obaveštavanja',
         'At least one method is needed per notification.' => 'Potreban je najmanje jedan metod po obaveštenju.',
@@ -1582,7 +1582,17 @@ sub Data {
             'Da vidite prvih 20 slova predmeta (poslednjeg članka klijenta).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Da vidite prvih 5 linija poruke (poslednjeg članka klijenta).',
-        'Options of the recipient user for the notification' => 'Opcije korisnika primaoca za ovo obaveštenje',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Imejl adrese primaoca',
@@ -3169,8 +3179,8 @@ sub Data {
         'Ticket is locked by another agent and will be ignored!' => 'Tiket je zaključan od strane drugog operatera i biće ignorisan!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        '%s has left the chat.' => '%s je napustio ćaskanje.',
+        'This chat has been closed and will be removed in %s hours.' => 'Ovo ćaskanje je zatvoreno i biće uklonjeno za %s sati.',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'štampao',
@@ -3231,16 +3241,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'H-osa',
         'Y-axis' => 'Y-osa',
-        'The selected start time is before the allowed start time.' => 'Izabrano vreme početka je pre dozvoljenog početnog vremena.',
-        'The selected end time is later than the allowed end time.' => 'Izabrano vreme završetka je posle dozvoljenog vremena završetka.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
             'Izabrani vremenski period je duži od dozvoljenog.',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            '',
-        'The selected time scale is smaller than the allowed time scale.' =>
-            'Izabrani vremenski opseg je kraći od dozvoljenog!',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             'Nema dostupnog vremenskog opsega za aktuelnu izabranu vrednost opsega na X osi.',
         'The selected date is not valid.' => 'Izabrani datum nije važeći.',
@@ -4353,7 +4357,7 @@ Thanks for your help!
             'Određuje modul koji prikazuje sve trenutno prijavljene klijente u interfejsu klijenta.',
         'Defines the module to authenticate customers.' => 'Određuje modul za autentifikaciju klijenata.',
         'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
-            '',
+            'Određuje modul za prikaz obaveštenja u raznim interfejsima u različitim prilikama za „OTRS poslovno rešenje”.',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>
             'Određuje modul za prikaz obaveštenja u interfejsu operatera ako „OTRS” sistemski proces ne radi.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
@@ -4410,6 +4414,7 @@ Thanks for your help!
             'Definiše sledeći status tiketa nakon što je pomeren u drugi red u prikazu ekrana pomerenog tiketa interfejsa operatera.',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             'Određuje broj znakova po liniji koji se koriste u slučaju zamene za pregled „HTML” članka u generatoru šablona za obaveštenja o događajima.',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             'Odeređuje broj naslovnih polja u pristupnim modulima za dodavanje i ažuriranje glavnih imejl filtera. Može ih biti do 99.',
         'Defines the parameters for the customer preferences table.' => 'Određuje parametre za tabelu podešavanja klijenata.',
@@ -4876,6 +4881,10 @@ Thanks for your help!
             '',
         'If enabled debugging information for ACLs is logged.' => 'Ako je aktivirano, ispravljanje grešaka za ACL se beleži.',
         'If enabled debugging information for transitions is logged.' => 'Ako je aktivirano, ispravljanje grešaka za tranzicije se beleži.',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -4897,7 +4906,7 @@ Thanks for your help!
         'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
             '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
-            '',
+            'Ako je ova opcija podešena kao „Da”, tiketi kreirani preko veb interfejsa od strane klijenata ili operatera, će ako je podešen dobiti automatski odgovor. Ako je ova opcija podešena kao „Ne”, automatski odgovori neće biti slani.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ako se ovaj izraz poklapa, automatski odgovarač neće poslati nijednu poruku.',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
@@ -5564,8 +5573,8 @@ Thanks for your help!
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '',
         'Shows the customer user information (phone and email) in the compose screen.' =>
-            '',
-        'Shows the customer user\'s info in the ticket zoom view.' => '',
+            'Prikazuje podatke o klijentu korisniku (broj telefona i imejl) na ekranu pisanja poruke.',
+        'Shows the customer user\'s info in the ticket zoom view.' => 'Prikazuje informacije o klijentu na detaljnom pregledu tiketa.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -5725,7 +5734,7 @@ Thanks for your help!
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             '',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
-            '',
+            'Maksimalni broj članaka za prikaz na jednoj strani na detaljnom prikazu tiketa u interfejsu operatera.',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
             'Maksimalni broj imejlova preuzetih odjednom pre ponovne konekcije na server.',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
@@ -5759,7 +5768,7 @@ Thanks for your help!
         'TicketNumber' => 'Broj tiketa',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Vreme u sekundama koje se dodaje na trenutno vreme ako se postavlja status „na čekanju” (podrazumevano: 86400 = 1 dan).',
-        'Title updated: Old: "%s", New: "%s"' => 'Ažuriranje naslova tiketa',
+        'Title updated: Old: "%s", New: "%s"' => 'Ažuriran naslov: Stari: „%s”, Nov: „%s”',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'Stavka alatne linije za skraćenicu.',

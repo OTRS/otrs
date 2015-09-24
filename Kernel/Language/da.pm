@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.526577247888723;
+    $Self->{Completeness}        = 0.525663277956856;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1554,7 +1554,7 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Transport' => '',
         'Enable this notification method' => '',
@@ -1577,7 +1577,17 @@ sub Data {
             'For at få de første 20 tegn af emnet (af det seneste kunde-indlæg).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'For at få de første 5 linier af beskeden (af den seneste agent-indlæg).',
-        'Options of the recipient user for the notification' => '',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Modtageres mail-adresser',
@@ -3225,15 +3235,9 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'X-akse',
         'Y-axis' => '',
-        'The selected start time is before the allowed start time.' => '',
-        'The selected end time is later than the allowed end time.' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
-            '',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            '',
-        'The selected time scale is smaller than the allowed time scale.' =>
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
@@ -4404,6 +4408,7 @@ Thanks for your help!
             '',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             '',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '',
@@ -4870,6 +4875,10 @@ Thanks for your help!
             '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
