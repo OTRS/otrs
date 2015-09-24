@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.753353204172876;
+    $Self->{Completeness}        = 0.750805851723283;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1558,8 +1558,8 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Notificar al usuario sólo una vez al día acerca de un único ticket utilizando el transporte seleccionado.',
         'Notification Methods' => 'Métodos de Notificación',
-        'These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.' =>
-            'Estos son los métodos posibles que se pueden utilizar para enviar esta notificación a cada uno de los destinatarios. Nota: Excluyendo Correo Electrónico, otros métodos no pueden llegar a todos los destinatarios seleccionados , por favor, eche un vistazo a la documentación de cada método para obtener más información. Por favor, seleccione al menos un método a continuación.',
+        'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
+            '',
         'Transport' => 'Transporte',
         'Enable this notification method' => 'Habilitar este método de notificación',
         'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación',
@@ -1581,7 +1581,17 @@ sub Data {
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
-        'Options of the recipient user for the notification' => '',
+        'Attributes of the current customer user data' => '',
+        'Attibutes of the current ticket owner\'s user data' => '',
+        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current agent user who requested this action' =>
+            '',
+        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
+        'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Recipient email addresses' => 'Correo electrónico destinatario',
@@ -3229,16 +3239,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'Eje-X',
         'Y-axis' => 'Eje-Y',
-        'The selected start time is before the allowed start time.' => 'El tiempo de inicio seleccionado es anterior al tiempo de inicio permitido.',
-        'The selected end time is later than the allowed end time.' => 'El tiempo de finalización seleccionado es posterior al tiempo de finalización permitido.',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
             'El periodo de tiempo seleccionado es mayor que el periodo de tiempo permitido.',
-        'The selected time upcoming period is larger than the allowed time upcoming period.' =>
-            'El próximo período de tiempo seleccionado es mayor que el próximo período de tiempo permitido.',
-        'The selected time scale is smaller than the allowed time scale.' =>
-            'La escala de tiempo seleccionada es menor que la escala de tiempo permitida.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             'No hay valor disponible de escala de tiempo para la escala de tiempo actualmente seleccionada en el eje X.',
         'The selected date is not valid.' => 'La fecha seleccionada no es válida.',
@@ -4419,6 +4423,7 @@ Tu Equipo de Soporte
             '',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             '',
+        'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '',
@@ -4885,6 +4890,10 @@ Tu Equipo de Soporte
             '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
