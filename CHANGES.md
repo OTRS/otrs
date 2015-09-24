@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-09-24 Fixed bug#[11502](http://bugs.otrs.org/show_bug.cgi?id=11502) - DynamicField based ACLs does not work in AgentTicketPhoneCommon.
 
 #5.0.0.beta5 2015-09-29
  - 2015-09-24 Updated translations, thanks to all translators.
