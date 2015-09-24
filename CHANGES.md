@@ -1,4 +1,5 @@
 #5.0.0.beta5 2015-??-??
+ - 2015-09-23 Added missing SysConfig setting (Daemon::Log::DaysToKeep) to customize the number of days to keep the otrs.Daemon.pl log files, default to 1 day.
  - 2015-09-23 Fixed otrs.Daemon.pl old log files delete, added mechanism to also delete current log files if they have no content.
  - 2015-09-23 Added '--force' option to otrs.Daemon.pl 'stop' action to reduce the time the main daemon waits for its child processes to stop (from 30 secs to 5 secs).
  - 2015-09-23 Added default values for statistic time field selections instead of max/min values.

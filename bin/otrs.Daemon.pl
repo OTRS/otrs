@@ -566,7 +566,7 @@ sub _LogFilesSet {
     open STDERR, '>>', "$FileStdErr.log";
 
     # remove not needed log files
-    my $DaysToKeep = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::DaysToKeep') || 10;
+    my $DaysToKeep = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::DaysToKeep') || 1;
     my $DaysToKeepTime = $SystemTime - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob "$LogDir/*.log";
