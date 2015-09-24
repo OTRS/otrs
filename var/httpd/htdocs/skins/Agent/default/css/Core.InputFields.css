@@ -131,7 +131,7 @@ div.InputField_More {
 
 div.InputField_ListContainer {
     position: absolute;
-    z-index: 1000;
+    z-index: 5000;
     display: none;
     text-shadow: none;
 }
@@ -140,10 +140,14 @@ div.InputField_TreeContainer {
     background-color: #fff;
     border: 1px solid #ccc;
     border-top: none;
-    max-height: 90px;
     overflow-y: auto;
     box-sizing: content-box;
     line-height: 18px;
+}
+
+.ExpandToTop div.InputField_TreeContainer {
+    border-top: 1px solid #ccc;
+    border-bottom: none;
 }
 
 div.InputField_ToolbarContainer {

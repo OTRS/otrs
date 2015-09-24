@@ -19,6 +19,7 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
     text-align: left;
+    position: relative;
 }
 
 .RTL {

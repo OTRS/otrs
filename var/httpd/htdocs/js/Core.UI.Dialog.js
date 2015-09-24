@@ -267,6 +267,8 @@ Core.UI.Dialog = (function (TargetNS) {
             return (Position + 'px');
         }
 
+        Core.App.Publish('Event.UI.Dialog.ShowDialog.BeforeOpen');
+
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
             TargetNS.CloseDialog($('.Dialog:visible'));
@@ -443,11 +445,18 @@ Core.UI.Dialog = (function (TargetNS) {
                 containment: 'body',
                 handle: '.Header',
                 start: function() {
+                    // Fire PubSub event for dragstart
+                    // (to handle more dependencies in their own namespaces)
+                    Core.App.Publish('Event.UI.Dialog.ShowDialog.DragStart', $Dialog);
+
                     // Hide any possibly existing tooltips as they will not be moved
                     //  with this dialog.
                     if (Core.Form && Core.Form.ErrorTooltips) {
                         Core.Form.ErrorTooltips.HideTooltip();
                     }
+                },
+                stop: function() {
+                    Core.App.Publish('Event.UI.Dialog.ShowDialog.DragStop', $Dialog);
                 }
             });
         }
