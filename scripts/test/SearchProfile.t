@@ -22,6 +22,11 @@ my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $UserObject          = $Kernel::OM->Get('Kernel::System::User');
 
+$ConfigObject->Set(
+    Key => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # create test user
 my $Login = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->TestUserCreate();
 my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
