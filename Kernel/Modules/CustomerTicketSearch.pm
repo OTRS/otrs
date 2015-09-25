@@ -1850,8 +1850,11 @@ sub MaskForm {
 sub _StopWordsServerErrorsGet {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !%Param ) {
-        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Message => "Got no values to check." );
+        $LayoutObject->FatalError( Message => "Got no values to check." );
     }
 
     my %StopWordsServerErrors;
@@ -1882,7 +1885,7 @@ sub _StopWordsServerErrorsGet {
             next FIELD if !@{ $StopWords->{$Field} };
 
             $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $LayoutObject->{LanguageObject}
                 ->Translate('Please remove the following words because they cannot be used for the search:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );
