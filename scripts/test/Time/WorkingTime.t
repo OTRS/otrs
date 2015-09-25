@@ -89,14 +89,6 @@ my @Tests = (
         ResultTime        => '24h',
     },
     {
-        Name              => 'America/Asuncion -Paraguay - end DST from 00 to 23  ( UTC-3 => UTC-4 )',
-        TimeStampUTCStart => '2015-03-21 12:00:00',
-        TimeStampUTCStop  => '2015-03-22 12:00:00',
-        ServerTZ          => 'America/Asuncion',
-        Result            => '82800',                                                                    # 23h
-        ResultTime        => '23h',
-    },
-    {
         Name              => 'UTC',
         TimeStampUTCStart => '2015-09-21 12:00:00',
         TimeStampUTCStop  => '2015-09-22 04:00:00',
