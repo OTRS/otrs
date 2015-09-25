@@ -491,6 +491,15 @@ sub _PDFOutputTicketInfos {
         },
     ];
 
+    # show created by if different then User ID 1
+    if ( $Ticket{CreateBy} > 1 ) {
+        my $Row = {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Created by'),
+            Value => $Self->{UserObject}->UserName( UserID => $Ticket{CreateBy} ),
+        };
+        push( @{$TableRight}, $Row );
+    }
+
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Accounted time'),
