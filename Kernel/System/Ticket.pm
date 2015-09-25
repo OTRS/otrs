@@ -1507,28 +1507,27 @@ sub _TicketGetClosed {
         UserID => $Param{UserID} || 1,
     );
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    # get unix time stamps
+    my $CreateTime = $TimeObject->TimeStamp2SystemTime(
+        String => $Param{Ticket}->{Created},
+    );
+    my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
+        String => $Data{Closed},
+    );
+
+    # get time between creation and solution
+    my $WorkingTime = $TimeObject->WorkingTime(
+        StartTime => $CreateTime,
+        StopTime  => $SolutionTime,
+        Calendar  => $Escalation{Calendar},
+    );
+
+    $Data{SolutionInMin} = int( $WorkingTime / 60 );
+
     if ( $Escalation{SolutionTime} ) {
-
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # get unix time stamps
-        my $CreateTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Param{Ticket}->{Created},
-        );
-        my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Data{Closed},
-        );
-
-        # get time between creation and solution
-        my $WorkingTime = $TimeObject->WorkingTime(
-            StartTime => $CreateTime,
-            StopTime  => $SolutionTime,
-            Calendar  => $Escalation{Calendar},
-        );
-
-        $Data{SolutionInMin} = int( $WorkingTime / 60 );
-
         my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
         $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
     }
