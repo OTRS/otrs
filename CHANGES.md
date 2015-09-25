@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-09-25 Fixed bug#[11317](http://bugs.otrs.org/show_bug.cgi?id=11317) - When service is mandatory in customerfrontend -  error occurred!.
  - 2015-09-25 Fixed bug#[11196](http://bugs.otrs.org/show_bug.cgi?id=11196) - "Created by" detail missing in PDF print.
  - 2015-09-25 Fixed bug#[11352](http://bugs.otrs.org/show_bug.cgi?id=11352) - Wrong behaviour of AdminCustomerUser::RunInitialWildcardSearch.
  - 2015-09-25 Fixed bug#[11496](http://bugs.otrs.org/show_bug.cgi?id=11496) - Search field shown even if type and service disabled.

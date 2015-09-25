@@ -480,9 +480,10 @@ sub Run {
             && $Config->{Service}
             && $Config->{ServiceMandatory}
             && !$GetParam{ServiceID}
+            && !$IsUpload
             )
         {
-            $Error{'ServiceIDInvalid'} = ' ServerError';
+            $Error{'ServiceIDInvalid'} = 'ServerError';
         }
 
         # check mandatory sla
@@ -491,9 +492,10 @@ sub Run {
             && $Config->{SLA}
             && $Config->{SLAMandatory}
             && !$GetParam{SLAID}
+            && !$IsUpload
             )
         {
-            $Error{'SLAIDInvalid'} = ' ServerError';
+            $Error{'SLAIDInvalid'} = 'ServerError';
         }
 
         # check type
