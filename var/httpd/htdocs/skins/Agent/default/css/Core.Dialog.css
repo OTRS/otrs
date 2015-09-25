@@ -109,17 +109,17 @@
  * subsection       Alert
  */
 
-.Dialog.Alert span.Icon {
+.Dialog.Alert .InnerContent .fa {
     display: block;
-    width: 22px;
-    height: 35px;
-    float: left;
-    background: url(../img/dialog_alert.png) no-repeat;
+    font-size: 25px;
+    text-align: center;
+    color: #ff505e;
+    margin-bottom: 10px;
 }
 
 .Dialog.Alert h2,
 .Dialog.Alert p {
-    margin-left: 35px;
+    text-align: center;
 }
 
 .Dialog.Alert {
@@ -127,8 +127,6 @@
     top: 100px;
     left: 300px;
 }
-
-
 
 /**
  * subsection   Settings

@@ -120,14 +120,6 @@ textarea.Focus  {
 }
 
 /**
- * @subsection  Image Replacements
- */
-
-.Dialog.Alert span.Icon {
-    background-image: url(../img/dialog_alert.png);
-}
-
-/**
  * @subsection  Input Fields
  */
 a.InputField_Action:hover {

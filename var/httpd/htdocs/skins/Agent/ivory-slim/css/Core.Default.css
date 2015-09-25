@@ -131,14 +131,6 @@ textarea.Focus  {
     border-left-color: #69BFCC !important;
 }
 
-/**
- * @subsection  Image Replacements
- */
-
-.Dialog.Alert span.Icon {
-    background-image: url(../img/dialog_alert.png);
-}
-
 /*
  * @subsection  Slim styles
  *

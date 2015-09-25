@@ -336,7 +336,7 @@ Core.UI.Dialog = (function (TargetNS) {
             $Dialog.addClass('Alert');
             $Dialog.attr("role", "alertdialog");
             $Content = $Dialog.find('.Content').append('<div class="InnerContent"></div>').find('.InnerContent');
-            $Content.append('<span class="Icon"></span>');
+            $Content.append('<i class="fa fa-warning"></i>');
             if (Params.Headline) {
                 $Content.append('<h2>' + Params.Headline + '</h2>');
             }
