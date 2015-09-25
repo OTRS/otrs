@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-09-25 Fixed bug#[11496](http://bugs.otrs.org/show_bug.cgi?id=11496) - Search field shown even if type and service disabled.
  - 2015-09-25 Fixed bug#[11152](http://bugs.otrs.org/show_bug.cgi?id=11152) - Ending of daylight saving time caused system collapse.
  - 2015-09-25 Fixed bug#[11315](http://bugs.otrs.org/show_bug.cgi?id=11315) - subservice not apparent in overview when many services are in the list.
  - 2015-09-25 Fixed bug#[4661](http://bugs.otrs.org/show_bug.cgi?id=4661) - stored searches are lost after changing the username of an agent or customer.

@@ -98,21 +98,28 @@
             </fieldset>
 [% RenderBlockEnd("Attachment") %]
 
+[% IF Config('Ticket::Service') || Config('Ticket::Type') %]
             <fieldset class="Columns">
+[% IF Config('Ticket::Service') %]
                 <div class="Column">
                     <h2><label for="ServiceIDs">[% Translate("Services") | html %]:</label></h2>
                     <div>
                         [% Data.ServicesStrg %]
                     </div>
                 </div>
+[% END %]
+[% IF Config('Ticket::Type') %]
                 <div class="Column">
                     <h2><label for="TypeIDs">[% Translate("Types") | html %]:</label></h2>
                     <div>
                         [% Data.TypesStrg %]
                     </div>
                 </div>
+[% END %]
                 <div class="Clear"></div>
             </fieldset>
+[% END %]
+
             <fieldset class="Columns">
                 <div class="Column">
                     <h2><label for="PriorityIDs">[% Translate("Priority") | html %]:</label></h2>
