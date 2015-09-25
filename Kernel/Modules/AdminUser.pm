@@ -244,7 +244,10 @@ sub Run {
                             )
                             )
                         {
-                            $Note .= $LayoutObject->Notify( Info => $Object->Error() );
+                            $Note .= $LayoutObject->Notify(
+                                Info     => $Object->Error(),
+                                Priority => 'Error'
+                            );
                         }
                     }
                 }
