@@ -750,7 +750,7 @@ sub _MaskServiceView {
     for my $Level ( 1 .. 5 ) {
         next LEVEL if !$Param{ 'ServiceStrg' . $Level };
         $Param{ServiceStrg}
-            .= '<ul class="ServiceOverviewList">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
+            .= '<ul class="ServiceOverviewList Level_' . $Level . '">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
     }
 
     return (
