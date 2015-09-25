@@ -11,12 +11,15 @@ package Kernel::Output::HTML::Preferences::OutOfOffice;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Web::Request',
     'Kernel::Config',
     'Kernel::System::User',
     'Kernel::System::AuthSession',
+    'Kernel::System::Time',
 );
 
 sub new {
@@ -90,48 +93,68 @@ sub Run {
     #  get needed objects
     my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 
     for my $Key (
         qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
         )
     {
+        $Param{$Key} = $ParamObject->GetParam( Param => $Key );
+    }
 
-        $Param{$Key} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Key );
+    my $OutOfOfficeStartTime = $TimeObject->TimeStamp2SystemTime(
+        String => "$Param{OutOfOfficeStartYear}-$Param{OutOfOfficeStartMonth}-$Param{OutOfOfficeStartDay} 00:00:00",
+    );
+    my $OutOfOfficeEndTime = $TimeObject->TimeStamp2SystemTime(
+        String => "$Param{OutOfOfficeEndYear}-$Param{OutOfOfficeEndMonth}-$Param{OutOfOfficeEndDay} 00:00:00",
+    );
 
-        if ( defined $Param{$Key} ) {
+    if ( $OutOfOfficeStartTime <= $OutOfOfficeEndTime ) {
+        for my $Key (
+            qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
+            )
+        {
+            if ( defined $Param{$Key} ) {
 
-            # pref update db
-            if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
-                $UserObject->SetPreferences(
-                    UserID => $Param{UserData}->{UserID},
-                    Key    => $Key,
-                    Value  => $Param{$Key},
-                );
-            }
+                # pref update db
+                if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
+                    $UserObject->SetPreferences(
+                        UserID => $Param{UserData}->{UserID},
+                        Key    => $Key,
+                        Value  => $Param{$Key},
+                    );
+                }
 
-            # update SessionID
-            if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-                $SessionObject->UpdateSessionID(
-                    SessionID => $Self->{SessionID},
-                    Key       => $Key,
-                    Value     => $Param{$Key},
-                );
+                # update SessionID
+                if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
+                    $SessionObject->UpdateSessionID(
+                        SessionID => $Self->{SessionID},
+                        Key       => $Key,
+                        Value     => $Param{$Key},
+                    );
+                }
             }
         }
+
+        # also update the lastname to remove out of office message
+        if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
+            my %User = $UserObject->GetUserData( UserID => $Self->{UserID} );
+
+            $SessionObject->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => 'UserLastname',
+                Value     => $User{UserLastname},
+            );
+        }
+
+        $Self->{Message} = Translatable('Preferences updated successfully!');
+    }
+    else {
+        $Self->{Error} = Translatable('Please specify an end date that is after the start date.');
+        return;
     }
 
-    # also update the lastname to remove out of office message
-    if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-        my %User = $UserObject->GetUserData( UserID => $Self->{UserID} );
-
-        $SessionObject->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'UserLastname',
-            Value     => $User{UserLastname},
-        );
-    }
-
-    $Self->{Message} = 'Preferences updated successfully!';
     return 1;
 }
 
