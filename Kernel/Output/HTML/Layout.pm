@@ -5263,6 +5263,8 @@ sub WrapPlainText {
     }
 
     my $WorkString = $Param{PlainText};
+    # Normalize line endings to avoid problems with \r\n (bug#11078).
+    $WorkString =~ s/\r\n?/\n/g;
     $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
     return $WorkString;
 }
