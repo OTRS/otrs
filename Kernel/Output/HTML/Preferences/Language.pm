@@ -38,18 +38,38 @@ sub Param {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # get names of languages in English
     my $DefaultUsedLanguages = $ConfigObject->Get('DefaultUsedLanguages');
+
+    # get native names of languages
+    my $DefaultUsedLanguagesNative = $ConfigObject->Get('DefaultUsedLanguagesNative');
+
     my %Languages;
     LANGUAGE_ID:
     for my $LanguageID ( sort keys %{ $DefaultUsedLanguages // {} } ) {
-        my $Text           = $DefaultUsedLanguages->{$LanguageID};
+
+        my $Text = $DefaultUsedLanguagesNative->{$LanguageID} || '';
+
+        my $TextEnglish    = $DefaultUsedLanguages->{$LanguageID};
+        # Translate to current user's language
+        my $TextTranslated =
+            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
+
+        if ( $TextTranslated && $TextTranslated ne $Text ) {
+            $Text .= ' - ' . $TextTranslated;
+        }
+
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $LanguageID,
         );
         next LANGUAGE_ID if !$LanguageObject;
+
+        # next language if there is not set English nor native name of language.
+        next LANGUAGE_ID if !$Text;
+
         my $Completeness = $LanguageObject->{Completeness};
 
-        # Mark all languages with < 25% coverage as "in process" (not for en_ variants).
+        # mark all languages with < 25% coverage as "in process" (not for en_ variants).
         if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
             $Text
                 .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
