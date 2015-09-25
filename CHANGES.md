@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-09-25 Fixed bug#[4661](http://bugs.otrs.org/show_bug.cgi?id=4661) - stored searches are lost after changing the username of an agent or customer.
  - 2015-09-25 Fixed bug#[11457](http://bugs.otrs.org/show_bug.cgi?id=11457) - Agent language preference select field is not translated.
  - 2015-09-24 Fixed bug#[11502](http://bugs.otrs.org/show_bug.cgi?id=11502) - DynamicField based ACLs does not work in AgentTicketPhoneCommon.
 

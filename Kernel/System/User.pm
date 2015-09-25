@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::SearchProfile',
     'Kernel::System::Time',
     'Kernel::System::Valid',
 );
@@ -489,7 +490,12 @@ sub UserUpdate {
         }
     }
 
-    # check if a user with this login (username) already exits
+    # store old user login for later use
+    my $OldUserLogin = $Self->UserLookup(
+        UserID => $Param{UserID},
+    );
+
+    # check if a user with this login (username) already exists
     if (
         $Self->UserLoginExistsCheck(
             UserLogin => $Param{UserLogin},
@@ -551,6 +557,15 @@ sub UserUpdate {
         Key    => 'UserMobile',
         Value  => $Param{UserMobile} || '',
     );
+
+    # update search profiles if the UserLogin changed
+    if ( lc $OldUserLogin ne lc $Param{UserLogin} ) {
+       $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileUpdateUserLogin(
+           Base         => 'TicketSearch',
+           UserLogin    => $OldUserLogin,
+           NewUserLogin => $Param{UserLogin},
+       );
+    }
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -1413,7 +1428,7 @@ sub _UserFullname {
 
 =item UserLoginExistsCheck()
 
-return 1 if another user with this login (username) already exits
+return 1 if another user with this login (username) already exists
 
     $Exist = $UserObject->UserLoginExistsCheck(
         UserLogin => 'Some::UserLogin',

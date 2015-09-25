@@ -19,15 +19,18 @@ my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
 my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $UserObject          = $Kernel::OM->Get('Kernel::System::User');
 
-# set UserID
-my $UserID = 1;
+# create test user
+my $Login = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->TestUserCreate();
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
 
 my $RandomID = $HelperObject->GetRandomID();
 
 my $TestNumber = 1;
 
-my $Base = 'TicketSearch' . $RandomID;
+my $Base = 'TicketSearch';
 
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
@@ -71,7 +74,7 @@ my @Tests = (
             Name      => 'last-search' . $RandomID,
             Key       => '',
             Value     => 'Any value',                 # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
 
@@ -107,7 +110,7 @@ my @Tests = (
             Name      => 'last-search' . $RandomID,
             Key       => 'Body',
             Value     => 'Any value',                 # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
     {
@@ -117,7 +120,7 @@ my @Tests = (
             Base      => $Base,
             Key       => 'Body',
             Value     => 'Any value',                 # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
     {
@@ -127,7 +130,7 @@ my @Tests = (
             Base      => $Base,
             Name      => 'last-search' . $RandomID,
             Value     => 'Any value',                 # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
 
@@ -162,7 +165,7 @@ my @Tests = (
             Name      => 'last-search' . $RandomID,
             Key       => 'AValidKey',
             Value     => 'Any value',                 # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
 
@@ -174,7 +177,7 @@ my @Tests = (
             Name      => 'last-search' . $RandomID . '-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Key       => 'Unicode-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Value     => 'Any value-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',                      # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
 
@@ -186,7 +189,7 @@ my @Tests = (
             Name      => 'last-search-array' . $RandomID,
             Key       => 'Array',
             Value     => [ 'ValueOne', 'ValueTwo', 'ValueThree', 'ValueFour' ],                      # SCALAR|ARRAYREF
-            UserLogin => $UserID,
+            UserLogin => $Login,
         },
     },
 
@@ -254,10 +257,29 @@ for my $Test (@Tests) {
 
 }
 
+# rename test user - make sure profiles are updated to match
+
+# get current user data
+my %User = $UserObject->GetUserData(
+    UserID => $UserID,
+);
+
+# change UserLogin
+$Login = 'new' . $Login;
+$UserObject->UserUpdate(
+    UserID        => $UserID,
+    UserFirstname => $User{UserFirstname},
+    UserLastname  => $User{UserLastname},
+    UserLogin     => $Login,
+    UserEmail     => $User{UserEmail},
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+
 # list check from DB
 my %SearchProfileList = $SearchProfileObject->SearchProfileList(
     Base      => $Base,
-    UserLogin => $UserID
+    UserLogin => $Login,
 );
 for my $SearchProfileName (@SearchProfileNames) {
 
@@ -271,7 +293,7 @@ for my $SearchProfileName (@SearchProfileNames) {
     my $SuccesDelete = $SearchProfileObject->SearchProfileDelete(
         Base      => $Base,
         Name      => $SearchProfileName,
-        UserLogin => $UserID,
+        UserLogin => $Login,
     );
 
     $Self->True(
@@ -283,7 +305,7 @@ for my $SearchProfileName (@SearchProfileNames) {
     my $SuccessGet = $SearchProfileObject->SearchProfileGet(
         Base      => $Base,
         Name      => $SearchProfileName,
-        UserLogin => $UserID,
+        UserLogin => $Login,
     );
 
     # verify SearchProfile
@@ -295,7 +317,7 @@ for my $SearchProfileName (@SearchProfileNames) {
     # check deleting from SearchProfileList
     my %SearchProfileList = $SearchProfileObject->SearchProfileList(
         Base      => $Base,
-        UserLogin => $UserID
+        UserLogin => $Login,
     );
 
     $Self->False(
@@ -303,5 +325,116 @@ for my $SearchProfileName (@SearchProfileNames) {
         "SearchProfileList() - Deleted entry $SearchProfileName",
     );
 }
+
+my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $CustomerBase = 'CustomerTicketSearch';
+my %CustomerSearches = (
+  First => {
+      Search => {
+          PriorityIDs => [2,4],
+          StateIDs => [1,3,5],
+          Body => 'asdf',
+      }
+  },
+  Second => {
+      Search => {
+          CustomerID => 'asdf',
+          StateIDs => [1],
+      }
+  }
+
+);
+
+for my $SearchProfile ( sort keys %CustomerSearches ) {
+    for my $Key ( sort keys %{$CustomerSearches{$SearchProfile}->{Search}}) {
+        my $AddResult = $SearchProfileObject->SearchProfileAdd(
+            Base      => $CustomerBase,
+            Name      => $SearchProfile,
+            Key       => $Key,
+            Value     => $CustomerSearches{$SearchProfile}->{Search}->{$Key},
+            UserLogin => $TestCustomerUserLogin,
+        );
+        $Self->True(
+            $AddResult,
+            "Adding key '$Key' to searchprofile '$SearchProfile' for '$TestCustomerUserLogin'",
+        );
+    }
+}
+
+%SearchProfileList = $SearchProfileObject->SearchProfileList(
+    Base      => $CustomerBase,
+    UserLogin => $TestCustomerUserLogin,
+);
+$Self->Is(
+    scalar keys %SearchProfileList,
+    scalar keys %CustomerSearches,
+    'CustomerUser: SearchProfileList returns appropriate number of profiles',
+);
+
+# rename customer user
+my %Customer = $CustomerUserObject->CustomerUserDataGet(
+    User => $TestCustomerUserLogin,
+);
+my $NewCustomerUserLogin = $HelperObject->GetRandomID();
+my $Update = $CustomerUserObject->CustomerUserUpdate(
+    %Customer,
+    ID        => $Customer{UserLogin},
+    UserLogin => $NewCustomerUserLogin,
+    UserID    => 1,
+);
+$Self->True(
+    $Update,
+    "CustomerUserUpdate - $Customer{UserLogin} - $NewCustomerUserLogin",
+);
+
+%SearchProfileList = $SearchProfileObject->SearchProfileList(
+    Base      => $CustomerBase,
+    UserLogin => $TestCustomerUserLogin,
+);
+$Self->Is(
+    scalar keys %SearchProfileList,
+    0,
+    'CustomerUser: SearchProfileList returns no profiles for old user',
+);
+
+%SearchProfileList = $SearchProfileObject->SearchProfileList(
+    Base      => $CustomerBase,
+    UserLogin => $NewCustomerUserLogin,
+);
+$Self->Is(
+    scalar keys %SearchProfileList,
+    scalar keys %CustomerSearches,
+    'CustomerUser: SearchProfileList returns appropriate number of profiles for new username',
+);
+
+# change back customer user login so invalidation at test destruction is ok
+$Update = $CustomerUserObject->CustomerUserUpdate(
+    %Customer,
+    ID        => $NewCustomerUserLogin,
+    UserLogin => $TestCustomerUserLogin,
+    UserID    => 1,
+);
+
+for my $SearchProfile ( sort keys %CustomerSearches ) {
+    my $DeleteSuccess = $SearchProfileObject->SearchProfileDelete(
+        Base      => $CustomerBase,
+        Name      => $SearchProfile,
+        UserLogin => $TestCustomerUserLogin,
+    );
+    $Self->True(
+        $DeleteSuccess,
+        "Deleting searchprofile '$SearchProfile' for '$TestCustomerUserLogin'",
+    );
+}
+
+%SearchProfileList = $SearchProfileObject->SearchProfileList(
+    Base      => $CustomerBase,
+    UserLogin => $TestCustomerUserLogin,
+);
+$Self->Is(
+    scalar keys %SearchProfileList,
+    0,
+    'CustomerUser: SearchProfileList returns no profiles for user',
+);
 
 1;
