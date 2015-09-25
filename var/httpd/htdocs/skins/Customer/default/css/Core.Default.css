@@ -533,5 +533,19 @@ form select.Error {
     border-left-color: transparent;
 }
 
+/**
+ * @subsection  Spacings
+ */
+.Spacing {
+    margin: 13px;
+}
+
+/**
+ * @subsection  Text
+ */
+.Center {
+    text-align: center;
+}
+
 
 } /* end @media */
