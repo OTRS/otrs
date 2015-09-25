@@ -135,6 +135,7 @@ sub new {
         AddNote                         => 'Note Added',
         AddNoteCustomer                 => 'Note Added (Customer)',
         EmailAgent                      => 'Outgoing Email',
+        EmailAgentInternal              => 'Outgoing Email (internal)',
         EmailCustomer                   => 'Incoming Customer Email',
         TicketDynamicFieldUpdate        => 'Dynamic Field Updated',
         PhoneCallAgent                  => 'Outgoing Phone Call',
@@ -2208,6 +2209,7 @@ sub _ArticleTree {
         my @TypesInternal = qw(
             AddNote
             ChatInternal
+            EmailAgentInternal
         );
 
         # outgoing types
@@ -2306,6 +2308,17 @@ sub _ArticleTree {
                 # We fake a custom history type because external notes from customers still
                 # have the history type 'AddNote' which does not allow for distinguishing.
                 $Item->{HistoryType} = 'AddNoteCustomer';
+            }
+            # special treatment for internal emails
+            elsif (
+                $Item->{ArticleID}
+                && $Item->{HistoryType} eq 'EmailAgent'
+                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
+                )
+            {
+                $Item->{Class} = 'TypeNoteInternal';
+                $Item->{HistoryType} = 'EmailAgentInternal';
             }
 
             # special treatment for certain types, e.g. external notes from customers
