@@ -515,13 +515,29 @@ sub WorkingTime {
     $BYear  += 1900;
     $BMonth += 1;
     my $BDate = "$BYear-$BMonth-$BDay";
+    my $NextDay;
 
     while ( $Param{StartTime} < $Param{StopTime} ) {
+
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};       ## no critic
         $Year  += 1900;
         $Month += 1;
         my $CDate   = "$Year-$Month-$Day";
         my $CTime00 = $Param{StartTime} - ( ( $Hour * 60 + $Min ) * 60 + $Sec );                  # 00:00:00
+
+        # compensate for switching to/from daylight saving time
+        # in case daylight saving time from 00:00:00 turned backward 1 hour to 23:00:00
+        if ( $NextDay && $Hour == 23 ) {
+            $Param{StartTime} += 3600;
+            $CTime00 = $Param{StartTime};
+
+            # get $Year, $Month, $Day for $CDate
+            # there is needed next day, but $Day++ would be wrong in case it was end of month
+            ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime} + 1;
+            $Year  += 1900;
+            $Month += 1;
+            $CDate = "$Year-$Month-$Day";
+        }
 
         # count nothing because of vacation
         if (
@@ -579,6 +595,10 @@ sub WorkingTime {
             Minute => 59,
             Second => 59,
         ) + 1;
+
+        # it will be used for checking daylight saving time
+        $NextDay = 1;
+
     }
     return $Counted;
 }
