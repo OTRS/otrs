@@ -202,8 +202,13 @@ Core.UI.InputFields = (function (TargetNS) {
      */
     TargetNS.Activate = function ($Context) {
 
-        // Initialize select fields on all applicable fields
-        TargetNS.InitSelect($('select.Modernize', $Context));
+        // Check SysConfig
+        if (Core.Config.Get('InputFieldsActivated') === 1) {
+
+            // Initialize select fields on all applicable fields
+            TargetNS.InitSelect($('select.Modernize', $Context));
+
+        }
     };
 
     /**
@@ -243,12 +248,8 @@ Core.UI.InputFields = (function (TargetNS) {
      */
     function InitCallback() {
 
-        // Check SysConfig
-        if (Core.Config.Get('InputFieldsActivated') === 1) {
-
-            // Activate the feature
-            TargetNS.Activate();
-        }
+        // Activate the feature
+        TargetNS.Activate();
     }
 
     /**
