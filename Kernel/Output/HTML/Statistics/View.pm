@@ -1180,6 +1180,13 @@ sub StatsParamsGet {
 
                         $Element->{SelectedValues} = \@SelectedValues;
                     }
+                    elsif ( $LocalGetParam->( Param => $ElementName ) ) {
+                        my $SelectedValue = $LocalGetParam->(
+                            Param => $ElementName
+                        );
+
+                        $Element->{SelectedValues} = [ $SelectedValue ];
+                    }
                     if ( $Element->{Block} eq 'InputField' ) {
 
                         # Show warning if restrictions contain stop words within ticket search.
