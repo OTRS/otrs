@@ -1209,9 +1209,9 @@ Core.UI.InputFields = (function (TargetNS) {
                         // This checks, if an inner element is scrolled (e.g. dialog)
                         // we only need to hide the list in this case, because scrolling the main window
                         // will hide the dropdown list anyway from viewport
-                        if (Event.srcElement !== document) {
+                        if (Event.target !== document && !$(Event.target).hasClass('InputField_TreeContainer')) {
                             if (
-                                $InputContainerObj.position().top + $InputContainerObj.outerHeight() - $(Event.srcElement).outerHeight()
+                                $InputContainerObj.position().top + $InputContainerObj.outerHeight() - $(Event.target).outerHeight()
                                 >= 0
                             )
                             {
