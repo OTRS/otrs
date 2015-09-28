@@ -3832,7 +3832,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3864,7 +3864,7 @@ sub CustomerNavigationBar {
                 if (
                     !$SelectedFlag
                     && $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
                     )
                 {
                     $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4269,7 +4269,7 @@ sub RichTextDocumentServe {
 
         # replace charset in content
         $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-        $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+        $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
     }
 
     # add html links
@@ -5113,6 +5113,11 @@ sub _BuildSelectionOutput {
             }
         }
 
+        # tree flag for Input Fields
+        if ( $Param{TreeView} ) {
+            $String .= ' data-tree="true"';
+        }
+
         $String .= ">\n";
 
         # generate <option> rows
@@ -5263,6 +5268,7 @@ sub WrapPlainText {
     }
 
     my $WorkString = $Param{PlainText};
+
     # Normalize line endings to avoid problems with \r\n (bug#11078).
     $WorkString =~ s/\r\n?/\n/g;
     $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
