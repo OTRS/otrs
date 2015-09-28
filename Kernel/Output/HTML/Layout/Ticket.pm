@@ -300,7 +300,8 @@ sub AgentQueueListOption {
         . $Param{Name}
         . '" class="'
         . $Class
-        . "\" $Size $Multiple $OnChangeSubmit>\n";
+        . '" data-tree="true"'
+        . " $Size $Multiple $OnChangeSubmit>\n";
     my %UsedData;
     my %Data;
 
@@ -424,7 +425,7 @@ sub AgentQueueListOption {
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             if (
-                $SelectedID eq $_
+                $SelectedID  eq $_
                 || $Selected eq $Param{Data}->{$_}
                 || $Param{SelectedIDRefArrayOK}->{$_}
                 )
@@ -816,7 +817,7 @@ sub TicketListShow {
 
     # update preferences if needed
     my $Key = 'UserTicketOverview' . $Env->{Action};
-    if ( !$ConfigObject->Get('DemoSystem') && ($Self->{$Key} // '') ne $View ) {
+    if ( !$ConfigObject->Get('DemoSystem') && ( $Self->{$Key} // '' ) ne $View ) {
         $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Key,

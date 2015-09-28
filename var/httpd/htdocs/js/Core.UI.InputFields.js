@@ -959,10 +959,12 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Hide original field
                 $SelectObj.hide();
 
-                // Check to see if tree view should be displayed
+                // Check to see if we are dealing with tree view
                 $ShowTreeObj = $SelectObj.next('.ShowTreeSelection');
-                if ($ShowTreeObj.length) {
-                    $ShowTreeObj.hide();
+                if ($SelectObj.data('tree') || $ShowTreeObj.length) {
+                    if ($ShowTreeObj.length) {
+                        $ShowTreeObj.hide();
+                    }
                     TreeView = true;
                 }
 
