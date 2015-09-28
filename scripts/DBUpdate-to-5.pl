@@ -1795,6 +1795,45 @@ sub _FixupDashboardStatsFormats {
                 return;
             }
         }
+
+        my $PrefKeyStatsConfiguration = 'UserDashboardStatsStatsConfiguration' . ( $StatID + 1000 ) . '-Stats';
+
+        # get needed objects
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+        my %UserList = $UserObject->SearchPreferences(
+            Key => $PrefKeyStatsConfiguration,
+        );
+
+        USERID:
+        for my $UserID ( sort keys %UserList ) {
+
+            next USERID if !$UserList{$UserID};
+
+            my $StatsSettings = $JSONObject->Decode(
+                Data => $UserList{$UserID},
+            );
+
+            next USERID if !$StatsSettings;
+
+            # mapping for the user preferences stats chart type to the new format
+            if ( !$StatsSettings->{Format} && $StatsSettings->{ChartType} ) {
+
+                $StatsSettings->{Format} = "D3::$StatsSettings->{ChartType}Chart";
+                delete $StatsSettings->{ChartType};
+
+                my $StatsSettingsJSON = $JSONObject->Encode(
+                    Data => $StatsSettings,
+                );
+
+                $UserObject->SetPreferences(
+                    UserID => $UserID,
+                    Key    => $PrefKeyStatsConfiguration,
+                    Value  => $StatsSettingsJSON,
+                );
+            }
+        }
     }
 
     return 1;
