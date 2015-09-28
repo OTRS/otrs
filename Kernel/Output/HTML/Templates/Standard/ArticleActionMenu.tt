@@ -38,7 +38,7 @@ $('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', fun
         [% ELSE %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
+$(document).on('change', '#[% Item.FormID | html %] select[name=ForwardTemplateID]', function (Event) {
     var URL;
 
     if ($(this).val() > 0) {
