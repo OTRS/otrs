@@ -185,24 +185,29 @@ Core.App.Responsive = (function (TargetNS) {
 
         // Check DesktopMode
         /*eslint-disable no-window*/
-        if ((top.location.href !== location.href && window.name.search(/^OTRSPopup_/) === -1) || parseInt(localStorage.getItem("DesktopMode"), 10) > 0) {
-            /*eslint-enable no-window*/
+        try {
+            if ((top.location.href !== location.href && window.name.search(/^OTRSPopup_/) === -1) || parseInt(localStorage.getItem("DesktopMode"), 10) > 0) {
+                /*eslint-enable no-window*/
 
-            // if the DesktopMode has been triggered manually, we add a switch to the footer
-            // for switching back to mobile mode
-            if (!$('#ViewModeSwitch').length) {
-                $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchMobile') + '</a></div>');
-                $('#ViewModeSwitch').on('click.Responsive', function() {
-                    localStorage.setItem("DesktopMode", 0);
-                    location.reload();
-                    return false;
-                });
+                // if the DesktopMode has been triggered manually, we add a switch to the footer
+                // for switching back to mobile mode
+                if (!$('#ViewModeSwitch').length) {
+                    $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchMobile') + '</a></div>');
+                    $('#ViewModeSwitch').on('click.Responsive', function() {
+                        localStorage.setItem("DesktopMode", 0);
+                        location.reload();
+                        return false;
+                    });
+                }
+
+                // In DesktopMode, all responsive pubsub events should not be initialized.
+                // body gets class Visible-ScreenXL to "emulate" desktop behaviour
+                $('body').addClass('Visible-ScreenXL');
+                return;
             }
-
-            // In DesktopMode, all responsive pubsub events should not be initialized.
-            // body gets class Visible-ScreenXL to "emulate" desktop behaviour
-            $('body').addClass('Visible-ScreenXL');
-            return;
+        }
+        catch (Exception) {
+            $.noop(Exception);
         }
 
         $(window).on('resize', function () {
