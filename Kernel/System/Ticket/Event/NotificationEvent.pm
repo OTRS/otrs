@@ -935,6 +935,9 @@ sub _SendRecipientNotification {
 
     my $TransportObject = $Param{TransportObject};
 
+    # get attachments
+    my @Attachments = @{ $Param{Attachments} };
+
     # send notification to each recipient
     my $Success = $TransportObject->SendNotification(
         TicketID              => $Param{TicketID},
@@ -943,7 +946,7 @@ sub _SendRecipientNotification {
         CustomerMessageParams => $Param{CustomerMessageParams},
         Recipient             => $Param{Recipient},
         Event                 => $Param{Event},
-        Attachments           => $Param{Attachments},
+        Attachments           => \@Attachments,
     );
 
     return if !$Success;
