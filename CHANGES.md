@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-09-29 Fixed bug#[11515](http://bugs.otrs.org/show_bug.cgi?id=11515) - Ticket notifications sends the content of the previous notification on the same event.
  - 2015-09-29 Updated DejaVu fonts to version 2.35.
  - 2015-09-25 Stats::Dynamic::TicketList: Add 'NumberOfArticles' ticket attribute. Thanks to Elias Probst.
  - 2015-09-25 Fixed bug#[11078](http://bugs.otrs.org/show_bug.cgi?id=11078) - Extra newline is inserted in the text wrapping.
