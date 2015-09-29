@@ -12,16 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::[% Data.CommandName %]');
 
-my $ExitCode = $CommandObject->Execute();
-
-$Self->Is(
-    $ExitCode,
-    0,
-    "[% Data.CommandName %] exit code",
-);
-
-[% '#' %] It is also possible to capture the command output, see test/Console/Command/Maint/Config/Dump.t for an example.
 
 1;
