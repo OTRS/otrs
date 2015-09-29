@@ -183,6 +183,18 @@ Core.Agent = (function (TargetNS) {
                     return true;
                 }
 
+                // Workaround for Windows Phone IE
+                // In Windows Phone IE the event does not bubble up like in other browsers
+                // That means that a subnavigation in mobile mode is still collapsed/expanded,
+                // although the link to the new page is clicked
+                // we force the redirect with this workaround
+                if ($Target.closest('ul').attr('id') !== 'Navigation') {
+                    window.location.href = $Target.closest('a').attr('href');
+                    Event.stopPropagation();
+                    Event.preventDefault();
+                    return true;
+                }
+
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
 
@@ -203,9 +215,11 @@ Core.Agent = (function (TargetNS) {
                         ClearSubnavCloseTimeout($Element);
                     }
                 }
+
                 // If element has subnavigation, prevent the link
                 if ($Target.closest('li').find('ul').length) {
                     Event.preventDefault();
+                    Event.stopPropagation();
                     return false;
                 }
             })
