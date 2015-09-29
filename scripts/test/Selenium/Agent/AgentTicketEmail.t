@@ -38,19 +38,19 @@ $Selenium->RunTest(
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         # do not check service and type
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Service',
-            Value => 0
+            Value => 0,
         );
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Type',
-            Value => 0
+            Value => 0,
         );
 
         # create test user and login
@@ -170,7 +170,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket id $TicketID is deleted"
+            "Ticket with ticket id $TicketID is deleted",
         );
 
         # delete created test customer user
