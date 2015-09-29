@@ -68,7 +68,7 @@ sub Run {
             DynamicFields => 0,
         );
 
-        #next TICKETID if $Ticket{UntilTime} >= 1;
+        next TICKETID if $Ticket{UntilTime} >= 1;
 
         # error handling
         if ( !$States{ $Ticket{State} } ) {
