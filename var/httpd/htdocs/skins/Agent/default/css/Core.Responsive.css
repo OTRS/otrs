@@ -203,6 +203,10 @@
         border: 0px;
     }
 
+    #Navigation .Search {
+        width: auto !important;
+    }
+
     .WidgetSimple span.Pagination,
     .OverviewActions span.Pagination {
         text-align: center;
@@ -315,10 +319,6 @@
         margin: -10px 0px 10px 0px;
     }
 
-    fieldset.TableLike {
-        display: table-cell;
-    }
-
     fieldset.TableLike.Hidden {
         display: none;
     }
@@ -326,6 +326,11 @@
     fieldset.TableLike > .Field,
     fieldset.TableLike > .Row > .Field {
         padding: 0px;
+    }
+
+    fieldset.TableLike > .Field input[type=file],
+    fieldset.TableLike > .Row > .Field input[type=file] {
+        width: 95%;
     }
 
     fieldset.TableLike > .RichTextField,
@@ -446,7 +451,7 @@
         margin-right: 2px;
     }
 
-    .RichTextField > div.cke {
+    .RichTextField > .cke {
         width: auto !important;
         max-width: 100% !important;
     }
