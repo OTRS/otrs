@@ -14,7 +14,7 @@
             var viewport = doc.getElementById('viewport');
             try {
               if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
-                  viewport.setAttribute("content", "width=device-width, initial-scale=1.0, user-scalable=no");
+                  viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
               }
             }
             catch (Exception) {}
