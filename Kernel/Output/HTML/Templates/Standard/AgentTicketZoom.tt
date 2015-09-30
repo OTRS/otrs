@@ -461,7 +461,14 @@ if ( WidgetWidth < 400 ) {
 }
 
 // determine the needed field width and resize the fields
-FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10);
+
+if (FieldsPerRow === 1) {
+    FieldWidth = '100%';
+}
+else {
+    FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10);
+}
+
 $('.DynamicFieldAutoResize').width(FieldWidth);
 
 $('.ShowFieldInfoOverlay').bind('click', function() {
