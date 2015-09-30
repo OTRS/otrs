@@ -76,6 +76,26 @@
         color: #aaa;
     }
 
+    #ToolBar li.Extended {
+        background: none;
+        display: inline-block;
+        margin: -25px 0px 0px 5px;
+        padding: 0;
+        vertical-align: middle;
+    }
+
+    #ToolBar li.Extended input {
+        padding: 10px;
+    }
+
+    #ToolBar li.Extended .InputField_InputContainer input {
+        padding: 8px;
+    }
+
+    #ToolBar li.Extended form {
+        display: inline;
+    }
+
     #Header #Logo {
         width: 208px !important;
         background-size: 100%;
