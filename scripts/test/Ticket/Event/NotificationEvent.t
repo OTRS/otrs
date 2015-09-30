@@ -371,7 +371,32 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name => 'RecipientAgent OutOfOffice',
+        Name => 'RecipientAgent OutOfOffice (in the past)',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => -3 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => -1 * 60 * 60 * 24,
+        Success                 => 1,
+    },
+    {
+        Name => 'RecipientAgent OutOfOffice (currently)',
         Data => {
             Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             RecipientAgents => [$UserID],
@@ -385,8 +410,35 @@ my @Tests = (
             UserID => 1,
         },
         ExpectedResults => [],
-        SetOutOfOffice  => 1,
-        Success         => 1,
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => -1 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => 1 * 60 * 60 * 24,
+        Success                 => 1,
+    },
+    {
+        Name => 'RecipientAgent OutOfOffice (in the future)',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => 1 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => 3 * 60 * 60 * 24,
+        Success                 => 1,
     },
     {
         Name => 'RecipientAgent Customizable / No preference',
@@ -759,28 +811,26 @@ my $SetPostMasterUserID = sub {
 my $SetOutOfOffice = sub {
     my %Param = @_;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() - 1,    # put it one second is past
-    );
+    if ( $Param{OutOfOffice} ) {
 
-    my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() + ( 60 * 24 ),    # add one day
-    );
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffStart},
+        );
 
-    my %Preferences = (
-        OutOfOfficeStartYear  => $Year,
-        OutOfOfficeStartMonth => $Month,
-        OutOfOfficeStartDay   => $Day,
-        OutOfOfficeEndYear    => $EYear,
-        OutOfOfficeEndMonth   => $EMonth,
-        OutOfOfficeEndDay     => $EDay,
-    );
+        my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffEnd},
+        );
 
-    $Preferences{OutOfOffice} = $Param{OutOfOffice};
-
-    if ( $Preferences{OutOfOffice} ) {
+        my %Preferences = (
+            OutOfOfficeStartYear  => $Year,
+            OutOfOfficeStartMonth => $Month,
+            OutOfOfficeStartDay   => $Day,
+            OutOfOfficeEndYear    => $EYear,
+            OutOfOfficeEndMonth   => $EMonth,
+            OutOfOfficeEndDay     => $EDay,
+        );
 
         # pref update db
         my $Success = $UserObject->SetPreferences(
@@ -935,8 +985,10 @@ for my $Test (@Tests) {
 
     if ( $Test->{SetOutOfOffice} ) {
         my $SuccessOOO = $SetOutOfOffice->(
-            UserID      => $UserID,
-            OutOfOffice => 1,
+            SetOutOfOfficeDiffStart => $Test->{SetOutOfOfficeDiffStart},
+            SetOutOfOfficeDiffEnd   => $Test->{SetOutOfOfficeDiffEnd},
+            UserID                  => $UserID,
+            OutOfOffice             => 1,
         );
 
         # set out of office should always be true
