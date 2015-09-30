@@ -804,7 +804,8 @@ Core.UI.InputFields = (function (TargetNS) {
                 break;
 
             case 'Filter':
-                $FilterObj.off('click.InputField').on('click.InputField', function () {
+                $FilterObj.off('click.InputField').on('click.InputField', function (Event) {
+
 
                     // Allow selection of only one filter
                     $FilterObj.siblings('input').each(function (Index, Filter) {
@@ -812,6 +813,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             $(Filter).attr('checked', false);
                         }
                     });
+                    Event.stopPropagation();
                 })
 
                 // Handle checkbox change
@@ -1648,8 +1650,9 @@ Core.UI.InputFields = (function (TargetNS) {
                             }
                             Core.UI.GetID($FilterObj);
                             $SpanObj.text(Filter.Name);
-                            $SpanObj.on('click', function () {
+                            $SpanObj.on('click', function (Event) {
                                 $FilterObj.click();
+                                Event.stopPropagation();
                             });
                             $('<br />').appendTo($FiltersListObj);
                             RegisterFilterEvent($SelectObj, $InputContainerObj, $ToolbarContainerObj, $FilterObj, 'Filter');
