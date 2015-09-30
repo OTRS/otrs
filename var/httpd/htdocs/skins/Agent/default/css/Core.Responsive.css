@@ -367,6 +367,10 @@
         position: static;
     }
 
+    form .FieldExplanation {
+        font-size: 0.8em;
+    }
+
     .AJAXLoader {
         position: relative;
         top: -10px;
@@ -415,7 +419,7 @@
         float: none;
         width: auto;
         text-align: left;
-        font-size: 1.2em;
+        font-size: 0.9em;
     }
 
     .RTL fieldset.TableLike > label,
