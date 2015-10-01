@@ -954,7 +954,7 @@ sub _PDFOutputArticles {
     }
 
     my $ArticleCounter = 1;
-    for my $ArticleTmp ( @ArticleData ) {
+    for my $ArticleTmp (@ArticleData) {
         if ( $ArticleCounter == 1 ) {
             $Self->{PDFObject}->PositionSet(
                 Move => 'relativ',
@@ -1005,7 +1005,8 @@ sub _PDFOutputArticles {
             Y    => -6,
         );
 
-        my $ArticleNumber = $Self->{ZoomExpandSort} eq 'reverse' ? $ArticleCount - $ArticleCounter + 1 : $ArticleCounter;
+        my $ArticleNumber
+            = $Self->{ZoomExpandSort} eq 'reverse' ? $ArticleCount - $ArticleCounter + 1 : $ArticleCounter;
 
         # article number tag
         $Self->{PDFObject}->Text(

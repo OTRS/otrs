@@ -2245,6 +2245,7 @@ sub _ArticleTree {
                 # have the history type 'AddNote' which does not allow for distinguishing.
                 $Item->{HistoryType} = 'AddNoteCustomer';
             }
+
             # special treatment for internal emails
             elsif (
                 $Item->{ArticleID}
@@ -2253,7 +2254,7 @@ sub _ArticleTree {
                 && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
                 )
             {
-                $Item->{Class} = 'TypeNoteInternal';
+                $Item->{Class}       = 'TypeNoteInternal';
                 $Item->{HistoryType} = 'EmailAgentInternal';
             }
 

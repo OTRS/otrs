@@ -1249,7 +1249,7 @@ sub _MaskRun {
             Data => {
                 Counter  => $Counter,
                 RunLimit => $RunLimit,
-            }
+            },
         );
     }
 

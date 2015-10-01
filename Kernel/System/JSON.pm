@@ -155,6 +155,7 @@ as a JavaScript string instead.
 =cut
 
 sub True {
+
     # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
     # (encountered object '1', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
     return \1;
@@ -167,6 +168,7 @@ like C<True()>, but for a false boolean value.
 =cut
 
 sub False {
+
     # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
     # (encountered object '0', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
     return \0;

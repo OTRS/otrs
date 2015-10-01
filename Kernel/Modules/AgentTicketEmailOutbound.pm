@@ -1123,13 +1123,14 @@ sub SendEmail {
         Subject        => $GetParam{Subject},
         UserID         => $Self->{UserID},
         Body           => $GetParam{Body},
+
         # We start a new communication here, so don't send any references.
         #   This might lead to information disclosure (domain names; see bug#11246).
-        InReplyTo        => '',
-        References       => '',
-        Charset        => $Self->{LayoutObject}->{UserCharset},
-        MimeType       => $MimeType,
-        Attachment     => \@AttachmentData,
+        InReplyTo  => '',
+        References => '',
+        Charset    => $Self->{LayoutObject}->{UserCharset},
+        MimeType   => $MimeType,
+        Attachment => \@AttachmentData,
         %ArticleParam,
     );
 

@@ -189,8 +189,8 @@ elsif ( $Stat->{StatType} eq 'dynamic' ) {
 # run stat...
 my @StatArray = @{
     $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-        StatID   => $StatID,
-        GetParam => \%GetParam,
+        StatID       => $StatID,
+        GetParam     => \%GetParam,
         UserLanguage => $UserLanguage,
     );
 };
