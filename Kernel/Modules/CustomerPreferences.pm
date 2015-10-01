@@ -65,7 +65,7 @@ sub Run {
 
         # log loaded module
         if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Module: $Module loaded!",
             );

@@ -547,7 +547,7 @@ sub Run {
         );
 
         # show refresh link if refreshing is available
-        if ($Element{Config}->{CanRefresh}) {
+        if ( $Element{Config}->{CanRefresh} ) {
 
             my $NameHTML = $Name;
             $NameHTML =~ s{-}{_}xmsg;
@@ -811,8 +811,8 @@ sub _Element {
 
     # check backends cache (html page cache)
     my $Content;
-    my $CacheKey = $Config{CacheKey};
-    $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheKey    = $Config{CacheKey};
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     if ( !$CacheKey ) {
         $CacheKey = $Name . '-'
@@ -820,7 +820,7 @@ sub _Element {
             . $LayoutObject->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
-        $Content = $Self->{CacheObject}->Get(
+        $Content = $CacheObject->Get(
             Type => 'Dashboard',
             Key  => $CacheKey,
         );
@@ -841,7 +841,7 @@ sub _Element {
 
     # set cache (html page cache)
     if ( !$CacheUsed && $Config{CacheTTL} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $CacheKey,
             Value => $Content,
