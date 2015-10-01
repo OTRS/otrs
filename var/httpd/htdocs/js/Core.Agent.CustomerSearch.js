@@ -320,9 +320,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }
         }
 
-        // On unload remove old selected data. If the page is reloaded (with F5) this data stays in the field and invokes an ajax request otherwise
-        $(window).bind('unload', function () {
-           $('#SelectedCustomerUser').val('');
+        // On unload remove old selected data. If the page is reloaded (with F5) this data
+        // stays in the field and invokes an ajax request otherwise. We need to use beforeunload
+        // here instead of unload because the URL of the window does not change on reload which
+        // doesn't trigger pagehide.
+        $(window).bind('beforeunload.CustomerSearch', function () {
+            $('#SelectedCustomerUser').val('');
+            return ""; // empty return value to suppress the confirmation message
         });
 
         CheckPhoneCustomerCountLimit();
