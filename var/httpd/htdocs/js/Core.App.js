@@ -5,6 +5,7 @@
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
+// nofilter(TidyAll::Plugin::OTRS::JavaScript::UnloadEvent)
 
 "use strict";
 
@@ -44,6 +45,48 @@ Core.App = (function (TargetNS) {
         });
         return QueryString;
     }
+
+    /**
+     * @name BindWindowUnloadEvent
+     * @memberof Core.App
+     * @function
+     * @param {String} Namespace - Namespace for which the event should be bound.
+     * @param {Function} CallbackFunction - Function which should be executed once the event is fired.
+     * @description
+     *      Binds a crossbrowser compatible unload event to the window object
+     */
+    TargetNS.BindWindowUnloadEvent = function (Namespace, CallbackFunction) {
+
+        if (!$.isFunction(CallbackFunction)) {
+            return;
+        }
+
+        // we need a special handling for all IE's before 11, because these
+        // don't know the pagehide event but support the non-standard
+        // unload event.
+        if ($.browser.msie && parseInt($.browser.version, 10) < 11) {
+            $(window).on('unload.' + Namespace, function () {
+                CallbackFunction();
+            });
+        }
+        else {
+            $(window).on('pagehide.' + Namespace, function () {
+                CallbackFunction();
+            });
+        }
+    };
+
+    /**
+     * @name UnbindWindowUnloadEvent
+     * @memberof Core.App
+     * @function
+     * @param {String} Namespace - Namespace for which the event should be removed.
+     * @description
+     *      Unbinds a crossbrowser compatible unload event to the window object
+     */
+    TargetNS.UnbindWindowUnloadEvent = function (Namespace) {
+        $(window).off('unload.' + Namespace + ', pagehide.' + Namespace);
+    };
 
     /**
      * @name GetSessionInformation
