@@ -707,10 +707,6 @@ sub GetStatTablePreview {
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => "error",
-        Message  => "stack"
-    );
     my @StatArray;
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
