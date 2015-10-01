@@ -124,7 +124,7 @@ _123456789_123456789_123456789_
         String        => [ '12345', '12345', '12345', ]
     },
     {
-        Name => 'WrapPlainText() - #10 bug#110778 check that no additional newlines are produced.',
+        Name          => 'WrapPlainText() - #10 bug#110778 check that no additional newlines are produced.',
         Type          => 'Is',
         MaxCharacters => 78,
         String =>

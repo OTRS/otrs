@@ -547,7 +547,7 @@ sub Run {
         );
 
         # show refresh link if refreshing is available
-        if ($Element{Config}->{CanRefresh}) {
+        if ( $Element{Config}->{CanRefresh} ) {
 
             my $NameHTML = $Name;
             $NameHTML =~ s{-}{_}xmsg;

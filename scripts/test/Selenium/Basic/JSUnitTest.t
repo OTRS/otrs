@@ -38,7 +38,8 @@ $Selenium->RunTest(
             $JSModuleName =~ s{\.UnitTest\.html}{}xms;
 
             # Wait for the tests to complete.
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;" );
+            $Selenium->WaitFor( JavaScript =>
+                    "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;" );
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.result span.total").length;' );
 
             $Selenium->find_element( "p.result span.failed", 'css' );

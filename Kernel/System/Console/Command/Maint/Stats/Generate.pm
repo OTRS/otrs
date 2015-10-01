@@ -85,11 +85,12 @@ sub Configure {
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'timezone',
-        Description => "Target time zone (e.g. +2) for which the file should be generated (only provided, if the system use UTC as system time, the TimeZoneUser feature is active and for dynamic statistics).",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
+        Name => 'timezone',
+        Description =>
+            "Target time zone (e.g. +2) for which the file should be generated (only provided, if the system use UTC as system time, the TimeZoneUser feature is active and for dynamic statistics).",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
         Name => 'language',
@@ -166,8 +167,14 @@ sub PreRun {
         die "The target directory '$Self->{TargetDirectory}' does not exist.\n";
     }
 
-    if ( $Self->GetOption('timezone') && ( $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() || !$Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') ) ) {
-        die "You defined a timzone but this is only provided, if the system use UTC as system time and the time zone user support is active.\n";
+    if (
+        $Self->GetOption('timezone')
+        && ( $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+            || !$Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') )
+        )
+    {
+        die
+            "You defined a timzone but this is only provided, if the system use UTC as system time and the time zone user support is active.\n";
     }
 
     # set up used language
@@ -180,7 +187,6 @@ sub PreRun {
             },
         );
     }
-
 
     # set up used format & separator
     $Self->{Format}    = $Self->GetOption('format')    || 'CSV';

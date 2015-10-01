@@ -91,13 +91,16 @@ $Selenium->RunTest(
 
         # set filter to test queue
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
-        $Selenium->WaitFor( JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;" );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;"
+        );
         $Selenium->execute_script(
             "\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length" );
+            JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length"
+        );
 
         # set tickets per page to 10
         $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();

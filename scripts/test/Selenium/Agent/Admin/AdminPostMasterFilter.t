@@ -112,6 +112,7 @@ $Selenium->RunTest(
 
         # check new test PostMasterFilter values
         $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
+
         # wait until page has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length' );
         $Self->Is(

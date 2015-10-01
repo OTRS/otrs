@@ -334,7 +334,7 @@ sub HandleError {
     mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
 
     my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
-    $Filename .= '-' . (int rand 100_000_000) . '.png';
+    $Filename .= '-' . ( int rand 100_000_000 ) . '.png';
     $Filename =~ s{[ :]}{-}smxg;
 
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(

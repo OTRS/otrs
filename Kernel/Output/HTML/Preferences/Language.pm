@@ -50,7 +50,8 @@ sub Param {
 
         my $Text = $DefaultUsedLanguagesNative->{$LanguageID} || '';
 
-        my $TextEnglish    = $DefaultUsedLanguages->{$LanguageID};
+        my $TextEnglish = $DefaultUsedLanguages->{$LanguageID};
+
         # Translate to current user's language
         my $TextTranslated =
             $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);

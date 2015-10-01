@@ -560,11 +560,11 @@ sub UserUpdate {
 
     # update search profiles if the UserLogin changed
     if ( lc $OldUserLogin ne lc $Param{UserLogin} ) {
-       $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileUpdateUserLogin(
-           Base         => 'TicketSearch',
-           UserLogin    => $OldUserLogin,
-           NewUserLogin => $Param{UserLogin},
-       );
+        $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileUpdateUserLogin(
+            Base         => 'TicketSearch',
+            UserLogin    => $OldUserLogin,
+            NewUserLogin => $Param{UserLogin},
+        );
     }
 
     # get cache object

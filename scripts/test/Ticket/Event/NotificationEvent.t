@@ -409,7 +409,7 @@ my @Tests = (
             Config => {},
             UserID => 1,
         },
-        ExpectedResults => [],
+        ExpectedResults         => [],
         SetOutOfOffice          => 1,
         SetOutOfOfficeDiffStart => -1 * 60 * 60 * 24,
         SetOutOfOfficeDiffEnd   => 1 * 60 * 60 * 24,

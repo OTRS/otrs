@@ -247,8 +247,10 @@ sub StatsGet {
         }
     }
 
-    # provide the time zone field only, if the system use not UTC as system time or the TimeZoneUser feature is not active
-    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') ) {
+  # provide the time zone field only, if the system use not UTC as system time or the TimeZoneUser feature is not active
+    if (  !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') )
+    {
         if ( defined $StatsXML->{TimeZone}->[1]->{Content} ) {
             $Stat{TimeZone} = $StatsXML->{TimeZone}->[1]->{Content};
         }
@@ -2227,7 +2229,7 @@ sub _GenerateDynamicStats {
     $NewParam{Object}       = $Param{Object};
     $NewParam{ObjectModule} = $Param{ObjectModule};
 
-    if ($Param{TimeZone}) {
+    if ( $Param{TimeZone} ) {
         $NewParam{TimeZone} = $Param{TimeZone};
     }
 
@@ -2251,8 +2253,8 @@ sub _GenerateDynamicStats {
 
                     my $TimeStamp = $TimeObject->CurrentTimestamp();
 
-                    # add the selected timezone to the current timestamp to get the real start timestamp for the selectd timezone
-                    if ($Param{TimeZone}) {
+           # add the selected timezone to the current timestamp to get the real start timestamp for the selectd timezone
+                    if ( $Param{TimeZone} ) {
                         $TimeStamp = $Self->_AddTimeZone(
                             TimeStamp => $TimeStamp,
                             TimeZone  => $Param{TimeZone},
@@ -2278,7 +2280,6 @@ sub _GenerateDynamicStats {
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59, 59 );
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
-
 
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'HalfYear' ) {
@@ -2417,10 +2418,11 @@ sub _GenerateDynamicStats {
         elsif ( $RestrictionPart->{Block} eq 'Time' ) {
 
             # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
-            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} }  = $Self->_SubtractTimeZone(
+            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} } = $Self->_SubtractTimeZone(
                 TimeStamp => $RestrictionPart->{TimeStop},
                 TimeZone  => $Param{TimeZone},
             );
+
             # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
             $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStart} } = $Self->_SubtractTimeZone(
                 TimeStamp => $RestrictionPart->{TimeStart},
@@ -2716,13 +2718,14 @@ sub _GenerateDynamicStats {
             push(
                 @{ $Xvalue->{SelectedValues} },
                 {
-                    # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+                  # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
                     TimeStart => $Self->_SubtractTimeZone(
                         TimeStamp => $TimeStart,
                         TimeZone  => $Param{TimeZone},
                     ),
-                    # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
-                    TimeStop  => $Self->_SubtractTimeZone(
+
+                  # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+                    TimeStop => $Self->_SubtractTimeZone(
                         TimeStamp => $TimeStop,
                         TimeZone  => $Param{TimeZone},
                     ),
@@ -3675,7 +3678,7 @@ sub _GetCacheString {
     my ( $Self, %Param ) = @_;
     my $Result = '';
 
-    if ($Param{TimeZone}) {
+    if ( $Param{TimeZone} ) {
         $Result .= 'TimeZone:' . $Param{TimeZone};
     }
 

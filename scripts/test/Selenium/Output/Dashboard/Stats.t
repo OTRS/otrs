@@ -100,7 +100,8 @@ $Selenium->RunTest(
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
         $Selenium->find_element( ".SettingsWidget .Header a", "css" )->click();
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.SettingsWidget.Expanded').length;" );
+            JavaScript => "return typeof(\$) === 'function' && \$('.SettingsWidget.Expanded').length;"
+        );
 
         $Selenium->find_element( "#$StatsInSettings",      'css' )->click();
         $Selenium->find_element( ".SettingsWidget button", 'css' )->click();
