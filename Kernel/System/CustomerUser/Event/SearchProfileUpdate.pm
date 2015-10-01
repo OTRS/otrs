@@ -54,7 +54,7 @@ sub Run {
 
         # update searchprofiles
         $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileUpdateUserLogin(
-            Base => 'CustomerTicketSearch',
+            Base         => 'CustomerTicketSearch',
             UserLogin    => $Param{Data}->{OldData}->{UserLogin},
             NewUserLogin => $Param{Data}->{NewData}->{UserLogin},
         );

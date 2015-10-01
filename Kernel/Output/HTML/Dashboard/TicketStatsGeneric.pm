@@ -93,10 +93,13 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get the time object
-    my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # use the UserTimeObject, if the system use UTC as system time and the TimeZoneUser feature is active
-    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
+    if (  !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
+        && $Self->{UserTimeZone} )
+    {
         $UseUserTimeZone = 1;
         $TimeObject      = $LayoutObject->{UserTimeObject};
     }
@@ -131,7 +134,7 @@ sub Run {
             );
 
             $SystemTimeStart = $SystemTimeStart - ( $Self->{UserTimeZone} * 3600 );
-            $SystemTimeStop  = $SystemTimeStop - ( $Self->{UserTimeZone} * 3600 );
+            $SystemTimeStop  = $SystemTimeStop -  ( $Self->{UserTimeZone} * 3600 );
 
             $TimeStart = $TimeObject->SystemTime2TimeStamp(
                 SystemTime => $SystemTimeStart,

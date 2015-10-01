@@ -49,13 +49,13 @@ $Selenium->RunTest(
         my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
         # get content of RELEASE
-        my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         my $Content = $MainObject->FileRead( Location => "$Home/RELEASE" );
 
         my $OriginalContent = ${$Content};
 
         # Fake an OTRS 4.0.0 release so that we always have update news available.
-        my $TestContent     =<<EOF;
+        my $TestContent = <<EOF;
 PRODUCT = OTRS
 VERSION = 4.0.0
 EOF

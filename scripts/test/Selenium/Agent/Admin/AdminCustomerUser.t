@@ -150,10 +150,10 @@ $Selenium->RunTest(
         # wait until page has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
 
-        $Selenium->find_element( "#UserFirstname",       'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserLastname",        'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserEmail",           'css' )->send_keys( $RandomID2 . "\@localhost.com" );
+        $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID2 . "\@localhost.com" );
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');"
         );

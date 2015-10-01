@@ -71,7 +71,6 @@ $Selenium->RunTest(
             # wait until form has loaded, if neccessary
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-
             $Self->True(
                 index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
                 "Customer preference $Test->{Name} - updated"

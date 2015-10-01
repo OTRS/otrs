@@ -19,11 +19,11 @@ my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
 my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $UserObject          = $Kernel::OM->Get('Kernel::System::User');
 
 $ConfigObject->Set(
-    Key => 'CheckEmailAddresses',
+    Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
@@ -332,26 +332,26 @@ for my $SearchProfileName (@SearchProfileNames) {
 }
 
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
-my $CustomerBase = 'CustomerTicketSearch';
-my %CustomerSearches = (
-  First => {
-      Search => {
-          PriorityIDs => [2,4],
-          StateIDs => [1,3,5],
-          Body => 'asdf',
-      }
-  },
-  Second => {
-      Search => {
-          CustomerID => 'asdf',
-          StateIDs => [1],
-      }
-  }
+my $CustomerBase          = 'CustomerTicketSearch';
+my %CustomerSearches      = (
+    First => {
+        Search => {
+            PriorityIDs => [ 2, 4 ],
+            StateIDs    => [ 1, 3, 5 ],
+            Body => 'asdf',
+            }
+    },
+    Second => {
+        Search => {
+            CustomerID => 'asdf',
+            StateIDs   => [1],
+            }
+        }
 
 );
 
 for my $SearchProfile ( sort keys %CustomerSearches ) {
-    for my $Key ( sort keys %{$CustomerSearches{$SearchProfile}->{Search}}) {
+    for my $Key ( sort keys %{ $CustomerSearches{$SearchProfile}->{Search} } ) {
         my $AddResult = $SearchProfileObject->SearchProfileAdd(
             Base      => $CustomerBase,
             Name      => $SearchProfile,
@@ -381,7 +381,7 @@ my %Customer = $CustomerUserObject->CustomerUserDataGet(
     User => $TestCustomerUserLogin,
 );
 my $NewCustomerUserLogin = $HelperObject->GetRandomID();
-my $Update = $CustomerUserObject->CustomerUserUpdate(
+my $Update               = $CustomerUserObject->CustomerUserUpdate(
     %Customer,
     ID        => $Customer{UserLogin},
     UserLogin => $NewCustomerUserLogin,

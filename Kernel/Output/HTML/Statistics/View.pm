@@ -181,16 +181,20 @@ sub StatsParamsWidget {
         return;    # no possible output format
     }
 
-    # provide the time zone field only, if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
-    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && $Stat->{StatType} eq 'dynamic' ) {
+# provide the time zone field only, if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
+    if (  !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $ConfigObject->Get('TimeZoneUser')
+        && $Stat->{StatType} eq 'dynamic' )
+    {
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
 
         my %Frontend;
         $Frontend{SelectTimeZone} = $LayoutObject->BuildSelection(
             %TimeZoneBuildSelection,
-            Name        => 'TimeZone',
-            Class       => 'Modernize',
-            SelectedID  => $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
+            Name       => 'TimeZone',
+            Class      => 'Modernize',
+            SelectedID => $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone}
+                // $ConfigObject->Get('TimeZone') || 0,
         );
 
         $LayoutObject->Block(
@@ -740,16 +744,22 @@ sub GeneralSpecificationsWidget {
         SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
     );
 
-    # provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
-    if ( !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && ( ( $Stat->{StatType} && $Stat->{StatType} eq 'dynamic' ) || ( $Frontend{StatType} && $Frontend{StatType} eq 'dynamic' ) ) ) {
+# provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
+    if (
+          !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $ConfigObject->Get('TimeZoneUser')
+        && (   ( $Stat->{StatType} && $Stat->{StatType} eq 'dynamic' )
+            || ( $Frontend{StatType} && $Frontend{StatType} eq 'dynamic' ) )
+        )
+    {
 
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
 
         $Stat->{SelectTimeZone} = $LayoutObject->BuildSelection(
             %TimeZoneBuildSelection,
-            Name        => 'TimeZone',
-            Class       => 'Modernize ' . ( $Errors{TimeZoneServerError} ? ' ServerError' : '' ),
-            SelectedID  => $GetParam{TimeZone} // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
+            Name       => 'TimeZone',
+            Class      => 'Modernize ' . ( $Errors{TimeZoneServerError} ? ' ServerError' : '' ),
+            SelectedID => $GetParam{TimeZone} // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
         );
     }
 
@@ -843,7 +853,7 @@ sub XAxisWidget {
 
         my $Block = $ObjectAttribute->{Block};
 
-        if ( $Block eq 'SelectField') {
+        if ( $Block eq 'SelectField' ) {
             $Block = 'MultiSelectField';
         }
 
@@ -939,7 +949,7 @@ sub YAxisWidget {
 
         my $Block = $ObjectAttribute->{Block};
 
-        if ( $Block eq 'SelectField') {
+        if ( $Block eq 'SelectField' ) {
             $Block = 'MultiSelectField';
         }
 
@@ -1126,7 +1136,10 @@ sub StatsParamsGet {
     my ( %GetParam, @Errors );
 
     # get the time zone param
-    if ( !$TimeObject->ServerLocalTimeOffsetSeconds() && $ConfigObject->Get('TimeZoneUser') && length $LocalGetParam->( Param => 'TimeZone' ) ) {
+    if (  !$TimeObject->ServerLocalTimeOffsetSeconds()
+        && $ConfigObject->Get('TimeZoneUser')
+        && length $LocalGetParam->( Param => 'TimeZone' ) )
+    {
         $GetParam{TimeZone} = $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone};
     }
 
@@ -1187,7 +1200,7 @@ sub StatsParamsGet {
                             Param => $ElementName
                         );
 
-                        $Element->{SelectedValues} = [ $SelectedValue ];
+                        $Element->{SelectedValues} = [$SelectedValue];
                     }
 
                     # set the first value for a single select field, if no selected value is given
@@ -1266,7 +1279,8 @@ sub StatsParamsGet {
                                 $Element->{TimeStop}  = $Time{TimeStop};
 
                                 if ( $Use eq 'UseAsXvalue' ) {
-                                    $TimePeriod = ( $TimeObject->TimeStamp2SystemTime( String => $Element->{TimeStop} ) )
+                                    $TimePeriod
+                                        = ( $TimeObject->TimeStamp2SystemTime( String => $Element->{TimeStop} ) )
                                         - ( $TimeObject->TimeStamp2SystemTime( String => $Element->{TimeStart} ) );
                                 }
                             }
@@ -1604,10 +1618,14 @@ sub StatsConfigurationValidate {
                 }
                 elsif ( $Xvalue->{Block} eq 'SelectField' ) {
                     if ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
-                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('Please select only one element or allow modification at stat generation time.');
+                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable(
+                            'Please select only one element or allow modification at stat generation time.');
                     }
                     elsif ( $Xvalue->{Fixed} && !$Xvalue->{SelectedValues}[0] ) {
-                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('Please select at least one value of this field or allow modification at stat generation time.');
+                        $XAxisFieldErrors{ $Xvalue->{Element} }
+                            = Translatable(
+                            'Please select at least one value of this field or allow modification at stat generation time.'
+                            );
                     }
                 }
 
@@ -1651,13 +1669,16 @@ sub StatsConfigurationValidate {
                 }
                 elsif ( $ValueSeries->{Block} eq 'SelectField' ) {
                     if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
-                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('Please select only one element or allow modification at stat generation time.');
+                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable(
+                            'Please select only one element or allow modification at stat generation time.');
                     }
                     elsif ( $ValueSeries->{Fixed} && !$ValueSeries->{SelectedValues}[0] ) {
-                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('Please select at least one value of this field or allow modification at stat generation time.');
+                        $YAxisFieldErrors{ $ValueSeries->{Element} }
+                            = Translatable(
+                            'Please select at least one value of this field or allow modification at stat generation time.'
+                            );
                     }
                 }
-
 
                 $Counter++;
             }
@@ -1683,7 +1704,8 @@ sub StatsConfigurationValidate {
                         );
                     }
                     elsif ( !$Restriction->{SelectedValues}[0] ) {
-                        $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('Please select at least one value of this field.');
+                        $RestrictionsFieldErrors{ $Restriction->{Element} }
+                            = Translatable('Please select at least one value of this field.');
                     }
                 }
                 elsif ( $Restriction->{Block} eq 'InputField' ) {

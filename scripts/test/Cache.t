@@ -561,7 +561,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             );
 
             $Self->Is(
-                $FileContentFileMD5 || '',
+                $FileContentFileMD5   || '',
                 $FileContentStringMD5 || '',
                 "#9 - $Module - $SubdirLevels - Files - $FileName - MD5 check",
             );
@@ -596,10 +596,12 @@ for my $ModuleFile (@BackendModuleFiles) {
                 "#9 - $Module - $SubdirLevels - Files - $FileName - Content check",
             );
 
-            my $MultipleFileContent ;
+            my $MultipleFileContent;
             for my $Times ( 1 .. 5 ) {
 
-                $MultipleFileContent = $MultipleFileContent ? $MultipleFileContent .= ${$FileContent} . ${$FileContent} : ${$FileContent};
+                $MultipleFileContent = $MultipleFileContent
+                    ? $MultipleFileContent .= ${$FileContent} . ${$FileContent}
+                    : ${$FileContent};
 
                 my $MultipleSize = length $MultipleFileContent;
 

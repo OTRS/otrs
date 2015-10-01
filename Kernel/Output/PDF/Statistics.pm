@@ -109,8 +109,8 @@ sub GeneratePDF {
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
 
-    $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
-    $PageParam{HeadlineLeft}    = $Title;
+    $PageParam{HeaderRight}  = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{HeadlineLeft} = $Title;
 
     # table params
     my %TableParam;

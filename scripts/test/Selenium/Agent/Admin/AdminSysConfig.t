@@ -67,7 +67,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->click();
 
         # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
 
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->get_value(),
@@ -94,7 +95,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->submit();
 
         # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length' );
 
         # check for edited values
         $Self->Is(

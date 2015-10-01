@@ -43,7 +43,7 @@ local $ENV{TZ} = 'UTC';
 my @QueueNames;
 my @QueueIDs;
 
-for my $Count (1 .. 3) {
+for my $Count ( 1 .. 3 ) {
 
     my $QueueName = "Statistic-$Count-Queue-" . $RandomID;
     my $QueueID   = $QueueObject->QueueAdd(
@@ -63,7 +63,7 @@ for my $Count (1 .. 3) {
         "QueueAdd() successful for test - QueueID $QueueID",
     );
 
-    push @QueueIDs, $QueueID;
+    push @QueueIDs,   $QueueID;
     push @QueueNames, $QueueName;
 }
 
@@ -189,7 +189,6 @@ my @Tickets = (
         },
     },
 
-
     # add the ticket in the third statistic queue
     # (for a time zones = '+12' this ticket was created the next day)
     {
@@ -245,7 +244,7 @@ for my $Ticket (@Tickets) {
     );
 
     # set the fixed time
-    $HelperObject->FixedTimeSet( $SystemTime );
+    $HelperObject->FixedTimeSet($SystemTime);
 
     # create the ticket
     my $TicketID = $TicketObject->TicketCreate(
@@ -310,9 +309,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat without a time zone (last complete 7 days and scale 1 day)',
-        TimeStamp    => '2015-08-15 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat without a time zone (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 UseAsXvalue => [
@@ -397,9 +396,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat without a time zone (last complete 7 and current+upcoming 2 days and scale 1 day)',
-        TimeStamp    => '2015-08-15 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat without a time zone (last complete 7 and current+upcoming 2 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 UseAsXvalue => [
@@ -492,9 +491,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone +10 (last complete 7 days and scale 1 day)',
-        TimeStamp    => '2015-08-15 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone +10 (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '+10',
@@ -580,9 +579,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone +2 (last complete 24 hours and scale 1 hour)',
-        TimeStamp    => '2015-08-11 08:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone +2 (last complete 24 hours and scale 1 hour)',
+        TimeStamp   => '2015-08-11 08:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '+2',
@@ -684,9 +683,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone -10 (last complete 24 hours and scale 1 hour)',
-        TimeStamp    => '2015-08-11 06:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone -10 (last complete 24 hours and scale 1 hour)',
+        TimeStamp   => '2015-08-11 06:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '-10',
@@ -788,9 +787,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone -2 (last complete 120 minutes and scale 1 hour)',
-        TimeStamp    => '2015-08-10 12:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone -2 (last complete 120 minutes and scale 1 hour)',
+        TimeStamp   => '2015-08-10 12:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '-2',
@@ -848,9 +847,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone +2 (last complete 1 hours and scale 10 minutes)',
-        TimeStamp    => '2015-08-09 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone +2 (last complete 1 hours and scale 10 minutes)',
+        TimeStamp   => '2015-08-09 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '+2',
@@ -916,9 +915,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone +6 (last complete 5 and current+upcoming 1 days and scale 1 day)',
-        TimeStamp    => '2015-08-12 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone +6 (last complete 5 and current+upcoming 1 days and scale 1 day)',
+        TimeStamp   => '2015-08-12 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '+6',
@@ -1000,9 +999,9 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat without a time zone (last complete 12 months and scale 1 month)',
-        TimeStamp    => '2015-09-01 12:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat without a time zone (last complete 12 months and scale 1 month)',
+        TimeStamp   => '2015-09-01 12:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '0',
@@ -1108,9 +1107,10 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat without a time zone (last complete 12 and current+upcoming 1 months and scale 1 month)',
-        TimeStamp    => '2015-09-14 12:00:00',
-        StatsUpdate  => {
+        Description =>
+            'Test stat without a time zone (last complete 12 and current+upcoming 1 months and scale 1 month)',
+        TimeStamp   => '2015-09-14 12:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '+3',
@@ -1220,22 +1220,22 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description  => 'Test stat with time zone -8 (time period 2015-08-10 00:00:00 - 2015-08-15 23:59:59)',
-        TimeStamp    => '2015-08-15 20:00:00',
-        StatsUpdate  => {
+        Description => 'Test stat with time zone -8 (time period 2015-08-10 00:00:00 - 2015-08-15 23:59:59)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        StatsUpdate => {
             StatID => $StatID,
             Hash   => {
                 TimeZone    => '-8',
                 UseAsXvalue => [
                     {
-                        Element                   => 'CreateTime',
-                        Block                     => 'Time',
-                        Fixed                     => 1,
-                        Selected                  => 1,
-                        TimeStart                 => '2015-08-10 00:00:00',
-                        TimeStop                  => '2015-08-15 23:59:59',
-                        TimeScaleCount            => 1,
-                        SelectedValues            => [
+                        Element        => 'CreateTime',
+                        Block          => 'Time',
+                        Fixed          => 1,
+                        Selected       => 1,
+                        TimeStart      => '2015-08-10 00:00:00',
+                        TimeStop       => '2015-08-15 23:59:59',
+                        TimeScaleCount => 1,
+                        SelectedValues => [
                             'Day',
                         ],
                     },
@@ -1322,7 +1322,7 @@ for my $Test (@Tests) {
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(
         String => $Test->{TimeStamp},
     );
-    $HelperObject->FixedTimeSet( $SystemTime );
+    $HelperObject->FixedTimeSet($SystemTime);
 
     # print test case description
     if ( $Test->{Description} ) {
