@@ -378,12 +378,9 @@ sub new {
 
     # Check if 'Standard' fallback exists
     if ( !-e $Self->{StandardTemplateDir} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message =>
-                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        $Self->FatalDie(
+            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm."
         );
-        $Self->FatalDie();
     }
 
     if ( !-e $Self->{TemplateDir} ) {
@@ -414,7 +411,9 @@ sub new {
                 $File =~ s{\A.*\/(.+?).pm\z}{$1}xms;
                 my $ClassName = "Kernel::Output::HTML::$File";
                 if ( !$Self->{MainObject}->RequireBaseClass($ClassName) ) {
-                    $Self->FatalError();
+                    $Self->FatalDie(
+                        Message => "Could not load class $ClassName.",
+                    );
                 }
             }
         }
