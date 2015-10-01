@@ -114,7 +114,8 @@ Core.UI.Popup = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.FirePopupEvent = function (Type, Param) {
-        $(window).unbind('beforeunload.Popup').unbind('unload.Popup');
+        $(window).unbind('beforeunload.Popup');
+        Core.App.UnbindWindowUnloadEvent('Popup');
         $(window).trigger('Popup', [Type, Param]);
     };
 
@@ -341,9 +342,7 @@ Core.UI.Popup = (function (TargetNS) {
         $(window).bind('beforeunload.Popup', function () {
             return Core.UI.Popup.CheckPopupsOnUnload();
         });
-        $(window).bind('unload.Popup', function () {
-            Core.UI.Popup.ClosePopupsOnUnload();
-        });
+        Core.App.BindWindowUnloadEvent('Popup', Core.UI.Popup.ClosePopupsOnUnload);
         Core.UI.Popup.RegisterPopupEvent();
 
         // if this window is a popup itself, register another function
