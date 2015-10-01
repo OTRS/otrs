@@ -649,10 +649,10 @@ EOF
         Name => 'Safety - external image with / separator'
     },
     {
-        Name  => 'Safety - bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
-        Input => '<a href="http://localhost/online/foo/bar.html">www</a>',
+        Name   => 'Safety - bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
+        Input  => '<a href="http://localhost/online/foo/bar.html">www</a>',
         Result => {
-            Output => '<a href="http://localhost/online/foo/bar.html">www</a>',
+            Output  => '<a href="http://localhost/online/foo/bar.html">www</a>',
             Replace => 0,
         },
     },
