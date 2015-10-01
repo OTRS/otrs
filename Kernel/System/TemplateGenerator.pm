@@ -754,6 +754,9 @@ sub NotificationEvent {
     my $CustomerArticleID = $Article{ArticleID}      || '';
     my $AgentArticleID    = $ArticleAgent{ArticleID} || '';
 
+    # flag to see if an HTMLBody for Customer is present
+    my $CustomerHTMLBodyPresent = 0;
+
     # get articles for later use
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => $Param{TicketID},
@@ -815,6 +818,9 @@ sub NotificationEvent {
             # set HTML body for customer article
             if ( $CustomerArticleID eq $ArticleItem->{ArticleID} ) {
                 $Param{CustomerMessageParams}->{HTMLBody} = $HTMLBody;
+
+                # set flag for customer HTML body
+                $CustomerHTMLBodyPresent = 1;
             }
 
             # set HTML body for agent article
@@ -866,7 +872,7 @@ sub NotificationEvent {
     }
 
     # convert values to HTML to get correct line breaks etc.
-    if ( $Notification{ContentType} =~ m{text\/html} ) {
+    if ( $Notification{ContentType} =~ m{text\/html} && $CustomerHTMLBodyPresent ) {
         KEY:
         for my $Key ( sort keys %{ $Param{CustomerMessageParams} || {} } ) {
             next KEY if !$Param{CustomerMessageParams}->{$Key};
