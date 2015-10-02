@@ -1206,7 +1206,7 @@ sub StatsParamsGet {
                     # set the first value for a single select field, if no selected value is given
                     if ( $Element->{Block} eq 'SelectField' && !$Element->{SelectedValues} ) {
 
-                        my @Values = sort keys $Element->{Values};
+                        my @Values = sort keys %{ $Element->{Values} };
 
                         $Element->{SelectedValues} = [ $Values[0] ];
                     }
