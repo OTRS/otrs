@@ -1,14 +1,15 @@
 package HTTP::Headers;
 
 use strict;
+use warnings;
+
 use Carp ();
 
-use vars qw($VERSION $TRANSLATE_UNDERSCORE);
-$VERSION = "6.05";
+our $VERSION = "6.11";
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
 # as a replacement for '-' in header field names.
-$TRANSLATE_UNDERSCORE = 1 unless defined $TRANSLATE_UNDERSCORE;
+our $TRANSLATE_UNDERSCORE = 1 unless defined $TRANSLATE_UNDERSCORE;
 
 # "Good Practice" order of HTTP message headers:
 #    - General-Headers
@@ -238,6 +239,18 @@ sub scan
     }
 }
 
+sub flatten {
+	my($self)=@_;
+
+	(
+		map {
+			my $k = $_;
+			map {
+				( $k => $_ )
+			} $self->header($_);
+		} $self->header_field_names
+	);
+}
 
 sub as_string
 {
@@ -250,6 +263,7 @@ sub as_string
 	my $vals = $self->{$key};
 	if ( ref($vals) eq 'ARRAY' ) {
 	    for my $val (@$vals) {
+		$val = '' if not defined $val;
 		my $field = $standard_case{$key} || $self->{'::std_case'}{$key} || $key;
 		$field =~ s/^://;
 		if ( index($val, "\n") >= 0 ) {
@@ -259,6 +273,7 @@ sub as_string
 	    }
 	}
 	else {
+	    $vals = '' if not defined $vals;
 	    my $field = $standard_case{$key} || $self->{'::std_case'}{$key} || $key;
 	    $field =~ s/^://;
 	    if ( index($vals, "\n") >= 0 ) {
@@ -521,7 +536,7 @@ If no such field exists C<undef> will be returned.
 
 A multi-valued field will be returned as separate values in list
 context and will be concatenated with ", " as separator in scalar
-context.  The HTTP spec (RFC 2616) promise that joining multiple
+context.  The HTTP spec (RFC 2616) promises that joining multiple
 values in this way will not change the semantic of a header field, but
 in practice there are cases like old-style Netscape cookies (see
 L<HTTP::Cookies>) where "," is used as part of the syntax of a single
@@ -611,6 +626,10 @@ will be visited in the recommended "Good Practice" order.
 Any return values of the callback routine are ignored.  The loop can
 be broken by raising an exception (C<die>), but the caller of scan()
 would have to trap the exception itself.
+
+=item $h->flatten()
+
+Returns the list of pairs of keys and values.
 
 =item $h->as_string
 

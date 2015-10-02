@@ -1,8 +1,9 @@
 package HTTP::Message;
 
 use strict;
-use vars qw($VERSION $AUTOLOAD);
-$VERSION = "6.06";
+use warnings;
+
+our $VERSION = "6.11";
 
 require HTTP::Headers;
 require Carp;
@@ -292,7 +293,7 @@ sub decoded_content
 	    $h =~ s/\s+$//;
 	    for my $ce (reverse split(/\s*,\s*/, lc($h))) {
 		next unless $ce;
-		next if $ce eq "identity";
+		next if $ce eq "identity" || $ce eq "none";
 		if ($ce eq "gzip" || $ce eq "x-gzip") {
 		    require IO::Uncompress::Gunzip;
 		    my $output;
@@ -359,7 +360,7 @@ sub decoded_content
 		"ISO-8859-1"
 	    );
 	    if ($charset eq "none") {
-		# leave it asis
+		# leave it as is
 	    }
 	    elsif ($charset eq "us-ascii" || $charset eq "iso-8859-1") {
 		if ($$content_ref =~ /[^\x00-\x7F]/ && defined &utf8::upgrade) {
@@ -574,6 +575,10 @@ sub dump
     return $dump;
 }
 
+# allow subclasses to override what will handle individual parts
+sub _part_class {
+    return __PACKAGE__;
+}
 
 sub parts {
     my $self = shift;
@@ -602,8 +607,10 @@ sub parts {
 sub add_part {
     my $self = shift;
     if (($self->content_type || "") !~ m,^multipart/,) {
-	my $p = HTTP::Message->new($self->remove_content_headers,
-				   $self->content(""));
+	my $p = $self->_part_class->new(
+	    $self->remove_content_headers,
+	    $self->content(""),
+	);
 	$self->content_type("multipart/mixed");
 	$self->{_parts} = [];
         if ($p->headers->header_field_names || $p->content ne "") {
@@ -633,7 +640,8 @@ sub _stale_content {
 }
 
 
-# delegate all other method calls the the headers object.
+# delegate all other method calls to the headers object.
+our $AUTOLOAD;
 sub AUTOLOAD
 {
     my $method = substr($AUTOLOAD, rindex($AUTOLOAD, '::')+2);
@@ -673,7 +681,7 @@ sub _parts {
 	    my $str = $self->content;
 	    $str =~ s/\r?\n--\Q$b\E--.*//s;
 	    if ($str =~ s/(^|.*?\r?\n)--\Q$b\E\r?\n//s) {
-		$self->{_parts} = [map HTTP::Message->parse($_),
+		$self->{_parts} = [map $self->_part_class->parse($_),
 				   split(/\r?\n--\Q$b\E\r?\n/, $str)]
 	    }
 	}
@@ -687,7 +695,7 @@ sub _parts {
 	$self->{_parts} = [$class->parse($content)];
     }
     elsif ($ct =~ m,^message/,) {
-	$self->{_parts} = [ HTTP::Message->parse($self->content) ];
+	$self->{_parts} = [ $self->_part_class->parse($self->content) ];
     }
 
     $self->{_parts} ||= [];

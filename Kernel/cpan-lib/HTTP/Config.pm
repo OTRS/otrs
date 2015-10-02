@@ -1,10 +1,11 @@
 package HTTP::Config;
 
 use strict;
-use URI;
-use vars qw($VERSION);
+use warnings;
 
-$VERSION = "6.00";
+use URI;
+
+our $VERSION = "6.11";
 
 sub new {
     my $class = shift;
@@ -39,6 +40,7 @@ sub find2 {
  ITEM:
     for my $item (@$self) {
         for my $k (keys %spec) {
+            no warnings 'uninitialized';
             if (!exists $item->{$k} || $spec{$k} ne $item->{$k}) {
                 push(@rest, $item);
                 next ITEM;
