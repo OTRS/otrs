@@ -233,6 +233,99 @@ my @Tests = (
         ExpectedResults => '<p><i>We</i> have to test ✂︎<strong>so&#8230;</strong></p>',
         Success         => 1,
     },
+    {
+        Name   => 'Test utf8 characters with more than two bytes',
+        Config => {
+            String   => 'ᴀ–ᵎₑ₤◙',
+            Chars    => 3,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'ᴀ–ᵎ…',
+        Success         => 1,
+    },
+
+    # EN DASH is weird it looks like it can be truncated in the char but only before or after
+    {
+        Name   => 'Test utf8 EN DASH with spaces before char',
+        Config => {
+            String   => 'set up notifications – is this available for the company',
+            Chars    => 20,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 EN DASH with spaces on char',
+        Config => {
+            String   => 'set up notifications – is this available for the company',
+            Chars    => 21,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 EN DASH with spaces after char',
+        Config => {
+            String   => 'set up notifications – is this available for the company',
+            Chars    => 24,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications – i…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 EN DASH without spaces before char',
+        Config => {
+            String   => 'set up notifications–is this available for the company',
+            Chars    => 20,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 EN DASH without spaces on char',
+        Config => {
+            String   => 'set up notifications–is this available for the company',
+            Chars    => 21,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 EN DASH without spaces after char',
+        Config => {
+            String   => 'set up notifications–is this available for the company',
+            Chars    => 22,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'set up notifications–i…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 HIRAGANA on character',
+        Config => {
+            String   => 'notificあns',
+            Chars    => 8,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'notificあ…',
+        Success         => 1,
+    },
+    {
+        Name   => 'Test utf8 HIRAGANA after character',
+        Config => {
+            String   => 'notificあns',
+            Chars    => 9,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => 'notificあn…',
+        Success         => 1,
+    },
+
 );
 
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
