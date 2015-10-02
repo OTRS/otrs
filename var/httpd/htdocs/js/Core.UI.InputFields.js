@@ -1472,6 +1472,20 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     })
 
+                    .keyup(function (Event) {
+
+                        switch (Event.which) {
+
+                            // Enter
+                            case $.ui.keyCode.ENTER:
+                                Event.preventDefault();
+                                if (!Multiple) {
+                                    FocusNextElement($SearchObj);
+                                }
+                                break;
+                        }
+                    })
+
                     // Keydown handler for tree list
                     .keydown(function (Event) {
 
@@ -1527,6 +1541,10 @@ Core.UI.InputFields = (function (TargetNS) {
                                         $TreeObj.jstree('deselect_all');
                                     }
                                     $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                }
+
+                                if (!Multiple) {
+                                    FocusNextElement($SearchObj);
                                 }
                                 break;
 
