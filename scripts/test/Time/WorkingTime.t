@@ -15,6 +15,14 @@ use Time::Local;
 
 use vars (qw($Self));
 
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my @Tests = (
     {
         Name              => 'UTC',
@@ -137,10 +145,6 @@ my @Tests = (
         ResultTime        => '90 days and 17h',
     },
 );
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Use a calendar with the same business hours for every day so that the UT runs correctly
 #   on every day of the week and outside usual business hours.

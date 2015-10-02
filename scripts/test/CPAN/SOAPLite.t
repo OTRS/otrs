@@ -17,7 +17,12 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
 my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
