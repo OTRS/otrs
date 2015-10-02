@@ -375,12 +375,19 @@ Core.UI.InputFields = (function (TargetNS) {
         $InputContainerObj.find('.InputField_Selection').remove();
         $InputContainerObj.find('.InputField_More').remove();
 
+        // Check for empty values (allow field clearing).
         $SelectObj.find('option').each(function (Index, Option) {
             if ($(Option).attr('value') === '' || $(Option).attr('value') === '||-') {
                 PossibleNone = true;
                 return true;
             }
         });
+
+        // Also allow field clearing if the select has a size attribute > 1. In this case
+        //  most browsers allow unselecting options.
+        if ($SelectObj.attr('size') && parseInt($SelectObj.attr('size'), 10) > 1) {
+            PossibleNone = true;
+        }
 
         // Check if we have a selection at all
         if ($SelectObj.val()) {
