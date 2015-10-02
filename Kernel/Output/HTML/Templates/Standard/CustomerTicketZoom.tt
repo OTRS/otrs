@@ -42,7 +42,7 @@
 
 [% RenderBlockStart("Expand") %]
                 <li>
-                    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand Expand[% Data.ExpandOption %]"} title="[% Translate(Data.ExpandText) | html %]">
+                    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand Expand[% Data.ExpandOption %]" title="[% Translate(Data.ExpandText) | html %]">
                         <i class="fa fa-bars"></i>
                         <i class="fa fa-minus"></i>
                         <span>[% Translate(Data.ExpandText) | html %]</span>
