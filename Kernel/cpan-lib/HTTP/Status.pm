@@ -1,15 +1,15 @@
 package HTTP::Status;
 
 use strict;
+use warnings;
+
 require 5.002;   # because we use prototypes
 
-use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $VERSION);
+use base 'Exporter';
+our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
+our @EXPORT_OK = qw(is_client_error is_server_error);
 
-require Exporter;
-@ISA = qw(Exporter);
-@EXPORT = qw(is_info is_success is_redirect is_error status_message);
-@EXPORT_OK = qw(is_client_error is_server_error);
-$VERSION = "6.03";
+our $VERSION = "6.11";
 
 # Note also addition of mnemonics to @EXPORT below
 
@@ -36,6 +36,7 @@ my %StatusCode = (
     304 => 'Not Modified',
     305 => 'Use Proxy',
     307 => 'Temporary Redirect',
+    308 => 'Permanent Redirect',              # RFC 7238
     400 => 'Bad Request',
     401 => 'Unauthorized',
     402 => 'Payment Required',
@@ -95,7 +96,7 @@ die if $@;
 *RC_MOVED_TEMPORARILY = \&RC_FOUND;  # 302 was renamed in the standard
 push(@EXPORT, "RC_MOVED_TEMPORARILY");
 
-%EXPORT_TAGS = (
+our %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
    is => [grep /^is_/, @EXPORT, @EXPORT_OK],
 );
@@ -165,6 +166,7 @@ tag to import them all.
    HTTP_NOT_MODIFIED                    (304)
    HTTP_USE_PROXY                       (305)
    HTTP_TEMPORARY_REDIRECT              (307)
+   HTTP_PERMANENT_REDIRECT              (308)
 
    HTTP_BAD_REQUEST                     (400)
    HTTP_UNAUTHORIZED                    (401)

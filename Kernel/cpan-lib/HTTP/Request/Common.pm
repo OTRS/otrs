@@ -1,31 +1,38 @@
 package HTTP::Request::Common;
 
 use strict;
-use vars qw(@EXPORT @EXPORT_OK $VERSION $DYNAMIC_FILE_UPLOAD);
+use warnings;
 
-$DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
+our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 
-require Exporter;
-*import = \&Exporter::import;
-@EXPORT =qw(GET HEAD PUT POST);
-@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
+use Exporter 5.57 'import';
+
+our @EXPORT =qw(GET HEAD PUT POST);
+our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 
 require HTTP::Request;
 use Carp();
 
-$VERSION = "6.04";
+our $VERSION = "6.11";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
-sub PUT  { _simple_req('PUT' , @_); }
 sub DELETE { _simple_req('DELETE', @_); }
 
-sub POST
+for my $type (qw(PUT POST)) {
+    no strict 'refs';
+    *{ __PACKAGE__ . "::" . $type } = sub {
+        return request_type_with_data($type, @_);
+    };
+}
+
+sub request_type_with_data
 {
-    my $url = shift;
-    my $req = HTTP::Request->new(POST => $url);
+    my $type = shift;
+    my $url  = shift;
+    my $req = HTTP::Request->new($type => $url);
     my $content;
     $content = shift if @_ and ref $_[0];
     my($k, $v);
@@ -128,10 +135,10 @@ sub form_data   # RFC1867
     my @data = ref($data) eq "HASH" ? %$data : @$data;  # copy
     my $fhparts;
     my @parts;
-    my($k,$v);
-    while (($k,$v) = splice(@data, 0, 2)) {
+    while (my ($k,$v) = splice(@data, 0, 2)) {
 	if (!ref($v)) {
 	    $k =~ s/([\\\"])/\\$1/g;  # escape quotes and backslashes
+            no warnings 'uninitialized';
 	    push(@parts,
 		 qq(Content-Disposition: form-data; name="$k"$CRLF$CRLF$v));
 	}
