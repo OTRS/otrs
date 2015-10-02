@@ -881,6 +881,27 @@ Core.UI.InputFields = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name FocusPreviousElement
+     * @memberof Core.UI.InputFields
+     * @param {jQueryObject} $Element - Form element
+     * @description
+     *      Focus previous element in form.
+     */
+    function FocusPreviousElement($Element) {
+
+        // Get all tabbable and visible elements in the same form
+        var $TabbableElements = $Element.closest('form')
+            .find(':tabbable:visible');
+
+        // Advance index for one element and trigger focus
+        setTimeout(function () {
+            $TabbableElements.eq($TabbableElements.index($Element) - 1)
+                .focus();
+        }, 0);
+    }
+
+    /**
      * @name RemoveDiacritics
      * @memberof Core.UI.InputFields
      * @function
@@ -1457,6 +1478,28 @@ Core.UI.InputFields = (function (TargetNS) {
                         var $HoveredNode;
 
                         switch (Event.which) {
+
+                            // Tab
+                            // Find correct input, if element is selected in dropdown and tab key is used
+                            case $.ui.keyCode.TAB:
+                                $HoveredNode = $TreeObj.find('.jstree-hovered');
+                                if ($HoveredNode.hasClass('jstree-clicked')) {
+                                    $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
+                                }
+                                else {
+                                    if (!Multiple) {
+                                        $TreeObj.jstree('deselect_all');
+                                    }
+                                    $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                }
+
+                                if (Event.shiftKey) {
+                                    FocusPreviousElement($SearchObj);
+                                }
+                                else {
+                                    FocusNextElement($SearchObj);
+                                }
+                                break;
 
                             // Enter
                             case $.ui.keyCode.ENTER:
