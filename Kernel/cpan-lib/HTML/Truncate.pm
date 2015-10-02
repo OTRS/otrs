@@ -307,8 +307,13 @@ sub truncate {
 
     my $p = HTML::TokeParser->new( $self->{_raw_html} );
     $p->unbroken_text(1);
-    $p->utf8_mode( $self->utf8_mode );
-
+# ---
+# Patched by OTRS
+#    $p->utf8_mode( $self->utf8_mode );
+    # the use of utf8_mode in the parser object could lead into a wide character problem, disabling
+    # seams to fix the issue as scripts/test/HTMLUtils/Truncate.t seams to work even with
+    # 3 byte utf8 characters
+# ---
   TOKEN:
     while ( my $token = $p->get_token() )
     {
