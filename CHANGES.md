@@ -1,4 +1,5 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-10-03 Updated CPAN module Locale::Codes to version 3.36.
  - 2015-10-02 Fixed bug#[11524](http://bugs.otrs.org/show_bug.cgi?id=11524) - HTMLUtils::Truncate() dies if string contains an utf8 character that needs more than 2 bytes.
  - 2015-10-02 Updated CPAN module HTTP::Headers to version 6.11.
  - 2015-10-02 Updated CPAN module Excel::Writer::XLSX to version 0.85.
