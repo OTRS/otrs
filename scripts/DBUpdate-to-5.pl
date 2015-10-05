@@ -106,7 +106,7 @@ Please run it as the 'otrs' user or with the help of su:
         },
         {
             Message => 'Migrate send notification user preferences',
-            Command => \&_MigrateSettings,
+            Command => \&_MigrateUserNotificationPreferences,
         },
         {
             Message => 'Migrate Output configurations to the new module locations',
@@ -1635,15 +1635,15 @@ sub _AddZoomMenuClusters {
     return 1;
 }
 
-=item _MigrateSettings()
+=item _MigrateUserNotificationPreferences()
 
 Migrate different settings
 
-    _MigrateSettings();
+    _MigrateUserNotificationPreferences();
 
 =cut
 
-sub _MigrateSettings {
+sub _MigrateUserNotificationPreferences {
 
     # set transport name
     my $TransportName = 'Email';
@@ -1685,7 +1685,7 @@ sub _MigrateSettings {
         UserSendLockTimeoutNotification   => 'Automatic ticket unlock',
         UserSendMoveNotification          => 'Ticket moved',
         UserSendServiceUpdateNotification => 'Ticket service update',
-        UserSendWatcherNotification       => '',                                 #TODO: verify it this should be removed
+        UserSendWatcherNotification       => '',
     );
 
     # loop over each user
@@ -1710,14 +1710,13 @@ sub _MigrateSettings {
             my $NotificationName = $NotificationsPreferencesMapping{$Preference};
             my $Identifier       = $IdentifierList{$NotificationName};
 
-            # set the value for the identifier
+            next PREFERENCE if !$Identifier;
+
             $UserNotificationTransport{$Identifier} = $PreferenceValue;
 
+            # Duplicate value
             if ( $NotificationName eq 'Follow-up on an unlocked ticket' ) {
-
                 $Identifier = $IdentifierList{'Follow-up on a locked ticket'};
-
-                # set the value for the identifier
                 $UserNotificationTransport{$Identifier} = $PreferenceValue;
             }
         }
