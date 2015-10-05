@@ -20,6 +20,7 @@
         <div class="Field">
             [% Data.SelectField %]
         </div>
+        <div class="Clear"></div>
 [% RenderBlockEnd("MultiSelectField") %]
 [% RenderBlockStart("SelectField") %]
         <label></label>
@@ -27,6 +28,7 @@
             [% Data.SelectField %]
             <p class="FieldExplanation">[% Translate("Please select only one element or turn off the button 'Fixed'.") | html %]</p>
         </div>
+        <div class="Clear"></div>
 [% RenderBlockEnd("SelectField") %]
 [% RenderBlockStart("InputField") %]
         <label></label>
@@ -36,6 +38,7 @@
                 <p>[% Data.InvalidTooltip | html %]</p>
             </div>
         </div>
+        <div class="Clear"></div>
 [% RenderBlockEnd("InputField") %]
 [% RenderBlockStart("Time") %]
         <label>

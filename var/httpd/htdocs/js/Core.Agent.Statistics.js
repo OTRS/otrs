@@ -161,6 +161,11 @@ Core.Agent.Statistics = (function (TargetNS) {
                 $(this).parent('.Field').prev('label').find('input:radio').prop('checked', true);
             });
 
+            Core.UI.TreeSelection.InitTreeSelection();
+
+            // Datepickers don't work if added dynamically atm, so hide for now.
+            $('a.DatepickerIcon').hide();
+
             return false;
         });
     }
