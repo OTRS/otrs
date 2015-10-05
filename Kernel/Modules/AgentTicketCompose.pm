@@ -25,6 +25,14 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
+
     return $Self;
 }
 
@@ -408,14 +416,6 @@ sub Run {
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
     my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
 
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' ) {
 
@@ -450,7 +450,7 @@ sub Run {
             next COUNT if !$Delete;
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -465,7 +465,7 @@ sub Run {
                 Param => 'FileUpload',
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -473,7 +473,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get time object
@@ -718,7 +718,7 @@ sub Run {
 
         # get pre loaded attachments
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get submit attachment
@@ -1057,7 +1057,7 @@ sub Run {
             for ( sort keys %AllStdAttachments ) {
                 my %Data = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                 $UploadCacheObject->FormIDAddFile(
-                    FormID      => $FormID,
+                    FormID      => $Self->{FormID},
                     Disposition => 'attachment',
                     %Data,
                 );
@@ -1066,7 +1066,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get last customer article or selected article ...
@@ -1115,7 +1115,7 @@ sub Run {
         $Data{Body} = $LayoutObject->ArticleQuote(
             TicketID          => $Self->{TicketID},
             ArticleID         => $Data{ArticleID},
-            FormID            => $FormID,
+            FormID            => $Self->{FormID},
             UploadCacheObject => $UploadCacheObject,
         );
 
@@ -1831,14 +1831,6 @@ sub _Mask {
         $Param{Cc} = '';
     }
 
-    # get form id
-    my $FormID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
     # set preselected values for To field
     if ( $Param{To} ne '' && !$CustomerCounter ) {
         $LayoutObject->Block(
@@ -1861,7 +1853,7 @@ sub _Mask {
         Name => $Param{TicketBackType},
         Data => {
 
-            #            FormID => $FormID,
+            #            FormID => $Self->{FormID},
             %Param,
         },
     );
@@ -2006,7 +1998,7 @@ sub _Mask {
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketCompose',
         Data         => {
-            FormID => $FormID,
+            FormID => $Self->{FormID},
             %Param,
         },
     );
