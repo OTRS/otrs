@@ -457,6 +457,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 .attr('title', Core.Config.Get('InputFieldsRemoveSelection'))
                                 .text('x')
                                 .attr('role', 'button')
+                                .attr('tabindex', '-1')
                                 .attr(
                                     'aria-label',
                                     Core.Config.Get('InputFieldsRemoveSelection') + ': ' + Text
@@ -870,8 +871,12 @@ Core.UI.InputFields = (function (TargetNS) {
     function FocusNextElement($Element) {
 
         // Get all tabbable and visible elements in the same form
+        // remove the elements within the input field container of the element
+        // and re-add the element that has actually focus again
         var $TabbableElements = $Element.closest('form')
-            .find(':tabbable:visible');
+            .find(':tabbable:visible')
+            .not($Element.closest('.InputField_Container').find(':tabbable:visible'))
+            .add($Element);
 
         // Advance index for one element and trigger focus
         setTimeout(function () {
@@ -891,8 +896,12 @@ Core.UI.InputFields = (function (TargetNS) {
     function FocusPreviousElement($Element) {
 
         // Get all tabbable and visible elements in the same form
+        // remove the elements within the input field container of the element
+        // and re-add the element that has actually focus again
         var $TabbableElements = $Element.closest('form')
-            .find(':tabbable:visible');
+            .find(':tabbable:visible')
+            .not($Element.closest('.InputField_Container').find(':tabbable:visible'))
+            .add($Element);
 
         // Advance index for one element and trigger focus
         setTimeout(function () {
@@ -1138,11 +1147,13 @@ Core.UI.InputFields = (function (TargetNS) {
                     var TreeID,
                         $TreeObj,
                         SelectedID,
+                        OldSelectedID,
                         Elements,
                         SelectedNodes,
                         AvailableHeightBottom,
                         AvailableHeightTop,
                         AvailableMaxHeight,
+                        PossibleNone,
                         $ClearAllObj,
                         $SelectAllObj,
                         $ConfirmObj;
@@ -1190,6 +1201,13 @@ Core.UI.InputFields = (function (TargetNS) {
                                 });
                         }
                     }
+
+                    $SelectObj.find('option').each(function (Index, Option) {
+                        if ($(Option).attr('value') === '' || $(Option).attr('value') === '||-') {
+                            PossibleNone = true;
+                            return true;
+                        }
+                    });
 
                     // Show error tooltip if needed
                     if ($SelectObj.attr('id')) {
@@ -1363,23 +1381,21 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Handle blur event for tree item
                     .on('blur.jstree', '.jstree-anchor', function () {
-                        Focused = null;
-
                         setTimeout(function () {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
+                            Focused = null;
                         }, 0);
                     })
 
                     // Handle blur event for tree list
                     .on('blur.jstree', function () {
-                        Focused = null;
-
                         setTimeout(function () {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
+                            Focused = null;
                         }, 0);
                     })
 
@@ -1407,6 +1423,8 @@ Core.UI.InputFields = (function (TargetNS) {
                         // Set selected nodes as selected in initial select box
                         // (which is hidden but is still used for the action)
                         $SelectObj.val(SelectedNodes);
+                        OldSelectedID = SelectedID;
+                        SelectedID = $SelectObj.val();
 
                         // If single select, lose the focus and hide the list
                         if (!Multiple) {
@@ -1416,12 +1434,48 @@ Core.UI.InputFields = (function (TargetNS) {
 
                         // Delay triggering change event on original field (see bug#11419)
                         $SelectObj.data('changed', true);
+
+                        return false;
                     })
 
                     // click is also triggered (besides select_node), which
                     // could result in a bubbled-up event
                     // prevents dialogs from accidently closing
+                    // jstree triggers a click event for pressing the enter key
+                    // so we try to handle this here
                     .on('click.jstree', function (Event) {
+
+                        var $HoveredNode, HoveredValue;
+
+                        Event.preventDefault();
+
+                        // check for keydown event for enter key
+                        if (
+                            typeof Event.originalEvent !== 'undefined'
+                            && Event.originalEvent.type === 'keydown'
+                            && Event.originalEvent.which === $.ui.keyCode.ENTER) {
+
+                            $HoveredNode = $TreeObj.find('.jstree-hovered');
+                            HoveredValue = $HoveredNode.closest('li').data('id');
+
+                            // at this point, the jstree events have already selected the new value and processed the event
+                            // but we need to know, if the hovered element was selected before or not to decide wether to
+                            // select or deselect it now. therefor we check for OldSelectedID
+                            if (!Multiple) {
+                                if (HoveredValue !== OldSelectedID) {
+                                    $TreeObj.jstree('deselect_all');
+                                    $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                }
+                                else {
+                                    if (PossibleNone) {
+                                        $TreeObj.jstree('deselect_all');
+                                        $SelectObj.val('');
+                                    }
+                                }
+                                FocusNextElement($SearchObj);
+                            }
+                        }
+
                         Event.stopPropagation();
                         return false;
                     })
@@ -1453,6 +1507,9 @@ Core.UI.InputFields = (function (TargetNS) {
                                 $SelectObj.val(SelectedNodes);
                             }
 
+                            OldSelectedID = SelectedID;
+                            SelectedID = $SelectObj.val();
+
                             // Delay triggering change event on original field (see bug#11419)
                             $SelectObj.data('changed', true);
                         } else {
@@ -1472,20 +1529,6 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     })
 
-                    .keyup(function (Event) {
-
-                        switch (Event.which) {
-
-                            // Enter
-                            case $.ui.keyCode.ENTER:
-                                Event.preventDefault();
-                                if (!Multiple) {
-                                    FocusNextElement($SearchObj);
-                                }
-                                break;
-                        }
-                    })
-
                     // Keydown handler for tree list
                     .keydown(function (Event) {
 
@@ -1496,29 +1539,23 @@ Core.UI.InputFields = (function (TargetNS) {
                             // Tab
                             // Find correct input, if element is selected in dropdown and tab key is used
                             case $.ui.keyCode.TAB:
-                                $HoveredNode = $TreeObj.find('.jstree-hovered');
-                                if ($HoveredNode.hasClass('jstree-clicked')) {
-                                    $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
-                                }
-                                else {
-                                    if (!Multiple) {
-                                        $TreeObj.jstree('deselect_all');
+                                // Multiple selects should not select an element with tab but only
+                                // leave the field and confirm the selected values
+                                if (!Multiple) {
+                                    $HoveredNode = $TreeObj.find('.jstree-hovered');
+                                    if ($HoveredNode.hasClass('jstree-clicked')) {
+                                        $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
                                     }
-                                    $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                    else {
+                                        $TreeObj.jstree('deselect_all');
+                                        $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                    }
                                 }
 
                                 if (Event.shiftKey) {
                                     FocusPreviousElement($SearchObj);
                                 }
                                 else {
-                                    FocusNextElement($SearchObj);
-                                }
-                                break;
-
-                            // Enter
-                            case $.ui.keyCode.ENTER:
-                                Event.preventDefault();
-                                if (!Multiple) {
                                     FocusNextElement($SearchObj);
                                 }
                                 break;
@@ -1533,18 +1570,31 @@ Core.UI.InputFields = (function (TargetNS) {
                             case $.ui.keyCode.SPACE:
                                 Event.preventDefault();
                                 $HoveredNode = $TreeObj.find('.jstree-hovered');
-                                if ($HoveredNode.hasClass('jstree-clicked')) {
-                                    $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
-                                }
-                                else {
-                                    if (!Multiple) {
-                                        $TreeObj.jstree('deselect_all');
-                                    }
-                                    $TreeObj.jstree('select_node', $HoveredNode.get(0));
-                                }
 
                                 if (!Multiple) {
+                                    if (!$HoveredNode.hasClass('jstree-clicked')) {
+                                        $TreeObj.jstree('deselect_all');
+                                        $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                    }
+                                    else {
+                                        if (PossibleNone) {
+                                            $TreeObj.jstree('deselect_all');
+                                            $SelectObj.val('');
+                                            setTimeout(function () {
+                                                $SelectObj.trigger('change');
+                                                ValidateFormElement($SelectObj);
+                                            }, 0);
+                                        }
+                                    }
                                     FocusNextElement($SearchObj);
+                                }
+                                else {
+                                    if ($HoveredNode.hasClass('jstree-clicked')) {
+                                        $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
+                                    }
+                                    else {
+                                        $TreeObj.jstree('select_node', $HoveredNode.get(0));
+                                    }
                                 }
                                 break;
 
@@ -1572,6 +1622,8 @@ Core.UI.InputFields = (function (TargetNS) {
                                     Event.preventDefault();
                                     $ListContainerObj.find('.InputField_Filters')
                                         .click();
+
+                                    $ListContainerObj.find('.InputField_FiltersList').children('input').first().focus();
                                 }
                                 break;
                         }
@@ -1601,12 +1653,11 @@ Core.UI.InputFields = (function (TargetNS) {
                             SkipFocus = false;
                         }
                     }).on('blur.jstree', function () {
-                        Focused = null;
-
                         setTimeout(function () {
                             if (!Focused) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
+                            Focused = null;
                         }, 0);
                     });
 
@@ -1629,12 +1680,11 @@ Core.UI.InputFields = (function (TargetNS) {
                                 SkipFocus = false;
                             }
                         }).on('blur.InputField', function () {
-                            Focused = null;
-
                             setTimeout(function () {
                                 if (!Focused) {
                                     HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                                 }
+                                Focused = null;
                             }, 0);
                         });
 
@@ -1726,6 +1776,66 @@ Core.UI.InputFields = (function (TargetNS) {
                             });
                             $('<br />').appendTo($FiltersListObj);
                             RegisterFilterEvent($SelectObj, $InputContainerObj, $ToolbarContainerObj, $FilterObj, 'Filter');
+                        });
+
+                        $FiltersListObj
+                        .on('focus', 'input', function () {
+                            Focused = this;
+                        })
+                        .on('keydown', 'input', function (Event) {
+                            var $FilterElements,
+                                FilterElementIndex;
+
+                            switch (Event.which) {
+
+                                // Tab
+                                case $.ui.keyCode.TAB:
+                                    $FilterElements = $FiltersListObj.find('input');
+                                    FilterElementIndex = $FilterElements.index(Event.target);
+
+                                    // if not shift key and on the last element of the list, jump to top again
+                                    if (!Event.shiftKey) {
+                                        Event.preventDefault();
+                                        Event.stopPropagation();
+
+                                        if (FilterElementIndex + 1 === $FilterElements.length) {
+                                            $FilterElements.first().focus();
+                                        }
+                                        else {
+                                            $FilterElements.eq(FilterElementIndex + 1).focus();
+                                        }
+                                    }
+                                    // first element and Shift+Tab, jump to last element in list
+                                    else {
+                                        Event.preventDefault();
+                                        Event.stopPropagation();
+
+                                        if (FilterElementIndex === 0) {
+                                            $FilterElements.last().focus();
+                                        }
+                                        else {
+                                            $FilterElements.eq(FilterElementIndex - 1).focus();
+                                        }
+                                    }
+                                    break;
+
+                                // Escape
+                                case $.ui.keyCode.ESCAPE:
+                                    $ListContainerObj.find('.InputField_Filters')
+                                        .click();
+                                    $SearchObj.focus();
+                                    break;
+
+                                // Ctrl (Cmd) + F (closing filters, if this event triggers, the filters are always expanded)
+                                case 70:
+                                    if (Event.ctrlKey || Event.metaKey) {
+                                        Event.preventDefault();
+                                        $ListContainerObj.find('.InputField_Filters')
+                                            .click();
+                                        $SearchObj.focus();
+                                    }
+                                    break;
+                            }
                         });
 
                     }
@@ -1889,14 +1999,13 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // Out of focus handler removes complete jsTree and action buttons
                 .off('blur.InputField').on('blur.InputField', function () {
-                    Focused = null;
-
                     document.removeEventListener('scroll', ScrollEventListener, true);
 
                     setTimeout(function () {
                         if (!Focused) {
                             HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                         }
+                        Focused = null;
                     }, 0);
                     Core.Form.ErrorTooltips.HideTooltip();
                 })
@@ -1913,11 +2022,13 @@ Core.UI.InputFields = (function (TargetNS) {
                             if (!Event.shiftKey) {
                                 TabFocus = true;
                             }
+                            Focused = null;
                             break;
 
                         // Escape
                         case $.ui.keyCode.ESCAPE:
                             Event.preventDefault();
+                            $TreeObj.blur();
                             $SearchObj.blur();
                             break;
 
@@ -1964,6 +2075,8 @@ Core.UI.InputFields = (function (TargetNS) {
                                 Event.preventDefault();
                                 $ListContainerObj.find('.InputField_Filters')
                                     .click();
+
+                                $ListContainerObj.find('.InputField_FiltersList').children('input').first().focus();
                             }
                             break;
                     }
