@@ -126,7 +126,8 @@ Directories & Files
     |           |--- /Queue.pm       (information about queues. e. g. response templates, ...)
     |           |--- /Ticket.pm      (ticket and article functions)
     |           |--- /User.pm        (user module)
-    |           |--- /Request.pm    (HTTP/CGI abstraction module)
+    |           |--- /Web/*.pm       (core interface modules)
+    |                 |--- /Request.pm    (HTTP/CGI abstraction module)
     |
     |  (data stuff)
     |--/var/
