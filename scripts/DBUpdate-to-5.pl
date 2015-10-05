@@ -1760,7 +1760,17 @@ sub _FixupDashboardStatsFormats {
 
     my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
-    my $Stats = $StatsObject->StatsListGet( UserID => 1 );
+    my $Stats;
+    {
+        # Here we need to suppress warnings about dynamic statistics where the
+        #   statistics file is currently not present in the file system (e. g. ITSM)
+        #   because of the OTRS upgrade. Just capture the error messages and continue
+        #   (see bug##11532).
+        local *STDERR;
+        my $Dummy;
+        open *STDERR, '>', \$Dummy;
+        $Stats = $StatsObject->StatsListGet( UserID => 1 );
+    }
 
     print "\n";
 
