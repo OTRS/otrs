@@ -22,6 +22,14 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
+
     return $Self;
 }
 
@@ -331,9 +339,6 @@ sub Run {
             $ID ? $ID : ();
         } $ParamObject->GetParamNames();
 
-        # get form id
-        my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
         if ( $GetParam{FromChat} ) {
@@ -349,11 +354,6 @@ sub Run {
             }
         }
 
-        # create form id
-        if ( !$FormID ) {
-            $FormID = $UploadCacheObject->FormIDCreate();
-        }
-
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
             my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
@@ -361,7 +361,7 @@ sub Run {
             $GetParam{FollowUpVisible} = 'Visible';
             $Error{AttachmentDelete}   = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -375,7 +375,7 @@ sub Run {
                 Param => "file_upload",
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -615,7 +615,7 @@ sub Run {
 
         # get pre loaded attachment
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID
+            FormID => $Self->{FormID}
         );
 
         # get submit attachment
@@ -732,7 +732,7 @@ sub Run {
         }
 
         # remove pre submited attachments
-        $UploadCacheObject->FormIDRemove( FormID => $FormID );
+        $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # redirect to zoom view
         return $LayoutObject->Redirect(
@@ -881,19 +881,10 @@ sub _GetPriorities {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
+    my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
-    $Param{FormID} = $FormID;
+    $Param{FormID} = $Self->{FormID};
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -1878,7 +1869,7 @@ sub _Mask {
         # show attachments
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         ATTACHMENT:

@@ -22,6 +22,14 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
+
     return $Self;
 }
 
@@ -118,14 +126,6 @@ sub Run {
                 Message => "No permission.",
             );
         }
-    }
-
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
     }
 
     if ( !$Self->{Subaction} ) {
@@ -298,7 +298,7 @@ sub Run {
             next COUNT if !$Delete;
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -312,7 +312,7 @@ sub Run {
                 Param => 'file_upload',
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -320,7 +320,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # create html strings for all dynamic fields
@@ -681,7 +681,7 @@ sub Run {
 
         # get pre loaded attachment
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get submitted attachment
@@ -725,7 +725,7 @@ sub Run {
         }
 
         # remove pre submitted attachments
-        $UploadCacheObject->FormIDRemove( FormID => $FormID );
+        $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # redirect
         return $LayoutObject->Redirect(
@@ -1022,15 +1022,7 @@ sub _GetTos {
 sub _MaskNew {
     my ( $Self, %Param ) = @_;
 
-    # get form id
-    my $FormID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
-    $Param{FormID} = $FormID;
+    $Param{FormID} = $Self->{FormID};
     $Param{Errors}->{QueueInvalid} = $Param{Errors}->{QueueInvalid} || '';
 
     my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
