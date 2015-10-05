@@ -227,10 +227,21 @@ sub CollectByWebRequest {
 
     $Host ||= '127.0.0.1';
 
+    # if the public interface is proteceted with .htaccess
+    # we can specify the htaccess login data here,
+    # this is neccessary for the support data collector
+    my $AuthString = '';
+    my $AuthUser = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthUser');
+    my $AuthPassword = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthPassword');
+    if ($AuthUser && $AuthPassword) {
+        $AuthString = $AuthUser . ':' . $AuthPassword . '@';
+    }
+
     # prepare web service config
     my $URL =
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
         . '://'
+        . $AuthString
         . $Host
         . '/'
         . $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias')

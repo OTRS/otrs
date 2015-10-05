@@ -1630,6 +1630,12 @@ via the Preferences button after logging in.
 #        SomeParam => 'DefaultValue',
     };
 
+    # If the public interface is proteceted with .htaccess
+    # we can specify the htaccess login data here,
+    # this is neccessary for the support data collector
+    # $Self->{'PublicFrontend::AuthUser'} = '';
+    # $Self->{'PublicFrontend::AuthPassword'} = '';
+
     # --------------------------------------------------- #
     # Frontend Module Registry (Agent)
     # --------------------------------------------------- #
