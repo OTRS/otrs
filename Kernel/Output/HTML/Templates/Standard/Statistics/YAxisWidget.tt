@@ -20,6 +20,7 @@
         <div class="Field">
             [% Data.SelectField %]
         </div>
+        <div class="Clear"></div>
 [% RenderBlockEnd("MultiSelectField") %]
 [% RenderBlockStart("Time") %]
         <label>[% Translate("Scale") | html %]:</label>
