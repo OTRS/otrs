@@ -478,7 +478,7 @@ sub SearchFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldMultiSelect';
+    my $FieldClass = 'DynamicFieldMultiSelect Modernize';
 
     # set TreeView class
     if ( $FieldConfig->{TreeView} ) {
