@@ -2130,7 +2130,7 @@ Core.UI.InputFields = (function (TargetNS) {
         });
 
         // Workaround to close dropdown after blur event by clicking the mouse out of the search field
-        $('body').off('click.InputField').on('click.InputField', function (Event) {
+        $('body').off('click.InputField').on('click.InputField', function () {
             if (
                 $('.InputField_ListContainer').length
                 &&
