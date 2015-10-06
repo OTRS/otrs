@@ -1998,7 +1998,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
-                .off('blur.InputField').on('blur.InputField', function (Event) {
+                .off('blur.InputField').on('blur.InputField', function () {
                     document.removeEventListener('scroll', ScrollEventListener, true);
 
                     setTimeout(function () {
