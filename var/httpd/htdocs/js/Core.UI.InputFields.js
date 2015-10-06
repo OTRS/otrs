@@ -1998,7 +1998,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
-                .off('blur.InputField').on('blur.InputField', function () {
+                .off('blur.InputField').on('blur.InputField', function (Event) {
                     document.removeEventListener('scroll', ScrollEventListener, true);
 
                     setTimeout(function () {
@@ -2032,7 +2032,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             $SearchObj.blur();
                             break;
 
-                        // ArrowDown
+                        // ArrowUp
                         case $.ui.keyCode.UP:
                             Event.preventDefault();
                             $($TreeObj.find('a.jstree-anchor:visible')
@@ -2119,6 +2119,19 @@ Core.UI.InputFields = (function (TargetNS) {
                 });
 
             }
+        });
+
+        // Workaround to close dropdown after blur event by clicking the mouse out of the search field
+        $('body').off('click.InputField').on('click.InputField', function (Event) {
+            Event.preventDefault();
+            Event.stopPropagation();
+            if (
+                $('.InputField_ListContainer').length
+                && !$(document.activeElement).parents('.InputField_Container').length
+                && document.activeElement.tagName.toUpperCase() !== 'INPUT') {
+                CloseOpenSelections();
+            }
+            return false;
         });
 
         return true;
