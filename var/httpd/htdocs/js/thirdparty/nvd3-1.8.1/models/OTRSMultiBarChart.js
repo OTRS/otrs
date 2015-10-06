@@ -48,7 +48,6 @@ nv.models.OTRSmultiBarChart = function() {
     xAxis
         .orient('bottom')
         .tickPadding(7)
-        .highlightZero(true)
         .showMaxMin(false)
         .tickFormat(function(d) { return d })
     ;
