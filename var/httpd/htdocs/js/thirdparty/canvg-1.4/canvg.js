@@ -6,7 +6,24 @@
  *
  * Requires: rgbcolor.js - http://www.phpied.com/rgb-color-parser-in-javascript/
  */
-(function(){
+ (function ( global, factory ) {
+
+	'use strict';
+
+	// export as AMD...
+	if ( typeof define !== 'undefined' && define.amd ) {
+		define('canvgModule', [ 'rgbcolor', 'stackblur' ], factory );
+	}
+
+	// ...or as browserify
+	else if ( typeof module !== 'undefined' && module.exports ) {
+		module.exports = factory( require( 'rgbcolor' ), require( 'stackblur' ) );
+	}
+
+	global.canvg = factory( global.RGBColor, global.stackBlur );
+
+}( typeof window !== 'undefined' ? window : this, function ( RGBColor, stackBlur ) {
+ 
 	// canvg(target, s)
 	// empty parameters: replace all 'svg' elements on page with 'canvas' elements
 	// target: canvas element or the id of a canvas element
@@ -22,7 +39,7 @@
 	//		 scaleHeight: int => scales vertically to height
 	//		 renderCallback: function => will call the function after the first render is completed
 	//		 forceRedraw: function => will call the function on every frame, if it returns true, will redraw
-	this.canvg = function (target, s, opts) {
+	var canvg = function (target, s, opts) {
 		// no parameters
 		if (target == null && s == null && opts == null) {
 			var svgTags = document.querySelectorAll('svg');
@@ -89,8 +106,19 @@
 		};
 	} else {
 		// requires Sizzle: https://github.com/jquery/sizzle/wiki/Sizzle-Documentation
-		// without Sizzle, this is a ReferenceError
-		matchesSelector = Sizzle.matchesSelector;
+		// or jQuery: http://jquery.com/download/
+		// or Zepto: http://zeptojs.com/#
+		// without it, this is a ReferenceError
+
+		if (typeof jQuery === 'function' || typeof Zepto === 'function') {
+			matchesSelector = function (node, selector) {
+				return $(node).is(selector);
+			};
+		}
+
+		if (typeof matchesSelector === 'undefined') {
+			matchesSelector = Sizzle.matchesSelector;
+		}
 	}
 
 	// slightly modified version of https://github.com/keeganstreet/specificity/blob/master/specificity.js
@@ -740,7 +768,7 @@
 
 			this.getHrefAttribute = function() {
 				for (var a in this.attributes) {
-					if (a.match(/:href$/)) {
+					if (a == 'href' || a.match(/:href$/)) {
 						return this.attributes[a];
 					}
 				}
@@ -781,8 +809,8 @@
 				if (this.style('visibility').value == 'hidden') return;
 
 				ctx.save();
-				if (this.attribute('mask').hasValue()) { // mask
-					var mask = this.attribute('mask').getDefinition();
+				if (this.style('mask').hasValue()) { // mask
+					var mask = this.style('mask').getDefinition();
 					if (mask != null) mask.apply(ctx, this);
 				}
 				else if (this.style('filter').hasValue()) { // filter
@@ -824,7 +852,7 @@
 			this.addStylesFromStyleDefinition = function () {
 				// add styles
 				for (var selector in svg.Styles) {
-					if (matchesSelector(node, selector)) {
+					if (selector[0] != '@' && matchesSelector(node, selector)) {
 						var styles = svg.Styles[selector];
 						var specificity = svg.StylesSpecificity[selector];
 						if (styles != null) {
@@ -952,14 +980,14 @@
 				}
 
 				// transform
-				if (this.attribute('transform').hasValue()) {
-					var transform = new svg.Transform(this.attribute('transform').value);
+				if (this.style('transform', false, true).hasValue()) {
+					var transform = new svg.Transform(this.style('transform', false, true).value);
 					transform.apply(ctx);
 				}
 
 				// clip
-				if (this.attribute('clip-path', false, true).hasValue()) {
-					var clip = this.attribute('clip-path', false, true).getDefinition();
+				if (this.style('clip-path', false, true).hasValue()) {
+					var clip = this.style('clip-path', false, true).getDefinition();
 					if (clip != null) clip.apply(ctx);
 				}
 
@@ -1632,7 +1660,8 @@
 				for (var x=-1; x<=1; x++) {
 					for (var y=-1; y<=1; y++) {
 						cctx.save();
-						cctx.translate(x * c.width, y * c.height);
+						tempSvg.attributes['x'] = new svg.Property('x', x * c.width);
+						tempSvg.attributes['y'] = new svg.Property('y', y * c.height);
 						tempSvg.render(cctx);
 						cctx.restore();
 					}
@@ -1691,8 +1720,6 @@
 			this.base = svg.Element.ElementBase;
 			this.base(node);
 
-			this.gradientUnits = this.attribute('gradientUnits').valueOrDefault('objectBoundingBox');
-
 			this.stops = [];
 			for (var i=0; i<this.children.length; i++) {
 				var child = this.children[i];
@@ -1702,11 +1729,27 @@
 			this.getGradient = function() {
 				// OVERRIDE ME!
 			}
+			
+			this.gradientUnits = function () {
+				return this.attribute('gradientUnits').valueOrDefault('objectBoundingBox');
+			}
+			
+			this.attributesToInherit = ['gradientUnits'];
+			
+			this.inheritStopContainer = function (stopsContainer) {
+				for (var i=0; i<this.attributesToInherit.length; i++) {
+					var attributeToInherit = this.attributesToInherit[i];
+					if (!this.attribute(attributeToInherit).hasValue() && stopsContainer.attribute(attributeToInherit).hasValue()) {
+						this.attribute(attributeToInherit, true).value = stopsContainer.attribute(attributeToInherit).value;
+					}
+				}
+			}
 
 			this.createGradient = function(ctx, element, parentOpacityProp) {
 				var stopsContainer = this;
 				if (this.getHrefAttribute().hasValue()) {
 					stopsContainer = this.getHrefAttribute().getDefinition();
+					this.inheritStopContainer(stopsContainer);
 				}
 
 				var addParentOpacity = function (color) {
@@ -1762,9 +1805,14 @@
 		svg.Element.linearGradient = function(node) {
 			this.base = svg.Element.GradientBase;
 			this.base(node);
+			
+			this.attributesToInherit.push('x1');
+			this.attributesToInherit.push('y1');
+			this.attributesToInherit.push('x2');
+			this.attributesToInherit.push('y2');
 
 			this.getGradient = function(ctx, element) {
-				var bb = this.gradientUnits == 'objectBoundingBox' ? element.getBoundingBox() : null;
+				var bb = this.gradientUnits() == 'objectBoundingBox' ? element.getBoundingBox() : null;
 
 				if (!this.attribute('x1').hasValue()
 				 && !this.attribute('y1').hasValue()
@@ -1776,16 +1824,16 @@
 					this.attribute('y2', true).value = 0;
 				 }
 
-				var x1 = (this.gradientUnits == 'objectBoundingBox'
+				var x1 = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.x() + bb.width() * this.attribute('x1').numValue()
 					: this.attribute('x1').toPixels('x'));
-				var y1 = (this.gradientUnits == 'objectBoundingBox'
+				var y1 = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.y() + bb.height() * this.attribute('y1').numValue()
 					: this.attribute('y1').toPixels('y'));
-				var x2 = (this.gradientUnits == 'objectBoundingBox'
+				var x2 = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.x() + bb.width() * this.attribute('x2').numValue()
 					: this.attribute('x2').toPixels('x'));
-				var y2 = (this.gradientUnits == 'objectBoundingBox'
+				var y2 = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.y() + bb.height() * this.attribute('y2').numValue()
 					: this.attribute('y2').toPixels('y'));
 
@@ -1799,6 +1847,12 @@
 		svg.Element.radialGradient = function(node) {
 			this.base = svg.Element.GradientBase;
 			this.base(node);
+			
+			this.attributesToInherit.push('cx');
+			this.attributesToInherit.push('cy');
+			this.attributesToInherit.push('r');
+			this.attributesToInherit.push('fx');
+			this.attributesToInherit.push('fy');
 
 			this.getGradient = function(ctx, element) {
 				var bb = element.getBoundingBox();
@@ -1807,27 +1861,27 @@
 				if (!this.attribute('cy').hasValue()) this.attribute('cy', true).value = '50%';
 				if (!this.attribute('r').hasValue()) this.attribute('r', true).value = '50%';
 
-				var cx = (this.gradientUnits == 'objectBoundingBox'
+				var cx = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.x() + bb.width() * this.attribute('cx').numValue()
 					: this.attribute('cx').toPixels('x'));
-				var cy = (this.gradientUnits == 'objectBoundingBox'
+				var cy = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.y() + bb.height() * this.attribute('cy').numValue()
 					: this.attribute('cy').toPixels('y'));
 
 				var fx = cx;
 				var fy = cy;
 				if (this.attribute('fx').hasValue()) {
-					fx = (this.gradientUnits == 'objectBoundingBox'
+					fx = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.x() + bb.width() * this.attribute('fx').numValue()
 					: this.attribute('fx').toPixels('x'));
 				}
 				if (this.attribute('fy').hasValue()) {
-					fy = (this.gradientUnits == 'objectBoundingBox'
+					fy = (this.gradientUnits() == 'objectBoundingBox'
 					? bb.y() + bb.height() * this.attribute('fy').numValue()
 					: this.attribute('fy').toPixels('y'));
 				}
 
-				var r = (this.gradientUnits == 'objectBoundingBox'
+				var r = (this.gradientUnits() == 'objectBoundingBox'
 					? (bb.width() + bb.height()) / 2.0 * this.attribute('r').numValue()
 					: this.attribute('r').toPixels());
 
@@ -2101,6 +2155,8 @@
 			this.renderChildren = function(ctx) {
 				this.x = this.attribute('x').toPixels('x');
 				this.y = this.attribute('y').toPixels('y');
+				if (this.attribute('dx').hasValue()) this.x += this.attribute('dx').toPixels('x');
+				if (this.attribute('dy').hasValue()) this.y += this.attribute('dy').toPixels('y');
 				this.x += this.getAnchorDelta(ctx, this, 0);
 				for (var i=0; i<this.children.length; i++) {
 					this.renderChild(ctx, this, i);
@@ -2124,31 +2180,29 @@
 			this.renderChild = function(ctx, parent, i) {
 				var child = parent.children[i];
 				if (child.attribute('x').hasValue()) {
-					child.x = child.attribute('x').toPixels('x') + this.getAnchorDelta(ctx, parent, i);
+					child.x = child.attribute('x').toPixels('x') + parent.getAnchorDelta(ctx, parent, i);
 					if (child.attribute('dx').hasValue()) child.x += child.attribute('dx').toPixels('x');
 				}
 				else {
-					if (this.attribute('dx').hasValue()) this.x += this.attribute('dx').toPixels('x');
-					if (child.attribute('dx').hasValue()) this.x += child.attribute('dx').toPixels('x');
-					child.x = this.x;
+					if (child.attribute('dx').hasValue()) parent.x += child.attribute('dx').toPixels('x');
+					child.x = parent.x;
 				}
-				this.x = child.x + child.measureText(ctx);
+				parent.x = child.x + child.measureText(ctx);
 
 				if (child.attribute('y').hasValue()) {
 					child.y = child.attribute('y').toPixels('y');
 					if (child.attribute('dy').hasValue()) child.y += child.attribute('dy').toPixels('y');
 				}
 				else {
-					if (this.attribute('dy').hasValue()) this.y += this.attribute('dy').toPixels('y');
-					if (child.attribute('dy').hasValue()) this.y += child.attribute('dy').toPixels('y');
-					child.y = this.y;
+					if (child.attribute('dy').hasValue()) parent.y += child.attribute('dy').toPixels('y');
+					child.y = parent.y;
 				}
-				this.y = child.y;
+				parent.y = child.y;
 
 				child.render(ctx);
 
 				for (var i=0; i<child.children.length; i++) {
-					this.renderChild(ctx, child, i);
+					parent.renderChild(ctx, child, i);
 				}
 			}
 		}
@@ -2434,7 +2488,7 @@
 					for (var j=0; j<cssClasses.length; j++) {
 						var cssClass = svg.trim(cssClasses[j]);
 						if (cssClass != '') {
-							var props = {};
+							var props = svg.Styles[cssClass] || {};
 							for (var k=0; k<cssProps.length; k++) {
 								var prop = cssProps[k].indexOf(':');
 								var name = cssProps[k].substr(0, prop);
@@ -2589,8 +2643,8 @@
 					var child = this.children[i];
 					if (typeof(child.path) != 'undefined') {
 						var transform = null;
-						if (child.attribute('transform').hasValue()) {
-							transform = new svg.Transform(child.attribute('transform').value);
+						if (child.style('transform', false, true).hasValue()) {
+							transform = new svg.Transform(child.style('transform', false, true).value);
 							transform.apply(ctx);
 						}
 						child.path(ctx);
@@ -2644,7 +2698,9 @@
 
 				// apply filters
 				for (var i=0; i<this.children.length; i++) {
-					this.children[i].apply(tempCtx, 0, 0, width + 2*px, height + 2*py);
+					if (typeof(this.children[i].apply) === 'function') {
+						this.children[i].apply(tempCtx, 0, 0, width + 2*px, height + 2*py);
+					}
 				}
 
 				// render on me
@@ -2754,7 +2810,7 @@
 			this.extraFilterDistance = this.blurRadius;
 
 			this.apply = function(ctx, x, y, width, height) {
-				if (typeof(stackBlurCanvasRGBA) == 'undefined') {
+				if (typeof(stackBlur.canvasRGBA) == 'undefined') {
 					svg.log('ERROR: StackBlur.js must be included for blur to work');
 					return;
 				}
@@ -2763,7 +2819,7 @@
 				ctx.canvas.id = svg.UniqueId();
 				ctx.canvas.style.display = 'none';
 				document.body.appendChild(ctx.canvas);
-				stackBlurCanvasRGBA(ctx.canvas.id, x, y, width, height, this.blurRadius);
+				stackBlur.canvasRGBA(ctx.canvas.id, x, y, width, height, this.blurRadius);
 				document.body.removeChild(ctx.canvas);
 			}
 		}
@@ -2886,7 +2942,7 @@
 
 					e.attribute('width', true).value = svg.opts['scaleWidth'];
 					e.attribute('height', true).value = svg.opts['scaleHeight'];
-					e.attribute('transform', true).value += ' scale('+(1.0/xRatio)+','+(1.0/yRatio)+')';
+					e.style('transform', true, true).value += ' scale('+(1.0/xRatio)+','+(1.0/yRatio)+')';
 				}
 
 				// clear and render
@@ -2995,20 +3051,23 @@
 		});
 
 		return svg;
-	}
-})();
+	};
 
-if (typeof(CanvasRenderingContext2D) != 'undefined') {
-	CanvasRenderingContext2D.prototype.drawSvg = function(s, dx, dy, dw, dh) {
-		canvg(this.canvas, s, {
-			ignoreMouse: true,
-			ignoreAnimation: true,
-			ignoreDimensions: true,
-			ignoreClear: true,
-			offsetX: dx,
-			offsetY: dy,
-			scaleWidth: dw,
-			scaleHeight: dh
-		});
+	if (typeof(CanvasRenderingContext2D) != 'undefined') {
+		CanvasRenderingContext2D.prototype.drawSvg = function(s, dx, dy, dw, dh) {
+			canvg(this.canvas, s, {
+				ignoreMouse: true,
+				ignoreAnimation: true,
+				ignoreDimensions: true,
+				ignoreClear: true,
+				offsetX: dx,
+				offsetY: dy,
+				scaleWidth: dw,
+				scaleHeight: dh
+			});
+		}
 	}
-}
+
+	return canvg;
+
+}));
