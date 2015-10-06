@@ -1768,7 +1768,7 @@ sub _FixupDashboardStatsFormats {
         #   (see bug##11532).
         local *STDERR;
         my $Dummy;
-        open *STDERR, '>', \$Dummy;
+        open *STDERR, '>', \$Dummy;    ## no critic
         $Stats = $StatsObject->StatsListGet( UserID => 1 );
     }
 
