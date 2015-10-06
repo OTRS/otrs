@@ -109,6 +109,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_MigrateUserNotificationPreferences,
         },
         {
+            Message => 'Add Email notification method to all event based notifications',
+            Command => \&_AddEmailNotificationMethod,
+        },
+        {
             Message => 'Migrate Output configurations to the new module locations',
             Command => \&_MigrateConfigs,
         },
@@ -856,9 +860,11 @@ sub _MigrateNotifications {
                 VisibleForAgentTooltip => [
                     'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".'
                 ],
-                Events     => ['NotificationNewTicket'],
-                Recipients => [ 'AgentMyQueues', 'AgentMyServices' ],
-                Transports => ['Email'],
+                Events                => ['NotificationNewTicket'],
+                Recipients            => [ 'AgentMyQueues', 'AgentMyServices' ],
+                SendOnOutOfOffice     => [1],
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
         ],
         'Agent::FollowUp' => [
@@ -868,10 +874,12 @@ sub _MigrateNotifications {
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".'
                 ],
-                Events     => ['NotificationFollowUp'],
-                Recipients => [ 'AgentOwner', 'AgentWatcher', 'AgentMyQueues', 'AgentMyServices' ],
-                LockID     => [1],                                                                    # unlocked
-                Transports => ['Email'],
+                Events                => ['NotificationFollowUp'],
+                Recipients            => [ 'AgentOwner', 'AgentWatcher', 'AgentMyQueues', 'AgentMyServices' ],
+                SendOnOutOfOffice     => [1],
+                LockID                => [1],                                                                 # unlocked
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
             {
                 Name                   => 'Ticket follow-up notification (locked)',
@@ -879,10 +887,12 @@ sub _MigrateNotifications {
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.'
                 ],
-                Events     => ['NotificationFollowUp'],
-                Recipients => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
-                LockID => [ 2, 3 ],                                                                   # locked
-                Transports => ['Email'],
+                Events            => ['NotificationFollowUp'],
+                Recipients        => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
+                SendOnOutOfOffice => [1],
+                LockID => [ 2, 3 ],    # locked
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
         ],
         'Agent::LockTimeout' => [
@@ -891,33 +901,38 @@ sub _MigrateNotifications {
                 VisibleForAgent => [1],
                 VisibleForAgentTooltip =>
                     ['You will receive a notification as soon as a ticket owned by you is automatically unlocked.'],
-                Events     => ['NotificationLockTimeout'],
-                Recipients => ['AgentOwner'],
-                Transports => ['Email'],
+                Events                => ['NotificationLockTimeout'],
+                Recipients            => ['AgentOwner'],
+                SendOnOutOfOffice     => [1],
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
         ],
         'Agent::OwnerUpdate' => [
             {
-                Name       => 'Ticket owner update notification',
-                Events     => ['NotificationOwnerUpdate'],
-                Recipients => ['AgentOwner'],
-                Transports => ['Email'],
+                Name              => 'Ticket owner update notification',
+                Events            => ['NotificationOwnerUpdate'],
+                Recipients        => ['AgentOwner'],
+                SendOnOutOfOffice => [1],
+                Transports        => ['Email'],
             },
         ],
         'Agent::ResponsibleUpdate' => [
             {
-                Name       => 'Ticket responsible update notification',
-                Events     => ['NotificationResponsibleUpdate'],
-                Recipients => ['AgentResponsible'],
-                Transports => ['Email'],
+                Name              => 'Ticket responsible update notification',
+                Events            => ['NotificationResponsibleUpdate'],
+                Recipients        => ['AgentResponsible'],
+                SendOnOutOfOffice => [1],
+                Transports        => ['Email'],
             },
         ],
         'Agent::AddNote' => [
             {
-                Name       => 'Ticket new note notification',
-                Events     => ['NotificationAddNote'],
-                Recipients => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
-                Transports => ['Email'],
+                Name              => 'Ticket new note notification',
+                Events            => ['NotificationAddNote'],
+                Recipients        => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
+                SendOnOutOfOffice => [1],
+                Transports        => ['Email'],
             },
         ],
         'Agent::Move' => [
@@ -926,45 +941,51 @@ sub _MigrateNotifications {
                 VisibleForAgent => [1],
                 VisibleForAgentTooltip =>
                     ['You will receive a notification if a ticket is moved into one of your "My Queues".'],
-                Events     => ['NotificationMove'],
-                Recipients => ['AgentMyQueues'],
-                Transports => ['Email'],
+                Events                => ['NotificationMove'],
+                Recipients            => ['AgentMyQueues'],
+                SendOnOutOfOffice     => [1],
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
         ],
         'Agent::PendingReminder' => [
             {
-                Name       => 'Ticket pending reminder notification (locked)',
-                Events     => ['NotificationPendingReminder'],
-                Recipients => [ 'AgentOwner', 'AgentResponsible' ],
-                OncePerDay => [1],
-                LockID     => [ 2, 3 ],                                          # locked
-                Transports => ['Email'],
+                Name              => 'Ticket pending reminder notification (locked)',
+                Events            => ['NotificationPendingReminder'],
+                Recipients        => [ 'AgentOwner', 'AgentResponsible' ],
+                SendOnOutOfOffice => [1],
+                OncePerDay        => [1],
+                LockID            => [ 2, 3 ],                                          # locked
+                Transports        => ['Email'],
             },
             {
-                Name       => 'Ticket pending reminder notification (unlocked)',
-                Events     => ['NotificationPendingReminder'],
-                Recipients => [ 'AgentOwner', 'AgentResponsible', 'AgentMyQueues' ],
-                OncePerDay => [1],
-                LockID     => [1],                                                     # unlocked
-                Transports => ['Email'],
+                Name              => 'Ticket pending reminder notification (unlocked)',
+                Events            => ['NotificationPendingReminder'],
+                Recipients        => [ 'AgentOwner', 'AgentResponsible', 'AgentMyQueues' ],
+                SendOnOutOfOffice => [1],
+                OncePerDay        => [1],
+                LockID            => [1],                                                     # unlocked
+                Transports        => ['Email'],
             },
         ],
         'Agent::Escalation' => [
             {
-                Name       => 'Ticket escalation notification',
-                Events     => ['NotificationEscalation'],
-                Recipients => [ 'AgentMyQueues', 'AgentWritePermissions' ],
-                OncePerDay => [1],
-                Transports => ['Email'],
+                Name              => 'Ticket escalation notification',
+                Events            => ['NotificationEscalation'],
+                Recipients        => [ 'AgentMyQueues', 'AgentWritePermissions' ],
+                SendOnOutOfOffice => [1],
+                OncePerDay        => [1],
+                Transports        => ['Email'],
             },
         ],
         'Agent::EscalationNotifyBefore' => [
             {
-                Name       => 'Ticket escalation warning notification',
-                Events     => ['NotificationEscalationNotifyBefore'],
-                Recipients => [ 'AgentMyQueues', 'AgentWritePermissions' ],
-                OncePerDay => [1],
-                Transports => ['Email'],
+                Name              => 'Ticket escalation warning notification',
+                Events            => ['NotificationEscalationNotifyBefore'],
+                Recipients        => [ 'AgentMyQueues', 'AgentWritePermissions' ],
+                SendOnOutOfOffice => [1],
+                OncePerDay        => [1],
+                Transports        => ['Email'],
             },
         ],
         'Agent::ServiceUpdate' => [
@@ -974,9 +995,11 @@ sub _MigrateNotifications {
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a ticket\'s service is changed to one of your "My Services".'
                 ],
-                Events     => ['NotificationServiceUpdate'],
-                Recipients => ['AgentMyServices'],
-                Transports => ['Email'],
+                Events                => ['NotificationServiceUpdate'],
+                Recipients            => ['AgentMyServices'],
+                SendOnOutOfOffice     => [1],
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
             },
         ],
     );
@@ -1744,6 +1767,66 @@ sub _MigrateUserNotificationPreferences {
             WHERE preferences_key LIKE(\'UserSend%\')
         ',
     );
+
+    return 1;
+}
+
+=item _AddEmailNotificationMethod()
+
+adds the transport method 'Email' for the ticket notifications
+where it is missing
+
+    _AddEmailNotificationMethod();
+
+=cut
+
+sub _AddEmailNotificationMethod {
+
+    # set transport name
+    my $TransportName = 'Email';
+    my $TransportsKey = 'Transports';
+
+    # get needed objects
+    my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+    my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
+
+    my %NotificationList = $NotificationEventObject->NotificationList();
+
+    # get notifications with Email transport enabled
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT DISTINCT(notification_id)
+            FROM notification_event_item
+            WHERE event_key = ? and event_value = ?;
+        ',
+        Bind => [ \$TransportsKey, \$TransportName ],
+    );
+
+    my %NotificationsWithEmail;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $NotificationsWithEmail{ $Row[0] } = 1;
+    }
+
+    # get notifications should add Email transport
+    my @UpdateNotifications;
+    NOTIFICATION:
+    for my $NotificationID ( sort keys %NotificationList ) {
+        next NOTIFICATION if $NotificationsWithEmail{$NotificationID};
+        push @UpdateNotifications, $NotificationID;
+    }
+
+    # loop over notifications needs to be updated
+    for my $NotificationID (@UpdateNotifications) {
+
+        # do the insert
+        return if !$DBObject->Do(
+            SQL => '
+                INSERT INTO notification_event_item
+                (notification_id, event_key, event_value)
+                values ( ?, ?, ? )',
+            Bind => [ \$NotificationID, \$TransportsKey, \$TransportName ],
+        );
+    }
 
     return 1;
 }

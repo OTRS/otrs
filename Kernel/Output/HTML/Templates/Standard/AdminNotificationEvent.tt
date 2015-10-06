@@ -202,21 +202,6 @@ $('.NotificationDelete').bind('click', function (Event) {
                     </fieldset>
                 </div>
             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#VisibleForAgent').bind('click', function (Event) {
-        var TooltipObject = $('#VisibleForAgentTooltip');
-
-        if ($(this).prop('checked')) {
-            TooltipObject.removeAttr('readonly');
-            TooltipObject.prop('value','');
-        }
-        else {
-            TooltipObject.attr('readonly', 'readonly');
-        }
-    });
-//]]></script>
-[% END %]
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -471,18 +456,26 @@ $('.NotificationDelete').bind('click', function (Event) {
                     <fieldset class="TableLike FixedLabel SpacingTop">
                         <legend><span>[% Data.TransportName | html %]</span></legend>
 [% RenderBlockStart("TransportRowEnabled") %]
+                        <label for="Transport[% Data.Transport | html %]">
+                            [% Translate("Enable this notification method") | html %]:
+                        </label>
                         <div class="Field">
-                            [% Data.EventsStrg %]
                             <input type="checkbox" name="Transports" id="Transport[% Data.Transport | html %]" value="[% Data.Transport | html %]" class="Validate_OneChecked [% Data.TransportsServerError %]" title="[% Translate("Transport") %]: [% Translate(Data.Transport) %]" [% Data.TransportChecked %] />
-                            <label for="Transport[% Data.Transport | html %]">
-                                [% Translate("Enable this notification method") | html %]
-                            </label>
                             <div id="Transport[% Data.Transport | html %]Error" class="TooltipErrorMessage">
                                 <p>[% Translate("At least one method is needed per notification.") | html %]</p>
                             </div>
                             <div id="Transport[% Data.Transport | html %]ServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("At least one method is needed per notification.") | html %]</p>
                             </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="AgentEnabledByDefault[% Data.Transport | html %]" class="AgentEnabledByDefault">
+                            [% Translate("Send by default") | html %]:
+                        </label>
+                        <div class="Field AgentEnabledByDefault">
+                            <input type="checkbox" name="AgentEnabledByDefault" id="AgentEnabledByDefault[% Data.Transport | html %]" value="[% Data.Transport | html %]"  title="" [% Data.AgentEnabledByDefaultChecked %] />
+                            <p class="FieldExplanation">[% Translate('Should the notification be sent to agents who have not yet made a choice in their preferences?') | html %]</p>
                         </div>
                         <div class="Clear"></div>
 
