@@ -66,6 +66,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.Init = function ($EditorArea) {
         var EditorID = '',
+            Editor,
             UserLanguage,
             UploadURL = '';
 
@@ -127,7 +128,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         /*eslint-disable camelcase */
-        CKEDITOR.replace(EditorID,
+        Editor = CKEDITOR.replace(EditorID,
         {
             customConfig: '', // avoid loading external config files
             defaultLanguage: UserLanguage,
@@ -192,6 +193,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
             // needed for client-side validation
             CKEDITOR.instances[EditorID].on('focus', function () {
+
+                Core.App.Publish('Event.UI.RichTextEditor.Focus', [Editor]);
+
                 if ($EditorArea.attr('class').match(/Error/)) {
                     window.setTimeout(function () {
                         CKEDITOR.instances[EditorID].updateElement();
