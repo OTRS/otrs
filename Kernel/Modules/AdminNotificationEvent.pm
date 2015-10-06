@@ -107,7 +107,7 @@ sub Run {
             CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID)
+            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -316,7 +316,7 @@ sub Run {
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID)
+            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -1247,17 +1247,30 @@ sub _Edit {
                     %Param,
                     );
 
+                # it should decide if the default value for the
+                # notification on AgentPreferences is enabled or not
+                my $AgentEnabledByDefault = 0;
+                if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
+                    $AgentEnabledByDefault = 1;
+                }
+                elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
+                    $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
+                }
+                my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+
                 # transport
                 $LayoutObject->Block(
                     Name => 'TransportRowEnabled',
                     Data => {
-                        Transport             => $Transport,
-                        TransportName         => $RegisteredTransports{$Transport}->{Name},
-                        TransportChecked      => $TransportChecked,
-                        SettingsString        => $TransportSettings,
-                        TransportsServerError => $Param{TransportsServerError},
+                        Transport                    => $Transport,
+                        TransportName                => $RegisteredTransports{$Transport}->{Name},
+                        TransportChecked             => $TransportChecked,
+                        SettingsString               => $TransportSettings,
+                        AgentEnabledByDefaultChecked => $AgentEnabledByDefaultChecked,
+                        TransportsServerError        => $Param{TransportsServerError},
                     },
                 );
+
             }
 
         }

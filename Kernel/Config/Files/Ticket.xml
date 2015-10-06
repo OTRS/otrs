@@ -9170,6 +9170,7 @@
                 <Item Key="Icon">fa fa-envelope</Item>
                 <Item Key="Prio">100</Item>
                 <Item Key="IsOTRSBusinessTransport">0</Item>
+                <Item Key="AgentEnabledByDefault">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9184,6 +9185,7 @@
                 <Item Key="Icon">fa fa-th-list</Item>
                 <Item Key="Prio">110</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
+                <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9198,6 +9200,7 @@
                 <Item Key="Icon">fa fa-mobile</Item>
                 <Item Key="Prio">120</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
+                <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>

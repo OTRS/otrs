@@ -1489,7 +1489,17 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 
@@ -1540,12 +1550,22 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
         <Data Key="event_key" Type="Quote">LockID</Data>
         <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">2</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 
@@ -1591,6 +1611,11 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
         <Data Key="event_key" Type="Quote">LockID</Data>
         <Data Key="event_value" Type="Quote">2</Data>
     </Insert>
@@ -1602,6 +1627,11 @@ Your OTRS Group
     <Insert Table="notification_event_item">
         <Data Key="notification_id">3</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 
@@ -1637,7 +1667,17 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 
@@ -1660,6 +1700,11 @@ Your OTRS Group
         <Data Key="notification_id">5</Data>
         <Data Key="event_key" Type="Quote">Recipients</Data>
         <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">5</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">5</Data>
@@ -1686,6 +1731,11 @@ Your OTRS Group
         <Data Key="notification_id">6</Data>
         <Data Key="event_key" Type="Quote">Recipients</Data>
         <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">6</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">6</Data>
@@ -1725,6 +1775,11 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
@@ -1761,7 +1816,17 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 
@@ -1789,6 +1854,11 @@ Your OTRS Group
         <Data Key="notification_id">9</Data>
         <Data Key="event_key" Type="Quote">Recipients</Data>
         <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">9</Data>
@@ -1843,6 +1913,11 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
         <Data Key="event_key" Type="Quote">OncePerDay</Data>
         <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
@@ -1884,6 +1959,11 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
         <Data Key="event_key" Type="Quote">OncePerDay</Data>
         <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
@@ -1917,6 +1997,11 @@ Your OTRS Group
         <Data Key="notification_id">12</Data>
         <Data Key="event_key" Type="Quote">Recipients</Data>
         <Data Key="event_value" Type="Quote">AgentWritePermissions</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">12</Data>
@@ -1961,7 +2046,17 @@ Your OTRS Group
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
         <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">AgentEnabledByDefault</Data>
         <Data Key="event_value" Type="Quote">Email</Data>
     </Insert>
 

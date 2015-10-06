@@ -47,6 +47,29 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
             }
             return false;
         });
+
+        function VisibleForAgentHandler() {
+            var TooltipObject = $('#VisibleForAgentTooltip');
+
+            if ($('#VisibleForAgent').prop('checked')) {
+                TooltipObject.removeAttr('readonly');
+                TooltipObject.prop('value','');
+
+                // show default transport value
+                $('.AgentEnabledByDefault').show();
+            }
+            else {
+                TooltipObject.attr('readonly', 'readonly');
+
+                // hide default transport value
+                $('.AgentEnabledByDefault').hide();
+            }
+        }
+
+        $('#VisibleForAgent').bind('click', VisibleForAgentHandler);
+
+        // Run on first view.
+        VisibleForAgentHandler();
     };
 
    /**
