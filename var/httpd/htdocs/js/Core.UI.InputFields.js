@@ -1140,6 +1140,11 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
+                // Handle RTE focus
+                Core.App.Subscribe('Event.UI.RichTextEditor.Focus', function() {
+                    CloseOpenSelections();
+                });
+
                 // Register handler for on focus event
                 $SearchObj.off('focus.InputField')
                     .on('focus.InputField', function () {
@@ -1231,6 +1236,9 @@ Core.UI.InputFields = (function (TargetNS) {
                     if ($SearchObj.attr('aria-expanded')) {
                         return false;
                     }
+
+                    // close all other selections
+                    CloseOpenSelections();
 
                     // Set ARIA flag if expanded
                     $SearchObj.attr('aria-expanded', true);
@@ -2127,8 +2135,12 @@ Core.UI.InputFields = (function (TargetNS) {
             Event.stopPropagation();
             if (
                 $('.InputField_ListContainer').length
-                && !$(document.activeElement).parents('.InputField_Container').length
-                && document.activeElement.tagName.toUpperCase() !== 'INPUT') {
+                &&
+                    (
+                    !$(document.activeElement).parents('.InputField_Container').length
+                    || document.activeElement.tagName.toUpperCase() !== 'INPUT'
+                    )
+                ) {
                 CloseOpenSelections();
             }
             return false;
