@@ -1,4 +1,12 @@
 #5.0.0.rc1 2015-??-??
+ - 2015-10-06 Updated qUnit to version 1.19.0.
+ - 2015-10-06 Updated nvd3 to version 1.8.1.
+ - 2015-10-06 Updated MomentJS to version 2.10.6.
+ - 2015-10-06 Updated jQuery Validate to version 1.14.0.
+ - 2015-10-06 Updated jQuery jsTree to version 3.2.1.
+ - 2015-10-06 Updated FullCalendar to version 2.4.0.
+ - 2015-10-06 Updated d3 to verion 3.5.6.
+ - 2015-10-06 Updated CanVG to version 1.4.
  - 2015-10-05 Fixed bug#[11517](http://bugs.otrs.org/show_bug.cgi?id=11517) - Error in password of customer user is blank with Oracle Database, thanks to Norihiro Tanaka.
  - 2015-10-05 Fixed bug#[11527](http://bugs.otrs.org/show_bug.cgi?id=11527) - Validation highlights wrong field.
  - 2015-10-05 Fixed bug#[11523](http://bugs.otrs.org/show_bug.cgi?id=11523) - Attachments from a selected template disappear when add another attachment.
