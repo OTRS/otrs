@@ -443,9 +443,11 @@ my @Tests = (
     {
         Name => 'RecipientAgent Customizable / No preference',
         Data => {
-            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
-            RecipientAgents => [$UserID],
-            VisibleForAgent => [1],
+            Events                => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents       => [$UserID],
+            VisibleForAgent       => [1],
+            Transports            => ['Email'],
+            AgentEnabledByDefault => ['Email'],
         },
         Config => {
             Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
