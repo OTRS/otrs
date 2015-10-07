@@ -1986,12 +1986,11 @@ sub _TimeOutput {
         if ( $Param{Output} eq 'View' ) {
             $TimeOutput{TimeScaleYAxis} = $Self->_TimeScaleYAxis();
         }
-        else {
-            %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
-                SelectedXAxisValue => $Param{SelectedXAxisValue},
-                SortReverse        => 1,
-            );
-        }
+
+        %TimeScaleBuildSelection = $Self->_TimeScaleBuildSelection(
+            SelectedXAxisValue => $Param{SelectedXAxisValue},
+            SortReverse        => 1,
+        );
 
         $TimeOutput{TimeScaleUnit} = $LayoutObject->BuildSelection(
             %TimeScaleBuildSelection,
