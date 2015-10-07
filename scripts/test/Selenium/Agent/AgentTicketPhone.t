@@ -169,7 +169,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket id $TicketID is deleted"
+            "Ticket with ticket id $TicketID is deleted",
         );
 
         # delete created test customer user
