@@ -379,6 +379,8 @@ sub HandleLanguage {
                 Source   => $String,
             };
         }
+
+        return 1;
     }
 
     # Language file, which only contains the OTRS core translations
@@ -403,7 +405,7 @@ sub HandleLanguage {
         },
     );
     if ( $TranslitLanguagesMap{$Language} ) {
-        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );
+        $TranslitObject = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic
         $TranslitLanguageCoreObject = Kernel::Language->new(
             UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
             TranslationFile => 1,
@@ -423,6 +425,7 @@ sub HandleLanguage {
 
     my @TranslationStrings;
 
+    STRING:
     for my $OriginalTranslationString (@OriginalTranslationStrings) {
 
         my $String = $OriginalTranslationString->{Source};
@@ -482,6 +485,8 @@ sub HandleLanguage {
         TargetFile         => $TargetFile,
         TranslationStrings => \@TranslationStrings,
     );
+
+    return 1;
 }
 
 sub LoadPOFile {
@@ -562,6 +567,8 @@ sub WritePOFile {
 
     Locale::PO->save_file_fromarray( $Param{TargetPOFile}, $POEntries )
         || die "Could not save file $Param{TargetPOFile}: $!";
+
+    return 1;
 }
 
 sub WritePOTFile {
@@ -761,6 +768,8 @@ EOF
         Content  => \$NewOut,
         Mode     => 'utf8',        # binmode|utf8
     );
+
+    return 1;
 }
 
 1;
