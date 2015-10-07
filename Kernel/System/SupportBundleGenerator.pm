@@ -349,6 +349,7 @@ sub GenerateCustomFilesArchive {
         PGP::Key::Password
         Customer::AuthModule::DB::CustomerPassword
         Customer::AuthModule::Radius::Password
+        PublicFrontend::AuthPassword
     );
 
     STRING:
