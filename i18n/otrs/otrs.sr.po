@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-24 15:06+0000\n"
+"PO-Revision-Date: 2015-10-07 17:42+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -4179,7 +4179,7 @@ msgstr "Ова наредба ће бити извршена. ARG[0] је бро
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
-msgstr "Обриши тикета"
+msgstr "Обриши тикете"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4219,7 +4219,7 @@ msgstr "УПОЗОРЕЊЕ: Употребили сте опцију за бри
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr ""
+msgstr "Упозорење: Обухваћено је %s тикета али само %s може бити измењено током једног извршавања посла!"
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -5271,7 +5271,7 @@ msgstr "Админ"
 
 #. Template: AdminNavigationBar
 msgid "Agent Management"
-msgstr "Управљање запосленима"
+msgstr "Управљање оператерима"
 
 #. Template: AdminNavigationBar
 msgid "Queue Settings"
@@ -5446,19 +5446,29 @@ msgstr "Методе обавештавања"
 msgid ""
 "These are the possible methods that can be used to send this notification to"
 " each of the recipients. Please select at least one method below."
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Transport"
-msgstr "Транспорт"
+msgstr "Ово су могуће методе које се могу користити за слање обавештења сваком примаоцу. Молимо вас да изаберете бар једну методу од понуђених."
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
 msgstr "Активирај овај метод обавештавања"
 
 #. Template: AdminNotificationEvent
+msgid "Transport"
+msgstr "Транспорт"
+
+#. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
 msgstr "Потребан је најмање један метод по обавештењу."
+
+#. Template: AdminNotificationEvent
+msgid "Send by default"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5494,7 +5504,7 @@ msgstr "Да ли заиста желите да избришете овај ј�
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Референца ознаке"
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -5521,45 +5531,45 @@ msgstr "Да видите првих 5 линија поруке (последњ
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "Атрибути података актуелног клијента корисника"
 
 #. Template: AdminNotificationEvent
 msgid "Attibutes of the current ticket owner's user data"
-msgstr ""
+msgstr "Атрибути података актуелног власника тикета"
 
 #. Template: AdminNotificationEvent
 msgid "Attibutes of the current ticket responsible's user data"
-msgstr ""
+msgstr "Атрибути података актуелног одговорног за тикет"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "Атрибути актуелног корисника оператера који је тражио ову акцију"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Атрибути корисника примаоца за обавештење"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "Атрибути података тикета"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Вредности интерних кључева динамичких поља тикета"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr ""
+msgstr "Приказане вредности динамичких поља, корисно за падајућа и поља са вишеструким избором."
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Пример обавештења"
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "Имејл адресе примаоца"
+msgid "Additional recipient email addresses"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5570,6 +5580,10 @@ msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
 msgstr "Чланак је креиран и обавештење послато клијенту или на другу имејл адресу."
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -5592,7 +5606,7 @@ msgstr "Прочитај документацију"
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr ""
+msgstr "%s редовно се повезује са „cloud.otrs.com” за проверу доступних ажурирања и исправности интерних уговора."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
@@ -5882,7 +5896,7 @@ msgstr "Својства само за %s клијенте"
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
-msgstr ""
+msgstr "Са %s можете имати користи од следећих опционих функција. Молимо да контактирате %s уколико су вам потребне додатне информације."
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -8217,29 +8231,29 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "Покренут „OTRS” сервис је неопходан за исправно функционисање система."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr ""
+msgstr "Покретање „OTRS” сервиса"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job"
 " will check every 5 minutes if the OTRS Daemon is running and start it if "
 "needed."
-msgstr ""
+msgstr "Осигурава да датотека „%s” постоји (без „.dist” екстензије). Овај крон посао ће проверавати сваких 5 минута да ли „OTRS” сервис ради и покреће га ако је потребно."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr ""
+msgstr "Извршите „%s start” да би били сигурни да су крон послови за „OTRS” корисника увек активни."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "After 5 minutes, check that the OTRS Daemon is running in the system "
 "('bin/otrs.Daemon.pl status')."
-msgstr ""
+msgstr "После 5 минута, проверава да ли „OTRS” сервис функционише у систему („bin/otrs.Daemon.pl status”)."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -8664,6 +8678,24 @@ msgid "Create an Article"
 msgstr "Креирај чланак"
 
 #. Template: AgentTicketActionCommon
+msgid "Inform agents"
+msgstr "Обавести оператере"
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved agents"
+msgstr "Обавести укључене оператере"
+
+#. Template: AgentTicketActionCommon
+msgid ""
+"Here you can select additional agents which should receive a notification "
+"regarding the new article."
+msgstr "Овде можете изабрати додатне оператере који треба да примају обавештења у вези са новим чланком."
+
+#. Template: AgentTicketActionCommon
+msgid "Text will also be received by:"
+msgstr "Текст ће примити и:"
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr "Провера правописа"
 
@@ -8678,28 +8710,6 @@ msgstr "Подешавање шаблона ће преписати сваки �
 #. Template: AgentTicketActionCommon
 msgid "Note type"
 msgstr "Тип напомене"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "Обавести оператера"
-
-#. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "Опциони"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "Обавести релевантне оператере"
-
-#. Template: AgentTicketActionCommon
-msgid ""
-"Here you can select additional agents which should receive a notification "
-"regarding the new article."
-msgstr "Овде можете изабрати додатне оператере који треба да примају обавештења у вези са новим чланком."
-
-#. Template: AgentTicketActionCommon
-msgid "Note will be (also) received by:"
-msgstr "Напомену ће (такође) примити:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9822,7 +9832,7 @@ msgstr "Нова активност у једном од надгледаних 
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
-msgstr ""
+msgstr "Информације о „OTRS” сервису"
 
 #. Template: FooterJS
 msgid ""
@@ -10457,6 +10467,10 @@ msgstr "Молимо контактирајте вашег администра�
 msgid "(in process)"
 msgstr "(у току)"
 
+#. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+msgid "Please specify an end date that is after the start date."
+msgstr "Молимо да одредите датум завршетка који је после датума почетка."
+
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
 msgstr "Молимо да обезбедите нову лозинку!"
@@ -10498,6 +10512,18 @@ msgid "There is something wrong with your time selection."
 msgstr "Нешто није у реду са вашим избором времена."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr "Молимо да изаберете само један елемент или дозволите измене у време генерисања старта!"
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr "Молимо да изаберете један елемент за X-осу."
 
@@ -10508,12 +10534,6 @@ msgstr "Можете користити само један временски �
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
 msgstr "Можете да користите само један или два елемента за Y осу."
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
-msgstr "Молимо да изаберете само један елемент или дозволите измене у време генерисања старта!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
@@ -11852,6 +11872,10 @@ msgid ""
 msgstr "Дозвољава подешавање статуса новог тикета на приказаном екрану помереног тикета у интерфејсу оператера."
 
 #. SysConfig
+msgid "Arabic (Saudi Arabia)"
+msgstr "Арапски (Саудијска арабија)"
+
+#. SysConfig
 msgid "Archive state changed: \"%s\""
 msgstr "Промењено стање архивирања: \"%s\""
 
@@ -11936,6 +11960,10 @@ msgid "Builds an article index right after the article's creation."
 msgstr "Генерише индекс чланака одмах по креирању чланка."
 
 #. SysConfig
+msgid "Bulgarian"
+msgstr "Бугарски"
+
+#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
@@ -11971,6 +11999,10 @@ msgstr "Време кеширања у секундама за излазни м
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
 msgstr "Време кеширања у секундама за веб сервис конфигурације позадине."
+
+#. SysConfig
+msgid "Catalan"
+msgstr "Каталонски"
 
 #. SysConfig
 msgid "Change password"
@@ -12029,6 +12061,14 @@ msgstr "Проверава доступност „OTRS” Пословног р
 #. SysConfig
 msgid "Checks the entitlement status of OTRS Business Solution™."
 msgstr "Проверава стаус права коришћења „OTRS” Пословног решења."
+
+#. SysConfig
+msgid "Chinese (Simplified)"
+msgstr "Кинески (упрошћено)"
+
+#. SysConfig
+msgid "Chinese (Traditional)"
+msgstr "Кинески (традиционално)"
 
 #. SysConfig
 msgid ""
@@ -12318,6 +12358,10 @@ msgid "Create new process ticket"
 msgstr "Креирај нови процес за тикет"
 
 #. SysConfig
+msgid "Croatian"
+msgstr "Хрватски"
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr "Прилагођени RSS извор"
 
@@ -12390,6 +12434,14 @@ msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
 msgstr "Подесиве зауставне речи за индекс комплетног текста. Ове речи ће бити уклоњене из индекса претраге."
+
+#. SysConfig
+msgid "Czech"
+msgstr "Чешки"
+
+#. SysConfig
+msgid "Danish"
+msgstr "Дански"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -12631,16 +12683,15 @@ msgstr "Одређује сва Х-заглавља која треба скен
 
 #. SysConfig
 msgid ""
-"Defines all the languages that are available to the application. The "
-"Key/Content pair links the front-end display name to the appropriate "
-"language PM file. The \"Key\" value should be the base-name of the PM file "
-"(i.e. de.pm is the file, then de is the \"Key\" value). The \"Content\" "
-"value should be the display name for the front-end. Specify any own-defined "
-"language here (see the developer documentation http://otrs.github.io/doc/ "
-"for more infomation). Please remember to use the HTML equivalents for non-"
-"ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use "
-"the &ouml; symbol)."
-msgstr ""
+"Defines all the languages that are available to the application. Specify "
+"only English names of languages here."
+msgstr "Одређује све језике који су доступни апликацији. Овде унесите имена језика само на енглеском."
+
+#. SysConfig
+msgid ""
+"Defines all the languages that are available to the application. Specify "
+"only native names of languages here."
+msgstr "Одређује све језике који су доступни апликацији. Овде унесите имена језика само на матичном језику."
 
 #. SysConfig
 msgid ""
@@ -14075,7 +14126,7 @@ msgstr "Одређује број знакова по линији који се
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
-msgstr ""
+msgstr "Одређује колико дана ће се чувати датотеке историјата рада системског сервиса"
 
 #. SysConfig
 msgid ""
@@ -14930,6 +14981,18 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr "Активира функцију надзора тикета само за излистане групе."
 
 #. SysConfig
+msgid "English (Canada)"
+msgstr "Енглески (Канада)"
+
+#. SysConfig
+msgid "English (United Kingdom)"
+msgstr "Енглески (Уједињено Краљевство)"
+
+#. SysConfig
+msgid "English (United States)"
+msgstr "Енглески (Сједињене Државе)"
+
+#. SysConfig
 msgid "Enroll process for this ticket"
 msgstr "Упиши процес за овај тикет"
 
@@ -14982,6 +15045,10 @@ msgid "EscalationTime"
 msgstr "Време ескалације"
 
 #. SysConfig
+msgid "Estonian"
+msgstr "Естонски"
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14999,6 +15066,11 @@ msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr "Модул догађаја који извршава ажурирање на индексу тикета ради промене назива реда ако је потребно и ако је стварно употребљена статичка база података."
+
+#. SysConfig
+msgid ""
+"Event module that updates customer user search profiles if login changes."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15102,6 +15174,10 @@ msgid "Filter incoming emails."
 msgstr "Филтрирање долазних порука."
 
 #. SysConfig
+msgid "Finnish"
+msgstr "Фински"
+
+#. SysConfig
 msgid "First Queue"
 msgstr "Први ред"
 
@@ -15152,6 +15228,14 @@ msgstr "Принудно откључава тикете после премеш
 #. SysConfig
 msgid "Forwarded to \"%s\"."
 msgstr "Прослеђено \"%s\"."
+
+#. SysConfig
+msgid "French"
+msgstr "Француски"
+
+#. SysConfig
+msgid "French (Canada)"
+msgstr "Француски (Канада)"
 
 #. SysConfig
 msgid ""
@@ -15206,6 +15290,10 @@ msgstr ""
 #. SysConfig
 msgid "Fulltext search"
 msgstr "Текст за претрагу"
+
+#. SysConfig
+msgid "Galician"
+msgstr "Галицијски"
 
 #. SysConfig
 msgid ""
@@ -15271,6 +15359,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr "Регистрација модула општег интерфејса за транспортни слој."
 
 #. SysConfig
+msgid "German"
+msgstr "Немачки"
+
+#. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
@@ -15298,6 +15390,14 @@ msgid ""
 msgstr "Дозвољава приступ, ако се ИД клијента на тикету поклапа са ИД клијента корисника и клијент корисник  има групне дозволе за ред у ком је тикет."
 
 #. SysConfig
+msgid "Greek"
+msgstr "Грчки"
+
+#. SysConfig
+msgid "Hebrew"
+msgstr "Хебрејски"
+
+#. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). Runtime will do full-text searches on live data (it works fine"
@@ -15306,6 +15406,14 @@ msgid ""
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
 msgstr ""
+
+#. SysConfig
+msgid "Hindi"
+msgstr "Хинди"
+
+#. SysConfig
+msgid "Hungarian"
+msgstr "Мађарски"
 
 #. SysConfig
 msgid ""
@@ -15755,10 +15863,18 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Italian"
+msgstr "Италијански"
+
+#. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr "Италијанске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге."
+
+#. SysConfig
+msgid "Japanese"
+msgstr "Јапански"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -15771,6 +15887,10 @@ msgstr "Презиме, Име"
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
 msgstr "Презиме, Име (Пријава корисника)"
+
+#. SysConfig
+msgid "Latvian"
+msgstr "Летонски"
 
 #. SysConfig
 msgid "Left"
@@ -15881,6 +16001,10 @@ msgid "List view"
 msgstr "Преглед листе"
 
 #. SysConfig
+msgid "Lithuanian"
+msgstr "Литвански"
+
+#. SysConfig
 msgid "Lock / unlock this ticket"
 msgstr "Закључај / откључај овај тикет"
 
@@ -15920,6 +16044,10 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
 msgstr ""
+
+#. SysConfig
+msgid "Malay"
+msgstr "Малајски"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -16157,6 +16285,10 @@ msgid "NameX"
 msgstr "ИмеХ"
 
 #. SysConfig
+msgid "Nederlands"
+msgstr "Холандски"
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "Нови тикет [%s] отворен (Q=%s;P=%s;S=%s)."
 
@@ -16191,6 +16323,10 @@ msgstr "Следећи могући статус тикета након дод�
 #. SysConfig
 msgid "None"
 msgstr "Ни један"
+
+#. SysConfig
+msgid "Norwegian"
+msgstr "Норвешки"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -16484,8 +16620,24 @@ msgid "Permitted width for compose note windows."
 msgstr "Дозвољена ширина прозора за писање напомене."
 
 #. SysConfig
+msgid "Persian"
+msgstr "Персијски"
+
+#. SysConfig
 msgid "Picture-Upload"
 msgstr "Отпремање слике"
+
+#. SysConfig
+msgid "Polish"
+msgstr "Пољски"
+
+#. SysConfig
+msgid "Portuguese"
+msgstr "Португалски"
+
+#. SysConfig
+msgid "Portuguese (Brasil)"
+msgstr "Португалски (Бразил)"
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16727,6 +16879,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Russian"
+msgstr "Руски"
+
+#. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "Слање S/MIME сертификата"
 
@@ -16850,6 +17006,14 @@ msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Notfication (Event)\"."
 msgstr "Шаље обавештења која су у административном интерфејсу конфигурисана под „Обавештење (догађај)”."
+
+#. SysConfig
+msgid "Serbian Cyrillic"
+msgstr "Српски ћирилица"
+
+#. SysConfig
+msgid "Serbian Latin"
+msgstr "Српски латиница"
 
 #. SysConfig
 msgid "Service view"
@@ -17930,19 +18094,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr ""
+msgstr "Приказује информације како покренути „OTRS” сервис"
 
 #. SysConfig
 msgid ""
 "Shows the activated ticket attributes in the customer interface (0 = "
 "Disabled and 1 = Enabled)."
-msgstr ""
+msgstr "Приказује атрибуте активираних тикета у интерфејсу клијента (0 = Онемогућено, 1 = Омогућено)."
 
 #. SysConfig
 msgid ""
 "Shows the articles sorted normally or in reverse, under ticket zoom in the "
 "agent interface."
-msgstr ""
+msgstr "Приказује чланке сортирано нормално или обрнуто, на детаљном приказу тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -18080,6 +18244,14 @@ msgid "Skin"
 msgstr "Изглед"
 
 #. SysConfig
+msgid "Slovak"
+msgstr "Словачки"
+
+#. SysConfig
+msgid "Slovenian"
+msgstr "Словеначки"
+
+#. SysConfig
 msgid "SolutionDiffInMin"
 msgstr ""
 
@@ -18120,6 +18292,18 @@ msgstr "Пример подешавања за Spam Assassin. Игнорише �
 #. SysConfig
 msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr "Пример подешавања за Spam Assassin. Премешта означене имејлове у ред за непожељне."
+
+#. SysConfig
+msgid "Spanish"
+msgstr "Шпански"
+
+#. SysConfig
+msgid "Spanish (Colombia)"
+msgstr "Шпански (Колумбија)"
+
+#. SysConfig
+msgid "Spanish (Mexico)"
+msgstr "Шпански (Мексико)"
 
 #. SysConfig
 msgid ""
@@ -18315,6 +18499,14 @@ msgstr "Уклања празне линије у приказу тикета н
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Уклања празне линије у приказу тикета на прегледу услуга."
+
+#. SysConfig
+msgid "Swahili"
+msgstr ""
+
+#. SysConfig
+msgid "Swedish"
+msgstr "Шведски"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -18574,6 +18766,10 @@ msgid "Tree view"
 msgstr "Приказ у облику стабла"
 
 #. SysConfig
+msgid "Turkish"
+msgstr "Турски"
+
+#. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
@@ -18595,6 +18791,10 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr "Укључивање провере удаљене IP адресе. Треба бити подешено на \"Не\" ако се апликација користи, на пример преко proxy фарме или dialup конекције, зато што је удаљена IP адреса углавном другачија за захтеве."
+
+#. SysConfig
+msgid "Ukrainian"
+msgstr "Украјински"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -18683,6 +18883,10 @@ msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
 msgstr "Користи richtekt формат за преглед и уређивање: чланака, поздрава, потписа, стандардних шаблона, аутоматских одговора и обавештења."
+
+#. SysConfig
+msgid "Vietnam"
+msgstr "Вијетнамски"
 
 #. SysConfig
 msgid "View performance benchmark results."

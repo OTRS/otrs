@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-24 15:06+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-10-07 05:32+0000\n"
+"Last-Translator: KENNY CHEAH <otrssdnbhd@gmail.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1092,7 +1092,7 @@ msgstr "Syarikat pelanggan dikemaskini!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Nota: Syarikat tidak sah!"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1152,7 +1152,7 @@ msgstr "Direktori"
 
 #. Template: AAABase
 msgid "Signed"
-msgstr "Ditandatngani"
+msgstr "Ditandatangani"
 
 #. Template: AAABase
 msgid "Sign"
@@ -1291,7 +1291,7 @@ msgstr "Hello %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Alamat e-mel tidak dibenarkan mendaftar. Sila hubungi kakitangan sokongan."
 
 #. Template: AAABase
 msgid ""
@@ -1368,7 +1368,7 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Pakej tidak disahkan oleh Kumpulan OTRS! Ia adalah disyorkan untuk tidak menggunakan pakej ini."
 
 #. Template: AAABase
 msgid ""
@@ -1381,11 +1381,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Tanda"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Menyahtanda"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1481,7 +1481,7 @@ msgstr "OTRS Daemon tidak berjalan."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Tidak dapat menghubungi pelayan pendaftaran. Sila cuba sebentar lagi."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
@@ -4825,7 +4825,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "Nama skema tindak balas"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
@@ -4944,7 +4944,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "Tambah baru unsur peringkat pertama"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5122,7 +5122,7 @@ msgstr "Versi"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr "Mencipta masa"
+msgstr "Masa cipta"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
@@ -5286,11 +5286,11 @@ msgstr "sistem Pentadbiran"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Buku panduan Pentadbiran Atas Talian"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Pengurusan Pemberitahuan Tiket "
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5298,11 +5298,11 @@ msgstr "Tambah pemberitahuan"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Eksport pemberitahuan"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import konfigurasi"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5313,15 +5313,15 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Tulis ganti pemberitahuan sedia ada?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Muat naik konfigurasi Pemberitahuan"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Import konfigurasi Pemberitahuan"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5329,7 +5329,7 @@ msgstr "Padam pemberitahuan ini"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Anda pasti mahu memadam pemberitahuan ini?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -6318,7 +6318,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
-msgstr ""
+msgstr "Medan"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -6348,7 +6348,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
+msgstr "Pameran"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Field Details"
@@ -6360,7 +6360,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "Laluan"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
@@ -6394,7 +6394,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "Aktiviti-aktiviti"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
@@ -6646,7 +6646,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Keadaan"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -6668,7 +6668,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "Peralihan"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
@@ -8663,6 +8663,24 @@ msgid "Create an Article"
 msgstr "Cipta Artikel"
 
 #. Template: AgentTicketActionCommon
+msgid "Inform agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid ""
+"Here you can select additional agents which should receive a notification "
+"regarding the new article."
+msgstr "Di sini anda boleh memilih ejen tambahan yang sepatutnya menerima pemberitahuan mengenai artikel baru."
+
+#. Template: AgentTicketActionCommon
+msgid "Text will also be received by:"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr "semak ejaan"
 
@@ -8677,28 +8695,6 @@ msgstr "Menetapkan templat akan menulis ganti sebarang teks atau lampiran."
 #. Template: AgentTicketActionCommon
 msgid "Note type"
 msgstr "Jenis Nota"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "Memaklumkan Agen."
-
-#. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "Pilihan"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "Beritahu Ejen terlibat"
-
-#. Template: AgentTicketActionCommon
-msgid ""
-"Here you can select additional agents which should receive a notification "
-"regarding the new article."
-msgstr "Di sini anda boleh memilih ejen tambahan yang sepatutnya menerima pemberitahuan mengenai artikel baru."
-
-#. Template: AgentTicketActionCommon
-msgid "Note will be (also) received by:"
-msgstr "Nota akan (juga) diterima oleh:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9010,7 +9006,7 @@ msgstr ""
 
 #. Template: AgentTicketProcess
 msgid "Process"
-msgstr ""
+msgstr "Proses"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
@@ -10456,6 +10452,10 @@ msgstr ""
 msgid "(in process)"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+msgid "Please specify an end date that is after the start date."
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
 msgstr ""
@@ -11851,6 +11851,10 @@ msgid ""
 msgstr "Membolehkan untuk menetapkan status tiket baru di dalam skrin pindahan tiket di dalam interface ejen."
 
 #. SysConfig
+msgid "Arabic (Saudi Arabia)"
+msgstr ""
+
+#. SysConfig
 msgid "Archive state changed: \"%s\""
 msgstr "Status berubah Arkib: \"%s\""
 
@@ -11935,6 +11939,10 @@ msgid "Builds an article index right after the article's creation."
 msgstr "Membina indeks artikel sejurus selepas penciptaan artikel."
 
 #. SysConfig
+msgid "Bulgarian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
@@ -11970,6 +11978,10 @@ msgstr ""
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
 msgstr "Masa Cache dalam saat untuk backend web config perkhidmatan."
+
+#. SysConfig
+msgid "Catalan"
+msgstr ""
 
 #. SysConfig
 msgid "Change password"
@@ -12027,6 +12039,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Checks the entitlement status of OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Traditional)"
 msgstr ""
 
 #. SysConfig
@@ -12317,6 +12337,10 @@ msgid "Create new process ticket"
 msgstr ""
 
 #. SysConfig
+msgid "Croatian"
+msgstr ""
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr ""
 
@@ -12388,6 +12412,14 @@ msgstr "Pelanggan <-> Kumpulan"
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
+msgstr ""
+
+#. SysConfig
+msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid "Danish"
 msgstr ""
 
 #. SysConfig
@@ -12630,15 +12662,14 @@ msgstr "Mentakrifkan semua X-headers yang perlu diimbas."
 
 #. SysConfig
 msgid ""
-"Defines all the languages that are available to the application. The "
-"Key/Content pair links the front-end display name to the appropriate "
-"language PM file. The \"Key\" value should be the base-name of the PM file "
-"(i.e. de.pm is the file, then de is the \"Key\" value). The \"Content\" "
-"value should be the display name for the front-end. Specify any own-defined "
-"language here (see the developer documentation http://otrs.github.io/doc/ "
-"for more infomation). Please remember to use the HTML equivalents for non-"
-"ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use "
-"the &ouml; symbol)."
+"Defines all the languages that are available to the application. Specify "
+"only English names of languages here."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines all the languages that are available to the application. Specify "
+"only native names of languages here."
 msgstr ""
 
 #. SysConfig
@@ -14929,6 +14960,18 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr "Mengaktifkan fungsi pantauan tiket hanya untuk kumpulan yang tersenarai."
 
 #. SysConfig
+msgid "English (Canada)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United Kingdom)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
 msgid "Enroll process for this ticket"
 msgstr ""
 
@@ -14981,6 +15024,10 @@ msgid "EscalationTime"
 msgstr ""
 
 #. SysConfig
+msgid "Estonian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14997,6 +15044,11 @@ msgstr "Pendaftaran modul acara. Untuk lebih prestasi anda boleh mentakrifkan ac
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Event module that updates customer user search profiles if login changes."
 msgstr ""
 
 #. SysConfig
@@ -15101,6 +15153,10 @@ msgid "Filter incoming emails."
 msgstr "Penapis emel masuk."
 
 #. SysConfig
+msgid "Finnish"
+msgstr ""
+
+#. SysConfig
 msgid "First Queue"
 msgstr ""
 
@@ -15151,6 +15207,14 @@ msgstr "Memaksa untuk membuka tiket selepas dipindahkan ke aturan yang lain."
 #. SysConfig
 msgid "Forwarded to \"%s\"."
 msgstr "dikemukakan kepada \"%s\"."
+
+#. SysConfig
+msgid "French"
+msgstr ""
+
+#. SysConfig
+msgid "French (Canada)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15204,6 +15268,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search"
+msgstr ""
+
+#. SysConfig
+msgid "Galician"
 msgstr ""
 
 #. SysConfig
@@ -15270,6 +15338,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr "Pendaftaran modul GenericInterface untuk lapisan pengangkutan."
 
 #. SysConfig
+msgid "German"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
@@ -15297,6 +15369,14 @@ msgid ""
 msgstr "Memberi akses, jika ID Pelanggan dari tiket padan dengan ID Pengguna pelanggan dan pengguna pelanggan ada kebenaran kumpulan pada aturan yang memiliki tiket itu."
 
 #. SysConfig
+msgid "Greek"
+msgstr ""
+
+#. SysConfig
+msgid "Hebrew"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). Runtime will do full-text searches on live data (it works fine"
@@ -15304,6 +15384,14 @@ msgid ""
 "an index after article creation, increasing fulltext searches about 50%. To "
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
+msgstr ""
+
+#. SysConfig
+msgid "Hindi"
+msgstr ""
+
+#. SysConfig
+msgid "Hungarian"
 msgstr ""
 
 #. SysConfig
@@ -15754,9 +15842,17 @@ msgid ""
 msgstr "Ia adalah mungkin untuk mengkonfigurasi tema yang berbeza, sebagai contoh untuk membezakan antara ejen dan pelanggan, yang akan digunakan atas dasar per domain dalam aplikasi. Menggunakan ungkapan biasa (regex), anda boleh mengkonfigurasi sepasang Kunci / Kandungan untuk dipadankan domain. Nilai dalam \"Key\" harus sepadan domain, dan nilai dalam \"Content\" harus menjadi tema yang sah pada sistem anda. Sila lihat catatan contoh untuk bentuk yang betul daripada regex."
 
 #. SysConfig
+msgid "Italian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
+msgstr ""
+
+#. SysConfig
+msgid "Japanese"
 msgstr ""
 
 #. SysConfig
@@ -15769,6 +15865,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
+msgstr ""
+
+#. SysConfig
+msgid "Latvian"
 msgstr ""
 
 #. SysConfig
@@ -15880,6 +15980,10 @@ msgid "List view"
 msgstr ""
 
 #. SysConfig
+msgid "Lithuanian"
+msgstr ""
+
+#. SysConfig
 msgid "Lock / unlock this ticket"
 msgstr ""
 
@@ -15919,6 +16023,10 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
 msgstr "Membuatkan pengurusan sesi menggunakan cookies html. Jika cookies html dimatikan atau browser klien matikan cookies html, sistem akan berjalan seperti biasa dan melampirkan id sesi kepada pautan."
+
+#. SysConfig
+msgid "Malay"
+msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -16156,6 +16264,10 @@ msgid "NameX"
 msgstr "NamaX"
 
 #. SysConfig
+msgid "Nederlands"
+msgstr ""
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr ""
 
@@ -16189,6 +16301,10 @@ msgstr "Status tiket yang mungkin yang seterusnya selepas menambah nita telefon 
 
 #. SysConfig
 msgid "None"
+msgstr ""
+
+#. SysConfig
+msgid "Norwegian"
 msgstr ""
 
 #. SysConfig
@@ -16483,8 +16599,24 @@ msgid "Permitted width for compose note windows."
 msgstr "Kelebaran yang diberi kebenaran untuk karan nota windows."
 
 #. SysConfig
+msgid "Persian"
+msgstr ""
+
+#. SysConfig
 msgid "Picture-Upload"
 msgstr "Muatnaik Gambar"
+
+#. SysConfig
+msgid "Polish"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese (Brasil)"
+msgstr ""
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16726,6 +16858,10 @@ msgid ""
 msgstr "Menjalankan sistem dalam mod \"Demo\". Jika ditetapkan kepada \"Yes\", ejen boleh menukar pilihan, seperti pemilihan bahasa dan tema melalui antara muka web ejen. Perubahan ini hanya sah untuk sesi semasa. Ia tidak akan mungkin bagi ejen untuk menukar kata laluan mereka."
 
 #. SysConfig
+msgid "Russian"
+msgstr ""
+
+#. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "Muatnaik perakuan S/MME"
 
@@ -16849,6 +16985,14 @@ msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Notfication (Event)\"."
 msgstr "Hantar notifikasi yang telah dikonfigurasi dalam paparan admin di bawah \"Notifikasi (Acara)\"."
+
+#. SysConfig
+msgid "Serbian Cyrillic"
+msgstr ""
+
+#. SysConfig
+msgid "Serbian Latin"
+msgstr ""
 
 #. SysConfig
 msgid "Service view"
@@ -18079,6 +18223,14 @@ msgid "Skin"
 msgstr "Kulit"
 
 #. SysConfig
+msgid "Slovak"
+msgstr ""
+
+#. SysConfig
+msgid "Slovenian"
+msgstr ""
+
+#. SysConfig
 msgid "SolutionDiffInMin"
 msgstr ""
 
@@ -18119,6 +18271,18 @@ msgstr "Contoh pemasangan Spam Assassin. Abaikan emel yang ditanda dengan SpamAs
 #. SysConfig
 msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr "Contoh pemasangan Spam Assassin. Pindah mel ditanda ke aturan spam."
+
+#. SysConfig
+msgid "Spanish"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Colombia)"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Mexico)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18313,6 +18477,14 @@ msgstr "Melucutkan barisan kosong pada previu tiket dalam paparan aturan."
 
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
+msgstr ""
+
+#. SysConfig
+msgid "Swahili"
+msgstr ""
+
+#. SysConfig
+msgid "Swedish"
 msgstr ""
 
 #. SysConfig
@@ -18573,6 +18745,10 @@ msgid "Tree view"
 msgstr ""
 
 #. SysConfig
+msgid "Turkish"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
@@ -18594,6 +18770,10 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr "Menghidupkan penyemak alamat ip jauh. Ia sepatutnya ditetapkan ke \"No\", jika aplikasi tersebtu digunakan, sebagai contoh, melalui ladang proksi atau sambungan dialup, kerana alamat ip jauh kebanyakannya erbeza untuk permintaan tersebut."
+
+#. SysConfig
+msgid "Ukrainian"
+msgstr ""
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -18681,6 +18861,10 @@ msgstr ""
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
+msgstr ""
+
+#. SysConfig
+msgid "Vietnam"
 msgstr ""
 
 #. SysConfig

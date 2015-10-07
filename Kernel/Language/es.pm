@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.750805851723283;
+    $Self->{Completeness}        = 0.740205680705191;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1560,9 +1560,12 @@ sub Data {
         'Notification Methods' => 'Métodos de Notificación',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Transport' => 'Transporte',
         'Enable this notification method' => 'Habilitar este método de notificación',
+        'Transport' => 'Transporte',
         'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación',
+        'Send by default' => '',
+        'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
+            '',
         'This feature is currently not available.' => 'Esta característica no está disponible en este momento.',
         'No data found' => 'No se encontró ningún dato.',
         'No notification method found.' => 'No se encontró un método de notificación.',
@@ -1594,10 +1597,11 @@ sub Data {
         'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Recipient email addresses' => 'Correo electrónico destinatario',
+        'Additional recipient email addresses' => '',
         'Notification article type' => 'Notificación de tipo',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
+        'Email template' => '',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Use esta plantilla para generar el email completo (sólo para emails HTML).',
 
@@ -2594,16 +2598,15 @@ sub Data {
         'For all pending* states.' => 'Para todos los estados pendientes*.',
         'Add Article' => 'Añadir Artículo',
         'Create an Article' => 'Crear un Artículo',
+        'Inform agents' => '',
+        'Inform involved agents' => '',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            'Aquí puede seleccionar agentes adicionales que deben recibir una notificación sobre el nuevo artículo.',
+        'Text will also be received by:' => '',
         'Spell check' => 'Verificar la ortografía',
         'Text Template' => 'Plantilla de texto',
         'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobreescribirá cualquier texto o adjunto.',
         'Note type' => 'Tipo de nota',
-        'Inform Agent' => 'Informar al agente',
-        'Optional' => 'Opcional',
-        'Inform involved Agents' => 'Informar a los agentes involucrados',
-        'Here you can select additional agents which should receive a notification regarding the new article.' =>
-            'Aquí puede seleccionar agentes adicionales que deben recibir una notificación sobre el nuevo artículo.',
-        'Note will be (also) received by:' => 'La nota será recibida (también) por:',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Rebotar el ticket',
@@ -3233,6 +3236,9 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(en proceso)',
 
+        # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+        'Please specify an end date that is after the start date.' => '',
+
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
         'Please supply your new password!' => '¡Por favor ingrese una nueva contraseña!',
 
@@ -3248,11 +3254,13 @@ sub Data {
         'The selected date is not valid.' => 'La fecha seleccionada no es válida.',
         'The selected end time is before the start time.' => 'La fecha de finalización seleccionada es anterior a la de inicio.',
         'There is something wrong with your time selection.' => 'Hay un error con su selección de tiempo.',
+        'Please select only one element or allow modification at stat generation time.' =>
+            'Por favor seleccione sólo un elemento o permita su modificación al momento de generación de la estadística.',
+        'Please select at least one value of this field or allow modification at stat generation time.' =>
+            '',
         'Please select one element for the X-axis.' => 'Por favor seleccione un elemento para el Eje-X.',
         'You can only use one time element for the Y axis.' => 'Sólo puede utilizar un elemento de tiempo para el eje Y.',
         'You can only use one or two elements for the Y axis.' => 'Sólo puedes usar uno o dos elementos para el eje Y.',
-        'Please select only one element or allow modification at stat generation time.' =>
-            'Por favor seleccione sólo un elemento o permita su modificación al momento de generación de la estadística.',
         'Please select at least one value of this field.' => 'Por favor seleccione al menos un valor para este campo.',
         'Please provide a value or allow modification at stat generation time.' =>
             'Por favor ingrese un valor o permita su modificación al momento de generación de la estadística.',
@@ -3739,6 +3747,7 @@ Tu Equipo de Soporte
             'Permite a los administradores el acceso como otros clientes, vía el panel de administración de usuario.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permite establecer un nuevo estado de ticket en la pantalla mover ticket de la interfaz de agente.',
+        'Arabic (Saudi Arabia)' => '',
         'Archive state changed: "%s"' => 'Cambiado el estado del archivo: «%s»',
         'ArticleTree' => 'Árbol de Artículos',
         'Attachments <-> Templates' => 'Adjuntos <-> Plantillas',
@@ -3765,6 +3774,7 @@ Tu Equipo de Soporte
         'Bounced to "%s".' => 'Rebotado a «%s».',
         'Builds an article index right after the article\'s creation.' =>
             'Construye un índice de artículo justo después de la creación del artículo.',
+        'Bulgarian' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'Configurar ejemplo CMD. Ignora emails donde una externa CMD devuelve alguna salida STDOUT ( el email será canalizado en STDIN de algún.bin).',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
@@ -3777,6 +3787,7 @@ Tu Equipo de Soporte
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             'Tiempo de caché en segundos para el módulo de salida de la barra de navegación del proceso de ticket.',
         'Cache time in seconds for the web service config backend.' => 'Tiempo de caché en segundos para la configuración backend del servicio web.',
+        'Catalan' => '',
         'Change password' => 'Cambiar Contraseña',
         'Change queue!' => 'Cambiar cola!',
         'Change the customer for this ticket' => 'Cambiar el cliente de este ticket',
@@ -3794,6 +3805,8 @@ Tu Equipo de Soporte
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Comprueba la disponibilidad de OTRS Business Solution™ para este sistema.',
         'Checks the entitlement status of OTRS Business Solution™.' => 'Comprueba el estado de la autorización de OTRS Business Solution™.',
+        'Chinese (Simplified)' => '',
+        'Chinese (Traditional)' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
             'Escoger para que tipo de cambios de ticket quiere recibir notificaciones.',
         'Closed tickets (customer user)' => 'Tickets cerrados (cliente usuario)',
@@ -3873,6 +3886,7 @@ Tu Equipo de Soporte
         'Create new email ticket and send this out (outbound)' => 'Crear nuevo ticket por correo y enviarlo (saliente)',
         'Create new phone ticket (inbound)' => 'Crear nuevo ticket telefónico (entrante)',
         'Create new process ticket' => 'Crea nuevo ticket de proceso',
+        'Croatian' => '',
         'Custom RSS Feed' => 'RSS Feed Personalizado',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Texto personalizado para la página que se muestra a los clientes que no tienen tickets todavía ( si necesita esos textos traducidos añadadalos a un módulo de traducción personalizado).',
@@ -3893,6 +3907,8 @@ Tu Equipo de Soporte
         'Customers <-> Groups' => 'Clintes <-> Grupos',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras de parada personalizables para índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Czech' => '',
+        'Danish' => '',
         'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la búsqueda en formato CSV. ',
         'Date / Time' => 'Fecha / Hora',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3962,7 +3978,9 @@ Tu Equipo de Soporte
         'Defines a useful module to load specific user options or to display news.' =>
             '',
         'Defines all the X-headers that should be scanned.' => '',
-        'Defines all the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of the PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. Specify any own-defined language here (see the developer documentation http://otrs.github.io/doc/ for more infomation). Please remember to use the HTML equivalents for non-ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use the &ouml; symbol).' =>
+        'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
+            '',
+        'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
             '',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
             '',
@@ -4683,6 +4701,9 @@ Tu Equipo de Soporte
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
+        'English (Canada)' => '',
+        'English (United Kingdom)' => '',
+        'English (United States)' => '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',
@@ -4697,11 +4718,14 @@ Tu Equipo de Soporte
         'Escalation update time in effect' => '',
         'Escalation view' => 'Vista de escalados',
         'EscalationTime' => '',
+        'Estonian' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
+        'Event module that updates customer user search profiles if login changes.' =>
             '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
@@ -4737,6 +4761,7 @@ Tu Equipo de Soporte
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtrar emails entrantes.',
+        'Finnish' => '',
         'First Queue' => 'Primera Cola',
         'FirstLock' => 'PrimerBloqueo',
         'FirstResponse' => 'PrimeraRespuesta',
@@ -4752,6 +4777,8 @@ Tu Equipo de Soporte
         'Forces to unlock tickets after being moved to another queue.' =>
             'Fuerza el desbloqueo de tickets luego de ser movidos a otra cola.',
         'Forwarded to "%s".' => 'Reenviado a «%s».',
+        'French' => '',
+        'French (Canada)' => '',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
@@ -4768,6 +4795,7 @@ Tu Equipo de Soporte
         'Full value' => 'Valor completo',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => '',
+        'Galician' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate dashboard statistics.' => '',
@@ -4786,6 +4814,7 @@ Tu Equipo de Soporte
             '',
         'GenericInterface module registration for the transport layer.' =>
             '',
+        'German' => '',
         'German stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
@@ -4794,8 +4823,12 @@ Tu Equipo de Soporte
         'Google Authenticator' => '',
         'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
             '',
+        'Greek' => '',
+        'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
+        'Hindi' => '',
+        'Hungarian' => '',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
@@ -4935,11 +4968,14 @@ Tu Equipo de Soporte
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '',
+        'Italian' => '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
+        'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
+        'Latvian' => '',
         'Left' => 'Izquierda',
         'Link agents to groups.' => 'Crea enlace de Agentes a Grupos',
         'Link agents to roles.' => 'Crea enlace de Agentes a Roles',
@@ -4974,6 +5010,7 @@ Tu Equipo de Soporte
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List view' => '',
+        'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
         'Locked ticket.' => 'Ticket bloqueado.',
         'Log file for the ticket counter.' => '',
@@ -4985,6 +5022,7 @@ Tu Equipo de Soporte
         'Makes the application check the syntax of email addresses.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
+        'Malay' => '',
         'Manage OTRS Group cloud services.' => '',
         'Manage PGP keys for email encryption.' => '',
         'Manage POP3 or IMAP accounts to fetch email from.' => '',
@@ -5057,6 +5095,7 @@ Tu Equipo de Soporte
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'Nederlands' => '',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Nuevo ticket [%s] creado (Q=%s;P=%s;S=%s).',
         'New Window' => 'Nueva Ventana',
         'New owner is "%s" (ID=%s).' => 'El nuevo propietario es «%s» (ID=%s).',
@@ -5067,6 +5106,7 @@ Tu Equipo de Soporte
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica saliente para la interfaz de agente.',
         'None' => 'Ninguno',
+        'Norwegian' => '',
         'Notification sent to "%s".' => 'Notificación enviada a «%s».',
         'Number of displayed tickets' => 'Número de tickets mostrados',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
@@ -5140,7 +5180,11 @@ Tu Equipo de Soporte
             '',
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
+        'Persian' => '',
         'Picture-Upload' => 'Carga de Foto',
+        'Polish' => '',
+        'Portuguese' => '',
+        'Portuguese (Brasil)' => '',
         'PostMaster Filters' => 'Filtros de Correo Electrónico',
         'PostMaster Mail Accounts' => 'Cuentas de Correo Electrónico',
         'Process Information' => 'Información de Proceso',
@@ -5216,6 +5260,7 @@ Tu Equipo de Soporte
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
+        'Russian' => '',
         'S/MIME Certificate Upload' => 'Carga de Certificado S/MIME',
         'SMS' => '',
         'Sample command output' => 'Ejemplo de comando de salida.',
@@ -5248,6 +5293,8 @@ Tu Equipo de Soporte
             '',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
+        'Serbian Cyrillic' => '',
+        'Serbian Latin' => '',
         'Service view' => 'Vista de servicio',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
@@ -5627,6 +5674,8 @@ Tu Equipo de Soporte
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => 'Apariencia',
+        'Slovak' => '',
+        'Slovenian' => '',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
         'Some description!' => '',
@@ -5639,6 +5688,9 @@ Tu Equipo de Soporte
             '',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
             '',
+        'Spanish' => '',
+        'Spanish (Colombia)' => '',
+        'Spanish (Mexico)' => '',
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Specifies if an agent should receive email notification of his own actions.' =>
@@ -5702,6 +5754,8 @@ Tu Equipo de Soporte
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Swahili' => '',
+        'Swedish' => '',
         'System Maintenance' => 'Mantenimiento de Sistema',
         'System Request (%s).' => 'Petición del sistema (%s).',
         'Templates <-> Queues' => 'Plantillas <-> Colas',
@@ -5783,6 +5837,7 @@ Tu Equipo de Soporte
         'Toolbar Item for a shortcut.' => '',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => 'Vista en árbol',
+        'Turkish' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5790,6 +5845,7 @@ Tu Equipo de Soporte
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
+        'Ukrainian' => '',
         'Unlock tickets that are past their unlock timeout.' => '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
@@ -5816,6 +5872,7 @@ Tu Equipo de Soporte
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
+        'Vietnam' => '',
         'View performance benchmark results.' => '',
         'View system log messages.' => 'Muestra mensajes de log del sistema.',
         'Watch this ticket' => 'Vigilar este ticket',
