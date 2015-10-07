@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-24 15:06+0000\n"
+"PO-Revision-Date: 2015-10-07 17:42+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -5456,16 +5456,26 @@ msgid ""
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Transport"
-msgstr "Átvitel"
-
-#. Template: AdminNotificationEvent
 msgid "Enable this notification method"
 msgstr "Értesítési módszer engedélyezése"
 
 #. Template: AdminNotificationEvent
+msgid "Transport"
+msgstr "Átvitel"
+
+#. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
 msgstr "Legalább egy módszer szükséges értesítésenként."
+
+#. Template: AdminNotificationEvent
+msgid "Send by default"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5565,8 +5575,8 @@ msgid "Example notification"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "Címzett e-mail címek"
+msgid "Additional recipient email addresses"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5577,6 +5587,10 @@ msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
 msgstr "Egy bejegyzés lesz létrehozva, ha az értesítés elküldésre került az ügyfélnek vagy egy további e-mail címre."
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -8671,6 +8685,24 @@ msgid "Create an Article"
 msgstr "Egy bejegyzés létrehozása"
 
 #. Template: AgentTicketActionCommon
+msgid "Inform agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid ""
+"Here you can select additional agents which should receive a notification "
+"regarding the new article."
+msgstr "Itt választhat ki további ügyintézőket, akiknek értesítést kell kapniuk az új bejegyzést illetően."
+
+#. Template: AgentTicketActionCommon
+msgid "Text will also be received by:"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr "Helyesírás-ellenőrzés"
 
@@ -8685,28 +8717,6 @@ msgstr "Egy sablon beállítása felül fog írni minden szöveget vagy mellékl
 #. Template: AgentTicketActionCommon
 msgid "Note type"
 msgstr "Jegyzet típusa"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "Ügyintéző értesítése"
-
-#. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "Opcionális"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "Részt vevő ügyintézők értesítése"
-
-#. Template: AgentTicketActionCommon
-msgid ""
-"Here you can select additional agents which should receive a notification "
-"regarding the new article."
-msgstr "Itt választhat ki további ügyintézőket, akiknek értesítést kell kapniuk az új bejegyzést illetően."
-
-#. Template: AgentTicketActionCommon
-msgid "Note will be (also) received by:"
-msgstr "Jegyzet (is) fogadásra kerül ettől:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -10464,6 +10474,10 @@ msgstr "Lépjen kapcsolatba az adminisztrátorral!"
 msgid "(in process)"
 msgstr "(folyamatban)"
 
+#. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+msgid "Please specify an end date that is after the start date."
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
 msgstr "Adja meg az új jelszavát!"
@@ -10505,6 +10519,18 @@ msgid "There is something wrong with your time selection."
 msgstr "Valami baj van az időkiválasztással."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr "Csak egy elemet válasszon, vagy engedélyezze a módosítást a statisztika előállításakor."
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr "Válasszon egy elemet az X-tengelyhez."
 
@@ -10515,12 +10541,6 @@ msgstr "Csak egy időelemet használhat az Y-tengelynél."
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
 msgstr "Csak egy vagy két elemet használhat az Y-tengelynél."
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
-msgstr "Csak egy elemet válasszon, vagy engedélyezze a módosítást a statisztika előállításakor."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
@@ -11859,6 +11879,10 @@ msgid ""
 msgstr "Lehetővé teszi új jegyállapotok beállítását az ügyintézői felület jegy áthelyezése képernyőjén."
 
 #. SysConfig
+msgid "Arabic (Saudi Arabia)"
+msgstr ""
+
+#. SysConfig
 msgid "Archive state changed: \"%s\""
 msgstr "Az archívumállapot megváltozott: „%s”"
 
@@ -11943,6 +11967,10 @@ msgid "Builds an article index right after the article's creation."
 msgstr "Egy bejegyzésindexet épít közvetlenül a bejegyzések létrehozása után."
 
 #. SysConfig
+msgid "Bulgarian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
@@ -11978,6 +12006,10 @@ msgstr "Gyorsítótárazás ideje másodpercben a jegyfolyamat navigációs sáv
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
 msgstr "Gyorsítótárazás ideje másodpercben a webszolgáltatás beállításának háttérprogramjánál."
+
+#. SysConfig
+msgid "Catalan"
+msgstr ""
 
 #. SysConfig
 msgid "Change password"
@@ -12036,6 +12068,14 @@ msgstr "Ellenőrzi az OTRS Business Solution™ elérhetőségét ennél a rends
 #. SysConfig
 msgid "Checks the entitlement status of OTRS Business Solution™."
 msgstr "Ellenőrzi az OTRS Business Solution™ jogosultsági állapotát."
+
+#. SysConfig
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Traditional)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -12325,6 +12365,10 @@ msgid "Create new process ticket"
 msgstr "Új folyamatjegy létrehozása"
 
 #. SysConfig
+msgid "Croatian"
+msgstr ""
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr "Egyéni RSS hírforrás"
 
@@ -12397,6 +12441,14 @@ msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
 msgstr "Személyre szabható kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből."
+
+#. SysConfig
+msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid "Danish"
+msgstr ""
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -12638,16 +12690,15 @@ msgstr "Meghatározza az összes olyan X-header értéket, amelyet vizsgálni ke
 
 #. SysConfig
 msgid ""
-"Defines all the languages that are available to the application. The "
-"Key/Content pair links the front-end display name to the appropriate "
-"language PM file. The \"Key\" value should be the base-name of the PM file "
-"(i.e. de.pm is the file, then de is the \"Key\" value). The \"Content\" "
-"value should be the display name for the front-end. Specify any own-defined "
-"language here (see the developer documentation http://otrs.github.io/doc/ "
-"for more infomation). Please remember to use the HTML equivalents for non-"
-"ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use "
-"the &ouml; symbol)."
-msgstr "Meghatározza az összes olyan nyelvet, amely elérhető az alkalmazásnak. A kulcs/érték pár köti össze az előtétprogramon megjelenített nevet a megfelelő nyelvi PM fájllal. A „Kulcs” értékének a PM fájl kiterjesztés nélküli nevének kell lennie (azaz ha hu.pm a fájl, akkor hu a „Kulcs” értéke). A „Tartalom” értékének az előtétprogramon megjelenített névnek kell lennie. Itt adjon meg bármilyen saját magunk által meghatározott nyelvi fájlt (további információkért nézze meg a fejlesztői dokumentációt a http://otrs.github.io/doc/ címen). Ne feledje a nem ASCII karakterek HTML egyenértékeseinek használatát (azaz a német oe = umlautos o, ezért a &ouml; szimbólum használata szükséges)."
+"Defines all the languages that are available to the application. Specify "
+"only English names of languages here."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines all the languages that are available to the application. Specify "
+"only native names of languages here."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14937,6 +14988,18 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr "Csak a felsorolt csoportoknak engedélyezi a jegymegfigyelés szolgáltatást."
 
 #. SysConfig
+msgid "English (Canada)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United Kingdom)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
 msgid "Enroll process for this ticket"
 msgstr "Folyamat besorolása ehhez a jegyhez"
 
@@ -14989,6 +15052,10 @@ msgid "EscalationTime"
 msgstr "Eszkalációs idő"
 
 #. SysConfig
+msgid "Estonian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -15006,6 +15073,11 @@ msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr "Eseménymodul, amely módosítási utasítást hajt végre a TicketIndex táblán a várólista nevének átnevezéséhez, ha ez ott szükséges, és ha éppenséggel StaticDB van használatban."
+
+#. SysConfig
+msgid ""
+"Event module that updates customer user search profiles if login changes."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15109,6 +15181,10 @@ msgid "Filter incoming emails."
 msgstr "Bejövő e-mailek szűrése."
 
 #. SysConfig
+msgid "Finnish"
+msgstr ""
+
+#. SysConfig
 msgid "First Queue"
 msgstr "Első várólista"
 
@@ -15159,6 +15235,14 @@ msgstr "Kényszeríti a jegyek feloldását, miután át lettek helyezve egy má
 #. SysConfig
 msgid "Forwarded to \"%s\"."
 msgstr "Továbbítva ide: „%s”."
+
+#. SysConfig
+msgid "French"
+msgstr ""
+
+#. SysConfig
+msgid "French (Canada)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15213,6 +15297,10 @@ msgstr "Szabad-szavas index reguláris kifejezés szűrők a szöveg részeinek 
 #. SysConfig
 msgid "Fulltext search"
 msgstr "Szabad-szavas keresés"
+
+#. SysConfig
+msgid "Galician"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15278,6 +15366,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr "Általános felület modul regisztráció az átviteli réteghez."
 
 #. SysConfig
+msgid "German"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
@@ -15305,6 +15397,14 @@ msgid ""
 msgstr "Hozzáférést ad, ha a jegy ügyfél-azonosítója egyezik az ügyfél felhasználó-azonosítójával, és az ügyfél-felhasználónak csoportjogosultságai vannak arra a várólistára, amelyben a jegy van."
 
 #. SysConfig
+msgid "Greek"
+msgstr ""
+
+#. SysConfig
+msgid "Hebrew"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). Runtime will do full-text searches on live data (it works fine"
@@ -15313,6 +15413,14 @@ msgid ""
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
 msgstr "Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, másolat, tárgy és törzs keresés). Futásidőben fog szabad-szavas kereséseket végrehajtani a valós adatokon (nagyszerűen működik akár 50000 jegynél is). A StaticDB fel fogja darabolni az összes bejegyzést, és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül 50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” parancsfájlt."
+
+#. SysConfig
+msgid "Hindi"
+msgstr ""
+
+#. SysConfig
+msgid "Hungarian"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15762,10 +15870,18 @@ msgid ""
 msgstr "Lehetséges különféle témák beállítása, például különbséget lehet tenni az alkalmazáson belül ügyintézők és ügyfelek között tartományonkénti alapon használva. Egy reguláris kifejezés (regex) használatával beállíthat egy tartományra illeszkedő Kulcs/Tartalom párt. A „Kulcsban” lévő értéknek kell illeszkednie a tartományra, és a „Tartalomban” lévő értéknek a rendszeren lévő érvényes témának kell lennie. Nézze meg a példabejegyzéseket a reguláris kifejezés megfelelő formájáért."
 
 #. SysConfig
+msgid "Italian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr "Olasz kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből."
+
+#. SysConfig
+msgid "Japanese"
+msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -15778,6 +15894,10 @@ msgstr "Vezetéknév, Keresztnév"
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
 msgstr "Vezetéknév, Keresztnév (Felhasználó belépés)"
+
+#. SysConfig
+msgid "Latvian"
+msgstr ""
 
 #. SysConfig
 msgid "Left"
@@ -15888,6 +16008,10 @@ msgid "List view"
 msgstr "Listanézet"
 
 #. SysConfig
+msgid "Lithuanian"
+msgstr ""
+
+#. SysConfig
 msgid "Lock / unlock this ticket"
 msgstr "Jegy zárolása vagy feloldása"
 
@@ -15927,6 +16051,10 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
 msgstr "HTML sütik használatát írja elő a munkamenet-kezelőnek. Ha a HTML sütik le vannak tiltva, vagy a kliens böngésző letiltotta a HTML sütiket, akkor a rendszer a szokásos módon fog működni, és hozzáfűzi a munkamenet-azonosítót a hivatkozásokhoz."
+
+#. SysConfig
+msgid "Malay"
+msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -16164,6 +16292,10 @@ msgid "NameX"
 msgstr "NévX"
 
 #. SysConfig
+msgid "Nederlands"
+msgstr ""
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "Az új jegy [%s] létrejött (Q=%s;P=%s;S=%s)."
 
@@ -16198,6 +16330,10 @@ msgstr "A következő lehetséges jegyállapotok egy új telefonos jegyzet hozz�
 #. SysConfig
 msgid "None"
 msgstr "Nincs"
+
+#. SysConfig
+msgid "Norwegian"
+msgstr ""
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -16491,8 +16627,24 @@ msgid "Permitted width for compose note windows."
 msgstr "Engedélyezett szélesség a jegyzet írás ablakoknál."
 
 #. SysConfig
+msgid "Persian"
+msgstr ""
+
+#. SysConfig
 msgid "Picture-Upload"
 msgstr "Képfeltöltés"
+
+#. SysConfig
+msgid "Polish"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese (Brasil)"
+msgstr ""
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16734,6 +16886,10 @@ msgid ""
 msgstr "„Demo” módban futtatja a rendszert. Ha „Igen” értékre van állítva, az ügyintézők megváltoztathatják a beállításokat, mint például nyelv és téma választása, az ügyintézői webes felületen keresztül. Ezek a beállítások csak az aktuális munkamenetre érvényesek. Nem lesz lehetséges az ügyintézőknek a jelszavaik megváltoztatása."
 
 #. SysConfig
+msgid "Russian"
+msgstr ""
+
+#. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "S/MIME tanúsítvány feltöltés"
 
@@ -16857,6 +17013,14 @@ msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Notfication (Event)\"."
 msgstr "Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen az „Értesítés (esemény)” alatt vannak beállítva."
+
+#. SysConfig
+msgid "Serbian Cyrillic"
+msgstr ""
+
+#. SysConfig
+msgid "Serbian Latin"
+msgstr ""
 
 #. SysConfig
 msgid "Service view"
@@ -18087,6 +18251,14 @@ msgid "Skin"
 msgstr "Felszín"
 
 #. SysConfig
+msgid "Slovak"
+msgstr ""
+
+#. SysConfig
+msgid "Slovenian"
+msgstr ""
+
+#. SysConfig
 msgid "SolutionDiffInMin"
 msgstr "SolutionDiffInMin"
 
@@ -18127,6 +18299,18 @@ msgstr "Spam Assassin példa beállítás. Mellőzi azokat az e-maileket, amelye
 #. SysConfig
 msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr "Spam Assassin példa beállítás. Áthelyezi a megjelölt leveleket a spam várólistába."
+
+#. SysConfig
+msgid "Spanish"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Colombia)"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Mexico)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18322,6 +18506,14 @@ msgstr "Eltávolítja az üres sorokat a jegyelőnézetből a várólista nézet
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Eltávolítja az üres sorokat a jegyelőnézetből a szolgáltatás nézetben."
+
+#. SysConfig
+msgid "Swahili"
+msgstr ""
+
+#. SysConfig
+msgid "Swedish"
+msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
@@ -18581,6 +18773,10 @@ msgid "Tree view"
 msgstr "Fa nézet"
 
 #. SysConfig
+msgid "Turkish"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
@@ -18602,6 +18798,10 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr "Bekapcsolja a távoli IP-cím ellenőrzését. „Nem” értékre kell állítania, ha az alkalmazást például egy proxy-farmon vagy betárcsázós kapcsolaton keresztül használják, mert a távoli IP-cím többnyire eltérő az egyes kéréseknél."
+
+#. SysConfig
+msgid "Ukrainian"
+msgstr ""
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -18690,6 +18890,10 @@ msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
 msgstr "RichText szöveget használ a megtekintésnél és szerkesztésnél: bejegyzések, megszólítások, aláírások, szabványos sablonok, automatikus válaszok és értesítések."
+
+#. SysConfig
+msgid "Vietnam"
+msgstr ""
 
 #. SysConfig
 msgid "View performance benchmark results."
