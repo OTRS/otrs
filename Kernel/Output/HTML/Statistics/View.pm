@@ -2405,7 +2405,7 @@ sub _TimeInSeconds {
     }
 
     my %TimeInSeconds = (
-        Year     => 60 * 60 * 60 * 365,
+        Year     => 60 * 60 * 24 * 365,
         HalfYear => 60 * 60 * 24 * 182,
         Quarter  => 60 * 60 * 24 * 91,
         Month    => 60 * 60 * 24 * 30,
