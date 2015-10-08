@@ -162,6 +162,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             // Trigger blur handler
             $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
 
             // Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
@@ -169,10 +170,13 @@ Core.UI.InputFields = (function (Namespace) {
 
                 Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
 
-                $InputContainerObj.find('.InputField_Selection .Remove a').click();
-                Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
+                // Wait for everything to be closed and resettet
+                window.setTimeout(function () {
+                    $InputContainerObj.find('.InputField_Selection .Remove a').click();
+                    Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
 
-                Done2();
+                    Done2();
+                }, 100);
             });
         });
 
