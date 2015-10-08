@@ -222,7 +222,10 @@ Core.App = (function (TargetNS) {
      *      jQ does not allow the usage of dot or colon in ID or class names
      */
     TargetNS.EscapeSelector = function (Selector) {
-        return Selector.replace(/(#|:|\.|\[|\])/g, '\\$1');
+        if (Selector && Selector.length) {
+            return Selector.replace(/(#|:|\.|\[|\])/g, '\\$1');
+        }
+        return '';
     };
 
     /**
