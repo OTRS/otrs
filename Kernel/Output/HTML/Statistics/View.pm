@@ -1208,7 +1208,7 @@ sub StatsParamsGet {
 
                         my @Values = sort keys %{ $Element->{Values} };
 
-                        if ( scalar @{ $Element->{SelectedValues} } > 1 ) {
+                        if ( IsArrayRefWithData( $Element->{SelectedValues} ) && scalar @{ $Element->{SelectedValues} } > 1 ) {
                             @Values = @{ $Element->{SelectedValues} };
                         }
 
