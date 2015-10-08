@@ -4544,13 +4544,13 @@ via the Preferences button after logging in.
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
                     <CSS>thirdparty/fullcalendar-2.4.0/fullcalendar.min.css</CSS>
-                    <CSS>thirdparty/nvd3-1.8.1/nv.d3.css</CSS>
+                    <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
                     <JavaScript>thirdparty/momentjs-2.10.6/moment.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-2.4.0/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/nv.d3.min.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/models/OTRSMultiBarChart.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/models/OTRSStackedAreaChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/rgbcolor.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/StackBlur.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/canvg.js</JavaScript>
@@ -5561,16 +5561,16 @@ via the Preferences button after logging in.
                 </NavBar>
                 <Loader>
                     <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/nv.d3.min.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/models/OTRSMultiBarChart.js</JavaScript>
-                    <JavaScript>thirdparty/nvd3-1.8.1/models/OTRSStackedAreaChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/rgbcolor.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/StackBlur.js</JavaScript>
                     <JavaScript>thirdparty/canvg-1.4/canvg.js</JavaScript>
                     <JavaScript>thirdparty/StringView-8/stringview.js</JavaScript>
                     <JavaScript>Core.Agent.Statistics.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
-                    <CSS>thirdparty/nvd3-1.8.1/nv.d3.css</CSS>
+                    <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
                     <CSS>Core.Agent.Statistics.css</CSS>
                 </Loader>
             </FrontendModuleReg>
