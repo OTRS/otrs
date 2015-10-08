@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.671890303623898;
+    $Self->{Completeness}        = 0.672380019588639;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1847,7 +1847,7 @@ sub Data {
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
+        'Available Transition Actions' => 'Tindakan Peralihan Tersedia',
         'Create New Transition Action' => '',
         'Assigned Transition Actions' => '',
 
@@ -2494,7 +2494,7 @@ sub Data {
         'My watched tickets' => 'Tiket menonton saya',
         'My responsibilities' => 'saya tanggungjawab',
         'Tickets in My Queues' => 'Tiket dalam barisan saya',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => 'Tiket dalam Perkhidmatan Saya',
         'Service Time' => 'Masa Servis',
         'Remove active filters for this widget.' => '',
 

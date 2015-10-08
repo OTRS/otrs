@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.555827619980411;
+    $Self->{Completeness}        = 0.556562193927522;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2806,7 +2806,7 @@ sub Data {
         'by' => 'door',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
-        'Close this message' => '',
+        'Close this message' => 'Sluit dit bericht',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
 
@@ -2815,7 +2815,7 @@ sub Data {
         'Load blocked content.' => 'Laad actieve inhoud.',
 
         # Template: ChatStartForm
-        'First message' => '',
+        'First message' => 'Eerste bericht',
 
         # Template: CustomerError
         'Traceback' => 'Traceback',
@@ -2833,7 +2833,7 @@ sub Data {
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?',
         'There are currently no elements available to select from.' => 'Er zijn nu geen elementen beschikbaar om te kiezen.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Zet a.u.b. Compatibility Mode in Internet Explorer uit!',
         'The browser you are using is too old.' => 'De browser die u gebruikt is te oud.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
             'OTRS kan overweg met een grote hoeveelheid browsers. Gebruik s.v.p een van deze.',
