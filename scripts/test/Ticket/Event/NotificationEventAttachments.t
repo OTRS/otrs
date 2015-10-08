@@ -240,7 +240,6 @@ my $CustomerMessageParams = {
 };
 
 my %OriginalCustomerMessageParams = %{$CustomerMessageParams};
-my $OriginalCustomerMessageParams = \%OriginalCustomerMessageParams;
 
 my @Tests = (
     {
@@ -377,7 +376,7 @@ continue {
 # the same content as the beginning of this test
 $Self->IsDeeply(
     $CustomerMessageParams,
-    $OriginalCustomerMessageParams,
+    \%OriginalCustomerMessageParams,
     "CustomerMessageParams didn't grow after sending emails.",
 );
 
