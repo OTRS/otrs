@@ -716,6 +716,12 @@ sub NotificationEvent {
 
     my %Notification = %{ $Param{Notification} };
 
+    # exchanging original reference prevent it to grow up
+    if ( ref $Param{CustomerMessageParams} && ref $Param{CustomerMessageParams} eq 'HASH' ) {
+        my %LocalCustomerMessageParams = %{ $Param{CustomerMessageParams} };
+        $Param{CustomerMessageParams} = \%LocalCustomerMessageParams;
+    }
+
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
