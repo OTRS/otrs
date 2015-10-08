@@ -1089,6 +1089,12 @@ sub _MigrateNotifications {
 
             if ( $NotificationListReverse{ 'Old ' . $NotificationName } ) {
                 $NotificationName .= ' ( Duplicate Name )';
+
+                # go to next notification if the duplicated name also exists
+                # no new record for this case
+                if ( $NotificationListReverse{ $NotificationListReverse{ 'Old ' . $NotificationName } } ) {
+                    next NEWNOTIFICATION;
+                }
             }
 
             # add new event notification
@@ -1181,6 +1187,10 @@ sub _MigrateNotifications {
 
             if ( $NotificationListReverse{$NotificationName} ) {
                 $NotificationName .= ' ( Duplicate Name )';
+
+                # go to next notification if the duplicated name also exists
+                # no new record for this case
+                next NEWNOTIFICATION if $NotificationListReverse{$NotificationName};
             }
 
             # add new event notification
