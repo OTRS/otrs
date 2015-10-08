@@ -224,7 +224,7 @@ Core.UI.InputFields = (function (TargetNS) {
         // Restore select fields
         $('select.Modernize', $Context).each(function (Index, SelectObj) {
             var $SelectObj = $(SelectObj),
-                $SearchObj = $('#' + $SelectObj.data('modernized')),
+                $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
                 $ShowTreeObj = $SelectObj.next('.ShowTreeSelection');
 
             if ($SelectObj.data('modernized')) {
@@ -344,7 +344,7 @@ Core.UI.InputFields = (function (TargetNS) {
         // If the dropdown of the field is opened, close it (by calling blur event)
         // TODO: nicer way to find opened select elements
         $('select.Modernize').each(function () {
-            $('#' + $(this).data('modernized')).filter('[aria-expanded=true]').trigger('blur');
+            $('#' + Core.App.EscapeSelector($(this).data('modernized'))).filter('[aria-expanded=true]').trigger('blur');
         });
     }
 
@@ -843,7 +843,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     ApplyFilter($SelectObj, $ToolbarContainerObj);
 
                     // Refresh the field and get focus
-                    $SearchObj = $('#' + $SelectObj.data('modernized'));
+                    $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
                     $SearchObj.width($SelectObj.outerWidth())
                         .trigger('blur');
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
@@ -1218,12 +1218,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     if ($SelectObj.attr('id')) {
                         if ($SelectObj.hasClass(Config.ErrorClass)) {
                             Core.Form.ErrorTooltips.ShowTooltip(
-                                $SearchObj, $('#' + $SelectObj.attr('id') + Config.ErrorClass).html(), 'TongueTop'
+                                $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ErrorClass).html(), 'TongueTop'
                             );
                         }
                         if ($SelectObj.hasClass(Config.ServerErrorClass)) {
                             Core.Form.ErrorTooltips.ShowTooltip(
-                                $SearchObj, $('#' + $SelectObj.attr('id') + Config.ServerErrorClass).html(), 'TongueTop'
+                                $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ServerErrorClass).html(), 'TongueTop'
                             );
                         }
                     }
