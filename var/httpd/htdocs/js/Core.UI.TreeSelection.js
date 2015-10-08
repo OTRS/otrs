@@ -214,7 +214,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Elements = {},
             InDialog = false,
             StyleSheetURL,
-            $SelectedNodesObj,
+            SelectedNodesTree,
             SelectedNodes = [],
             $CurrentFocusedObj;
 
@@ -293,9 +293,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 SelectedNodes = [];
 
                 // Get selected nodes
-                $SelectedNodesObj = $TreeObj.jstree('get_selected');
-                $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($Node.attr('data-id'));
+                SelectedNodesTree = $TreeObj.jstree('get_selected');
+                $.each(SelectedNodesTree, function () {
+                    SelectedNodes.push($('#' + Core.App.EscapeSelector(this)).data('id'));
                 });
 
                 // Set selected nodes as selected in initial select box
@@ -321,9 +321,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 SelectedNodes = [];
 
                 // Get selected nodes
-                $SelectedNodesObj = $TreeObj.jstree("get_selected");
-                $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($Node.attr('data-id'));
+                SelectedNodesTree = $TreeObj.jstree('get_selected');
+                $.each(SelectedNodesTree, function () {
+                    SelectedNodes.push($('#' + Core.App.EscapeSelector(this)).data('id'));
                 });
 
                 // Set selected nodes as selected in initial select box
