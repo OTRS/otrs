@@ -1,13 +1,14 @@
 # 
 # Translators:
 # David Van Uffelen <david.van.uffelen@bnl.yusen-logistics.com>, 2015
+# Peter van Beugen <peter@tda.nl>, 2015
 # Sander G. <transifex@sander.goudswaard.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-07 17:42+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-10-07 20:21+0000\n"
+"Last-Translator: Peter van Beugen <peter@tda.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9317,7 +9318,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
-msgstr ""
+msgstr "Sluit dit bericht"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -9333,7 +9334,7 @@ msgstr "Laad actieve inhoud."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Eerste bericht"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -9374,7 +9375,7 @@ msgstr "Er zijn nu geen elementen beschikbaar om te kiezen."
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Zet a.u.b. Compatibility Mode in Internet Explorer uit!"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
