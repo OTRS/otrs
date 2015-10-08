@@ -232,6 +232,16 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Reorder => 0,
 );
 
+# define params for sending as CustomerMessageParams
+my $CustomerMessageParams = {
+    A => 'AAAAA',
+    B => 'BBBBB',
+    C => 'CCCCC',
+};
+
+my %OriginalCustomerMessageParams = %{$CustomerMessageParams};
+my $OriginalCustomerMessageParams = \%OriginalCustomerMessageParams;
+
 my @Tests = (
     {
         Name => 'Single RecipientAgent',
@@ -243,8 +253,9 @@ my @Tests = (
         Config => {
             Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
             Data  => {
-                TicketID   => $TicketID,
-                Recipients => \@UserIDs,
+                TicketID              => $TicketID,
+                Recipients            => \@UserIDs,
+                CustomerMessageParams => $CustomerMessageParams,
             },
             Config => {},
             UserID => 1,
@@ -361,6 +372,14 @@ continue {
     $Count++;
     undef $NotificationID;
 }
+
+# verify CustomerMessageParams reference have
+# the same content as the beginning of this test
+$Self->IsDeeply(
+    $CustomerMessageParams,
+    $OriginalCustomerMessageParams,
+    "CustomerMessageParams didn't grow after sending emails.",
+);
 
 # cleanup
 
