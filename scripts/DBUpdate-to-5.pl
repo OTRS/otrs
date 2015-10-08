@@ -121,6 +121,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_AddZoomMenuClusters,
         },
         {
+            Message => 'Fixup statistics time field configuration where the time interval is too small',
+            Command => \&_FixupStatsTimeInterval
+        },
+        {
             Message => 'Fixup dashboard statistics output format configuration',
             Command => \&_FixupDashboardStatsFormats,
         },
@@ -1836,6 +1840,171 @@ sub _AddEmailNotificationMethod {
                 values ( ?, ?, ? )',
             Bind => [ \$NotificationID, \$TransportsKey, \$TransportName ],
         );
+    }
+
+    return 1;
+}
+
+=item _FixupStatsTimeInterval()
+
+Make sure that the time interval is not to small for the existing stats, because the
+default values for statistic time field selections instead of max/min values.
+
+    _FixupStatsTimeInterval();
+
+=cut
+
+sub _FixupStatsTimeInterval {
+
+    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+
+    my $Stats;
+    {
+        # Here we need to suppress warnings about dynamic statistics where the
+        #   statistics file is currently not present in the file system (e. g. ITSM)
+        #   because of the OTRS upgrade. Just capture the error messages and continue
+        #   (see bug##11532).
+        local *STDERR;
+        my $Dummy;
+        open *STDERR, '>', \$Dummy;    ## no critic
+        $Stats = $StatsObject->StatsListGet( UserID => 1 );
+    }
+
+    print "\n";
+
+    my $StatsViewObject = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View');
+
+    # check if a time field is selected on the x axis and if the selected values are valid
+    my $StatsXAxisTimeFieldValidate = sub {
+        my (%Param) = @_;
+
+        my %Stat = %{ $Param{Stat} };
+
+        my $ChangeXvalue;
+
+        XVALUE:
+        for my $Xvalue ( @{ $Stat{UseAsXvalue} } ) {
+            next XVALUE if !( $Xvalue->{Selected} && $Xvalue->{Block} eq 'Time' );
+
+            my $Flag = 1;
+            VALUESERIES:
+            for my $ValueSeries ( @{ $Stat{UseAsValueSeries} } ) {
+                if ( $ValueSeries->{Selected} && $ValueSeries->{Block} eq 'Time' ) {
+                    $Flag = 0;
+                    last VALUESERIES;
+                }
+            }
+
+            last XVALUE if !$Flag;
+
+            my $ScalePeriod = 0;
+            my $TimePeriod  = 0;
+
+            my $Count = $Xvalue->{TimeScaleCount} ? $Xvalue->{TimeScaleCount} : 1;
+
+            $ScalePeriod = $StatsViewObject->_TimeInSeconds(
+                TimeUnit => $Param{TimeScale} || $Xvalue->{SelectedValues}->[0],
+            );
+
+            last XVALUE if !$ScalePeriod;
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
+                $TimePeriod = (
+                    $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} )
+                    )
+                    - (
+                    $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
+                    );
+            }
+            else {
+                $TimePeriod = $Xvalue->{TimeRelativeCount} * $StatsViewObject->_TimeInSeconds(
+                    TimeUnit => $Xvalue->{TimeRelativeUnit},
+                );
+            }
+
+            my $MaxAttr = $Kernel::OM->Get('Kernel::Config')->Get('Stats::MaxXaxisAttributes') || 1000;
+            if ( $TimePeriod / ( $ScalePeriod * $Count ) > $MaxAttr ) {
+                $ChangeXvalue = $Xvalue;
+            }
+
+            last XVALUE;
+        }
+
+        return $ChangeXvalue;
+    };
+
+    my $TimeScale = $StatsViewObject->_TimeScale();
+
+    # sort the time scale with the defined position
+    my @TimeScaleSorted = sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale};
+
+    STATID:
+    for my $StatID ( sort keys %{ $Stats // {} } ) {
+        my %Stat = %{ $Stats->{$StatID} // {} };
+
+        my $StatWithObjectAttributes = $StatsObject->StatsGet(
+            StatID => $StatID,
+        );
+
+        my %StatsConfigurationErrors;
+
+        my $StatConfigurationValid = $StatsViewObject->StatsConfigurationValidate(
+            Stat   => $StatWithObjectAttributes,
+            Errors => \%StatsConfigurationErrors,
+        );
+
+        next STATID if $StatConfigurationValid;
+        next STATID if !IsHashRefWithData( $StatsConfigurationErrors{XAxisFieldErrors} );
+
+        my $ChangeXvalue = $StatsXAxisTimeFieldValidate->(
+            Stat => $StatWithObjectAttributes,
+        );
+
+        next STATID if !$ChangeXvalue;
+        next STATID if $ChangeXvalue->{Fixed};
+
+        my @PossibleTimeScaleList;
+
+        ITEM:
+        for my $Item (@TimeScaleSorted) {
+            push @PossibleTimeScaleList, $Item;
+            last ITEM if $ChangeXvalue->{SelectedValues}->[0] && $ChangeXvalue->{SelectedValues}->[0] eq $Item;
+        }
+
+        POSSIBLETIMESCALE:
+        for my $PossibleTimeScale ( reverse @PossibleTimeScaleList ) {
+
+            my $Change = $StatsXAxisTimeFieldValidate->(
+                Stat      => $StatWithObjectAttributes,
+                TimeScale => $PossibleTimeScale,
+            );
+
+            next POSSIBLETIMESCALE if $Change;
+
+            $ChangeXvalue->{SelectedValues} = [$PossibleTimeScale];
+
+            # add the updated x value to stat
+            push @{ $Stat{UseAsXvalue} }, $ChangeXvalue;
+
+            my $Success = $StatsObject->StatsUpdate(
+                StatID => $Stat{StatID},
+                Hash   => \%Stat,
+                UserID => 1,
+            );
+
+            if ($Success) {
+                print "Updated statistic $Stat{StatID} ($Stat{Title}).\n";
+            }
+            else {
+                print STDERR "Could not update statistic $Stat{StatID}.\n";
+                return;
+            }
+
+            last POSSIBLETIMESCALE;
+        }
     }
 
     return 1;
