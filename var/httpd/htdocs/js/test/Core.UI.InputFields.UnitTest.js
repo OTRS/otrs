@@ -96,6 +96,9 @@ Core.UI.InputFields = (function (Namespace) {
                 $.each(Selection, function (Index, Value) {
                     $Nodes.filter('[data-id="' + Value + '"]').find('.jstree-anchor').click();
                 });
+
+                $SelectObj.triggerHandler('redraw.InputField');
+
                 Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
 
                 $InputListContainerObj.find('.InputField_ClearAll').click();
@@ -109,6 +112,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             // Trigger blur handler
             $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
 
             // Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
@@ -155,10 +159,12 @@ Core.UI.InputFields = (function (Namespace) {
                 Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
 
                 $Nodes.filter('[data-id="' + Selection + '"]').find('.jstree-anchor').click();
-                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
+                $SelectObj.triggerHandler('redraw.InputField');
+                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches (' + Selection + ')');
 
                 Done1();
             });
+
 
             // Trigger blur handler
             $SearchObj.triggerHandler('blur.InputField');
@@ -174,7 +180,6 @@ Core.UI.InputFields = (function (Namespace) {
                 window.setTimeout(function () {
                     $InputContainerObj.find('.InputField_Selection .Remove a').click();
                     Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
-
                     Done2();
                 }, 100);
             });
