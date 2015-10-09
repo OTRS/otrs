@@ -11,6 +11,7 @@
 [% Translate("User Profile") | html %]
 [% Translate("Email Settings") | html %]
 [% Translate("Other Settings") | html %]
+[% Translate("Notification Settings") | html %]
 
 [% Translate("Change Password") | html %]
 [% Translate("Current password") | html %]

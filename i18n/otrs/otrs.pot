@@ -1671,6 +1671,10 @@ msgid "Other Settings"
 msgstr ""
 
 #. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
+
+#. Template: AAAPreferences
 msgid "Change Password"
 msgstr ""
 
@@ -13142,11 +13146,11 @@ msgid "Determines the possible states for pending tickets that changed state aft
 msgstr ""
 
 #. SysConfig
-msgid "Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgid "Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, \"<Queue>\" shows the names of the queues, and for SystemAddress, \"<Realname> <<Email>>\" shows the name and email of the receipent."
 msgstr ""
 
 #. SysConfig
-msgid "Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, \"<Queue>\" shows the names of the queues, and for SystemAddress, \"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgid "Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the receipent."
 msgstr ""
 
 #. SysConfig
@@ -13154,7 +13158,7 @@ msgid "Determines the way the linked objects are displayed in each zoom mask."
 msgstr ""
 
 #. SysConfig
-msgid "Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface."
+msgid "Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -13351,6 +13355,10 @@ msgstr ""
 
 #. SysConfig
 msgid "DynamicField object registration."
+msgstr ""
+
+#. SysConfig
+msgid "E-Mail Outbound"
 msgstr ""
 
 #. SysConfig
@@ -15950,7 +15958,7 @@ msgid "Specifies user id of the postmaster data base."
 msgstr ""
 
 #. SysConfig
-msgid "Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database."
+msgid "Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig
