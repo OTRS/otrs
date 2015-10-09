@@ -722,7 +722,7 @@ sub SetPassword {
         $CryptedPw = $Pw;
     }
 
-    # crypt with unix crypt
+    # crypt with UNIX crypt
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
@@ -1164,10 +1164,14 @@ sub SetPreferences {
         'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::1',
         'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::0',
         'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Short::0::' . $FirstnameLastNameOrder,
-        'UserList::Short::1::' . $FirstnameLastNameOrder,
-        'UserList::Long::0::' . $FirstnameLastNameOrder,
-        'UserList::Long::1::' . $FirstnameLastNameOrder,
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::1',
     );
 
     # get cache object
