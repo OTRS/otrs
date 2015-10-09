@@ -1,4 +1,5 @@
 #5.0.1 2015-??-??
+ - 2015-10-09 Fixed bug#[11544](http://bugs.otrs.org/show_bug.cgi?id=11544) - Missing Dynamic Field Name in container div class in Customer Interface..
 
 #5.0.0.rc1 2015-10-13
  - 2015-10-08 Updated translations, thanks to all translators.
