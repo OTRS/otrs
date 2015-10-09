@@ -142,7 +142,7 @@ $Selenium->RunTest(
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Ticket with ticket id $TicketID is created"
+            "Ticket with ticket id $TicketID is created",
         );
 
         # go to ticket zoom page of created test ticket
