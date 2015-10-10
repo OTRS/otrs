@@ -62,7 +62,7 @@ sub Run {
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -139,6 +139,7 @@ sub Run {
                 if ($QueueDefaultID) {
                     $Param{ToSelected} = $QueueDefaultID . '||' . $QueueDefault;
                 }
+                $ACLCompatGetParam{QueueID} = $QueueDefaultID;
             }
 
             # warn if there is no (valid) default queue and the customer can't select one
@@ -154,7 +155,8 @@ sub Run {
             my ( $QueueIDParam, $QueueParam ) = split( /\|\|/, $GetParam{Dest} );
             my $QueueIDLookup = $QueueObject->QueueLookup( Queue => $QueueParam );
             if ( $QueueIDLookup && $QueueIDLookup eq $QueueIDParam ) {
-                $Param{ToSelected} = $GetParam{Dest};
+                $Param{ToSelected}          = $GetParam{Dest};
+                $ACLCompatGetParam{QueueID} = $QueueIDLookup;
             }
         }
 
@@ -190,6 +192,7 @@ sub Run {
                     # set possible values filter from ACLs
                     my $ACL = $TicketObject->TicketAcl(
                         %GetParam,
+                        %ACLCompatGetParam,
                         Action         => $Self->{Action},
                         TicketID       => $Self->{TicketID},
                         ReturnType     => 'Ticket',
@@ -226,7 +229,7 @@ sub Run {
         $Output    .= $LayoutObject->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
             %GetParam,
-            QueueID          => $QueueDefaultID,
+            %ACLCompatGetParam,
             ToSelected       => $Param{ToSelected},
             DynamicFieldHTML => \%DynamicFieldHTML,
             FromChatID       => $GetParam{FromChatID} || '',
@@ -1275,7 +1278,7 @@ sub _MaskNew {
         FieldFilter => $Config->{DynamicField} || {},
     );
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
