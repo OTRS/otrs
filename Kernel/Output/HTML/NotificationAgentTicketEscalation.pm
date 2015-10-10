@@ -61,7 +61,7 @@ sub Run {
     if ($CacheTime) {
         my $Output = $Self->{CacheObject}->Get(
             Type => 'TicketEscalation',
-            Key  => 'EscalationResult::' . $Self->{UserID},
+            Key  => 'EscalationResult::' . $Self->{UserID} . '::' . $Self->{LayoutObject}->{UserLanguage},
         );
         return $Output if defined $Output;
     }
@@ -215,7 +215,7 @@ sub Run {
     if ($CacheTime) {
         $Self->{CacheObject}->Set(
             Type  => 'TicketEscalation',
-            Key   => 'EscalationResult::' . $Self->{UserID},
+            Key   => 'EscalationResult::' . $Self->{UserID} . '::' . $Self->{LayoutObject}->{UserLanguage},
             Value => $Output,
             TTL   => $CacheTime,
         );
