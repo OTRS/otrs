@@ -1,4 +1,5 @@
 #5.0.1 2015-??-??
+ - 2015-10-10 Fixed bug#[11260](http://bugs.otrs.org/show_bug.cgi?id=11260) - Missing translation escalation, thanks to S7.
  - 2015-10-09 Fixed bug#[11467](http://bugs.otrs.org/show_bug.cgi?id=11467) - ACL does not work with Dest Link in Customer::ModuleRegistration, thanks to S7.
  - 2015-10-09 Fixed bug#[11513](http://bugs.otrs.org/show_bug.cgi?id=11513) - Out of Office is missing in owner dropdown.
  - 2015-10-09 Fixed bug#[11530](http://bugs.otrs.org/show_bug.cgi?id=11530) - Some messages are not translatable, thanks to S7.
