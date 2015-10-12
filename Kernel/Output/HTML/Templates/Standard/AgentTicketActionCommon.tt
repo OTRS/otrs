@@ -418,7 +418,9 @@ $('#TypeID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>

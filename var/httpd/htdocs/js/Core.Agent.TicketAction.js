@@ -425,5 +425,41 @@ Core.Agent.TicketAction = (function (TargetNS) {
         $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
 
+    /**
+     * @name ConfirmTemplateOverwrite
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @param {String} FieldName - The ID of the content field (textarea or RTE). ID without selector (#).
+     * @param {jQueryObject} $TemplateSelect - Selector of the dropdown element for the template selection.
+     * @param {Function} Callback - Callback function to execute if overwriting is confirmed.
+     * @description
+     *      After a template was selected, this function lets the user confirm that all already existing content
+     *      in the textarea or RTE will be overwritten with the template content.
+     */
+    TargetNS.ConfirmTemplateOverwrite = function (FieldName, $TemplateSelect, Callback) {
+        var Content = '';
+
+        // Fallback for non-richtext content
+        Content = $('#' + FieldName).val();
+
+        // get RTE content
+        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[FieldName]) {
+            Content = CKEDITOR.instances[FieldName].getData();
+        }
+
+        // if content already exists let user confirm to really overwrite that content with a template
+        if (
+            Content.length &&
+            !window.confirm(Core.Config.Get('TicketActionTemplateOverwrite') + ' ' + Core.Config.Get('TicketActionTemplateOverwriteConfirm')))
+            {
+                // if user cancels confirmation, reset template selection
+                $TemplateSelect.val('');
+
+        }
+        else if ($.isFunction(Callback)) {
+            Callback();
+        }
+    }
+
     return TargetNS;
 }(Core.Agent.TicketAction || {}));

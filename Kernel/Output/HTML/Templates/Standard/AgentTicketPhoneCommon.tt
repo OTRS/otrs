@@ -78,7 +78,10 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($(this).closest('form'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        var $TemplateSelect = $(this);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $TemplateSelect, function () {
+            Core.AJAX.FormUpdate($TemplateSelect.closest('form'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>
