@@ -94,14 +94,24 @@ sub Auth {
     if ( $Param{TwoFactorToken} ne $OTP ) {
 
         # check if previous token is also to be accepted
-        return if !$ConfigObject->Get("AuthTwoFactorModule$Self->{Count}::AllowPreviousToken");
+        if ( $ConfigObject->Get("AuthTwoFactorModule$Self->{Count}::AllowPreviousToken") ) {
 
-        # try again with previous otp (from 30 seconds ago)
-        $OTP = $Self->_GenerateOTP(
-            Secret   => $UserPreferences{$SecretPreferencesKey},
-            Previous => 1,
-        );
-        return if $Param{TwoFactorToken} ne $OTP;
+            # try again with previous otp (from 30 seconds ago)
+            $OTP = $Self->_GenerateOTP(
+                Secret   => $UserPreferences{$SecretPreferencesKey},
+                Previous => 1,
+            );
+        }
+
+        if ( $Param{TwoFactorToken} ne $OTP ) {
+
+            # log failure
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "User: $Param{User} two factor authentication failed (non-matching otp).",
+            );
+            return;
+        }
     }
 
     # log success
