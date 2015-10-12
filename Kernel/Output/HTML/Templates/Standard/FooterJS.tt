@@ -97,6 +97,8 @@ Core.App.Ready(function () {
         NewPublicChat: [% Translate("New public chat request") | JSON %],
         NewChatActivity: [% Translate("New activity") | JSON %],
         NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
+        TicketActionTemplateOverwrite: [% Translate("Setting a template will overwrite any text or attachment.") | JSON %],
+        TicketActionTemplateOverwriteConfirm: [% Translate("Do you really want to continue?") | JSON %],
         AgentLogoURL: '[% Config("AgentLogo").URL %]',
         OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
         OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %]
