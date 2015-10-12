@@ -38,8 +38,6 @@
 
         </div>
         <div class="Content">
-
-[% RenderBlockStart("WidgetTicketActions") %]
             <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -160,7 +158,6 @@
                     </fieldset>
                 </div>
             </div>
-[% RenderBlockEnd("WidgetTicketActions") %]
 
 [% RenderBlockStart("WidgetDynamicFields") %]
             <div class="WidgetSimple Expanded">
