@@ -366,6 +366,10 @@ sub Form {
         $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- $EndForwardedMessage ---\n";
         $Data{Body} = $Data{Signature} . $Data{Body};
+
+        if ( $GetParam{ForwardTemplateID} ) {
+            $Data{Body} = $Data{StdTemplate} . "\n" . $Data{Body};
+        }
     }
 
     # get std. attachment object
