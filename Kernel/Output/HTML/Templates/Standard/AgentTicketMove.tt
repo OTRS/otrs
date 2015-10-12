@@ -93,7 +93,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Owner") %]
 
-                        [% RenderBlockStart("State") %]
+[% RenderBlockStart("State") %]
                         <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
                         <div class="Field">
                             [% Data.NextStatesStrg %]
