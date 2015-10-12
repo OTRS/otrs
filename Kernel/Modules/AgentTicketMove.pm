@@ -247,7 +247,7 @@ sub Run {
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    # ajax update
+    # Ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
 
@@ -288,7 +288,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -338,7 +338,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ElementChanged eq 'StandardTemplateID' ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -484,7 +484,7 @@ sub Run {
         );
     }
 
-    # create html strings for all dynamic fields
+    # create HTML strings for all dynamic fields
     my %DynamicFieldHTML;
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -509,7 +509,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData($PossibleValues) ) {
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -657,7 +657,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -925,7 +925,7 @@ sub Run {
             );
         }
 
-        # set pending time on pendig state
+        # set pending time on pending state
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
             # set pending time
@@ -1021,7 +1021,7 @@ sub Run {
             }
             @AttachmentData = @NewAttachmentData;
 
-            # verify html document
+            # verify HTML document
             $GetParam{Body} = $LayoutObject->RichTextDocumentComplete(
                 String => $GetParam{Body},
             );
@@ -1153,24 +1153,6 @@ sub AgentMove {
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # Widget Ticket Actions
-    if (
-        ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
-        ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
-        ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
-        $Config->{Title} ||
-        $Config->{Queue} ||
-        $Config->{Owner} ||
-        $Config->{State} ||
-        $Config->{Priority}
-        )
-    {
-        $LayoutObject->Block(
-            Name => 'WidgetTicketActions',
-        );
-    }
 
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;

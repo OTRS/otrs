@@ -1,4 +1,5 @@
 #5.0.1 2015-??-??
+ - 2015-10-12 Fixed bug#[11510](http://bugs.otrs.org/show_bug.cgi?id=11510) - AgentTicketMove empty by sysconfig changes.
  - 2015-10-12 Fixed bug#[11255](http://bugs.otrs.org/show_bug.cgi?id=11255) - Forwarding Templates do not work with rich text disabled.
  - 2015-10-10 Fixed bug#[11260](http://bugs.otrs.org/show_bug.cgi?id=11260) - Missing translation escalation, thanks to S7.
  - 2015-10-09 Fixed bug#[11467](http://bugs.otrs.org/show_bug.cgi?id=11467) - ACL does not work with Dest Link in Customer::ModuleRegistration, thanks to S7.
