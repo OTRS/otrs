@@ -539,12 +539,18 @@ $('.NotificationDelete').bind('click', function (Event) {
 
 [% RenderBlockStart("NotificationLanguage") %]
                         <div class="NotificationLanguage">
-                            <div class="WidgetSimple SpacingTop">
+                            <div class="WidgetSimple SpacingTop [% IF !Data.Language %] Collapsed [% END %] ">
                                 <div class="Header">
                                     <div class="WidgetAction Toggle">
                                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                                     </div>
-                                    <h2 class="Title">[% Translate(Data.Language) %]</h2>
+                                    <h2 class="Title">
+                                        [% IF Data.Language %]
+                                          [% Translate(Data.Language) %]
+                                        [% ELSE %]
+                                           <span class="Warning">'[% Data.LanguageID | html %]' &mdash; [% Translate("This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.") | html %]</span>
+                                        [% END %]
+                                    </h2>
 [% RenderBlockStart("NotificationLanguageRemoveButton") %]
                                     <div class="AdditionalInformation">
                                         <a value="Remove Language" class="RemoveButton LanguageRemove" id="[% Data.LanguageID | html %]_Language_Remove" href="" name="Data.LanguageID_Language_Remove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove Notification Language") | html %]</span></a>
