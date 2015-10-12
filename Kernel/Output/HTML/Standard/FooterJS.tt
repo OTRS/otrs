@@ -71,7 +71,9 @@ Core.App.Ready(function () {
         TurnOffCompatibilityModeMsg: [% Translate("Please turn off Compatibility Mode in Internet Explorer!") | JSON %],
         BrowserTooOldMsg: [% Translate("The browser you are using is too old.") | JSON %],
         BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
-        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %]
+        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
+        TicketActionTemplateOverwrite: [% Translate("Setting a template will overwrite any text or attachment.") | JSON %],
+        TicketActionTemplateOverwriteConfirm: [% Translate("Do you really want to continue?") | JSON %]
     });
 
     Core.Agent.Init();
