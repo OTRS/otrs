@@ -39,6 +39,7 @@ Core.UI.InputFields = (function (TargetNS) {
         ResizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
         ResizeTimeout: 0,
         SafeMargin: 30,
+        MaxNumberOfOptions: 999,
         Diacritics: {
             "\u24B6":"A", "\uFF21":"A", "\u00C0":"A", "\u00C1":"A", "\u00C2":"A", "\u1EA6":"A",
             "\u1EA4":"A", "\u1EAA":"A", "\u1EA8":"A", "\u00C3":"A", "\u0100":"A", "\u0102":"A",
@@ -981,6 +982,12 @@ Core.UI.InputFields = (function (TargetNS) {
                 $ShowTreeObj,
                 $FiltersListObj,
                 ScrollEventListener;
+
+            // For performance reasons:
+            // Do not initialize modern inputfields on selects with many entries
+            if ($(SelectObj).children('option').length > Config.MaxNumberOfOptions) {
+                return;
+            }
 
             // Only initialize new elements if original field is valid and visible
             if ($(SelectObj).is(':visible')) {
