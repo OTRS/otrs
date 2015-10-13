@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.923114593535749;
+    $Self->{Completeness}        = 0.921702960606802;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -476,6 +476,7 @@ sub Data {
         'User Profile' => 'Perfil do usuario',
         'Email Settings' => 'Parámetros de configuración do correo electrónico',
         'Other Settings' => 'Outros axustes',
+        'Notification Settings' => '',
         'Change Password' => 'Cambiar o contrasinal',
         'Current password' => 'Contrasinal actual',
         'New password' => 'Novo contrasinal',
@@ -1565,6 +1566,8 @@ sub Data {
         'No data found' => 'Non se atoparon datos',
         'No notification method found.' => 'Non se atopou ningún método de notificación.',
         'Notification Text' => 'Texto da notificación',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => 'Retirar o idioma da notificación',
         'Message body' => 'Corpo da mensaxe',
         'Add new notification language' => 'Engadir un idioma de notificación novo',
@@ -2604,7 +2607,7 @@ sub Data {
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Facer rebotar o tícket',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Facer rebotar a',
         'You need a email address.' => 'Necesita un enderezo de correo electrónico.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2647,7 +2650,6 @@ sub Data {
         'Select this customer as the main customer.' => 'Seleccionar este cliente como cliente principal.',
         'Remove Ticket Customer User' => 'Elimine Ticket Usuario Cliente',
         'Get all' => 'Obteña todos',
-        'Do you really want to continue?' => 'Desexa realmente continuar?',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => 'Email Saínte para %s%s',
@@ -2969,6 +2971,7 @@ sub Data {
         'New public chat request' => 'Nova petición de chat público',
         'New activity' => 'Nova actividade',
         'New activity on one of your monitored chats.' => 'Nova actividade nun dos seus chats monitoreados.',
+        'Do you really want to continue?' => 'Desexa realmente continuar?',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Esta función é parte de %s. Por favor contecte con nos en %s para unha mellora.',
@@ -4563,14 +4566,14 @@ Thanks for your help!
             'Determina a seguinte pantalla despois de que un ticket é movido. LastScreenOverview devolverá a última pantalla de visión xeral (p. ex. resultados de busca, vistacola, cadro de mando). TicketZoom volverá ao TicketZoom.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Determina os posibles estados para tickets pendentes que cambiaban de estado despois de que alcanza o límite de tempo.',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Determina os strings que serán mostrados como receptor (A:) do ticket telefónico e como remitente (De:) do ticket de correo electrónico na interface de axente. Para Cola como NewQueueSelectionType "<Cola>" ensina os nomes das colas e para SystemAddress "<nomeReal> <<Email>>" ensina o nome e correo electrónico do receptor.',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Determina os strings que serán mostrados como receptor (A:) do ticket na interface de cliente. Para Cola como CustomerPanelSelectionType, "<Cola>" ensina os nomes das colas, e para SystemAddress "<nomeReal> <<Email>>" ensina o nome e correo electrónico do receptor.',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Determina a forma en que os obxetos ligados son mostrados en cada máscara de zoom.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'Determina que opcións van ser válidas para o receptor (ticket telefónico) e o remitente (ticket de correo electrónico) na interface de axente.',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina cales colas van ser validas para receptores de tickets na interface de cliente.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4657,6 +4660,7 @@ Thanks for your help!
             'Campos dinámicos mostrados na pantalla zoom de ticket da interface de cliente.  Axustes posibles: 0 = Desactivado, 1 = Activado.',
         'DynamicField backend registration.' => 'Rexistro backend CampoDinamico.',
         'DynamicField object registration.' => 'Rexistro obxeto CampoDinamico.',
+        'E-Mail Outbound' => 'Correo electrónico De Ida',
         'Edit customer company' => 'Editar a empresa do cliente',
         'Email Addresses' => 'Enderezos de Correo Electronico',
         'Email sent to "%s".' => 'Correo Electrónico enviado a "%s".',
@@ -5716,8 +5720,8 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Especifica o texto que debería aparecer no arquivo log para indicar unha entrada de script de CGI.',
         'Specifies user id of the postmaster data base.' => 'Especifica o id usuario da base de datos postmaster.',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
-            'Especifica se tódolos backends de almacenamento deberían ser comprobados cando fanse buscas de adxuntos. Isto é soamente requirido para instalacións onde algúns adxuntos están no sistema de arquivo, e outros na base de datos.',
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
+            '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Especifique cantos niveis sub directorio se deben utilizar cando creanse arquivos de cache. Isto debería previr demasiados arquivos de cache de estar nun directorio.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>

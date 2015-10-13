@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-07 17:42+0000\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/otrs/OTRS/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -1701,6 +1701,10 @@ msgstr "ईमेल व्यवस्थाऐं"
 #. Template: AAAPreferences
 msgid "Other Settings"
 msgstr "अन्य व्यवस्थाऐं"
+
+#. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5485,6 +5489,12 @@ msgid "Notification Text"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
 msgstr ""
 
@@ -8710,7 +8720,7 @@ msgid "Note type"
 msgstr "टिप्पणी प्रकार"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
+msgid "Bounce %s%s"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -8840,10 +8850,6 @@ msgstr ""
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "सभी प्राप्त करें"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9826,6 +9832,10 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: FooterJS
@@ -14576,15 +14586,6 @@ msgstr "विचाराधीन टिकट जो समय सीमा �
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "प्रतिनिधि अंतरफलक में स्ट्रिंग जो फोन टिकट के प्राप्तकर्ता(के लिए:) के रूप में और ईमेल टिकट के प्रेषक(से:) के रूप में दिखाई जाएगी को निर्धारित करता है। श्रेणी के लिए नई पंक्ति चयन प्रकार  \"< श्रेणी>\" श्रेणीयों के नाम दर्शाता है और प्रणाली के पते के लिए \"<Realname> <<Email>>\" प्राप्तकर्ता का नाम और ईमेल दर्शाता है।"
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
@@ -14592,14 +14593,23 @@ msgid ""
 msgstr "ग्राहक अंतरफलक में स्ट्रिंग जो टिकट के प्राप्तकर्ता(के लिए:) दिखाई जाएगी को निर्धारित करता है। श्रेणी के लिए ग्राहक फलक चयन प्रकार \"< श्रेणी>\" श्रेणीयों के नाम दर्शाता है और प्रणाली के पते के लिए \"<Realname> <<Email>>\" प्राप्तकर्ता का नाम और ईमेल दर्शाता है।"
 
 #. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
+msgstr ""
+
+#. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
 msgstr "लिंक वस्तुऐं हर ज़ूम नकाब में जिस तरह से प्रदर्शित  की जाती हैं उसे निर्धारित करता है।"
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "प्रतिनिधि अंतरफलक में प्राप्तकर्ता(फोन टिकट) और प्रेषक(ईमेल टिकट) के लिए जो विकल्प वैध होगें उनको निर्धारित करता है।"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14879,6 +14889,10 @@ msgstr ""
 
 #. SysConfig
 msgid "DynamicField object registration."
+msgstr ""
+
+#. SysConfig
+msgid "E-Mail Outbound"
 msgstr ""
 
 #. SysConfig
@@ -18431,8 +18445,8 @@ msgstr "डाकपाल आंकड़ा कोष के उपयोग�
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig

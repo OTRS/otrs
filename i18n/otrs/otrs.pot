@@ -5263,6 +5263,10 @@ msgid "Notification Text"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
 msgstr ""
 
@@ -8295,7 +8299,7 @@ msgid "Note type"
 msgstr ""
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
+msgid "Bounce %s%s"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -8424,10 +8428,6 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "Get all"
-msgstr ""
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: AgentTicketEmailOutbound
@@ -9396,6 +9396,10 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: FooterJS

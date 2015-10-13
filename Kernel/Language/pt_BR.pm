@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.670910871694417;
+    $Self->{Completeness}        = 0.674088573525814;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -481,6 +481,7 @@ sub Data {
         'User Profile' => 'Perfil do Usuário',
         'Email Settings' => 'Configurações de E-mail',
         'Other Settings' => 'Outras Configurações',
+        'Notification Settings' => '',
         'Change Password' => 'Trocar senha',
         'Current password' => 'Senha atual',
         'New password' => 'Nova senha',
@@ -1371,12 +1372,12 @@ sub Data {
             '\'FreeText\' é usado como exemplo para o real valor configurado.',
         'Response name free text' => 'Nome da resposta free text',
         'Text to be used to as function wrapper name suffix or replacement.' =>
-            '',
+            'Texto a ser usado como sufixo ou substituto de nome da função de encapsulamento.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
-            '',
-        'Response name scheme' => '',
+            'Por favor considere as restrições para nomeação de elementos XML (ex.: não use \'<\' e \'&\').',
+        'Response name scheme' => 'Esquema de nome da resposta',
         'Select how SOAP response function wrapper should be constructed.' =>
-            '',
+            'Selecione como a função de encapsulamento da resposta SOAP precisa ser construída.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Aqui você pode especificar o tamanho máximo (em bytes) das mensagens SOAP que o OTRS vai processar.',
         'Encoding' => 'Codificação',
@@ -1407,10 +1408,10 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'O caminho completo do diretório da autoridade certificadora onde os certificados AC serão armazenados no sistema de arquivos.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'ex. /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
-        'Add new first level element' => '',
+        'Sort options' => 'Ordenar opções',
+        'Add new first level element' => 'Adicionar novo elemento de primeiro nível',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            '',
+            'Sentido de ordenação de saída para campos xml (começo da estrutura abaixo do encapsulamento de nome de função) - veja documentação sobre transporte SOAP.',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => 'Gerenciamento de Web Service',
@@ -1525,16 +1526,16 @@ sub Data {
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => 'Sobrescrever notificações existentes?',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Upload Notification configuration' => 'Suba a configuração de notificação',
+        'Import Notification configuration' => 'Importe a configuração de notificação',
         'Delete this notification' => 'Excluir esta notificação',
         'Do you really want to delete this notification?' => 'Você realmente quer apagar essa notificação ?',
         'Add Notification' => 'Adicionar Notificação',
         'Edit Notification' => 'Alterar Notificação',
         'Show in agent preferences' => 'Mostras nas preferências do atende',
-        'Agent preferences tooltip' => '',
+        'Agent preferences tooltip' => 'Tooltip das preferências de agente',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Esta mensagem vai ser exibida na tela de preferências de agente como um tooltip para esta notificação.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             '',
         'Ticket Filter' => 'Filtro de Chamado',
@@ -1561,15 +1562,17 @@ sub Data {
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => 'Ativar esse método de notificação',
-        'Transport' => '',
-        'At least one method is needed per notification.' => '',
-        'Send by default' => '',
+        'Transport' => 'Transporte',
+        'At least one method is needed per notification.' => 'Pelo menos um método é necessário por notificação.',
+        'Send by default' => 'Envie por padrão',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Este recurso não está disponível no momento.',
         'No data found' => 'Dados não encontrado',
         'No notification method found.' => 'Método de notificação não existente',
         'Notification Text' => 'Texto da notificação',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => '',
         'Message body' => 'Corpo da mensagem',
         'Add new notification language' => 'Adicionar novo idioma notificação',
@@ -2609,7 +2612,7 @@ sub Data {
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Devolver Chamado',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Devolver para',
         'You need a email address.' => 'Você precisa de um endereço de e-mail.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2652,7 +2655,6 @@ sub Data {
         'Select this customer as the main customer.' => 'Selecione este cliente como principal',
         'Remove Ticket Customer User' => 'Remover Usuário Cliente do Chamado',
         'Get all' => 'Obter todos',
-        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => '',
@@ -2974,6 +2976,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
@@ -4568,13 +4571,13 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             '',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            '',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             '',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
@@ -4662,6 +4665,7 @@ Thanks for your help!
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
+        'E-Mail Outbound' => 'E-mail de Saída',
         'Edit customer company' => 'Editar empresa de cliente',
         'Email Addresses' => 'Endereços de E-mail',
         'Email sent to "%s".' => 'E-mail enviado para "%s".',
@@ -5721,7 +5725,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             '',
         'Specifies user id of the postmaster data base.' => '',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',

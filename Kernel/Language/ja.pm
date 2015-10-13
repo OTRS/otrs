@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.722820763956905;
+    $Self->{Completeness}        = 0.723268901394666;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -480,6 +480,7 @@ sub Data {
         'User Profile' => 'ユーザーのプロファイル',
         'Email Settings' => 'メール設定',
         'Other Settings' => 'その他の設定',
+        'Notification Settings' => '',
         'Change Password' => 'パスワード変更',
         'Current password' => '現在のパスワード',
         'New password' => '新しいパスワード',
@@ -744,7 +745,7 @@ sub Data {
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
             'チケット所有者が受け取る通知と同じものを監視チケットにも送信',
         'Send ticket watch notifications' => '監視チケット通知を送信',
-        'Out Of Office Time' => '勤務時間外',
+        'Out Of Office Time' => '外出中',
         'New Ticket' => '新規チケット',
         'Create new Ticket' => '新規チケット作成',
         'Customer called' => '顧客が電話をかけてきた',
@@ -1530,7 +1531,7 @@ sub Data {
         'Do you really want to delete this notification?' => '',
         'Add Notification' => '通知の追加',
         'Edit Notification' => '通知の編集',
-        'Show in agent preferences' => '担当者のプリファレンスを表示',
+        'Show in agent preferences' => '担当者のプリファレンスに表示',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -1542,16 +1543,16 @@ sub Data {
         'Article type' => '記事タイプ',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '',
-        'Article sender type' => '',
+        'Article sender type' => '記事送信者タイプ',
         'Subject match' => '表題が一致',
         'Body match' => '本文が一致',
         'Include attachments to notification' => '通知が添付ファイルを含む',
         'Recipients' => '受信者',
-        'Send to' => '',
-        'Send to these agents' => 'これらの担当者に送付',
-        'Send to all group members' => 'グループの全てのメンバーに送付',
+        'Send to' => '送信先',
+        'Send to these agents' => 'これらの担当者に送信',
+        'Send to all group members' => 'グループの全てのメンバーに送信',
         'Send to all role members' => 'ロールの全てのメンバーに送付',
-        'Send on out of office' => '外出中の担当者に送付',
+        'Send on out of office' => '外出中の担当者に送信',
         'Also send if the user is currently out of office.' => '現在外出中のユーザーにも送付する。',
         'Once per day' => '一日に一度',
         'Notify user just once per day about a single ticket using a selected transport.' =>
@@ -1569,6 +1570,8 @@ sub Data {
         'No data found' => '',
         'No notification method found.' => '',
         'Notification Text' => '通知文書',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '新規通知言語を追加',
@@ -2508,7 +2511,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Totals' => '合計',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => 'オフィスにいません',
+        'out of office' => '外出中',
         'Selected agent is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
@@ -2609,7 +2612,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Note type' => 'メモタイプ',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => '',
+        'Bounce %s%s' => '',
         'Bounce to' => 'バウンスto',
         'You need a email address.' => 'メールアドレスが必要です',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2652,7 +2655,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '全てを取得',
-        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => '',
@@ -2844,7 +2846,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Clear all' => 'すべてクリア',
         'Clear search' => '検索条件をクリア',
         '%s selection(s)...' => '',
-        'and %s more...' => '',
+        'and %s more...' => '他%sつ',
         'Filters' => '',
         'Confirm' => '確認',
 
@@ -2877,7 +2879,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '個人設定の編集',
-        'Logout %s %s' => '',
+        'Logout %s %s' => 'ログアウト %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -2974,6 +2976,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
@@ -4549,7 +4552,7 @@ Thanks for your help!
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'もしセッションIDが、無効なリモートIPアドレスと共に使用されている場合、セッションを削除します。',
         'Deletes requested sessions if they have timed out.' => 'リクエストされたセッションがタイムアウトしている場合に削除します。',
-        'Deploy and manage OTRS Business Solution™.' => 'OTRSビジネスソリューション™のデプロイと管理',
+        'Deploy and manage OTRS Business Solution™.' => 'OTRS Business Solution™のデプロイと管理',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。"New Window"を設定した場合、チケットに移動メモを追加することができます。',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -4568,14 +4571,14 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'タイム・リミットを越えてから状態を変更したペンディング・チケットに対して、可能となる状態を定義します。',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            '担当者インタフェースにおいて、電話チケットの受領者(To:)、およびEメール・チケットの送信者(From:)として表示される文字列を定義します。キューに関しては、NewQueueSelectionType "<Queue>"がキューの名前を表示し、SystemAddress "<Realname> <<Email>>"は受領者の名前およびEメールを表示します。',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'リンクされたオブジェクトがそれぞれのズームマスクで表示される方式を定義します。',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            '担当者インタフェースにおいて、受領者（電話チケット）および送信者（Eメール・チケット）に関する、どのオプションが有効となるかを定義します。',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4665,6 +4668,7 @@ Thanks for your help!
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
+        'E-Mail Outbound' => 'メール送信',
         'Edit customer company' => '顧客企業を編集',
         'Email Addresses' => 'メールアドレス',
         'Email sent to "%s".' => 'Email sent to "%s".',
@@ -5114,7 +5118,7 @@ Thanks for your help!
         'Online' => 'オンライン',
         'Open tickets (customer user)' => 'オープンチケット(顧客ユーザー)',
         'Open tickets (customer)' => 'オープンチケット(顧客)',
-        'Out Of Office' => 'オフィスにいません',
+        'Out Of Office' => '外出中',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。',
         'Overview Escalated Tickets' => 'エスカレーション済チケット一覧',
@@ -5203,7 +5207,7 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、オリジナルの送信者を、コンポーズ・アンサー上の現在の顧客のEメール・アドレスに置換します。',
         'Reports' => 'レポート',
-        'Reports (OTRS Business Solution™)' => 'レポート（OTRSビジネスソリューション™）',
+        'Reports (OTRS Business Solution™)' => 'レポート（OTRS Business Solution™）',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -5260,7 +5264,7 @@ Thanks for your help!
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => 'メンテナンス期間をスケジュール',
-        'Screen' => '',
+        'Screen' => '画面',
         'Search Customer' => '顧客を検索します。',
         'Search User' => 'ユーザを検索します。',
         'Search backend default router.' => 'バックエンドのデフォルト・ルーターを検索します。',
@@ -5725,7 +5729,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'ログ・ファイルの中でCGIスクリプト・エントリーを意味するテキストを規定します。',
         'Specifies user id of the postmaster data base.' => 'ポストマスター・データベースのユーザIDを特定します。',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
@@ -5845,7 +5849,7 @@ Thanks for your help!
         'Unlocked ticket.' => 'Unlocked ticket.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '全ての項目が確認された、または新規のArticleが作成された場合に、チケット“Seen”フラグをアップデートします。',
-        'Update and extend your system with software packages.' => 'このシステムのソフトウェアパッケージの更新と拡張',
+        'Update and extend your system with software packages.' => 'このシステムのソフトウェアパッケージの更新と展開',
         'Updated SLA to %s (ID=%s).' => 'Updated SLA to %s (ID=%s).',
         'Updated Service to %s (ID=%s).' => 'Updated Service to %s (ID=%s).',
         'Updated Type to %s (ID=%s).' => 'Updated Type to %s (ID=%s).',

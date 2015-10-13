@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.672380019588639;
+    $Self->{Completeness}        = 0.737215561536579;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -475,6 +475,7 @@ sub Data {
         'User Profile' => 'Butiran Pengguna',
         'Email Settings' => 'Aturan Emel',
         'Other Settings' => 'Aturan Lain',
+        'Notification Settings' => '',
         'Change Password' => 'Tukar kata laluan',
         'Current password' => 'Kata laluan asal',
         'New password' => 'Kata laluan baru',
@@ -1312,10 +1313,10 @@ sub Data {
         'Maximum message length' => 'Panjang maksimum mesej',
         'This field should be an integer number.' => 'Ruang ini haruslah disi dengan nombor.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
-            '',
-        'Send Keep-Alive' => '',
+            'Di sini anda boleh menentukan saiz maksimum (dalam bait) mesej yang lain yang OTRS akan proses .',
+        'Send Keep-Alive' => 'Hantar Kekal-Hidup',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
-            '',
+            'Konfigurasi ini mentakrifkan jika sambungan masuk seharusnya ditutup atau kekal hidup.',
         'Host' => 'Hos',
         'Remote host URL for the REST requests.' => '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
@@ -1326,8 +1327,8 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
-        'The default HTTP command to use for the requests.' => '',
+        'Default command' => 'Arahan lalai',
+        'The default HTTP command to use for the requests.' => 'Arahan HTTP lalai untuk digunakan untuk permintaan.',
         'Authentication' => 'Pengesahan',
         'The authentication mechanism to access the remote system.' => 'Mekanisme pengesahan untuk mengakses sistem jauh.',
         'A "-" value means no authentication.' => 'Nilai "-" bermaksud tiada pengesahan.',
@@ -1339,11 +1340,11 @@ sub Data {
         'The full path and name of the SSL certificate file.' => '',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => 'Fail Password Sijil',
-        'The full path and name of the SSL key file.' => '',
+        'The full path and name of the SSL key file.' => 'Laluan penuh dan nama fail SSL utama.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
         'Certification Authority (CA) File' => 'Fail Pihak berkuasa Persijilan (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
-            '',
+            ' Laluan penuh dan nama fail sijil berkuasa pemerakuan yang mengesahkan sijil SSL.',
         'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -1356,18 +1357,18 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI untuk memberi kaedah SOAP konteks, mengurangkan kekaburan.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'contoh: urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => '',
+        'Request name scheme' => 'Skim nama permintaan',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
             '',
         '\'FreeText\' is used as example for actual configured value.' =>
-            '',
-        'Response name free text' => '',
+            '\'TeksBebas\' digunakan sebagai contoh untuk nilai dikonfigurasikan yang sebenar.',
+        'Response name free text' => 'Nama jawapan teks bebas',
         'Text to be used to as function wrapper name suffix or replacement.' =>
-            '',
+            'Teks yang akan digunakan sebagai nama tugas pembungkus akhiran atau penggantian.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
-            '',
+            'Sila pertimbangkan elemen sekatan menamakan XML (contohnya tidak menggunakan \'<\' dan \'&\').',
         'Response name scheme' => 'Nama skema tindak balas',
         'Select how SOAP response function wrapper should be constructed.' =>
             '',
@@ -1401,7 +1402,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Laluan penuh direktori pihak berkuasa pemerakuan yang mana sijil CA disimpan dalam sistem fail.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'contoh: /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
+        'Sort options' => 'Pilihan jenis',
         'Add new first level element' => 'Tambah baru unsur peringkat pertama',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
@@ -1517,7 +1518,7 @@ sub Data {
         'Export Notifications' => 'Eksport pemberitahuan',
         'Configuration Import' => 'Import konfigurasi',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            '',
+            'Di sini anda boleh memuat naik fail konfigurasi untuk mengimport Pemberitahuan Tiket untuk sistem anda. Fail tersebut perlu berada dalam format .yml seperti yang dieksport oleh modul Pemberitahuan Tiket.',
         'Overwrite existing notifications?' => 'Tulis ganti pemberitahuan sedia ada?',
         'Upload Notification configuration' => 'Muat naik konfigurasi Pemberitahuan',
         'Import Notification configuration' => 'Import konfigurasi Pemberitahuan',
@@ -1525,50 +1526,52 @@ sub Data {
         'Do you really want to delete this notification?' => 'Anda pasti mahu memadam pemberitahuan ini?',
         'Add Notification' => 'Tambah pemberitahuan',
         'Edit Notification' => 'Edit pemberitahuan',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Tunjukkan dalam keutamaan ejen',
+        'Agent preferences tooltip' => 'Tip alat pilihan ejen',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Mesej ini akan dipaparkan pada skrin pilihan ejen sebagai tip alat untuk pemberitahuan ini.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            '',
+            'Di sini anda boleh memilih mana-mana peristiwa yang akan mencetuskan pemberitahuan ini. Penapis tiket tambahan boleh digunakan di bawah untuk hanya menghantar tiket dengan kriteria tertentu.',
         'Ticket Filter' => 'Penapis tiket',
         'Article Filter' => 'Tapisan Artikel',
-        'Only for ArticleCreate and ArticleSend event' => '',
+        'Only for ArticleCreate and ArticleSend event' => 'Hanya untuk acara CiptaArtikel dan HantarArtikel ',
         'Article type' => 'Jenis artikel',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
-            '',
-        'Article sender type' => '',
+            'Jika CiptaArtikel atau HantarArtikel digunakan sebagai peristiwa pencetus, anda perlu menentukan penapis artikel juga. Sila pilih sekurang-kurangnya salah satu daripada bidang penapis artikel.',
+        'Article sender type' => 'Jenis penghantar artikel',
         'Subject match' => 'perlawanan tertakluk',
         'Body match' => 'perlawanan badan',
         'Include attachments to notification' => 'Termasuk lampiran pemberitahuan',
         'Recipients' => 'Penerima',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Send to' => 'Hantar ke',
+        'Send to these agents' => 'Hantar ke ejen ini',
+        'Send to all group members' => 'Hantar ke semua ahli kumpulan',
+        'Send to all role members' => 'Hantar ke semua peranan ahli',
+        'Send on out of office' => 'Menghantar di luar pejabat',
+        'Also send if the user is currently out of office.' => 'Juga menghantar jika pengguna sedang berada di luar pejabat.',
+        'Once per day' => 'Sekali sehari',
         'Notify user just once per day about a single ticket using a selected transport.' =>
-            '',
-        'Notification Methods' => '',
+            'Memberitahu pengguna hanya sekali setiap hari kira-kira satu tiket menggunakan pengangkutan yang dipilih.',
+        'Notification Methods' => 'Kaedah pemberitahuan',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
-        'Enable this notification method' => '',
-        'Transport' => '',
-        'At least one method is needed per notification.' => '',
-        'Send by default' => '',
+            'Ini adalah kaedah yang mungkin boleh digunakan untuk menghantar pemberitahuan ini kepada setiap penerima. Sila pilih sekurang- kurangnya satu kaedah di bawah.',
+        'Enable this notification method' => 'Membenarkan kaedah pemberitahuan ini',
+        'Transport' => 'Pengangkutan',
+        'At least one method is needed per notification.' => 'Sekurang-kurangnya satu kaedah diperlukan bagi setiap pemberitahuan.',
+        'Send by default' => 'Menghantar secara lalai',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
+            'Patutkah pemberitahuan dihantar kepada ejen-ejen yang belum membuat pilihan dalam pilihan mereka?',
+        'This feature is currently not available.' => 'Ciri ini tidak tersedia.',
+        'No data found' => 'Tiada data dijumpai',
+        'No notification method found.' => 'Tiada kaedah pemberitahuan dijumpai.',
+        'Notification Text' => 'Teks Pemberitahuan',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
-        'Remove Notification Language' => '',
-        'Message body' => '',
-        'Add new notification language' => '',
-        'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
+        'Remove Notification Language' => 'Buang Bahasa Pemberitahuan',
+        'Message body' => 'Badan Mesej',
+        'Add new notification language' => 'Menambah bahasa pemberitahuan baru',
+        'Do you really want to delete this notification language?' => 'Adakah anda pasti ingin menghapuskan bahasa pemberitahuan ini?',
+        'Tag Reference' => 'Label Rujukan',
         'Notifications are sent to an agent or a customer.' => 'Pemberitahuan dihantar kepada ejen atau pelanggan.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Untuk mendapatkan pertama 20 watak subjek (artikel ejen terbaru).',
@@ -1578,80 +1581,80 @@ sub Data {
             'Untuk mendapatkan pertama 20 watak subjek (artikel pelanggan terbaru)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Untuk mendapatkan 5 baris pertama badan (pelanggan artikel yang terbaru).',
-        'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current customer user data' => 'Sifat-sifat data pengguna semasa pelanggan',
+        'Attibutes of the current ticket owner\'s user data' => 'Sifat-sifat data pengguna pemilik tiket semasa',
+        'Attibutes of the current ticket responsible\'s user data' => 'Sifat-sifat data pengguna tanggungjawab tiket semasa   ',
         'Attributes of the current agent user who requested this action' =>
-            '',
-        'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
+            'Sifat-sifat pengguna ejen semasa yang memohon tindakan ini',
+        'Attributes of the recipient user for the notification' => 'Sifat-sifat pengguna penerima bagi pemberitahuan',
+        'Attributes of the ticket data' => 'Sifat-sifat data tiket',
+        'Ticket dynamic fields internal key values' => 'Tiket medan dinamik nilai utama dalaman',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
-        'Example notification' => '',
+            'Tiket bidang dinamik memaparkan nilai, berguna untuk medan Turun ke bawah dan Pelbagai pilihan.',
+        'Example notification' => 'Contoh pemberitahuan',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Alamat e-mel penerima tambahan',
         'Notification article type' => 'Pemberitahuan artikel jenis',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
-        'Email template' => '',
+            'Sebuah artikel akan dicipta jika pemberitahuan dihantar kepada pelanggan atau alamat e-mel tambahan.',
+        'Email template' => 'Templat e-mel',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Menggunakan templat ini untuk menjana e-mel yang lengkap (hanya untuk e-mel HTML).',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
-        'Downgrade to OTRS Free' => '',
-        'Read documentation' => '',
+        'Manage %s' => 'Mengurus %s',
+        'Downgrade to OTRS Free' => 'Menurunkan taraf kepada OTRS Percuma',
+        'Read documentation' => 'Baca dokumentasi',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
-        'Unauthorized Usage Detected' => '',
+            '%s membuat hubungan kerap dengan cloud.otrs.com untuk memeriksa kemas kini yang tersedia dan kesahihan kontrak asas.',
+        'Unauthorized Usage Detected' => 'Penggunaan yang tidak dibenarkan dikesan',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Sistem ini menggunakan %s tanpa lesen yang betul! Sila telefon %s untuk memperbaharui atau mengaktifkan kontrak anda!',
+        '%s not Correctly Installed' => '%s tidak dipasang dengan betul',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            '%s anda tidak dipasang dengan betul. Sila pasang semula dengan butang di bawah.',
+        'Reinstall %s' => 'Pasang semula %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            '%s anda tidak dipasang dengan betul, dan terdapat juga kemas kini tersedia.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
+            'Anda boleh sama ada memasang semula versi semasa atau melakukan kemas kini dengan butang di bawah (kemaskini disyorkan).',
+        'Update %s' => 'Kemaskini %s',
+        '%s Not Yet Available' => '%s Belum Lagi Tersedia',
+        '%s will be available soon.' => '%s akan tersedia tidak lama lagi.',
+        '%s Update Available' => '%s Kemas kini Tersedia',
         'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
+            'Kemas kini untuk %s anda boleh didapati! Sila kemas kini di awal anda!',
+        '%s Correctly Deployed' => '%s Digerakkan dengan betul',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
+            'Tahniah, %s anda telah dipasang dengan betul dan terkini!',
 
         # Template: AdminOTRSBusinessNotInstalled
         '%s will be available soon. Please check again in a few days.' =>
-            '',
-        'Please have a look at %s for more information.' => '',
+            '%s akan disediakan tidak lama lagi. Sila semak semula dalam beberapa hari.',
+        'Please have a look at %s for more information.' => 'Sila lihat di %s untuk maklumat lanjut.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
+            'OTRS Percuma anda adalah asas untuk semua tindakan masa depan. Sila daftar terlebih dahulu sebelum anda meneruskan proses naik taraf daripada %s!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            '',
+            'Sebelum anda boleh mendapat manfaat daripada %s, sila hubungi %s untuk mendapatkan kontrak %s.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
-            '',
+            'Sambungan ke cloud.otrs.com melalui HTTPS tidak dapat diwujudkan. Sila pastikan bahawa OTRS anda boleh bersambung ke cloud.otrs.com melalui port 443.',
         'With your existing contract you can only use a small part of the %s.' =>
-            '',
+            'Dengan kontrak anda yang sedia ada, anda hanya boleh menggunakan sebahagian kecil daripada %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            '',
+            'Jika anda ingin mengambil kesempatan penuh daripada %s dapatkan kontrak anda dinaik taraf sekarang! Hubungi %s.',
 
         # Template: AdminOTRSBusinessUninstall
-        'Cancel downgrade and go back' => '',
-        'Go to OTRS Package Manager' => '',
+        'Cancel downgrade and go back' => 'Batal penurunan dan kembali',
+        'Go to OTRS Package Manager' => 'Pergi ke Pengurus Pakej OTRS',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            '',
+            'Maaf, tetapi kini anda tidak boleh menurunkan taraf kerana pakej berikut yang bergantung kepada %s:',
         'Vendor' => 'Penjual',
         'Please uninstall the packages first using the package manager and try again.' =>
-            '',
+            'Sila padam pakej terlebih dahulu menggunakan pengurus pakej dan cuba lagi.',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            '',
-        'Chat' => '',
+            'Anda akan menurunkan taraf kepada OTRS percuma dan akan kehilangan ciri-ciri berikut dan semua data yang berkaitan dengan ini:',
+        'Chat' => 'Sembang',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -1749,15 +1752,15 @@ sub Data {
         'Edit PostMaster Filter' => 'Edit Postmaster Penapis',
         'The name is required.' => 'Nama diperlukan.',
         'Filter Condition' => 'Keadaan penapis',
-        'AND Condition' => '',
-        'Check email header' => '',
-        'Negate' => '',
-        'Look for value' => '',
+        'AND Condition' => 'DAN Keadaan',
+        'Check email header' => 'Periksa kepala emel',
+        'Negate' => 'Sangkal',
+        'Look for value' => 'Cari nilai',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Bidang perlu untuk menjadi ungkapan yang sah tetap atau perkataan literal.',
         'Set Email Headers' => 'Tetapkan Pengepala E-mel',
-        'Set email header' => '',
-        'Set value' => '',
+        'Set email header' => 'Set kepala emel',
+        'Set value' => 'Set nilai',
         'The field needs to be a literal word.' => 'Bidang perlu menjadi perkataan literal.',
 
         # Template: AdminPriority
@@ -1770,18 +1773,18 @@ sub Data {
         'Process Management' => 'Pengurusan Proses',
         'Filter for Processes' => 'Penapis untuk Proses',
         'Create New Process' => 'Cipta Proses Baru',
-        'Deploy All Processes' => '',
+        'Deploy All Processes' => 'Gerakkan semua proses',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Disini anda boleh muat naik fail konfigurasi untuk import proses kedalam sistem anda. Fail itu mestilah di dalam format .yml seperti yang diexport oleh modul pengurusan proses.',
-        'Overwrite existing entities' => '',
+        'Overwrite existing entities' => 'Salin semula entiti sedia ada',
         'Upload process configuration' => 'Muat naik konfigurasi proses',
         'Import process configuration' => 'Import konfigurasi proses',
-        'Example processes' => '',
+        'Example processes' => 'Contoh proses',
         'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
-        'Import example process' => '',
+            'Di sini anda boleh mengaktifkan amalan terbaik contoh proses yang merupakan sebahagian daripada %s. Sila ambil perhatian bahawa beberapa konfigurasi tambahan mungkin diperlukan.',
+        'Import example process' => 'Import contoh proses',
         'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
+            'Adakah anda ingin mendapat manfaat daripada proses yang dicipta oleh pakar-pakar? Naik taraf ke %s dapat mengimport beberapa proses contoh canggih.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Untuk cipta Proses baru anda boleh sama ada import sebuah Proses yang telah diexport daripada sistem lain atau cipta proses yang baru.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1793,7 +1796,7 @@ sub Data {
         'Copy Process' => 'Salin Proses',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Batal dan tutup',
         'Go Back' => 'Kembali',
         'Please note, that changing this activity will affect the following processes' =>
             'Sila ambil perhatian bahawa mengubah aktiviti ini akan menjejaskan proses berikut',
@@ -1813,60 +1816,60 @@ sub Data {
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            '',
+            'Sila ambil perhatian bahawa menukar dialog aktiviti ini akan memberi kesan kepada aktiviti-aktiviti berikut',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
-            '',
+            'Sila ambil perhatian bahawa pengguna pelanggan tidak akan dapat melihat atau menggunakan bidang-bidang berikut: Pemilik, Tanggungjawab, Kunci, Masa tangguh dan IDPelanggan. ',
         'The Queue field can only be used by customers when creating a new ticket.' =>
-            '',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
-        'Available in' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
-        'The selected permission does not exist.' => '',
-        'Required Lock' => '',
-        'The selected required lock does not exist.' => '',
-        'Submit Advice Text' => '',
-        'Submit Button Text' => '',
+            'Medan barisan hanya boleh digunakan oleh pelanggan semasa membuat tiket baru.',
+        'Activity Dialog' => 'Dialog Aktiviti',
+        'Activity dialog Name' => 'Nama dialog aktiviti',
+        'Available in' => 'Tersedia dalam',
+        'Description (short)' => 'Penerangan (pendek)',
+        'Description (long)' => 'Penerangan (panjang)',
+        'The selected permission does not exist.' => 'Kebenaran yang dipilih tidak wujud.',
+        'Required Lock' => 'Kunci Diperlukan',
+        'The selected required lock does not exist.' => 'Kunci dikehendaki dipilih tidak wujud.',
+        'Submit Advice Text' => 'Hantar Teks Makluman',
+        'Submit Button Text' => 'Teks Butang Hantar',
         'Fields' => 'Medan',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
-        'Edit Details for Field' => '',
-        'ArticleType' => '',
+            'Anda boleh tetapkan medan pada Aktiviti Dialog ini dengan menarik unsur tersebut menggunakan tetikus dari senarai kiri ke senarai kanan.',
+        'Filter available fields' => 'Tapis medan tersedia',
+        'Available Fields' => 'Medan tersedia',
+        'Assigned Fields' => 'Medan yang ditetapkan',
+        'Edit Details for Field' => 'Edit perincian medan',
+        'ArticleType' => 'JenisArtikel',
         'Display' => 'Pameran',
-        'Edit Field Details' => '',
-        'Customer interface does not support internal article types.' => '',
+        'Edit Field Details' => 'EditPerincianMedan',
+        'Customer interface does not support internal article types.' => 'Antara muka pelanggan tidak menyokong jenis artikel dalaman.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Laluan',
-        'Edit this transition' => '',
-        'Transition Actions' => '',
+        'Edit this transition' => 'Edit peralihan ini',
+        'Transition Actions' => 'Tindakan Peralihan',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available Transition Actions' => '',
+            'Anda boleh tetapkan TIndakan Peralihan pada Peralihan ini dengan menarik unsur tersebut menggunakan tetikus dari senarai kiri ke senarai kanan.',
+        'Filter available Transition Actions' => 'Tapis Tindakan Peralihan tersedia',
         'Available Transition Actions' => 'Tindakan Peralihan Tersedia',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+        'Create New Transition Action' => 'Mencipta Tindakan Peralihan Baharu',
+        'Assigned Transition Actions' => 'Tindakan Peralihan yang ditetapkan',
 
         # Template: AdminProcessManagementProcessAccordion
         'Activities' => 'Aktiviti-aktiviti',
-        'Filter Activities...' => '',
-        'Create New Activity' => '',
-        'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
-        'Filter Transitions...' => '',
-        'Create New Transition' => '',
-        'Filter Transition Actions...' => '',
+        'Filter Activities...' => 'Tapis Aktiviti...',
+        'Create New Activity' => 'Cipta Aktiviti Baru',
+        'Filter Activity Dialogs...' => 'Tapis Dialog Aktiviti...',
+        'Transitions' => 'Peralihan',
+        'Filter Transitions...' => 'Tapis Peralihan...',
+        'Create New Transition' => 'Mencipta Peralihan Baharu',
+        'Filter Transition Actions...' => 'Tapis Tindakan Peralihan...',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
-        'Print process information' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
-        'Available Process Elements' => '',
+        'Edit Process' => 'Edit Proses',
+        'Print process information' => 'Cetak maklumat proses',
+        'Delete Process' => 'Padam proses',
+        'Delete Inactive Process' => 'Padam proses tidak aktif',
+        'Available Process Elements' => 'Elemen Proses Tersedia',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
@@ -1877,22 +1880,22 @@ sub Data {
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
-        'Edit Process Information' => '',
+        'Edit Process Information' => 'Edit Maklumat Proses',
         'Process Name' => 'Nama Proses',
-        'The selected state does not exist.' => '',
+        'The selected state does not exist.' => 'Keadaan yang dipilih tidak wujud.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Show EntityIDs' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Edit this Activity' => '',
-        'Save settings' => '',
-        'Save Activities, Activity Dialogs and Transitions' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
+        'Remove the Activity from this Process' => 'Buang Aktiviti daripada Proses ini',
+        'Edit this Activity' => 'Edit Aktiviti ini',
+        'Save settings' => 'Simpan tetapan',
+        'Save Activities, Activity Dialogs and Transitions' => 'Simpan Aktiviti, Aktiviti Dialog dan Peralihan',
+        'Do you really want to delete this Process?' => 'Adakah anda benar-benar mahu memadam Proses ini?',
+        'Do you really want to delete this Activity?' => 'Adakah anda benar-benar mahu untuk memadam Aktiviti ini?',
+        'Do you really want to delete this Activity Dialog?' => 'Adakah anda benar-benar mahu untuk memadam Aktiviti Dialog ini?',
+        'Do you really want to delete this Transition?' => 'Anda pasti mahu memadam Peralihan ini?',
+        'Do you really want to delete this Transition Action?' => 'Anda pasti mahu memadam Tindakan Peralihan ini?',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
@@ -2193,7 +2196,7 @@ sub Data {
             'Terdapat sekurang-kurangnya satu parameter yang hilang untuk mengikat. Sila semak.',
         'Result format' => 'format Keputusan',
         'Run Query' => 'Jalankan Query',
-        'Query is executed.' => '',
+        'Query is executed.' => 'Pertanyaan dilaksanakan',
 
         # Template: AdminService
         'Service Management' => 'perkhidmatan Pengurusan',
@@ -2603,7 +2606,7 @@ sub Data {
         'Note type' => 'Jenis Nota',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Bounce Tiket.',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Bounce kepada',
         'You need a email address.' => 'Anda perlu alamat e-mel.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2646,7 +2649,6 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Dapatkan semua.',
-        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => '',
@@ -2968,6 +2970,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
@@ -3172,31 +3175,31 @@ sub Data {
         'Previous Owner' => 'Pemilik sebelumnya',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Ticket is locked by another agent and will be ignored!' => '',
+        'Ticket is locked by another agent and will be ignored!' => 'Tiket dikunci oleh ejen yang lain dan akan diabaikan!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        '%s has left the chat.' => '%s telah meninggalkan ruangan sembang.',
+        'This chat has been closed and will be removed in %s hours.' => 'Sembang ini telah ditutup dan akan dikeluarkan dalam %s jam.',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'dicetak oleh',
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'Tiket Medan Dinamik',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Pending Date' => 'Tarikh penangguhan',
         'for pending* states' => 'Untuk status tertangguh',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Invalid Users' => '',
+        'Invalid Users' => 'Pengguna Tidak Sah',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            '',
-        'Fields with no group' => '',
+            'Harap maaf, anda tidak mempunyai keizinan lagi untuk mengakses tiket ini dalam keadaan semasa.',
+        'Fields with no group' => 'Medan tanpa kumpulan',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
-            '',
+            'Sila keluarkan perkataan yang berikut kerana mereka tidak boleh digunakan untuk carian:',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
@@ -3205,70 +3208,70 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Tiket ini tidak mempunyai tajuk atau subjek',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
-        'This user is currently away' => '',
-        'This user is currently unavailable' => '',
+        'This user is currently offline' => 'Pengguna ini sedang tutup talian',
+        'This user is currently active' => 'Pengguna ini sedang aktif',
+        'This user is currently away' => 'Pengguna ini sedang tiada',
+        'This user is currently unavailable' => 'Pengguna ini sedang  tidak tersedia.',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
-        ' You can take one of the next actions:' => '',
+            'Harap maaf, anda tidak mempunyai keizinan lagi untuk mengakses tiket ini dalam keadaan semasa.',
+        ' You can take one of the next actions:' => 'Anda boleh mengambil salah satu tindakan berikut:',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => '',
+        '%s Upgrade to %s now! %s' => '%s Naik taraf ke %s sekarang! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: ' => 'Tempoh penyelenggaraan sistem akan bermula pada:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => '',
+        'Please contact your administrator!' => 'Sila hubungi pentadbir anda!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(dalam proses)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
-        'Please specify an end date that is after the start date.' => '',
+        'Please specify an end date that is after the start date.' => 'Sila nyatakan tarikh akhir iaitu selepas tarikh mula.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Please supply your new password!' => '',
+        'Please supply your new password!' => 'Sila berikan kata laluan baru anda!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'X-axis' => 'Paksi-X',
-        'Y-axis' => '',
+        'Y-axis' => 'Paksi-Y',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
-        'The selected date is not valid.' => '',
-        'The selected end time is before the start time.' => '',
-        'There is something wrong with your time selection.' => '',
+        'The selected date is not valid.' => 'Tarikh yang dipilih tidak sah.',
+        'The selected end time is before the start time.' => 'Masa tamat yang dipilih adalah sebelum masa permulaan.',
+        'There is something wrong with your time selection.' => 'Ada sesuatu yang salah dengan pilihan masa anda.',
         'Please select only one element or allow modification at stat generation time.' =>
-            '',
+            'Sila pilih hanya satu elemen atau membenarkan pengubahsuaian pada masa generasi stat.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use one or two elements for the Y axis.' => '',
-        'Please select at least one value of this field.' => '',
+            'Sila pilih sekurang-kurangnya satu nilai medan ini atau membenarkan pengubahsuaian pada masa generasi stat.',
+        'Please select one element for the X-axis.' => 'Sila pilih salah satu elemen untuk paksi-x.',
+        'You can only use one time element for the Y axis.' => 'Anda hanya boleh menggunakan satu unsur masa untuk paksi Y.',
+        'You can only use one or two elements for the Y axis.' => 'Anda hanya boleh menggunakan satu atau dua elemen untuk paksi Y.',
+        'Please select at least one value of this field.' => 'Sila pilih sekurang-kurangnya satu nilai bidang ini.',
         'Please provide a value or allow modification at stat generation time.' =>
-            '',
-        'Please select a time scale.' => '',
+            'Sila berikan nilai atau membenarkan ubahsuaian pada masa generasi stat.',
+        'Please select a time scale.' => 'Sila pilih skala masa.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
-            '',
+            'Selang masa laporan anda terlalu kecil, sila gunakan skala masa yang lebih besar.',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
-            '',
+            'Sila keluarkan perkataan yang berikut kerana mereka tidak boleh digunakan untuk sekatan tiket : %s.',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Disusun mengikut',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
+        'State Type' => 'Jenis Keadaan',
         'Created Priority' => 'Keutamaan dicipta',
         'Created State' => 'Status dicipta',
         'CustomerUserLogin' => 'LogMasukPenggunaPelanggan',
@@ -3335,19 +3338,19 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
-        'Default Storage Engine' => '',
-        'Table Storage Engine' => '',
+        'Default Storage Engine' => 'Ejen Simpanan Lalai',
+        'Table Storage Engine' => 'Enjin Simpanan Rajah',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
-        'MySQL 5.x or higher is required.' => '',
+        'MySQL 5.x or higher is required.' => 'MySQL 5.x atau lebih tinggi diperlukan.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
-        'NLS_LANG Setting' => '',
+        'NLS_LANG Setting' => 'Tetapan NLS_LANG',
         'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
             '',
-        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT Setting' => 'Tetapan NLS_DATE_FORMAT',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
 
@@ -3399,15 +3402,15 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
         'OTRS/Config Settings' => '',
-        'Could not determine value.' => '',
+        'Could not determine value.' => 'Tidak dapat menentukan nilai.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => '',
-        'Daemon' => '',
-        'Daemon is not running.' => '',
+        'OTRS' => 'OTRS',
+        'Daemon' => 'Daemon',
+        'Daemon is not running.' => 'Daemon tidak berjalan.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'OTRS/Database Records' => 'Rekod Pangkalan Data/OTRS',
         'Tickets' => 'Tiket',
         'Ticket History Entries' => '',
         'Articles' => '',
@@ -3526,49 +3529,49 @@ sub Data {
         'Could not determine webserver version.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
-        'Unknown' => '',
-        'OK' => '',
-        'Problem' => '',
+        'Unknown' => 'Tidak diketahui',
+        'OK' => 'OK',
+        'Problem' => 'Masalah',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Reset password unsuccessful. Please contact your administrator' =>
-            '',
-        'Panic! Invalid Session!!!' => '',
+            'Set semula kata laluan tidak berjaya. Sila hubungi pentadbir anda.',
+        'Panic! Invalid Session!!!' => 'Panik! Sesi tidak sah!!!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'Group for default access.' => '',
-        'Group of all administrators.' => '',
-        'Group for statistics access.' => '',
-        'All new state types (default: viewable).' => '',
-        'All open state types (default: viewable).' => '',
-        'All closed state types (default: not viewable).' => '',
-        'All \'pending reminder\' state types (default: viewable).' => '',
-        'All \'pending auto *\' state types (default: viewable).' => '',
-        'All \'removed\' state types (default: not viewable).' => '',
-        'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
-        'Ticket is closed successful.' => '',
-        'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
-        'Customer removed ticket.' => '',
-        'Ticket is pending for agent reminder.' => '',
-        'Ticket is pending for automatic close.' => '',
-        'State for merged tickets.' => '',
-        'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
-        'system standard signature (en)' => '',
-        'Standard Signature.' => '',
-        'Standard Address.' => '',
+        'Group for default access.' => 'Kumpulan untuk akses lalai.',
+        'Group of all administrators.' => 'Kumpulan seluruh pentadbir.',
+        'Group for statistics access.' => 'Kumpulan untuk akses statistik.',
+        'All new state types (default: viewable).' => 'Seluruh jenis keadaan baru (lalai: boleh dilihat).',
+        'All open state types (default: viewable).' => 'Seluruh jenis keadaan buka (lalai: boleh dilihat).',
+        'All closed state types (default: not viewable).' => 'Seluruh jenis keadaan tutup (lalai: boleh dilihat).',
+        'All \'pending reminder\' state types (default: viewable).' => 'Seluruh jenis keadaan \'tangguh peringatan\' (lalai: boleh dilihat).',
+        'All \'pending auto *\' state types (default: viewable).' => 'Seluruh jenis keadaan \'tangguh automatik *\' (lalai: boleh dilihat).',
+        'All \'removed\' state types (default: not viewable).' => 'Seluruh jenis keadaan \'buang\' (lalai: tidak boleh dilihat).',
+        'State type for merged tickets (default: not viewable).' => 'Jenis keadaan untuk tiket bergabung (lalai: tidak boleh dilihat).',
+        'New ticket created by customer.' => 'Tiket baru dicipta oleh pelanggan.',
+        'Ticket is closed successful.' => 'Tiket ditutup dengan jayanya.',
+        'Ticket is closed unsuccessful.' => 'Tiket ditutup dengan gagalnya.',
+        'Open tickets.' => 'Buka tiket.',
+        'Customer removed ticket.' => 'Pelanggan membuang tiket.',
+        'Ticket is pending for agent reminder.' => 'Tiket ditangguh untuk peringatan ejen.',
+        'Ticket is pending for automatic close.' => 'Tiket ditangguh untuk tutup automatik.',
+        'State for merged tickets.' => 'Keadaan untuk tiket bergabung.',
+        'system standard salutation (en)' => 'Sistem piawaian penghormatan (en)',
+        'Standard Salutation.' => 'Piawaian Penghormatan',
+        'system standard signature (en)' => 'sistem piawaian tandatangan (en)',
+        'Standard Signature.' => 'Piawaian Tandatangan',
+        'Standard Address.' => 'Piawaian Alamat.',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            '',
+            'Tindakan susulan untuk tiket yang ditutup adalah mungkin. Tiket akan dibuka semula.',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
-            '',
-        'new ticket' => '',
+            'Tindakan susulan untuk tiket yang ditutup adalah tidak mungkin. Tiada tiket baru akan dicipta.',
+        'new ticket' => 'tiket baharu',
         'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
-            '',
+            'Tindakan susulan untuk tiket yang ditutup adalah tidak mungkin. Tiket baru akan dicipta.',
         'Postmaster queue.' => '',
-        'All default incoming tickets.' => '',
-        'All junk tickets.' => '',
+        'All default incoming tickets.' => 'Semua tiket masuk lalai.',
+        'All junk tickets.' => 'Semua tiket-tiket lama.',
         'All misc tickets.' => '',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             '',
@@ -3609,7 +3612,7 @@ Thanks for your help!
         '"%s" notification was sent to "%s" by "%s".' => '',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s Unit masa (s) dikira. % Unit masa dijumpai(s).',
-        '(UserLogin) Firstname Lastname' => '',
+        '(UserLogin) Firstname Lastname' => '(LogmasukPengguna) Namapertama Namaakhir',
         '(UserLogin) Lastname, Firstname' => '',
         'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -3618,7 +3621,7 @@ Thanks for your help!
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modul ACL yang membolehkan penutupan tiket induk hanya jika kesemua anaknya telah ditutup ("Status" menunjukkan status yang tidak disediakan untuk tiket induk sehingga semua anak tiket ditutup)',
         'Access Control Lists (ACL)' => '',
-        'AccountedTime' => '',
+        'AccountedTime' => 'MasaDipertanggungjawab',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Mengaktifkan mekanisma berkelip untuk barisan yang mengandungi tiket yang terlama.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -3666,16 +3669,16 @@ Thanks for your help!
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Interface modul ejen untuk menyemak emel masuk di dalam Paparan-Besar-Tiket jika kunci S/MIME tersedia dan betul.',
         'Agent interface notification module to see the number of locked tickets.' =>
-            '',
+            'Modul pemberitahuan antara muka ejen untuk melihat bilangan tiket yang dikunci.',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Interface modul notifikasi ejen untuk melihat nombor tiket yang dipertanggungjawabkan kepada ejen.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
-            '',
+            'Modul pemberitahuan antara muka ejen untuk melihat bilangan tiket dalam Perkhidmatan Saya.',
         'Agent interface notification module to see the number of watched tickets.' =>
             'Interface modul notifikasi ejen untuk melihat nombor tiket yang diperhati.',
         'Agents <-> Groups' => 'Ejen <-> Kumpulan',
         'Agents <-> Roles' => 'Ejen <-> Peranan',
-        'All customer users of a CustomerID' => '',
+        'All customer users of a CustomerID' => 'Semua pengguna pelanggan PelangganID',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -3723,17 +3726,17 @@ Thanks for your help!
             'Membolehkan mempunyai format tiket gambaran sederhana (CustomerInfo => 1 - juga menunjukkan maklumat pelanggan).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
-        'Allows invalid agents to generate individual-related stats.' => '',
+        'Allows invalid agents to generate individual-related stats.' => 'Membenarkan agen sah untuk menghasilkan statistik berkaitan-individu.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
-            '',
+            'Membenarkan pentadbir untuk log masuk sebagai pelanggan lain, melalui panel pentadbir pengguna pelanggan.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Membolehkan mempunyai format tiket gambaran kecil (CustomerInfo => 1 - juga menunjukkan maklumat pelanggan).',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Membolehkan untuk menetapkan status tiket baru di dalam skrin pindahan tiket di dalam interface ejen.',
-        'Arabic (Saudi Arabia)' => '',
+        'Arabic (Saudi Arabia)' => 'Arab (Arab Saudi)',
         'Archive state changed: "%s"' => 'Status berubah Arkib: "%s"',
-        'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'ArticleTree' => 'PokokArtikel',
+        'Attachments <-> Templates' => 'Lampiran <-> Templat',
         'Auto Responses <-> Queues' => 'Tindak Balas Auto <-> Barisan',
         'AutoFollowUp sent to "%s".' => 'Susulan Auto "%s" telah menghantar.',
         'AutoReject sent to "%s".' => 'Menolak auto dihantar kepada "% s".',
@@ -3757,7 +3760,7 @@ Thanks for your help!
         'Bounced to "%s".' => 'bangkit satu "%s".',
         'Builds an article index right after the article\'s creation.' =>
             'Membina indeks artikel sejurus selepas penciptaan artikel.',
-        'Bulgarian' => '',
+        'Bulgarian' => 'Bulgaria',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'CMD contoh persediaan. Mengabaikan emel dimana CMD luaran kembali beberapa output dalam STDOUT (emel akan disalurkan kedalam STDIN daripada some.bin).',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
@@ -3776,7 +3779,7 @@ Thanks for your help!
         'Change the customer for this ticket' => 'Ubah pelanggan untuk tiket ini',
         'Change the free fields for this ticket' => 'Ubah medan bebas untuk tiket ini',
         'Change the priority for this ticket' => 'Ubah keutamaan untuk tiket ini',
-        'Change the responsible for this ticket' => '',
+        'Change the responsible for this ticket' => 'Ubah tanggungjawab untuk tiket ini',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Keutamaan kemaskini dari "%s" (%s) ke "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Perubahan pemilik tiket kepada semua orang (bergunda untuk ASP). Kebiasaannya, hanya ejen yang mempunyai kebenaran rw di dalam barisan yang akan ditunjukkan.',
@@ -3786,19 +3789,19 @@ Thanks for your help!
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna "Tidak" jika IDSistem telah diubah selepas menggunakan sistem).',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
-            '',
-        'Checks the entitlement status of OTRS Business Solution™.' => '',
-        'Chinese (Simplified)' => '',
-        'Chinese (Traditional)' => '',
+            'Periksa ketersediaan Penyelesaian Bisnes OTRS™ untuk sistem ini.',
+        'Checks the entitlement status of OTRS Business Solution™.' => 'Periksa status hak Penyelesaian Bisnes OTRS™.',
+        'Chinese (Simplified)' => 'Cina (dipermudahkan)',
+        'Chinese (Traditional)' => 'Cina (Tradisional)',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            '',
-        'Closed tickets (customer user)' => '',
-        'Closed tickets (customer)' => '',
-        'Cloud Services' => '',
+            'Pilih jenis perubahan tiket yang anda mahu terima pemberitahuan.',
+        'Closed tickets (customer user)' => 'Tiket ditutup (pengguna pelanggan)',
+        'Closed tickets (customer)' => 'Tiket ditutup (pelanggan)',
+        'Cloud Services' => 'Servis cloud',
         'Cloud service admin module registration for the transport layer.' =>
-            '',
-        'Collect support data for asynchronous plug-in modules.' => '',
-        'Column ticket filters for Ticket Overviews type "Small".' => '',
+            'Pendaftaran modul pentadbir perkhidmatan cloud untuk lapisan angkutan.',
+        'Collect support data for asynchronous plug-in modules.' => 'Kumpul data sokongan untuk modul sumbat masuk tak segerak.',
+        'Column ticket filters for Ticket Overviews type "Small".' => 'Lajur penapis tiket untuk Tinjauan Tiket jenis "Kecil".',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
@@ -3846,11 +3849,11 @@ Thanks for your help!
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Menukarkan mel HTML ke dalam mesej teks.',
-        'Create New process ticket' => '',
+        'Create New process ticket' => 'Cipta Tiket proses baharu',
         'Create and manage Service Level Agreements (SLAs).' => 'Mewujudkan dan menguruskan Perjanjian Tahap Perkhidmatan (SLA).',
         'Create and manage agents.' => 'Mewujudkan dan menguruskan ejen.',
         'Create and manage attachments.' => 'Mewujudkan dan menguruskan lampiran.',
-        'Create and manage customer users.' => '',
+        'Create and manage customer users.' => 'Cipta dan urus pengguna pelanggan.',
         'Create and manage customers.' => 'Mewujudkan dan menguruskan pelanggan.',
         'Create and manage dynamic fields.' => 'Mewujudkan dan menguruskan bidang dinamik.',
         'Create and manage groups.' => 'Mewujudkan dan menguruskan kumpulan.',
@@ -3860,22 +3863,22 @@ Thanks for your help!
         'Create and manage salutations.' => 'Mewujudkan dan menguruskan penghormatan.',
         'Create and manage services.' => 'Mewujudkan dan menguruskan perkhidmatan.',
         'Create and manage signatures.' => 'Mewujudkan dan menguruskan tanda tangan.',
-        'Create and manage templates.' => '',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage templates.' => 'Cipta dan urus templat.',
+        'Create and manage ticket notifications.' => 'Cipta dan urus pemberitahuan tiket.',
         'Create and manage ticket priorities.' => 'Mewujudkan dan menguruskan keutamaan tiket.',
         'Create and manage ticket states.' => 'Mewujudkan dan menguruskan status tiket.',
         'Create and manage ticket types.' => 'Mewujudkan dan menguruskan jenis tiket.',
         'Create and manage web services.' => 'Mewujudkan dan menguruskan perkhidmatan web.',
         'Create new email ticket and send this out (outbound)' => 'Buat tiket e-mel baru dan menghantar ia keluar (keluar)',
         'Create new phone ticket (inbound)' => 'Buat tiket telefon baru (masuk).',
-        'Create new process ticket' => '',
-        'Croatian' => '',
+        'Create new process ticket' => 'Cipta tiket proses baharu',
+        'Croatian' => 'Croatia',
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Administration' => '',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
+        'Customer Administration' => 'Pentadbiran Pelanggan',
+        'Customer User <-> Groups' => 'Pengguna Pelanggan <-> Kumpulan',
+        'Customer User <-> Services' => 'Pengguna Pelanggan <-> Perkhidmatan',
         'Customer User Administration' => '',
         'Customer Users' => '',
         'Customer called us.' => 'Pelanggan yang dipanggil.',
@@ -4057,12 +4060,12 @@ Thanks for your help!
         'Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).' =>
             'Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada pelanggan, dengan token tentang kata lauan baru yang diminta (selepas guna pautan ini kata laluan baru akan dihantar).',
         'Defines the body text for rejected emails.' => 'Mentakrifkan teks badan untuk e-mel yang ditolak.',
-        'Defines the calendar width in percent. Default is 95%.' => '',
+        'Defines the calendar width in percent. Default is 95%.' => 'Mentakrifkan lebar kalendar dalam peratus. Lalai adalah 95%.',
         'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
             '',
         'Defines the column to store the keys for the preferences table.' =>
             'Mentakrifkan ruangan untuk menyimpan kunci untuk jadual keutamaan.',
-        'Defines the config options for the autocompletion feature.' => '',
+        'Defines the config options for the autocompletion feature.' => 'Mentakrifkan pilihan konfigurasi untuk ciri autolengkap.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Mentakrifkan parameter konfig dari item ini, untuk dipamerkan  dalam lihat keutamaan.',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
@@ -4562,14 +4565,14 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Menentukan status kemungkinan untuk tiket tertangguh yang mengubah status selepas mencapai had masa.',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Menentukan rangkaian yang akan dipamerkan sebagai penerima (Kepada:) tiket telefon dan sebagai penghantar (Daripada:) tiket emel dalam paparan ejen. Untuk Queue sebagai NewQeueuSelectionType "<Queue>" menunjukkan nama aturan dan untuk SystemAddress "<RealName> <<Email>>" menunjukkan nama dan emel penerima.',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Menentukan rangkaian yang akan dipamerkan sebagai penerima (Kepada:) tiket dalam paparan pelanggan. Untuk Queue sebagai NewQeueuSelectionType "<Queue>" menunjukkan nama aturan dan untuk SystemAddress "<RealName> <<Email>>" menunjukkan nama dan emel penerima.',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Menentukan cara objek yang dipaut dipamerkan di dalam setiap zoom mask.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'Menentukan pilihan yang mana akan sah dari penerima (tiket telefon) dan penghantar (tiket emel) dalam paparan ejen.',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Menentukan aturan mana akan sah untuk penerima tiket dalam paparan pelanggan.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4656,6 +4659,7 @@ Thanks for your help!
             'Medan Dinamik ditunjukkan dalam skrin tiket zum dari paparan pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
         'DynamicField backend registration.' => 'Pendaftaran backend DynamicField',
         'DynamicField object registration.' => 'pendaftaran objek DynamicField',
+        'E-Mail Outbound' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Alamat emel',
         'Email sent to "%s".' => 'Emel dihantar ke "%s".',
@@ -5101,7 +5105,7 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => 'Lama: "%s" Baru: "%s"',
-        'Online' => '',
+        'Online' => 'Dalam talian',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Out Of Office' => '',
@@ -5715,7 +5719,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Menentukan teks yang patut muncul dalam fail log untuk menunjukkan kemasukan skrip CGI.',
         'Specifies user id of the postmaster data base.' => 'Menentukan id pengguna pada pangkalan data postmaster.',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
@@ -5865,13 +5869,13 @@ Thanks for your help!
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Apabila tiket digabungkan, pelanggan boleh diberitahu setiap e-mel dengan menetapkan kotak semak "Memaklumkan Penghantar". Dalam kawasan teks ini, anda boleh menentukan teks pra-format yang kemudiannya boleh diubah suai oleh ejen.',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Ya, tetapi sembunyi tiket disimpan.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Pilihan aturan kegemaran anda. Anda juga dinotifikasikan mengenai aturan tersebut melalui emel jika diaktifkan.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '',
+            'Pilihan perkhidmatan anda daripada perkhidmatan kesukaan anda. Anda juga akan diberitahu mengenai perkhidmatan tersebut melalui emel jika dibolehkan.',
 
     };
     # $$STOP$$
