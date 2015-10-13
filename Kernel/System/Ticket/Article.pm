@@ -622,7 +622,7 @@ sub ArticleCreate {
             my %MyQueuesUserIDs;
             my %MyServicesUserIDs;
             if ( $ConfigObject->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner') ) {
-                $SubscribedUserIDs{ $Ticket{OwnerID} } = 1;
+                $OwnerUserIDs{ $Ticket{OwnerID} } = 1;
             }
             else {
 
@@ -650,9 +650,9 @@ sub ArticleCreate {
                 # add also owner to be notified
                 %OwnerUserIDs = ( $Ticket{OwnerID} => 1 );
 
-                # combine both subscribed users list (this will also remove duplicates)
-                %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
             }
+            # combine both subscribed users list (this will also remove duplicates)
+            %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
 
             USER:
             for my $UserID ( sort keys %SubscribedUserIDs ) {

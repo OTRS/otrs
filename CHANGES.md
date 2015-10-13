@@ -1,4 +1,5 @@
 #4.0.14 2015-??-??
+ - 2015-10-13 Fixed bug#[11431](http://bugs.otrs.org/show_bug.cgi?id=11431) -  Agent notification on follow up doesn't work for Ticket Owner if PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner is enabled.
  - 2015-10-13 Fix missing ticket cache clear after ticket merge, fixes Ticket#2015092442000716.
  - 2015-10-12 Fixed bug#[11510](http://bugs.otrs.org/show_bug.cgi?id=11510) - AgentTicketMove empty by sysconfig changes.
  - 2015-10-12 Fixed bug#[11255](http://bugs.otrs.org/show_bug.cgi?id=11255) - Forwarding Templates do not work with rich text disabled.
