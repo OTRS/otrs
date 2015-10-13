@@ -1,4 +1,5 @@
 #5.0.1 2015-??-??
+ - 2015-10-13 Fix missing ticket cache clear after ticket merge, fixes Ticket#2015092442000716.
  - 2015-10-13 Updated CKEditor to version 4.5.4.
  - 2015-10-12 Fixed bug#[11535](http://bugs.otrs.org/show_bug.cgi?id=11535) -  Listed message for disabled languages in ticket notification management, thanks to S7.
  - 2015-10-12 Fixed bug#[11519](http://bugs.otrs.org/show_bug.cgi?id=11519) - Old message in AgentTicketBounce, thanks to Norihiro Tanaka.
