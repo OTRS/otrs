@@ -6108,6 +6108,9 @@ sub TicketMerge {
         UserID        => $Param{UserID},
     );
 
+    $Self->_TicketCacheClear( TicketID => $Param{MergeTicketID} );
+    $Self->_TicketCacheClear( TicketID => $Param{MainTicketID} );
+
     # trigger event
     $Self->EventHandler(
         Event => 'TicketMerge',
