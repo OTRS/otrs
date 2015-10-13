@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.507590597453477;
+    $Self->{Completeness}        = 0.506728651822853;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -478,6 +478,7 @@ sub Data {
         'User Profile' => 'उपयोगकर्ता रूपरेखा',
         'Email Settings' => 'ईमेल व्यवस्थाऐं',
         'Other Settings' => 'अन्य व्यवस्थाऐं',
+        'Notification Settings' => '',
         'Change Password' => 'कूटशब्द बदलें',
         'Current password' => 'वर्तमान कूटशब्द',
         'New password' => 'नया कूटशब्द',
@@ -1567,6 +1568,8 @@ sub Data {
         'No data found' => '',
         'No notification method found.' => '',
         'Notification Text' => '',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
@@ -2606,7 +2609,7 @@ sub Data {
         'Note type' => 'टिप्पणी प्रकार',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => '',
+        'Bounce %s%s' => '',
         'Bounce to' => 'फलांग तक',
         'You need a email address.' => 'आपको ईमेल पते की आवश्यकता।',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2649,7 +2652,6 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'सभी प्राप्त करें',
-        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => '',
@@ -2971,6 +2973,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
@@ -4565,14 +4568,14 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'विचाराधीन टिकट जो समय सीमा तक पहुँचने के बाद स्थिति बदल लेते हैं उनकी संभावित स्थिति को निर्धारित करता है।',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'प्रतिनिधि अंतरफलक में स्ट्रिंग जो फोन टिकट के प्राप्तकर्ता(के लिए:) के रूप में और ईमेल टिकट के प्रेषक(से:) के रूप में दिखाई जाएगी को निर्धारित करता है। श्रेणी के लिए नई पंक्ति चयन प्रकार  "< श्रेणी>" श्रेणीयों के नाम दर्शाता है और प्रणाली के पते के लिए "<Realname> <<Email>>" प्राप्तकर्ता का नाम और ईमेल दर्शाता है।',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'ग्राहक अंतरफलक में स्ट्रिंग जो टिकट के प्राप्तकर्ता(के लिए:) दिखाई जाएगी को निर्धारित करता है। श्रेणी के लिए ग्राहक फलक चयन प्रकार "< श्रेणी>" श्रेणीयों के नाम दर्शाता है और प्रणाली के पते के लिए "<Realname> <<Email>>" प्राप्तकर्ता का नाम और ईमेल दर्शाता है।',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'लिंक वस्तुऐं हर ज़ूम नकाब में जिस तरह से प्रदर्शित  की जाती हैं उसे निर्धारित करता है।',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'प्रतिनिधि अंतरफलक में प्राप्तकर्ता(फोन टिकट) और प्रेषक(ईमेल टिकट) के लिए जो विकल्प वैध होगें उनको निर्धारित करता है।',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'ग्राहक अंतरफलक में  टिकट प्राप्तकर्ताओं के लिए जो श्रेणी वैध होगी उनको निर्धारित करता है।',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4659,6 +4662,7 @@ Thanks for your help!
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
+        'E-Mail Outbound' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'ईमेल पते',
         'Email sent to "%s".' => 'जवाब भेजें "%s"।',
@@ -5718,7 +5722,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'पाठ को निर्दिष्ट करता है जो लॉग फ़ाइल में दिखाई देना चाहिए CGI स्क्रिप्ट प्रविष्टि निरूपित करने के लिए।',
         'Specifies user id of the postmaster data base.' => 'डाकपाल आंकड़ा कोष के उपयोगकर्ता आईडी को निर्दिष्ट करता है।',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',

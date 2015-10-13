@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.982125367286974;
+    $Self->{Completeness}        = 0.980670418399804;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -487,6 +487,7 @@ sub Data {
         'User Profile' => 'Профиль пользователя',
         'Email Settings' => 'Настройки почты',
         'Other Settings' => 'Прочие настройки',
+        'Notification Settings' => '',
         'Change Password' => 'Сменить пароль',
         'Current password' => 'Текущий пароль',
         'New password' => 'Новый пароль',
@@ -1576,6 +1577,8 @@ sub Data {
         'No data found' => 'Данные не найдены',
         'No notification method found.' => 'Не задан метод уведомлений.',
         'Notification Text' => 'Текст уведомления',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => 'Удалить язык уведомлений',
         'Message body' => 'Содержание уведомления',
         'Add new notification language' => 'Добавить дополнительный язык для уведомлений',
@@ -2615,7 +2618,7 @@ sub Data {
         'Note type' => 'Тип заметки/сообщения',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Перенаправить заявку',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Перенаправить на',
         'You need a email address.' => 'Нужно указать адрес электронной почты.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2658,7 +2661,6 @@ sub Data {
         'Select this customer as the main customer.' => 'Выбрать этого клиента главным клиентом',
         'Remove Ticket Customer User' => 'Удалить клиента заявки',
         'Get all' => 'Получить всех',
-        'Do you really want to continue?' => 'Вы действительно желаете продолжить?',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => 'Исходящее письмо для %s%s',
@@ -2980,6 +2982,7 @@ sub Data {
         'New public chat request' => 'Запрос на новый общедоступный чат',
         'New activity' => 'Новое обновление',
         'New activity on one of your monitored chats.' => 'Новое обновление на одном из отслеживаемых вами чатов.',
+        'Do you really want to continue?' => 'Вы действительно желаете продолжить?',
         'Information about the OTRS Daemon' => 'Информация о Планировщике OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами в %s.  для обновления.',
@@ -4585,14 +4588,14 @@ Thanks for your help!
             'Задает какой следующий экран открывается после перемещения заявки. LastScreenOverview - возвращает к последнему экрану обзора )т.е. экран результата поиска, просмотру очередей, дайджесту). TicketZoom - возвращает в просмотр заявки.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Задает возможные состояния для заявок с ожиданием, которые меняют состояние после истечения времени.',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Задает строку, которая будет отображаться в поле получатель (To:) телефонной заявки или отправитель (From:) почтовой заявки в интерфейсе агента. Для очереди, если NewQueueSelectionType "<Queue>"(Очередь) отображается список имен очередей. Для SystemAddress "<Realname> <<Email>>" показывается имя и email получателя.',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Задает строку, которая будет отображаться в поле получатель (To:) заявки в интерфейсе клиента. Для очереди, если CustomerPanelSelectionType, "<Queue>" отображается список имен очередей. Для SystemAddress "<Realname> <<Email>>" показывается имя и email получателя.',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Задает способ отображения связанных объектов в подробных просмотрах.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4679,6 +4682,7 @@ Thanks for your help!
             'Параметры показа динамических полей на экране просмотра заявки интерфейсе клиента. Возможные значения: 0 = не показывать, 1 - показывать.',
         'DynamicField backend registration.' => 'Регистрация типов используемых динамических полей (dropdown, text, checbox...).',
         'DynamicField object registration.' => 'Регистрация объектов  для динамических полей (поле заявки или сообщения/заметки).',
+        'E-Mail Outbound' => 'Перенаправить почтовое сообщение',
         'Edit customer company' => 'Редактировать компанию клиента',
         'Email Addresses' => 'Адреса email',
         'Email sent to "%s".' => 'Ответ оправлен «%s».',
@@ -5739,8 +5743,8 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Задает текст, который записывается в лог для регистрации обращения к скриптам CGI.',
         'Specifies user id of the postmaster data base.' => 'Задает user id БД postmaster.',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
-            'Указывет, должны ли все виды хранилищ проверятся при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных.',
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
+            '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Задает количество уровней подкаталога для кэш файлов. параметр предотвращает от создания большого количества файлов в одном каталоге.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>

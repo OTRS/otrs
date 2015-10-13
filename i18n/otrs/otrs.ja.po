@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-07 17:42+0000\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1710,6 +1710,10 @@ msgid "Other Settings"
 msgstr "その他の設定"
 
 #. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
+
+#. Template: AAAPreferences
 msgid "Change Password"
 msgstr "パスワード変更"
 
@@ -2713,7 +2717,7 @@ msgstr "監視チケット通知を送信"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr "勤務時間外"
+msgstr "外出中"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -5347,7 +5351,7 @@ msgstr "通知の編集"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr "担当者のプリファレンスを表示"
+msgstr "担当者のプリファレンスに表示"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -5391,7 +5395,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "記事送信者タイプ"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
@@ -5411,15 +5415,15 @@ msgstr "受信者"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "送信先"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr "これらの担当者に送付"
+msgstr "これらの担当者に送信"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr "グループの全てのメンバーに送付"
+msgstr "グループの全てのメンバーに送信"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
@@ -5427,7 +5431,7 @@ msgstr "ロールの全てのメンバーに送付"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr "外出中の担当者に送付"
+msgstr "外出中の担当者に送信"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -5490,6 +5494,12 @@ msgstr ""
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
 msgstr "通知文書"
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -8429,7 +8439,7 @@ msgstr "合計"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr "オフィスにいません"
+msgstr "外出中"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
@@ -8717,7 +8727,7 @@ msgid "Note type"
 msgstr "メモタイプ"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
+msgid "Bounce %s%s"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -8847,10 +8857,6 @@ msgstr ""
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "全てを取得"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9421,7 +9427,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr ""
+msgstr "他%sつ"
 
 #. Template: CustomerFooterJS
 msgid "Filters"
@@ -9535,7 +9541,7 @@ msgstr "個人設定の編集"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "ログアウト %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -9833,6 +9839,10 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: FooterJS
@@ -14525,7 +14535,7 @@ msgstr "リクエストされたセッションがタイムアウトしている
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr "OTRSビジネスソリューション™のデプロイと管理"
+msgstr "OTRS Business Solution™のデプロイと管理"
 
 #. SysConfig
 msgid ""
@@ -14583,19 +14593,19 @@ msgstr "タイム・リミットを越えてから状態を変更したペンデ
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "担当者インタフェースにおいて、電話チケットの受領者(To:)、およびEメール・チケットの送信者(From:)として表示される文字列を定義します。キューに関しては、NewQueueSelectionType \"<Queue>\"がキューの名前を表示し、SystemAddress \"<Realname> <<Email>>\"は受領者の名前およびEメールを表示します。"
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
 msgstr ""
 
 #. SysConfig
@@ -14604,9 +14614,9 @@ msgstr "リンクされたオブジェクトがそれぞれのズームマスク
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "担当者インタフェースにおいて、受領者（電話チケット）および送信者（Eメール・チケット）に関する、どのオプションが有効となるかを定義します。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14887,6 +14897,10 @@ msgstr ""
 #. SysConfig
 msgid "DynamicField object registration."
 msgstr ""
+
+#. SysConfig
+msgid "E-Mail Outbound"
+msgstr "メール送信"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -16384,7 +16398,7 @@ msgstr "オープンチケット(顧客)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr "オフィスにいません"
+msgstr "外出中"
 
 #. SysConfig
 msgid ""
@@ -16732,7 +16746,7 @@ msgstr "レポート"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"
-msgstr "レポート（OTRSビジネスソリューション™）"
+msgstr "レポート（OTRS Business Solution™）"
 
 #. SysConfig
 msgid ""
@@ -16915,7 +16929,7 @@ msgstr "メンテナンス期間をスケジュール"
 
 #. SysConfig
 msgid "Screen"
-msgstr ""
+msgstr "画面"
 
 #. SysConfig
 msgid "Search Customer"
@@ -18438,8 +18452,8 @@ msgstr "ポストマスター・データベースのユーザIDを特定しま�
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig
@@ -18822,7 +18836,7 @@ msgstr "全ての項目が確認された、または新規のArticleが作成�
 
 #. SysConfig
 msgid "Update and extend your system with software packages."
-msgstr "このシステムのソフトウェアパッケージの更新と拡張"
+msgstr "このシステムのソフトウェアパッケージの更新と展開"
 
 #. SysConfig
 msgid "Updated SLA to %s (ID=%s)."

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.947600391772772;
+    $Self->{Completeness}        = 0.946904820161488;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -476,6 +476,7 @@ sub Data {
         'User Profile' => 'Кориснички профил',
         'Email Settings' => 'Подешавања имејла',
         'Other Settings' => 'Друга подешавања',
+        'Notification Settings' => '',
         'Change Password' => 'Промена лозинке',
         'Current password' => 'Садашња лозинка',
         'New password' => 'Нова лозинка',
@@ -1306,7 +1307,7 @@ sub Data {
         'Properties' => 'Својства',
         'Route mapping for Operation' => 'Мапирање руте за операцију',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            '',
+            'Дефинише руту која ће бити мапирана на ову операцију. Променљиве обележене са \':\' ће бити мапиране на унето име и прослеђене са осталима (нпр. /Ticket/:TicketID).',
         'Valid request methods for Operation' => 'Важеће методе захтева за операцију',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             'Ограничи ову опреацију на поједине методе захтева. Ако ни једна метода није изабрана сви захтеви ће бити прихваћени.',
@@ -1323,7 +1324,7 @@ sub Data {
             'нпр „https://www.otrs.com:10745/api/v1.0” (без знака \ крају)',
         'Controller mapping for Invoker' => 'Мапирање контролера за позиваоца',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
-            '',
+            'Контролер коме ће позивалац прослеђивати захтеве. Променљиве обележене са \':\' ће бити замењене њиховим вредностима и прослеђене заједно са захтевом (нпр. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
         'Valid request command for Invoker' => 'Важећа команда захтева за позиваоца',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             'Специфична HTTP команда за примену на захтеве са овим позиваоцем (необавезно).',
@@ -1565,6 +1566,8 @@ sub Data {
         'No data found' => 'Ништа није пронађено',
         'No notification method found.' => 'Није пронађена метода обавештавања.',
         'Notification Text' => 'Текст обавештења',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => 'Уклони језик обавештења',
         'Message body' => 'Садржај поруке',
         'Add new notification language' => 'Уклони нови језик обавештења',
@@ -2604,7 +2607,7 @@ sub Data {
         'Note type' => 'Тип напомене',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Одбаци тикет',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Преусмери на',
         'You need a email address.' => 'Потребна вам је имејл адреса.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2647,7 +2650,6 @@ sub Data {
         'Select this customer as the main customer.' => 'Означи овог клијента као главног клијента.',
         'Remove Ticket Customer User' => 'Уклони тикет клијента корисника **',
         'Get all' => 'Узми све',
-        'Do you really want to continue?' => 'Да ли заиста желите да наставите?',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => 'Излазни имејл за %s%s',
@@ -2969,6 +2971,7 @@ sub Data {
         'New public chat request' => 'Нов јавни захтев за ћаскање',
         'New activity' => 'Нова активност',
         'New activity on one of your monitored chats.' => 'Нова активност у једном од надгледаних ћаскања.',
+        'Do you really want to continue?' => 'Да ли заиста желите да наставите?',
         'Information about the OTRS Daemon' => 'Информације о „OTRS” сервису',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ово својство је део %s.  Молимо да на с контактирате на %s за ажурирање.',
@@ -4575,14 +4578,14 @@ Thanks for your help!
             'Одређује следећи приказ екрана, након премештања тикета. LastScreenOverview ће вратити последнји преглед екрана (нпр. резултати претраге, преглед редова, контролна табла). TicketZoom ће вратити на увећање тикета.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Одређује могући статус за тикете на чекању који мењају статус након достизања временског лимита.',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Одређује низ знакова који ће бити приказани као примаоц (За:) у телефонском тикету и као пошиљаоц (Од) у имејл тикету интерфејса оператера. За ред као NewQueueSelectionType "<Queue>" приказује имена редова и за системску адресу "<Realname> <<Email>>" приказује име и имејл примаоца.',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Одређује низ знакова који ће бити приказани као примаоц (За:) у тикету у интерфејсу клијента. За ред као CustomerPanelSelectionType "<Queue>" приказује имена редова и за системску адресу "<Realname> <<Email>>" приказује име и имејл примаоца.**',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Одређује начин на који се повезани објекти приказују у свакој увећаној маски.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'Одређује које ће опције бити исправне за примаоца (телефонски тикет) и пошиљаоца (имејл тикет) у интерфејсу оператера.',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Одређује који ће редови бити важећи за тикете примаоца у интерфејсу клијента.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4669,6 +4672,7 @@ Thanks for your help!
             'Динамичка поља приказана на екрану увећаног тикета интерфејса клијента. Могућа подешавања: 0 = Онемогућено, 1 = Омогућено.',
         'DynamicField backend registration.' => 'Позадинска регистарција  динамичких поља.',
         'DynamicField object registration.' => 'Регистарција објекта динамичких поља.',
+        'E-Mail Outbound' => 'Одлазни имејл',
         'Edit customer company' => 'Измени фирму клијента',
         'Email Addresses' => 'Имејл адресе',
         'Email sent to "%s".' => 'Послат одговор "%s".',
@@ -5728,7 +5732,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Одређује текст који треба да се појави у лог датотеци да означи улазак CGI скрипте.',
         'Specifies user id of the postmaster data base.' => 'Одређује ИД корисника postmaster базе података.',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Навођење колико нивоа поддиректоријума да користи приликом креирања кеш фајлова. То би требало да спречи превише кеш фајлова у једном директоријуму.',

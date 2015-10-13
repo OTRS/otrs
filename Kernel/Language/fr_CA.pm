@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.625857002938296;
+    $Self->{Completeness}        = 0.624663567408857;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -483,6 +483,7 @@ sub Data {
         'User Profile' => 'Profil utilisateur',
         'Email Settings' => 'Réglage des courriels',
         'Other Settings' => 'Autres paramétrages',
+        'Notification Settings' => '',
         'Change Password' => 'Changer de mot de passe',
         'Current password' => 'Mot de passe actuel',
         'New password' => 'Nouveau mot de passe',
@@ -1572,6 +1573,8 @@ sub Data {
         'No data found' => '',
         'No notification method found.' => '',
         'Notification Text' => '',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
@@ -2611,7 +2614,7 @@ sub Data {
         'Note type' => 'Type de note ',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Retourner la demande',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Retourner à',
         'You need a email address.' => 'Vous devez avoir une adresse électronique.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2654,7 +2657,6 @@ sub Data {
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
-        'Do you really want to continue?' => '',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => '',
@@ -2976,6 +2978,7 @@ sub Data {
         'New public chat request' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
+        'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
@@ -4570,14 +4573,14 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Détermine les états possibles pour les demandes en attente qui ont changé d\'état après avoir atteint leur délai d\'attente.',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Détermine les textes des champs « destinataire » (À : ) de la demande téléphonique et « expéditeur » (De :) de la demande par courriel dans l\'interface agent. En ce qui concerne les files « NewQueueSelectionType », le champ « <Queue> » affiche les noms des files et les champs « <Realname> <<Email>> » affichent le nom et le courriel du destinataire dans l\'adresse système (SystemAddress).',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Détermine les textes du champ « destinataire » (À : ) de la demande dans l\'interface client. En ce qui concerne les files « CustomerPanelSelectionType », le champ « <Queue> » affiche le nom des files et le nom et le courriel du destinaire apparaîtront dans les champs « <Realname> <<Email>> » de l\'adresse système (SystemAddress).',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Détermine la manière dont les objets liés sont affichés dans chaque masque.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            'Détermine quelles options seront admissibles pour les destinataires (demandes téléphoniques) et pour les expéditeurs (demandes par courriel) dans l\'interface agent.',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Détermine quelles files seront admissibles pour les destinaires des demandes dans l\'interface client.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4664,6 +4667,7 @@ Thanks for your help!
             'Champs dynamiques affichés dans l\'écran de synthèse de la demande de l\'interface client. Réglages possibles : 0 = désactivé, 1 = activé.',
         'DynamicField backend registration.' => 'Enregistrement des champs dynamiques (DynamicField) dans l\'arrière-plan.',
         'DynamicField object registration.' => 'Enregistrement de l\'objet « Champ dynamique » (DynamicField).',
+        'E-Mail Outbound' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adresses de courrier électronique',
         'Email sent to "%s".' => 'Courriel envoyé à "%s".',
@@ -5723,7 +5727,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Précise le texte qui doit apparaître dans le fichier journal pour indiquer l\'entrée d\'un script CGI.',
         'Specifies user id of the postmaster data base.' => 'Précise l\'identification de l\'utilisateur de la base de données du maître de poste.',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',

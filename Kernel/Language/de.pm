@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843046033300686;
+    $Self->{Completeness}        = 0.8431612429655;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -476,6 +476,7 @@ sub Data {
         'User Profile' => 'Benutzer-Profil',
         'Email Settings' => 'E-Mail-Einstellungen',
         'Other Settings' => 'Andere Einstellungen',
+        'Notification Settings' => '',
         'Change Password' => 'Passwort ändern',
         'Current password' => 'Aktuelles Passwort',
         'New password' => 'Neues Passwort',
@@ -1558,13 +1559,15 @@ sub Data {
         'Enable this notification method' => 'Diese Benachrichtigungsart aktivieren',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindestens eine Methode ist für jede Benachrichtigung erforderlich.',
-        'Send by default' => '',
+        'Send by default' => 'Standardmäßig senden',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
         'This feature is currently not available.' => 'Diese Funktion ist derzeit nicht verfügbar.',
         'No data found' => 'Keine Daten gefunden',
         'No notification method found.' => 'Keine Benachrichtigungsmethode gefunden.',
         'Notification Text' => 'Benachrichtigungstext',
+        'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
+            '',
         'Remove Notification Language' => 'Benachrichtigungssprache entfernen',
         'Message body' => 'Nachrichteninhalt',
         'Add new notification language' => 'Neue Sprache für Benachrichtigungen hinzufügen',
@@ -1592,11 +1595,11 @@ sub Data {
         'Example notification' => 'Beispiel-Benachrichtigung',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Zusätzliche Empfänger-E-Mail-Adressen',
         'Notification article type' => 'Artikeltyp der Benachrichtigung',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Ein Artikel wird erstellt, wenn die Benachrichtigung an den Kunden oder an eine zusätzliche E-Mail-Adresse versendet wird.',
-        'Email template' => '',
+        'Email template' => 'E-Mail-Vorlage',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Benutze dieses Template um die komplette E-Mail zu generieren (Nur für HTML E-Mails)',
 
@@ -2604,7 +2607,7 @@ sub Data {
         'Note type' => 'Notiztyp',
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => 'Ticket umleiten',
+        'Bounce %s%s' => '',
         'Bounce to' => 'Umleiten an',
         'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2647,7 +2650,6 @@ sub Data {
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'Remove Ticket Customer User' => 'Kundenbenutzer des Tickets entfernen',
         'Get all' => 'Alles holen',
-        'Do you really want to continue?' => 'Möchten Sie wirklich fortfahren?',
 
         # Template: AgentTicketEmailOutbound
         'Outbound Email for %s%s' => 'Ausgehende E-Mail für %s%s',
@@ -2969,6 +2971,7 @@ sub Data {
         'New public chat request' => 'Neue öffentliche Chatanfrage',
         'New activity' => 'Neue Aktivität',
         'New activity on one of your monitored chats.' => 'Neue Aktivitäten in einem ihrer beobachteten Chats.',
+        'Do you really want to continue?' => 'Möchten Sie wirklich fortfahren?',
         'Information about the OTRS Daemon' => 'Informationen über den OTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Diese Funktion ist Teil von %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades.',
@@ -4563,13 +4566,13 @@ Thanks for your help!
             'Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastScreenOverview wechselt zur letzten Übersichtsseite. TicketZoom wechselt zur Ticket-Detailansicht.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             '',
-        'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            '',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Definiert wie Verlinkte-Objekte angezeigt werden in TicketZoom-Masken.',
-        'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
@@ -4657,6 +4660,7 @@ Thanks for your help!
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => 'DynamischesFeld Objektregistrierung.',
+        'E-Mail Outbound' => 'Ausgehende E-Mail',
         'Edit customer company' => 'Kundenunternehmen bearbeiten',
         'Email Addresses' => 'E-Mail-Adressen',
         'Email sent to "%s".' => 'E-Mail versandt an "%s".',
@@ -5716,7 +5720,7 @@ Thanks for your help!
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             '',
         'Specifies user id of the postmaster data base.' => '',
-        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',

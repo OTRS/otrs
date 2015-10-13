@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-02 08:56+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1722,6 +1722,10 @@ msgstr "E-Mail-Einstellungen"
 #. Template: AAAPreferences
 msgid "Other Settings"
 msgstr "Andere Einstellungen"
+
+#. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5468,16 +5472,26 @@ msgid ""
 msgstr "Dies sind die verfügbaren Methoden für den Versand der Benachrichtigungen an jeden Empfänger. Bitte wählen Sie mindestens eine Methode aus."
 
 #. Template: AdminNotificationEvent
-msgid "Transport"
-msgstr "Transport"
-
-#. Template: AdminNotificationEvent
 msgid "Enable this notification method"
 msgstr "Diese Benachrichtigungsart aktivieren"
 
 #. Template: AdminNotificationEvent
+msgid "Transport"
+msgstr "Transport"
+
+#. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
 msgstr "Mindestens eine Methode ist für jede Benachrichtigung erforderlich."
+
+#. Template: AdminNotificationEvent
+msgid "Send by default"
+msgstr "Standardmäßig senden"
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5494,6 +5508,12 @@ msgstr "Keine Benachrichtigungsmethode gefunden."
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
 msgstr "Benachrichtigungstext"
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -5577,8 +5597,8 @@ msgid "Example notification"
 msgstr "Beispiel-Benachrichtigung"
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "Empfänger-E-Mail-Adressen"
+msgid "Additional recipient email addresses"
+msgstr "Zusätzliche Empfänger-E-Mail-Adressen"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5589,6 +5609,10 @@ msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
 msgstr "Ein Artikel wird erstellt, wenn die Benachrichtigung an den Kunden oder an eine zusätzliche E-Mail-Adresse versendet wird."
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
+msgstr "E-Mail-Vorlage"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -8717,8 +8741,8 @@ msgid "Note type"
 msgstr "Notiztyp"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
-msgstr "Ticket umleiten"
+msgid "Bounce %s%s"
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8847,10 +8871,6 @@ msgstr "Kundenbenutzer des Tickets entfernen"
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "Alles holen"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr "Möchten Sie wirklich fortfahren?"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9836,6 +9856,10 @@ msgid "New activity on one of your monitored chats."
 msgstr "Neue Aktivitäten in einem ihrer beobachteten Chats."
 
 #. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr "Möchten Sie wirklich fortfahren?"
+
+#. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Informationen über den OTRS Daemon"
 
@@ -10517,6 +10541,18 @@ msgid "There is something wrong with your time selection."
 msgstr "Bitte überprüfen Sie Ihre Zeitauswahl."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr "Bitte wählen Sie nur ein Element oder erlauben Sie die Bearbeitung zur Erstellzeit der Statistik."
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr "Bitte wählen Sie ein Element für die X-Achse aus."
 
@@ -10527,12 +10563,6 @@ msgstr "Sie können nur ein Zeitelement für die Y-Achse verwenden."
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
 msgstr "Sie können nur ein oder zwei Elemente für die Y-Achse verwenden."
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
-msgstr "Bitte wählen Sie nur ein Element oder erlauben Sie die Bearbeitung zur Erstellzeit der Statistik."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
@@ -14577,19 +14607,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
 msgstr ""
 
 #. SysConfig
@@ -14598,7 +14628,7 @@ msgstr "Definiert wie Verlinkte-Objekte angezeigt werden in TicketZoom-Masken."
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
 msgstr ""
 
@@ -14881,6 +14911,10 @@ msgstr ""
 #. SysConfig
 msgid "DynamicField object registration."
 msgstr "DynamischesFeld Objektregistrierung."
+
+#. SysConfig
+msgid "E-Mail Outbound"
+msgstr "Ausgehende E-Mail"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -18432,8 +18466,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig

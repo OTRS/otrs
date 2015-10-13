@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-25 11:47+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1706,6 +1706,10 @@ msgstr "Mipangilio ya barua pepe"
 #. Template: AAAPreferences
 msgid "Other Settings"
 msgstr "Mipangilio mingine"
+
+#. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5452,15 +5456,25 @@ msgid ""
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Transport"
-msgstr "Safirisha"
-
-#. Template: AdminNotificationEvent
 msgid "Enable this notification method"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "Transport"
+msgstr "Safirisha"
+
+#. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Send by default"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5477,6 +5491,12 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5561,8 +5581,8 @@ msgid "Example notification"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "Anuani ya barua pepe ya mpokeaji"
+msgid "Additional recipient email addresses"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5572,6 +5592,10 @@ msgstr "Aina ya taarifa ya makala"
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
@@ -8701,8 +8725,8 @@ msgid "Note type"
 msgstr "Aina ya kidokezo"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
-msgstr "Tiketi dunda"
+msgid "Bounce %s%s"
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8831,10 +8855,6 @@ msgstr "Ondoa mtumiaji wa mteja wa tiketi"
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "Pata zote"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9820,6 +9840,10 @@ msgid "New activity on one of your monitored chats."
 msgstr ""
 
 #. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr ""
 
@@ -10501,6 +10525,18 @@ msgid "There is something wrong with your time selection."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr ""
 
@@ -10510,12 +10546,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -14561,15 +14591,6 @@ msgstr "Inaamua hali zinazowezekana kwa ajili ya tiketi zinazongoja ambazo zimeb
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "Inaamua tungo zitakazo onyeshwa kama mpokeaji (Kwenda:) wa tiketi ya simu na kama mtumaji (Kutoka:) wa tiketi ya barua pepe katikakiolesura cha wakala. Kwa foleni kaam aina ya Chaguo la Foleni Mpya \"<Foleni>\" inaonyesha najina ya foleni na Anwani zaMfumo \"<JinaHalisi>\"<<Barua pepe>>\" inaonyesha jina na barua pepe ya mpokeaji."
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
@@ -14577,14 +14598,23 @@ msgid ""
 msgstr "Inaamua tungo zitakazo onyeshwa kama mpokeaji (Kwenda:) wa tiketi katika kiolesura cha mteja. Kwa foleni kaam aina ya Chaguo la Foleni Mpya \"<Foleni>\" inaonyesha najina ya foleni na Anwani zaMfumo \"<JinaHalisi>\"<<Barua pepe>>\" inaonyesha jina na barua pepe ya mpokeaji."
 
 #. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
+msgstr ""
+
+#. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
 msgstr "Inaamua jinsi ambayo vipengele vilivyounganishwa vitaonyeshwa katika kila barakoa ya kukuza."
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "Inaamua michaguo ipi itakuwa halali kwa mpokeaji (tiketi za simu) na mtumaji (tiketi za barua pepe) katika kiolesura cha wakala."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14865,6 +14895,10 @@ msgstr "Usajili wa mazingira ya nyuma ya uga wenye nguvu."
 #. SysConfig
 msgid "DynamicField object registration."
 msgstr "Usajili wa kipengele cha uga wenye nguvu."
+
+#. SysConfig
+msgid "E-Mail Outbound"
+msgstr "Barua pepe zilizofungwa nje."
 
 #. SysConfig
 msgid "Edit customer company"
@@ -18416,9 +18450,9 @@ msgstr "Bainisha kitambulisho cha mtumiaji cha hifadhi data cha mkuu wa posti."
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
-msgstr "Inabainisha kama mazingira yoteya nyuma ya hifadhi yameangaliwa wakati wa uangaliaji wa viambatanishi. Hii inahitajika tu kwa ajili ya usanidi ambapo baadhi ya viambatanishi vipo kwenye faili la mfumo na vingine katika hifadhi data. "
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
+msgstr ""
 
 #. SysConfig
 msgid ""

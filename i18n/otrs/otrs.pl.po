@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-07 17:42+0000\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1711,6 +1711,10 @@ msgid "Other Settings"
 msgstr "Inne ustawienia"
 
 #. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
+
+#. Template: AAAPreferences
 msgid "Change Password"
 msgstr "Zmiana hasła"
 
@@ -1753,7 +1757,7 @@ msgstr "Nie można zmienić hasła ponieważ zawiera niedozwolone znaki!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr ""
+msgstr "Nie można zmienić hasła, musi się ono składać z co najmniej %s znaków!"
 
 #. Template: AAAPreferences
 msgid ""
@@ -3176,7 +3180,7 @@ msgstr "Konfiguracja"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Wysyłaj dane wsparcia"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3193,7 +3197,7 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Aby włączyć przesyłanie danych, zarejestruj swój system w Grupie OTRS lub zaktualizuj informacje rejestracyjne systemu (upewnij się że opcja 'wysyłaj dane wsparcia' jest akywna)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -5490,6 +5494,12 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -8718,8 +8728,8 @@ msgid "Note type"
 msgstr "Typ notatki"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
-msgstr "Przekaż zgłoszenie"
+msgid "Bounce %s%s"
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8848,10 +8858,6 @@ msgstr "Usuń zgłoszenie klienta"
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "Pobierz wszystkich"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9834,6 +9840,10 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: FooterJS
@@ -14584,19 +14594,19 @@ msgstr "Determinuje możliwe stany dla oczekujących zgłoszeń po osiągnięciu
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
 msgstr ""
 
 #. SysConfig
@@ -14605,7 +14615,7 @@ msgstr "Determinuje sposób wyświetlania zlinkowanych objektów w każdej masce
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
 msgstr ""
 
@@ -14888,6 +14898,10 @@ msgstr ""
 #. SysConfig
 msgid "DynamicField object registration."
 msgstr "Rejestracja obiektów pól dynamicznych"
+
+#. SysConfig
+msgid "E-Mail Outbound"
+msgstr "E-mail wychodzący"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -18439,8 +18453,8 @@ msgstr "Wskazuje id uzytkownika w pocztowej bazie danych."
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig

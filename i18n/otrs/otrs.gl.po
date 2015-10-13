@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-07 17:42+0000\n"
+"PO-Revision-Date: 2015-10-13 23:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1703,6 +1703,10 @@ msgstr "Parámetros de configuración do correo electrónico"
 #. Template: AAAPreferences
 msgid "Other Settings"
 msgstr "Outros axustes"
+
+#. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5487,6 +5491,12 @@ msgid "Notification Text"
 msgstr "Texto da notificación"
 
 #. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
 msgstr "Retirar o idioma da notificación"
 
@@ -8712,8 +8722,8 @@ msgid "Note type"
 msgstr "Tipo de nota"
 
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
-msgstr "Facer rebotar o tícket"
+msgid "Bounce %s%s"
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8842,10 +8852,6 @@ msgstr "Elimine Ticket Usuario Cliente"
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "Obteña todos"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr "Desexa realmente continuar?"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9829,6 +9835,10 @@ msgstr "Nova actividade"
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
 msgstr "Nova actividade nun dos seus chats monitoreados."
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr "Desexa realmente continuar?"
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
@@ -14578,15 +14588,6 @@ msgstr "Determina os posibles estados para tickets pendentes que cambiaban de es
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
-"ticket and as sender (From:) of the email ticket in the agent interface. For"
-" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
-"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "Determina os strings que serán mostrados como receptor (A:) do ticket telefónico e como remitente (De:) do ticket de correo electrónico na interface de axente. Para Cola como NewQueueSelectionType \"<Cola>\" ensina os nomes das colas e para SystemAddress \"<nomeReal> <<Email>>\" ensina o nome e correo electrónico do receptor."
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as receipent (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
@@ -14594,14 +14595,23 @@ msgid ""
 msgstr "Determina os strings que serán mostrados como receptor (A:) do ticket na interface de cliente. Para Cola como CustomerPanelSelectionType, \"<Cola>\" ensina os nomes das colas, e para SystemAddress \"<nomeReal> <<Email>>\" ensina o nome e correo electrónico do receptor."
 
 #. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the phone "
+"ticket and as sender (From:) of the email ticket in the agent interface. For"
+" Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
+"and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
+"the receipent."
+msgstr ""
+
+#. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
 msgstr "Determina a forma en que os obxetos ligados son mostrados en cada máscara de zoom."
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "Determina que opcións van ser válidas para o receptor (ticket telefónico) e o remitente (ticket de correo electrónico) na interface de axente."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14882,6 +14892,10 @@ msgstr "Rexistro backend CampoDinamico."
 #. SysConfig
 msgid "DynamicField object registration."
 msgstr "Rexistro obxeto CampoDinamico."
+
+#. SysConfig
+msgid "E-Mail Outbound"
+msgstr "Correo electrónico De Ida"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -18433,9 +18447,9 @@ msgstr "Especifica o id usuario da base de datos postmaster."
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
-msgstr "Especifica se tódolos backends de almacenamento deberían ser comprobados cando fanse buscas de adxuntos. Isto é soamente requirido para instalacións onde algúns adxuntos están no sistema de arquivo, e outros na base de datos."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
+msgstr ""
 
 #. SysConfig
 msgid ""
