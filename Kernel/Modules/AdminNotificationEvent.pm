@@ -1029,34 +1029,40 @@ sub _Edit {
     }
 
     # get names of languages in English
-    my $DefaultUsedLanguages = $ConfigObject->Get('DefaultUsedLanguages');
+    my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
 
     # get native names of languages
-    my $DefaultUsedLanguagesNative = $ConfigObject->Get('DefaultUsedLanguagesNative');
+    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
 
     my %Languages;
-    LANGUAGE_ID:
-    for my $LanguageID ( sort keys %{ $DefaultUsedLanguages // {} } ) {
+    LANGUAGEID:
+    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
 
-        my $Text = $DefaultUsedLanguagesNative->{$LanguageID} || '';
+        next LANGUAGEID if !$DefaultUsedLanguages{$LanguageID};
 
-        my $TextEnglish = $DefaultUsedLanguages->{$LanguageID};
+        # next language if there is not set native name of language
+        next LANGUAGEID if !$DefaultUsedLanguagesNative{$LanguageID};
+
+        # get language object for specific language id
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $LanguageID,
+        );
+        next LANGUAGEID if !$LanguageObject;
+
+        # get texts on native and default language
+        my $Text        = $DefaultUsedLanguagesNative{$LanguageID};
+        my $TextEnglish = $DefaultUsedLanguages{$LanguageID};
 
         # Translate to current user's language
         my $TextTranslated =
             $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
 
+        # next language if there is not translated text
+        next LANGUAGEID if !$TextTranslated;
+
         if ( $TextTranslated && $TextTranslated ne $Text ) {
             $Text .= ' - ' . $TextTranslated;
         }
-
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $LanguageID,
-        );
-        next LANGUAGE_ID if !$LanguageObject;
-
-        # next language if there is not set English nor native name of language.
-        next LANGUAGE_ID if !$Text;
 
         $Languages{$LanguageID} = $Text;
     }
