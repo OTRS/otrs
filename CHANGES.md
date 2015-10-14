@@ -1,4 +1,6 @@
-#5.0.1 2015-??-??
+#5.0.2 2015-??-??
+
+#5.0.1 2015-10-20
  - 2015-10-14 Updated CPAN module URI to version 1.69.
  - 2015-10-14 Updated CPAN module Text::Diff to version 1.43.
  - 2015-10-14 Updated CPAN module SOAP::Lite to version 1.19.
