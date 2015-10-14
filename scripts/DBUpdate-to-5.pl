@@ -1945,9 +1945,19 @@ sub _FixupStatsTimeInterval {
     for my $StatID ( sort keys %{ $Stats // {} } ) {
         my %Stat = %{ $Stats->{$StatID} // {} };
 
-        my $StatWithObjectAttributes = $StatsObject->StatsGet(
-            StatID => $StatID,
-        );
+        next STATID if $Stat{StatType} ne 'dynamic';
+
+        my $StatWithObjectAttributes;
+        {
+            # Here we need to suppress warnings about dynamic statistics where the
+            #   statistics file is currently not present in the file system (e. g. ITSM or FAQ)
+            #   because of the OTRS upgrade. Just capture the error messages and continue
+            #   (see bug##11532).
+            local *STDERR;
+            my $Dummy;
+            open *STDERR, '>', \$Dummy;    ## no critic
+            $StatWithObjectAttributes = $StatsObject->StatsGet( StatID => $StatID, );
+        }
 
         my %StatsConfigurationErrors;
 
