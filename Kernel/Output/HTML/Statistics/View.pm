@@ -650,6 +650,10 @@ sub GeneralSpecificationsWidget {
         Class      => 'Modernize',
     );
 
+
+    # get the avaible formats
+    my $AvailableFormats = $ConfigObject->Get('Stats::Format');
+
     # Create a new statistic
     if ( !$Stat->{StatType} ) {
         my $DynamicFiles = $Kernel::OM->Get('Kernel::System::Stats')->GetDynamicFiles();
@@ -691,6 +695,14 @@ sub GeneralSpecificationsWidget {
             );
         }
         elsif ( $Frontend{StatisticPreselection} eq 'DynamicList' ) {
+
+            # remove the graph formats for the dynamic lists
+            for my $Format ( sort keys %{$AvailableFormats} ) {
+                if ( $Format =~ m{^D3} ) {
+                    delete $AvailableFormats->{$Format};
+                }
+            }
+
             $Frontend{StatType}         = 'dynamic';
             $Frontend{SelectObjectType} = $LayoutObject->BuildSelection(
                 Data        => $ObjectModules{DynamicList},
@@ -715,6 +727,16 @@ sub GeneralSpecificationsWidget {
         }
     }
 
+    # create multiselectboxes 'format'
+    $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
+        Data     => $AvailableFormats,
+        Name     => 'Format',
+        Class    => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
+        Multiple => 1,
+        Size     => 5,
+        SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
+    );
+
     # create multiselectboxes 'permission'
     my %Permission = (
         Data => { $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 ) },
@@ -732,19 +754,8 @@ sub GeneralSpecificationsWidget {
     }
     $Stat->{SelectPermission} = $LayoutObject->BuildSelection(%Permission);
 
-    # create multiselectboxes 'format'
-    my $AvailableFormats = $ConfigObject->Get('Stats::Format');
-
-    $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
-        Data     => $AvailableFormats,
-        Name     => 'Format',
-        Class    => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
-        Multiple => 1,
-        Size     => 5,
-        SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
-    );
-
-# provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
+    # provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active
+    # and for dynamic statistics
     if (
           !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
         && $ConfigObject->Get('TimeZoneUser')
