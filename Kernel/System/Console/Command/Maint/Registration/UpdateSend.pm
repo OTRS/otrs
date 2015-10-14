@@ -44,7 +44,7 @@ sub Run {
 
     my %RegistrationData = $RegistrationObject->RegistrationDataGet();
 
-    if ( $RegistrationData{State} ne 'registered' ) {
+    if ( !$RegistrationData{State} || $RegistrationData{State} ne 'registered' ) {
         $Self->Print("System is not registered, skipping...\n");
         $Self->Print("<green>Done.</green>\n");
         return $Self->ExitCodeOk();
