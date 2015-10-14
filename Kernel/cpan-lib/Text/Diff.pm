@@ -1,16 +1,15 @@
 package Text::Diff;
 
-use 5.00503;
+use 5.006;
 use strict;
-use Carp;
+use warnings;
+use Carp            qw/ croak confess /;
 use Exporter        ();
 use Algorithm::Diff ();
-use vars qw{$VERSION @ISA @EXPORT};
-BEGIN {
-	$VERSION = '1.41';
-	@ISA     = 'Exporter';
-	@EXPORT  = 'diff';
-};
+
+our $VERSION = '1.43';
+our @ISA     = qw/ Exporter /;
+our @EXPORT  = qw/ diff /;
 
 ## Hunks are made of ops.  An op is the starting index for each
 ## sequence and the opcode:
@@ -32,14 +31,14 @@ sub diff {
 
     for my $i ( 0 .. 1 ) {
         my $seq = $seqs[$i];
-	my $type = ref $seq;
+        my $type = ref $seq;
 
         while ( $type eq "CODE" ) {
-	    $seqs[$i] = $seq = $seq->( $options );
-	    $type = ref $seq;
-	}
+            $seqs[$i] = $seq = $seq->( $options );
+            $type = ref $seq;
+        }
 
-	my $AorB = !$i ? "A" : "B";
+        my $AorB = !$i ? "A" : "B";
 
         if ( $type eq "ARRAY" ) {
             ## This is most efficient :)
@@ -54,13 +53,13 @@ sub diff {
         elsif ( ! $type ) {
             $options->{"OFFSET_$AorB"} = 1
                 unless defined $options->{"OFFSET_$AorB"};
-	    $options->{"FILENAME_$AorB"} = $seq
-	        unless defined $options->{"FILENAME_$AorB"};
-	    $options->{"MTIME_$AorB"} = (stat($seq))[9]
-	        unless defined $options->{"MTIME_$AorB"};
+            $options->{"FILENAME_$AorB"} = $seq
+                unless defined $options->{"FILENAME_$AorB"};
+            $options->{"MTIME_$AorB"} = (stat($seq))[9]
+                unless defined $options->{"MTIME_$AorB"};
 
             local $/ = "\n";
-            open F, "<$seq" or carp "$!: $seq";
+            open F, "<$seq" or croak "$!: $seq";
             $seqs[$i] = [<F>];
             close F;
 
@@ -108,11 +107,10 @@ sub diff {
     $style = "Text::Diff::$style" if exists $internal_styles{$style};
 
     if ( ! $style->can( "hunk" ) ) {
-	eval "require $style; 1" or die $@;
+        eval "require $style; 1" or die $@;
     }
 
-    $style = $style->new
-	if ! ref $style && $style->can( "new" );
+    $style = $style->new if ! ref $style && $style->can( "new" );
 
     my $ctx_lines = $options->{CONTEXT};
     $ctx_lines = 3 unless defined $ctx_lines;
@@ -130,7 +128,7 @@ sub diff {
 
     my $emit_ops = sub {
         $output_handler->( $style->file_header( @seqs,     $options ) )
-	    unless $hunks++;
+            unless $hunks++;
         $output_handler->( $style->hunk_header( @seqs, @_, $options ) );
         $output_handler->( $style->hunk       ( @seqs, @_, $options ) );
         $output_handler->( $style->hunk_footer( @seqs, @_, $options ) );
@@ -152,8 +150,8 @@ sub diff {
                 push @ops, [@_[0,1]," "];
 
                 if ( $diffs && ++$ctx > $ctx_lines * 2 ) {
-        	   $emit_ops->( [ splice @ops, 0, $#ops - $ctx_lines ] );
-        	   $ctx = $diffs = 0;
+                    $emit_ops->( [ splice @ops, 0, $#ops - $ctx_lines ] );
+                    $ctx = $diffs = 0;
                 }
 
                 ## throw away context lines that aren't needed any more
@@ -246,7 +244,7 @@ SCOPE: {
 
     sub new         {
         my $proto = shift;
-	return bless { @_ }, ref $proto || $proto;
+        return bless { @_ }, ref $proto || $proto;
     }
 
     sub file_header { return "" }
@@ -432,6 +430,10 @@ following:
    require Text::Diff;
 
 That's a pretty rare occurence, so C<diff()> is exported by default.
+
+If you pass a filename, but the file can't be read,
+then C<diff()> will C<croak>.
+
 =head1 OPTIONS
 
 diff() takes two parameters from which to draw input and a set of
@@ -472,8 +474,9 @@ If the package indicated by the STYLE has no hunk() method, c<diff()> will
 load it automatically (lazy loading).  Since all such packages should inherit
 from Text::Diff::Base, this should be marvy.
 
-Styles may be specified as class names (C<STYLE => "Foo"), in which case they
-will be C<new()>ed with no parameters, or as objects (C<STYLE => Foo->new>).
+Styles may be specified as class names (C<STYLE =E<gt> 'Foo'>),
+in which case they will be C<new()>ed with no parameters,
+or as objects (C<STYLE =E<gt> Foo-E<gt>new>).
 
 =item CONTEXT
 
@@ -624,7 +627,7 @@ differing elements by selectively escaping whitespace:
   * 9|embedded ws               |embedded\tws              *
   +--+--------------------------+--------------------------+
 
-See L</Text::Diff::Table> for more details, including how the whitespace
+See L<Text::Diff::Table> for more details, including how the whitespace
 escaping works.
 
 =head2 Text::Diff::Context
@@ -692,6 +695,28 @@ welcome.
 
 Uses closures internally, this may lead to leaks on C<perl> versions 5.6.1 and
 prior if used many times over a process' life time.
+
+=head1 SEE ALSO
+
+L<Algorithm::Diff> - the underlying implementation of the diff algorithm
+used by C<Text::Diff>.
+
+L<YAML::Diff> - find difference between two YAML documents.
+
+L<HTML::Differences> - find difference between two HTML documents.
+This uses a more sane approach than L<HTML::Diff>.
+
+L<XML::Diff> - find difference between two XML documents.
+
+L<Array::Diff> - find the differences between two Perl arrays.
+
+L<Hash::Diff> - find the differences between two Perl hashes.
+
+L<Data::Diff> - find difference between two arbitrary data structures.
+
+=head1 REPOSITORY
+
+L<https://github.com/neilbowers/Text-Diff>
 
 =head1 AUTHOR
 
