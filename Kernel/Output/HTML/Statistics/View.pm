@@ -650,9 +650,8 @@ sub GeneralSpecificationsWidget {
         Class      => 'Modernize',
     );
 
-
-    # get the avaible formats
-    my $AvailableFormats = $ConfigObject->Get('Stats::Format');
+    # get the default selected formats
+    my $DefaultSelectedFormat = $ConfigObject->Get('Stats::DefaultSelectedFormat') || [];
 
     # Create a new statistic
     if ( !$Stat->{StatType} ) {
@@ -696,12 +695,8 @@ sub GeneralSpecificationsWidget {
         }
         elsif ( $Frontend{StatisticPreselection} eq 'DynamicList' ) {
 
-            # remove the graph formats for the dynamic lists
-            for my $Format ( sort keys %{$AvailableFormats} ) {
-                if ( $Format =~ m{^D3} ) {
-                    delete $AvailableFormats->{$Format};
-                }
-            }
+            # remove the default selected graph formats for the dynamic lists
+            @{$DefaultSelectedFormat} = grep { $_ !~ m{^D3} } @{$DefaultSelectedFormat};
 
             $Frontend{StatType}         = 'dynamic';
             $Frontend{SelectObjectType} = $LayoutObject->BuildSelection(
@@ -727,6 +722,9 @@ sub GeneralSpecificationsWidget {
         }
     }
 
+    # get the avaible formats
+    my $AvailableFormats = $ConfigObject->Get('Stats::Format');
+
     # create multiselectboxes 'format'
     $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
         Data     => $AvailableFormats,
@@ -734,7 +732,7 @@ sub GeneralSpecificationsWidget {
         Class    => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
         Multiple => 1,
         Size     => 5,
-        SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
+        SelectedID => $GetParam{Format} // $Stat->{Format} || $DefaultSelectedFormat,
     );
 
     # create multiselectboxes 'permission'
