@@ -14,7 +14,7 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::File;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 =head1 NAME
 

@@ -1,6 +1,6 @@
 package PDF::API2::Resource::XObject::Form::BarCode::code3of9;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 use base 'PDF::API2::Resource::XObject::Form::BarCode';
 
@@ -15,7 +15,7 @@ sub new {
                            $options{'-chk'} ? 1 : 0,
                            $options{'-ext'} ? 1 : 0);
 
-    $self->drawbar([@bars]);
+    $self->drawbar([@bars], $options{'caption'});
 
     return $self;
 }
