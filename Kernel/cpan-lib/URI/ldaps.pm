@@ -3,6 +3,8 @@ package URI::ldaps;
 use strict;
 use warnings;
 
+our $VERSION = "1.69";
+
 use parent 'URI::ldap';
 
 sub default_port { 636 }

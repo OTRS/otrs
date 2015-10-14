@@ -3,6 +3,8 @@ package URI::QueryParam;
 use strict;
 use warnings;
 
+our $VERSION = "1.69";
+
 sub URI::_query::query_param {
     my $self = shift;
     my @old = $self->query_form;
@@ -138,6 +140,17 @@ If additional arguments are given, they are used to update successive
 parameters with the given key.  If any of the values provided are
 array references, then the array is dereferenced to get the actual
 values.
+
+Please note that you can supply multiple values to this method, but you cannot
+supply multiple keys.
+
+Do this:
+
+    $uri->query_param( widget_id => 1, 5, 9 );
+
+Do NOT do this:
+
+    $uri->query_param( widget_id => 1, frobnicator_id => 99 );
 
 =item $u->query_param_append($key, $value,...)
 

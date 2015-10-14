@@ -3,6 +3,8 @@ package URI::http;
 use strict;
 use warnings;
 
+our $VERSION = "1.69";
+
 use parent 'URI::_server';
 
 sub default_port { 80 }
