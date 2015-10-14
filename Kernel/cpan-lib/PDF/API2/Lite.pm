@@ -1,6 +1,6 @@
 package PDF::API2::Lite;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 BEGIN {
 
@@ -149,14 +149,14 @@ sub ttfont {
     return $self->{api}->ttfont($file,@opts);
 }
 
-=item $font = $pdf->psfont $pfb, $afm, $encoding
+=item $font = $pdf->psfont($ps_file, [%options])
 
 Returns a new type1 font object.
 
 B<Examples:>
 
-    $font = $pdf->psfont('TimesRoman.pfb','TimesRoman.afm','latin1');
-    $font = $pdf->psfont('/fonts/Univers.pfb','/fonts/Univers.afm','latin2');
+    $font = $pdf->psfont('TimesRoman.pfa', -afmfile => 'TimesRoman.afm', -encode => 'latin1');
+    $font = $pdf->psfont('/fonts/Univers.pfb', -pfmfile => '/fonts/Univers.pfm', -encode => 'latin2');
 
 =cut
 

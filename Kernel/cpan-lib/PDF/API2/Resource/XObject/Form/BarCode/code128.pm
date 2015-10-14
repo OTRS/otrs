@@ -1,6 +1,6 @@
 package PDF::API2::Resource::XObject::Form::BarCode::code128;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 use base 'PDF::API2::Resource::XObject::Form::BarCode';
 
@@ -37,7 +37,7 @@ sub new {
         @bars = $self->encode_128($options{'-type'}, $options{'-code'});
     }
 
-    $self->drawbar(\@bars);
+    $self->drawbar(\@bars, $options{'caption'});
 
     return $self;
 }

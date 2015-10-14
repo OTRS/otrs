@@ -1,6 +1,6 @@
 package PDF::API2::Basic::PDF::Filter::ASCII85Decode;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 use base 'PDF::API2::Basic::PDF::Filter';
 

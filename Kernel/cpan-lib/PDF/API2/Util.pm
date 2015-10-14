@@ -1,6 +1,6 @@
 package PDF::API2::Util;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 no warnings qw[ recursion uninitialized ];
 

@@ -1,6 +1,6 @@
 package PDF::API2::Resource::BaseFont;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 use base 'PDF::API2::Resource';
 
@@ -624,14 +624,18 @@ is used either in native or utf8 format (check utf8-flag).
 sub width {
     my ($self,$text)=@_;
     my $width=0;
+    my @widths_cache;
     if(is_utf8($text)) {
         $text=$self->strByUtf($text)
     }
+
+    my $kern = $self->{-dokern} && ref($self->data->{kern});
     my $lastglyph='';
     foreach my $n (unpack('C*',$text)) 
     {
-        $width+=$self->wxByEnc($n);
-        if($self->{-dokern} && ref($self->data->{kern}))
+        $widths_cache[$n] = $self->wxByEnc($n) unless defined $widths_cache[$n];
+        $width += $widths_cache[$n];
+        if ($kern)
         {
             $width+=$self->data->{kern}->{$lastglyph.':'.$self->data->{e2n}->[$n]};
             $lastglyph=$self->data->{e2n}->[$n];
