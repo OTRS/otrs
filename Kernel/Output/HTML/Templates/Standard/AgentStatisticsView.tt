@@ -29,6 +29,51 @@
                 </ul>
             </div>
         </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Statistic Information") | html %]</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike FixedLabelSmall">
+                    <label>[% Translate("Created") | html %]:</label>
+                    <p class="Value">[% Data.Created | Localize("TimeLong") %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Created by") | html %]:</label>
+                    <p class="Value">[% Data.CreatedBy | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Changed") | html %]:</label>
+                    <p class="Value">[% Data.Changed | Localize("TimeLong") %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Changed by") | html %]:</label>
+                    <p class="Value">[% Data.ChangedBy | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Sum rows") | html %]:</label>
+                    <p class="Value">[% Translate(Data.SumRowValue) | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Sum columns") | html %]:</label>
+                    <p class="Value">[% Translate(Data.SumColValue) | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Show as dashboard widget") | html %]:</label>
+                    <p class="Value">[% Translate(Data.ShowAsDashboardWidgetValue) | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Cache") | html %]:</label>
+                    <p class="Value">[% Translate(Data.CacheValue) | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Validity") | html %]:</label>
+                    <p class="Value">[% Translate(Data.ValidValue) | html %]</p>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
     </div>
 
     <div class="ContentColumn">
