@@ -31,7 +31,7 @@
     </div>
 
     <div class="ContentColumn">
-        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate StatsEditForm">
             <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="EditAction"/>
             <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>
