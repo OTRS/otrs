@@ -114,7 +114,7 @@ Core.Agent.Statistics = (function (TargetNS) {
                 $FormFieldsElement.empty();
                 $('#EditDialog .Fields').children().appendTo($FormFieldsElement);
                 Core.UI.Dialog.CloseDialog($('.Dialog'));
-                $('form').submit();
+                $('form.StatsEditForm').submit();
             }
 
             function EditDialogCancel() {
@@ -160,11 +160,6 @@ Core.Agent.Statistics = (function (TargetNS) {
             $('#EditDialog .Fields .ElementBlockTime .Field select').on('change', function() {
                 $(this).parent('.Field').prev('label').find('input:radio').prop('checked', true);
             });
-
-            Core.UI.TreeSelection.InitTreeSelection();
-
-            // Datepickers don't work if added dynamically atm, so hide for now.
-            $('a.DatepickerIcon').hide();
 
             return false;
         });
