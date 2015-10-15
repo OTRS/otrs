@@ -26,7 +26,6 @@
  - 2015-10-06 Updated qUnit to version 1.19.0.
  - 2015-10-06 Updated MomentJS to version 2.10.6.
  - 2015-10-06 Updated jQuery Validate to version 1.14.0.
- - 2015-10-06 Updated jQuery jsTree to version 3.2.1.
  - 2015-10-06 Updated FullCalendar to version 2.4.0.
  - 2015-10-06 Updated d3 to verion 3.5.6.
  - 2015-10-06 Updated CanVG to version 1.4.
