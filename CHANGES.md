@@ -1,6 +1,7 @@
 #5.0.2 2015-??-??
 
 #5.0.1 2015-10-20
+ - 2015-10-15 Added new 'Unformatting' template for email notification method.
  - 2015-10-15 Fixed bug#[11556](http://bugs.otrs.org/show_bug.cgi?id=11556) - Searching in inputfields does not hide non-matching entries.
  - 2015-10-14 Updated CPAN module URI to version 1.69.
  - 2015-10-14 Updated CPAN module Text::Diff to version 1.43.
