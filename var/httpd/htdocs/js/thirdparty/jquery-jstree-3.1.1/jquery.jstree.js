@@ -1,11 +1,11 @@
-/*globals jQuery, define, module, exports, require, window, document, postMessage */
+/*globals jQuery, define, exports, require, window, document, postMessage */
 (function (factory) {
 	"use strict";
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery'], factory);
 	}
-	else if(typeof module !== 'undefined' && module.exports) {
-		module.exports = factory(require('jquery'));
+	else if(typeof exports === 'object') {
+		factory(require('jquery'));
 	}
 	else {
 		factory(jQuery);
@@ -13,7 +13,7 @@
 }(function ($, undefined) {
 	"use strict";
 /*!
- * jsTree 3.2.1
+ * jsTree 3.1.1
  * http://jstree.com/
  *
  * Copyright (c) 2014 Ivan Bozhanov (http://vakata.com)
@@ -71,7 +71,7 @@
 		 * specifies the jstree version in use
 		 * @name $.jstree.version
 		 */
-		version : '3.2.1',
+		version : '3.1.1',
 		/**
 		 * holds all the default options used when creating new instances
 		 * @name $.jstree.defaults
@@ -89,8 +89,7 @@
 		 */
 		plugins : {},
 		path : src && src.indexOf('/') !== -1 ? src.replace(/\/[^\/]+$/,'') : '',
-		idregex : /[\\:&!^|()\[\]<>@*'+~#";.,=\- \/${}%?`]/g,
-		root : '#'
+		idregex : /[\\:&!^|()\[\]<>@*'+~#";.,=\- \/${}%?`]/g
 	};
 	/**
 	 * creates a jstree instance
@@ -472,7 +471,16 @@
 		 */
 		init : function (el, options) {
 			this._model = {
-				data : {},
+				data : {
+					'#' : {
+						id : '#',
+						parent : null,
+						parents : [],
+						children : [],
+						children_d : [],
+						state : { loaded : false }
+					}
+				},
 				changed : [],
 				force_full_redraw : false,
 				redraw_timeout : false,
@@ -482,14 +490,6 @@
 					selected : false,
 					disabled : false
 				}
-			};
-			this._model.data[$.jstree.root] = {
-				id : $.jstree.root,
-				parent : null,
-				parents : [],
-				children : [],
-				children_d : [],
-				state : { loaded : false }
 			};
 
 			this.element = $(el).addClass('jstree jstree-' + this._id);
@@ -531,7 +531,7 @@
 			 * @name loading.jstree
 			 */
 			this.trigger("loading");
-			this.load_node($.jstree.root);
+			this.load_node('#');
 		},
 		/**
 		 * destroy an instance
@@ -574,8 +574,7 @@
 				tout = null,
 				was_click = 0;
 			this.element
-				.on("dblclick.jstree", function (e) {
-						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
+				.on("dblclick.jstree", function () {
 						if(document.selection && document.selection.empty) {
 							document.selection.empty();
 						}
@@ -602,7 +601,6 @@
 						this.toggle_node(e.target);
 					}, this))
 				.on("dblclick.jstree", ".jstree-anchor", $.proxy(function (e) {
-						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
 						if(this.settings.core.dblclick_toggle) {
 							this.toggle_node(e.target);
 						}
@@ -613,7 +611,7 @@
 						this.activate_node(e.currentTarget, e);
 					}, this))
 				.on('keydown.jstree', '.jstree-anchor', $.proxy(function (e) {
-						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
+						if(e.target.tagName === "INPUT") { return true; }
 						if(e.which !== 32 && e.which !== 13 && (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)) { return true; }
 						var o = null;
 						if(this._data.core.rtl) {
@@ -638,7 +636,7 @@
 								}
 								else {
 									o = this.get_parent(e.currentTarget);
-									if(o && o.id !== $.jstree.root) { this.get_node(o, true).children('.jstree-anchor').focus(); }
+									if(o && o.id !== '#') { this.get_node(o, true).children('.jstree-anchor').focus(); }
 								}
 								break;
 							case 38: // up
@@ -673,12 +671,12 @@
 								e.preventDefault();
 								this.element.find('.jstree-anchor').filter(':visible').last().focus();
 								break;
-							/*!
+							/*
 							// delete
 							case 46:
 								e.preventDefault();
 								o = this.get_node(e.currentTarget);
-								if(o && o.id && o.id !== $.jstree.root) {
+								if(o && o.id && o.id !== '#') {
 									o = this.is_selected(o) ? this.get_selected() : o;
 									this.delete_node(o);
 								}
@@ -687,7 +685,7 @@
 							case 113:
 								e.preventDefault();
 								o = this.get_node(e.currentTarget);
-								if(o && o.id && o.id !== $.jstree.root) {
+								if(o && o.id && o.id !== '#') {
 									// this.edit(o);
 								}
 								break;
@@ -699,7 +697,7 @@
 					}, this))
 				.on("load_node.jstree", $.proxy(function (e, data) {
 						if(data.status) {
-							if(data.node.id === $.jstree.root && !this._data.core.loaded) {
+							if(data.node.id === '#' && !this._data.core.loaded) {
 								this._data.core.loaded = true;
 								if(this._firstChild(this.get_container_ul()[0])) {
 									this.element.attr('aria-activedescendant',this._firstChild(this.get_container_ul()[0]).id);
@@ -741,7 +739,7 @@
 					}, this))
 				// quick searching when the tree is focused
 				.on('keypress.jstree', $.proxy(function (e) {
-						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
+						if(e.target.tagName === "INPUT") { return true; }
 						if(tout) { clearTimeout(tout); }
 						tout = setTimeout(function () {
 							word = '';
@@ -775,7 +773,7 @@
 							if(end) { return; }
 						}
 						// list nodes that start with that letter (only if word consists of a single char)
-						if(new RegExp('^' + chr.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '+$').test(word)) {
+						if(new RegExp('^' + chr + '+$').test(word)) {
 							// search for the next node starting with that letter
 							col.slice(ind + 1).each($.proxy(function (i, v) {
 								if($(v).text().toLowerCase().charAt(0) === chr) {
@@ -962,14 +960,14 @@
 					obj = this._model.data[dom.closest('.jstree-node').attr('id')];
 				}
 				else if((dom = $(obj, this.element)).length && dom.hasClass('jstree')) {
-					obj = this._model.data[$.jstree.root];
+					obj = this._model.data['#'];
 				}
 				else {
 					return false;
 				}
 
 				if(as_dom) {
-					obj = obj.id === $.jstree.root ? this.element : $('#' + obj.id.replace($.jstree.idregex,'\\$&'), this.element);
+					obj = obj.id === '#' ? this.element : $('#' + obj.id.replace($.jstree.idregex,'\\$&'), this.element);
 				}
 				return obj;
 			} catch (ex) { return false; }
@@ -984,7 +982,7 @@
 		 */
 		get_path : function (obj, glue, ids) {
 			obj = obj.parents ? obj : this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root || !obj.parents) {
+			if(!obj || obj.id === '#' || !obj.parents) {
 				return false;
 			}
 			var i, j, p = [];
@@ -1089,7 +1087,7 @@
 		 */
 		get_parent : function (obj) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			return obj.parent;
@@ -1215,14 +1213,8 @@
 				obj.state.loading = false;
 				obj.state.loaded = status;
 				obj.state.failed = !obj.state.loaded;
-				var dom = this.get_node(obj, true), i = 0, j = 0, m = this._model.data, has_children = false;
-				for(i = 0, j = obj.children.length; i < j; i++) {
-					if(m[obj.children[i]] && !m[obj.children[i]].state.hidden) {
-						has_children = true;
-						break;
-					}
-				}
-				if(obj.state.loaded && !has_children && dom && dom.length && !dom.hasClass('jstree-leaf')) {
+				var dom = this.get_node(obj, true);
+				if(obj.state.loaded && !obj.children.length && dom && dom.length && !dom.hasClass('jstree-leaf')) {
 					dom.removeClass('jstree-closed jstree-open').addClass('jstree-leaf');
 				}
 				dom.removeClass("jstree-loading").attr('aria-busy',false);
@@ -1279,7 +1271,7 @@
 		 * @trigger load_all.jstree
 		 */
 		load_all : function (obj, callback) {
-			if(!obj) { obj = $.jstree.root; }
+			if(!obj) { obj = '#'; }
 			obj = this.get_node(obj);
 			if(!obj) { return false; }
 			var to_load = [],
@@ -1322,7 +1314,7 @@
 			var s = this.settings.core.data, t;
 			// use original HTML
 			if(!s) {
-				if(obj.id === $.jstree.root) {
+				if(obj.id === '#') {
 					return this._append_html_data(obj, this._data.core.original_container_html.clone(true), function (status) {
 						callback.call(this, status);
 					});
@@ -1330,7 +1322,7 @@
 				else {
 					return callback.call(this, false);
 				}
-				// return callback.call(this, obj.id === $.jstree.root ? this._append_html_data(obj, this._data.core.original_container_html.clone(true)) : false);
+				// return callback.call(this, obj.id === '#' ? this._append_html_data(obj, this._data.core.original_container_html.clone(true)) : false);
 			}
 			if($.isFunction(s)) {
 				return s.call(this, obj, $.proxy(function (d) {
@@ -1374,7 +1366,7 @@
 							}, this));
 				}
 				t = ($.isArray(s) || $.isPlainObject(s)) ? JSON.parse(JSON.stringify(s)) : s;
-				if(obj.id === $.jstree.root) {
+				if(obj.id === '#') {
 					return this._append_json_data(obj, t, function (status) {
 						callback.call(this, status);
 					});
@@ -1384,10 +1376,10 @@
 					this.settings.core.error.call(this, this._data.core.last_error);
 					return callback.call(this, false);
 				}
-				//return callback.call(this, (obj.id === $.jstree.root ? this._append_json_data(obj, t) : false) );
+				//return callback.call(this, (obj.id === "#" ? this._append_json_data(obj, t) : false) );
 			}
 			if(typeof s === 'string') {
-				if(obj.id === $.jstree.root) {
+				if(obj.id === '#') {
 					return this._append_html_data(obj, $($.parseHTML(s)).filter(function () { return this.nodeType !== 3; }), function (status) {
 						callback.call(this, status);
 					});
@@ -1397,7 +1389,7 @@
 					this.settings.core.error.call(this, this._data.core.last_error);
 					return callback.call(this, false);
 				}
-				//return callback.call(this, (obj.id === $.jstree.root ? this._append_html_data(obj, $(s)) : false) );
+				//return callback.call(this, (obj.id === "#" ? this._append_html_data(obj, $(s)) : false) );
 			}
 			return callback.call(this, false);
 		},
@@ -1456,7 +1448,7 @@
 			 * @param {String} parent the parent ID of the nodes
 			 */
 			this.trigger('model', { "nodes" : dpc, 'parent' : par });
-			if(par !== $.jstree.root) {
+			if(par !== '#') {
 				this._node_changed(par);
 				this.redraw();
 			}
@@ -1801,7 +1793,7 @@
 
 					this.trigger('model', { "nodes" : rslt.dpc, 'parent' : rslt.par });
 
-					if(rslt.par !== $.jstree.root) {
+					if(rslt.par !== '#') {
 						this._node_changed(rslt.par);
 						this.redraw();
 					}
@@ -2194,7 +2186,7 @@
 		 * @trigger redraw.jstree
 		 */
 		_redraw : function () {
-			var nodes = this._model.force_full_redraw ? this._model.data[$.jstree.root].children.concat([]) : this._model.changed.concat([]),
+			var nodes = this._model.force_full_redraw ? this._model.data['#'].children.concat([]) : this._model.changed.concat([]),
 				f = document.createElement('UL'), tmp, i, j, fe = this._data.core.focused;
 			for(i = 0, j = nodes.length; i < j; i++) {
 				tmp = this.redraw_node(nodes[i], true, this._model.force_full_redraw);
@@ -2255,7 +2247,7 @@
 				k = false,
 				d = document;
 			if(!obj) { return false; }
-			if(obj.id === $.jstree.root) { return this.redraw(true); }
+			if(obj.id === '#') { return this.redraw(true); }
 			node = this.get_node(node, true);
 			if(!node || !node.length) { return false; } // TODO: quick toggle
 
@@ -2295,22 +2287,20 @@
 				s = false,
 				tmp = null,
 				t = 0,
-				l = 0,
-				has_children = false,
-				last_sibling = false;
+				l = 0;
 			if(!obj) { return false; }
-			if(obj.id === $.jstree.root) {  return this.redraw(true); }
+			if(obj.id === '#') {  return this.redraw(true); }
 			deep = deep || obj.children.length === 0;
 			node = !document.querySelector ? document.getElementById(obj.id) : this.element[0].querySelector('#' + ("0123456789".indexOf(obj.id[0]) !== -1 ? '\\3' + obj.id[0] + ' ' + obj.id.substr(1).replace($.jstree.idregex,'\\$&') : obj.id.replace($.jstree.idregex,'\\$&')) ); //, this.element);
 			if(!node) {
 				deep = true;
 				//node = d.createElement('LI');
 				if(!is_callback) {
-					par = obj.parent !== $.jstree.root ? $('#' + obj.parent.replace($.jstree.idregex,'\\$&'), this.element)[0] : null;
+					par = obj.parent !== '#' ? $('#' + obj.parent.replace($.jstree.idregex,'\\$&'), this.element)[0] : null;
 					if(par !== null && (!par || !m[obj.parent].state.opened)) {
 						return false;
 					}
-					ind = $.inArray(obj.id, par === null ? m[$.jstree.root].children : m[obj.parent].children);
+					ind = $.inArray(obj.id, par === null ? m['#'].children : m[obj.parent].children);
 				}
 			}
 			else {
@@ -2359,39 +2349,14 @@
 				node.setAttribute('aria-disabled', true);
 			}
 
-			for(i = 0, j = obj.children.length; i < j; i++) {
-				if(!m[obj.children[i]].state.hidden) {
-					has_children = true;
-					break;
-				}
-			}
-			if(obj.parent !== null && m[obj.parent] && !obj.state.hidden) {
-				i = $.inArray(obj.id, m[obj.parent].children);
-				last_sibling = obj.id;
-				if(i !== -1) {
-					i++;
-					for(j = m[obj.parent].children.length; i < j; i++) {
-						if(!m[m[obj.parent].children[i]].state.hidden) {
-							last_sibling = m[obj.parent].children[i];
-						}
-						if(last_sibling !== obj.id) {
-							break;
-						}
-					}
-				}
-			}
-
-			if(obj.state.hidden) {
-				c += ' jstree-hidden';
-			}
-			if(obj.state.loaded && !has_children) {
+			if(obj.state.loaded && !obj.children.length) {
 				c += ' jstree-leaf';
 			}
 			else {
 				c += obj.state.opened && obj.state.loaded ? ' jstree-open' : ' jstree-closed';
 				node.setAttribute('aria-expanded', (obj.state.opened && obj.state.loaded) );
 			}
-			if(last_sibling === obj.id) {
+			if(obj.parent !== null && m[obj.parent].children[m[obj.parent].children.length - 1] === obj.id) {
 				c += ' jstree-last';
 			}
 			node.id = obj.id;
@@ -2505,7 +2470,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			animation = animation === undefined ? this.settings.core.animation : animation;
@@ -2582,7 +2547,6 @@
 					 */
 					this.trigger("after_open", { "node" : obj });
 				}
-				return true;
 			}
 		},
 		/**
@@ -2593,12 +2557,12 @@
 		 */
 		_open_to : function (obj) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			var i, j, p = obj.parents;
 			for(i = 0, j = p.length; i < j; i+=1) {
-				if(i !== $.jstree.root) {
+				if(i !== '#') {
 					this.open_node(p[i], false, 0);
 				}
 			}
@@ -2621,7 +2585,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			if(this.is_closed(obj)) {
@@ -2694,10 +2658,10 @@
 		 * @trigger open_all.jstree
 		 */
 		open_all : function (obj, animation, original_obj) {
-			if(!obj) { obj = $.jstree.root; }
+			if(!obj) { obj = '#'; }
 			obj = this.get_node(obj);
 			if(!obj) { return false; }
-			var dom = obj.id === $.jstree.root ? this.get_container_ul() : this.get_node(obj, true), i, j, _this;
+			var dom = obj.id === '#' ? this.get_container_ul() : this.get_node(obj, true), i, j, _this;
 			if(!dom.length) {
 				for(i = 0, j = obj.children_d.length; i < j; i++) {
 					if(this.is_closed(this._model.data[obj.children_d[i]])) {
@@ -2734,18 +2698,19 @@
 		 * @trigger close_all.jstree
 		 */
 		close_all : function (obj, animation) {
-			if(!obj) { obj = $.jstree.root; }
+			if(!obj) { obj = '#'; }
 			obj = this.get_node(obj);
 			if(!obj) { return false; }
-			var dom = obj.id === $.jstree.root ? this.get_container_ul() : this.get_node(obj, true),
+			var dom = obj.id === '#' ? this.get_container_ul() : this.get_node(obj, true),
 				_this = this, i, j;
-			if(dom.length) {
-				dom = this.is_open(obj) ? dom.find('.jstree-open').addBack() : dom.find('.jstree-open');
-				$(dom.get().reverse()).each(function () { _this.close_node(this, animation || 0); });
+			if(!dom.length) {
+				for(i = 0, j = obj.children_d.length; i < j; i++) {
+					this._model.data[obj.children_d[i]].state.opened = false;
+				}
+				return this.trigger('close_all', { "node" : obj });
 			}
-			for(i = 0, j = obj.children_d.length; i < j; i++) {
-				this._model.data[obj.children_d[i]].state.opened = false;
-			}
+			dom = this.is_open(obj) ? dom.find('.jstree-open').addBack() : dom.find('.jstree-open');
+			$(dom.get().reverse()).each(function () { _this.close_node(this, animation || 0); });
 			/**
 			 * triggered when an `close_all` call completes
 			 * @event
@@ -2780,7 +2745,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			obj.state.disabled = false;
@@ -2809,7 +2774,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			obj.state.disabled = true;
@@ -2823,130 +2788,6 @@
 			this.trigger('disable_node', { 'node' : obj });
 		},
 		/**
-		 * hides a node - it is still in the structure but will not be visible
-		 * @name hide_node(obj)
-		 * @param {mixed} obj the node to hide
-		 * @param {Boolean} redraw internal parameter controlling if redraw is called
-		 * @trigger hide_node.jstree
-		 */
-		hide_node : function (obj, skip_redraw) {
-			var t1, t2;
-			if($.isArray(obj)) {
-				obj = obj.slice();
-				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
-					this.hide_node(obj[t1], true);
-				}
-				this.redraw();
-				return true;
-			}
-			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
-				return false;
-			}
-			if(!obj.state.hidden) {
-				obj.state.hidden = true;
-				this._node_changed(obj.parent);
-				if(!skip_redraw) {
-					this.redraw();
-				}
-				/**
-				 * triggered when an node is hidden
-				 * @event
-				 * @name hide_node.jstree
-				 * @param {Object} node the hidden node
-				 */
-				this.trigger('hide_node', { 'node' : obj });
-			}
-		},
-		/**
-		 * shows a node
-		 * @name show_node(obj)
-		 * @param {mixed} obj the node to show
-		 * @param {Boolean} skip_redraw internal parameter controlling if redraw is called
-		 * @trigger show_node.jstree
-		 */
-		show_node : function (obj, skip_redraw) {
-			var t1, t2;
-			if($.isArray(obj)) {
-				obj = obj.slice();
-				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
-					this.show_node(obj[t1], true);
-				}
-				this.redraw();
-				return true;
-			}
-			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
-				return false;
-			}
-			if(obj.state.hidden) {
-				obj.state.hidden = false;
-				this._node_changed(obj.parent);
-				if(!skip_redraw) {
-					this.redraw();
-				}
-				/**
-				 * triggered when an node is shown
-				 * @event
-				 * @name show_node.jstree
-				 * @param {Object} node the shown node
-				 */
-				this.trigger('show_node', { 'node' : obj });
-			}
-		},
-		/**
-		 * hides all nodes
-		 * @name hide_all()
-		 * @trigger hide_all.jstree
-		 */
-		hide_all : function (skip_redraw) {
-			var i, m = this._model.data, ids = [];
-			for(i in m) {
-				if(m.hasOwnProperty(i) && i !== $.jstree.root && !m[i].state.hidden) {
-					m[i].state.hidden = true;
-					ids.push(i);
-				}
-			}
-			this._model.force_full_redraw = true;
-			if(!skip_redraw) {
-				this.redraw();
-			}
-			/**
-			 * triggered when all nodes are hidden
-			 * @event
-			 * @name hide_all.jstree
-			 * @param {Array} nodes the IDs of all hidden nodes
-			 */
-			this.trigger('hide_all', { 'nodes' : ids });
-			return ids;
-		},
-		/**
-		 * shows all nodes
-		 * @name show_all()
-		 * @trigger show_all.jstree
-		 */
-		show_all : function (skip_redraw) {
-			var i, m = this._model.data, ids = [];
-			for(i in m) {
-				if(m.hasOwnProperty(i) && i !== $.jstree.root && m[i].state.hidden) {
-					m[i].state.hidden = false;
-					ids.push(i);
-				}
-			}
-			this._model.force_full_redraw = true;
-			if(!skip_redraw) {
-				this.redraw();
-			}
-			/**
-			 * triggered when all nodes are shown
-			 * @event
-			 * @name show_all.jstree
-			 * @param {Array} nodes the IDs of all shown nodes
-			 */
-			this.trigger('show_all', { 'nodes' : ids });
-			return ids;
-		},
-		/**
 		 * called when a node is selected by the user. Used internally.
 		 * @private
 		 * @name activate_node(obj, e)
@@ -2957,9 +2798,6 @@
 		activate_node : function (obj, e) {
 			if(this.is_disabled(obj)) {
 				return false;
-			}
-			if(!e || typeof e !== 'object') {
-				e = {};
 			}
 
 			// ensure last_clicked is still in the DOM, make it fresh (maybe it was moved?) and make sure it is still selected, if not - make last_clicked the last selected node
@@ -3015,9 +2853,8 @@
 			 * @event
 			 * @name activate_node.jstree
 			 * @param {Object} node
-			 * @param {Object} event the ooriginal event (if any) which triggered the call (may be an empty object)
 			 */
-			this.trigger('activate_node', { 'node' : this.get_node(obj), 'event' : e });
+			this.trigger('activate_node', { 'node' : this.get_node(obj) });
 		},
 		/**
 		 * applies the hover state on a node, called when a node is hovered by the user. Used internally.
@@ -3083,7 +2920,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			dom = this.get_node(obj, true);
@@ -3136,7 +2973,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			dom = this.get_node(obj, true);
@@ -3168,7 +3005,7 @@
 		 */
 		select_all : function (supress_event) {
 			var tmp = this._data.core.selected.concat([]), i, j;
-			this._data.core.selected = this._model.data[$.jstree.root].children_d.concat();
+			this._data.core.selected = this._model.data['#'].children_d.concat();
 			for(i = 0, j = this._data.core.selected.length; i < j; i++) {
 				if(this._model.data[this._data.core.selected[i]]) {
 					this._model.data[this._data.core.selected[i]].state.selected = true;
@@ -3221,7 +3058,7 @@
 		 */
 		is_selected : function (obj) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			return obj.state.selected;
@@ -3304,7 +3141,7 @@
 			}, i;
 			for(i in this._model.data) {
 				if(this._model.data.hasOwnProperty(i)) {
-					if(i !== $.jstree.root) {
+					if(i !== '#') {
 						if(this._model.data[i].state.opened) {
 							state.core.open.push(i);
 						}
@@ -3320,7 +3157,7 @@
 		 * sets the state of the tree. Used internally.
 		 * @name set_state(state [, callback])
 		 * @private
-		 * @param {Object} state the state to restore. Keep in mind this object is passed by reference and jstree will modify it.
+		 * @param {Object} state the state to restore
 		 * @param {Function} callback an optional function to execute once the state is restored.
 		 * @trigger set_state.jstree
 		 */
@@ -3400,25 +3237,22 @@
 			this._data.core.state = forget_state === true ? {} : this.get_state();
 			if(forget_state && $.isFunction(forget_state)) { this._data.core.state = forget_state.call(this, this._data.core.state); }
 			this._cnt = 0;
-			this._model.data = {};
-			this._model.data[$.jstree.root] = {
-				id : $.jstree.root,
-				parent : null,
-				parents : [],
-				children : [],
-				children_d : [],
-				state : { loaded : false }
+			this._model.data = {
+				'#' : {
+					id : '#',
+					parent : null,
+					parents : [],
+					children : [],
+					children_d : [],
+					state : { loaded : false }
+				}
 			};
-			this._data.core.selected = [];
-			this._data.core.last_clicked = null;
-			this._data.core.focused = null;
-
 			var c = this.get_container_ul()[0].className;
 			if(!skip_loading) {
 				this.element.html("<"+"ul class='"+c+"' role='group'><"+"li class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='treeitem' id='j"+this._id+"_loading'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
 				this.element.attr('aria-activedescendant','j'+this._id+'_loading');
 			}
-			this.load_node($.jstree.root, function (o, s) {
+			this.load_node('#', function (o, s) {
 				if(s) {
 					this.get_container_ul()[0].className = c;
 					if(this._firstChild(this.get_container_ul()[0])) {
@@ -3444,7 +3278,7 @@
 		 */
 		refresh_node : function (obj) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			var opened = [], to_load = [], s = this._data.core.selected.concat([]);
 			to_load.push(obj.id);
 			if(obj.state.opened === true) { opened.push(obj.id); }
@@ -3471,7 +3305,7 @@
 		 */
 		set_id : function (obj, id) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			var i, j, m = this._model.data;
 			id = id.toString();
 			// update parents (replace current ID with new one in children and children_d)
@@ -3510,7 +3344,7 @@
 		 */
 		get_text : function (obj) {
 			obj = this.get_node(obj);
-			return (!obj || obj.id === $.jstree.root) ? false : obj.text;
+			return (!obj || obj.id === '#') ? false : obj.text;
 		},
 		/**
 		 * set the text value of a node. Used internally, please use `rename_node(obj, val)`.
@@ -3531,7 +3365,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			obj.text = val;
 			if(this.get_node(obj, true).length) {
 				this.redraw_node(obj.id);
@@ -3559,7 +3393,7 @@
 		 * @return {Object}
 		 */
 		get_json : function (obj, options, flat) {
-			obj = this.get_node(obj || $.jstree.root);
+			obj = this.get_node(obj || '#');
 			if(!obj) { return false; }
 			if(options && options.flat && !flat) { flat = []; }
 			var tmp = {
@@ -3594,7 +3428,7 @@
 					delete tmp.a_attr.id;
 				}
 			}
-			if(options && options.flat && obj.id !== $.jstree.root) {
+			if(options && options.flat && obj.id !== '#') {
 				flat.push(tmp);
 			}
 			if(!options || !options.no_children) {
@@ -3607,7 +3441,7 @@
 					}
 				}
 			}
-			return options && options.flat ? flat : (obj.id === $.jstree.root ? tmp.children : tmp);
+			return options && options.flat ? flat : (obj.id === '#' ? tmp.children : tmp);
 		},
 		/**
 		 * create a new node (do not confuse with load_node)
@@ -3621,7 +3455,7 @@
 		 * @trigger model.jstree, create_node.jstree
 		 */
 		create_node : function (par, node, pos, callback, is_loaded) {
-			if(par === null) { par = $.jstree.root; }
+			if(par === null) { par = "#"; }
 			par = this.get_node(par);
 			if(!par) { return false; }
 			pos = pos === undefined ? "last" : pos;
@@ -3633,7 +3467,7 @@
 			if(node.text === undefined) { node.text = this.get_string('New node'); }
 			var tmp, dpc, i, j;
 
-			if(par.id === $.jstree.root) {
+			if(par.id === '#') {
 				if(pos === "before") { pos = "first"; }
 				if(pos === "after") { pos = "last"; }
 			}
@@ -3717,7 +3551,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			old = obj.text;
 			if(!this.check("rename_node", obj, this.get_parent(obj), val)) {
 				this.settings.core.error.call(this, this._data.core.last_error);
@@ -3743,7 +3577,7 @@
 		 * @trigger delete_node.jstree, changed.jstree
 		 */
 		delete_node : function (obj) {
-			var t1, t2, par, pos, tmp, i, j, k, l, c, top, lft;
+			var t1, t2, par, pos, tmp, i, j, k, l, c;
 			if($.isArray(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
@@ -3752,7 +3586,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			par = this.get_node(obj.parent);
 			pos = $.inArray(obj.id, par.children);
 			c = false;
@@ -3793,19 +3627,6 @@
 			}
 			for(k = 0, l = tmp.length; k < l; k++) {
 				delete this._model.data[tmp[k]];
-			}
-			if($.inArray(this._data.core.focused, tmp) !== -1) {
-				this._data.core.focused = null;
-				top = this.element[0].scrollTop;
-				lft = this.element[0].scrollLeft;
-				if(par.id === $.jstree.root) {
-					this.get_node(this._model.data[$.jstree.root].children[0], true).children('.jstree-anchor').focus();
-				}
-				else {
-					this.get_node(par, true).children('.jstree-anchor').focus();
-				}
-				this.element[0].scrollTop  = top;
-				this.element[0].scrollLeft = lft;
 			}
 			this.redraw_node(par, true);
 			return true;
@@ -3893,10 +3714,10 @@
 			}
 			obj = obj && obj.id ? obj : this.get_node(obj);
 
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 
-			old_par = (obj.parent || $.jstree.root).toString();
-			new_par = (!pos.toString().match(/^(before|after)$/) || par.id === $.jstree.root) ? par : this.get_node(par.parent);
+			old_par = (obj.parent || '#').toString();
+			new_par = (!pos.toString().match(/^(before|after)$/) || par.id === '#') ? par : this.get_node(par.parent);
 			old_ins = origin ? origin : (this._model.data[obj.id] ? this : $.jstree.reference(obj.id));
 			is_multi = !old_ins || !old_ins._id || (this._id !== old_ins._id);
 			old_pos = old_ins && old_ins._id && old_par && old_ins._model.data[old_par] && old_ins._model.data[old_par].children ? $.inArray(obj.id, old_ins._model.data[old_par].children) : -1;
@@ -3912,7 +3733,7 @@
 				return false;
 			}
 			//var m = this._model.data;
-			if(par.id === $.jstree.root) {
+			if(par.id === '#') {
 				if(pos === "before") { pos = "first"; }
 				if(pos === "after") { pos = "last"; }
 			}
@@ -3953,7 +3774,7 @@
 				tmp[pos] = obj.id;
 				new_par.children = tmp;
 				this._node_changed(new_par.id);
-				this.redraw(new_par.id === $.jstree.root);
+				this.redraw(new_par.id === '#');
 			}
 			else {
 				// clean old parent and up
@@ -3998,7 +3819,7 @@
 					Array.prototype.push.apply(this._model.data[obj.children_d[i]].parents, tmp);
 				}
 
-				if(old_par === $.jstree.root || new_par.id === $.jstree.root) {
+				if(old_par === '#' || new_par.id === '#') {
 					this._model.force_full_redraw = true;
 				}
 				if(!this._model.force_full_redraw) {
@@ -4065,10 +3886,10 @@
 				}
 			}
 			obj = obj && obj.id ? obj : this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 
-			old_par = (obj.parent || $.jstree.root).toString();
-			new_par = (!pos.toString().match(/^(before|after)$/) || par.id === $.jstree.root) ? par : this.get_node(par.parent);
+			old_par = (obj.parent || '#').toString();
+			new_par = (!pos.toString().match(/^(before|after)$/) || par.id === '#') ? par : this.get_node(par.parent);
 			old_ins = origin ? origin : (this._model.data[obj.id] ? this : $.jstree.reference(obj.id));
 			is_multi = !old_ins || !old_ins._id || (this._id !== old_ins._id);
 
@@ -4076,7 +3897,7 @@
 				obj = old_ins._model.data[obj.id];
 			}
 
-			if(par.id === $.jstree.root) {
+			if(par.id === '#') {
 				if(pos === "before") { pos = "first"; }
 				if(pos === "after") { pos = "last"; }
 			}
@@ -4128,14 +3949,14 @@
 			new_par.children_d.push(tmp.id);
 			new_par.children_d = new_par.children_d.concat(tmp.children_d);
 
-			if(new_par.id === $.jstree.root) {
+			if(new_par.id === '#') {
 				this._model.force_full_redraw = true;
 			}
 			if(!this._model.force_full_redraw) {
 				this._node_changed(new_par.id);
 			}
 			if(!skip_redraw) {
-				this.redraw(new_par.id === $.jstree.root);
+				this.redraw(new_par.id === '#');
 			}
 			if(callback) { callback.call(this, tmp, new_par, pos); }
 			/**
@@ -4168,7 +3989,7 @@
 			var tmp = [], o, t1, t2;
 			for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 				o = this.get_node(obj[t1]);
-				if(o && o.id && o.id !== $.jstree.root) { tmp.push(o); }
+				if(o && o.id && o.id !== '#') { tmp.push(o); }
 			}
 			if(!tmp.length) { return false; }
 			ccp_node = tmp;
@@ -4195,7 +4016,7 @@
 			var tmp = [], o, t1, t2;
 			for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 				o = this.get_node(obj[t1]);
-				if(o && o.id && o.id !== $.jstree.root) { tmp.push(o); }
+				if(o && o.id && o.id !== '#') { tmp.push(o); }
 			}
 			if(!tmp.length) { return false; }
 			ccp_node = tmp;
@@ -4271,10 +4092,10 @@
 		 * @name edit(obj [, default_text, callback])
 		 * @param  {mixed} obj
 		 * @param  {String} default_text the text to populate the input with (if omitted or set to a non-string value the node's text value is used)
-		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node, a status parameter (true if the rename is successful, false otherwise) and a boolean indicating if the user cancelled the edit. You can access the node's title using .text
+		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node and a status parameter - true if the rename is successful, false otherwise. You can access the node's title using .text
 		 */
 		edit : function (obj, default_text, callback) {
-			var rtl, w, a, s, t, h1, h2, fn, tmp, cancel = false;
+			var rtl, w, a, s, t, h1, h2, fn, tmp;
 			obj = this.get_node(obj);
 			if(!obj) { return false; }
 			if(this.settings.core.check_callback === false) {
@@ -4290,8 +4111,7 @@
 
 			rtl = this._data.core.rtl;
 			w  = this.element.width();
-			this._data.core.focused = tmp.id;
-			a  = obj.children('.jstree-anchor').focus();
+			a  = obj.children('.jstree-anchor');
 			s  = $('<span>');
 			/*!
 			oi = obj.children("i:visible"),
@@ -4314,9 +4134,7 @@
 							"lineHeight" : (this._data.core.li_height) + "px",
 							"width" : "150px" // will be set a bit further down
 						},
-						"blur" : $.proxy(function (e) {
-							e.stopImmediatePropagation();
-							e.preventDefault();
+						"blur" : $.proxy(function () {
 							var i = s.children(".jstree-rename-input"),
 								v = i.val(),
 								f = this.settings.core.force_text,
@@ -4331,39 +4149,30 @@
 							if(!nv) {
 								this.set_text(obj, t); // move this up? and fix #483
 							}
-							this._data.core.focused = tmp.id;
-							setTimeout($.proxy(function () {
-								var node = this.get_node(tmp.id, true);
-								if(node.length) {
-									this._data.core.focused = tmp.id;
-									node.children('.jstree-anchor').focus();
-								}
-							}, this), 0);
 							if(callback) {
-								callback.call(this, tmp, nv, cancel);
+								callback.call(this, tmp, nv);
 							}
 						}, this),
-						"keydown" : function (e) {
-							var key = e.which;
+						"keydown" : function (event) {
+							var key = event.which;
 							if(key === 27) {
-								cancel = true;
 								this.value = t;
 							}
 							if(key === 27 || key === 13 || key === 37 || key === 38 || key === 39 || key === 40 || key === 32) {
-								e.stopImmediatePropagation();
+								event.stopImmediatePropagation();
 							}
 							if(key === 27 || key === 13) {
-								e.preventDefault();
+								event.preventDefault();
 								this.blur();
 							}
 						},
 						"click" : function (e) { e.stopImmediatePropagation(); },
 						"mousedown" : function (e) { e.stopImmediatePropagation(); },
-						"keyup" : function (e) {
+						"keyup" : function (event) {
 							h2.width(Math.min(h1.text("pW" + this.value).width(),w));
 						},
-						"keypress" : function(e) {
-							if(e.which === 13) { return false; }
+						"keypress" : function(event) {
+							if(event.which === 13) { return false; }
 						}
 					});
 				fn = {
@@ -4502,7 +4311,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			old = obj.icon;
 			obj.icon = icon === true || icon === null || icon === undefined || icon === '' ? true : icon;
 			dom = this.get_node(obj, true).children(".jstree-anchor").children(".jstree-themeicon");
@@ -4533,7 +4342,7 @@
 		 */
 		get_icon : function (obj) {
 			obj = this.get_node(obj);
-			return (!obj || obj.id === $.jstree.root) ? false : obj.icon;
+			return (!obj || obj.id === '#') ? false : obj.icon;
 		},
 		/**
 		 * hide the icon on an individual node
@@ -4550,7 +4359,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj === $.jstree.root) { return false; }
+			if(!obj || obj === '#') { return false; }
 			obj.icon = false;
 			this.get_node(obj, true).children(".jstree-anchor").children(".jstree-themeicon").addClass('jstree-themeicon-hidden');
 			return true;
@@ -4570,7 +4379,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj === $.jstree.root) { return false; }
+			if(!obj || obj === '#') { return false; }
 			dom = this.get_node(obj, true);
 			obj.icon = dom.length ? dom.children(".jstree-anchor").children(".jstree-themeicon").attr('rel') : true;
 			if(!obj.icon) { obj.icon = true; }
@@ -4619,59 +4428,6 @@
 		return tmp !== -1 ? $.vakata.array_remove(array, tmp) : array;
 	};
 
-
-/**
- * ### Changed plugin
- *
- * This plugin adds more information to the `changed.jstree` event. The new data is contained in the `changed` event data property, and contains a lists of `selected` and `deselected` nodes.
- */
-
-	$.jstree.plugins.changed = function (options, parent) {
-		var last = [];
-		this.trigger = function (ev, data) {
-			var i, j;
-			if(!data) {
-				data = {};
-			}
-			if(ev.replace('.jstree','') === 'changed') {
-				data.changed = { selected : [], deselected : [] };
-				var tmp = {};
-				for(i = 0, j = last.length; i < j; i++) {
-					tmp[last[i]] = 1;
-				}
-				for(i = 0, j = data.selected.length; i < j; i++) {
-					if(!tmp[data.selected[i]]) {
-						data.changed.selected.push(data.selected[i]);
-					}
-					else {
-						tmp[data.selected[i]] = 2;
-					}
-				}
-				for(i = 0, j = last.length; i < j; i++) {
-					if(tmp[last[i]] === 1) {
-						data.changed.deselected.push(last[i]);
-					}
-				}
-				last = data.selected.slice();
-			}
-			/**
-			 * triggered when selection changes (the "changed" plugin enhances the original event with more data)
-			 * @event
-			 * @name changed.jstree
-			 * @param {Object} node
-			 * @param {Object} action the action that caused the selection to change
-			 * @param {Array} selected the current selection
-			 * @param {Object} changed an object containing two properties `selected` and `deselected` - both arrays of node IDs, which were selected or deselected since the last changed event
-			 * @param {Object} event the event (if any) that triggered this changed event
-			 * @plugin changed
-			 */
-			parent.trigger.call(this, ev, data);
-		};
-		this.refresh = function (skip_loading, forget_state) {
-			last = [];
-			return parent.refresh.apply(this, arguments);
-		};
-	};
 
 /**
  * ### Checkbox plugin
@@ -4765,7 +4521,7 @@
 							dpc = data.nodes,
 							i, j;
 						for(i = 0, j = dpc.length; i < j; i++) {
-							m[dpc[i]].state.checked = m[dpc[i]].state.checked || (m[dpc[i]].original && m[dpc[i]].original.state && m[dpc[i]].original.state.checked);
+							m[dpc[i]].state.checked = (m[dpc[i]].original && m[dpc[i]].original.state && m[dpc[i]].original.state.checked);
 							if(m[dpc[i]].state.checked) {
 								this._data.checkbox.selected.push(dpc[i]);
 							}
@@ -4811,7 +4567,7 @@
 								chd = $.vakata.array_unique(chd);
 								for(k = 0, l = chd.length; k < l; k++) {
 									p = m[chd[k]];
-									while(p && p.id !== $.jstree.root) {
+									while(p && p.id !== '#') {
 										c = 0;
 										for(i = 0, j = p.children.length; i < j; i++) {
 											c += m[p.children[i]].state[ t ? 'selected' : 'checked' ];
@@ -4855,7 +4611,7 @@
 
 							// apply up
 							if(s.indexOf('up') !== -1) {
-								while(par && par.id !== $.jstree.root) {
+								while(par && par.id !== '#') {
 									c = 0;
 									for(i = 0, j = par.children.length; i < j; i++) {
 										c += m[par.children[i]].state[ t ? 'selected' : 'checked' ];
@@ -4881,7 +4637,7 @@
 							}
 						}, this))
 					.on(this.settings.checkbox.tie_selection ? 'deselect_all.jstree' : 'uncheck_all.jstree', $.proxy(function (e, data) {
-							var obj = this.get_node($.jstree.root),
+							var obj = this.get_node('#'),
 								m = this._model.data,
 								i, j, tmp;
 							for(i = 0, j = obj.children_d.length; i < j; i++) {
@@ -4949,12 +4705,12 @@
 							var p = this.get_node(data.parent),
 								m = this._model.data,
 								i, j, c, tmp, t = this.settings.checkbox.tie_selection;
-							while(p && p.id !== $.jstree.root && !p.state[ t ? 'selected' : 'checked' ]) {
+							while(p && p.id !== '#') {
 								c = 0;
 								for(i = 0, j = p.children.length; i < j; i++) {
 									c += m[p.children[i]].state[ t ? 'selected' : 'checked' ];
 								}
-								if(j > 0 && c === j) {
+								if(c === j) {
 									p.state[ t ? 'selected' : 'checked' ] = true;
 									this._data[ t ? 'core' : 'checkbox' ].selected.push(p.id);
 									tmp = this.get_node(p, true);
@@ -4977,12 +4733,12 @@
 								p, c, i, j, tmp, t = this.settings.checkbox.tie_selection;
 							if(!is_multi) {
 								p = this.get_node(old_par);
-								while(p && p.id !== $.jstree.root && !p.state[ t ? 'selected' : 'checked' ]) {
+								while(p && p.id !== '#') {
 									c = 0;
 									for(i = 0, j = p.children.length; i < j; i++) {
 										c += m[p.children[i]].state[ t ? 'selected' : 'checked' ];
 									}
-									if(j > 0 && c === j) {
+									if(c === j) {
 										p.state[ t ? 'selected' : 'checked' ] = true;
 										this._data[ t ? 'core' : 'checkbox' ].selected.push(p.id);
 										tmp = this.get_node(p, true);
@@ -4997,7 +4753,7 @@
 								}
 							}
 							p = new_par;
-							while(p && p.id !== $.jstree.root) {
+							while(p && p.id !== '#') {
 								c = 0;
 								for(i = 0, j = p.children.length; i < j; i++) {
 									c += m[p.children[i]].state[ t ? 'selected' : 'checked' ];
@@ -5042,7 +4798,7 @@
 			for(i = 0, j = s.length; i < j; i++) {
 				if(m[s[i]] && m[s[i]].parents) {
 					for(k = 0, l = m[s[i]].parents.length; k < l; k++) {
-						if(o[m[s[i]].parents[k]] === undefined && m[s[i]].parents[k] !== $.jstree.root) {
+						if(o[m[s[i]].parents[k]] === undefined && m[s[i]].parents[k] !== '#') {
 							o[m[s[i]].parents[k]] = true;
 							p.push(m[s[i]].parents[k]);
 						}
@@ -5055,12 +4811,12 @@
 					var tmp = tt.get_node(this), tmp2;
 					if(!tmp.state.loaded) {
 						if(tmp.original && tmp.original.state && tmp.original.state.undetermined && tmp.original.state.undetermined === true) {
-							if(o[tmp.id] === undefined && tmp.id !== $.jstree.root) {
+							if(o[tmp.id] === undefined && tmp.id !== '#') {
 								o[tmp.id] = true;
 								p.push(tmp.id);
 							}
 							for(k = 0, l = tmp.parents.length; k < l; k++) {
-								if(o[tmp.parents[k]] === undefined && tmp.parents[k] !== $.jstree.root) {
+								if(o[tmp.parents[k]] === undefined && tmp.parents[k] !== '#') {
 									o[tmp.parents[k]] = true;
 									p.push(tmp.parents[k]);
 								}
@@ -5071,12 +4827,12 @@
 						for(i = 0, j = tmp.children_d.length; i < j; i++) {
 							tmp2 = m[tmp.children_d[i]];
 							if(!tmp2.state.loaded && tmp2.original && tmp2.original.state && tmp2.original.state.undetermined && tmp2.original.state.undetermined === true) {
-								if(o[tmp2.id] === undefined && tmp2.id !== $.jstree.root) {
+								if(o[tmp2.id] === undefined && tmp2.id !== '#') {
 									o[tmp2.id] = true;
 									p.push(tmp2.id);
 								}
 								for(k = 0, l = tmp2.parents.length; k < l; k++) {
-									if(o[tmp2.parents[k]] === undefined && tmp2.parents[k] !== $.jstree.root) {
+									if(o[tmp2.parents[k]] === undefined && tmp2.parents[k] !== '#') {
 										o[tmp2.parents[k]] = true;
 										p.push(tmp2.parents[k]);
 									}
@@ -5099,7 +4855,7 @@
 		this.redraw_node = function(obj, deep, is_callback, force_render) {
 			obj = parent.redraw_node.apply(this, arguments);
 			if(obj) {
-				var i, j, tmp = null, icon = null;
+				var i, j, tmp = null;
 				for(i = 0, j = obj.childNodes.length; i < j; i++) {
 					if(obj.childNodes[i] && obj.childNodes[i].className && obj.childNodes[i].className.indexOf("jstree-anchor") !== -1) {
 						tmp = obj.childNodes[i];
@@ -5108,9 +4864,7 @@
 				}
 				if(tmp) {
 					if(!this.settings.checkbox.tie_selection && this._model.data[obj.id].state.checked) { tmp.className += ' jstree-checked'; }
-					icon = _i.cloneNode(false);
-					if(this._model.data[obj.id].state.checkbox_disabled) { icon.className += ' jstree-checkbox-disabled'; }
-					tmp.insertBefore(icon, tmp.childNodes[0]);
+					tmp.insertBefore(_i.cloneNode(false), tmp.childNodes[0]);
 				}
 			}
 			if(!is_callback && this.settings.checkbox.cascade.indexOf('undetermined') !== -1) {
@@ -5159,83 +4913,8 @@
 			}
 			return false;
 		};
-		/**
-		 * disable a node's checkbox
-		 * @name disable_checkbox(obj)
-		 * @param {mixed} obj an array can be used too
-		 * @trigger disable_checkbox.jstree
-		 * @plugin checkbox
-		 */
-		this.disable_checkbox = function (obj) {
-			var t1, t2, dom;
-			if($.isArray(obj)) {
-				obj = obj.slice();
-				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
-					this.disable_checkbox(obj[t1]);
-				}
-				return true;
-			}
-			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
-				return false;
-			}
-			dom = this.get_node(obj, true);
-			if(!obj.state.checkbox_disabled) {
-				obj.state.checkbox_disabled = true;
-				if(dom && dom.length) {
-					dom.children('.jstree-anchor').children('.jstree-checkbox').addClass('jstree-checkbox-disabled');
-				}
-				/**
-				 * triggered when an node's checkbox is disabled
-				 * @event
-				 * @name disable_checkbox.jstree
-				 * @param {Object} node
-				 * @plugin checkbox
-				 */
-				this.trigger('disable_checkbox', { 'node' : obj });
-			}
-		};
-		/**
-		 * enable a node's checkbox
-		 * @name disable_checkbox(obj)
-		 * @param {mixed} obj an array can be used too
-		 * @trigger enable_checkbox.jstree
-		 * @plugin checkbox
-		 */
-		this.enable_checkbox = function (obj) {
-			var t1, t2, dom;
-			if($.isArray(obj)) {
-				obj = obj.slice();
-				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
-					this.enable_checkbox(obj[t1]);
-				}
-				return true;
-			}
-			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
-				return false;
-			}
-			dom = this.get_node(obj, true);
-			if(obj.state.checkbox_disabled) {
-				obj.state.checkbox_disabled = false;
-				if(dom && dom.length) {
-					dom.children('.jstree-anchor').children('.jstree-checkbox').removeClass('jstree-checkbox-disabled');
-				}
-				/**
-				 * triggered when an node's checkbox is enabled
-				 * @event
-				 * @name enable_checkbox.jstree
-				 * @param {Object} node
-				 * @plugin checkbox
-				 */
-				this.trigger('enable_checkbox', { 'node' : obj });
-			}
-		};
 
 		this.activate_node = function (obj, e) {
-			if($(e.target).hasClass('jstree-checkbox-disabled')) {
-				return false;
-			}
 			if(this.settings.checkbox.tie_selection && (this.settings.checkbox.whole_node || $(e.target).hasClass('jstree-checkbox'))) {
 				e.ctrlKey = true;
 			}
@@ -5272,7 +4951,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			dom = this.get_node(obj, true);
@@ -5312,7 +4991,7 @@
 				return true;
 			}
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) {
+			if(!obj || obj.id === '#') {
 				return false;
 			}
 			dom = this.get_node(obj, true);
@@ -5343,7 +5022,7 @@
 		this.check_all = function () {
 			if(this.settings.checkbox.tie_selection) { return this.select_all(); }
 			var tmp = this._data.checkbox.selected.concat([]), i, j;
-			this._data.checkbox.selected = this._model.data[$.jstree.root].children_d.concat();
+			this._data.checkbox.selected = this._model.data['#'].children_d.concat();
 			for(i = 0, j = this._data.checkbox.selected.length; i < j; i++) {
 				if(this._model.data[this._data.checkbox.selected[i]]) {
 					this._model.data[this._data.checkbox.selected[i]].state.checked = true;
@@ -5395,7 +5074,7 @@
 		this.is_checked = function (obj) {
 			if(this.settings.checkbox.tie_selection) { return this.is_selected(obj); }
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			return obj.state.checked;
 		};
 		/**
@@ -5493,38 +5172,10 @@
 			}
 			return res;
 		};
-		this.refresh = function (skip_loading, forget_state) {
-			if(!this.settings.checkbox.tie_selection) {
-				this._data.checkbox.selected = [];
-			}
-			return parent.refresh.apply(this, arguments);
-		};
 	};
 
 	// include the checkbox plugin by default
 	// $.jstree.defaults.plugins.push("checkbox");
-
-/**
- * ### Conditionalselect plugin
- *
- * This plugin allows defining a callback to allow or deny node selection by user input (activate node method).
- */
-
-	/**
-	 * a callback (function) which is invoked in the instance's scope and receives two arguments - the node and the event that triggered the `activate_node` call. Returning false prevents working with the node, returning true allows invoking activate_node. Defaults to returning `true`.
-	 * @name $.jstree.defaults.checkbox.visible
-	 * @plugin checkbox
-	 */
-	$.jstree.defaults.conditionalselect = function () { return true; };
-	$.jstree.plugins.conditionalselect = function (options, parent) {
-		// own function
-		this.activate_node = function (obj, e) {
-			if(this.settings.conditionalselect.call(this, this.get_node(obj), e)) {
-				parent.activate_node.call(this, obj, e);
-			}
-		};
-	};
-
 
 /**
  * ### Contextmenu plugin
@@ -5587,7 +5238,7 @@
 					"separator_after"	: false,
 					"_disabled"			: false, //(this.check("rename_node", data.reference, this.get_parent(data.reference), "")),
 					"label"				: "Rename",
-					/*!
+					/*
 					"shortcut"			: 113,
 					"shortcut_label"	: 'F2',
 					"icon"				: "glyphicon glyphicon-leaf",
@@ -5719,7 +5370,7 @@
 						}
 					});
 
-			/*!
+			/*
 			if(!('oncontextmenu' in document.body) && ('ontouchstart' in document.body)) {
 				var el = null, tm = null;
 				this.element
@@ -5761,7 +5412,7 @@
 		 */
 		this.show_contextmenu = function (obj, x, y, e) {
 			obj = this.get_node(obj);
-			if(!obj || obj.id === $.jstree.root) { return false; }
+			if(!obj || obj.id === '#') { return false; }
 			var s = this.settings.contextmenu,
 				d = this.get_node(obj, true),
 				a = d.children(".jstree-anchor"),
@@ -6166,7 +5817,7 @@
 		 */
 		open_timeout : 500,
 		/**
-		 * a function invoked each time a node is about to be dragged, invoked in the tree's scope and receives the nodes about to be dragged as an argument (array) and the event that started the drag - return `false` to prevent dragging
+		 * a function invoked each time a node is about to be dragged, invoked in the tree's scope and receives the nodes about to be dragged as an argument (array) - return `false` to prevent dragging
 		 * @name $.jstree.defaults.dnd.is_draggable
 		 * @plugin dnd
 		 */
@@ -6233,8 +5884,8 @@
 					if(this.settings.core.force_text) {
 						txt = $.vakata.html.escape(txt);
 					}
-					if(obj && obj.id && obj.id !== $.jstree.root && (e.which === 1 || e.type === "touchstart") &&
-						(this.settings.dnd.is_draggable === true || ($.isFunction(this.settings.dnd.is_draggable) && this.settings.dnd.is_draggable.call(this, (mlt > 1 ? this.get_top_selected(true) : [obj]), e)))
+					if(obj && obj.id && obj.id !== "#" && (e.which === 1 || e.type === "touchstart") &&
+						(this.settings.dnd.is_draggable === true || ($.isFunction(this.settings.dnd.is_draggable) && this.settings.dnd.is_draggable.call(this, (mlt > 1 ? this.get_top_selected(true) : [obj]))))
 					) {
 						this.element.trigger('mousedown.jstree');
 						return $.vakata.dnd.start(e, { 'jstree' : true, 'origin' : this, 'obj' : this.get_node(obj,true), 'nodes' : mlt > 1 ? this.get_top_selected() : [obj.id] }, '<div id="jstree-dnd" class="jstree-' + this.get_theme() + ' jstree-' + this.get_theme() + '-' + this.get_theme_variant() + ' ' + ( this.settings.core.themes.responsive ? ' jstree-dnd-responsive' : '' ) + '"><i class="jstree-icon jstree-er"></i>' + txt + '<ins class="jstree-copy" style="display:none;">+</ins></div>');
@@ -6247,14 +5898,12 @@
 		// bind only once for all instances
 		var lastmv = false,
 			laster = false,
-			lastev = false,
 			opento = false,
 			marker = $('<div id="jstree-marker">&#160;</div>').hide(); //.appendTo('body');
 
 		$(document)
 			.on('dnd_start.vakata.jstree', function (e, data) {
 				lastmv = false;
-				lastev = false;
 				if(!data || !data.data || !data.data.jstree) { return; }
 				marker.appendTo('body'); //.show();
 			})
@@ -6266,7 +5915,6 @@
 				if(data.event.target.id && data.event.target.id === 'jstree-marker') {
 					return;
 				}
-				lastev = data.event;
 
 				var ins = $.jstree.reference(data.event.target),
 					ref = false,
@@ -6285,11 +5933,11 @@
 					if( (data.event.target === ins.element[0] || data.event.target === ins.get_container_ul()[0]) && ins.get_container_ul().children().length === 0) {
 						ok = true;
 						for(t1 = 0, t2 = data.data.nodes.length; t1 < t2; t1++) {
-							ok = ok && ins.check( (data.data.origin && (data.data.origin.settings.dnd.always_copy || (data.data.origin.settings.dnd.copy && (data.event.metaKey || data.event.ctrlKey)) ) ? "copy_node" : "move_node"), (data.data.origin && data.data.origin !== ins ? data.data.origin.get_node(data.data.nodes[t1]) : data.data.nodes[t1]), $.jstree.root, 'last', { 'dnd' : true, 'ref' : ins.get_node($.jstree.root), 'pos' : 'i', 'origin' : data.data.origin, 'is_multi' : (data.data.origin && data.data.origin !== ins), 'is_foreign' : (!data.data.origin) });
+							ok = ok && ins.check( (data.data.origin && (data.data.origin.settings.dnd.always_copy || (data.data.origin.settings.dnd.copy && (data.event.metaKey || data.event.ctrlKey)) ) ? "copy_node" : "move_node"), (data.data.origin && data.data.origin !== ins ? data.data.origin.get_node(data.data.nodes[t1]) : data.data.nodes[t1]), '#', 'last', { 'dnd' : true, 'ref' : ins.get_node('#'), 'pos' : 'i', 'origin' : data.data.origin, 'is_multi' : (data.data.origin && data.data.origin !== ins), 'is_foreign' : (!data.data.origin) });
 							if(!ok) { break; }
 						}
 						if(ok) {
-							lastmv = { 'ins' : ins, 'par' : $.jstree.root, 'pos' : 'last' };
+							lastmv = { 'ins' : ins, 'par' : '#', 'pos' : 'last' };
 							marker.hide();
 							data.helper.find('.jstree-icon').first().removeClass('jstree-er').addClass('jstree-ok');
 							return;
@@ -6374,7 +6022,6 @@
 				if(!data || !data.data || !data.data.jstree) { return; }
 				marker.hide();
 				lastmv = false;
-				lastev = false;
 				data.helper.find('.jstree-icon').first().removeClass('jstree-ok').addClass('jstree-er');
 			})
 			.on('dnd_stop.vakata.jstree', function (e, data) {
@@ -6397,18 +6044,11 @@
 						}
 					}
 				}
-				lastev = false;
-				lastmv = false;
 			})
 			.on('keyup.jstree keydown.jstree', function (e, data) {
 				data = $.vakata.dnd._get();
 				if(data && data.data && data.data.jstree) {
 					data.helper.find('.jstree-copy').first()[ data.data.origin && (data.data.origin.settings.dnd.always_copy || (data.data.origin.settings.dnd.copy && (e.metaKey || e.ctrlKey))) ? 'show' : 'hide' ]();
-					if(lastev) {
-						lastev.metaKey = e.metaKey;
-						lastev.ctrlKey = e.ctrlKey;
-						$.vakata.dnd._trigger('move', lastev);
-					}
 				}
 			});
 	});
@@ -6844,29 +6484,45 @@
 			this._data.search.opn = [];
 			this._data.search.som = false;
 			this._data.search.smc = false;
-			this._data.search.hdn = [];
 
 			this.element
-				.on("search.jstree", $.proxy(function (e, data) {
-						if(this._data.search.som && data.res.length) {
-							var m = this._model.data, i, j, p = [];
-							for(i = 0, j = data.res.length; i < j; i++) {
-								if(m[data.res[i]] && !m[data.res[i]].state.hidden) {
-									p.push(data.res[i]);
-									p = p.concat(m[data.res[i]].parents);
-									if(this._data.search.smc) {
-										p = p.concat(m[data.res[i]].children_d);
-									}
+				.on('before_open.jstree', $.proxy(function (e, data) {
+						var i, j, f, r = this._data.search.res, s = [], o = $();
+						if(r && r.length) {
+							this._data.search.dom = $(this.element[0].querySelectorAll('#' + $.map(r, function (v) { return "0123456789".indexOf(v[0]) !== -1 ? '\\3' + v[0] + ' ' + v.substr(1).replace($.jstree.idregex,'\\$&') : v.replace($.jstree.idregex,'\\$&'); }).join(', #')));
+							this._data.search.dom.children(".jstree-anchor").addClass('jstree-search');
+							if(this._data.search.som && this._data.search.res.length) {
+								for(i = 0, j = r.length; i < j; i++) {
+									s = s.concat(this.get_node(r[i]).parents);
 								}
+								s = $.vakata.array_remove_item($.vakata.array_unique(s),'#');
+								o = s.length ? $(this.element[0].querySelectorAll('#' + $.map(s, function (v) { return "0123456789".indexOf(v[0]) !== -1 ? '\\3' + v[0] + ' ' + v.substr(1).replace($.jstree.idregex,'\\$&') : v.replace($.jstree.idregex,'\\$&'); }).join(', #'))) : $();
+
+								this.element.find(".jstree-node").hide().filter('.jstree-last').filter(function() { return this.nextSibling; }).removeClass('jstree-last');
+								o = o.add(this._data.search.dom);
+								if(this._data.search.smc) {
+									this._data.search.dom.children(".jstree-children").find(".jstree-node").show();
+								}
+								o.parentsUntil(".jstree").addBack().show()
+									.filter(".jstree-children").each(function () { $(this).children(".jstree-node:visible").eq(-1).addClass("jstree-last"); });
 							}
-							p = $.vakata.array_remove_item($.vakata.array_unique(p), $.jstree.root);
-							this._data.search.hdn = this.hide_all(true);
-							this.show_node(p);
+						}
+					}, this))
+				.on("search.jstree", $.proxy(function (e, data) {
+						if(this._data.search.som) {
+							if(data.nodes.length) {
+								this.element.find(".jstree-node").hide().filter('.jstree-last').filter(function() { return this.nextSibling; }).removeClass('jstree-last');
+								if(this._data.search.smc) {
+									data.nodes.children(".jstree-children").find(".jstree-node").show();
+								}
+								data.nodes.parentsUntil(".jstree").addBack().show()
+									.filter(".jstree-children").each(function () { $(this).children(".jstree-node:visible").eq(-1).addClass("jstree-last"); });
+							}
 						}
 					}, this))
 				.on("clear_search.jstree", $.proxy(function (e, data) {
-						if(this._data.search.som && data.res.length) {
-							this.show_node(this._data.search.hdn);
+						if(this._data.search.som && data.nodes.length) {
+							this.element.find(".jstree-node").css("display","").filter('.jstree-last').filter(function() { return this.nextSibling; }).removeClass('jstree-last');
 						}
 					}, this));
 		};
@@ -6942,20 +6598,16 @@
 			}
 
 			f = new $.vakata.search(str, true, { caseSensitive : s.case_sensitive, fuzzy : s.fuzzy });
-			$.each(m[inside ? inside : $.jstree.root].children_d, function (ii, i) {
+			$.each(m[inside ? inside : '#'].children_d, function (ii, i) {
 				var v = m[i];
-				if(v.text && (!s.search_leaves_only || (v.state.loaded && v.children.length === 0)) && ( (s.search_callback && s.search_callback.call(this, str, v)) || (!s.search_callback && f.search(v.text).isMatch) ) ) {
+				if(v.text && ( (s.search_callback && s.search_callback.call(this, str, v)) || (!s.search_callback && f.search(v.text).isMatch) ) && (!s.search_leaves_only || (v.state.loaded && v.children.length === 0)) ) {
 					r.push(i);
 					p = p.concat(v.parents);
 				}
 			});
 			if(r.length) {
 				p = $.vakata.array_unique(p);
-				for(i = 0, j = p.length; i < j; i++) {
-					if(p[i] !== $.jstree.root && m[p[i]] && this.open_node(p[i], null, 0) === true) {
-						this._data.search.opn.push(p[i]);
-					}
-				}
+				this._search_open(p);
 				if(!append) {
 					this._data.search.dom = $(this.element[0].querySelectorAll('#' + $.map(r, function (v) { return "0123456789".indexOf(v[0]) !== -1 ? '\\3' + v[0] + ' ' + v.substr(1).replace($.jstree.idregex,'\\$&') : v.replace($.jstree.idregex,'\\$&'); }).join(', #')));
 					this._data.search.res = r;
@@ -6984,6 +6636,7 @@
 		 * @trigger clear_search.jstree
 		 */
 		this.clear_search = function () {
+			this._data.search.dom.children(".jstree-anchor").removeClass("jstree-search");
 			if(this.settings.search.close_opened_onclear) {
 				this.close_node(this._data.search.opn, 0);
 			}
@@ -6997,35 +6650,30 @@
 			 * @plugin search
 			 */
 			this.trigger('clear_search', { 'nodes' : this._data.search.dom, str : this._data.search.str, res : this._data.search.res });
-			if(this._data.search.res.length) {
-				this._data.search.dom = $(this.element[0].querySelectorAll('#' + $.map(this._data.search.res, function (v) {
-					return "0123456789".indexOf(v[0]) !== -1 ? '\\3' + v[0] + ' ' + v.substr(1).replace($.jstree.idregex,'\\$&') : v.replace($.jstree.idregex,'\\$&');
-				}).join(', #')));
-				this._data.search.dom.children(".jstree-anchor").removeClass("jstree-search");
-			}
 			this._data.search.str = "";
 			this._data.search.res = [];
 			this._data.search.opn = [];
 			this._data.search.dom = $();
 		};
-
-		this.redraw_node = function(obj, deep, callback, force_render) {
-			obj = parent.redraw_node.apply(this, arguments);
-			if(obj) {
-				if($.inArray(obj.id, this._data.search.res) !== -1) {
-					var i, j, tmp = null;
-					for(i = 0, j = obj.childNodes.length; i < j; i++) {
-						if(obj.childNodes[i] && obj.childNodes[i].className && obj.childNodes[i].className.indexOf("jstree-anchor") !== -1) {
-							tmp = obj.childNodes[i];
-							break;
-						}
-					}
-					if(tmp) {
-						tmp.className += ' jstree-search';
+		/**
+		 * opens nodes that need to be opened to reveal the search results. Used only internally.
+		 * @private
+		 * @name _search_open(d)
+		 * @param {Array} d an array of node IDs
+		 * @plugin search
+		 */
+		this._search_open = function (d) {
+			var t = this;
+			$.each(d.concat([]), function (i, v) {
+				if(v === "#") { return true; }
+				try { v = $('#' + v.replace($.jstree.idregex,'\\$&'), t.element); } catch(ignore) { }
+				if(v && v.length) {
+					if(t.is_closed(v)) {
+						t._data.search.opn.push(v[0].id);
+						t.open_node(v, function () { t._search_open(d); }, 0);
 					}
 				}
-			}
-			return obj;
+			});
 		};
 	};
 
@@ -7160,7 +6808,6 @@
 
 	// include the search plugin by default
 	// $.jstree.defaults.plugins.push("search");
-
 
 /**
  * ### Sort plugin
@@ -7352,16 +6999,16 @@
 	 * @plugin types
 	 */
 	$.jstree.defaults.types = {
+		'#' : {},
 		'default' : {}
 	};
-	$.jstree.defaults.types[$.jstree.root] = {};
 
 	$.jstree.plugins.types = function (options, parent) {
 		this.init = function (el, options) {
 			var i, j;
 			if(options && options.types && options.types['default']) {
 				for(i in options.types) {
-					if(i !== "default" && i !== $.jstree.root && options.types.hasOwnProperty(i)) {
+					if(i !== "default" && i !== "#" && options.types.hasOwnProperty(i)) {
 						for(j in options.types['default']) {
 							if(options.types['default'].hasOwnProperty(j) && options.types[i][j] === undefined) {
 								options.types[i][j] = options.types['default'][j];
@@ -7371,11 +7018,11 @@
 				}
 			}
 			parent.init.call(this, el, options);
-			this._model.data[$.jstree.root].type = $.jstree.root;
+			this._model.data['#'].type = '#';
 		};
 		this.refresh = function (skip_loading, forget_state) {
 			parent.refresh.call(this, skip_loading, forget_state);
-			this._model.data[$.jstree.root].type = $.jstree.root;
+			this._model.data['#'].type = '#';
 		};
 		this.bind = function () {
 			this.element
@@ -7397,7 +7044,7 @@
 								m[dpc[i]].icon = t[c].icon;
 							}
 						}
-						m[$.jstree.root].type = $.jstree.root;
+						m['#'].type = '#';
 					}, this));
 			parent.bind.call(this);
 		};
@@ -7624,7 +7271,7 @@
 		this.create_node = function (par, node, pos, callback, is_loaded) {
 			if(!node || node.text === undefined) {
 				if(par === null) {
-					par = $.jstree.root;
+					par = "#";
 				}
 				par = this.get_node(par);
 				if(!par) {
