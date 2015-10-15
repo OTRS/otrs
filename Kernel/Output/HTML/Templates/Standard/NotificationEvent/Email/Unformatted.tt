@@ -19,7 +19,7 @@
     <br />
     <hr>
     [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
-    <br />
+    <br /><br />
 </body>
 
 </html>
