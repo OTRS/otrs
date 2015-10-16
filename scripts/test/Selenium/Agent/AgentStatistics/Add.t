@@ -177,7 +177,7 @@ $Selenium->RunTest(
 
         );
 
-        my @StatsFormat = (
+        my @StatsFormatDynamicMatrix = (
             {
                 Format         => 'Print',
                 PreviewContent => 'PreviewContentPrint',
@@ -195,7 +195,13 @@ $Selenium->RunTest(
                 Format         => 'D3::BarChart',
                 PreviewContent => 'PreviewContentD3BarChart',
             },
+        );
 
+        my @StatsFormatDynamicList = (
+            {
+                Format         => 'Print',
+                PreviewContent => 'PreviewContentPrint',
+            },
         );
 
         # add new statistics
@@ -275,6 +281,12 @@ $Selenium->RunTest(
                 "Print format is displayed",
             );
 
+            my @StatsFormat = @StatsFormatDynamicMatrix;
+
+            if ( $StatsData->{Type} eq 'DynamicList' ) {
+                @StatsFormat = @StatsFormatDynamicList;
+            }
+
             for my $StatsFormat (@StatsFormat) {
 
                 # change preview format
@@ -298,7 +310,7 @@ JAVASCRIPT
 
             # sort decreasing by StatsID
             $Selenium->get(
-                "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
+                "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1"
             );
 
             my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
