@@ -61,6 +61,7 @@ $Selenium->RunTest(
         );
 
         # open the default stats
+        STATID:
         for my $StatID ( @{$StatsIDs} ) {
 
             # check edit link
@@ -122,6 +123,8 @@ $Selenium->RunTest(
             # go to overview screen
             $Selenium->find_element( "Cancel", 'link_text' )->click();
 
+            # check only stats which are delivered with OTRS
+            last STATID if $StatID == 11;
         }
     }
 );

@@ -77,6 +77,9 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
             "StatsRun differs between live and preview (StatID $StatID)",
         );
     }
+
+    # check only stats which are delivered with OTRS
+    last STATID if $StatID == 11;
 }
 
 1;
