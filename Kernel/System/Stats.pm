@@ -248,8 +248,10 @@ sub StatsGet {
     }
 
   # provide the time zone field only, if the system use not UTC as system time or the TimeZoneUser feature is not active
-    if (  !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
-        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') )
+    if (
+        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
+        )
     {
         if ( defined $StatsXML->{TimeZone}->[1]->{Content} ) {
             $Stat{TimeZone} = $StatsXML->{TimeZone}->[1]->{Content};

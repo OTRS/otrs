@@ -96,9 +96,11 @@ sub Run {
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # use the UserTimeObject, if the system use UTC as system time and the TimeZoneUser feature is active
-    if (  !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+    if (
+        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
         && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
-        && $Self->{UserTimeZone} )
+        && $Self->{UserTimeZone}
+        )
     {
         $UseUserTimeZone = 1;
         $TimeObject      = $LayoutObject->{UserTimeObject};
