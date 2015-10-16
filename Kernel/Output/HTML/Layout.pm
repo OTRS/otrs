@@ -379,7 +379,8 @@ sub new {
     # Check if 'Standard' fallback exists
     if ( !-e $Self->{StandardTemplateDir} ) {
         $Self->FatalDie(
-            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm."
+            Message =>
+                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm."
         );
     }
 

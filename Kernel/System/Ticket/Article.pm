@@ -651,6 +651,7 @@ sub ArticleCreate {
                 %OwnerUserIDs = ( $Ticket{OwnerID} => 1 );
 
             }
+
             # combine both subscribed users list (this will also remove duplicates)
             %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
 
