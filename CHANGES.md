@@ -1,4 +1,5 @@
 #5.0.2 2015-??-??
+ - 2015-10-16 Fixed bug#[11562](http://bugs.otrs.org/show_bug.cgi?id=11562) -  Tickets with status 'pending auto close -/+' will be closed as usually, but a 'Ticket locked out' notification is send to agents.
 
 #5.0.1 2015-10-20
  - 2015-10-15 Added new 'Unformatted' template for email notification method.

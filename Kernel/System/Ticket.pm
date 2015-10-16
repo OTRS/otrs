@@ -3903,21 +3903,25 @@ sub TicketLockSet {
     # send unlock notify
     if ( lc $Param{Lock} eq 'unlock' ) {
 
-        my @SkipRecipients;
-        if ( $Ticket{OwnerID} eq $Param{UserID} ) {
-            @SkipRecipients = [ $Param{UserID} ];
-        }
+        my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
+        if ( !$Param{SendNoNotification} && $Notification )
+        {
+            my @SkipRecipients;
+            if ( $Ticket{OwnerID} eq $Param{UserID} ) {
+                @SkipRecipients = [ $Param{UserID} ];
+            }
 
-        # trigger notification event
-        $Self->EventHandler(
-            Event          => 'NotificationLockTimeout',
-            SkipRecipients => \@SkipRecipients,
-            Data           => {
-                TicketID              => $Param{TicketID},
-                CustomerMessageParams => {},
-            },
-            UserID => $Param{UserID},
-        );
+            # trigger notification event
+            $Self->EventHandler(
+                Event          => 'NotificationLockTimeout',
+                SkipRecipients => \@SkipRecipients,
+                Data           => {
+                    TicketID              => $Param{TicketID},
+                    CustomerMessageParams => {},
+                },
+                UserID => $Param{UserID},
+            );
+        }
     }
 
     # trigger event
