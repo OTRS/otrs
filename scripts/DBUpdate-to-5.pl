@@ -1956,7 +1956,9 @@ sub _FixupStatsTimeInterval {
             local *STDERR;
             my $Dummy;
             open *STDERR, '>', \$Dummy;    ## no critic
-            $StatWithObjectAttributes = $StatsObject->StatsGet( StatID => $StatID, );
+            $StatWithObjectAttributes = $StatsObject->StatsGet(
+                StatID => $StatID,
+            );
         }
 
         my %StatsConfigurationErrors;

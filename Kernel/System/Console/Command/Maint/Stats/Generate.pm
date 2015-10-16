@@ -169,8 +169,10 @@ sub PreRun {
 
     if (
         $Self->GetOption('timezone')
-        && ( $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
-            || !$Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') )
+        && (
+            $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+            || !$Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
+        )
         )
     {
         die

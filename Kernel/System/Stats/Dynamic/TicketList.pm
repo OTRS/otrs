@@ -1272,9 +1272,11 @@ sub GetStatTable {
             next ATTRIBUTE if !$TicketAttributes{$Attribute};
 
             # add the given TimeZone for time values
-            if (   $Param{TimeZone}
+            if (
+                $Param{TimeZone}
                 && $Ticket{$Attribute}
-                && $Ticket{$Attribute} =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/ )
+                && $Ticket{$Attribute} =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/
+                )
             {
                 $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::Stats')->_AddTimeZone(
                     TimeStamp => $Ticket{$Attribute},
