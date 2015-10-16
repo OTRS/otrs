@@ -56,6 +56,8 @@ Specify the connection details in Config.pm, like this:
         port                => '4444',
         browser_name        => 'phantomjs',
         platform            => 'ANY',
+        window_height       => 1200,    # optional, default 1000
+        window_width        => 1600,    # optional, default 1200
     };
 
 Then you can use the full API of Selenium::Remote::Driver on this object.
@@ -91,7 +93,11 @@ sub new {
     $Self->{SeleniumTestsActive} = 1;
 
     #$Self->debug_on();
-    $Self->set_window_size( 768, 1025 );
+
+    # set screen size from config or use defauls
+    my $Height = $SeleniumTestsConfig{window_height} || 1000;
+    my $Width  = $SeleniumTestsConfig{window_width}  || 1200;
+    $Self->set_window_size( $Height, $Width );
 
     # get remote host with some precautions for certain unit test systems
     my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
