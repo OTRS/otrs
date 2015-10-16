@@ -260,7 +260,7 @@ $Selenium->RunTest(
             # check Restrictions configuration dialog
             $Selenium->find_element( ".EditRestrictions", 'css' )->click();
             $Selenium->execute_script(
-                "\$('#EditDialog select').val('$StatsData->{RestrictionID}').trigger('redraw.InputField').trigger('change');"
+                "\$('#EditDialog select option[value=\"$StatsData->{RestrictionID}\"]').prop('selected', true).trigger('redraw.InputField').trigger('change');"
             );
 
             # wait for load selected Restriction
@@ -270,7 +270,7 @@ $Selenium->RunTest(
 
             # add restriction
             $Selenium->execute_script(
-                "\$('#EditDialog #$StatsData->{RestrictionID}').val('$StatsData->{RestrictionValue}').trigger('redraw.InputField').trigger('change');"
+                "\$('#EditDialog #$StatsData->{RestrictionID} option[value=\"$StatsData->{Restrictionvalue}\"]').prop('selected', true).trigger('redraw.InputField').trigger('change');"
             );
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
