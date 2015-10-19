@@ -72,6 +72,10 @@ sub Send {
     # set sendmail binary
     my $Sendmail = $Result{Sendmail};
 
+    # restore the child signal to the original value, in a daemon environment, child signal is set
+    # to ignore causing problems with file handler pipe close
+    local $SIG{'CHLD'} = 'DEFAULT';
+
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
     ## no critic
