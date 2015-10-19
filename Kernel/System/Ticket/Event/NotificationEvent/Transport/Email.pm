@@ -180,20 +180,14 @@ sub SendNotification {
                 Message  => "'$Notification{Name}' notification could not be sent to agent '$Recipient{UserEmail} ",
             );
 
-            # avoid returning a fail value for allowing to have
-            # a ticket history entry that can be use later
-            # for debug propose, see Bug 11566
-            # this return can be re-added if root cause of not closing file handle in sendmail module
-            # if found and fixed
-            # return;
+            return;
         }
-        else {
-            # log event
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{UserEmail}'.",
-            );
-        }
+
+        # log event
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'info',
+            Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{UserEmail}'.",
+        );
 
         # set event data
         $Self->{EventData} = {
