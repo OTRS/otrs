@@ -121,6 +121,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Title",   'css' )->send_keys($TestTicketTitle);
         $Selenium->find_element( "#Profile", 'css' )->submit();
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+
         # check if test job show on AdminGenericAgent
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -135,8 +137,11 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Profile", 'css' )->submit();
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+
         # run test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID\' )]")->click();
+        $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
 
         # check if test job show expected result
         for my $TicketNumber (@TicketNumbers) {
@@ -161,7 +166,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->click();
 
         # run test job again
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID\' )]")->click();
+        $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
 
         # check if there is not warning message:
         # "Affected more tickets then how many will be executed on run job"
