@@ -67,6 +67,7 @@ sub Run {
         ENTRY:
         for my $Entry ( @{$ConcurrentUsers} ) {
 
+            next ENTRY if !$Entry->{$Identifier};
             next ENTRY if $Entry->{$Identifier} <= $MaxValue;
 
             $MaxValue = $Entry->{$Identifier};
