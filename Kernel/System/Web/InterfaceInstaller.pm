@@ -14,6 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Web::Request',
 );
@@ -67,7 +68,8 @@ sub new {
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',
         );
@@ -145,7 +147,8 @@ sub DESTROY {
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle stopped.',
         );
