@@ -154,17 +154,13 @@ Returns:
           'SLAID'               => '2',
           'Name'                => 'Diamond Pacific - S2',
           'Calendar'            => '2',
-          'FirstResponseTime'   => '60',  # in minutes according to business hours
-          'FirstResponseNotify' => '70',  # in percent
-          'UpdateTime'          => '360', # in minutes according to business hours
-          'UpdateNotify'        => '70',  # in percent
-          'SolutionTime'        => '960', # in minutes according to business hours
-          'SolutionNotify'      => '80',  # in percent
-          'ServiceIDs'          => [
-                                     '4'
-                                     '7'
-                                     '8'
-                                   ],
+          'FirstResponseTime'   => '60',   # in minutes according to business hours
+          'FirstResponseNotify' => '70',   # in percent
+          'UpdateTime'          => '360',  # in minutes according to business hours
+          'UpdateNotify'        => '70',   # in percent
+          'SolutionTime'        => '960',  # in minutes according to business hours
+          'SolutionNotify'      => '80',   # in percent
+          'ServiceIDs'          => [ '4', '7', '8' ],
           'ValidID'             => '1',
           'Comment'             => 'Some Comment',
           'CreateBy'            => '93',
@@ -691,10 +687,10 @@ sub SLAUpdate {
 set SLA preferences
 
     $SLAObject->SLAPreferencesSet(
-        SLAID => 123,
-        Key       => 'UserComment',
-        Value     => 'some comment',
-        UserID    => 123,
+        SLAID  => 123,
+        Key    => 'UserComment',
+        Value  => 'some comment',
+        UserID => 123,
     );
 
 =cut
@@ -710,8 +706,8 @@ sub SLAPreferencesSet {
 get SLA preferences
 
     my %Preferences = $SLAObject->SLAPreferencesGet(
-        SLAID => 123,
-        UserID    => 123,
+        SLAID  => 123,
+        UserID => 123,
     );
 
 =cut

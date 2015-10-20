@@ -52,8 +52,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
     $Self->{CacheType} = 'StdAttachment';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
@@ -83,20 +81,23 @@ sub StdAttachmentAdd {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # encode attachment if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
-    # sql
-    return if !$Self->{DBObject}->Do(
+    # insert attachment
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO standard_attachment '
             . ' (name, content_type, content, filename, valid_id, comments, '
             . ' create_time, create_by, change_time, change_by) VALUES '
@@ -107,14 +108,18 @@ sub StdAttachmentAdd {
         ],
     );
 
-    $Self->{DBObject}->Prepare(
+    # get the id
+    $DBObject->Prepare(
         SQL  => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
         Bind => [ \$Param{Name}, \$Param{ContentType}, ],
     );
+
+    # fetch the result
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -135,25 +140,28 @@ sub StdAttachmentGet {
     if ( !$Param{ID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ID!'
+            Message  => 'Need ID!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT name, content_type, content, filename, valid_id, comments, '
             . 'create_time, create_by, change_time, change_by '
             . 'FROM standard_attachment WHERE id = ?',
         Bind   => [ \$Param{ID} ],
         Encode => [ 1, 1, 0, 1, 1, 1 ],
-        Limit  => 1,
     );
+
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # decode attachment if it's a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
             $Row[2] = decode_base64( $Row[2] );
         }
         %Data = (
@@ -170,6 +178,7 @@ sub StdAttachmentGet {
             ChangeBy    => $Row[9],
         );
     }
+
     return %Data;
 }
 
@@ -197,7 +206,7 @@ sub StdAttachmentUpdate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -225,8 +234,11 @@ sub StdAttachmentUpdate {
         Key  => 'StdAttachmentLookupName::' . $Param{Name},
     );
 
-    # sql
-    return if !$Self->{DBObject}->Do(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # update attachment
+    return if !$DBObject->Do(
         SQL => 'UPDATE standard_attachment SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
@@ -234,15 +246,16 @@ sub StdAttachmentUpdate {
             \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+
     if ( $Param{Content} ) {
 
         # encode attachment if it's a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
             $Param{Content} = encode_base64( $Param{Content} );
         }
 
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => 'UPDATE standard_attachment SET content = ?, content_type = ?, '
                 . ' filename = ? WHERE id = ?',
             Bind => [
@@ -250,6 +263,7 @@ sub StdAttachmentUpdate {
             ],
         );
     }
+
     return 1;
 }
 
@@ -271,7 +285,7 @@ sub StdAttachmentDelete {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -291,17 +305,21 @@ sub StdAttachmentDelete {
         Key  => 'StdAttachmentLookupName::' . $Data{Name},
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete attachment<->std template relation
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM standard_template_attachment WHERE standard_attachment_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM standard_attachment WHERE ID = ?',
         Bind => [ \$Param{ID} ],
     );
+
     return 1;
 }
 
@@ -353,9 +371,7 @@ sub StdAttachmentLookup {
         CacheInBackend => 0,
     );
 
-    if ($Cached) {
-        return $Cached;
-    }
+    return $Cached if $Cached;
 
     # get data
     my $SQL;
@@ -368,13 +384,17 @@ sub StdAttachmentLookup {
         $SQL = 'SELECT name FROM standard_attachment WHERE id = ?';
         push @Bind, \$Param{StdAttachmentID};
     }
-    $Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $DBObject->Prepare(
         SQL  => $SQL,
-        Bind => \@Bind
+        Bind => \@Bind,
     );
 
     my $DBValue;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $DBValue = $Row[0];
     }
 
@@ -424,13 +444,16 @@ sub StdAttachmentsByResponseID {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db quote
     for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+        $Param{$_} = $DBObject->Quote( $Param{$_}, 'Integer' );
     }
 
     # return data
-    my %Relation = $Self->{DBObject}->GetTableData(
+    my %Relation = $DBObject->GetTableData(
         Table => 'standard_template_attachment',
         What  => 'standard_attachment_id, standard_template_id',
         Where => "standard_template_id = $Param{ID}",
@@ -465,8 +488,11 @@ sub StdAttachmentList {
         $Param{Valid} = 1;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # return data
-    return $Self->{DBObject}->GetTableData(
+    return $DBObject->GetTableData(
         Table => 'standard_attachment',
         What  => 'id, name, filename',
         Clamp => 1,
@@ -496,22 +522,27 @@ sub StdAttachmentSetResponses {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # add attachments to response
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM standard_template_attachment WHERE standard_template_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
-    ATTACHMENT:
+    ID:
     for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
-        next ATTACHMENT if !$ID;
-        $Self->{DBObject}->Do(
+
+        next ID if !$ID;
+
+        $DBObject->Do(
             SQL => 'INSERT INTO standard_template_attachment (standard_attachment_id, '
                 . 'standard_template_id, create_time, create_by, change_time, change_by)'
                 . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -524,6 +555,7 @@ sub StdAttachmentSetResponses {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
+
     return 1;
 }
 
@@ -554,8 +586,11 @@ sub StdAttachmentStandardTemplateMemberAdd {
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete existing relation
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'DELETE FROM standard_template_attachment
             WHERE standard_attachment_id = ?
             AND standard_template_id = ?',
@@ -571,20 +606,21 @@ sub StdAttachmentStandardTemplateMemberAdd {
     }
 
     # insert new relation
-    my $Success = $Self->{DBObject}->Do(
+    my $Success = $DBObject->Do(
         SQL => '
             INSERT INTO standard_template_attachment (standard_attachment_id, standard_template_id,
                 create_time, create_by, change_time, change_by)
             VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{AttachmentID}, \$Param{StandardTemplateID}, \$Param{UserID},
-            \$Param{UserID}
+            \$Param{UserID},
         ],
     );
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
+
     return $Success;
 }
 
@@ -675,12 +711,15 @@ sub StdAttachmentStandardTemplateMemberList {
         push @Bind, \$Param{StandardTemplateID};
     }
 
-    $Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Param{StandardTemplateID} ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -696,6 +735,7 @@ sub StdAttachmentStandardTemplateMemberList {
         Key   => $CacheKey,
         Value => \%Data,
     );
+
     return %Data;
 }
 
