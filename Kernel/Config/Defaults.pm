@@ -331,11 +331,6 @@ sub LoadDefaults {
     $Self->{'LogModule::SysLog::Facility'} = 'user';
 
     # param for LogModule Kernel::System::Log::SysLog
-    # (Depends on you sys log system environment. 'unix' is default, on
-    # solaris you may need to use 'stream'.)
-    $Self->{'LogModule::SysLog::LogSock'} = 'unix';
-
-    # param for LogModule Kernel::System::Log::SysLog
     # (if syslog can't work with utf-8, force the log
     # charset with this option, on other chars will be
     # replaces with ?)

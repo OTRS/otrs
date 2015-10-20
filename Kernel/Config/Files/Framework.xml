@@ -635,14 +635,6 @@
             <String Regex="">user</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LogModule::SysLog::LogSock" Required="1" Valid="1">
-        <Description Translatable="1">If "SysLog" was selected for LogModule, a special log sock can be specified (on solaris you may need to use 'stream').</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Log</SubGroup>
-        <Setting>
-            <String Regex="">unix</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
         <Description Translatable="1">If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.</Description>
         <Group>Framework</Group>

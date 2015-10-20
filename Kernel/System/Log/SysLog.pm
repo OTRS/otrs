@@ -51,11 +51,6 @@ sub Log {
         );
     }
 
-    # According to the docs, this is not needed any longer and should not be used any more.
-    #   Please see the Sys::Syslog documentation for details.
-    #   #TODO: remove this code sometime, and the config setting.
-    #my $LogSock = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
-    #Sys::Syslog::setlogsock($LogSock);
     Sys::Syslog::openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
 
     if ( lc $Param{Priority} eq 'debug' ) {
