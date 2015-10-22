@@ -105,7 +105,7 @@
     .footerContent div {
         color:#707070;
         font-family:Arial;
-        font-size:12px;
+        font-size:13px;
         line-height:125%;
         text-align:left;
     }
@@ -124,6 +124,14 @@
         background-color: #e5e5e5;
         border-color: #999;
     }
+
+    .bodyContent a {
+        color: #f92 !important;
+    }
+
+    .im {
+        color: #555 !important;
+    }
     </style>
 </head>
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
@@ -133,11 +141,11 @@
                 <tr>
                     <td align="center" valign="top">
                         <br />
-                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer" style="border: 1px solid #DDDDDD;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="700" id="templateContainer" style="border: 1px solid #DDDDDD;">
                             <tbody>
                                 <tr>
                                     <td align="center" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="700" id="templateBody">
                                             <tbody>
                                                 <tr>
                                                     <td valign="top" class="bodyContent">
@@ -147,14 +155,15 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td valign="top" class="bodyContent" style="border-bottom: 1px solid #eee; background-color: #f9f9f9; padding: 15px; font-size: 13px;">
+                                                    <td valign="top" class="bodyContent" style="border-bottom: 1px solid #eee; background-color: #fff; padding: 15px; font-size: 13px;">
 # We need to perform some postprocessing on the notification content as it is neccessary to use inline CSS styles
 #   for best mail client compatibility. In particular, OTRS uses <div> elements with inline CSS instead of <blockquote>.
 #   Here we also change the inline style of this <div> to match with the current design.
                                                         [% Data.Body
                                                         .replace('<p>', '<div>')
                                                         .replace('</p>', '</div>')
-                                                        .replace('<div\s+type="cite"[^>]*>', '<div type="cite" style="border-left: 5px solid #ccc !important; color: #999; margin: 10px 0; padding-left: 10px;">')
+                                                        .replace('<div\s+type="cite"[^>]*>', '<div type="cite" style="background: #f5f5f5; border: 0px !important; color: #555; margin: 10px 0px 0px 0px; padding: 10px;">')
+                                                        .replace('border:none;border-left:solid\s+blue\s+1.5pt;padding:0cm\s+0cm\s+0cm\s+4.0pt', 'border: none; border-left: 1px solid #f92 !important; color: #555; margin: 10px 5px 10px 0px; padding: 0px 10px;')
                                                         %]
                                                     </td>
                                                 </tr>
@@ -164,7 +173,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center" valign="top">
-                                        <table border="0" cellpadding="10" cellspacing="0" width="600" id="templateFooter">
+                                        <table border="0" cellpadding="10" cellspacing="0" width="700" id="templateFooter">
                                             <tbody>
                                                 <tr>
                                                     <td valign="top" class="footerContent">
