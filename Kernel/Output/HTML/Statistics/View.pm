@@ -1221,15 +1221,19 @@ sub StatsParamsGet {
                     # set the first value for a single select field, if no selected value is given
                     if (
                         $Element->{Block} eq 'SelectField'
-                        && ( !IsArrayRefWithData( $Element->{SelectedValues} )
-                            || scalar @{ $Element->{SelectedValues} } > 1 )
+                        && (
+                            !IsArrayRefWithData( $Element->{SelectedValues} )
+                            || scalar @{ $Element->{SelectedValues} } > 1
+                        )
                         )
                     {
 
                         my @Values = sort keys %{ $Element->{Values} };
 
-                        if ( IsArrayRefWithData( $Element->{SelectedValues} )
-                            && scalar @{ $Element->{SelectedValues} } > 1 )
+                        if (
+                            IsArrayRefWithData( $Element->{SelectedValues} )
+                            && scalar @{ $Element->{SelectedValues} } > 1
+                            )
                         {
                             @Values = @{ $Element->{SelectedValues} };
                         }
