@@ -141,7 +141,8 @@ $Selenium->RunTest(
 
         # run test job
         $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
+        $Selenium->WaitFor( JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
 
         # check if test job show expected result
         for my $TicketNumber (@TicketNumbers) {
@@ -167,7 +168,8 @@ $Selenium->RunTest(
 
         # run test job again
         $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
+        $Selenium->WaitFor( JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length' );
 
         # check if there is not warning message:
         # "Affected more tickets then how many will be executed on run job"
