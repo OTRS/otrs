@@ -119,7 +119,11 @@ sub Param {
         );
 
         NOTIFICATION:
-        for my $NotificationID ( sort keys %{ $Self->{NotificationList} } ) {
+        for my $NotificationID (
+            sort { $Self->{NotificationList}->{$a}->{Name} cmp $Self->{NotificationList}->{$b}->{Name} }
+            keys %{ $Self->{NotificationList} }
+            )
+        {
 
             next NOTIFICATION if !$Self->{NotificationList}->{$NotificationID};
 
