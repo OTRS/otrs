@@ -1,4 +1,5 @@
 #5.0.2 2015-??-??
+ - 2015-10-22 Fixed bug#[11557](http://bugs.otrs.org/show_bug.cgi?id=11557) - Ticket Notifications in personal preferences is sorted badly.
  - 2015-10-20 Fixed LogObject call in InterfaceInstaller.pm.
 
 #5.0.1 2015-10-20
