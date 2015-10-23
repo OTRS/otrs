@@ -505,14 +505,10 @@ sub _Edit {
     my %Data = $QueueObject->QueueList( Valid => 0 );
 
     my $QueueName = '';
-    KEY:
-    for my $Key ( sort keys %Data ) {
-
-        if ( $Param{QueueID} && $Param{QueueID} eq $Key ) {
-            $QueueName = $Data{ $Param{QueueID} };
-            last KEY;
-        }
+    if ( $Param{QueueID} ) {
+        $QueueName = $Data{ $Param{QueueID} } // '';
     }
+
     my %CleanHash = %Data;
     for my $Key ( sort keys %Data ) {
         if ( $CleanHash{$Key} eq $QueueName || $CleanHash{$Key} =~ /^\Q$QueueName\E\:\:/ ) {
