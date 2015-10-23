@@ -183,6 +183,10 @@ Core.Agent = (function (TargetNS) {
                     return true;
                 }
 
+                if (!Core.Config.Get('OTRSBusinessIsInstalled') && $Target.hasClass('OTRSBusinessRequired')) {
+                    return true;
+                }
+
                 // Workaround for Windows Phone IE
                 // In Windows Phone IE the event does not bubble up like in other browsers
                 // That means that a subnavigation in mobile mode is still collapsed/expanded,
