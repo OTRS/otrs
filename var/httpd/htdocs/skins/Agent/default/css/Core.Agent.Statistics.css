@@ -16,49 +16,59 @@
  * @subsubsection     General
  */
 
+.Content.BigButtonsContainer {
+    display: table;
+    margin: 0px auto 10px auto;
+    border-spacing: 5px;
+}
+
 .BigButtons {
+    display: table-row;
     text-align: center;
     padding: 20px 0px;
 }
 
 .BigButtons li {
-    display: inline-block;
+    display: table-cell;
     border: 1px solid #ccc;
-    border-bottom: 1px solid #bbb;
-    margin-right: 15px;
-}
-
-.BigButtons li a {
-	border: 1px solid #FFF;
     padding: 20px;
-    display: block;
     width: 150px;
-	background: #eee;
+    background: #eee;
     cursor: pointer;
     transition: all ease-in 0.2s;
 }
 
-.BigButtons li a:not(.Disabled):hover,
-.BigButtons li a.Active {
+.BigButtons li:not(.Disabled):hover,
+.BigButtons li.Active {
 	background-color: #e5e5e5;
     border-color: #999;
 }
 
-.BigButtons li a strong,
-.BigButtons li a span {
+.BigButtons li.Disabled strong,
+.BigButtons li.Disabled span {
+    color: #ccc;
+}
+
+.BigButtons li.Disabled {
+    cursor: default;
+}
+
+.BigButtons li strong,
+.BigButtons li span {
     display: block;
 }
 
-.BigButtons li a strong {
+.BigButtons li strong {
     font-size: 15px;
     margin: 3px 0px;
+    color: #f92;
 }
 
-.BigButtons li a span {
+.BigButtons li span {
 	color: #555;
 }
 
-.BigButtons li a i {
+.BigButtons li i {
 	font-size: 25px;
 	color: #bbb;
 	margin-bottom: 5px;

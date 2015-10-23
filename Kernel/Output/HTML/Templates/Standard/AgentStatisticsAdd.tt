@@ -33,28 +33,22 @@
                 <div class="Header">
                     <h2>[% Translate("Add New Statistic") | html %]</h2>
                 </div>
-                <div class="Content">
+                <div class="Content BigButtonsContainer">
                     <ul class="BigButtons">
-                        <li>
-                            <a href="#" data-statistic-preselection="DynamicMatrix" class="[% IF Data.StatisticPreselection == 'DynamicMatrix' %] Active[% END %][% IF !Data.ShowAddDynamicMatrixButton %] Disabled[% END %]">
-                                <i class="fa fa-table"></i>
-                                <strong>[% Translate('Dynamic Matrix') | html %]</strong>
-                                <span>[% Translate('Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).') | html %]</span>
-                            </a>
+                        <li data-statistic-preselection="DynamicMatrix" class="[% IF Data.StatisticPreselection == 'DynamicMatrix' %] Active[% END %][% IF !Data.ShowAddDynamicMatrixButton %] Disabled[% END %]">
+                            <i class="fa fa-table"></i>
+                            <strong>[% Translate('Dynamic Matrix') | html %]</strong>
+                            <span>[% Translate('Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).') | html %]</span>
                         </li>
-                        <li>
-                            <a href="#" data-statistic-preselection="DynamicList" class="[% IF Data.StatisticPreselection == 'DynamicList' %] Active[% END %][% IF !Data.ShowAddDynamicListButton %] Disabled[% END %]">
-                                <i class="fa fa-list"></i>
-                                <strong>[% Translate('Dynamic List') | html %]</strong>
-                                <span>[% Translate('Tabular reporting data where each row contains data of one entity (e. g. a ticket).') | html %]</span>
-                            </a>
+                        <li data-statistic-preselection="DynamicList" class="[% IF Data.StatisticPreselection == 'DynamicList' %] Active[% END %][% IF !Data.ShowAddDynamicListButton %] Disabled[% END %]">
+                            <i class="fa fa-list"></i>
+                            <strong>[% Translate('Dynamic List') | html %]</strong>
+                            <span>[% Translate('Tabular reporting data where each row contains data of one entity (e. g. a ticket).') | html %]</span>
                         </li>
-                        <li>
-                            <a href="#" data-statistic-preselection="Static" class="[% IF Data.StatisticPreselection == 'Static' %] Active[% END %][% IF !Data.ShowAddStaticButton %] Disabled[% END %]">
-                                <i class="fa fa-code"></i>
-                                <strong>[% Translate('Static') | html %]</strong>
-                                <span>[% Translate('Complex statistics that cannot be configured and may return non-tabular data.') | html %]</span>
-                            </a>
+                        <li data-statistic-preselection="Static" class="[% IF Data.StatisticPreselection == 'Static' %] Active[% END %][% IF !Data.ShowAddStaticButton %] Disabled[% END %]">
+                            <i class="fa fa-code"></i>
+                            <strong>[% Translate('Static') | html %]</strong>
+                            <span>[% Translate('Complex statistics that cannot be configured and may return non-tabular data.') | html %]</span>
                         </li>
                     </ul>
                 </div>
