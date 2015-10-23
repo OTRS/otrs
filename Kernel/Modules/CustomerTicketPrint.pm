@@ -186,11 +186,6 @@ sub Run {
         Y    => -6,
     );
 
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
-    );
-
     # output ticket dynamic fields
     $Self->_PDFOutputTicketDynamicFields(
         PageData   => \%Page,
@@ -202,13 +197,9 @@ sub Run {
         Y    => -6,
     );
 
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
-    );
-
     # output customer infos
     if (%CustomerData) {
+
         $Self->_PDFOutputCustomerInfos(
             PageData     => \%Page,
             CustomerData => \%CustomerData,
@@ -475,6 +466,11 @@ sub _PDFOutputTicketDynamicFields {
 
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
+        $PDFObject->HLine(
+            Color     => '#aaa',
+            LineWidth => 0.5,
+        );
+
         # set new position
         $PDFObject->PositionSet(
             Move => 'relativ',
@@ -574,6 +570,11 @@ sub _PDFOutputCustomerInfos {
     if ($Output) {
 
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+
+        $PDFObject->HLine(
+            Color     => '#aaa',
+            LineWidth => 0.5,
+        );
 
         # set new position
         $PDFObject->PositionSet(
