@@ -212,7 +212,7 @@ dd {
 }
 
 .Warning {
-    color: #ff505e;
+    color: #ff9050;
 }
 
 .Notice {
@@ -1136,4 +1136,3 @@ iframe.PopupIframe {
         display: none !important;
     }
 }
-
