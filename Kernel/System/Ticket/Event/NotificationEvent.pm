@@ -1024,27 +1024,30 @@ sub _ArticleToUpdate {
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-    if ( $Param{ArticleType} =~ /^note\-/ && $Param{UserID} ne 1 ) {
-        my $NewTo = $Param{To} || '';
-        for my $UserID ( sort keys %{ $Param{UserIDs} } ) {
-            my %UserData = $UserObject->GetUserData(
-                UserID => $UserID,
-                Valid  => 1,
-            );
-            if ($NewTo) {
-                $NewTo .= ', ';
-            }
-            $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
-        }
+    # not update if its not a note article
+    return 1 if $Param{ArticleType} !~ /^note\-/;
 
+    my $NewTo = $Param{To} || '';
+    for my $UserID ( sort keys %{ $Param{UserIDs} } ) {
+        my %UserData = $UserObject->GetUserData(
+            UserID => $UserID,
+            Valid  => 1,
+        );
         if ($NewTo) {
-            $DBObject->Do(
-                SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
-                Bind => [ \$NewTo, \$Param{ArticleID} ],
-            );
+            $NewTo .= ', ';
         }
+        $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
     }
 
+    # not update if To is the same
+    return 1 if !$NewTo;
+
+    return if !$DBObject->Do(
+        SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
+        Bind => [ \$NewTo, \$Param{ArticleID} ],
+    );
+
+    return 1;
 }
 
 1;
