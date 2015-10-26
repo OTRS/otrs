@@ -1717,11 +1717,11 @@ sub _MigrateUserNotificationPreferences {
 
     # set an OldPreference => NewNotification mapping
     my %NotificationsPreferencesMapping = (
-        UserSendNewTicketNotification     => 'New ticket created',
-        UserSendFollowUpNotification      => 'Follow-up on an unlocked ticket',
-        UserSendLockTimeoutNotification   => 'Automatic ticket unlock',
-        UserSendMoveNotification          => 'Ticket moved',
-        UserSendServiceUpdateNotification => 'Ticket service update',
+        UserSendNewTicketNotification     => 'Ticket create notification',
+        UserSendFollowUpNotification      => 'Ticket follow-up notification (unlocked)',
+        UserSendLockTimeoutNotification   => 'Ticket lock timeout notification',
+        UserSendMoveNotification          => 'Ticket queue update notification',
+        UserSendServiceUpdateNotification => 'Ticket service update notification',
         UserSendWatcherNotification       => '',
     );
 
@@ -1752,8 +1752,8 @@ sub _MigrateUserNotificationPreferences {
             $UserNotificationTransport{$Identifier} = $PreferenceValue;
 
             # Duplicate value
-            if ( $NotificationName eq 'Follow-up on an unlocked ticket' ) {
-                $Identifier = $IdentifierList{'Follow-up on a locked ticket'};
+            if ( $NotificationName eq 'Ticket follow-up notification (unlocked)' ) {
+                $Identifier = $IdentifierList{'Ticket follow-up notification (locked)'};
                 $UserNotificationTransport{$Identifier} = $PreferenceValue;
             }
         }
