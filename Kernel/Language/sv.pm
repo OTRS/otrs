@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.369708832884757;
+    $Self->{Completeness}        = 0.380009775171065;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -764,8 +764,8 @@ sub Data {
         'Archived tickets' => 'Arkiverade ärenden',
         'Unarchived tickets' => 'Oarkiverade ärenden',
         'Ticket Information' => 'Ärende-information',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'underköer inkluderat',
+        'excluding subqueues' => 'underköer exkluderat',
 
         # Template: AAAWeekDay
         'Sun' => 'sön',
@@ -2460,12 +2460,12 @@ sub Data {
         'Customer information' => 'Kundinformation',
         'Phone ticket' => 'Telefonärende',
         'Email ticket' => 'Epost-ärende',
-        'Start Chat' => '',
+        'Start Chat' => 'Starta chatt',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => 'Nytt telefonärende från %s',
         'New email ticket to %s' => 'Nytt e-postärende från %s',
-        'Start chat' => '',
+        'Start chat' => 'Starta chatt',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s är tillgänlig!',
@@ -2509,7 +2509,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'frånvarande',
-        'Selected agent is not available for chat' => '',
+        'Selected agent is not available for chat' => 'Vald handläggare är inte tillgänglig för chat',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2525,7 +2525,7 @@ sub Data {
         # Template: AgentLinkObject
         'Link Object: %s' => 'Länkobjekt: %s',
         'go to link delete screen' => '',
-        'Select Target Object' => '',
+        'Select Target Object' => 'Välj målobjekt',
         'Link Object' => 'Länka objekt',
         'with' => 'med',
         'Unlink Object: %s' => 'Avlänka objekt: %s',
@@ -2533,7 +2533,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Ändra dina inställningar',
-        'Did you know? You can help translating OTRS at %s.' => '',
+        'Did you know? You can help translating OTRS at %s.' => 'Visste du att du kan hjälpa till att översätta OTRS at %s.',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Stavningskontroll',
@@ -2541,8 +2541,8 @@ sub Data {
         'Apply these changes' => 'Verkställ ändringar',
 
         # Template: AgentStatisticsAdd
-        'Statistics » Add' => '',
-        'Add New Statistic' => '',
+        'Statistics » Add' => 'Rapporter » Lägg till',
+        'Add New Statistic' => 'Lägg till ny rapport',
         'Dynamic Matrix' => '',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
@@ -2553,21 +2553,21 @@ sub Data {
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
             '',
         'General Specification' => '',
-        'Create Statistic' => '',
+        'Create Statistic' => 'Skapa rapport',
 
         # Template: AgentStatisticsEdit
         'Statistics » Edit %s%s — %s' => '',
-        'Run now' => '',
-        'Statistics Preview' => '',
-        'Save statistic' => '',
+        'Run now' => 'Kör nu',
+        'Statistics Preview' => 'Förhandsvisa rapport',
+        'Save statistic' => 'Spara rapport',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
-        'Import Statistic Configuration' => '',
+        'Statistics » Import' => 'Rapporter » Importera',
+        'Import Statistic Configuration' => 'Importera rapportkonfiguration',
 
         # Template: AgentStatisticsOverview
-        'Statistics » Overview' => '',
-        'Statistics' => 'Statistik',
+        'Statistics » Overview' => 'Rapporter » Översikt',
+        'Statistics' => 'Rapporter',
         'Run' => '',
         'Edit statistic "%s".' => '',
         'Export statistic "%s"' => '',
@@ -2578,6 +2578,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => '',
+        'Sum columns' => '',
+        'Show as dashboard widget' => '',
+        'Cache' => '',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 
@@ -2598,8 +2603,8 @@ sub Data {
         'For all pending* states.' => '',
         'Add Article' => 'Lägg till artikel',
         'Create an Article' => '',
-        'Inform agents' => '',
-        'Inform involved agents' => '',
+        'Inform agents' => 'Meddela handläggare',
+        'Inform involved agents' => 'Meddela inblandade handläggare',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
         'Text will also be received by:' => '',
@@ -2704,11 +2709,11 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Split Into New Phone Ticket' => '',
-        'Save Chat Into New Phone Ticket' => '',
+        'Save Chat Into New Phone Ticket' => 'Spara chat till ett nytt telefonärende',
         'Create New Phone Ticket' => 'Skapa nytt telefonärende',
         'Please include at least one customer for the ticket.' => 'Vänligen ange minst en kund för ärendet.',
         'To queue' => 'Till kö',
-        'Chat protocol' => '',
+        'Chat protocol' => 'Chattprotokoll',
         'The chat will be appended as a separate article.' => '',
 
         # Template: AgentTicketPhoneCommon
@@ -2773,7 +2778,7 @@ sub Data {
         'This ticket is archived.' => '',
         'Locked' => 'Låst',
         'Accounted time' => 'Redovisad tid',
-        'Linked Objects' => '',
+        'Linked Objects' => 'Länkade objekt',
         'Change Queue' => '',
         'There are no dialogs available at this point in the process.' =>
             '',
@@ -2873,8 +2878,8 @@ sub Data {
         'Your email address (this will become your username)' => 'Din e-postadress (som blir ditt användarnamn)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '',
-        'You have unanswered chat requests' => '',
+        'Incoming Chat Requests' => 'Inkommande chattförfrågningar',
+        'You have unanswered chat requests' => 'Du har osvarade chattförfrågningar',
         'Edit personal preferences' => 'Ändra personliga inställningar',
         'Logout %s %s' => '',
 
@@ -2916,12 +2921,12 @@ sub Data {
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'Starta en chatt från detta ärendet',
         'Expand article' => '',
         'Information' => 'Information',
         'Next Steps' => '',
         'Reply' => 'Svara',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Chattprotokoll',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
@@ -2964,9 +2969,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
-        'Unavailable for chat' => '',
-        'Available for internal chats only' => '',
-        'Available for chats' => '',
+        'Unavailable for chat' => 'Otillgänglig för chatt',
+        'Available for internal chats only' => 'Endast tillgänglig för intern chatt',
+        'Available for chats' => 'Tillgänglig för chatt',
         'Please visit the chat manager' => '',
         'New personal chat request' => '',
         'New customer chat request' => '',
@@ -3162,7 +3167,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => 'Rapport',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Can not delete link with %s!' => '',
@@ -3211,7 +3216,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Detta ärende har ingen titel eller ämne',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
         'This user is currently offline' => '',
@@ -3575,7 +3580,7 @@ sub Data {
         'Postmaster queue.' => '',
         'All default incoming tickets.' => '',
         'All junk tickets.' => '',
-        'All misc tickets.' => '',
+        'All misc tickets.' => 'Alla övriga ärenden.',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             '',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
@@ -3823,7 +3828,7 @@ Thanks for your help!
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Comment2' => '',
-        'Communication' => '',
+        'Communication' => 'Kommunikation',
         'Company Status' => '',
         'Company Tickets' => 'Företagets ärenden',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3835,7 +3840,7 @@ Thanks for your help!
         'Configure sending of support data to OTRS Group for improved support.' =>
             '',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
+            'Ställ in vilken skärm som skall visas efter att ett nytt ärende har skapats.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
             '',
@@ -4944,7 +4949,7 @@ Thanks for your help!
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
-            '',
+            'Inkludera ärenden från underköer som standard när du väljer en kö',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
@@ -5047,7 +5052,7 @@ Thanks for your help!
             '',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'Övrigt',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -5078,7 +5083,7 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Services' => '',
+        'My Services' => 'Mina tjänster',
         'My Tickets' => 'Mina ärenden',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -5115,7 +5120,7 @@ Thanks for your help!
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Översikt av eskalerade ärenden',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => 'Automatisk uppdateringsintervall',
         'Overview of all open Tickets.' => 'Översikt över alla öppna ärenden',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
@@ -5165,7 +5170,7 @@ Thanks for your help!
         'Parameters of the example service attribute Comment2.' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'People' => '',
+        'People' => 'Personer',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => '',
@@ -5199,8 +5204,8 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => '',
-        'Reports (OTRS Business Solution™)' => '',
+        'Reports' => 'Rapporter',
+        'Reports (OTRS Business Solution™)' => 'Rapporter (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -5285,7 +5290,7 @@ Thanks for your help!
             '',
         'Serbian Cyrillic' => '',
         'Serbian Latin' => '',
-        'Service view' => '',
+        'Service view' => 'Tjänste-vy',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => '',
@@ -5663,7 +5668,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
-        'Skin' => '',
+        'Skin' => 'Tema',
         'Slovak' => '',
         'Slovenian' => '',
         'SolutionDiffInMin' => '',
@@ -5738,7 +5743,7 @@ Thanks for your help!
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Stat#' => 'Stat#',
+        'Stat#' => 'Rapport#',
         'Status view' => 'Status-vy',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
@@ -5812,7 +5817,7 @@ Thanks for your help!
             '',
         'This will allow the system to send SMS messages.' => '',
         'Ticket Notifications' => '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'Kö-översikt',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
@@ -5878,7 +5883,7 @@ Thanks for your help!
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e-post om det aktiverats.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '',
+            'Ditt urval av dina tjänster. Du blir också meddelad om dessa köer via e-post om det aktiverats.',
 
     };
     # $$STOP$$

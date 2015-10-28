@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.548568632248593;
+    $Self->{Completeness}        = 0.548875855327468;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2582,6 +2582,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => '行合计',
+        'Sum columns' => '列合计',
+        'Show as dashboard widget' => '作为信息中心显示部件',
+        'Cache' => '缓存',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -8618,6 +8618,26 @@ msgstr ""
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
 msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Toon totaal per rij"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Toon totaal per kolom"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Toon als dashboard-widget"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Cache"
 
 #. Template: AgentStatisticsView
 msgid ""

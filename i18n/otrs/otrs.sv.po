@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/otrs/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -2793,11 +2793,11 @@ msgstr "Ärende-information"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "underköer inkluderat"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "underköer exkluderat"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -8301,7 +8301,7 @@ msgstr "Epost-ärende"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Starta chatt"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8321,7 +8321,7 @@ msgstr "Nytt e-postärende från %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Starta chatt"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8440,7 +8440,7 @@ msgstr "frånvarande"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "Vald handläggare är inte tillgänglig för chat"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8472,7 +8472,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Select Target Object"
-msgstr ""
+msgstr "Välj målobjekt"
 
 #. Template: AgentLinkObject
 msgid "Link Object"
@@ -8496,7 +8496,7 @@ msgstr "Ändra dina inställningar"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "Visste du att du kan hjälpa till att översätta OTRS at %s."
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8512,11 +8512,11 @@ msgstr "Verkställ ändringar"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Rapporter » Lägg till"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Lägg till ny rapport"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8554,7 +8554,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "Skapa rapport"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
@@ -8562,31 +8562,31 @@ msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Kör nu"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "Förhandsvisa rapport"
 
 #. Template: AgentStatisticsEdit
 msgid "Save statistic"
-msgstr ""
+msgstr "Spara rapport"
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
-msgstr ""
+msgstr "Rapporter » Importera"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
-msgstr ""
+msgstr "Importera rapportkonfiguration"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
-msgstr ""
+msgstr "Rapporter » Översikt"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Rapporter"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
@@ -8618,6 +8618,26 @@ msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
 msgstr ""
 
 #. Template: AgentStatisticsView
@@ -8691,11 +8711,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr ""
+msgstr "Meddela handläggare"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
-msgstr ""
+msgstr "Meddela inblandade handläggare"
 
 #. Template: AgentTicketActionCommon
 msgid ""
@@ -8985,7 +9005,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "Spara chat till ett nytt telefonärende"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -9001,7 +9021,7 @@ msgstr "Till kö"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "Chattprotokoll"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
@@ -9211,7 +9231,7 @@ msgstr "Redovisad tid"
 
 #. Template: AgentTicketZoom
 msgid "Linked Objects"
-msgstr ""
+msgstr "Länkade objekt"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
@@ -9526,11 +9546,11 @@ msgstr "Din e-postadress (som blir ditt användarnamn)"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "Inkommande chattförfrågningar"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "Du har osvarade chattförfrågningar"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -9650,7 +9670,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "Starta en chatt från detta ärendet"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
@@ -9670,7 +9690,7 @@ msgstr "Svara"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "Chattprotokoll"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
@@ -9804,15 +9824,15 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "Otillgänglig för chatt"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
-msgstr ""
+msgstr "Endast tillgänglig för intern chatt"
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "Tillgänglig för chatt"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
@@ -10340,7 +10360,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "Rapport"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10434,7 +10454,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
+msgstr "Detta ärende har ingen titel eller ämne"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
@@ -11413,7 +11433,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All misc tickets."
-msgstr ""
+msgstr "Alla övriga ärenden."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -12193,7 +12213,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "Kommunikation"
 
 #. SysConfig
 msgid "Company Status"
@@ -12227,7 +12247,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Ställ in vilken skärm som skall visas efter att ett nytt ärende har skapats."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -15818,7 +15838,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
-msgstr ""
+msgstr "Inkludera ärenden från underköer som standard när du väljer en kö"
 
 #. SysConfig
 msgid ""
@@ -16175,7 +16195,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Övrigt"
 
 #. SysConfig
 msgid ""
@@ -16278,7 +16298,7 @@ msgstr ""
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Mina tjänster"
 
 #. SysConfig
 msgid "My Tickets"
@@ -16409,7 +16429,7 @@ msgstr "Översikt av eskalerade ärenden"
 
 #. SysConfig
 msgid "Overview Refresh Time"
-msgstr ""
+msgstr "Automatisk uppdateringsintervall"
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -16619,7 +16639,7 @@ msgstr ""
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "Personer"
 
 #. SysConfig
 msgid ""
@@ -16739,11 +16759,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "Rapporter"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"
-msgstr ""
+msgstr "Rapporter (OTRS Business Solution™)"
 
 #. SysConfig
 msgid ""
@@ -17033,7 +17053,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "Tjänste-vy"
 
 #. SysConfig
 msgid ""
@@ -18257,7 +18277,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Skin"
-msgstr ""
+msgstr "Tema"
 
 #. SysConfig
 msgid "Slovak"
@@ -18498,7 +18518,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Stat#"
-msgstr "Stat#"
+msgstr "Rapport#"
 
 #. SysConfig
 msgid "Status view"
@@ -18733,7 +18753,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Kö-översikt"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -18957,4 +18977,4 @@ msgstr "Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e
 msgid ""
 "Your service selection of your favorite services. You also get notified "
 "about those services via email if enabled."
-msgstr ""
+msgstr "Ditt urval av dina tjänster. Du blir också meddelad om dessa köer via e-post om det aktiverats."

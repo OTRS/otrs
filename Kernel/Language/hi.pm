@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.506728651822853;
+    $Self->{Completeness}        = 0.506842619745846;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2578,6 +2578,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'पंक्ति योग',
+        'Sum columns' => 'स्तंभ योग',
+        'Show as dashboard widget' => '',
+        'Cache' => 'द्रुतिका',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

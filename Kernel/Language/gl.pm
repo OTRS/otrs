@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.921702960606802;
+    $Self->{Completeness}        = 0.921554252199413;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2576,6 +2576,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Estatísticas » Ver %s%s — %s',
+        'Statistic Information' => '',
+        'Sum rows' => 'Filas de suma',
+        'Sum columns' => 'Columnas de suma',
+        'Show as dashboard widget' => 'Mostrar como trebello no taboleiro',
+        'Cache' => 'Caché',
         'This statistic contains configuration errors and can currently not be used.' =>
             'Esta estatística contén erros de configuración e actualmente non pode ser usada.',
 

@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.281869341815513;
+    $Self->{Completeness}        = 0.286168132942327;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -72,10 +72,10 @@ sub Data {
         'month(s)' => 'tháng',
         'week' => 'tuần',
         'week(s)' => 'tuần',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'quý',
+        'quarter(s)' => 'quý',
+        'half-year' => 'nửa năm',
+        'half-year(s)' => 'nửa năm',
         'year' => 'năm',
         'years' => 'năm',
         'year(s)' => 'năm',
@@ -95,7 +95,7 @@ sub Data {
         'Subfunction' => 'Chức năng con',
         'Line' => 'Dòng',
         'Setting' => 'Thiết lập',
-        'Settings' => 'Các thiết lập',
+        'Settings' => 'Thiết lập',
         'Example' => 'Ví dụ',
         'Examples' => 'Các ví dụ',
         'valid' => 'hợp lệ',
@@ -269,7 +269,7 @@ sub Data {
         'reject' => 'từ chối',
         'reverse' => 'đảo ngược',
         'Facility' => 'Tiện ích',
-        'Time Zone' => '',
+        'Time Zone' => 'Múi giờ',
         'Pending till' => 'Treo tới khi',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             'Không sử dụng tài khoản cấp cao để làm việc với OTRS.Tạo Điều hành viên mới và làm việc với các tài khoản này để thay thế. ',
@@ -284,13 +284,13 @@ sub Data {
         'Preview' => 'Xem trước',
         'Package not correctly deployed! Please reinstall the package.' =>
             'Đóng gói không được triển khai một cách chính xác! Hãy cài đặt lại gói',
-        '%s is not writable!' => '% S không cho phép ghi!',
+        '%s is not writable!' => '%s không thể ghi!',
         'Cannot create %s!' => 'Không thể tạo %s!',
         'Check to activate this date' => 'Kiểm tra để kích hoạt ngày này',
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            'Bạn đã kích hoạt chế độ Out of Office, bạn có muốn tắt nó không?',
         'News about OTRS releases!' => 'Tin tức về phiên bản OTRS',
-        'Customer %s added' => '',
+        'Customer %s added' => 'Khách hàng %s đã được thêm',
         'Role added!' => 'Vai trò bổ sung',
         'Role updated!' => 'Cập nhật trách nhiệm',
         'Attachment added!' => 'Đính kèm',
@@ -816,7 +816,7 @@ sub Data {
         'documentation' => 'tài liệu',
         'Show or hide the content' => 'Hiển thị hoặc ẩn nội dung',
         'Edit ACL information' => 'Chỉnh sửa thông tin ACL Danh sách kiểm soát truy cập',
-        'Stop after match' => '',
+        'Stop after match' => 'Dừng sau khi khớp',
         'Edit ACL structure' => 'Chỉnh sửa cấu trúc ACL Danh sách kiểm soát truy cập',
         'Save' => 'Lưu',
         'or' => 'hoặc',
@@ -867,15 +867,15 @@ sub Data {
         'Example response' => 'Ví dụ phản hồi',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
-        'Hint' => '',
-        'Currently support data is only shown in this system.' => '',
+        'Cloud Service Management' => 'Quản lý dịch vụ đám mây',
+        'Support Data Collector' => 'Thu thập dữ liệu hỗ tr',
+        'Support data collector' => 'Thu thập dữ liệu hỗ tr',
+        'Hint' => 'Gợi ',
+        'Currently support data is only shown in this system.' => 'Dữ liệu hỗ trợ hiện thời chỉ được hiển thị trên hệ thống này.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            '',
-        'Configuration' => '',
-        'Send support data' => '',
+            'Chúng tối khuyến nghị gửi dữ liệu này đến Nhóm OTRS để hỗ trợ tốt hơn.',
+        'Configuration' => 'Cấu h',
+        'Send support data' => 'Gửi dữ liệu hỗ trợ',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'System Registration' => '',
@@ -2575,6 +2575,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'Tổng số hàng',
+        'Sum columns' => 'Tổng số cột',
+        'Show as dashboard widget' => '',
+        'Cache' => 'Lưu trữ',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

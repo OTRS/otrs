@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.344506973330071;
+    $Self->{Completeness}        = 0.344819159335288;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2576,6 +2576,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'Sumuoti eilutes',
+        'Sum columns' => 'Sumuoti stulpelius',
+        'Show as dashboard widget' => '',
+        'Cache' => 'Kešas',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

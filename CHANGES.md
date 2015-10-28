@@ -1,4 +1,5 @@
 #5.0.2 2015-??-??
+ - 2015-10-18 Updated translations, thanks to all translators.
  - 2015-10-27 Fixed richtext editor drag and drop functionality for images.
  - 2015-10-26 Fixed bug#[11559](http://bugs.otrs.org/show_bug.cgi?id=11559) - Can not upgrade user preferences for notification with DBUpdate-to-5.pl, thanks to Norihiro Tanaka.
  - 2015-10-23 Fixed bug#[11545](http://bugs.otrs.org/show_bug.cgi?id=11545) - When Phone or Email ticket created, runtime error.

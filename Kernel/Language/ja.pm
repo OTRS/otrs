@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.723268901394666;
+    $Self->{Completeness}        = 0.725562072336266;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -480,7 +480,7 @@ sub Data {
         'User Profile' => 'ユーザーのプロファイル',
         'Email Settings' => 'メール設定',
         'Other Settings' => 'その他の設定',
-        'Notification Settings' => '',
+        'Notification Settings' => '通知設定',
         'Change Password' => 'パスワード変更',
         'Current password' => '現在のパスワード',
         'New password' => '新しいパスワード',
@@ -1532,9 +1532,9 @@ sub Data {
         'Add Notification' => '通知の追加',
         'Edit Notification' => '通知の編集',
         'Show in agent preferences' => '担当者のプリファレンスに表示',
-        'Agent preferences tooltip' => '',
+        'Agent preferences tooltip' => '担当者プリファレンスツールチップ',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'このメッセージはこの通知に対するツールチップとして担当者プリファレンス画面に表示されます。',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             '',
         'Ticket Filter' => 'チケットフィルタ',
@@ -1556,14 +1556,14 @@ sub Data {
         'Also send if the user is currently out of office.' => '現在外出中のユーザーにも送付する。',
         'Once per day' => '一日に一度',
         'Notify user just once per day about a single ticket using a selected transport.' =>
-            '',
-        'Notification Methods' => '',
+            '選択された通知方法を使って1つのチケットにつき1度だけユーザーに通知する。',
+        'Notification Methods' => '通知方法',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => 'この通知方法を有効化',
         'Transport' => 'トランスポート',
         'At least one method is needed per notification.' => '',
-        'Send by default' => '',
+        'Send by default' => 'デフォルトで送信',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
         'This feature is currently not available.' => 'この機能は現在利用できません。',
@@ -1576,7 +1576,7 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '新規通知言語を追加',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
+        'Tag Reference' => 'タグリファレンス',
         'Notifications are sent to an agent or a customer.' => '通知は担当者、顧客に送信されます。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '表題の最初の20文字を取得 (最新の担当者記事)',
@@ -1599,11 +1599,11 @@ sub Data {
         'Example notification' => '',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => '追加の受信者のメールアドレス',
         'Notification article type' => '記事タイプの通知',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '顧客または追加のメールアドレスに通知が送られる際に記事が作成されます。',
-        'Email template' => '',
+        'Email template' => 'メールテンプレート',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '完全なメールを生成するためにこのテンプレートを使う。(HTMLメールに対してのみ)',
 
@@ -2536,7 +2536,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentPreferences
         'Edit your preferences' => '個人設定を編集',
-        'Did you know? You can help translating OTRS at %s.' => '',
+        'Did you know? You can help translating OTRS at %s.' => 'ご存じですか? %sにてOTRSの翻訳にご協力ください。',
 
         # Template: AgentSpelling
         'Spell Checker' => 'スペルチェック',
@@ -2581,6 +2581,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => '行の合計',
+        'Sum columns' => '列の合計',
+        'Show as dashboard widget' => '',
+        'Cache' => 'キャッシュ',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 
