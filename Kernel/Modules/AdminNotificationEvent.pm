@@ -1038,31 +1038,25 @@ sub _Edit {
     LANGUAGEID:
     for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
 
-        next LANGUAGEID if !$DefaultUsedLanguages{$LanguageID};
+        # next language if there is not set any name for current language
+        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
+            next LANGUAGEID;
+        }
 
-        # next language if there is not set native name of language
-        next LANGUAGEID if !$DefaultUsedLanguagesNative{$LanguageID};
+        # get texts in native and default language
+        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
+        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
 
-        # get language object for specific language id
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $LanguageID,
-        );
-        next LANGUAGEID if !$LanguageObject;
-
-        # get texts on native and default language
-        my $Text        = $DefaultUsedLanguagesNative{$LanguageID};
-        my $TextEnglish = $DefaultUsedLanguages{$LanguageID};
-
-        # Translate to current user's language
+        # translate to current user's language
         my $TextTranslated =
             $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
-
-        # next language if there is not translated text
-        next LANGUAGEID if !$TextTranslated;
 
         if ( $TextTranslated && $TextTranslated ne $Text ) {
             $Text .= ' - ' . $TextTranslated;
         }
+
+        # next language if there is not set English nor native name of language.
+        next LANGUAGEID if !$Text;
 
         $Languages{$LanguageID} = $Text;
     }
