@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -1712,7 +1712,7 @@ msgstr "Otros ajustes"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Preferencias de Notificaciones"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -4229,7 +4229,7 @@ msgstr "Advertencia: Ha usado la opción BORRAR. ¡Se perderán todos los ticket
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr ""
+msgstr "Advertencia. Hay %s tickets afectados pero solo %s podrían ser modificados durante una ejecución de tarea."
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -5087,7 +5087,7 @@ msgstr "Borrar esta acción"
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr ""
+msgstr "Al menos un %s tiene un controlador que no está activo o presente, por favor revise el registro del controlador o elimine el %s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
@@ -5456,7 +5456,7 @@ msgstr "Métodos de Notificación"
 msgid ""
 "These are the possible methods that can be used to send this notification to"
 " each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "Estos son los posibles métodos que se pueden utilizar para enviar esta notificación a cada uno de los destinatarios. Por favor seleccione al menos un método en la sección inferior."
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
@@ -5472,13 +5472,13 @@ msgstr "Se necesita al menos un método por notificación"
 
 #. Template: AdminNotificationEvent
 msgid "Send by default"
-msgstr ""
+msgstr "Enviar por defecto"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Should the notification be sent to agents who have not yet made a choice in "
 "their preferences?"
-msgstr ""
+msgstr "¿La notificación debería ser enviada a los agentes que no han configurado sus preferencias?"
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5500,7 +5500,7 @@ msgstr "Texto de la Notificación"
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Este idioma no está presente o activado en el sistema. Esta notificación puede eliminarse si ya no es necesaria."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -5547,27 +5547,27 @@ msgstr "Para obtener las primeras 5 líneas del cuerpo (del último artículo de
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "Atributos de los datos actuales del usuario cliente"
 
 #. Template: AdminNotificationEvent
 msgid "Attibutes of the current ticket owner's user data"
-msgstr ""
+msgstr "Atributos de los datos actuales del propietario del ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Attibutes of the current ticket responsible's user data"
-msgstr ""
+msgstr "Atributos de los datos actuales del responsable del ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "Atributos del actual usuario agente que solicitó esta acción."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Atributos del usuario destinatario para la notificación."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "Atributos de los datos del ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
@@ -5581,11 +5581,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Notificación de ejemplo"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Direcciones adicionales del destinatario de correo electrónico."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5599,7 +5599,7 @@ msgstr "Un artículo será creado si la notificación es enviada al cliente o a 
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Plantilla de correo"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -5685,7 +5685,7 @@ msgstr "%s Desplegado correctamente"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr ""
+msgstr "Felicitaciones, su %s está instalado y actualizado correctamente."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
@@ -5862,7 +5862,7 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "Por favor asegúrese de que su base de datos acepta paquetes mayores a % MB en tamaño (actualmente sólo acepta paquetes hasta % MB). Por favor adapte la configuración max_allowed_packet de su base de datos para prevenir errores."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -8243,33 +8243,33 @@ msgstr "Nota: ¡el cliente no es válido!"
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr ""
+msgstr "El Daemon de OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo la gatillación de escalamiento de tickets, envío de correos, etc."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "Un Daemon funcionando de OTRS es obligatorio para su correcta operación."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr ""
+msgstr "Iniciando el Daemon de OTRS"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job"
 " will check every 5 minutes if the OTRS Daemon is running and start it if "
 "needed."
-msgstr ""
+msgstr "Asegúrese de que el archivo '%s' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si el Daemon de OTRS está corriendo y lo iniciará de ser necesario."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr ""
+msgstr "Ejecute '%s start' para asegurarse de que el trabajo programado del usuario 'otrs' está activo."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "After 5 minutes, check that the OTRS Daemon is running in the system "
 "('bin/otrs.Daemon.pl status')."
-msgstr ""
+msgstr "Después de 5 minutos verifique que el Daemon OTRS está ejecutándose en el sistema ('bin/otrs.Daemon.pl status')."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -8625,6 +8625,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr "Estadísticas » Ver %s%s — %s"
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Sumar las filas"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Sumar las columnas"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Mostrar como un elemento gráfico en el panel principal"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Caché"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr "Esta estadísticas contiene errores de configuracion y no puede ser utilizada actualmente."
@@ -8695,11 +8715,11 @@ msgstr "Crear un Artículo"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr ""
+msgstr "Informar agentes"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
-msgstr ""
+msgstr "Informar agentes involucrados"
 
 #. Template: AgentTicketActionCommon
 msgid ""
@@ -8709,7 +8729,7 @@ msgstr "Aquí puede seleccionar agentes adicionales que deben recibir una notifi
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by:"
-msgstr ""
+msgstr "El texto también será recibido por:"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -8729,7 +8749,7 @@ msgstr "Tipo de nota"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s"
-msgstr ""
+msgstr "Rebotar %s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -9848,7 +9868,7 @@ msgstr "Quiere realmente continuar?"
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
-msgstr ""
+msgstr "Información acerca del Daemon de OTRS"
 
 #. Template: FooterJS
 msgid ""
@@ -10380,11 +10400,11 @@ msgstr "Ticket está bloqueado por otro agente y será ignorado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
-msgstr ""
+msgstr "%s ha dejado la conversación."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
-msgstr ""
+msgstr "Esta conversación ha sido cerrada y será removida en %s horas."
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
@@ -10485,7 +10505,7 @@ msgstr "(en proceso)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
-msgstr ""
+msgstr "Por favor especifique una fecha de término posterior a la fecha de inicio."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -10537,7 +10557,7 @@ msgstr "Por favor seleccione sólo un elemento o permita su modificación al mom
 msgid ""
 "Please select at least one value of this field or allow modification at stat"
 " generation time."
-msgstr ""
+msgstr "Por favor seleccione al menos un valor de este campo o permita su modificación al momento de generación de la estadística."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
@@ -10572,7 +10592,7 @@ msgstr "El intervalo de tiempo para los reportes es demasiado pequeño, por favo
 msgid ""
 "Please remove the following words because they cannot be used for the ticket"
 " restrictions: %s."
-msgstr ""
+msgstr "Por favor quite las siguientes palabras debido a que no pueden ser utilizadas para las restricciones del ticket: %s."
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
@@ -11148,11 +11168,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting (global time offset)"
-msgstr ""
+msgstr "Configuración de la Zona Horaria de OTRS (compensación de hora global) "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "TimeZone may only be activated for systems running in UTC."
-msgstr ""
+msgstr "La Zona Horaria sólo puede ser activada en sistemas que operan en UTC."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZoneUser setting (per-user time zone support)"

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.756055786640568;
+    $Self->{Completeness}        = 0.760263929618768;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -479,7 +479,7 @@ sub Data {
         'User Profile' => 'Profil użytkownika',
         'Email Settings' => 'Ustawienia e-mail',
         'Other Settings' => 'Inne ustawienia',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Ustawienia powiadomień',
         'Change Password' => 'Zmiana hasła',
         'Current password' => 'Aktualne hasło',
         'New password' => 'Nowe hasło',
@@ -898,7 +898,7 @@ sub Data {
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => 'Dostępne usługi w chmurze',
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Zaktualizuj do %s',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Zarządzanie klientami',
@@ -1345,11 +1345,11 @@ sub Data {
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => 'Plik z hasłem certyfikatu',
         'The full path and name of the SSL key file.' => '',
-        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'np. /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => 'Plik Certification Authority (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
             '',
-        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => '',
+        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => 'np. /opt/otrs/var/certificates/REST/CA/ca.file',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => 'Transport GenericInterface HTTP::SOAP dla serwisu sieciowego %s',
@@ -1406,7 +1406,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Pełna ścieżka do katalogu gdzie znajdują się certyfikaty CA.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'np. /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
+        'Sort options' => 'Opcje sortowania',
         'Add new first level element' => '',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
@@ -1519,11 +1519,11 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => 'Dodaj powiadomienie',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Eksportuj powiadomienia',
+        'Configuration Import' => 'Import konfiguracji',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
+        'Overwrite existing notifications?' => 'Nadpisać istniejące powiadomienia?',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Usuń to powiadomienie',
@@ -1547,7 +1547,7 @@ sub Data {
         'Body match' => 'Wyszukiwanie w treści',
         'Include attachments to notification' => 'Umieść załączniki w powiadomieniu',
         'Recipients' => 'Odbiorcy',
-        'Send to' => '',
+        'Send to' => 'Wyślij do',
         'Send to these agents' => '',
         'Send to all group members' => '',
         'Send to all role members' => '',
@@ -1565,16 +1565,16 @@ sub Data {
         'Send by default' => '',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Ta funkcja jest obecnie niedostępna.',
         'No data found' => '',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Treść powiadomienia',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Treść wiadomości',
         'Add new notification language' => '',
-        'Do you really want to delete this notification language?' => '',
+        'Do you really want to delete this notification language?' => 'Czy na pewno chcesz usunąć ten język powiadomienia?',
         'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia są wysyłane do agenta obsługi lub klienta',
         'To get the first 20 character of the subject (of the latest agent article).' =>
@@ -1595,7 +1595,7 @@ sub Data {
         'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Example notification' => '',
+        'Example notification' => 'Przykładowe powiadomienie',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
@@ -1607,7 +1607,7 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
+        'Manage %s' => 'Zarządzaj %s',
         'Downgrade to OTRS Free' => '',
         'Read documentation' => '',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1623,7 +1623,7 @@ sub Data {
             '',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
-        'Update %s' => '',
+        'Update %s' => 'Zaktualizuj %s',
         '%s Not Yet Available' => '%s jeszcze nie jest dostępne',
         '%s will be available soon.' => '%s wkrótce będzie dostępne.',
         '%s Update Available' => '%s dostępna jest aktualizacja',
@@ -1650,7 +1650,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Przerwij downgrade i wróć',
-        'Go to OTRS Package Manager' => '',
+        'Go to OTRS Package Manager' => 'Przejdź do menedżera pakietów OTRS',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
         'Vendor' => 'Wydawca',
@@ -2579,6 +2579,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'Suma wierszy',
+        'Sum columns' => 'Suma kolumn',
+        'Show as dashboard widget' => 'Pokaż jako widget pulpitu',
+        'Cache' => 'Pamięć podręczna',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

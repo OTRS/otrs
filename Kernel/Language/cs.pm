@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.32615610472229;
+    $Self->{Completeness}        = 0.326490713587488;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2583,6 +2583,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'Součet řádků',
+        'Sum columns' => 'Součet Sloupců',
+        'Show as dashboard widget' => '',
+        'Cache' => 'Vyrovnávací paměť',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 
@@ -2931,8 +2936,8 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
         'Sunday' => 'Neděle',
-        'Monday' => 'Pondelí',
-        'Tuesday' => 'Úterí',
+        'Monday' => 'Pondělí',
+        'Tuesday' => 'Úterý',
         'Wednesday' => 'Středa',
         'Thursday' => 'Čtvrtek',
         'Friday' => 'Pátek',

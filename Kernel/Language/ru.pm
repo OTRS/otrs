@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.980670418399804;
+    $Self->{Completeness}        = 0.982160312805474;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -487,7 +487,7 @@ sub Data {
         'User Profile' => 'Профиль пользователя',
         'Email Settings' => 'Настройки почты',
         'Other Settings' => 'Прочие настройки',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Настройка Уведомлений',
         'Change Password' => 'Сменить пароль',
         'Current password' => 'Текущий пароль',
         'New password' => 'Новый пароль',
@@ -1572,13 +1572,13 @@ sub Data {
         'At least one method is needed per notification.' => 'Должен быть выбран хотя бы один способ для каждого уведомления',
         'Send by default' => 'Отправка по умолчанию',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
-            '',
+            'Должно ли уведомление отправляться агентам, которые не выбрали получение его в своих личных настройках?',
         'This feature is currently not available.' => 'Эта функция в данный момент не доступна',
         'No data found' => 'Данные не найдены',
         'No notification method found.' => 'Не задан метод уведомлений.',
         'Notification Text' => 'Текст уведомления',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
+            'Этот язык отсутствует или не включен для использования в системе. Этот текст уведомления будет удален, если он больше не нужен.',
         'Remove Notification Language' => 'Удалить язык уведомлений',
         'Message body' => 'Содержание уведомления',
         'Add new notification language' => 'Добавить дополнительный язык для уведомлений',
@@ -2587,6 +2587,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Отчеты » Просмотр %s%s — %s',
+        'Statistic Information' => '',
+        'Sum rows' => 'Сумма строк',
+        'Sum columns' => 'Сумма столбцов',
+        'Show as dashboard widget' => 'Показать как виджет Дайджеста',
+        'Cache' => 'Кэш',
         'This statistic contains configuration errors and can currently not be used.' =>
             'Этот отчет содержит ошибки в настройках и не может в настоящее время использоваться.',
 
@@ -3266,7 +3271,7 @@ sub Data {
         'Please select only one element or allow modification at stat generation time.' =>
             'Пожалуйста, выберите только один параметр или снимите флаг \'Fixed\' для времени создания отчета.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
+            'Пожалуйста, выберите хотя бы один параметр или снимите флаг \'Fixed\' для времени создания отчета.',
         'Please select one element for the X-axis.' => 'Выберите один элемент для оси X.',
         'You can only use one time element for the Y axis.' => 'Вы можете выбрать только один параметр времени для оси Y.',
         'You can only use one or two elements for the Y axis.' => 'Вы можете выбрать только один или два параметра для оси Y.',
@@ -4591,7 +4596,7 @@ Thanks for your help!
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
             'Задает строку, которая будет отображаться в поле получатель (To:) заявки в интерфейсе клиента. Для очереди, если CustomerPanelSelectionType, "<Queue>" отображается список имен очередей. Для SystemAddress "<Realname> <<Email>>" показывается имя и email получателя.',
         'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            '',
+            'Задает строку, которая будет отображаться в поле получатель (To:) телефонной заявки или отправитель (From:) почтовой заявки в интерфейсе агента. Для очереди, если NewQueueSelectionType "<Queue>"/"Очередь" отображается список имен очередей. Для SystemAddress "<Realname> <<Email>>" показывается имя и email получателя.',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Задает способ отображения связанных объектов в подробных просмотрах.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
@@ -5185,7 +5190,7 @@ Thanks for your help!
         'Parameters of the example service attribute Comment2.' => 'Параметры для дополнительного атрибута Сервиса Комментарий2(Comment2).',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Путь к лог файлу (применяется только если выбран атрибут "FS" для LoopProtectionModule и он обязателен).',
-        'People' => '',
+        'People' => 'Исполнители',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             'Выполняет заданное действие для каждого события (как Invoker) для каждого настроенного Webservice.',
         'Permitted width for compose email windows.' => 'Ширина окна для текста ответа.',
@@ -5744,7 +5749,7 @@ Thanks for your help!
             'Задает текст, который записывается в лог для регистрации обращения к скриптам CGI.',
         'Specifies user id of the postmaster data base.' => 'Задает user id БД postmaster.',
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
-            '',
+            'Указывет, должны ли все виды хранилищ проверятся при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Задает количество уровней подкаталога для кэш файлов. параметр предотвращает от создания большого количества файлов в одном каталоге.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>

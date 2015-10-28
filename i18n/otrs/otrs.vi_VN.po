@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/otrs/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -182,19 +182,19 @@ msgstr "tuần"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "quý"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "quý"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "nửa năm"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "nửa năm"
 
 #. Template: AAABase
 msgid "year"
@@ -274,7 +274,7 @@ msgstr "Thiết lập"
 
 #. Template: AAABase
 msgid "Settings"
-msgstr "Các thiết lập"
+msgstr "Thiết lập"
 
 #. Template: AAABase
 msgid "Example"
@@ -952,7 +952,7 @@ msgstr "Tiện ích"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr ""
+msgstr "Múi giờ"
 
 #. Template: AAABase
 msgid "Pending till"
@@ -1006,7 +1006,7 @@ msgstr "Đóng gói không được triển khai một cách chính xác! Hãy c
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr ""
+msgstr "%s không thể ghi!"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -1018,7 +1018,7 @@ msgstr "Kiểm tra để kích hoạt ngày này"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
+msgstr "Bạn đã kích hoạt chế độ Out of Office, bạn có muốn tắt nó không?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
@@ -1026,7 +1026,7 @@ msgstr "Tin tức về phiên bản OTRS"
 
 #. Template: AAABase
 msgid "Customer %s added"
-msgstr ""
+msgstr "Khách hàng %s đã được thêm"
 
 #. Template: AAABase
 msgid "Role added!"
@@ -2979,7 +2979,7 @@ msgstr "Chỉnh sửa thông tin ACL Danh sách kiểm soát truy cập"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
-msgstr ""
+msgstr "Dừng sau khi khớp"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL structure"
@@ -3145,37 +3145,37 @@ msgstr "Ví dụ phản hồi"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Quản lý dịch vụ đám mây"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Thu thập dữ liệu hỗ tr"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Thu thập dữ liệu hỗ tr"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
-msgstr ""
+msgstr "Gợi "
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "Dữ liệu hỗ trợ hiện thời chỉ được hiển thị trên hệ thống này."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "Chúng tối khuyến nghị gửi dữ liệu này đến Nhóm OTRS để hỗ trợ tốt hơn."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "Cấu h"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Gửi dữ liệu hỗ trợ"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -8618,6 +8618,26 @@ msgstr ""
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
 msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Tổng số hàng"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Tổng số cột"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Lưu trữ"
 
 #. Template: AgentStatisticsView
 msgid ""

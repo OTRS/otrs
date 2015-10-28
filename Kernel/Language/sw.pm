@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.855884511866895;
+    $Self->{Completeness}        = 0.855816226783969;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2580,6 +2580,11 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
+        'Statistic Information' => '',
+        'Sum rows' => 'Safu mlalo za jumla',
+        'Sum columns' => 'Safu wima za jumla',
+        'Show as dashboard widget' => 'Onyesha kifaa cha dashibodi',
+        'Cache' => 'Hifadhi muda',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
 

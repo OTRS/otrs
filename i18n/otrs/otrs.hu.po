@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1713,7 +1713,7 @@ msgstr "Egyéb beállítások"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Értesítési beállítások"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5501,7 +5501,7 @@ msgstr "Értesítési szöveg"
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Ez a nyelv nincs jelen vagy nincs engedélyezve a rendszeren. Ez az értesítési szöveg törölhető, ha többé nincs rá szükség."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -8626,6 +8626,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr "Statisztikák » %s%s megtekintése — %s"
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Összegző sorok"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Összegző oszlopok"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Megjelenítés vezérlőpult felületi elemként"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Gyorsítótár"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr "Ez a statisztika beállítási hibákat tartalmaz, és jelenleg nem használható."
@@ -8730,7 +8750,7 @@ msgstr "Jegyzet típusa"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s"
-msgstr ""
+msgstr "%s%s visszaküldése"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -14608,7 +14628,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the receipent."
-msgstr ""
+msgstr "Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A várólistánál mint NewQueueSelectionType „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -14618,7 +14638,7 @@ msgstr "Meghatározza annak a módját, ahogyan a kapcsolt objektumok megjelení
 msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr ""
+msgstr "Meghatározza, hogy mely lehetőségek lesznek érvényesek a címzettnél (telefonos jegy) és a küldőnél (e-mail jegy) az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
@@ -18456,7 +18476,7 @@ msgid ""
 "Specifies whether all storage backends should be checked when looking for "
 "attachments. This is only required for installations where some attachments "
 "are in the file system, and others in the database."
-msgstr ""
+msgstr "Megadja, hogy az összes tárolási háttérprogramot ellenőrizni kell-e a mellékletek keresésekor. Ez csak azoknál a telepítéseknél szükséges, ahol néhány melléklet a fájlrendszeren van tárolva, a többi pedig adatbázisban."
 
 #. SysConfig
 msgid ""

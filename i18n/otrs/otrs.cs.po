@@ -2,13 +2,14 @@
 # Translators:
 # David Krotil <david.krotil@krotilovi.cz>, 2015
 # Jan Řežab <honza@rezab.eu>, 2015
+# Marek Pinc <mmap@post.cz>, 2015
 # Tomas Reznicek <tomas.reznicek@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"Last-Translator: Marek Pinc <mmap@post.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/otrs/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8620,6 +8621,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr ""
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Součet řádků"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Součet Sloupců"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Vyrovnávací paměť"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr ""
@@ -9681,11 +9702,11 @@ msgstr "Neděle"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
-msgstr "Pondelí"
+msgstr "Pondělí"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tuesday"
-msgstr "Úterí"
+msgstr "Úterý"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Wednesday"

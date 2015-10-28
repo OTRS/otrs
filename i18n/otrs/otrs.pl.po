@@ -2,6 +2,7 @@
 # Translators:
 # icetafax <tomasz.matejunas@cortlandplus.pl>, 2015
 # Jerzy Ruszczak <orcio6@o2.pl>, 2015
+# Mateusz Małek <transifex@mkwm.eu.org>, 2015
 # Michał Kiełkowski <michal.kielkowski@lhsystems.com>, 2015
 # OTRS365 <info@otrs365.com>, 2015
 # Patryk Zera <sanchez@atlasnet.pl>, 2015
@@ -12,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1712,7 +1713,7 @@ msgstr "Inne ustawienia"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Ustawienia powiadomień"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -3237,7 +3238,7 @@ msgstr "Dostępne usługi w chmurze"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Zaktualizuj do %s"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -4758,7 +4759,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "np. /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
@@ -4772,7 +4773,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "np. /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
@@ -4951,7 +4952,7 @@ msgstr "np. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Opcje sortowania"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
@@ -5309,11 +5310,11 @@ msgstr "Dodaj powiadomienie"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Eksportuj powiadomienia"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import konfiguracji"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5324,7 +5325,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Nadpisać istniejące powiadomienia?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
@@ -5416,7 +5417,7 @@ msgstr "Odbiorcy"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Wyślij do"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
@@ -5482,7 +5483,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Ta funkcja jest obecnie niedostępna."
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
@@ -5494,7 +5495,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Treść powiadomienia"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5508,7 +5509,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Treść wiadomości"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -5516,7 +5517,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć ten język powiadomienia?"
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
@@ -5581,7 +5582,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Przykładowe powiadomienie"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -5608,7 +5609,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Zarządzaj %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -5661,7 +5662,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Zaktualizuj %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
@@ -5728,7 +5729,7 @@ msgstr "Przerwij downgrade i wróć"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "Przejdź do menedżera pakietów OTRS"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -8623,6 +8624,26 @@ msgstr ""
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
 msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Suma wierszy"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Suma kolumn"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Pokaż jako widget pulpitu"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Pamięć podręczna"
 
 #. Template: AgentStatisticsView
 msgid ""

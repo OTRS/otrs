@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1711,7 +1711,7 @@ msgstr "その他の設定"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "通知設定"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5355,13 +5355,13 @@ msgstr "担当者のプリファレンスに表示"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "担当者プリファレンスツールチップ"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "このメッセージはこの通知に対するツールチップとして担当者プリファレンス画面に表示されます。"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5445,11 +5445,11 @@ msgstr "一日に一度"
 msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
-msgstr ""
+msgstr "選択された通知方法を使って1つのチケットにつき1度だけユーザーに通知する。"
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "通知方法"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5471,7 +5471,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send by default"
-msgstr ""
+msgstr "デフォルトで送信"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5519,7 +5519,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "タグリファレンス"
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -5584,7 +5584,7 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "追加の受信者のメールアドレス"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5598,7 +5598,7 @@ msgstr "顧客または追加のメールアドレスに通知が送られる際
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "メールテンプレート"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -8499,7 +8499,7 @@ msgstr "個人設定を編集"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "ご存じですか? %sにてOTRSの翻訳にご協力ください。"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8622,6 +8622,26 @@ msgstr ""
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
 msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "行の合計"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "列の合計"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "キャッシュ"
 
 #. Template: AgentStatisticsView
 msgid ""
@@ -9427,7 +9447,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr "他%sつ"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Filters"

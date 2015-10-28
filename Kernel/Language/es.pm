@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.739662344017617;
+    $Self->{Completeness}        = 0.747556207233627;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -481,7 +481,7 @@ sub Data {
         'User Profile' => 'Perfil del usuario',
         'Email Settings' => 'Ajustes del correo electrónico',
         'Other Settings' => 'Otros ajustes',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Preferencias de Notificaciones',
         'Change Password' => 'Cambiar la contraseña',
         'Current password' => 'Contraseña actual',
         'New password' => 'Nueva contraseña',
@@ -1193,7 +1193,7 @@ sub Data {
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Advertencia: Ha usado la opción BORRAR. ¡Se perderán todos los tickets borrados!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
-            '',
+            'Advertencia. Hay %s tickets afectados pero solo %s podrían ser modificados durante una ejecución de tarea.',
         'Edit job' => 'Editar el trabajo',
         'Run job' => 'Ejecutar el trabajo',
         'Affected Tickets' => 'Tickets afectados',
@@ -1450,7 +1450,7 @@ sub Data {
         'Outbound mapping' => 'Mapeo de salida',
         'Delete this action' => 'Borrar esta acción',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
-            'Al menos un %s tiene un controlador que o bien no está activo o no está presente , compruebe el registro de controladores o elimine el % s',
+            'Al menos un %s tiene un controlador que no está activo o presente, por favor revise el registro del controlador o elimine el %s',
         'Delete webservice' => 'Borrar servicio web',
         'Delete operation' => 'Eliminar operación',
         'Delete invoker' => 'Borrar Invocador',
@@ -1560,19 +1560,19 @@ sub Data {
             'Notificar al usuario sólo una vez al día acerca de un único ticket utilizando el transporte seleccionado.',
         'Notification Methods' => 'Métodos de Notificación',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
+            'Estos son los posibles métodos que se pueden utilizar para enviar esta notificación a cada uno de los destinatarios. Por favor seleccione al menos un método en la sección inferior.',
         'Enable this notification method' => 'Habilitar este método de notificación',
         'Transport' => 'Transporte',
         'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación',
-        'Send by default' => '',
+        'Send by default' => 'Enviar por defecto',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
-            '',
+            '¿La notificación debería ser enviada a los agentes que no han configurado sus preferencias?',
         'This feature is currently not available.' => 'Esta característica no está disponible en este momento.',
         'No data found' => 'No se encontró ningún dato.',
         'No notification method found.' => 'No se encontró un método de notificación.',
         'Notification Text' => 'Texto de la Notificación',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
+            'Este idioma no está presente o activado en el sistema. Esta notificación puede eliminarse si ya no es necesaria.',
         'Remove Notification Language' => 'Quitar el Idioma de la Notificación',
         'Message body' => 'Cuerpo del Mensaje',
         'Add new notification language' => 'Agregar un nuevo idioma de notificación',
@@ -1587,24 +1587,24 @@ sub Data {
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
-        'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current customer user data' => 'Atributos de los datos actuales del usuario cliente',
+        'Attibutes of the current ticket owner\'s user data' => 'Atributos de los datos actuales del propietario del ticket',
+        'Attibutes of the current ticket responsible\'s user data' => 'Atributos de los datos actuales del responsable del ticket',
         'Attributes of the current agent user who requested this action' =>
-            '',
-        'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
+            'Atributos del actual usuario agente que solicitó esta acción.',
+        'Attributes of the recipient user for the notification' => 'Atributos del usuario destinatario para la notificación.',
+        'Attributes of the ticket data' => 'Atributos de los datos del ticket',
         'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Example notification' => '',
+        'Example notification' => 'Notificación de ejemplo',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico.',
         'Notification article type' => 'Notificación de tipo',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
-        'Email template' => '',
+        'Email template' => 'Plantilla de correo',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Use esta plantilla para generar el email completo (sólo para emails HTML).',
 
@@ -1633,7 +1633,7 @@ sub Data {
             'Una actualización para tu %s está disponible! Por favor actualice cuanto antes!',
         '%s Correctly Deployed' => '%s Desplegado correctamente',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            'Felicidades, su % s se ha instalado correctamente y se encuentra actualizado!',
+            'Felicitaciones, su %s está instalado y actualizado correctamente.',
 
         # Template: AdminOTRSBusinessNotInstalled
         '%s will be available soon. Please check again in a few days.' =>
@@ -1693,7 +1693,7 @@ sub Data {
             '¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual.',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            'Por favor, asegúrese de que su base de datos acepta paquetes de más de % s MB de tamaño (actualmente sólo acepta paquetes hasta % s MB ) . Por favor, adapte el ajuste max_allowed_packet de su base de datos con el fin de evitar errores.',
+            'Por favor asegúrese de que su base de datos acepta paquetes mayores a % MB en tamaño (actualmente sólo acepta paquetes hasta % MB). Por favor adapte la configuración max_allowed_packet de su base de datos para prevenir errores.',
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Paquete',
         'Update repository information' => 'Actualizar información de repositorio',
@@ -2435,16 +2435,16 @@ sub Data {
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
-            '',
+            'El Daemon de OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo la gatillación de escalamiento de tickets, envío de correos, etc.',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
-            '',
-        'Starting the OTRS Daemon' => '',
+            'Un Daemon funcionando de OTRS es obligatorio para su correcta operación.',
+        'Starting the OTRS Daemon' => 'Iniciando el Daemon de OTRS',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
-            '',
+            'Asegúrese de que el archivo \'%s\' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si el Daemon de OTRS está corriendo y lo iniciará de ser necesario.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
-            '',
+            'Ejecute \'%s start\' para asegurarse de que el trabajo programado del usuario \'otrs\' está activo.',
         'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
-            '',
+            'Después de 5 minutos verifique que el Daemon OTRS está ejecutándose en el sistema (\'bin/otrs.Daemon.pl status\').',
 
         # Template: AgentDashboard
         'Dashboard' => 'Panel principal',
@@ -2581,6 +2581,11 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Estadísticas » Ver %s%s — %s',
+        'Statistic Information' => '',
+        'Sum rows' => 'Sumar las filas',
+        'Sum columns' => 'Sumar las columnas',
+        'Show as dashboard widget' => 'Mostrar como un elemento gráfico en el panel principal',
+        'Cache' => 'Caché',
         'This statistic contains configuration errors and can currently not be used.' =>
             'Esta estadísticas contiene errores de configuracion y no puede ser utilizada actualmente.',
 
@@ -2601,18 +2606,18 @@ sub Data {
         'For all pending* states.' => 'Para todos los estados pendientes*.',
         'Add Article' => 'Añadir Artículo',
         'Create an Article' => 'Crear un Artículo',
-        'Inform agents' => '',
-        'Inform involved agents' => '',
+        'Inform agents' => 'Informar agentes',
+        'Inform involved agents' => 'Informar agentes involucrados',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Aquí puede seleccionar agentes adicionales que deben recibir una notificación sobre el nuevo artículo.',
-        'Text will also be received by:' => '',
+        'Text will also be received by:' => 'El texto también será recibido por:',
         'Spell check' => 'Verificar la ortografía',
         'Text Template' => 'Plantilla de texto',
         'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobreescribirá cualquier texto o adjunto.',
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => '',
+        'Bounce %s%s' => 'Rebotar %s%s',
         'Bounce to' => 'Rebotar a',
         'You need a email address.' => 'Necesita una dirección de correo electrónico.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2977,7 +2982,7 @@ sub Data {
         'New activity' => 'Nueva actividad',
         'New activity on one of your monitored chats.' => 'Nueva actividad en uno de sus chats monitorizados.',
         'Do you really want to continue?' => 'Quiere realmente continuar?',
-        'Information about the OTRS Daemon' => '',
+        'Information about the OTRS Daemon' => 'Información acerca del Daemon de OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Esta función es parte de %s. Por favor contacte con nosotros en %s para una mejora.',
         'Find out more about the %s' => 'Encuentre más sobre el %s',
@@ -3184,8 +3189,8 @@ sub Data {
         'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por otro agente y será ignorado!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        '%s has left the chat.' => '%s ha dejado la conversación.',
+        'This chat has been closed and will be removed in %s hours.' => 'Esta conversación ha sido cerrada y será removida en %s horas.',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'impreso por',
@@ -3240,7 +3245,7 @@ sub Data {
         '(in process)' => '(en proceso)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
-        'Please specify an end date that is after the start date.' => '',
+        'Please specify an end date that is after the start date.' => 'Por favor especifique una fecha de término posterior a la fecha de inicio.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
         'Please supply your new password!' => '¡Por favor ingrese una nueva contraseña!',
@@ -3260,7 +3265,7 @@ sub Data {
         'Please select only one element or allow modification at stat generation time.' =>
             'Por favor seleccione sólo un elemento o permita su modificación al momento de generación de la estadística.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
+            'Por favor seleccione al menos un valor de este campo o permita su modificación al momento de generación de la estadística.',
         'Please select one element for the X-axis.' => 'Por favor seleccione un elemento para el Eje-X.',
         'You can only use one time element for the Y axis.' => 'Sólo puede utilizar un elemento de tiempo para el eje Y.',
         'You can only use one or two elements for the Y axis.' => 'Sólo puedes usar uno o dos elementos para el eje Y.',
@@ -3271,7 +3276,7 @@ sub Data {
         'Your reporting time interval is too small, please use a larger time scale.' =>
             'El intervalo de tiempo para los reportes es demasiado pequeño, por favor utilice una escala de tiempo más grande.',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
-            'Por favor quite las siguientes palabras porque no se pueden utilizar en las restricciones del ticket:',
+            'Por favor quite las siguientes palabras debido a que no pueden ser utilizadas para las restricciones del ticket: %s.',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordenar por',
@@ -3491,8 +3496,8 @@ sub Data {
         'OTRS/Time Settings' => 'OTRS/Configuración de tiempo',
         'Server time zone' => 'Zona horaria del servidor',
         'Computed server time offset' => '',
-        'OTRS TimeZone setting (global time offset)' => '',
-        'TimeZone may only be activated for systems running in UTC.' => '',
+        'OTRS TimeZone setting (global time offset)' => 'Configuración de la Zona Horaria de OTRS (compensación de hora global) ',
+        'TimeZone may only be activated for systems running in UTC.' => 'La Zona Horaria sólo puede ser activada en sistemas que operan en UTC.',
         'OTRS TimeZoneUser setting (per-user time zone support)' => '',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             '',

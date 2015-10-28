@@ -15,6 +15,7 @@
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
 # Matze208, 2015
+# Matze208, 2015
 # mbank <michael.bank@fh-koeln.de>, 2015
 # nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
@@ -25,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1725,7 +1726,7 @@ msgstr "Andere Einstellungen"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Benachrichtigungseinstellungen"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -8638,6 +8639,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr "Statistiken » Ansicht %s%s — %s"
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Zeilensummierung"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Spaltensummierung"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Als Dashboard-Widget anzeigen"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Cache"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr "Diese Statistik enthält Konfigurationsfehler und kann momentan nicht verwendet werden."
@@ -8742,7 +8763,7 @@ msgstr "Notiztyp"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s"
-msgstr ""
+msgstr "Umleiten %s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -11458,41 +11479,41 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
-msgstr ""
+msgstr "Auto Remove wird versendet, nachdem der Kundenbenutzer die Anfrage entfernt hat."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "Standardantwort (nachdem ein neues Ticket erstellt wurde)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen und diese abgelehnt wurde)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "Standardantwort (nachdem eine Antwort auf ein Ticket eingegangen ist)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
-msgstr ""
+msgstr "Standardablehnung/Neues Ticket erstellt (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen ist und ein neues Ticket erstellt wurde)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "Unklassifiziert"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
-msgstr ""
+msgstr "tmp_lock"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-ext"
-msgstr ""
+msgstr "Email-Notification-extern"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-int"
-msgstr ""
+msgstr "Email-Notification-intern"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
@@ -11617,11 +11638,11 @@ msgstr "ActivityID"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr ""
+msgstr "Fügen Sie einen eingehenden Anruf zu diesem Ticket hinzu."
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr ""
+msgstr "Fügen Sie einen ausgehenden Anruf zu diesem Ticket hinzu."
 
 #. SysConfig
 msgid "Added email. %s"
@@ -12085,11 +12106,11 @@ msgstr "Überprüft die System-ID in der Ticketnummer-Erkennung bei FolloUps (W�
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
-msgstr ""
+msgstr "Überprüfe die Verfügbarkeit der OTRS Business Solution™ für dieses System."
 
 #. SysConfig
 msgid "Checks the entitlement status of OTRS Business Solution™."
-msgstr ""
+msgstr "Überprüfe den Berechtigungsstatus der OTRS Business Solution™ für dieses System."
 
 #. SysConfig
 msgid "Chinese (Simplified)"
@@ -12102,7 +12123,7 @@ msgstr "Chinesisch (traditionell)"
 #. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr ""
+msgstr "Für welche Veränderungen an Tickets möchten Sie Benachrichtigungen erhalten"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -12122,7 +12143,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Collect support data for asynchronous plug-in modules."
-msgstr ""
+msgstr "Sammelt Support Daten für asynchrone Erweiterungen."
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -12235,16 +12256,16 @@ msgstr "ACLs konfigurieren und verwalten."
 #. SysConfig
 msgid ""
 "Configure any additional readonly mirror databases that you want to use."
-msgstr ""
+msgstr "Konfigurieren Sie alle weiteren Readonly-Spiegeldatenbanken, die Sie verwenden möchten."
 
 #. SysConfig
 msgid "Configure sending of support data to OTRS Group for improved support."
-msgstr ""
+msgstr "Konfigurieren Sie das Senden von Support Daten an die OTRS-Group für eine bessere Unterstützung."
 
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -14523,15 +14544,15 @@ msgstr "Definiert, dass Tickets mit den ausgewählten Tickets Status nicht bei d
 
 #. SysConfig
 msgid "Delete expired cache from core modules."
-msgstr ""
+msgstr "Löscht den abgelaufenen Cache der Kern Module"
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
-msgstr ""
+msgstr "Löscht wöchentlich den abgelaufenen Loader Cache (Sonntag Morgen)"
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "Löscht abgelaufene Benutzersitzungen."
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
@@ -15027,7 +15048,7 @@ msgstr "Englisch (Vereinigte Staaten)"
 
 #. SysConfig
 msgid "Enroll process for this ticket"
-msgstr ""
+msgstr "Startet einen Prozess für dieses Ticket"
 
 #. SysConfig
 msgid "Enter your shared secret to enable two factor authentication."
@@ -15174,11 +15195,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Fetch emails via fetchmail."
-msgstr ""
+msgstr "Empfängt Emails durch Fetchmail."
 
 #. SysConfig
 msgid "Fetch incoming emails from configured mail accounts."
-msgstr ""
+msgstr "Empfängt eingehende Emails von konfigurierten Emailaccounts"
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
@@ -16039,7 +16060,7 @@ msgstr "Litauisch"
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
-msgstr ""
+msgstr "Sperrt / Entsperrt dieses Ticket."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -16084,7 +16105,7 @@ msgstr "Malaysisch"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "Verwaltet die OTRS Group Cloud Services."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -16104,7 +16125,7 @@ msgstr "Sitzungen verwalten."
 
 #. SysConfig
 msgid "Manage support data."
-msgstr ""
+msgstr "Verwaltet die Supportdaten."
 
 #. SysConfig
 msgid "Manage system registration."
@@ -16188,7 +16209,7 @@ msgstr "Dieses Ticket und alle Artikel in ein anderes Ticket zusammenfassen."
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "Ticket <OTRS_TICKET> wurde mit <OTRS_MERGE_TO_TICKET> zusammengefasst."
 
 #. SysConfig
 msgid "Miscellaneous"
@@ -16756,11 +16777,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "Berichte"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"
-msgstr ""
+msgstr "Berichte (OTRS Business Solution™)"
 
 #. SysConfig
 msgid ""
@@ -16971,7 +16992,7 @@ msgstr "Wählen Sie Ihr Anzeigeschema aus."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
-msgstr ""
+msgstr "Gibt das zu verwendende Cache Backend an."
 
 #. SysConfig
 msgid ""
@@ -17026,7 +17047,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
-msgstr ""
+msgstr "Übermitteln der Registrierungsinformationen an die OTRS Group."
 
 #. SysConfig
 msgid ""
@@ -18587,7 +18608,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
-msgstr ""
+msgstr "Das Trennzeichen zwischen dem TicketHook und der Ticketnummer z.B. ':'."
 
 #. SysConfig
 msgid ""
@@ -18962,7 +18983,7 @@ msgstr "Ja, aber archivierte Tickets verstecken"
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
 "\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
-msgstr ""
+msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTRS_TICKET>\" wurde an \"<OTRS_BOUNCE_TO>\" umgeleitet. Kontaktieren Sie diese Adresse für weitere Informationen."
 
 #. SysConfig
 msgid ""

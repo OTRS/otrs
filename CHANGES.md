@@ -1,4 +1,5 @@
 #5.0.2 2015-??-??
+ - 2015-10-18 Updated translations, thanks to all translators.
  - 2015-10-27 Fixed richtext editor drag and drop functionality for images.
  - 2015-10-23 Fixed bug#[11545](http://bugs.otrs.org/show_bug.cgi?id=11545) - When Phone or Email ticket created, runtime error.
  - 2015-10-22 Fixed bug#[11570](http://bugs.otrs.org/show_bug.cgi?id=11570) - Calling AgentStatisticsReports does not show the correct message when OpenMainMenuOnHover is disabled.

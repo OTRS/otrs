@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-13 23:13+0000\n"
+"PO-Revision-Date: 2015-10-28 18:26+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -8621,6 +8621,26 @@ msgstr ""
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
 msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "行合计"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "列合计"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "作为信息中心显示部件"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "缓存"
 
 #. Template: AgentStatisticsView
 msgid ""

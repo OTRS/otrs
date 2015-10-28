@@ -8199,6 +8199,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr ""
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr ""
+
+#. Template: AgentStatisticsView
 msgid "This statistic contains configuration errors and can currently not be used."
 msgstr ""
 
