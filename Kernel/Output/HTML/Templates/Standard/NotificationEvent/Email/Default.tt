@@ -141,11 +141,11 @@
                 <tr>
                     <td align="center" valign="top">
                         <br />
-                        <table border="0" cellpadding="0" cellspacing="0" width="700" id="templateContainer" style="border: 1px solid #DDDDDD;">
+                        <table border="0" cellpadding="0" cellspacing="0" id="templateContainer" style="border: 1px solid #DDDDDD;">
                             <tbody>
                                 <tr>
                                     <td align="center" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="700" id="templateBody">
+                                        <table border="0" cellpadding="0" cellspacing="0" id="templateBody">
                                             <tbody>
                                                 <tr>
                                                     <td valign="top" class="bodyContent">
@@ -173,7 +173,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center" valign="top">
-                                        <table border="0" cellpadding="10" cellspacing="0" width="700" id="templateFooter">
+                                        <table border="0" cellpadding="10" cellspacing="0" id="templateFooter">
                                             <tbody>
                                                 <tr>
                                                     <td valign="top" class="footerContent">
