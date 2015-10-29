@@ -1811,7 +1811,7 @@ sub _AddEmailNotificationMethod {
         SQL => '
             SELECT DISTINCT(notification_id)
             FROM notification_event_item
-            WHERE event_key = ? and event_value = ?;
+            WHERE event_key = ? and event_value = ?
         ',
         Bind => [ \$TransportsKey, \$TransportName ],
     );
