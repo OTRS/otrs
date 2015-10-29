@@ -66,6 +66,7 @@
                 </p>
                 <ul class="Default">
                     <li>[% Translate('Chat') | html %]</li>
+                    <li>[% Translate('Report Generator') | html %]</li>
                     <li>[% Translate('Timeline view in ticket zoom') | html %]</li>
                     <li>[% Translate('DynamicField ContactWithData') | html %]</li>
                     <li>[% Translate('DynamicField Database') | html %]</li>
