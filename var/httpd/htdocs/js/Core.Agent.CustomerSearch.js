@@ -298,7 +298,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // doesn't trigger pagehide.
         $(window).bind('beforeunload.CustomerSearch', function () {
             $('#SelectedCustomerUser').val('');
-            return ""; // empty return value to suppress the confirmation message
+            return; // return nothing to suppress the confirmation message
         });
 
         CheckPhoneCustomerCountLimit();
