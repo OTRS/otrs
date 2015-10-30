@@ -51,6 +51,7 @@
     left: 10px;
     top: 10px;
     position: absolute;
+    z-index: 20;
 }
 
 #ToolBar:last-child {

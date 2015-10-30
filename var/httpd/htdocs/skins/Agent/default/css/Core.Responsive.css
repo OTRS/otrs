@@ -178,6 +178,10 @@
         margin-top: 80px;
     }
 
+    #NavigationContainer > a {
+        display: none !important;
+    }
+
     #Navigation > li {
         background: none;
         float: none;
