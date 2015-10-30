@@ -261,6 +261,7 @@ $Param{Signature}";
             Data          => \%NextStates,
             Name          => 'BounceStateID',
             SelectedValue => $Config->{StateDefault},
+            Class         => 'Modernize',
         );
 
         # add rich text editor
@@ -388,6 +389,7 @@ $Param{Signature}";
                 Data       => \%NextStates,
                 Name       => 'BounceStateID',
                 SelectedID => $Param{BounceStateID},
+                Class      => 'Modernize',
             );
 
             # add rich text editor
