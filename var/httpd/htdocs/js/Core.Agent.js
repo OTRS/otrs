@@ -499,7 +499,7 @@ Core.Agent = (function (TargetNS) {
             NewContainerWidth;
 
         // navigation resizing only possible in ScreenXL mode
-        if ( RealResizeEvent && !$('body').hasClass('Visible-ScreenXL') ) {
+        if (RealResizeEvent && !$('body').hasClass('Visible-ScreenXL')) {
             return;
         }
 
