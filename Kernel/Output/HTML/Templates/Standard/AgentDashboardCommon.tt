@@ -113,8 +113,10 @@ $('#Dashboard[% Data.Name | html %]_toggle').on('click', function() {
                         <div class="Clear"></div>
 [% RenderBlockEnd("ContentSmallPreferencesItemTextArea") %]
 [% RenderBlockEnd("ContentSmallPreferencesItem") %]
-                        <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
-                        <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint" type="submit" value="[% Translate("Cancel") | html %]">[% Translate("Cancel") | html %]</button>
+                        <div class="SpacingTop Center">
+                            <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint CallForAction Primary" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint CallForAction" type="submit" value="[% Translate("Cancel") | html %]"><span>[% Translate("Cancel") | html %]</span></button>
+                        </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard[% Data.NameForm | html %]_setting_form'));
