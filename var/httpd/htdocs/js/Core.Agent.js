@@ -499,7 +499,7 @@ Core.Agent = (function (TargetNS) {
             NewContainerWidth;
 
         // navigation resizing only possible in ScreenXL mode
-        if (!$('body').hasClass('Visible-ScreenXL')) {
+        if ( RealResizeEvent && !$('body').hasClass('Visible-ScreenXL') ) {
             return;
         }
 
@@ -531,7 +531,7 @@ Core.Agent = (function (TargetNS) {
         $('#Navigation > li').each(function() {
             NavigationBarWidth += parseInt($(this).outerWidth(true), 10);
         });
-        $('#Navigation').css('width', (NavigationBarWidth + 2) + 'px');
+        $('#Navigation').css('width', (NavigationBarWidth + 3) + 'px');
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth(true) - NavigationBarWidth, 10));

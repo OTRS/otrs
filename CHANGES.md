@@ -1,4 +1,5 @@
 #5.0.3 2015-??-??
+ - 2015-10-30 Fixed bug#[11575](http://bugs.otrs.org/show_bug.cgi?id=11575) - Logo overlaps toolbar when using slim skins.
  - 2015-10-30 Fixed bug#[11604](http://bugs.otrs.org/show_bug.cgi?id=11604) - AgentTicketForward is still using the old select fields style.
 
 #5.0.2 2015-11-03
