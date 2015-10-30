@@ -1342,6 +1342,7 @@ sub _Mask {
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{NextStates},
         Name         => 'ComposeStateID',
+        Class        => 'Modernize',
         PossibleNone => 1,
         %State,
     );
@@ -1373,8 +1374,9 @@ sub _Mask {
         }
 
         $Param{ArticleTypesStrg} = $LayoutObject->BuildSelection(
-            Data => \%ArticleTypeList,
-            Name => 'ArticleTypeID',
+            Data  => \%ArticleTypeList,
+            Name  => 'ArticleTypeID',
+            Class => 'Modernize',
             %Selected,
         );
 
