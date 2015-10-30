@@ -37,6 +37,11 @@ div.InputField_InputContainer {
     min-width: 190px;
 }
 
+.SidebarColumn .WidgetSimple .InputField_Search, 
+.SidebarColumn .WidgetSimple .InputField_Autocomplete {
+    min-width: 80px;
+}
+
 #Header div.InputField_Container {
     color: #000;
 }

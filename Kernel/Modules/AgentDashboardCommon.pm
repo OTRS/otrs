@@ -594,6 +594,7 @@ sub Run {
                         Name        => $Param->{Name},
                         SelectedID  => $Param->{SelectedID},
                         Translation => $Param->{Translation},
+                        Class       => 'Modernize',
                     );
                 }
                 $LayoutObject->Block(
