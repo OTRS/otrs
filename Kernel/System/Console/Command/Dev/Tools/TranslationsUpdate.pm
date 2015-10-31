@@ -185,17 +185,6 @@ sub HandleLanguage {
         return;
     }
 
-    if ($IsSubTranslation) {
-        $Self->Print(
-            "Processing language <yellow>$Language</yellow> template files from <yellow>$Module</yellow>, writing output to <yellow>$TargetFile</yellow>\n"
-        );
-    }
-    else {
-        $Self->Print(
-            "Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n"
-        );
-    }
-
     if ( !@OriginalTranslationStrings ) {
 
         $Self->Print(
@@ -379,8 +368,17 @@ sub HandleLanguage {
                 Source   => $String,
             };
         }
+    }
 
-        return 1;
+    if ($IsSubTranslation) {
+        $Self->Print(
+            "Processing language <yellow>$Language</yellow> template files from <yellow>$Module</yellow>, writing output to <yellow>$TargetFile</yellow>\n"
+        );
+    }
+    else {
+        $Self->Print(
+            "Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n"
+        );
     }
 
     # Language file, which only contains the OTRS core translations
