@@ -1,10 +1,10 @@
 #5.0.3 2015-??-??
+
+#5.0.2 2015-11-03
  - 2015-10-30 Fixed bug#[11608](http://bugs.otrs.org/show_bug.cgi?id=11608) - Console command Dev::Tools::TranslationsUpdate skips the first language.
  - 2015-10-30 Fixed bug#[11552](http://bugs.otrs.org/show_bug.cgi?id=11552) - No modernized input fields in the dashboard stat settings.
  - 2015-10-30 Fixed bug#[11575](http://bugs.otrs.org/show_bug.cgi?id=11575) - Logo overlaps toolbar when using slim skins.
  - 2015-10-30 Fixed bug#[11604](http://bugs.otrs.org/show_bug.cgi?id=11604) - AgentTicketForward is still using the old select fields style.
-
-#5.0.2 2015-11-03
  - 2015-10-18 Updated translations, thanks to all translators.
  - 2015-10-27 Fixed richtext editor drag and drop functionality for images.
  - 2015-10-26 Fixed bug#[11559](http://bugs.otrs.org/show_bug.cgi?id=11559) - Can not upgrade user preferences for notification with DBUpdate-to-5.pl, thanks to Norihiro Tanaka.
