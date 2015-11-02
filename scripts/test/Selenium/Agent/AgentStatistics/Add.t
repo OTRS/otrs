@@ -82,7 +82,7 @@ $Selenium->RunTest(
 
             $Self->True(
                 $ServiceID,
-                "Service $ServiceID has been created."
+                "Service $ServiceID has been created.",
             );
 
             # add service as defalut service for all customers
@@ -104,7 +104,7 @@ $Selenium->RunTest(
 
             $Self->True(
                 $SLAID,
-                "SLA $SLAID has been created."
+                "SLA $SLAID has been created.",
             );
 
             push @SLAIDs, $SLAID;
