@@ -981,6 +981,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 $FiltersObj,
                 $ShowTreeObj,
                 $FiltersListObj,
+                WholeRowClicked,
                 ScrollEventListener;
 
             // For performance reasons:
@@ -1394,6 +1395,14 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     })
 
+                    .on('mousedown.jstree', function (Event) {
+                        var $Target = $(Event.target);
+
+                        if ($Target.hasClass('jstree-wholerow')) {
+                            WholeRowClicked = $Target;
+                        }
+                    })
+
                     // Handle blur event for tree item
                     .on('blur.jstree', '.jstree-anchor', function () {
                         setTimeout(function () {
@@ -1407,10 +1416,11 @@ Core.UI.InputFields = (function (TargetNS) {
                     // Handle blur event for tree list
                     .on('blur.jstree', function () {
                         setTimeout(function () {
-                            if (!Focused) {
+                            if (!Focused && !WholeRowClicked) {
                                 HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj);
                             }
                             Focused = null;
+                            WholeRowClicked = null;
                         }, 0);
                     })
 
@@ -2101,6 +2111,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Handle custom redraw event on original select field
                 // to update values when changed via AJAX calls
                 $SelectObj.off('redraw.InputField').on('redraw.InputField', function () {
+                    CloseOpenSelections();
                     if (Filterable) {
                         $SelectObj.data('original', $SelectObj.children());
                         if (
