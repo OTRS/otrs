@@ -1973,6 +1973,7 @@ sub _TimeOutput {
                 ID         => $ElementID . '-TimeScaleCount',
                 SelectedID => $Param{TimeScaleCount},
                 Sort       => 'NumericKey',
+                Class      => 'Modernize',
             );
         }
 
@@ -1991,6 +1992,7 @@ sub _TimeOutput {
                     ID         => $ElementID . '-' . $TimeCountName,
                     SelectedID => $Param{$TimeCountName},
                     Sort       => 'NumericKey',
+                    Class      => 'Modernize',
                 );
             }
 
@@ -2000,6 +2002,7 @@ sub _TimeOutput {
                 ID         => $ElementID . '-TimeRelativeUnit',
                 Class      => 'TimeRelativeUnit' . $Param{Output},
                 SelectedID => $Param{TimeRelativeUnitLocalSelectedValue} // $Param{TimeRelativeUnit} // 'Day',
+                Class      => 'Modernize',
             );
         }
 
@@ -2026,7 +2029,7 @@ sub _TimeOutput {
             %TimeScaleBuildSelection,
             Name       => $Element,
             ID         => $ElementID,
-            Class      => 'TimeScale' . $Param{Output},
+            Class      => 'Modernize TimeScale' . $Param{Output},
             SelectedID => $Param{TimeScaleUnitLocalSelectedValue} // $Param{SelectedValues}[0] // 'Day',
         );
         $TimeOutput{TimeScaleElementID} = $ElementID;
