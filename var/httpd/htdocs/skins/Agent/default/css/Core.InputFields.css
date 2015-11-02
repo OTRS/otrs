@@ -42,6 +42,11 @@ div.InputField_InputContainer {
     min-width: 80px;
 }
 
+.WidgetSettingsForm .InputField_Search, 
+.WidgetSettingsForm .InputField_Autocomplete {
+    min-width: 0px;
+}
+
 #Header div.InputField_Container {
     color: #000;
 }
