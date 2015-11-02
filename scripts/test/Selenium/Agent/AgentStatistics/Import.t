@@ -128,6 +128,7 @@ $Selenium->RunTest(
         my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
+
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->click();
 
         # create params for import test stats
@@ -246,7 +247,7 @@ JAVASCRIPT
 
         # sort decreasing by StatsID
         $Selenium->get(
-            "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
+            "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1"
         );
 
         $Selenium->execute_script($CheckConfirmJS);
@@ -254,7 +255,7 @@ JAVASCRIPT
         # delete imported test stats
         # click on delete icon
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
+            "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\')]"
         )->click();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
