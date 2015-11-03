@@ -53,7 +53,6 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
             if ($('#VisibleForAgent').prop('checked')) {
                 TooltipObject.removeAttr('readonly');
-                TooltipObject.prop('value','');
 
                 // show default transport value
                 $('.AgentEnabledByDefault').show();
