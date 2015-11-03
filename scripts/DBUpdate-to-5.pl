@@ -122,7 +122,11 @@ Please run it as the 'otrs' user or with the help of su:
         },
         {
             Message => 'Fixup statistics time field configuration where the time interval is too small',
-            Command => \&_FixupStatsTimeInterval
+            Command => \&_FixupStatsTimeInterval,
+        },
+        {
+            Message => 'Fix wrong notification tags',
+            Command => \&_FixNotificationTags,
         },
         {
             Message => 'Fixup dashboard statistics output format configuration',
@@ -2207,7 +2211,7 @@ ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been created i
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha creado en la fila <OTRS_TICKET_Queue>.
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha  creado en la fila <OTRS_TICKET_Queue>.
 
 <OTRS_CUSTOMER_REALNAME> escribió:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2245,7 +2249,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi criado na fi
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据编制 工单已创建：<OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket escalation notification' => {
             'de' => {
@@ -2317,7 +2321,7 @@ Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据升级！工单升级！<OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket escalation warning notification' => {
             'de' => {
@@ -2394,7 +2398,7 @@ Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '工单升级警告Ticket Escalation Warning! <OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket follow-up notification (locked)' => {
             'de' => {
@@ -2466,7 +2470,7 @@ o ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recebe
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '加锁票据的后续作业 锁定工单后续：<OTRS_CUSTOMER_SUBJECT[24]>'
-                }
+            },
         },
         'Ticket follow-up notification (unlocked)' => {
             'de' => {
@@ -2538,7 +2542,7 @@ o ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] rec
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '解锁票据的后续作业解锁工单的后续： <OTRS_CUSTOMER_SUBJECT[24]>'
-                }
+            },
         },
         'Ticket lock timeout notification' => {
             'de' => {
@@ -2595,7 +2599,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu pe
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据加锁超时工单锁定超时：<OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket new note notification' => {
             'de' => {
@@ -2657,7 +2661,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu pe
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据备注工单备注：<OTRS_AGENT_SUBJECT[24]>'
-                }
+            },
         },
         'Ticket owner update notification' => {
             'de' => {
@@ -2716,7 +2720,7 @@ o proprietário do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]
                 'ContentType' => 'text/plain',
                 'Subject' =>
                     '票据的拥有人升级为工单所有者更新为 <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket pending reminder notification (locked)' => {
             'de' => {
@@ -2774,7 +2778,7 @@ o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTR
                 'ContentType' => 'text/plain',
                 'Subject' =>
                     '已达到锁定票据即将到期的提醒时间已到达锁定工单挂起提醒时间：<OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket pending reminder notification (unlocked)' => {
             'de' => {
@@ -2832,7 +2836,7 @@ o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><
                 'ContentType' => 'text/plain',
                 'Subject' =>
                     '未锁定票据即将到期的提醒时间已到已到未锁定工单的挂起提醒时间：<OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket queue update notification' => {
             'de' => {
@@ -2889,7 +2893,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado n
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据序列已升级为工单队列更新为<OTRS_TICKET_Queue>: <OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket responsible update notification' => {
             'de' => {
@@ -2950,7 +2954,7 @@ o agente responsável do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNu
                 'ContentType' => 'text/plain',
                 'Subject' =>
                     '票据的负责人 工单负责人更新为<OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>'
-                }
+            },
         },
         'Ticket service update notification' => {
             'de' => {
@@ -3007,13 +3011,79 @@ o serviço do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi 
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
                 'Subject'     => '票据服务升级为工单服务更新为<OTRS_TICKET_Service>: <OTRS_TICKET_Title>'
-                }
-            }
-
+            },
+        },
     );
 
     return %NotificationLanguages;
+}
 
+
+=item _FixNotificationTags()
+
+Fix some wrong notification tags which have been introduced while upgrading to OTRS 5.0.1.
+
+    _FixNotificationTags();
+
+=cut
+
+sub _FixNotificationTags {
+
+    # map wrong to correct tags
+    my %NotificationTagsOld2New = (
+
+        # ATTENTION, there MUST be NO closing tag for OTRS_CUSTOMER_BODY,
+        # because of things like this <OTRS_CUSTOMER_BODY[30]>
+        '<OTRS_CUSTOMER_Body'      => '<OTRS_CUSTOMER_BODY',
+        '<OTRS_CONFIG_TicketHook>' => '<OTRS_CONFIG_Ticket::Hook>',
+    );
+
+    # get needed objects
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL => 'SELECT id, subject, text FROM notification_event_message',
+    );
+
+    # get all notification messages
+    my @NotificationMessages;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
+        push @NotificationMessages, {
+            ID      => $Row[0],
+            Subject => $Row[1],
+            Text    => $Row[2],
+        };
+    }
+
+    for my $NotificationMessage (@NotificationMessages) {
+
+        # get old notification tag
+        for my $OldTag (sort keys %NotificationTagsOld2New) {
+
+            # get new notification tag
+            my $NewTag = $NotificationTagsOld2New{$OldTag};
+
+            # replace tags in Subject and Text
+            for my $Attribute (qw(Subject Text)) {
+                $NotificationMessage->{$Attribute} =~ s{$OldTag}{$NewTag}gxms;
+            }
+        }
+
+        # update the database
+        $DBObject->Do(
+            SQL  => 'UPDATE notification_event_message
+                SET subject = ?, text = ?
+                WHERE id = ?',
+            Bind => [
+                \$NotificationMessage->{Subject},
+                \$NotificationMessage->{Text},
+                \$NotificationMessage->{ID},
+            ],
+        );
+    }
+
+    return 1;
 }
 
 1;
