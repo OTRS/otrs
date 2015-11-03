@@ -1,4 +1,5 @@
 #5.0.3 2015-??-??
+ - 2015-11-02 Fixed bug#[11558](http://bugs.otrs.org/show_bug.cgi?id=11558) - Empty Agent preferences tooltip in AdminNotificationEvent.
  - 2015-11-02 Fixed bug#[11613](http://bugs.otrs.org/show_bug.cgi?id=11613) - Migrating the system to OTRS 5 fails in otrs.DBUpdate.pl, Add Email notification method to all event based notifications.
 #5.0.2 2015-11-03
  - 2015-10-30 Fixed bug#[11608](http://bugs.otrs.org/show_bug.cgi?id=11608) - Console command Dev::Tools::TranslationsUpdate skips the first language.
