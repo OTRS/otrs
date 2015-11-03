@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-03 Fixed bug#[11565](http://bugs.otrs.org/show_bug.cgi?id=11565) - New article notification(star) and entry created for agent that creates the ticket.
 
 #4.0.14 2015-11-03
  - 2015-10-13 Fixed bug#[11431](http://bugs.otrs.org/show_bug.cgi?id=11431) -  Agent notification on follow up doesn't work for Ticket Owner if PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner is enabled.
