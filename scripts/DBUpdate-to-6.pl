@@ -51,7 +51,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-5.pl - Upgrade script for OTRS 5 to 6 migration.
+DBUpdate-to-6.pl - Upgrade script for OTRS 5 to 6 migration.
 Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
