@@ -85,7 +85,7 @@ $Selenium->RunTest(
 
         # create test tickets
         my @TicketIDs;
-        for my $Lock (qw( lock unlock)) {
+        for my $Lock (qw(lock unlock)) {
             my $TicketID = $TicketObject->TicketCreate(
                 Title         => 'Selenium Test Ticket',
                 Queue         => 'Raw',
