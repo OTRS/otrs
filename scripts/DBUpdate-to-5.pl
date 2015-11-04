@@ -125,7 +125,7 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_FixupStatsTimeInterval,
         },
         {
-            Message => 'Fix wrong notification tags',
+            Message => 'Fixup wrong notification tags',
             Command => \&_FixNotificationTags,
         },
         {
@@ -3033,7 +3033,7 @@ sub _FixNotificationTags {
     my %NotificationTagsOld2New = (
 
         # ATTENTION, there MUST be NO closing tag for OTRS_CUSTOMER_BODY,
-        # because of things like this <OTRS_CUSTOMER_BODY[30]>
+        # because of things like this: <OTRS_CUSTOMER_BODY[30]>
         '<OTRS_CUSTOMER_Body'      => '<OTRS_CUSTOMER_BODY',
         '<OTRS_CONFIG_TicketHook>' => '<OTRS_CONFIG_Ticket::Hook>',
     );
@@ -3056,7 +3056,11 @@ sub _FixNotificationTags {
         };
     }
 
+    NOTIFICATIONMESSAGE:
     for my $NotificationMessage (@NotificationMessages) {
+
+        # remember if we need to replace something
+        my $NeedToReplace;
 
         # get old notification tag
         for my $OldTag (sort keys %NotificationTagsOld2New) {
@@ -3065,10 +3069,22 @@ sub _FixNotificationTags {
             my $NewTag = $NotificationTagsOld2New{$OldTag};
 
             # replace tags in Subject and Text
+            ATTRIBUTE:
             for my $Attribute (qw(Subject Text)) {
+
+                # only if old tags are found
+                next ATTRIBUTE if $NotificationMessage->{$Attribute} !~ m{$OldTag}xms;
+
+                # replace the wrong tags
                 $NotificationMessage->{$Attribute} =~ s{$OldTag}{$NewTag}gxms;
+
+                # remember that we replaced something
+                $NeedToReplace = 1;
             }
         }
+
+        # only change the database if something has been really replaced
+        next NOTIFICATIONMESSAGE if !$NeedToReplace;
 
         # update the database
         $DBObject->Do(
