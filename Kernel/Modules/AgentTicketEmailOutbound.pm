@@ -965,7 +965,7 @@ sub SendEmail {
                 Address => $Email->address()
             );
             if ($IsLocal) {
-                $Error{ "$Line" . "Invalid" } = 'ServerError';
+                $Error{ "$Line" . "IsLocalAddress" } = 'ServerError';
             }
         }
     }
@@ -1651,6 +1651,12 @@ sub _Mask {
     if ( $Param{ToInvalid} && $Param{Errors} && !$Param{Errors}->{ToErrorType} ) {
         $LayoutObject->Block(
             Name => 'ToServerErrorMsg',
+        );
+    }
+
+    if ( $Param{ToIsLocalAddress} && $Param{Errors} && !$Param{Errors}->{ToErrorType} ) {
+        $LayoutObject->Block(
+            Name => 'ToIsLocalAddressServerErrorMsg',
         );
     }
 
