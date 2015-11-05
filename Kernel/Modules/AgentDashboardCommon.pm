@@ -135,7 +135,7 @@ sub Run {
         my $Name = $ParamObject->GetParam( Param => 'Name' );
         my $Key = $UserSettingsKey . $Name;
 
-        # update ssession
+        # update session
         $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
@@ -190,7 +190,7 @@ sub Run {
             # update runtime vars
             $LayoutObject->{ $Param->{Name} } = $Value;
 
-            # update ssession
+            # update session
             $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Param->{Name},
@@ -243,7 +243,7 @@ sub Run {
             }
             my $Key = $UserSettingsKey . $Name;
 
-            # update ssession
+            # update session
             $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Key,
@@ -286,7 +286,7 @@ sub Run {
             $Data .= $Backend . ';';
         }
 
-        # update ssession
+        # update session
         $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
@@ -518,6 +518,9 @@ sub Run {
         push @Order, $Name;
     }
 
+    # get default columns
+    my $Columns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
+
     # try every backend to load and execute it
     NAME:
     for my $Name (@Order) {
@@ -560,6 +563,13 @@ sub Run {
                     NameHTML => $NameHTML,
                 },
             );
+        }
+
+        # if column is not a default column, add it for translation
+        for my $Column ( sort keys %{ $Element{Config}{DefaultColumns} } ) {
+            if ( !defined $Columns->{$Column} ) {
+                $Columns->{$Column} = $Element{Config}{DefaultColumns}{$Column}
+            }
         }
 
         # show settings link if preferences are available
@@ -640,7 +650,6 @@ sub Run {
     }
 
     # add translations for the allocation lists for regular columns
-    my $Columns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
 
         COLUMN:
