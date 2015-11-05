@@ -132,7 +132,16 @@
 
                 <label for="CcCustomer">[% Translate("Cc") | html %]:</label>
                 <div class="Field">
-                    <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc [% Data.CcInvalid | html %]" autocomplete="off" />
+                    <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc [% Data.CcIsLocalAddress | html %] [% Data.CcInvalid | html %]" autocomplete="off" />
+
+                    <div id="CcCustomerServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("CcIsLocalAddressServerErrorMsg") %]
+                        <p>[% Translate("This address") | html %]
+                            ([% Data.Cc | html %])
+                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
+[% RenderBlockEnd("CcIsLocalAddressServerErrorMsg") %]
+                    </div>
+
                 </div>
                 <div class="Clear"></div>
 
@@ -196,7 +205,15 @@
 
                 <label for="BccCustomer">[% Translate("Bcc") | html %]:</label>
                 <div class="Field">
-                    <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc [% Data.BccInvalid | html %]" autocomplete="off" />
+                    <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc [% Data.BccIsLocalAddress | html %] [% Data.BccInvalid | html %]" autocomplete="off" />
+
+                    <div id="BccCustomerServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("BccIsLocalAddressServerErrorMsg") %]
+                        <p>[% Translate("This address") | html %]
+                            ([% Data.Bcc | html %])
+                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
+[% RenderBlockEnd("BccIsLocalAddressServerErrorMsg") %]
+                    </div>
                 </div>
                 <div class="Clear"></div>
 

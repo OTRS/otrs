@@ -959,7 +959,7 @@ sub SendEmail {
         for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
             if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                 $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
-                $Error{ "$Line" . "Invalid" } = 'ServerError';
+                $Error{ $Line . 'Invalid' }   = 'ServerError';
             }
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
                 Address => $Email->address()
@@ -1667,9 +1667,23 @@ sub _Mask {
         );
     }
 
+    if ( $Param{CcIsLocalAddress} && $Param{Errors} && !$Param{Errors}->{CcErrorType} ) {
+        $LayoutObject->Block(
+            Name => 'CcIsLocalAddressServerErrorMsg',
+            Data => \%Param,
+        );
+    }
+
     if ( $Param{BccInvalid} && $Param{Errors} && !$Param{Errors}->{BccErrorType} ) {
         $LayoutObject->Block(
             Name => 'BccServerErrorMsg',
+        );
+    }
+
+    if ( $Param{BccIsLocalAddress} && $Param{Errors} && !$Param{Errors}->{BccErrorType} ) {
+        $LayoutObject->Block(
+            Name => 'BccIsLocalAddressServerErrorMsg',
+            Data => \%Param,
         );
     }
 
