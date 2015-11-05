@@ -33,12 +33,13 @@
     top: -4px;
     right: 38px;
     width: 244px;
-    height: 67px;
+    height: 100%;
     background: url(../img/logo_bg.png) no-repeat;
+    background-size: contain;
     position: absolute;
 }
 
-.RTL #Logo {
+.RTL #Header #Logo {
     right: auto;
     left: 38px;
 }
@@ -59,7 +60,8 @@
 }
 
 .RTL #ToolBar {
-    float: right;
+    left: auto;
+    right: 10px;
 }
 
 #ToolBar li {
@@ -231,6 +233,10 @@
 #Navigation > li > a#GlobalSearchNav i {
     font-size: 15px;
     margin-top: 5px;
+}
+
+.RTL #Navigation > li {
+    float: right;
 }
 
 .RTL #Navigation > li > a {
