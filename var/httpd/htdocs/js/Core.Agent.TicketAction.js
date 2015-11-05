@@ -453,7 +453,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             !window.confirm(Core.Config.Get('TicketActionTemplateOverwrite') + ' ' + Core.Config.Get('TicketActionTemplateOverwriteConfirm')))
             {
                 // if user cancels confirmation, reset template selection
-                $TemplateSelect.val('');
+                $TemplateSelect.val('').trigger('redraw');
 
         }
         else if ($.isFunction(Callback)) {
