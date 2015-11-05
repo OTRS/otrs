@@ -79,7 +79,7 @@ sub Run {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!",
+                Message  => "Need $Needed! - Task: $Param{TaskName}",
             );
 
             return;
@@ -90,7 +90,7 @@ sub Run {
     if ( ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no valid Data!',
+            Message  => "Got no valid Data! - Task: $Param{TaskName}",
         );
 
         return;
@@ -100,7 +100,7 @@ sub Run {
         if ( !$Param{Data}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need Data->$Needed!",
+                Message  => "Need Data->$Needed! - Task: $Param{TaskName}",
             );
 
             return;
@@ -111,7 +111,7 @@ sub Run {
     if ( $Param{Data}->{Params} && ref $Param{Data}->{Params} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Data->Params is invalid!",
+            Message  => "Data->Params is invalid! - Task: $Param{TaskName}",
         );
 
         return;
@@ -127,7 +127,7 @@ sub Run {
     if ( !$LocalObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not create a new object $Param{Data}->{Object}!",
+            Message  => "Could not create a new object $Param{Data}->{Object}! - Task: $Param{TaskName}",
         );
 
         return;
@@ -137,7 +137,7 @@ sub Run {
     if ( !$LocalObject->can( $Param{Data}->{Function} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "$Param{Data}->{Object} does not provide $Param{Data}->{Function}()!",
+            Message  => "$Param{Data}->{Object} does not provide $Param{Data}->{Function}()! - Task: $Param{TaskName}",
         );
 
         return;

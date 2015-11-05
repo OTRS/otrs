@@ -86,7 +86,7 @@ sub Run {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!",
+                Message  => "Need $Needed! - Task: $Param{TaskName}",
             );
 
             return;
@@ -97,7 +97,7 @@ sub Run {
     if ( ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no valid Data!',
+            Message  => "Got no valid Data! - Task: $Param{TaskName}",
         );
 
         return;
@@ -111,7 +111,7 @@ sub Run {
         if ( !$TaskData{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Got no $Needed!",
+                Message  => "Got no $Needed! - Task: $Param{TaskName}",
             );
 
             return;
@@ -168,7 +168,7 @@ sub Run {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message =>
-                            "Invoker returned future execution time: $ExecutionTime is invalid! falling back to default",
+                            "Invoker $Param{Data}->{Invoker} WebService: $WebServiceName returned future execution time: $ExecutionTime is invalid! falling back to default",
                     );
 
                     $ExecutionTime = 0;
