@@ -22,7 +22,7 @@
                     [% Translate("System registration is a service of OTRS Group, which provides a lot of advantages!") | html %]
                 </p>
                 <p>
-                    [% Translate('Please note that you using OTRS cloud services requires the system to be registered.') | html %]
+                    [% Translate('Please note that the use of OTRS cloud services requires the system to be registered.') | html %]
                 </p>
                 <p class="SpacingTop SpacingBottom">
                     <a class="CallForAction Fullsize Centered" href="[% Env("Baselink") %]Action=AdminRegistration">
