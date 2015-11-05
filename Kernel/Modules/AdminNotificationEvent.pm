@@ -801,6 +801,14 @@ sub _Edit {
         push @Events, @{ $RegisteredEvents{$ObjectType} || [] };
     }
 
+    # Suppress these events because of danger of endless loops.
+    my %EventBlacklist = (
+        ArticleAgentNotification    => 1,
+        ArticleCustomerNotification => 1,
+    );
+
+    @Events = grep { !$EventBlacklist{$_} } @Events;
+
     # Build the list...
     $Param{EventsStrg} = $LayoutObject->BuildSelection(
         Data       => \@Events,
