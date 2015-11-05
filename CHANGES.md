@@ -1,4 +1,5 @@
 #5.0.3 2015-??-??
+ - 2015-11-05 Fixed bug#[11595](http://bugs.otrs.org/show_bug.cgi?id=11595) - Infinite notification loop caused by ArticleCustomerNotification.
  - 2015-11-05 Fixed bug#[11350](http://bugs.otrs.org/show_bug.cgi?id=11350) - Translation for string Created not working at Dashboard widget.
  - 2015-11-05 Fixed bug#[11269](http://bugs.otrs.org/show_bug.cgi?id=11269) - Admin Service: empty value for description field shows as () below the form field.
  - 2015-11-05 Fixed bug#[11468](http://bugs.otrs.org/show_bug.cgi?id=11468) - Using SVG images for Agent and Customer logo requires additional CSS.
