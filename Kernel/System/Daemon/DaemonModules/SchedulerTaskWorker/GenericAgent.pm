@@ -83,7 +83,7 @@ sub Run {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!",
+                Message  => "Need $Needed! - Task: $Param{TaskName}",
             );
 
             return;
@@ -94,7 +94,7 @@ sub Run {
     if ( ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no valid Data!',
+            Message  => "Got no valid Data! - Task: $Param{TaskName}",
         );
 
         return;
@@ -105,7 +105,7 @@ sub Run {
         if ( !defined $Param{Data}->{$Attribute} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Attribute in Data!",
+                Message  => "Need $Attribute in Data! - Task: $Param{TaskName}",
             );
 
             return;
