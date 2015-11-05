@@ -55,7 +55,9 @@
 [% RenderBlockEnd("ToServerErrorMsg") %]
 
 [% RenderBlockStart("ToIsLocalAddressServerErrorMsg") %]
-                        <p>[% Translate("This address is registered as system address and cannot be used.") | html %]</p>
+                            <p>[% Translate("This address") | html %]
+                            ([% Data.To | html %])
+                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
 [% RenderBlockEnd("ToIsLocalAddressServerErrorMsg") %]
                     </div>
                 </div>
