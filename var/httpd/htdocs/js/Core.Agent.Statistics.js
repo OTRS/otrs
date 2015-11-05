@@ -31,14 +31,14 @@ Core.Agent.Statistics = (function (TargetNS) {
      */
     TargetNS.InitAddScreen = function () {
 
-        $('.BigButtons li').bind('click', function () {
+        $('.BigButtons a').bind('click', function () {
             var $Link = $(this);
 
             if ($Link.hasClass('Disabled')) {
                 return false;
             }
 
-            $('.BigButtons li').removeClass('Active');
+            $('.BigButtons a').removeClass('Active');
             $Link.addClass('Active');
 
             $('#GeneralSpecifications').fadeIn(function() {

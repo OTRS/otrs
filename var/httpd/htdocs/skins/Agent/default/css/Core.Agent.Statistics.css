@@ -28,7 +28,7 @@
     padding: 20px 0px;
 }
 
-.BigButtons li {
+.BigButtons a {
     display: table-cell;
     border: 1px solid #ccc;
     padding: 20px;
@@ -38,37 +38,37 @@
     transition: all ease-in 0.2s;
 }
 
-.BigButtons li:not(.Disabled):hover,
-.BigButtons li.Active {
+.BigButtons a:not(.Disabled):hover,
+.BigButtons a.Active {
 	background-color: #e5e5e5;
     border-color: #999;
 }
 
-.BigButtons li.Disabled strong,
-.BigButtons li.Disabled span {
+.BigButtons a.Disabled strong,
+.BigButtons a.Disabled span {
     color: #ccc;
 }
 
-.BigButtons li.Disabled {
+.BigButtons a.Disabled {
     cursor: default;
 }
 
-.BigButtons li strong,
-.BigButtons li span {
+.BigButtons a strong,
+.BigButtons a span {
     display: block;
 }
 
-.BigButtons li strong {
+.BigButtons a strong {
     font-size: 15px;
     margin: 3px 0px;
     color: #f92;
 }
 
-.BigButtons li span {
+.BigButtons a span {
 	color: #555;
 }
 
-.BigButtons li i {
+.BigButtons a i {
 	font-size: 25px;
 	color: #bbb;
 	margin-bottom: 5px;
