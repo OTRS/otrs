@@ -102,6 +102,7 @@
         position: static;
         margin: -2px auto 0px auto;
         background-position: center;
+        max-height: 100%;
     }
 
     .MainBox, .RTL .MainBox {
