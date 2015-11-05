@@ -3,6 +3,7 @@
  - 2015-11-03 Fixed bug#[11565](http://bugs.otrs.org/show_bug.cgi?id=11565) - New article notification(star) and entry created for agent that creates the ticket.
  - 2015-11-03 Added possibility to search for console commands. Just use bin/otrs.Console.pl Help SearchTerm to search for commands similar to SearchTerm.
  - 2015-11-02 Fixed bug#[11558](http://bugs.otrs.org/show_bug.cgi?id=11558) - Empty Agent preferences tooltip in AdminNotificationEvent.
+
 #5.0.2 2015-11-03
  - 2015-10-30 Fixed bug#[11608](http://bugs.otrs.org/show_bug.cgi?id=11608) - Console command Dev::Tools::TranslationsUpdate skips the first language.
  - 2015-10-30 Fixed bug#[11552](http://bugs.otrs.org/show_bug.cgi?id=11552) - No modernized input fields in the dashboard stat settings.
