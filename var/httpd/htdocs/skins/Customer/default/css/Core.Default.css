@@ -91,6 +91,7 @@ strong {
     width: 135px;
     height: 50px;
     background: transparent url(../img/logo.png) no-repeat;
+    background-size: contain;
 }
 
 /* RTL Button placement - development purpose only */
