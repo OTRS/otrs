@@ -10,7 +10,6 @@ You can find a list of features in the
 [online documentation](http://otrs.github.io/doc/manual/admin/6.0/en/html/otrs.html#features-of-otrs).
 
 
-
 License
 =======
 It is distributed under the AFFERO GNU General Public License - see the
