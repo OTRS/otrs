@@ -1,4 +1,5 @@
 #5.0.3 2015-??-??
+ - 2015-11-06 Follow-up fix for bug#[11586](http://bugs.otrs.org/show_bug.cgi?id=11586) - Cannot show collapsed view by default if config Ticket::Frontend::ZoomExpand is true.
  - 2015-11-06 Follow-up fix for bug#[11194](http://bugs.otrs.org/show_bug.cgi?id=11194) - Download button for dashboard stats visible even if no permissions for AgentStats exist.
  - 2015-11-06 Fixed bug#[10477](http://bugs.otrs.org/show_bug.cgi?id=10477) - Printing: numbering of article does not equal to the numbering of PDF.
  - 2015-11-05 Fixed bug#[11600](http://bugs.otrs.org/show_bug.cgi?id=11600) - Dynamic Field of type multiselect is not substituted correctly.
