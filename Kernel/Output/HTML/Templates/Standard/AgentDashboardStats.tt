@@ -43,7 +43,7 @@
                             [% Translate("Download as PNG file") | html %]
                         </a>
                     </li>
-                [% IF AvailableFormats.grep('^CSV$').size %]
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^CSV$').size %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=CSV;Name=[% Data.Name | uri %]">
                             <i class="fa fa-file-text-o"></i>
@@ -51,7 +51,7 @@
                         </a>
                     </li>
                 [% END %]
-                [% IF AvailableFormats.grep('^Excel$').size %]
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^Excel$').size %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=Excel;Name=[% Data.Name | uri %]">
                             <i class="fa fa-file-excel-o"></i>
@@ -59,7 +59,7 @@
                         </a>
                     </li>
                 [% END %]
-                [% IF AvailableFormats.grep('^Print$').size %]
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^Print$').size %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=Print;Name=[% Data.Name | uri %]" target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
