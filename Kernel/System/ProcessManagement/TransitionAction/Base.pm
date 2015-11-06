@@ -18,6 +18,8 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
 );
 
 sub _CheckParams {
@@ -75,6 +77,10 @@ sub _OverrideUserID {
 sub _ReplaceTicketAttributes {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
 
         # replace ticket attributes such as <OTRS_Ticket_DynamicField_Name1> or
@@ -89,6 +95,25 @@ sub _ReplaceTicketAttributes {
             )
         {
             my $TicketAttribute = $1;
+
+            if ( $TicketAttribute =~ m{DynamicField_(\S+?)_Value} ) {
+                my $DynamicFieldName = $1;
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next REPLACEMENT if !$DynamicFieldConfig;
+
+                my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
+                );
+
+                $Param{Config}->{$Attribute}
+                    =~ s{<OTRS_TICKET_$TicketAttribute>}{$DisplayValueStrg->{Value} // ''}ige;
+
+                next REPLACEMENT;
+            }
 
             # if ticket value is scalar substitute all instances (as strings)
             # this will allow replacements for "<OTRS_TICKET_Title> <OTRS_TICKET_Queue"

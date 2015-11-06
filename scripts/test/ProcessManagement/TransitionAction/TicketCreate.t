@@ -603,6 +603,48 @@ my @Tests = (
         Article => 0,
     },
     {
+        Name   => 'Correct Ticket->DynamicField_Field3_Value',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::5::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => '1',
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                "DynamicField_Field1$RandomID" => "<OTRS_TICKET_DynamicField_Field3$RandomID" . '_Value>',
+
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                ContentType    => 'text/plain; charset=ISO-8859-15',
+                Subject        => 'some short description',
+                Body           => 'the message text',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Cc             => 'Some Customer B <customer-b@example.com>',
+                ReplyTo        => 'Some Customer B <customer-b@example.com>',
+                MessageID      => '<asdasdasd.123@example.com>',
+                InReplyTo      => '<asdasdasd.12@example.com>',
+                References =>
+                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
+                NoAgentNotify             => 0,
+                ForceNotificationToUserID => [ 1, 43, 56, ],
+                ExcludeNotificationToUserID     => [ 43, 56, ],
+                ExcludeMuteNotificationToUserID => [ 43, 56, ],
+                LinkAs                          => 'Child',
+                TimeUnit                        => 123,
+            },
+        },
+        Success => 1,
+        Article => 0,
+    },
+    {
         Name   => 'Correct Ticket->NotExistent',
         Config => {
             UserID => $UserID,
@@ -775,7 +817,7 @@ for my $Test (@Tests) {
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';
-                if ( !ref $ExpectedValue ) {
+                if ( !ref $ExpectedValue && $OrigTest->{Config}->{Config}->{$Attribute} !~ m{_Value} ) {
                     $Self->IsNot(
                         $Test->{Config}->{Config}->{$Attribute},
                         $OrigTest->{Config}->{Config}->{$Attribute},
@@ -787,6 +829,28 @@ for my $Test (@Tests) {
                         "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:",
                     );
 
+                }
+                elsif ( $OrigTest->{Config}->{Config}->{$Attribute} =~ m{OTRS_TICKET_DynamicField_(\S+?)_Value} ) {
+                    $Self->IsNot(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $OrigTest->{Config}->{Config}->{$Attribute},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+                    );
+                    my $DynamicFieldName = $1;
+
+                    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                        Name => $DynamicFieldName,
+                    );
+                    my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Ticket{"DynamicField_$DynamicFieldName"},
+                    );
+
+                    $Self->Is(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $DisplayValueStrg->{Value},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:",
+                    );
                 }
                 else {
                     $Self->IsNotDeeply(
@@ -815,10 +879,29 @@ for my $Test (@Tests) {
                 $ExpectedValue .= ', Admin OTRS <root@localhost>'
             }
 
-            if ( !ref $ExpectedValue ) {
+            if ( !ref $ExpectedValue && $OrigTest->{Config}->{Config}->{$Attribute} !~ m{_Value} ) {
                 $Self->Is(
                     $Article{$ArticleAttribute},
                     $ExpectedValue,
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                        . " $Article{ArticleID} match expected value",
+                );
+            }
+            elsif ( $OrigTest->{Config}->{Config}->{$Attribute} =~ m{OTRS_TICKET_DynamicField_(\S+?)_Value} ) {
+
+                my $DynamicFieldName = $1;
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Ticket{"DynamicField_$DynamicFieldName"},
+                );
+
+                $Self->Is(
+                    $Article{$ArticleAttribute},
+                    $DisplayValueStrg->{Value},
                     "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
                         . " $Article{ArticleID} match expected value",
                 );
