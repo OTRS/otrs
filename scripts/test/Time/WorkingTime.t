@@ -15,11 +15,6 @@ use Time::Local;
 
 use vars (qw($Self));
 
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -154,11 +149,6 @@ for my $Day (@Days) {
     $Week{$Day} = [ 0 .. 23 ];
 }
 $Kernel::OM->Get('Kernel::Config')->Set(
-    Key   => 'TimeWorkingHours',
-    Value => \%Week,
-);
-$Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-    Valid => 1,
     Key   => 'TimeWorkingHours',
     Value => \%Week,
 );
