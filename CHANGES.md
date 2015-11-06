@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-06 Fixed bug#[9884](http://bugs.otrs.org/show_bug.cgi?id=9884) - Solution Time counts wrong on daylight time changes.
  - 2015-11-05 Fixed bug#[11600](http://bugs.otrs.org/show_bug.cgi?id=11600) - Dynamic Field of type multiselect is not substituted correctly.
  - 2015-11-05 Fixed bug#[11340](http://bugs.otrs.org/show_bug.cgi?id=11340) - Broken value after copying values from DynamicField multiselect to multiselect during process transition action TicketCreate.
  - 2015-11-05 Fixed bug#[11492](http://bugs.otrs.org/show_bug.cgi?id=11492) - Stats do not honor the Ticket::Service::KeepChildren parameter.

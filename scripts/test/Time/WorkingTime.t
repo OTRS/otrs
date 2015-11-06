@@ -153,11 +153,6 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'TimeWorkingHours',
     Value => \%Week,
 );
-$Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-    Valid => 1,
-    Key   => 'TimeWorkingHours',
-    Value => \%Week,
-);
 
 for my $Test (@Tests) {
 
