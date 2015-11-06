@@ -52,9 +52,7 @@
 
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("ToIsLocalAddressServerErrorMsg") %]
-                        <p>[% Translate("This address") | html %]
-                            ([% Data.To | html %])
-                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.To) | html %]</p>
 [% RenderBlockEnd("ToIsLocalAddressServerErrorMsg") %]
 
 [% RenderBlockStart("ToServerErrorMsg") %]
@@ -144,9 +142,7 @@
 
                     <div id="CcCustomerServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("CcIsLocalAddressServerErrorMsg") %]
-                        <p>[% Translate("This address") | html %]
-                            ([% Data.Cc | html %])
-                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Cc) | html %]</p>
 [% RenderBlockEnd("CcIsLocalAddressServerErrorMsg") %]
                     </div>
 
@@ -227,9 +223,7 @@
 
                     <div id="BccCustomerServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("BccIsLocalAddressServerErrorMsg") %]
-                        <p>[% Translate("This address") | html %]
-                            ([% Data.Bcc | html %])
-                            [% Translate("is registered as system address and cannot be used.") | html %]</p>
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Bcc) | html %]</p>
 [% RenderBlockEnd("BccIsLocalAddressServerErrorMsg") %]
                     </div>
 
