@@ -43,14 +43,36 @@ sub new {
         $Self->{ZoomTimeline} = 0;
     }
 
+    my %UserPreferences = $UserObject->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    if ( !defined $Self->{ZoomExpand} && !defined $Self->{ZoomTimeline} ) {
+        $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');
+        if ( $UserPreferences{UserLastUsedZoomViewType} ) {
+            if ( $UserPreferences{UserLastUsedZoomViewType} eq 'Expand' ) {
+                $Self->{ZoomExpand} = 1;
+            }
+            elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Collapse' ) {
+                $Self->{ZoomExpand} = 0;
+            }
+            elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Timeline' ) {
+                $Self->{ZoomTimeline} = 1;
+            }
+        }
+    }
+
     # save last used view type in preferences
     if ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
 
         my $LastUsedZoomViewType = '';
-        if ( $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
+        if ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
             $LastUsedZoomViewType = 'Expand';
         }
-        elsif ( $Self->{ZoomTimeline} && $Self->{ZoomTimeline} == 1 ) {
+        elsif ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 0 ) {
+            $LastUsedZoomViewType = 'Collapse';
+        }
+        elsif ( defined $Self->{ZoomTimeline} && $Self->{ZoomTimeline} == 1 ) {
             $LastUsedZoomViewType = 'Timeline';
         }
         $UserObject->SetPreferences(
@@ -60,9 +82,6 @@ sub new {
         );
     }
 
-    my %UserPreferences = $UserObject->GetPreferences(
-        UserID => $Self->{UserID},
-    );
 
     if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
         if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
@@ -71,28 +90,6 @@ sub new {
         else {
             $Self->{DoNotShowBrowserLinkMessage} = 0;
         }
-    }
-
-    if ( !defined $Self->{ZoomExpand} ) {
-        if (
-            $UserPreferences{UserLastUsedZoomViewType}
-            && $UserPreferences{UserLastUsedZoomViewType} eq 'Expand'
-            )
-        {
-            $Self->{ZoomExpand} = 1;
-        }
-        else {
-            $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');
-        }
-    }
-
-    if (
-        !defined $Self->{ZoomTimeline}
-        && $UserPreferences{UserLastUsedZoomViewType}
-        && $UserPreferences{UserLastUsedZoomViewType} eq 'Timeline'
-        )
-    {
-        $Self->{ZoomTimeline} = 1;
     }
 
     if ( !defined $Self->{ZoomExpandSort} ) {
