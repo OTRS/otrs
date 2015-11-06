@@ -682,6 +682,7 @@ sub DestinationTime {
     );
 
     my $LoopCounter;
+    my $DayLightSaving;
 
     LOOP:
     while ( $Param{Time} > 1 ) {
@@ -692,6 +693,20 @@ sub DestinationTime {
         $Year  += 1900;
         $Month += 1;
         my $CTime00 = $CTime - ( ( $Hour * 60 + $Minute ) * 60 + $Second );               # 00:00:00
+
+        # compensate for switching to/from daylight saving time
+        # in case daylight saving time from 00:00:00 turned backward 1 hour to 23:00:00
+        if ( $DayLightSaving && $Hour == 23 ) {
+            $CTime += 3600;
+            $CTime00 = $CTime;
+
+            # there is needed next day, but $Day++ would be wrong in case it was end of month
+            ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime + 1;
+            $Year  += 1900;
+            $Month += 1;
+
+            $DestinationTime += 3600;
+        }
 
         # Skip vacation days, or days without working hours, do not count.
         if (
@@ -756,6 +771,7 @@ sub DestinationTime {
         if ( $NewCTime != $CTime00 + 24 * 60 * 60 ) {
             my $Diff = $NewCTime - $CTime00 - 24 * 60 * 60;
             $DestinationTime += $Diff;
+            $DayLightSaving = 1;
         }
 
         # Set next loop time to 00:00:00 of next day.
