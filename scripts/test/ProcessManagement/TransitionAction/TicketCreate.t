@@ -799,7 +799,7 @@ for my $Test (@Tests) {
                         $Test->{Config}->{Config}->{$Attribute},
                         $Ticket{$Attribute},
                         "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:",
-                        )
+                    );
 
                 }
                 else {
@@ -812,7 +812,7 @@ for my $Test (@Tests) {
                         $Test->{Config}->{Config}->{$Attribute},
                         $Ticket{$Attribute},
                         "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:",
-                        )
+                    );
                 }
             }
             elsif ( $Attribute eq 'PendingTime' && !$OrigTest->{UpdatePendingTime} ) {
@@ -831,12 +831,22 @@ for my $Test (@Tests) {
             # }
 
             if ( $Test->{Article} ) {
-                $Self->Is(
-                    $Article{$ArticleAttribute},
-                    $ExpectedValue,
-                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
-                        . " $Article{ArticleID} match expected value",
-                );
+                if ( !ref $ExpectedValue ) {
+                    $Self->Is(
+                        $Article{$ArticleAttribute},
+                        $ExpectedValue,
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                            . " $Article{ArticleID} match expected value",
+                    );
+                }
+                else {
+                    $Self->IsDeeply(
+                        $Article{$ArticleAttribute},
+                        $ExpectedValue,
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                            . " $Article{ArticleID} match expected value",
+                    );
+                }
             }
         }
 
