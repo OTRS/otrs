@@ -200,7 +200,7 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # check permission for AgentStats
+    # check permission for AgentStatistics
     my $StatsReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{'AgentStatistics'};
     my $AgentStatisticsFrontendPermission = 0;
     if ( !$StatsReg->{GroupRo} && !$StatsReg->{Group} ) {
