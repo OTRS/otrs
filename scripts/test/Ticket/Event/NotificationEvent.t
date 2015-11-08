@@ -133,6 +133,9 @@ my $SetInvalid = $UserObject->UserUpdate(
     ChangeUserID => 1,
 );
 
+# create a new customer user for current test
+my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+
 # get a random id
 my $RandomID = int rand 1_000_000_000;
 
@@ -230,7 +233,7 @@ my $TicketID = $TicketObject->TicketCreate(
     Priority      => '3 normal',
     State         => 'new',
     CustomerID    => 'example.com',
-    CustomerUser  => 'customerOne@example.com',
+    CustomerUser  => $CustomerUserLogin,
     OwnerID       => $UserID,
     ResponsibleID => $UserID,
     UserID        => $UserID,
@@ -270,6 +273,11 @@ my $SuccessWatcher = $TicketObject->TicketWatchSubscribe(
 $Self->True(
     $SuccessWatcher,
     "TicketWatchSubscribe() successful for Ticket ID $TicketID",
+);
+
+# get article types email-notification-int ID
+my $ArticleTypeIntID = $TicketObject->ArticleTypeLookup(
+    ArticleType => 'email-notification-int',
 );
 
 my @Tests = (
@@ -793,6 +801,29 @@ my @Tests = (
         ],
         Success => 1,
     },
+    {
+        Name => 'RecipientCustomer + NotificationArticleType email-notification-int',
+        Data => {
+            Events                    => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients                => ['Customer'],
+            NotificationArticleTypeID => [$ArticleTypeIntID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+                ToArray => ["$CustomerUserLogin\@localunittest.com"],
+            },
+        ],
+        Success => 1,
+    },
 
 );
 
@@ -1031,6 +1062,21 @@ for my $Test (@Tests) {
         $Test->{ExpectedResults},
         "$Test->{Name} - Recipients",
     );
+
+    # check if there is email-notification-int article type when sending notification
+    # to customer see bug#11592
+    if ( $Test->{Name} =~ /RecipientCustomer/i ) {
+        my @ArticleBox = $TicketObject->ArticleContentIndex(
+            TicketID      => $TicketID,
+            UserID        => 1,
+            ArticleTypeID => [$ArticleTypeIntID],
+        );
+        $Self->Is(
+            scalar @ArticleBox,
+            1,
+            "$Test->{Name} - Article Type email-notification-int created for Customer recipient",
+        );
+    }
 }
 continue {
     # delete notification event
