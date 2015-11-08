@@ -856,20 +856,20 @@ sub NotificationEvent {
     # get system default language
     my $DefaultLanguage = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 
-    # get user language
-    my $Language = $Param{Recipient}->{UserLanguage} || $DefaultLanguage;
+    my $Languages = [$Param{Recipient}->{UserLanguage}, $DefaultLanguage, 'en'];
 
-    # make sure a message in the user language exists
-    if ( !$Notification{Message}->{$Language} ) {
-
-        # otherwise use default language
-        $Language = $DefaultLanguage;
-
-        # if no message exists in default language, then take the first available language
-        if ( !$Notification{Message}->{$Language} ) {
-            my @Languages = sort keys %{ $Notification{Message} };
-            $Language = $Languages[0];
+    my $Language;
+    LANGUAGE:
+    for my $Item ( @{ $Languages } ) {
+        if ( $Notification{Message}->{$Item} ) {
+            $Language = $Item;
+            last LANGUAGE;
         }
+    }
+    # if no language, then take the first one available
+    if ( !$Language ) {
+        my @Languages = sort keys %{ $Notification{Message} };
+        $Language = $Languages[0];
     }
 
     # copy the correct language message attributes to a flat structure
