@@ -48,17 +48,6 @@ sub Run {
             return $Self->ExitCodeError();
         }
 
-        for my $Table (qw(scheduler_task scheduler_future_task scheduler_recurrent_task)) {
-            my $Check = $DBObject->Prepare(
-                SQL   => "SELECT * FROM $Table",
-                Limit => 1,
-            );
-            if ( !$Check ) {
-                $Self->PrintError("Connection was successful, but table $Table is missing.");
-                return $Self->ExitCodeError();
-            }
-        }
-
         $Self->Print("<green>Connection successful.</green>\n");
 
         # check for common MySQL issue where default storage engine is different
