@@ -216,7 +216,7 @@ sub LoadDefaults {
         'el' => 'Ελληνικά',
         'fa' => 'فارسى',
         'fi' => 'Suomi',
-        'fr' => 'Fraçais',
+        'fr' => 'Français',
         'fr_CA' => 'Français (Canada)',
         'gl' => 'Galego',
         'he' => 'עברית',
