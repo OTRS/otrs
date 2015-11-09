@@ -1,4 +1,5 @@
 #5.0.3 2015-??-??
+ - 2015-11-09 Fixed bug#[11630](http://bugs.otrs.org/show_bug.cgi?id=11630) - Localization French (Français).
  - 2015-11-09 Fixed bug#[11320](http://bugs.otrs.org/show_bug.cgi?id=11320) - Invalid customer user can update password.
  - 2015-11-09 Fixed bug#[11633](http://bugs.otrs.org/show_bug.cgi?id=11633) - When running the Maint::Database::Check before upgrading a confusing message appears.
  - 2015-11-09 Fixed bug#[11572](http://bugs.otrs.org/show_bug.cgi?id=11572) - Multiple responsive layout issues in AgentTicketCompose.
