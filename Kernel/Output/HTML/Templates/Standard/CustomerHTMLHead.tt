@@ -11,9 +11,11 @@
 # set viewport for mobile mode, do not set viewport for DesktopMode
     <script>
         (function(doc, win) {
-            var viewport = doc.getElementById('viewport');
+            var viewport = doc.getElementById('viewport'),
+                isIFrame = (win.top.location.href !== win.location.href),
+                isPopup = (win.name.search(/^OTRSPopup_/) != -1);
             try {
-              if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+              if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
                   viewport.setAttribute("content", "width=device-width, initial-scale=1.0, user-scalable=no");
               }
             }
@@ -82,8 +84,10 @@
 # resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
     <script>
       (function(doc, win) {
+          var isIFrame = (win.top.location.href !== win.location.href),
+              isPopup = (win.name.search(/^OTRSPopup_/) != -1);
           try {
-            if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+            if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
               var ResponsiveCSS;
   [% RenderBlockStart("ResponsiveCSS") %]
               ResponsiveCSS = doc.createElement("link");

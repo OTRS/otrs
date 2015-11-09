@@ -497,11 +497,13 @@ Core.UI.Popup = (function (TargetNS) {
                 else if (WindowMode === 'Iframe') {
                     // jump to the top
                     window.scrollTo(0, 0);
+
+                    // prevent scrolling of the main window
+                    $('html').addClass('NoScroll');
+
                     // add iframe overlay
                     $('body').append('<iframe data-popuptype="' + Type + '" name="' + WindowName + '" class="PopupIframe" src="' + URL + '"></iframe>');
-                    if ($(document).height() > $('iframe.PopupIframe').height()) {
-                        $('iframe.PopupIframe').height($(document).height());
-                    }
+                    $('iframe.PopupIframe').height($(window).height());
                 }
             }
         }
@@ -604,6 +606,7 @@ Core.UI.Popup = (function (TargetNS) {
             // closing the Iframe is a little bit more complicated
             else if (LocalWindowMode === 'Iframe') {
                 $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
+                $('html', ParentObject.document).removeClass('NoScroll');
             }
         }
 
@@ -671,21 +674,6 @@ Core.UI.Popup = (function (TargetNS) {
                 ParentWindow.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
                 TargetNS.ClosePopup();
             });
-
-            // if this is a popup-iframe, correct document height if necessary
-            if (window.parent) {
-                // Check if iframe is larger than original document and resize iframe
-                if ($(window.frameElement).height() < $('body').height()) {
-                    $(window.frameElement).height($('body').height());
-                }
-
-                // Additionally repeat this resizing check for every RTE instance created
-                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
-                    if ($(window.frameElement).height() < $('body').height()) {
-                        $(window.frameElement).height($('body').height());
-                    }
-                });
-            }
 
             // add a class to the body element, if this popup is a real popup
             if (window.opener) {

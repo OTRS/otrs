@@ -369,8 +369,7 @@
     fieldset.TableLike > .Field > select,
     fieldset.TableLike > .Row > .Field > select,
     fieldset.TableLike > .Field > input,
-    fieldset.TableLike > .Row > .Field > input,
-    input#Subject {
+    fieldset.TableLike > .Row > .Field > input {
         padding: 3px;
         font-size: 0.9em;
         width: 93%;
@@ -410,6 +409,12 @@
     .BccCustomerContainer {
         width: auto;
         margin-top: 15px;
+    }
+
+    .LayoutPopup .CustomerContainer,
+    .LayoutPopup .CcCustomerContainer,
+    .LayoutPopup .BccCustomerContainer {
+        margin-left: 30px;
     }
 
     .ui-overlay-autocomplete li.ui-menu-item {
@@ -1024,8 +1029,7 @@
     }
 
     .LayoutPopup fieldset.TableLike > .Field > select,
-    .LayoutPopup fieldset.TableLike > .Row > .Field > select,
-    .LayoutPopup input#Subject {
+    .LayoutPopup fieldset.TableLike > .Row > .Field > select {
         width: auto;
     }
 
