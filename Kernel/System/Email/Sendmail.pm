@@ -14,6 +14,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
 );
 
@@ -85,8 +86,13 @@ sub Send {
         return;
     }
 
-    # switch filehandle to utf8 mode if utf-8 is used
-    binmode $FH, ':utf8';    ## no critic
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # encode utf8 header strings (of course, there should only be 7 bit in there!)
+    $EncodeObject->EncodeOutput( $Param{Header} );
+
+    # encode utf8 body strings
+    $EncodeObject->EncodeOutput( $Param{Body} );
 
     print $FH ${ $Param{Header} };
     print $FH "\n";

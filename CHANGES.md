@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-09 Fixed bug#[5509](http://bugs.otrs.org/show_bug.cgi?id=5509) - Wrong umlauts if bounce function is used.
  - 2015-11-09 Fixed bug#[11475](http://bugs.otrs.org/show_bug.cgi?id=11475) - Kernel::System::MailAccount::IMAP->Fetch() could delete unprocessed mails from server.
  - 2015-11-06 Fixed bug#[9884](http://bugs.otrs.org/show_bug.cgi?id=9884) - Solution Time counts wrong on daylight time changes.
  - 2015-11-05 Fixed bug#[11600](http://bugs.otrs.org/show_bug.cgi?id=11600) - Dynamic Field of type multiselect is not substituted correctly.
