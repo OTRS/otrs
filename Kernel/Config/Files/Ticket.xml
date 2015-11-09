@@ -17,7 +17,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
-        <Description Translatable="1">Max size of the subjects in an email reply.</Description>
+        <Description Translatable="1">Max size of the subjects in an email reply and in some overview screens.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
