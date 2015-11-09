@@ -28,11 +28,18 @@ $Selenium->RunTest(
         # get sysconfig object
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        # do not check RichText
+        # set link object view mode to simple
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'LinkObject::ViewMode',
             Value => 'Simple',
+        );
+
+        # set Ticket::SubjectSize
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::SubjectSize',
+            Value => '60',
         );
 
         # create and login test customer
@@ -133,9 +140,70 @@ $Selenium->RunTest(
             "TicketNumber $TicketNumbers[0] - found",
         );
 
+        # test ticket title length in complex view for linked tickets, see bug #11511
+        # set link object view mode to complex
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'LinkObject::ViewMode',
+            Value => 'Complex',
+        );
+
+        # update test ticket title to more then 50 characters (there is 65)
+        my $LongTicketTitle = 'This is long test ticket title with more then 50 characters in it';
+
+        # Ticket::SubjectSize is set to 60 at the beginning of test
+        my $ShortTitle = substr( $LongTicketTitle, 0, 57 ) . "...";
+        my $Success = $TicketObject->TicketTitleUpdate(
+            Title    => $LongTicketTitle,
+            TicketID => $TicketIDs[1],
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Updated ticket title - $TicketIDs[1]"
+        );
+
+        # navigate to AgentTicketZoom screen
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # check for updated ticket title in linked tickets complex view table
+        $Self->True(
+            index( $Selenium->get_page_source(), $LongTicketTitle ) > -1,
+            "$LongTicketTitle - found in AgentTicketZoom complex view mode",
+        );
+
+        # hover on menu bar on the misc cluster
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # click on 'Link'
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
+
+        # switch to link object window
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # click on 'go to link delete screen'
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=LinkDelete;' )]")->click();
+
+        # check for long ticket title in LinkDelete screen
+        # this one is displayed on hover
+        $Self->True(
+            index( $Selenium->get_page_source(), "title=\"$LongTicketTitle\"" ) > -1,
+            "\"title=$LongTicketTitle\" - found in LinkDelete screen - which is displayed on hover",
+        );
+
+        # check for short ticket title in LinkDelete screen
+        $Self->True(
+            index( $Selenium->get_page_source(), $ShortTitle ) > -1,
+            "$ShortTitle - found in LinkDelete screen",
+        );
+
         # delete created test tickets
         for my $TicketID (@TicketIDs) {
-            my $Success = $TicketObject->TicketDelete(
+            $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
