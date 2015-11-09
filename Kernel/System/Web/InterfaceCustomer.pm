@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Time',
     'Kernel::System::Web::Request',
+    'Kernel::System::Valid',
 );
 
 =head1 NAME
@@ -585,7 +586,11 @@ sub Run {
 
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User );
-        if ( !$UserData{UserID} ) {
+
+        # verify customer user is valid when requesting password reset
+        my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+        my $UserIsValid = grep { $UserData{ValidID} == $_ } @ValidIDs;
+        if ( !$UserData{UserID} || !$UserIsValid ) {
 
             # Security: pretend that password reset instructions were actually sent to
             #   make sure that users cannot find out valid usernames by
