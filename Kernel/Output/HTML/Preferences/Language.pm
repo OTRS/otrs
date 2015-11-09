@@ -96,7 +96,7 @@ sub Param {
                 || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
                 || $ConfigObject->Get('DefaultLanguage'),
             Block => 'Option',
-            Class => 'Modernize',
+            Class => 'W70pc',
             Max   => 200,
         },
     );
