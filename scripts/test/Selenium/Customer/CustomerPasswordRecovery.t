@@ -36,6 +36,11 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # clean up test email
         my $Success = $TestEmailObject->CleanUp();
         $Self->True(
