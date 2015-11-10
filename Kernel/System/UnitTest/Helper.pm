@@ -381,9 +381,7 @@ sub DESTROY {
     # Restore system configuration if needed
     #
     if ( $Self->{SysConfigBackup} ) {
-
         $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
-
         $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
     }
 
@@ -402,7 +400,8 @@ sub DESTROY {
     # Restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         $Self->Rollback();
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp()
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+        $Self->{UnitTestObject}->True( 1, 'Rolled back all database changes and cleaned up the cache.' );
     }
 
     # disable email checks to create new user
