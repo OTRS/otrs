@@ -2606,7 +2606,7 @@ sub _DBGroupRoleGet {
     # We need to check for permission_value=1 because in previous OTRS 4 and below there could be records created
     #   with 0 (see bug#11616).
     $DBObject->Prepare(
-        SQL => 'SELECT role_id, group_id, permission_key FROM group_role WHERE permission_value=1',
+        SQL => 'SELECT role_id, group_id, permission_key FROM group_role WHERE permission_value = 1',
     );
 
     # fetch the result
