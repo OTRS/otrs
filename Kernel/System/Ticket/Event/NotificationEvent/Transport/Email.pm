@@ -230,7 +230,7 @@ sub SendNotification {
             ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0],
         );
 
-        my $ArticleType = $Recipient{NotificationArticleType} || $NotificationArticleType || 'email-notification-ext';
+        my $ArticleType = $NotificationArticleType || 'email-notification-ext';
         my $ArticleID = $TicketObject->ArticleSend(
             ArticleType    => $ArticleType,
             SenderType     => 'system',
