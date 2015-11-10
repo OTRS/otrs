@@ -59,7 +59,19 @@ my $RoleID   = $GroupObject->RoleAdd(
     UserID  => 1,
 );
 
-my $Success = $GroupObject->PermissionGroupRoleAdd(
+my $Success = $GroupObject->PermissionGroupUserAdd(
+    GID        => $GroupID,
+    UID        => $UserID,
+    Permission => { 'ro' => 1 },
+    UserID     => 1,
+);
+
+$Self->True(
+    $Success,
+    "PermissionGroupUserAdd() - add permissions for group ID $GroupID and user ID $UserID"
+);
+
+$Success = $GroupObject->PermissionGroupRoleAdd(
     GID        => $GroupID,
     RID        => $RoleID,
     Permission => { 'ro' => 1 },
@@ -71,7 +83,19 @@ $Self->True(
     "PermissionGroupRoleAdd() - add permissions for group ID $GroupID and role ID $RoleID"
 );
 
-my %Data = $GroupObject->_DBGroupRoleGet(
+my %Data = $GroupObject->_DBGroupUserGet(
+     Type => 'UserGroupPerm',
+);
+
+$Self->IsDeeply(
+    $Data{$UserID},
+    {
+        $GroupID => [ 'ro' ],
+    },
+    "User-Group connection found",
+);
+
+%Data = $GroupObject->_DBGroupRoleGet(
      Type => 'RoleGroupPerm',
 );
 
@@ -83,6 +107,18 @@ $Self->IsDeeply(
     "Role-Group connection found",
 );
 
+#
+# Now fake old entries with permission_value=0
+#
+
+$Kernel::OM->Get('Kernel::System::DB')->Do(
+    SQL => "
+        UPDATE group_user
+        SET permission_value=0
+        WHERE user_id = $UserID
+            AND group_id = $GroupID",
+);
+
 $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => "
         UPDATE group_role
@@ -92,6 +128,16 @@ $Kernel::OM->Get('Kernel::System::DB')->Do(
 );
 
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+%Data = $GroupObject->_DBGroupUserGet(
+     Type => 'UserGroupPerm',
+);
+
+$Self->Is(
+    $Data{$UserID},
+    undef,
+    "Role-Group connection found",
+);
 
 %Data = $GroupObject->_DBGroupRoleGet(
      Type => 'RoleGroupPerm',

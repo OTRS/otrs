@@ -2447,7 +2447,7 @@ sub _DBGroupUserGet {
 
     # get all data from table group_user
     $DBObject->Prepare(
-        SQL => 'SELECT user_id, group_id, permission_key FROM group_user',
+        SQL => 'SELECT user_id, group_id, permission_key FROM group_user WHERE permission_value = 1',
     );
 
     # fetch the result
