@@ -864,10 +864,9 @@ sub NotificationEvent {
         next LANGUAGE if !$Item;
         next LANGUAGE if !$Notification{Message}->{$Item};
 
-        if ( $Notification{Message}->{$Item} ) {
-            $Language = $Item;
-            last LANGUAGE;
-        }
+        # set language
+        $Language = $Item;
+        last LANGUAGE;
     }
 
     # if no language, then take the first one available
