@@ -80,6 +80,28 @@ sub Param {
             Block => 'Password'
         },
     );
+
+    # set the TwoFactorModue setting name depending on the interface
+    my $AuthTwoFactorModule = $Self->{ConfigItem}->{Area} eq 'Agent'
+        ? 'AuthTwoFactorModule'
+        : 'Customer::AuthTwoFactorModule';
+
+    # show 2 factor password input if we have at least one backend enabled
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+        next COUNT if !$ConfigObject->Get( $AuthTwoFactorModule . $Count );
+
+        push @Params, {
+            %Param,
+            Key   => '2 Factor Token',
+            Name  => 'TwoFactorToken',
+            Raw   => 1,
+            Block => 'Password',
+        };
+
+        last COUNT;
+    }
+
     return @Params;
 }
 
@@ -106,6 +128,12 @@ sub Run {
         $Pw1 = $Param{GetParam}->{NewPw1}->[0];
     }
 
+    # get the two factor token from form
+    my $TwoFactorToken;
+    if ( $Param{GetParam}->{TwoFactorToken} && $Param{GetParam}->{TwoFactorToken}->[0] ) {
+        $TwoFactorToken = $Param{GetParam}->{TwoFactorToken}->[0];
+    }
+
     # define AuthModule for frontend
     my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'Auth'
@@ -120,8 +148,9 @@ sub Run {
     # validate current password
     if (
         !$AuthObject->Auth(
-            User => $Param{UserData}->{UserLogin},
-            Pw   => $CurPw
+            User           => $Param{UserData}->{UserLogin},
+            Pw             => $CurPw,
+            TwoFactorToken => $TwoFactorToken || '',
         )
         )
     {
