@@ -225,12 +225,16 @@ sub SendNotification {
             %Address = $QueueObject->GetSystemAddress( QueueID => $Ticket{QueueID} );
         }
 
-        # get notification article type
-        my $NotificationArticleType = $TicketObject->ArticleTypeLookup(
-            ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0],
-        );
+        my $ArticleType = 'email-notification-ext';
 
-        my $ArticleType = $NotificationArticleType || 'email-notification-ext';
+        if ( IsArrayRefWithData( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) ) {
+
+            # get notification article type
+            $ArticleType = $TicketObject->ArticleTypeLookup(
+                ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0],
+            );
+        }
+
         my $ArticleID = $TicketObject->ArticleSend(
             ArticleType    => $ArticleType,
             SenderType     => 'system',
