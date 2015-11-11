@@ -115,11 +115,15 @@ $('#Dest').bind('change', function (Event) {
 
                     <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("To customer user") | html %]:</label>
                     <div class="Field">
-                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc [% Data.ToInvalid | html %]" autocomplete="off" />
+                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc [% Data.ToIsLocalAddress | html %] [% Data.ToInvalid | html %]" autocomplete="off" />
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("ToServerErrorMsg") %]
                             <p>[% Translate("Please include at least one customer user for the ticket.") | html %]</p>
 [% RenderBlockEnd("ToServerErrorMsg") %]
+
+[% RenderBlockStart("ToIsLocalAddressServerErrorMsg") %]
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.To) | html %]</p>
+[% RenderBlockEnd("ToIsLocalAddressServerErrorMsg") %]
                         </div>
                     </div>
                     <div class="Clear"></div>
@@ -182,7 +186,14 @@ $('#Dest').bind('change', function (Event) {
 
                     <label for="CcCustomer">[% Translate("Cc") | html %]:</label>
                     <div class="Field">
-                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc [% Data.CcInvalid | html %]" autocomplete="off" />
+                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc [% Data.CcIsLocalAddress | html %] [% Data.CcInvalid | html %]" autocomplete="off" />
+
+                        <div id="CcCustomerServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("CcIsLocalAddressServerErrorMsg") %]
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Cc) | html %]</p>
+[% RenderBlockEnd("CcIsLocalAddressServerErrorMsg") %]
+                        </div>
+
                     </div>
                     <div class="Clear"></div>
 
@@ -243,8 +254,14 @@ $('#Dest').bind('change', function (Event) {
 
                     <label for="BccCustomer">[% Translate("Bcc") | html %]:</label>
                     <div class="Field">
-                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc [% Data.BccInvalid | html %]" autocomplete="off" />
+                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc [% Data.BccIsLocalAddress | html %] [% Data.BccInvalid | html %]" autocomplete="off" />
                     </div>
+
+                        <div id="BccCustomerServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("BccIsLocalAddressServerErrorMsg") %]
+                    <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Bcc) | html %]</p>
+[% RenderBlockEnd("BccIsLocalAddressServerErrorMsg") %]
+                        </div>
                     <div class="Clear"></div>
 
                     <div class="Field [% Data.BccCustomerHiddenContainer | html %]">

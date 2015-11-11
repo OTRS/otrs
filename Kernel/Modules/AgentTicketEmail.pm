@@ -930,10 +930,16 @@ sub Run {
             next PARAMETER if !$GetParam{$Parameter};
             for my $Email ( Mail::Address->parse( $GetParam{$Parameter} ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Parameter . 'ErrorType' } = $Parameter
-                        . $CheckItemObject->CheckErrorType()
-                        . 'ServerErrorMsg';
+                    $Error{ $Parameter . 'ErrorType' }
+                        = $Parameter . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
+                }
+
+                my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
+                    Address => $Email->address()
+                );
+                if ($IsLocal) {
+                    $Error{ $Parameter . 'IsLocalAddress' } = 'ServerError';
                 }
             }
         }
@@ -1057,6 +1063,27 @@ sub Run {
         }
 
         if (%Error) {
+
+            if ( $Error{ToIsLocalAddress} ) {
+                $LayoutObject->Block(
+                    Name => 'ToIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
+
+            if ( $Error{CcIsLocalAddress} ) {
+                $LayoutObject->Block(
+                    Name => 'CcIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
+
+            if ( $Error{BccIsLocalAddress} ) {
+                $LayoutObject->Block(
+                    Name => 'BccIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
 
             # get and format default subject and body
             my $Subject = $LayoutObject->Output(
