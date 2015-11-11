@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.962609970674487;
+    $Self->{Completeness}        = 0.961895456765999;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -889,8 +889,8 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрација система је услуга OTRS Групе, која обезбеђује многе предности.',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            'Молимо да обратите пажњу на то да за употребу „OTRS” сервиса у облаку ваш систем мора да буде регистрован.',
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
+            '',
         'Register this system' => 'Региструј овај систем',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Овде можете подесити да доступни сервиси у облаку користе сигурну комуникацију преко %s.',
@@ -1656,6 +1656,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Вратићете се на стару верзију бесплатног „OTRS” и изгубићете следећа својства и податке повезане са:',
         'Chat' => 'Ћаскање',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Детаљни приказ тикета на временској линији',
         'DynamicField ContactWithData' => 'Динамичко поље „Контакт са подацима”',
         'DynamicField Database' => 'База података динамичких поља',
@@ -2576,7 +2577,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Статистика » Погледај %s%s — %s',
-        'Statistic Information' => '',
+        'Statistic Information' => 'Статистичке информације',
         'Sum rows' => 'Збир редова',
         'Sum columns' => 'Збир колона',
         'Show as dashboard widget' => 'Прикажи контролну таблу апликативног додатка (Widget-a)',
@@ -2633,6 +2634,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Напиши одговор за %s%s',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Молимо да укључите бар једног примаоца',
         'Remove Ticket Customer' => 'Уклони клијент са тикета **',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -5043,7 +5046,8 @@ Thanks for your help!
             'Максимална величина (у редовима) оквира информисаних оператера у оператерском интерфејсу.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Максимална величина (у редовима) оквира укључених оператера у оператерском интерфејсу.',
-        'Max size of the subjects in an email reply.' => 'Максимална величина субјекта у имејл одговору',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Мксимум аутоматских имејл одговора дневно на сопствену адресу (Заштита од петље)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

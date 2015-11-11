@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -3212,9 +3212,9 @@ msgstr "Systeemregistratie is een service van de OTRS Groep, die een aantal voor
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Gelieve er rekening mee te houden dat om gebruik te maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5748,6 +5748,10 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8804,6 +8808,10 @@ msgstr "Ontgrendel tickets"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -16135,7 +16143,8 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
 
 #. SysConfig

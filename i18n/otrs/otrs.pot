@@ -3123,7 +3123,7 @@ msgid "System registration is a service of OTRS Group, which provides a lot of a
 msgstr ""
 
 #. Template: AdminCloudServices
-msgid "Please note that you using OTRS cloud services requires the system to be registered."
+msgid "Please note that the use of OTRS cloud services requires the system to be registered."
 msgstr ""
 
 #. Template: AdminCloudServices
@@ -5488,6 +5488,10 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8380,6 +8384,10 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -14350,7 +14358,7 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
+msgid "Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
 
 #. SysConfig

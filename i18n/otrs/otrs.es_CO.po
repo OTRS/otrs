@@ -1,11 +1,12 @@
 # 
 # Translators:
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
+# Emmanuel <emmanuel.arias@ya.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/otrs/OTRS/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -2081,7 +2082,7 @@ msgstr "Tickets disponibles"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr "Escalado"
+msgstr "Escalada"
 
 #. Template: AAATicket
 msgid "last-search"
@@ -2093,7 +2094,7 @@ msgstr "Ver la fila"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Ver Escalado del Ticket"
+msgstr "Vista de Escaladas de Ticket"
 
 #. Template: AAATicket
 msgid "Message from"
@@ -3210,7 +3211,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -4032,23 +4033,23 @@ msgstr "El tiempo en espera del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr "Tiempos de escalado"
+msgstr "Tiempos de escalada"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "No existen configuraciones para tiempo de escalado"
+msgstr "No existen configuraciones para tiempo de escalada"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "El tiempo de escalado del Ticket ha sido alcanzado"
+msgstr "El tiempo de escalada del Ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "El tiempo de escalado del Ticket ha sido alcanzado entre"
+msgstr "El tiempo de escalada del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "Escalado - tiempo para la primer respuesta"
+msgstr "Escalada - tiempo para la primera respuesta"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
@@ -4060,7 +4061,7 @@ msgstr "El tiempo para la primer respuesta del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Escalado - tiempo para la actualización"
+msgstr "Escalada - tiempo para la actualización"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
@@ -4072,7 +4073,7 @@ msgstr "El tiempo para la actualización del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Escalado - tiempo para la solución"
+msgstr "Escalada - tiempo para la solución"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -5749,6 +5750,10 @@ msgid "Chat"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
 msgstr ""
 
@@ -6805,7 +6810,7 @@ msgstr "Notificado por"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
-msgstr "0 = sin escalado"
+msgstr "0 = sin escalada"
 
 #. Template: AdminQueue
 msgid ""
@@ -6819,7 +6824,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Si se añade un artículo, como seguimiento vía correo electrónico o la interfaz del cliente, el tiempo de escalado de actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono, de un ticket antes de que el tiempo definido aquí termine, el ticket escalará."
+msgstr "Si se añade un artículo, como seguimiento vía correo electrónico o la interfaz del cliente, el tiempo de escalada de actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono, de un ticket antes de que el tiempo definido aquí termine, el ticket escalará."
 
 #. Template: AdminQueue
 msgid ""
@@ -8802,6 +8807,10 @@ msgstr "Desbloquear tickets"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -11850,7 +11859,7 @@ msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr "Permite definir servicios y SLAs para los tickets (por ejemplo: correo electrónico, escritorio, red, etc.), así mismo como atributos para los SLAs (si la funcionalidad servicio/SLA está habilitada)."
+msgstr "Permite definir servicios y SLAs para los tickets (por ejemplo: correo electrónico, escritorio, red, etc.), así mismo como atributos de escalada para los SLAs (si la funcionalidad servicio/SLA está habilitada)."
 
 #. SysConfig
 msgid ""
@@ -13362,7 +13371,7 @@ msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la 
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the escalation "
 "view of the agent interface."
-msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la vista de escalado, en la interfaz del agente."
+msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la vista de escaladas, en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -13422,7 +13431,7 @@ msgstr "Define el valor por defecto del siguiente estado de un ticket, luego de 
 msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
-msgstr "Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escalado de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio."
+msgstr "Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escaladas de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio."
 
 #. SysConfig
 msgid ""
@@ -15071,7 +15080,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Escalation view"
-msgstr "Vista de escalado"
+msgstr "Vista de escaladas"
 
 #. SysConfig
 msgid "EscalationTime"
@@ -16133,8 +16142,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Tamaño máximo para los asuntos en la respuesta a un correo electrónico."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16283,7 +16293,7 @@ msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
-msgstr "Módulo para mostrar notificaciones y escalados (ShownMax: Número máximo de escalados que se muestran, EscalationInMinutes: Mostrar el ticket que escalará en estos minutos, CacheTime: Caché de los escalados calculados en segundos)."
+msgstr "Módulo para mostrar notificaciones y escaladas (ShownMax: Número máximo de escaladas que se muestran, EscalationInMinutes: Mostrar el ticket que escalará en estos minutos, CacheTime: Caché de las escaladas calculadas en segundos)."
 
 #. SysConfig
 msgid "Module to use database filter storage."
@@ -18080,7 +18090,7 @@ msgstr ""
 msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
-msgstr "Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escalado de la interfaz del agente."
+msgstr "Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escaladas de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -18875,7 +18885,7 @@ msgstr "Actualizado: %s=%s;%s=%s;%s=%s;"
 #. SysConfig
 msgid ""
 "Updates the ticket escalation index after a ticket attribute got updated."
-msgstr "Actualiza el índice de escalado de ticket, luego de que un atributo de ticket se actualizó."
+msgstr "Actualiza el índice de escaladas de ticket, luego de que un atributo de ticket se actualizó."
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.851906158357771;
+    $Self->{Completeness}        = 0.851245725451881;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -889,8 +889,8 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele Vorteile sichert!',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            'Bitte beachten Sie, dass das System für die Nutzung der OTRS-Cloud-Services registriert sein muss.',
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
+            '',
         'Register this system' => 'Registrieren Sie dieses System',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Hier können Sie verfügbare Cloud-Services konfigurieren die sicher mit %s kommunizieren.',
@@ -1656,6 +1656,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Wenn Sie zu OTRS Free downgraden, werden Sie die folgenden Features (und alle zugehörigen Daten) verlieren:',
         'Chat' => 'Chat',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Timeline-View im Ticket-Zoom',
         'DynamicField ContactWithData' => 'DynamischesFeld KontaktMitDaten',
         'DynamicField Database' => 'DynamischesFeld Datenbank',
@@ -2633,6 +2634,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Antwort für %s%s verfassen',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
         'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3260,7 +3263,7 @@ sub Data {
         'Please select only one element or allow modification at stat generation time.' =>
             'Bitte wählen Sie nur ein Element oder erlauben Sie die Bearbeitung zur Erstellzeit der Statistik.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
+            'Bitte wählen Sie nur ein Element oder erlauben Sie die Bearbeitung zur Erstellzeit der Statistik.',
         'Please select one element for the X-axis.' => 'Bitte wählen Sie ein Element für die X-Achse aus.',
         'You can only use one time element for the Y axis.' => 'Sie können nur ein Zeitelement für die Y-Achse verwenden.',
         'You can only use one or two elements for the Y axis.' => 'Sie können nur ein oder zwei Elemente für die Y-Achse verwenden.',
@@ -5031,7 +5034,8 @@ Thanks for your help!
             'Maximale Größe (in Reihen) des "Informiere Agenten" Kästchen im Agenten-Interface.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Maximale Größe (in Reihen) des "Beteiligte Agenten" Kästchen im Agenten-Interface.',
-        'Max size of the subjects in an email reply.' => 'Maximale Anzahl von Zeichen im Betreff bei E-Mailantwort.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maximale Anzahl von automatischen E-Mailantworten zur eigenen E-Mailadresse pro Tag (Loop-Protection)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

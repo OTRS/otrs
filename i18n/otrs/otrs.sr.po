@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -3212,9 +3212,9 @@ msgstr "Регистрација система је услуга OTRS Груп�
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Молимо да обратите пажњу на то да за употребу „OTRS” сервиса у облаку ваш систем мора да буде регистрован."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5749,6 +5749,10 @@ msgstr "Вратићете се на стару верзију бесплатн�
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Ћаскање"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8621,7 +8625,7 @@ msgstr "Статистика » Погледај %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
-msgstr ""
+msgstr "Статистичке информације"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
@@ -8805,6 +8809,10 @@ msgstr "Откључај тикете"
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
 msgstr "Напиши одговор за %s%s"
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -16135,8 +16143,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Максимална величина (у редовима) оквира укључених оператера у оператерском интерфејсу."
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Максимална величина субјекта у имејл одговору"
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Anders Nilsson <locally@devode.se>, 2015
 # andreasberger <andreas.berger@hagfors.se>, 2014
 # andreasberger <andreas.berger@hagfors.se>, 2014-2015
 # Anthon Nilsson <superdos@gmail.com>, 2015
@@ -8,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/otrs/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -1708,7 +1709,7 @@ msgstr "Övriga inställningar"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Inställningar för meddelanden"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1784,7 +1785,7 @@ msgstr ""
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
-msgstr ""
+msgstr "CSV-separator"
 
 #. Template: AAATicket
 msgid "Status View"
@@ -2088,7 +2089,7 @@ msgstr "Eskalering"
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr ""
+msgstr "senaste sökningen"
 
 #. Template: AAATicket
 msgid "QueueView"
@@ -2364,7 +2365,7 @@ msgstr "Sök ärenden"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Kundens riktiga namn"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -2616,7 +2617,7 @@ msgstr "Skicka mig ett meddelande ifall systemet tar bort låset på ett ärende
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
-msgstr ""
+msgstr "Skicka meddelanden om tiden går ut för ärende-lås"
 
 #. Template: AAATicket
 msgid "Ticket move notification"
@@ -2648,7 +2649,7 @@ msgstr "Automatisk uppdateringsintervall för kövy"
 msgid ""
 "If enabled, the QueueView will automatically refresh after the specified "
 "time."
-msgstr ""
+msgstr "Om detta är aktiverat kommer kövisningen automatiskt att uppdateras efter angiven tid."
 
 #. Template: AAATicket
 msgid "Refresh QueueView after"
@@ -2656,11 +2657,11 @@ msgstr "Uppdatera kövy efter"
 
 #. Template: AAATicket
 msgid "Screen after new ticket"
-msgstr "Skärm efter inmatning av nytt ärende"
+msgstr "Vy efter inmatning av nytt ärende"
 
 #. Template: AAATicket
 msgid "Show this screen after I created a new ticket"
-msgstr "Visa denna skärm efter att jag skapat ett nytt ärende"
+msgstr "Visa denna vy efter att jag skapat ett nytt ärende"
 
 #. Template: AAATicket
 msgid "Closed Tickets"
@@ -3213,7 +3214,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -3983,7 +3984,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Ärende senast ändrat mellan"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -5750,6 +5751,10 @@ msgstr ""
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Chat"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8137,7 +8142,7 @@ msgstr ""
 
 #. Template: AdminUser
 msgid "Last login"
-msgstr ""
+msgstr "Senaste inloggning"
 
 #. Template: AdminUser
 msgid "Switch to agent"
@@ -8496,7 +8501,7 @@ msgstr "Ändra dina inställningar"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr "Visste du att du kan hjälpa till att översätta OTRS at %s."
+msgstr "Visste du att du kan hjälpa till att översätta OTRS på %s."
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8808,6 +8813,10 @@ msgid "Compose Answer for %s%s"
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
 msgstr "Vänligen ange minst en mottagare"
 
@@ -9103,7 +9112,7 @@ msgstr "Ta bort"
 msgid ""
 "Searches in the attributes From, To, Cc, Subject and the article body, "
 "overriding other attributes with the same name."
-msgstr ""
+msgstr "Söker efter attribut Från, Till, CC, Ämne och brödtext i artiklar, överskrider andra attribut med samma namn."
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
@@ -9131,51 +9140,51 @@ msgstr "Bevakare"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (before/after)"
-msgstr ""
+msgstr "Tid när artikel skapades (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
-msgstr ""
+msgstr "Tid när artikel skapades (mellan)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
-msgstr ""
+msgstr "Tid när äremde skapades (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (between)"
-msgstr ""
+msgstr "Tid när ärendet skapades (mellan)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (before/after)"
-msgstr ""
+msgstr "Tid när ärende ändrades (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (between)"
-msgstr ""
+msgstr "Tid när ärendet ändrades (mellan)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Tid när ärende senast ändrades (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Tid när ärendet senast ändrades (mellan)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
-msgstr ""
+msgstr "Tid när äremde stängdes (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (between)"
-msgstr ""
+msgstr "Tid när äremdet stängdes (mellan)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "Tid när äremde eskalerades (före/efter)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "Tid när äremdet eskalerades (fmellan)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
@@ -9436,7 +9445,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "Rensa sökning"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
@@ -9662,11 +9671,11 @@ msgstr "av"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
-msgstr ""
+msgstr "Sökresultat för"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "Ta bort sökterm"
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
@@ -10537,7 +10546,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
-msgstr ""
+msgstr "Vald sluttid är före starttiden!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
@@ -12247,7 +12256,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr "Ställ in vilken skärm som skall visas efter att ett nytt ärende har skapats."
+msgstr "Ställ in vilken vy som skall visas efter att ett nytt ärende har skapats."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -15791,7 +15800,7 @@ msgstr ""
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr ""
+msgstr "Om detta är aktiverat kommer överblicksvyer (Dashboard, Lås-vy, Kö-vy) automatiskt att uppdateras efter angiven tid."
 
 #. SysConfig
 msgid ""
@@ -16136,7 +16145,8 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
 
 #. SysConfig

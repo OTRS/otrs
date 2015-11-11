@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.747556207233627;
+    $Self->{Completeness}        = 0.748656570591109;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -582,10 +582,10 @@ sub Data {
         'Watched Tickets Reminder Reached' => 'Recordatorio de Tickets Vistos Alcanzados',
         'All tickets' => 'Todos los tickets',
         'Available tickets' => 'Tickets disponibles',
-        'Escalation' => 'Escalado',
+        'Escalation' => 'Escalada',
         'last-search' => 'última-búsqueda',
         'QueueView' => 'Vista de Colas',
-        'Ticket Escalation View' => 'Vista de Tickets Escalados',
+        'Ticket Escalation View' => 'Vista de Escaladas de Ticket',
         'Message from' => 'Mensaje de',
         'End message' => 'Fin del mensaje',
         'Forwarded message from' => 'Mensaje reenviado de',
@@ -894,8 +894,8 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '!El registro del sistema es un servicio del grupo OTRS, el cual provee innumerables ventajas!',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            'Tenga en cuenta que está utilizando servicios en la nube de OTRS que requieren que el sistema esté registrado.',
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
+            '',
         'Register this system' => 'Registrar este sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Aquí puede configurar los servicios en la nube disponibles para comunicarse de forma segura con %s.',
@@ -1661,6 +1661,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vas a degradar a OTRS gratuito y perderá las siguientes características y todos los datos relacionados con los siguientes:',
         'Chat' => 'Chat',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Vista LineaTiempo en ticket zoom',
         'DynamicField ContactWithData' => 'CampoDinamico ContactoConDatos',
         'DynamicField Database' => 'CampoDinamico BaseDatos',
@@ -1983,7 +1984,7 @@ sub Data {
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Si no se añade un contacto de cliente, ya sea correo electrónico externo o teléfono, a un nuevo ticket antes de que la hora definida aquí expire, el ticket es escalado.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'Si se añade un artículo, como un seguimiento a través de correo electrónico o portal del cliente , el tiempo de actualización de escalado se restablece. Si no hay contacto del cliente, ya sea correo electrónico o teléfono externo, añadido a un ticket antes de que la hora definida aquí expire, el ticket es escalado .',
+            'Si se añade un artículo, como un seguimiento a través de correo electrónico o portal del cliente , el tiempo para escalada por actualización se restablece. Si no hay contacto del cliente, ya sea correo electrónico o teléfono externo, añadido a un ticket antes de que la hora definida aquí expire, el ticket escala.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Si el ticket no se establece a cerrado antes de que la hora definida aquí expire, el ticket es escalado.',
         'Follow up Option' => 'Opción de seguimiento',
@@ -2435,7 +2436,7 @@ sub Data {
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
-            'El Daemon de OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo la gatillación de escalamiento de tickets, envío de correos, etc.',
+            'El Servicio OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo el disparo de escalada de tickets, envío de correos, etc.',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
             'Un Daemon funcionando de OTRS es obligatorio para su correcta operación.',
         'Starting the OTRS Daemon' => 'Iniciando el Daemon de OTRS',
@@ -2638,6 +2639,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Composición Respuesta para %s%s',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Incluya al menos un destinatario',
         'Remove Ticket Customer' => 'Eliminar el cliente del ticket',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3288,9 +3291,9 @@ sub Data {
         'CustomerUserLogin' => 'Nombre de usuario del cliente',
         'Create Time' => 'Fecha de creación',
         'Close Time' => 'Fecha de cierre',
-        'Escalation - First Response Time' => 'Escalamiento - Tiempo de la Primera Respuesta',
-        'Escalation - Update Time' => 'Escalamiento - Tiempo de Actualización',
-        'Escalation - Solution Time' => 'Escalamiento - Tiempo de Solución',
+        'Escalation - First Response Time' => 'Escalada - Tiempo de la Primera Respuesta',
+        'Escalation - Update Time' => 'Escalada - Tiempo de Actualización',
+        'Escalation - Solution Time' => 'Escalada - Tiempo de Solución',
         'Agent/Owner' => 'Agente/Propietario',
         'Created by Agent/Owner' => 'Creado por Agente/Propietario',
 
@@ -3739,7 +3742,7 @@ Tu Equipo de Soporte
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Permite definir nuevos tipos para ticket (si la función tipo de ticket está habilitada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
-            'Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalado para los SLAs (si la función servicio/SLA de ticket está activada).',
+            'Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalada para los SLAs (si la función servicio/SLA de ticket está activada).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite condiciones de búsqueda extendidas en búsqueda de ticket de la interfaz de agente. Con esta función, puede buscar ej . con este tipo de condiciones como "( key1 && key2 )" o "(key1 || key2 )".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -3825,7 +3828,7 @@ Tu Equipo de Soporte
         'Collect support data for asynchronous plug-in modules.' => 'Recolector datos de soporte para módulos plug-in asíncronos.',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Filtros ticket de columna para Vistas Generales de Ticket tipo "Pequeña".',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            'Las columnas que pueden ser filtradas en la vista de escalado de la interfaz del agente . Ajustes posibles: 0 = Desactivado , 1 = Disponible , 2 = Activado por defecto. Nota: Sólo los atributos de Ticket, Campos Dinámicos (CampoDinamico_NombreX ) y los atributos del Cliente ( por ejemplo ClienteUsuarioTelefono , ClienteCompañiaNombre, ... ) estan permitidos.',
+            'Las columnas que pueden ser filtradas en la vista de escaladas de la interfaz del agente . Ajustes posibles: 0 = Desactivado , 1 = Disponible , 2 = Activado por defecto. Nota: Sólo los atributos de Ticket, Campos Dinámicos (DynamicField_NombreX ) y los atributos del Cliente ( por ejemplo CustomerUserPhone , CustomerCompanyName, ... ) están permitidos.',
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             'Las columnas que pueden ser filtradas en la vista de bloqueo de la interfaz del agente . Ajustes posibles: 0 = Desactivado , 1 = Disponible , 2 = Activado por defecto. Nota: Sólo los atributos de Ticket, Campos Dinámicos (CampoDinamico_NombreX ) y los atributos del Cliente ( por ejemplo ClienteUsuarioTelefono , ClienteCompañiaNombre, ... ) estan permitidos.',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
@@ -4413,7 +4416,7 @@ Tu Equipo de Soporte
             '',
         'Defines the name of the column to store the user identifier in the preferences table.' =>
             '',
-        'Defines the name of the indicated calendar.' => '',
+        'Defines the name of the indicated calendar.' => 'Define el nombre del calendario indicado',
         'Defines the name of the key for customer sessions.' => '',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             '',
@@ -4452,7 +4455,7 @@ Tu Equipo de Soporte
         'Defines the number of days to keep the daemon log files.' => '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
-        'Defines the parameters for the customer preferences table.' => '',
+        'Defines the parameters for the customer preferences table.' => 'Define los parámetros para la tabla de preferencias del cliente',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
@@ -4563,7 +4566,7 @@ Tu Equipo de Soporte
             '',
         'Delete expired cache from core modules.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
-        'Delete expired sessions.' => '',
+        'Delete expired sessions.' => 'Borrar sesiones expiradas',
         'Deleted link to ticket "%s".' => 'Eliminado enlace al ticket «%s».',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
@@ -4682,15 +4685,15 @@ Tu Equipo de Soporte
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
         'E-Mail Outbound' => 'E-Mail Saliente',
-        'Edit customer company' => '',
+        'Edit customer company' => 'Editar Compañía de Cliente',
         'Email Addresses' => 'Direcciones de Correo',
         'Email sent to "%s".' => 'Correo enviado a «%s».',
         'Email sent to customer.' => 'Correo enviado al cliente.',
         'Enable keep-alive connection header for SOAP responses.' => '',
-        'Enabled filters.' => '',
+        'Enabled filters.' => 'Habilitar Filtros',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
-        'Enables S/MIME support.' => '',
+        'Enables S/MIME support.' => 'Habilitar soporte S/MIME.',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
@@ -4725,8 +4728,8 @@ Tu Equipo de Soporte
         'Escalation update time finished' => '',
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
-        'Escalation view' => 'Vista de escalados',
-        'EscalationTime' => '',
+        'Escalation view' => 'Vista de escaladas',
+        'EscalationTime' => 'Tiempo para escalada',
         'Estonian' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
@@ -5047,7 +5050,8 @@ Tu Equipo de Soporte
             '',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
-        'Max size of the subjects in an email reply.' => '',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

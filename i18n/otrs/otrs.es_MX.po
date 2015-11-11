@@ -4,6 +4,7 @@
 # Carlos Javier García Cárdenas <carlos.garcia@otrs.com>, 2014
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014-2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014
+# Emmanuel <emmanuel.arias@ya.ru>, 2015
 # FCRUZ <francisco.cruz@otrs.com>, 2014
 # FCRUZ <francisco.cruz@otrs.com>, 2014
 # Ivan Miron <ivan.miron@gmail.com>, 2015
@@ -11,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/otrs/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -2087,7 +2088,7 @@ msgstr "Tickets disponibles"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr "Escalado"
+msgstr "Escalada"
 
 #. Template: AAATicket
 msgid "last-search"
@@ -2099,7 +2100,7 @@ msgstr "Ver la fila"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Ver Escalado del Ticket"
+msgstr "Vista de Escaladas de Ticket"
 
 #. Template: AAATicket
 msgid "Message from"
@@ -3216,7 +3217,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -4038,23 +4039,23 @@ msgstr "El tiempo en espera del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr "Tiempos de escalado"
+msgstr "Tiempos para escalada"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "No existen configuraciones para tiempo de escalado"
+msgstr "No existen configuraciones de tiempo para escalada"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "El tiempo de escalado del Ticket ha sido alcanzado"
+msgstr "El tiempo para escalada del ticket ha sido alcanzado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "El tiempo de escalado del Ticket ha sido alcanzado entre"
+msgstr "El tiempo para escalada del ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "Escalado - tiempo para la primer respuesta"
+msgstr "Escalada - tiempo de primera respuesta"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
@@ -4066,7 +4067,7 @@ msgstr "El tiempo para la primer respuesta del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Escalado - tiempo para la actualización"
+msgstr "Escalada - tiempo de actualización"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
@@ -4078,7 +4079,7 @@ msgstr "El tiempo para la actualización del Ticket ha sido alcanzado entre"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Escalado - tiempo para la solución"
+msgstr "Escalada - tiempo de solución"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -5755,6 +5756,10 @@ msgid "Chat"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
 msgstr ""
 
@@ -6811,7 +6816,7 @@ msgstr "Notificado por"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
-msgstr "0 = sin escalado"
+msgstr "0 = sin escalada"
 
 #. Template: AdminQueue
 msgid ""
@@ -6825,7 +6830,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Si se añade un artículo, como seguimiento vía correo electrónico o la interfaz del cliente, el tiempo de escalado de actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono, de un ticket antes de que el tiempo definido aquí termine, el ticket escalará."
+msgstr "Si se añade un artículo, tal como un seguimiento, vía correo electrónico o interfaz del cliente, el tiempo para escalada por actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono agregados a un ticket antes de que el tiempo definido aquí expire, el ticket escala."
 
 #. Template: AdminQueue
 msgid ""
@@ -8242,7 +8247,7 @@ msgstr ""
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr ""
+msgstr "El Servicio OTRS es un proceso de servicio que efectúa tareas asíncronas, por ejemplo disparo de escalada de tickets, envío de emails, etc."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
@@ -8811,6 +8816,10 @@ msgid "Compose Answer for %s%s"
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
 msgstr ""
 
@@ -9174,11 +9183,11 @@ msgstr "Tiempo de Cierre del Ticket (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "Tiempo para Escalada de Ticket (antes/después)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "Tiempo para Escalada de Ticket (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
@@ -10623,15 +10632,15 @@ msgstr "Fecha de Cierre"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr ""
+msgstr "Escalada - Tiempo de Primera Respuesta"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr ""
+msgstr "Escalada - Tiempo de Actualización"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr ""
+msgstr "Escalada - Tiempo de Solución"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -12141,7 +12150,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Columnas que pueden ser filtradas en la vista de escaladas de la interfaz de agente. Configuraciones posibles: 0 = Deshabilitado, 1 = Disponible, 2 = Habilitado por defecto. Nota: Sólo atributos de Ticket, Campos Dinámicos (DynamicField_NombreX) y atributos de Cliente (por ej. CustomerUserPhone, CustomerCompanyName, ...) están disponibles."
 
 #. SysConfig
 msgid ""
@@ -13368,7 +13377,7 @@ msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la 
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the escalation "
 "view of the agent interface."
-msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la vista de escalado, en la interfaz del agente."
+msgstr "Define el atributo de ticket por defecto para ordenar los tickets en la vista de escaladas, en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -13428,7 +13437,7 @@ msgstr "Define el valor por defecto del siguiente estado de un ticket, luego de 
 msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
-msgstr "Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escalado de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio."
+msgstr "Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escaladas de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio."
 
 #. SysConfig
 msgid ""
@@ -14311,7 +14320,7 @@ msgstr "Define el destinatario objetivo de los tickets telefónicos y el remiten
 msgid ""
 "Defines the required permission to show a ticket in the escalation view of "
 "the agent interface."
-msgstr ""
+msgstr "Define los permisos requeridos para mostrar un ticket en la vista de escaladas de la interfaz del agente."
 
 #. SysConfig
 msgid "Defines the search limit for the stats."
@@ -15041,43 +15050,43 @@ msgstr ""
 
 #. SysConfig
 msgid "Escalation response time finished"
-msgstr ""
+msgstr "Tiempo para escalada por respuesta, finalizado"
 
 #. SysConfig
 msgid "Escalation response time forewarned"
-msgstr ""
+msgstr "Tiempo para escalada por respuesta, advertido"
 
 #. SysConfig
 msgid "Escalation response time in effect"
-msgstr ""
+msgstr "Tiempo para escalada por respuesta, en vigor"
 
 #. SysConfig
 msgid "Escalation solution time finished"
-msgstr ""
+msgstr "Tiempo para escalada por solución, finalizado"
 
 #. SysConfig
 msgid "Escalation solution time forewarned"
-msgstr ""
+msgstr "Tiempo para escalada por solución, advertido"
 
 #. SysConfig
 msgid "Escalation solution time in effect"
-msgstr ""
+msgstr "Tiempo para escalada por solución, en vigor"
 
 #. SysConfig
 msgid "Escalation update time finished"
-msgstr ""
+msgstr "Tiempo para escalada por actualización, finalizado"
 
 #. SysConfig
 msgid "Escalation update time forewarned"
-msgstr ""
+msgstr "Tiempo para escalada por actualización, advertido"
 
 #. SysConfig
 msgid "Escalation update time in effect"
-msgstr ""
+msgstr "Tiempo para escalada por actualización, en vigor"
 
 #. SysConfig
 msgid "Escalation view"
-msgstr "Vista de escalado"
+msgstr "Vista de escaladas"
 
 #. SysConfig
 msgid "EscalationTime"
@@ -16139,8 +16148,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Tamaño máximo para los asuntos en la respuesta a un correo electrónico."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16289,7 +16299,7 @@ msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
-msgstr "Módulo para mostrar notificaciones y escalados (ShownMax: Número máximo de escalados que se muestran, EscalationInMinutes: Mostrar el ticket que escalará en estos minutos, CacheTime: Caché de los escalados calculados en segundos)."
+msgstr "Módulo para mostrar notificaciones y escaladas (ShownMax: Número máximo de escaladas que se muestran, EscalationInMinutes: Muestra el ticket que escalará en estos minutos, CacheTime: Caché de las escaladas calculadas, en segundos)."
 
 #. SysConfig
 msgid "Module to use database filter storage."
@@ -16560,7 +16570,7 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
-msgstr ""
+msgstr "Parámetros para el backend del panel de control de la vista general de escaladas de ticket, de la interfaz del agente. \"Límite\" es el número de entradas mostradas por defecto. \"Grupo\" es usado para restringir el acceso al plugin (por ej., Grupo: admin;grupo1;grupo2;). \"Por defecto\" determina si el plugin está habilitado por defecto o si el usuario necesita habilitarlo manualmente. \"CacheTTLLocal\" es el tiempo de cache en minutos para el plugin. Nota: Sólo los atributos del Ticket y los Campos Dinámicos (DynamicField_NombreX) están permitidos para DefaultColumns. Configuraciones posibles: 0 = Deshabilitado, 1 = Disponible, 2 = Habilitado por defecto."
 
 #. SysConfig
 msgid ""
@@ -18086,7 +18096,7 @@ msgstr ""
 msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
-msgstr "Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escalado de la interfaz del agente."
+msgstr "Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escaladas, de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -18599,7 +18609,7 @@ msgstr "El divisor entre el candado y el número de ticket. Por ejemplo, ': '."
 msgid ""
 "The duration in minutes after emitting an event, in which the new escalation"
 " notify and start events are suppressed."
-msgstr ""
+msgstr "La duración en minutos después de emitir un evento, en el cual la notificación de nueva escalada, y los eventos de inicio, son suprimidos."
 
 #. SysConfig
 msgid ""
@@ -18760,7 +18770,7 @@ msgstr "Vista general por fila"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
-msgstr ""
+msgstr "Módulo de eventos de Ticket, que dispara los eventos de finalización de tiempo para escalada."
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
@@ -18881,7 +18891,7 @@ msgstr "Actualizado: %s=%s;%s=%s;%s=%s;"
 #. SysConfig
 msgid ""
 "Updates the ticket escalation index after a ticket attribute got updated."
-msgstr "Actualiza el índice de escalado de ticket, luego de que un atributo de ticket se actualizó."
+msgstr "Actualiza el índice de escaladas de ticket, luego de que un atributo de ticket se actualizó."
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."

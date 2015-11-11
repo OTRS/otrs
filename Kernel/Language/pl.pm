@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.760263929618768;
+    $Self->{Completeness}        = 0.759648265754763;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -892,7 +892,7 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'System rejestracji jest serwisem grupy OTRS, kóry posiada wiele zalet!',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '',
         'Here you can configure available cloud services that communicate securely with %s.' =>
@@ -1659,6 +1659,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
         'Chat' => 'Czat',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2636,6 +2637,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => '',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Wprowadź przynajmniej jednego odbiorcę',
         'Remove Ticket Customer' => 'Usuń klienta ze zgłoszenia',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -4785,8 +4788,8 @@ Thanks for your help!
             'Widok modułu interfejsu (wyłącz okno procesów jeśli żadne procesy nie są dostepne) dla klienta.',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
             'Widok modułu interfejsu (wyłącz okno procesów jeśli żadne procesy nie są dostepne).',
-        'Frontend module registration for the agent interface.' => 'Widok modułu interfejsu dla interfejsu agenta.',
-        'Frontend module registration for the customer interface.' => 'Widok modułu interfejsu dla interfejsu klienta.',
+        'Frontend module registration for the agent interface.' => 'Rejestracja modułu interfejsu dla interfejsu agenta.',
+        'Frontend module registration for the customer interface.' => 'Rejestracja modułu interfejsu dla interfejsu klienta.',
         'Frontend theme' => 'Schemat graficzny',
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => 'Indeks filtrów pełnotekstowych do usuwania części tekstu.',
@@ -5034,7 +5037,8 @@ Thanks for your help!
             'Maksymalny rozmiar (w wierszach) okna poinformowanych agentów w interfejsie agenta.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Maksymalny rozmiar (w wierszach) okna zaangażowanych agentów w interfejsie agenta.',
-        'Max size of the subjects in an email reply.' => 'Maksymalny rozmiar tytułów w odpowiedzi e-mail.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maksymalna liczba odpowiedzi automatycznych na własne adresy e-mail w ciągu dnia (ochrona przed zapętleniem).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

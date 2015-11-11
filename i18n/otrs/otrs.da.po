@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Jens LArsen <termi@termi.dk>, 2015
 # Lars Jorgensen <ljorg6@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Danish (http://www.transifex.com/otrs/OTRS/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -1012,7 +1013,7 @@ msgstr "Kan ikke oprette %s!"
 
 #. Template: AAABase
 msgid "Check to activate this date"
-msgstr ""
+msgstr "Marker for at aktivere denne dato"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -1505,7 +1506,7 @@ msgstr "Opgrader til %s nu!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Gå til opgraderings center %s"
 
 #. Template: AAABase
 msgid ""
@@ -1705,7 +1706,7 @@ msgstr "Andre Indstillinger"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Notifikations indstillinger"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1789,7 +1790,7 @@ msgstr "Statusoversigt"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Serviceoversigt"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2257,7 +2258,7 @@ msgstr "automatisk afvisning"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "Auto fjern"
 
 #. Template: AAATicket
 msgid "auto reply"
@@ -2790,11 +2791,11 @@ msgstr "Sagsinformation"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "Inkluder underkøer"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "Ekskluder underkøer"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -2830,7 +2831,7 @@ msgstr "ACL-administration"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filtrer ACLs"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -2864,7 +2865,7 @@ msgstr "Konfigurations-import"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Her kan du indlæse en konfigurationsfil for at importere ACLs til dit system. Filen skal være eksporteret i .yml format af ACL redigerings modulet."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -2886,7 +2887,7 @@ msgstr "Importer ACL-konfiguration(er)"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr ""
+msgstr "For at oprette en ACL kan du enten importere ACLs der er eksporteret fra et andet system eller kreere en helt ny."
 
 #. Template: AdminACL
 msgid ""
@@ -2940,7 +2941,7 @@ msgstr "Slet ugyldig ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Match indstilliger"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -2957,7 +2958,7 @@ msgstr "Skift indstillinger"
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr ""
+msgstr "Indstil hvad du vil ændre hvis kriterierne passer. Husk på at 'Possible' er en hvidlistning og 'PossibleNot' er en sortlistning"
 
 #. Template: AdminACLEdit
 msgid "Check the official"
@@ -3015,7 +3016,7 @@ msgstr "Tilføj alle"
 
 #. Template: AdminACLEdit
 msgid "There was an error reading the ACL data."
-msgstr ""
+msgstr "Fejl under læsning af ACL data."
 
 #. Template: AdminACLNew
 msgid ""
@@ -3143,15 +3144,15 @@ msgstr "Eksempel på svar"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Cloud Service Management"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Indsamling af support-data"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Indsamling af support-data"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3159,13 +3160,13 @@ msgstr "Tip"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "I øjeblikket vises support-data kun i dette system."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "Det anbefales at sende disse data til OTRS koncernen for bedre support."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -3179,7 +3180,7 @@ msgstr "Send support-data"
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr ""
+msgstr "Dette tillader systemet at sende udvidet support-data information til OTRS koncernen."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
@@ -3190,7 +3191,7 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "For at aktivere data afsendelse, bedes du registrere dit system hos OTRS koncernen eller opdatere dit systems registreringsoplysninger (sørg for at aktivere \"send support data\".)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -3200,7 +3201,7 @@ msgstr "Registrer dette system"
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "System registrering er deaktiveret for dit system, kontroller din konfiguration."
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3210,23 +3211,23 @@ msgstr "System-registrering er en OTRS Group-service, der giver en masse fordele
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Registrer dette system"
 
 #. Template: AdminCloudServices
 msgid ""
 "Here you can configure available cloud services that communicate securely "
 "with %s."
-msgstr ""
+msgstr "Her kan du konfigurere tilgængelige sky-tjenester der kommunikerer sikkert med %s."
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Tilgængelige sky-tjenester"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
@@ -3272,7 +3273,7 @@ msgstr "Tilføj kundebruger"
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr ""
+msgstr "Kundebruger behøves for at få vist kundehistorik og til at logge på i kundepanelet."
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -3828,11 +3829,11 @@ msgstr "Slå denne widget til eller fra"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
-msgstr ""
+msgstr "Automatisk udførelse (flere sager)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Udførelses tidsplan"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
@@ -3858,19 +3859,19 @@ msgstr "For at aktivere automatisk kørsel, vælg mindst en værdi fra minutter,
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
-msgstr ""
+msgstr "Hændelses baseret tidsplan (enkelt sag)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "Hændelses udløsere"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Liste med alle konfigurerede hændelser"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Slet denne hændelse"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3886,41 +3887,41 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "Ønsker du at slette denne hændelses-udløser"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr ""
+msgstr "Tilføj hændelses-udløser"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Tilføj hændelse"
 
 #. Template: AdminGenericAgent
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr ""
+msgstr "For at tilføje en ny hændelse skal du vælge hændelses-objekt og navn og klikke på \"+\" knappen"
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
-msgstr ""
+msgstr "Dubliker hændelse"
 
 #. Template: AdminGenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "Denne hændelse er allerede tilknyttet jobbet, brug venligst en anden."
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
-msgstr ""
+msgstr "Slet denne hændelses udløser"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Fjern markering"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Vælg sager"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -3968,7 +3969,7 @@ msgstr "Sag oprettet mellem"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Sidst ændret tidspunkt"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4242,7 +4243,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Du er her"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -5405,23 +5406,23 @@ msgstr "Inkluder vedhæftninger til beskeden"
 
 #. Template: AdminNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Modtagere"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Send til"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Send til disse agenter"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Send til alle gruppe medlemmer"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Send til alle rollemedlemmer"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
@@ -5433,7 +5434,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Dagligt"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5747,6 +5748,10 @@ msgstr ""
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Chat"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6662,15 +6667,15 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition linking"
-msgstr ""
+msgstr "Link betingelser"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
-msgstr ""
+msgstr "Betingelser"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Betingelse"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -6678,7 +6683,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "Modul navn"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
@@ -6700,11 +6705,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
-msgstr ""
+msgstr "Linktype mellem betingelser"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Condition"
-msgstr ""
+msgstr "Fjern denne betingelse"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking"
@@ -6716,7 +6721,7 @@ msgstr "Fjern dette felt"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Og kan ikke gentages for den samme betingelse"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
@@ -6724,7 +6729,7 @@ msgstr "Tilføj et nyt felt"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
-msgstr ""
+msgstr "Tilføj ny betingelse"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
@@ -7719,7 +7724,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Hent fil"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7786,7 +7791,7 @@ msgstr "Rediger konfigurationsindstillinger"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Denne indstilling kan ikke ændres."
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -8348,23 +8353,23 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Hent som SVG fil"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Hent som PNG fil"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Hent som CSV fil"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Hent som Excel fil"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Hent som PDF fil"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
@@ -8449,7 +8454,7 @@ msgstr "Sagen er blevet trukket"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Afbryd og luk"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -8559,23 +8564,23 @@ msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Kør nu"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "Statistik forhåndsvisning"
 
 #. Template: AgentStatisticsEdit
 msgid "Save statistic"
-msgstr ""
+msgstr "Gem statistik"
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
-msgstr ""
+msgstr "Statistik » Import"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
-msgstr ""
+msgstr "Importer statistik konfiguration"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
@@ -8805,6 +8810,10 @@ msgid "Compose Answer for %s%s"
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
 msgstr "Der skal være mindst én modtager."
 
@@ -8898,7 +8907,7 @@ msgstr ""
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s"
-msgstr ""
+msgstr "Frem %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s"
@@ -8914,7 +8923,7 @@ msgstr "Zoom-visning"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s"
-msgstr ""
+msgstr "Saml %s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -8934,7 +8943,7 @@ msgstr "Angiv en gyldig mail-adresse"
 
 #. Template: AgentTicketMove
 msgid "Move %s%s"
-msgstr ""
+msgstr "Flyt %s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9200,15 +9209,15 @@ msgstr "Gem disse filterinstillinger som standard"
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Hændelsestype filter"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Hændelsestype"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Gem som standard"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
@@ -9320,7 +9329,7 @@ msgstr "Marker dette indlæg som læst"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Vis hele teksten"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
@@ -10102,11 +10111,11 @@ msgstr "Dit OTRS Team"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
-msgstr "Accepter ikke icensen"
+msgstr "Accepter ikke licensen"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "Accepter licens og fortsæt"
 
 #. Template: InstallerSystem
 msgid "SystemID"
@@ -14332,7 +14341,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
-msgstr ""
+msgstr "Definerer standard størrelsen på PDF sider"
 
 #. SysConfig
 msgid ""
@@ -16133,8 +16142,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Max. størrelse på emnet i et mail-svar."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""

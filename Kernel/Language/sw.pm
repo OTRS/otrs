@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.855816226783969;
+    $Self->{Completeness}        = 0.855153883732291;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -893,7 +893,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Usajili wa mfumo ni huduma ya kikundi cha OTRS, ambacho kina faida nyingi.',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '',
         'Here you can configure available cloud services that communicate securely with %s.' =>
@@ -1660,6 +1660,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Unakaribia kushusha kwenda kwenye OTRS huru na utapoteza vipengele vifuatavyo na data zote zinazohusiana na hiyo.',
         'Chat' => 'Ongea',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Mandhari ya mfululizo katika kikuzaji tiketi',
         'DynamicField ContactWithData' => 'Uga wenye nguvu wasiliana na data',
         'DynamicField Database' => '',
@@ -2637,6 +2638,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => '',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Tafadhali ambatanisha mpokeaji japo mmoja',
         'Remove Ticket Customer' => 'Mtoe mteja wa tiketi',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -5038,7 +5041,8 @@ Mfano:
             'Ukubwa wa upeo wa juu (katika safu mlalo) wa kikasha cha mawakala walio taarifiwa katika kiolesura cha wakala.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Ukubwa wa upeo juu (katika safu mlalo) wa kikasha wa mawakala wanaohusika katika kioleusura cha wakala. ',
-        'Max size of the subjects in an email reply.' => 'Ukubwa wa upeo wa juu wa masomo katika majibu ya barua pepe.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Majibu ya barua pepe ya otomatiki ya upeo wa juu kwenda anwani yake yenyewe ya barua pepe kwa siku (Ulinzi wa kitanzi).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -3218,7 +3218,7 @@ msgstr "System rejestracji jest serwisem grupy OTRS, kóry posiada wiele zalet!"
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -5755,6 +5755,10 @@ msgstr ""
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Czat"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8810,6 +8814,10 @@ msgstr "Odblokuj zgłoszenia"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -15310,11 +15318,11 @@ msgstr "Widok modułu interfejsu (wyłącz okno procesów jeśli żadne procesy 
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr "Widok modułu interfejsu dla interfejsu agenta."
+msgstr "Rejestracja modułu interfejsu dla interfejsu agenta."
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr "Widok modułu interfejsu dla interfejsu klienta."
+msgstr "Rejestracja modułu interfejsu dla interfejsu klienta."
 
 #. SysConfig
 msgid "Frontend theme"
@@ -16141,8 +16149,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Maksymalny rozmiar (w wierszach) okna zaangażowanych agentów w interfejsie agenta."
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Maksymalny rozmiar tytułów w odpowiedzi e-mail."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
