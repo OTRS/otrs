@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.624633431085044;
+    $Self->{Completeness}        = 0.624084025403029;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -896,7 +896,7 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '',
         'Here you can configure available cloud services that communicate securely with %s.' =>
@@ -1663,6 +1663,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
         'Chat' => '',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2640,6 +2641,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => '',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Merci d\'inclure au moins un destinataire',
         'Remove Ticket Customer' => 'Retirer la demande du client',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -5038,7 +5041,8 @@ Thanks for your help!
             'Le nombre maximal de lignes des boîtes des agents informés de l\'interface agent.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Le nombre maximal de lignes des boîtes des agents impliqués de l\'interface agent.',
-        'Max size of the subjects in an email reply.' => 'La taille maximale des sujets des réponses courriels.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Le nombre maximal quotidien de réponses automatiques à sa propre adresse électronique (boucle de protection).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

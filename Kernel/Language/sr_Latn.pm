@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.962609970674487;
+    $Self->{Completeness}        = 0.961651196873473;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -895,8 +895,8 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Registracija sistema je usluga OTRS Grupe, koja obezbeđuje mnoge prednosti.',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            'Molimo da obratite pažnju na to da za upotrebu „OTRS” servisa u oblaku vaš sistem mora da bude registrovan.',
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
+            '',
         'Register this system' => 'Registruj ovaj sistem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Ovde možete podesiti da dostupni servisi u oblaku koriste sigurnu komunikaciju preko %s.',
@@ -1662,6 +1662,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vratićete se na staru verziju besplatnog „OTRS” i izgubićete sledeća svojstva i podatke povezane sa:',
         'Chat' => 'Ćaskanje',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Detaljni prikaz tiketa na vremenskoj liniji',
         'DynamicField ContactWithData' => 'Dinamičko polje „Kontakt sa podacima”',
         'DynamicField Database' => 'Baza podataka dinamičkih polja',
@@ -2639,6 +2640,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Napiši odgovor za %s%s',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Molimo da uključite bar jednog primaoca',
         'Remove Ticket Customer' => 'Ukloni klijent sa tiketa **',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -5049,7 +5052,8 @@ Vaša tehnička podrška
             'Maksimalna veličina (u redovima) okvira informisanih operatera u operaterskom interfejsu.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Maksimalna veličina (u redovima) okvira uključenih operatera u operaterskom interfejsu.',
-        'Max size of the subjects in an email reply.' => 'Maksimalna veličina subjekta u imejl odgovoru',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Mksimum automatskih imejl odgovora dnevno na sopstvenu adresu (Zaštita od petlje)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

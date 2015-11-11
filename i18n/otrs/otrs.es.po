@@ -5,6 +5,7 @@
 # Deiry Arias <mailimarias@gmail.com>, 2015
 # Deiver Kiel Retana <deikiel@gmail.com>, 2015
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
+# Emmanuel <emmanuel.arias@ya.ru>, 2015
 # Galo Izquierdo <gizquier@hotmail.com>, 2015
 # juanman <juanma@gnutn.org.ar>, 2015
 # Pablo Ascencio <pabloascencio77@gmail.com>, 2015
@@ -12,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -2088,7 +2089,7 @@ msgstr "Tickets disponibles"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr "Escalado"
+msgstr "Escalada"
 
 #. Template: AAATicket
 msgid "last-search"
@@ -2100,7 +2101,7 @@ msgstr "Vista de Colas"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Vista de Tickets Escalados"
+msgstr "Vista de Escaladas de Ticket"
 
 #. Template: AAATicket
 msgid "Message from"
@@ -3217,9 +3218,9 @@ msgstr "!El registro del sistema es un servicio del grupo OTRS, el cual provee i
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Tenga en cuenta que está utilizando servicios en la nube de OTRS que requieren que el sistema esté registrado."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5756,6 +5757,10 @@ msgid "Chat"
 msgstr "Chat"
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "Vista LineaTiempo en ticket zoom"
 
@@ -6826,7 +6831,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Si se añade un artículo, como un seguimiento a través de correo electrónico o portal del cliente , el tiempo de actualización de escalado se restablece. Si no hay contacto del cliente, ya sea correo electrónico o teléfono externo, añadido a un ticket antes de que la hora definida aquí expire, el ticket es escalado ."
+msgstr "Si se añade un artículo, como un seguimiento a través de correo electrónico o portal del cliente , el tiempo para escalada por actualización se restablece. Si no hay contacto del cliente, ya sea correo electrónico o teléfono externo, añadido a un ticket antes de que la hora definida aquí expire, el ticket escala."
 
 #. Template: AdminQueue
 msgid ""
@@ -8243,7 +8248,7 @@ msgstr "Nota: ¡el cliente no es válido!"
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr "El Daemon de OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo la gatillación de escalamiento de tickets, envío de correos, etc."
+msgstr "El Servicio OTRS es un proceso en segundo plano que efectúa tareas asíncronas, por ejemplo el disparo de escalada de tickets, envío de correos, etc."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
@@ -8810,6 +8815,10 @@ msgstr "Desbloquear los tickets"
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
 msgstr "Composición Respuesta para %s%s"
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10624,15 +10633,15 @@ msgstr "Fecha de cierre"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr "Escalamiento - Tiempo de la Primera Respuesta"
+msgstr "Escalada - Tiempo de la Primera Respuesta"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr "Escalamiento - Tiempo de Actualización"
+msgstr "Escalada - Tiempo de Actualización"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr "Escalamiento - Tiempo de Solución"
+msgstr "Escalada - Tiempo de Solución"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -11857,7 +11866,7 @@ msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr "Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalado para los SLAs (si la función servicio/SLA de ticket está activada)."
+msgstr "Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalada para los SLAs (si la función servicio/SLA de ticket está activada)."
 
 #. SysConfig
 msgid ""
@@ -12142,7 +12151,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "Las columnas que pueden ser filtradas en la vista de escalado de la interfaz del agente . Ajustes posibles: 0 = Desactivado , 1 = Disponible , 2 = Activado por defecto. Nota: Sólo los atributos de Ticket, Campos Dinámicos (CampoDinamico_NombreX ) y los atributos del Cliente ( por ejemplo ClienteUsuarioTelefono , ClienteCompañiaNombre, ... ) estan permitidos."
+msgstr "Las columnas que pueden ser filtradas en la vista de escaladas de la interfaz del agente . Ajustes posibles: 0 = Desactivado , 1 = Disponible , 2 = Activado por defecto. Nota: Sólo los atributos de Ticket, Campos Dinámicos (DynamicField_NombreX ) y los atributos del Cliente ( por ejemplo CustomerUserPhone , CustomerCompanyName, ... ) están permitidos."
 
 #. SysConfig
 msgid ""
@@ -14055,7 +14064,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the name of the indicated calendar."
-msgstr ""
+msgstr "Define el nombre del calendario indicado"
 
 #. SysConfig
 msgid "Defines the name of the key for customer sessions."
@@ -14172,7 +14181,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
-msgstr ""
+msgstr "Define los parámetros para la tabla de preferencias del cliente"
 
 #. SysConfig
 msgid ""
@@ -14538,7 +14547,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "Borrar sesiones expiradas"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
@@ -14925,7 +14934,7 @@ msgstr "E-Mail Saliente"
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr ""
+msgstr "Editar Compañía de Cliente"
 
 #. SysConfig
 msgid "Email Addresses"
@@ -14945,7 +14954,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
-msgstr ""
+msgstr "Habilitar Filtros"
 
 #. SysConfig
 msgid ""
@@ -14957,7 +14966,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables S/MIME support."
-msgstr ""
+msgstr "Habilitar soporte S/MIME."
 
 #. SysConfig
 msgid "Enables customers to create their own accounts."
@@ -15078,11 +15087,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Escalation view"
-msgstr "Vista de escalados"
+msgstr "Vista de escaladas"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "Tiempo para escalada"
 
 #. SysConfig
 msgid "Estonian"
@@ -16140,7 +16149,8 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
 
 #. SysConfig

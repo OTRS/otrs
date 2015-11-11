@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -3210,9 +3210,9 @@ msgstr "Sistem pendaftaran ialah perkhirmatan Kumpulan OTRS, yang memberikan ban
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Sila ambil perhatian bahawa perkhidmatan penggunaan awan OTRS memerlukan pendaftaran sistem."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5749,6 +5749,10 @@ msgid "Chat"
 msgstr "Sembang"
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "Pandangan garis masa di zum tiket"
 
@@ -6491,13 +6495,13 @@ msgid ""
 "You can start a connection between to Activities by dropping the Transition "
 "element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr ""
+msgstr "Anda boleh memulakan sambungan antara ke Aktiviti dengan menjatuhkan unsur Peralihan ke atas aktiviti Mulakan sambungan. Selepas itu anda boleh menggerakkan hujung anak panah ke Aktiviti Akhir."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
-msgstr ""
+msgstr "Tindakan boleh diberikan kepada Peralihan dengan menjatuhkan Unsur Tindakan ke label Peralihan."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
@@ -6901,11 +6905,11 @@ msgstr "Templat"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "Tukar Giliran Perhubungan untuk Templat"
 
 #. Template: AdminQueueTemplates
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "Tukar Perkaitan Templat untuk Barisan"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -7043,7 +7047,7 @@ msgstr "Sistem yang berdaftar menghantar data berikut kepada Kumpulan OTRS:"
 msgid ""
 "Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System"
 " and Perl version."
-msgstr ""
+msgstr "Nama Domain Berkelayakan Penuh ( FQDN ), versi OTRS, Pangkalan Data, Sistem pengendalian dan versi Perl."
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
@@ -7356,7 +7360,7 @@ msgstr "Tapis bagi sijil"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
-msgstr ""
+msgstr "Tapisan untuk sijil S/MIME"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -8619,7 +8623,7 @@ msgstr "Statistik » Lihat %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
-msgstr ""
+msgstr "Maklumat Statistik"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
@@ -8631,7 +8635,7 @@ msgstr "Jumlah lajur"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
-msgstr ""
+msgstr "Tunjuk sebagai papan pemuka widget"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
@@ -8803,6 +8807,10 @@ msgstr "Buka tiket"
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
 msgstr "Karang Jawapan untuk %s%s"
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -8994,7 +9002,7 @@ msgstr "Set semula tinjauan"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Column Filters Form"
-msgstr ""
+msgstr "Bentuk Tapisan Ruangan"
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
@@ -9100,7 +9108,7 @@ msgstr "Buang"
 msgid ""
 "Searches in the attributes From, To, Cc, Subject and the article body, "
 "overriding other attributes with the same name."
-msgstr ""
+msgstr "Carian di dalam sifat Daripada, Kepada, Cc, Subjek dan badan artikel, mengatasi sifat-sifat yang lain dengan nama yang sama."
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
@@ -9112,7 +9120,7 @@ msgstr "Nama Lampiran"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "(contoh: m*file atau myfi*)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9603,7 +9611,7 @@ msgstr "Salinan Karbon"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "contoh: m*file atau myfi*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10440,14 +10448,14 @@ msgid ""
 "Error: Please make sure your database accepts packages over %s MB in size "
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "Ralat: Sila pastikan pangkalan data anda menerima pakej melebihi saiz %s MB (buat masa ini ia hanya menerima pakej sehingga %s MB). Sila sesuaikan tetapan max_paket_dibenarkan pada pangkalan data anda agar tidak terdapat ralat."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "Error: Please set the value for innodb_log_file_size on your database to at "
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
-msgstr ""
+msgstr "Ralat: Sila tetapkan nilai untuk innodb_log_file_size pada pangkalan data anda kepada sekurang-kurangnya %s MB ( semasa: %s MB, disyorkan: %s MB) . Untuk maklumat lanjut, sila lihat di %s."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -10516,7 +10524,7 @@ msgstr "Paksi-Y"
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr ""
+msgstr "Tiada lengkapan masa lalu atau nilai masa relatif lengkapan semasa+akan datang dipilih."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
@@ -10665,15 +10673,15 @@ msgstr "Susun urutan"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Historic"
-msgstr ""
+msgstr "Sejarah Keadaan"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Type Historic"
-msgstr ""
+msgstr "Sejarah Jenis Keadaan"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
-msgstr ""
+msgstr "Julat Masa Bersejarah"
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
@@ -10727,64 +10735,64 @@ msgstr "Tidak dapat menentukan versi pangkalan data."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "Setchar Sambungan Pelanggan"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Tetapan karakter_set_pelanggan haruslah utf8."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Server Database Charset"
-msgstr ""
+msgstr "Setchar Pangkalan data Pelayan"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Tetapan karakter_set_pangkalandata haruslah UNICODE atau UTF8."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
-msgstr ""
+msgstr "Setchar Jadual"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "Terdapat jadual dijumpai yang tidak mempunyai utf8 sebagai setchar."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "Saiz Fail Log InnoDB"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "Tetapan saiz_fail_innodb haruslah sekurang-kurangnya 256 MB."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "Saiz Query Maksimum"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr ""
+msgstr "Tetapan 'paket_dibenarkan_maksimum' mestilah tinggi daripada 20 MB."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Saiz Query Cache"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr ""
+msgstr "Tetapan 'saiz_query_cache' harus digunakan (tinggi daripada 10 MB tetapi tidak melebihi 512 MB)."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
@@ -10800,7 +10808,7 @@ msgstr "Enjin Simpanan Rajah"
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "Jadual dengan enjin simpanan berlainan daripada enjin default dijumpai."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
@@ -10815,7 +10823,7 @@ msgstr "Tetapan NLS_LANG"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG mestilah disetkan ke al32utf8 (contoh: GERMAN_GERMANY.AL32UTF8)."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
@@ -10825,22 +10833,22 @@ msgstr "Tetapan NLS_DATE_FORMAT"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "NLS_DATE_FORMAT mestilah disetkan ke 'YYYY-MM-DD HH24:MI:SS'."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "Tetapan NLS_DATE_FORMAT Periksa SQL"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Tetapan client_encoding haruslah UNICODE atau UTF8 "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Tetapan server_encoding haruslah UNICODE atau UTF8 "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
@@ -10850,12 +10858,12 @@ msgstr "Format Tarikh"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "Tetapan JenisTarikh haruslah ISO."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 8.x or higher is required."
-msgstr ""
+msgstr " PostgreSQL 8.x atau lebih tinggi diperlukan."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTRS.pm
@@ -10899,7 +10907,7 @@ msgstr "Memuat sistem"
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g."
 " a load of 8 or less on a system with 8 CPUs is OK)."
-msgstr ""
+msgstr "Beban sistem hendaklah maksimum dengan jumlah CPU sistem ini miliki (contohnya beban 8 atau kurang pada sistem dengan 8 CPU adalah OK)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Perl Modules"
@@ -10967,7 +10975,7 @@ msgstr "Tiket"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "Penyertaan Sejarah Tiket "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -11024,17 +11032,17 @@ msgstr ""
 msgid ""
 "Security risk: you use the default setting for SOAP::User and "
 "SOAP::Password. Please change it."
-msgstr ""
+msgstr "Risiko keselamatan: anda menggunakan tetapan default untuk SOAP::Pengguna dan SOAP::Katalaluan. Sila tukar."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
 msgid "Default Admin Password"
-msgstr ""
+msgstr "Kata laluan Default Admin"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr ""
+msgstr "Risiko keselamatan: akaun agen root@localhost masih mempunyai kata laluan default. Sila tukar atau batalkan akaun."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
 msgid "Error Log"
@@ -11063,12 +11071,12 @@ msgstr "Tetapan FQDN anda tidak sah."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
 msgid "File System Writable"
-msgstr ""
+msgstr "Fail Sistem Boleh Disalin"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "Sistem fail pada bahagian OTRS anda tidak boleh ditulis."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -11157,25 +11165,25 @@ msgstr "Zon waktu pelayan"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Computed server time offset"
-msgstr ""
+msgstr "Cabang masa pelayan dikira"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting (global time offset)"
-msgstr ""
+msgstr "Tetapan ZonMasa OTRS (cabang masa global)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "TimeZone may only be activated for systems running in UTC."
-msgstr ""
+msgstr "ZonMasa akan hanya diaktifkan untuk sistem yang dijalankan dalam UTC."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZoneUser setting (per-user time zone support)"
-msgstr ""
+msgstr "Tetapan PenggunaZonMasa OTRS (sokongan zon masa setiap pengguna)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid ""
 "TimeZoneUser may only be activated for systems running in UTC that don't "
 "have an OTRS TimeZone set."
-msgstr ""
+msgstr "PenggunaZonMasa akan hanya diaktifkan untuk sistem yang dijalankan dalam UTC yang tidak mempunyai set ZonMasa OTRS."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
@@ -11184,7 +11192,7 @@ msgstr "Tetapan ZonMasa OTRS untuk kalendar"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver/Loaded Apache Modules"
-msgstr ""
+msgstr "Modul Apache PelayanWeb/Dimuatkan"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -11199,7 +11207,7 @@ msgstr "Model MPM"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS memerlukan apache dijalankan dengan model MPM 'prefork'."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -11209,37 +11217,37 @@ msgstr "Penggunaan Pemecut CGI"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr ""
+msgstr "Anda harus menggunakan FastCGI atau mod_perl untuk meningkatkan prestasi anda."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_deflate Usage"
-msgstr ""
+msgstr "Penggunaan mod_deflate"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "Sila pasang mod_deflate untuk meningkatkan kelajuan GUI."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "Penggunaan mod_filter"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Sila pasang mod_filter jika mod_deflate digunakan."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_headers Usage"
-msgstr ""
+msgstr "Penggunaan mod_headers"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
+msgstr "Sila pasang mod_headers untuk meningkatkan kelajuan GUI."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -11252,29 +11260,29 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr ""
+msgstr "Apache::Reload atau Apache2::Muat semula harus digunakan sebagai ModulPerl dan PengendaliAwalPerl untuk mengelak pelayan web bermula semula apabila memasang dan menaik taraf modul. "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Penggunaan Apache2::DBI"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
-msgstr ""
+msgstr "Apache2::DBI harus digunakan untuk mendapatkan prestasi yang lebih baik dengan sambungan pangkalan data sebelum ditubuhkan."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Webserver/Environment Variables"
-msgstr ""
+msgstr "Pembolehubah Pelayanweb/Persekitaran"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
 msgid "You should use PerlEx to increase your performance."
-msgstr ""
+msgstr "Anda harus menggunakan PerlEx untuk meningkatkan prestasi anda."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -11418,7 +11426,7 @@ msgstr "Tindakan susulan untuk tiket yang ditutup adalah tidak mungkin. Tiket ba
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
-msgstr ""
+msgstr "Barisan postmaster."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
@@ -11430,7 +11438,7 @@ msgstr "Semua tiket-tiket lama."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All misc tickets."
-msgstr ""
+msgstr "Semua tiket pelbagai."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -11441,20 +11449,20 @@ msgstr "Jawapan automatik yang akan dihantar selepas tiket baru dicipta."
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
-msgstr ""
+msgstr "Penolakan automatik yang akan dihantar keluar selepas susulan telah ditolak (sekiranya pilihan susulan barisan ialah \"tolak\")."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received"
 " for a ticket (in case queue follow-up option is \"possible\")."
-msgstr ""
+msgstr "Pengesahan automatik yang dihantar selepas susulan diterima untuk tiket (sekiranya susulan barisan ialah \"mungkin\")."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
-msgstr ""
+msgstr "Tindakbalas automatik yang akan dihantar keluar selepas susulan telah ditolak dan tiket baharu telah dicipta (sekiranya pilihan susulan barisan ialah \"tiket\")."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
@@ -11462,21 +11470,21 @@ msgstr "Penyingkiran automatik akan dihantar selepas pelanggan membuang permohon
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "Jawapan default (selepas tiket baharu telah dicipta)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "Penolakan default (selepas susulan dan ditolak bagi tiket yang ditutup)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "Susulan default (selepas susulan tiket sudah ditambah)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
-msgstr ""
+msgstr "Penolakan default/tiket baharu dicipta (selepas susulan ditutup dengan ciptaan tiket baharu)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
@@ -11511,15 +11519,15 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr ""
+msgstr "\n\nPelanggan yang dihormati,\n\nMalangnya kiami tidak dapat mengesan nombpr tiket yang sah\ndalam subjek anda, jadi e-mel ini tidak boleh diproses.\n\nSila buat tiket baru melalui panel pelanggan.\n\nTerima kasih atas bantuan anda!\n\nKumpulan MejaBantuan Anda\n"
 
 #. SysConfig
 msgid " (work units)"
-msgstr ""
+msgstr "(unit kerja)"
 
 #. SysConfig
 msgid "\"%s\" notification was sent to \"%s\" by \"%s\"."
-msgstr ""
+msgstr "\"%s\" pemberitahuan telah dihantar ke \"%s\" oleh \"%s\"."
 
 #. SysConfig
 msgid "%s"
@@ -11527,7 +11535,7 @@ msgstr "%s"
 
 #. SysConfig
 msgid "%s time unit(s) accounted. Now total %s time unit(s)."
-msgstr ""
+msgstr "%s Unit masa (s) dikira. % Unit masa dijumpai(s)."
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -11546,7 +11554,7 @@ msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
-msgstr ""
+msgstr "Senarai medan dinamik yang digabung ke dalam tiket utama semasa operasi penggabungan. Hanya medan dinamik yang kosong di dalam tiket utama akan disetkan."
 
 #. SysConfig
 msgid "A picture"
@@ -11617,11 +11625,11 @@ msgstr "IDAktiviti"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr ""
+msgstr "Tambah panggilan telefon masuk pada tiket ini."
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr ""
+msgstr "Tambah panggilan telefon keluar pada tiket ini."
 
 #. SysConfig
 msgid "Added email. %s"
@@ -11650,7 +11658,7 @@ msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of"
 " the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
-msgstr ""
+msgstr "Menambah alamat e-mel pelanggan kepada penerima dalam skrin gubahan tiket bagi antara muka ejen. Alamat e-mel pelanggan tidak akan ditambah jika jenis artikel itu adalah e-mel\ndalaman."
 
 #. SysConfig
 msgid ""
@@ -11694,7 +11702,7 @@ msgstr "Interface artikel pemberitahuan modul ejen untuk memeriksa S/MIME."
 
 #. SysConfig
 msgid "Agent interface module to access CIC search via nav bar."
-msgstr ""
+msgstr "Modul antara muka agen untuk mengakses carian CIC melalui bar navigasi."
 
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar."
@@ -11748,43 +11756,43 @@ msgstr "Semua pengguna pelanggan PelangganID"
 msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin tiket tertutup dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin tiket bebas teks pada antaramuka agen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be"
 " overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin nota tiket dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin pemilik tiket dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin tangguhan tiket pada tiket yang dizum dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin keutamaan tiket pada tiket yang dizum dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface."
 " Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Membolehkan penambahan nota di dalam skrin tanggungjawab tiket dalam antaramuka ejen. Boleh ditulis semula oleh Tiket::Frontend::PerluMasaPerakaunan."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
@@ -11833,7 +11841,7 @@ msgstr "Membolehkan pelanggan untuk menetapkan perkhidmatan tiket di dalam inter
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is set to 'No', TicketTypeDefault should be configured."
-msgstr ""
+msgstr "Memblehkan pelanggan untuk menetapkan jenis tiket di dalam antaramuka pelanggan. Jika ini disetkan kepada 'Tidak', JenisTiketDefault perlu dikonfigurasi."
 
 #. SysConfig
 msgid ""
@@ -11857,7 +11865,7 @@ msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. with this kind of conditions like "
 "\"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface pelanggan. Dengan fungsi ini, anda boleh mencari contoh: dengan keadaan seperti \"(kunci1&&kunci2)\" atau \"(kunci1||kunci2)\"."
 
 #. SysConfig
 msgid ""
@@ -11876,7 +11884,7 @@ msgstr "Membolehkan mempunyai format tiket gambaran sederhana (CustomerInfo => 1
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also"
 " the customer information)."
-msgstr ""
+msgstr "Membolehkan mempunyai format tiket gambaran kecil (InfoPelanggan => 1 - juga menunjukkan maklumat pelanggan)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -11926,11 +11934,11 @@ msgstr "Susulan Auto \"%s\" telah menghantar."
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr ""
+msgstr "AutoTolak dihantar ke \"%s\"."
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
-msgstr ""
+msgstr "AutoBalas dihantar ke \"%s\"."
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -11940,7 +11948,7 @@ msgstr "Memecahkan garis Automatik dalam mesej teks selepas beberapa x aksara."
 msgid ""
 "Automatically lock and set owner to current Agent after opening the move "
 "ticket screen of the agent interface."
-msgstr ""
+msgstr "Kunci secara automatik dan set pemilik ke Agen semasa selepas pembukaan skrin alih tiket pada antara muka agen."
 
 #. SysConfig
 msgid ""
@@ -12222,7 +12230,7 @@ msgstr "Tiket Syarikat"
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
-msgstr ""
+msgstr "Nama syarikat yang akan dimasukkan ke dalam e-mel keluar sebagai X- Header."
 
 #. SysConfig
 msgid "Configure Processes."
@@ -12235,16 +12243,16 @@ msgstr "Konfigurasi dan menguruskan ACLs."
 #. SysConfig
 msgid ""
 "Configure any additional readonly mirror databases that you want to use."
-msgstr ""
+msgstr "Konfigurasi sebarang tambahan pangkalan data cermin baca sahaja yang anda mahu gunakan."
 
 #. SysConfig
 msgid "Configure sending of support data to OTRS Group for improved support."
-msgstr ""
+msgstr "Konfigurasi penghantaran data sokongan kepada Kumpulan OTRS untuk sokongan yang lebih baik."
 
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Konfigurasi skrin hendaklah ditunjukkan selepas tiket baru telah diwujudkan."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -12260,7 +12268,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
-msgstr ""
+msgstr "Mengawal bagaimana untuk memaparkan catatan sejarah tiket sebagai nilai-nilai yang boleh dibaca."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -12276,19 +12284,19 @@ msgstr "Kawalan jika lebih daripada satu daripada kemasukan boleh ditetapkan dal
 msgid ""
 "Controls if the admin is allowed to import a saved system configuration in "
 "SysConfig."
-msgstr ""
+msgstr "Mengawal jika admin dibenarkan untuk mengimport konfigurasi sistem disimpan dalam SysConfig."
 
 #. SysConfig
 msgid ""
 "Controls if the admin is allowed to make changes to the database via "
 "AdminSelectBox."
-msgstr ""
+msgstr "Kawal jika admin dibenarkan untuk membuat perubahan kepada pangkalan data melalui KotakPilihAdmin."
 
 #. SysConfig
 msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
-msgstr ""
+msgstr "Mengawal jika tiket dan artikel melihat penanda dikeluarkan apabila tiket diarkibkan. "
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -12414,11 +12422,11 @@ msgstr "Pengguna Pelanggan <-> Perkhidmatan"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr ""
+msgstr "Pentadbiran Pengguna Pelanggan"
 
 #. SysConfig
 msgid "Customer Users"
-msgstr ""
+msgstr "Pengguna-pengguna Pelanggan"
 
 #. SysConfig
 msgid "Customer called us."
@@ -12444,15 +12452,15 @@ msgstr "Permintaan pelanggan yang dikemukakan melalui laman web."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Carian pengguna pelanggan"
 
 #. SysConfig
 msgid "CustomerID search"
-msgstr ""
+msgstr "Carian IDPelanggan"
 
 #. SysConfig
 msgid "CustomerName"
-msgstr ""
+msgstr "NamaPelanggan"
 
 #. SysConfig
 msgid "Customers <-> Groups"
@@ -12462,7 +12470,7 @@ msgstr "Pelanggan <-> Kumpulan"
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
-msgstr ""
+msgstr "Kata-kata berhenti disesuaikan bagi indeks teks penuh. Kata-kata ini akan dikeluarkan daripada indeks carian."
 
 #. SysConfig
 msgid "Czech"
@@ -12590,15 +12598,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the max depth of queues."
-msgstr ""
+msgstr "Menentukan kedalaman maksimum barisan."
 
 #. SysConfig
 msgid "Define the queue comment 2."
-msgstr ""
+msgstr "Tentukan barisan komen 2."
 
 #. SysConfig
 msgid "Define the service comment 2."
-msgstr ""
+msgstr "Tentukan perkhidmatan komen 2."
 
 #. SysConfig
 msgid "Define the sla comment 2."
@@ -12608,7 +12616,7 @@ msgstr ""
 msgid ""
 "Define the start day of the week for the date picker for the indicated "
 "calendar."
-msgstr ""
+msgstr "Menentukan hari permulaan minggu untuk pemilih tarikh untuk kalendar yang ditunjukkan."
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
@@ -12699,7 +12707,7 @@ msgstr "Mentakrifkan ungkapan biasa yang menapis semua alamat e-mel yang tidak p
 msgid ""
 "Defines a sleep time in microseconds between tickets while they are been "
 "processed by a job."
-msgstr ""
+msgstr "Mentakrifkan masa tidur dalam mikrosaat antara tiket ketika mereka sedang diproses oleh pekerjaan."
 
 #. SysConfig
 msgid ""
@@ -12714,13 +12722,13 @@ msgstr "Mentakrifkan semua X-headers yang perlu diimbas."
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only English names of languages here."
-msgstr ""
+msgstr "Mentakrifkan semua bahasa yang boleh didapati dengan permohonan itu. Menetapkan nama yang hanya bahasa Inggeris di sini."
 
 #. SysConfig
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only native names of languages here."
-msgstr ""
+msgstr "Mentakrifkan semua bahasa yang boleh didapati dengan permohonan itu. Nyatakan hanya nama-nama bahasa asal di sini."
 
 #. SysConfig
 msgid ""
@@ -12740,7 +12748,7 @@ msgstr "Mentakrifkan semua parameter untuk item ini dalam keutamaan pelanggan."
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
-msgstr ""
+msgstr "Mentakrifkan semua parameter bagi pengangkutan pemberitahuan ini."
 
 #. SysConfig
 msgid "Defines all the possible stats output formats."
@@ -12771,7 +12779,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines from which ticket attributes the agent can select the result order."
-msgstr ""
+msgstr "Mentakrifkan dari ciri tiket manakah agen boleh memilih urutan keputusan."
 
 #. SysConfig
 msgid ""
@@ -12781,12 +12789,12 @@ msgstr "Mentakrifkan bagaimana bidang From dari e-mel (dihantar daripada jawapan
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the queue view."
-msgstr ""
+msgstr "Mentakrifkan jika pra-pengasingan mengikut keutamaan perlu dilakukan dalam paparan barisan."
 
 #. SysConfig
 msgid ""
 "Defines if a pre-sorting by priority should be done in the service view."
-msgstr ""
+msgstr "Mentakrifkan jika pra-pengasingan mengikut keutamaan perlu dilakukan dalam paparan perkdidmatan."
 
 #. SysConfig
 msgid ""
@@ -12800,7 +12808,7 @@ msgid ""
 "Defines if a ticket lock is required in the email outbound screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Mentakrifkan jika kunci tiket diperlukan dalam skrin keluar e-mel antara muka ejen (jika tiket itu tidak dikunci lagi, tiket yang akan dikunci dan ejen semasa akan ditetapkan secara automatik sebagai pemiliknya)."
 
 #. SysConfig
 msgid ""
@@ -12900,7 +12908,7 @@ msgid ""
 "Defines if agents should be allowed to login if they have no shared secret "
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Mentakrifkan jika ejen harus dibenarkan untuk log masuk jika mereka tidak mempunyai rahsia dikongsi disimpan di dalam pilihan mereka dan oleh itu tidak menggunakan pengesahan dua faktor."
 
 #. SysConfig
 msgid ""
@@ -12913,27 +12921,27 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Mentakrifkan jika pelanggan harus dibenarkan untuk log masuk jika mereka tidak mempunyai rahsia dikongsi disimpan di dalam pilihan mereka dan oleh itu tidak menggunakan pengesahan dua faktor."
 
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
-msgstr ""
+msgstr "Mentakrifkan jika mod dipertingkatkan harus digunakan (membolehkan penggunaan jadual, penggantian, subskrip, superskrip, tampal dari perkataan, dll)."
 
 #. SysConfig
 msgid ""
 "Defines if the list for filters should be retrieve just from current tickets"
 " in system. Just for clarification, Customers list will always came from "
 "system's tickets."
-msgstr ""
+msgstr "Mentakrifkan jika senarai untuk tapisan perlu didapatkan hanya dari tiket semasa dalam sistem. Hanya untuk penjelasan, senarai pelanggan akan sentiasa datang dari tiket sistem."
 
 #. SysConfig
 msgid ""
 "Defines if the previously valid token should be accepted for authentication."
 " This is slightly less secure but gives users 30 seconds more time to enter "
 "their one-time password."
-msgstr ""
+msgstr "Mentakrifkan jika cara yang sebelum ini sah perlu diterima untuk pengesahan. Ini adalah sedikit kurang selamat tetapi memberi pengguna 30 saat lebih banyak masa untuk memasukkan kata laluan berkadar sekali mereka."
 
 #. SysConfig
 msgid ""
@@ -12941,7 +12949,7 @@ msgid ""
 "activated, a note must be entered for all ticket actions (no matter if the "
 "note itself is configured as active or is originally mandatory for the "
 "individual ticket action screen)."
-msgstr ""
+msgstr "Mentakrifkan jika perakaunan masa adalah wajib dalam antara muka ejen. Jika diaktifkan, nota mesti dimasukkan untuk semua tindakan tiket (tidak kira jika nota itu sendiri dikonfigurasi sebagai aktif atau berasal wajib untuk skrin tindakan tiket individu)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -12950,7 +12958,7 @@ msgstr "Mentakrifkan jika perakaunan masa mesti diset kepada semua tiket dalam t
 #. SysConfig
 msgid ""
 "Defines queues that's tickets are used for displaying as calendar events."
-msgstr ""
+msgstr "Mentakrifkan barisan bahawa tiket digunakan untuk dipaparkan sebagai acara kalendar ."
 
 #. SysConfig
 msgid ""
@@ -12988,7 +12996,7 @@ msgstr "Mentakrifkan alamat server DNS yangng berdedikasi, jika perlu, untuk mel
 #. SysConfig
 msgid ""
 "Defines the agent preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "Mentakrifkan kunci keutamaan ejen di mana kunci rahsia yang dikongsi disimpan."
 
 #. SysConfig
 msgid ""
@@ -13035,7 +13043,7 @@ msgid ""
 "Defines the cluster node identifier. This is only used in cluster "
 "configurations where there is more than one OTRS frontend system. Note: only"
 " values from 1 to 99 are allowed."
-msgstr ""
+msgstr "Mentakrifkan pengecam nod kelompok. Ini hanya digunakan dalam konfigurasi kelompok jika terdapat lebih daripada satu sistem bahagian depan OTRS. Nota: hanya nilai 1-99 adalah dibenarkan."
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
@@ -13065,7 +13073,7 @@ msgstr "Mentakrifkan sambungan untuk http/ftp, melalui proksi."
 #. SysConfig
 msgid ""
 "Defines the customer preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "Mentakrifkan kunci keutamaan pelanggan di mana kunci rahsia yang dikongsi disimpan."
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
@@ -13113,13 +13121,13 @@ msgstr "Mentakrifkan nombor maksimum asal dari sifat-sifat paksi-x untuk skala m
 msgid ""
 "Defines the default maximum number of statistics per page on the overview "
 "screen."
-msgstr ""
+msgstr "Menentukan bilangan maksimum lalai statistik setiap halaman pada skrin gambaran keseluruhan."
 
 #. SysConfig
 msgid ""
 "Defines the default next state for a ticket after customer follow-up in the "
 "customer interface."
-msgstr ""
+msgstr "Mentakrifkan lalai keadaan akan datang untuk tiket selepas susulan pelanggan dalam antara muka pelanggan."
 
 #. SysConfig
 msgid ""
@@ -13185,7 +13193,7 @@ msgstr "Mentakrifkan asal keadaan seterusnya dari tiket selepas dihadapankan, da
 msgid ""
 "Defines the default next state of a ticket after the message has been sent, "
 "in the email outbound screen of the agent interface."
-msgstr ""
+msgstr "Mentakrifkan lalai keadaan tiket seterusnya selepas mesej telah dihantar, dalam skrin keluar e-mel antara muka ejen."
 
 #. SysConfig
 msgid ""
@@ -13209,7 +13217,7 @@ msgstr "Mentakrifkan teks badan nota asal untuk tiket telefon dalam skrin keluar
 msgid ""
 "Defines the default priority of follow-up customer tickets in the ticket "
 "zoom screen in the customer interface."
-msgstr ""
+msgstr "Mentakrifkan keutamaan lalai tiket susulan pelanggan dalam skrin zum tiket dalam antara muka pelanggan."
 
 #. SysConfig
 msgid ""
@@ -13295,13 +13303,13 @@ msgstr ""
 msgid ""
 "Defines the default sort criteria for all queues displayed in the queue "
 "view."
-msgstr ""
+msgstr "Mentakrifkan kriteria jenis lalai untuk semua barisan dipaparkan dalam paparan barisan."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all services displayed in the service "
 "view."
-msgstr ""
+msgstr "Mentakrifkan kriteria jenis lalai untuk semua perkhidmatan dipaparkan dalam paparan perkhidmatan."
 
 #. SysConfig
 msgid ""
@@ -13518,7 +13526,7 @@ msgstr "Mentakrifkan keutamaan tiket asal dalam skrin tanggungjawab tiket dari p
 msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "Mentakrifkan jenis tiket lalai untuk tiket pelanggan baru dalam antara muka pelanggan."
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -13538,7 +13546,7 @@ msgstr "Mentakrifkan jnis asal artikel untuk operasi ini."
 msgid ""
 "Defines the default type of the message in the email outbound screen of the "
 "agent interface."
-msgstr ""
+msgstr "Mentakrifkan jenis lalai mesej dalam skrin keluar e-mel antara muka ejen."
 
 #. SysConfig
 msgid ""
@@ -13632,7 +13640,7 @@ msgstr "Mentakrifkan jenis penghantar tiket asal yang boleh dilihat (asal: custo
 #. SysConfig
 msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
-msgstr ""
+msgstr "Mentakrifkan medan dinamik yang digunakan untuk dipaparkan pada acara kalendar ."
 
 #. SysConfig
 msgid ""
@@ -13930,7 +13938,7 @@ msgstr "Mentakrifkan nombor maksima mukasurat untuk satu fail PDF."
 
 #. SysConfig
 msgid "Defines the maximum number of quoted lines to be added to responses."
-msgstr ""
+msgstr "Mentakrifkan bilangan maksimum baris dipetik untuk ditambahkan kepada jawapan."
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
@@ -13985,13 +13993,13 @@ msgstr "Mentakrifkan modul untuk mengesahkan pelanggan."
 msgid ""
 "Defines the module to display a notification in different interfaces on "
 "different occasions for OTRS Business Solution™."
-msgstr ""
+msgstr "Mentakrifkan modul untuk memaparkan pemberitahuan dalam antara muka yang berbeza pada masa yang berlainan bagi Penyelesaian OTRS™."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTRS Daemon is not running."
-msgstr ""
+msgstr "Mentakrifkan modul untuk memaparkan pemberitahuan dalam antara muka ejen jika OTRS Daemon tidak berjalan."
 
 #. SysConfig
 msgid ""
@@ -14003,7 +14011,7 @@ msgstr "Mentakrifkan modul untuk mempamerkan notifikasi dalam paparan ejen, jika
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having system maintenance active."
-msgstr ""
+msgstr "Mentakrifkan modul untuk memaparkan pemberitahuan dalam antara muka ejen, jika ejen log masuk sambil mengalami penyelenggaraan sistem aktif."
 
 #. SysConfig
 msgid ""
@@ -14013,7 +14021,7 @@ msgstr "Mentakrifkan modul untuk mempamerkan notifikasi dalam paparan ejen, jika
 
 #. SysConfig
 msgid "Defines the module to generate code for periodic page reloads."
-msgstr ""
+msgstr "Mentakrifkan modul untuk menghasilkan kod untuk isian semula halaman berkala."
 
 #. SysConfig
 msgid ""
@@ -14079,7 +14087,7 @@ msgstr "Mentakrifkan status yang mungkin yang seterusya selepas penghantaran tik
 msgid ""
 "Defines the next possible states after sending a message in the email "
 "outbound screen of the agent interface."
-msgstr ""
+msgstr "Mentakrifkan keadaan kemungkinan akan datang selepas menghantar mesej dalam skrin keluar e-mel antara muka ejen."
 
 #. SysConfig
 msgid ""
@@ -14492,7 +14500,7 @@ msgstr "Mentakrifkan artikel jenis penghantar yang mana harus di pamerkan dalam 
 msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
-msgstr ""
+msgstr "Mentakrif barangan mana boleh didapati untuk 'Tindakan' di peringkat ketiga struktur ACL."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
@@ -14513,13 +14521,13 @@ msgstr "Mentakrifkan status yang mana harus di set secara automatik (Isi kandung
 msgid ""
 "Defines wich article type should be expanded when entering the overview. If "
 "nothing defined, latest article will be expanded."
-msgstr ""
+msgstr "Mentakrifkan jenis artikel mana harus diperluaskan apabila memasuki tinjauan. Jika tidak ada yang ditakrifkan, artikel terkini akan diperluaskan."
 
 #. SysConfig
 msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
-msgstr ""
+msgstr "Mentakrifkan, tiket mana dari jenis keadaan tiket yang mana tidak boleh disenaraikan dalam senarai tiket berkaitan."
 
 #. SysConfig
 msgid "Delete expired cache from core modules."
@@ -14527,7 +14535,7 @@ msgstr "Memadam cache tamat tempoh daripada modul teras."
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
-msgstr ""
+msgstr "Padam pemuat cache tamat tempoh mingguan (Ahad pagi)."
 
 #. SysConfig
 msgid "Delete expired sessions."
@@ -14590,7 +14598,7 @@ msgstr "Menentukan skrin seterusnya selepas tiket pelanggan baru dalam paparan p
 msgid ""
 "Determines the next screen after the follow-up screen of a zoomed ticket in "
 "the customer interface."
-msgstr ""
+msgstr "Menentukan skrin seterusnya selepas skrin susulan daripada tiket zum dalam antara muka pelanggan."
 
 #. SysConfig
 msgid ""
@@ -14630,7 +14638,7 @@ msgstr "Menentukan cara objek yang dipaut dipamerkan di dalam setiap zoom mask."
 msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr ""
+msgstr "Menentukan pilihan yang akan menjadi sah pada penerima (tiket telefon) dan penghantar (tiket e-mel) dalam antara muka ejen."
 
 #. SysConfig
 msgid ""
@@ -14667,7 +14675,7 @@ msgstr "Mempamerkan amaran dan menghalang pencarian apabila menggunakan perkataa
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
-msgstr ""
+msgstr "Tetapan paparan untuk mengatasi lalai untuk Tiket Proses."
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
@@ -14734,13 +14742,13 @@ msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface. Possible settings: 0 = Disabled, 1 = "
 "Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Pilihan medan dinamik yang ditunjukkan dalam bahagian menjawab tiket dalam skrin zum tiket antara muka pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan Diperlukan."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Medan dinamik ditunjukkan dalam skrin keluar e-mel antara muka ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan Diperlukan."
 
 #. SysConfig
 msgid ""
@@ -14807,7 +14815,7 @@ msgid ""
 "Dynamic fields shown in the ticket overview screen of the customer "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and "
 "required."
-msgstr ""
+msgstr "Medan dinamik ditunjukkan dalam skrin gambaran keseluruhan tiket bagi antara muka pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan Diperlukan."
 
 #. SysConfig
 msgid ""
@@ -14883,7 +14891,7 @@ msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and shown by "
 "default."
-msgstr ""
+msgstr "Medan Dinamik ditunjukkan dalam skrin carian tiket dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan ditunjukkan oleh lalai."
 
 #. SysConfig
 msgid ""
@@ -14896,7 +14904,7 @@ msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent"
 " interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by "
 "default."
-msgstr ""
+msgstr "Medan dinamik ditunjukkan dalam skrin tinjauan tiket format kecil dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Didapati, 2 = Dibolehkan oleh lalai."
 
 #. SysConfig
 msgid ""
@@ -14914,7 +14922,7 @@ msgstr "pendaftaran objek DynamicField"
 
 #. SysConfig
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "E-mel Menuju ke Luar"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -14970,7 +14978,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
-msgstr ""
+msgstr "Membolehkan atau melumpuhkan mod nyahpepijat atas muka akhir hadapan."
 
 #. SysConfig
 msgid ""
@@ -15031,7 +15039,7 @@ msgstr "Mendaftar proses untuk tiket ini"
 
 #. SysConfig
 msgid "Enter your shared secret to enable two factor authentication."
-msgstr ""
+msgstr "Masukkan rahsia perkongsian anda untuk membolehkan dua faktor pengesahan."
 
 #. SysConfig
 msgid "Escalation response time finished"
@@ -15148,19 +15156,19 @@ msgstr ""
 msgid ""
 "Executes follow-up checks on attachment contents for mails that don't have a"
 " ticket number in the subject."
-msgstr ""
+msgstr "Melaksanakan pemeriksaan susulan ke atas kandungan lampiran untuk mel yang tidak mempunyai nombor tiket dalam subjek."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on email body for mails that don't have a ticket "
 "number in the subject."
-msgstr ""
+msgstr "Melaksanakan pemeriksaan susulan ke atas badan e-mel untuk mel yang tidak mempunyai nombor tiket dalam subjek."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on the raw source email for mails that don't have "
 "a ticket number in the subject."
-msgstr ""
+msgstr "Melaksanakan pemeriksaan susulan ke atas e-mel sumber mentah untuk mel yang tidak mempunyai nombor tiket dalam subjek."
 
 #. SysConfig
 msgid ""
@@ -15178,7 +15186,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Fetch incoming emails from configured mail accounts."
-msgstr ""
+msgstr "Kutip e-mel masuk dari akaun mel dikonfigurasikan."
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
@@ -15220,7 +15228,7 @@ msgstr ""
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr ""
+msgstr "ResponPertama"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
@@ -15749,13 +15757,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
-msgstr ""
+msgstr "Jika didayakan daemon akan mengarahkan aliran ralat piawai ke fail log."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
-msgstr ""
+msgstr "Jika didayakan daemon akan mengarahkan aliran output standard ke fail log."
 
 #. SysConfig
 msgid ""
@@ -15821,7 +15829,7 @@ msgid ""
 "If this option is set to 'Yes', tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is set to 'No', no autoresponses will be sent."
-msgstr ""
+msgstr "Jika pilihan ini diset kepada 'Ya', tiket dicipta melalui antaramuka web, melalui Pelanggan atau Agen, akan menerima respon automatik jika dikonfigurasi. Jika pilihan ini diset kepada 'Tidak', tiada respon automatik akan dihantar."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -15915,11 +15923,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "Namaakhir, Namapertama"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "Namaakhir, Namapertama (LogmasukPengguna)"
 
 #. SysConfig
 msgid "Latvian"
@@ -15987,47 +15995,47 @@ msgstr "Senarai fail JS untuk sentiasa dimuatkan untuk paparan pelanggan."
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara PelangganSyarikat untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara PenggunaPelanggan untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara MedanDinamik untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara Pakej untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara artikel untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all queue events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara barisan untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid "List of all ticket events to be displayed in the GUI."
-msgstr ""
+msgstr "Senarai semua acara tiket untuk dipaparkan dalam GUI."
 
 #. SysConfig
 msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
-msgstr ""
+msgstr "Senarai Templat Piawai default yang ditetapkan secara automatik kepada Barisan baharu atas penciptaan."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "Senarai fail responsif CSS untuk sentiasa dimuatkan untuk paparan ejen."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "Senarai fail responsif CSS untuk sentiasa dimuatkan untuk paparan pelanggan."
 
 #. SysConfig
 msgid "List view"
@@ -16084,7 +16092,7 @@ msgstr "Melayu"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "Uruskan perkhidmatan cloud Kumpulan OTRS."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -16116,7 +16124,7 @@ msgstr "Uruskan tugas yang dicetuskan oleh acara atau pelaksanaan berdasarkan ma
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "Tanda tiket ini sebagai junk!"
 
 #. SysConfig
 msgid ""
@@ -16133,8 +16141,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Saiz maksimum (dalam baris) pada kotak ejen terlibat dalam paparan ejen."
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Saiz maksimum subjek dalam badan balasan emel."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16151,13 +16160,13 @@ msgstr "Saiz maksimum dalam KBytes untuk mel yang dapat diambil melalui POP3/POP
 msgid ""
 "Maximum length (in characters) of the dynamic field in the article of the "
 "ticket zoom view."
-msgstr ""
+msgstr "Panjang maksimum (dalam aksara) medan dinamik dalam artikel pada paparan zum tiket."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the sidebar of the "
 "ticket zoom view."
-msgstr ""
+msgstr "Panjang maksimum (dalam aksara) medan dinamik dalam sisi bar pada paparan zum tiket."
 
 #. SysConfig
 msgid ""
@@ -16184,7 +16193,7 @@ msgstr "Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam papara
 
 #. SysConfig
 msgid "Merge this ticket and all articles into a another ticket"
-msgstr ""
+msgstr "Gabung tiket ini dan semua artikel kepada tiket yang lain."
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -18486,11 +18495,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Specify the password to authenticate for the first mirror database."
-msgstr ""
+msgstr "Nyatakan kata laluan untuk mengesahkan pada pangkalan data cermin pertama."
 
 #. SysConfig
 msgid "Specify the username to authenticate for the first mirror database."
-msgstr ""
+msgstr "Nyatakan nama pengguna untuk mengesahkan pada pangkalan data cermin pertama."
 
 #. SysConfig
 msgid ""
@@ -18531,7 +18540,7 @@ msgstr "Melucutkan barisan kosong pada previu tiket dalam paparan aturan."
 
 #. SysConfig
 msgid "Strips empty lines on the ticket preview in the service view."
-msgstr ""
+msgstr "Jalur baris kosong pada pratonton tiket dalam pandangan perkhidmatan."
 
 #. SysConfig
 msgid "Swahili"
@@ -18571,19 +18580,19 @@ msgstr "Kulit InternalName pelanggan yang patut digunakan dalam paparan pelangga
 
 #. SysConfig
 msgid "The daemon registration for the scheduler cron task manager."
-msgstr ""
+msgstr "Pendaftaran daemon untuk pengurus tugas penjadual cron."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler future task manager."
-msgstr ""
+msgstr "Pendaftaran daemon untuk penjadual tugas pengurus masa depan."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler generic agent task manager."
-msgstr ""
+msgstr "Pendaftaran daemon untuk penjadual ejen generik pengurus tugas."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler task worker."
-msgstr ""
+msgstr "Pendaftaran daemon untuk pekerja tugas penjadual."
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
@@ -18618,25 +18627,25 @@ msgstr "Pengecam untuk tiket, cth: Ticket#, Call#, MyTicket#. Default ialah Tick
 msgid ""
 "The logo shown in the header of the agent interface for the skin "
 "\"default\". See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Logo ditunjukkan di header antara muka ejen bagi kulit \"default\". Lihat \"LogoAgen\" untuk keterangan lanjut."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory\". "
 "See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Logo ditunjukkan di header antara muka ejen bagi kulit \"ivory\". Lihat \"LogoAgen\" untuk keterangan lanjut."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory-"
 "slim\". See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Logo ditunjukkan di header antara muka ejen bagi kulit \"ivory-slim\". Lihat \"LogoAgen\" untuk keterangan lanjut."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Logo ditunjukkan di header antara muka ejen bagi kulit \"slim\". Lihat \"LogoAgen\" untuk keterangan lanjut."
 
 #. SysConfig
 msgid ""
@@ -18661,18 +18670,18 @@ msgstr "Logo ditunjukkan diatas kotak log masuk dari paparan ejen. URL kepada im
 #. SysConfig
 msgid ""
 "The maximal number of articles expanded on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Bilangan maksimum artikel diperluaskan pada satu halaman dalam ZumTiketAgen ."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles shown on a single page in AgentTicketZoom."
-msgstr ""
+msgstr "Bilangan maksimum artikel pada satu halaman dalam ZumTiketAgen ."
 
 #. SysConfig
 msgid ""
 "The maximum number of mails fetched at once before reconnecting to the "
 "server."
-msgstr ""
+msgstr "Bilangan maksimum mel diambil sekaligus sebelum menyambung ke pelayan."
 
 #. SysConfig
 msgid ""
@@ -18690,7 +18699,7 @@ msgstr "Teks pada permulaan subjek dalam emel dikehadapankan, cth: FW, Fwd, atau
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
-msgstr ""
+msgstr "Modul acara ini menyimpan sifat-sifat dari PenggunaPelanggan sebagai tiket MedanDinamik. Sila lihat tetapan di atas untuk bagaimana mengkonfigurasi pemetaan."
 
 #. SysConfig
 msgid ""
@@ -18703,35 +18712,35 @@ msgstr "Modul ini dan fungsi PreRun() akan dilaksanankan, jika ditakrifkan, untu
 msgid ""
 "This option defines the dynamic field in which a Process Management activity"
 " entity id is stored."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan medan dinamik di mana id entiti aktiviti Pengurusan Proses disimpan."
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management process "
 "entity id is stored."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan medan dinamik di mana id entiti proses Pengurusan Proses disimpan. "
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan kunci lalai tiket proses."
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan keutamaan lalai tiket proses."
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan barisan lalai tiket proses."
 
 #. SysConfig
 msgid "This option defines the process tickets default state."
-msgstr ""
+msgstr "Pilihan ini mentakrifkan keadaan lalai tiket proses."
 
 #. SysConfig
 msgid ""
 "This option will deny the access to customer company tickets, which are not "
 "created by the customer user."
-msgstr ""
+msgstr "Pilihan ini akan menafikan akses ke tiket syarikat pelanggan, di mana ia tidak dicipta oleh pengguna pelanggan."
 
 #. SysConfig
 msgid ""
@@ -18742,7 +18751,7 @@ msgstr "Tetapan ini membolehkan anda untuk mengatasi senarai negara yang dibina 
 
 #. SysConfig
 msgid "This will allow the system to send SMS messages."
-msgstr ""
+msgstr "Ini akan membenarkan sistem untuk menghantar mesej SMS."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -18750,7 +18759,7 @@ msgstr "Pemberitahuan tiket"
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Tinjauan Barisan Tiket"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -18758,11 +18767,11 @@ msgstr "Modul acara tiket yang mencetuskan lambungan hentian acara.."
 
 #. SysConfig
 msgid "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
-msgstr ""
+msgstr "Tiket dialih ke Barisan \"%s\" (%s) dari barisan \"%s\" (%s)."
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "Pemberitahuan tiket"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -18770,7 +18779,7 @@ msgstr "Overview tiket"
 
 #. SysConfig
 msgid "TicketNumber"
-msgstr ""
+msgstr "NomborTiket"
 
 #. SysConfig
 msgid ""
@@ -18780,7 +18789,7 @@ msgstr "Masa dalam saat yang dapat menambah ke masa sebenar jika menetapkan kead
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
-msgstr ""
+msgstr "Tiket dikemaskini: Lama \"%s\", Baharu: \"%s\""
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -18792,25 +18801,25 @@ msgstr "Item Toolbar untuk jalan pintas."
 
 #. SysConfig
 msgid "Transport selection for ticket notifications."
-msgstr ""
+msgstr "Pemilihan pengangkutan untuk pemberitahuan tiket."
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Lihat Pokok"
 
 #. SysConfig
 msgid "Turkish"
-msgstr ""
+msgstr "Turki"
 
 #. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
-msgstr ""
+msgstr "Mematikan pengesahan sijil SSL, sebagai contoh jika anda menggunakan proksi HTTP telus. Gunakan pada risiko anda sendiri!"
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."
-msgstr ""
+msgstr "Aktifkan tarik dan lepas untuk navigasi utama."
 
 #. SysConfig
 msgid ""
@@ -18827,16 +18836,16 @@ msgstr "Menghidupkan penyemak alamat ip jauh. Ia sepatutnya ditetapkan ke \"No\"
 
 #. SysConfig
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrain"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
-msgstr ""
+msgstr "Membuka tiket yang melepasi tempoh tamat masa buka kunci mereka."
 
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Buka tiket apabila nota ditambah dan pemilik berada di luar pejabat."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -18885,21 +18894,21 @@ msgstr "Naik taraf pemecut indeks tiket."
 msgid ""
 "Use new type of select and autocomplete fields in agent interface, where "
 "applicable (InputFields)."
-msgstr ""
+msgstr "Gunakan jenis pilih yang baru dan medan auto-lengkap dalam antara muka ejen, jika berkenaan (MedanInput)."
 
 #. SysConfig
 msgid ""
 "Use new type of select and autocomplete fields in customer interface, where "
 "applicable (InputFields)."
-msgstr ""
+msgstr "Gunakan jenis pilih yang baru dan medan auto-lengkap dalam antara muka pelanggan, jika berkenaan (MedanInput)."
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "NamapertamaPengguna"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "NamaakhirPengguna"
 
 #. SysConfig
 msgid ""
@@ -18909,17 +18918,17 @@ msgstr "Menggunakan penerima Cc dalam senarai balas Cc pada karangan jawapan ema
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Menggunakan richtext untuk melihat dan mengedit pemberitahuan tiket."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
-msgstr ""
+msgstr "Menggunakan richtext untuk melihat dan mengedit : artikel, tanda hormat, tandatangan, templat standard, respon auto dan pemberitahuan."
 
 #. SysConfig
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -18931,21 +18940,21 @@ msgstr "Melihat mesej log sistem."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Perhatikan tiket ini"
 
 #. SysConfig
 msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
-msgstr ""
+msgstr "Apabila tiket digabungkan, nota akan ditambah secara automatik ke tiket yang tidak lagi aktif. Di sini anda boleh menentukan kandungan nota ini (teks ini tidak boleh diubah oleh ejen itu)."
 
 #. SysConfig
 msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the subject of this note "
 "(this subject cannot be changed by the agent)."
-msgstr ""
+msgstr "Apabila tiket digabungkan, nota akan ditambah secara automatik ke tiket yang tidak lagi aktif. Di sini anda boleh menentukan subjek nota ini (teks ini tidak boleh diubah oleh ejen itu)."
 
 #. SysConfig
 msgid ""

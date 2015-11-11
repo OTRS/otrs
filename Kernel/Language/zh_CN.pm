@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.548875855327468;
+    $Self->{Completeness}        = 0.549096238397655;
 
     # csv separator
     $Self->{Separator} = '';
@@ -895,7 +895,7 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '系统注册是OTRS集团的一项服务，它为您提供了很多好处!',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '',
         'Here you can configure available cloud services that communicate securely with %s.' =>
@@ -1662,6 +1662,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
         'Chat' => '对话',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => '以时间轴视图展开工单',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2639,6 +2640,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => '',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => '请包括至少一个收件人',
         'Remove Ticket Customer' => '删除工单用户',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3832,7 +3835,7 @@ Thanks for your help!
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Comment2' => '',
-        'Communication' => '',
+        'Communication' => '联络',
         'Company Status' => '',
         'Company Tickets' => '单位工单',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -5037,7 +5040,8 @@ Thanks for your help!
             '',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
-        'Max size of the subjects in an email reply.' => '',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
@@ -5056,7 +5060,7 @@ Thanks for your help!
             '',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => '杂项',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',

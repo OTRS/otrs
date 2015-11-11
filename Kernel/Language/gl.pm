@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.921554252199413;
+    $Self->{Completeness}        = 0.920615534929165;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -889,8 +889,8 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'O rexistro do sistema é un servizo do Grupo OTRS, que fornece numerosas vantaxes!',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
-            'Por favor fíxese en que que vostede utiliza servizos na nube de OTRS que esixen o sistema estar rexistrado.',
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
+            '',
         'Register this system' => 'Rexistrar este sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Aquí pode configurar os servizos na nube dispoñibles que comunican de forma segura con %s.',
@@ -1656,6 +1656,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vostede está a punto de degradar a OTRS Gratis e perderá as seguintes carácteristicas e todos os datos relatacionados a estes:',
         'Chat' => 'Conversa',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => 'Vista da liña de tempo no zoom do Ticket',
         'DynamicField ContactWithData' => 'CampoDinamico ContactoConDatos',
         'DynamicField Database' => 'CampoDinamico BaseDeDatos',
@@ -2633,6 +2634,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Composición Resposta para %s%s',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => 'Por favor inclúa polo menos un receptor',
         'Remove Ticket Customer' => 'Elimine Ticket Cliente',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -5031,7 +5034,8 @@ Thanks for your help!
             'Tamaño máximo (en filas) da caixa de axentes informados na interface de axente.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Tamaño máximo (en filas) da caixa de axentes implicados na interface de axente.',
-        'Max size of the subjects in an email reply.' => 'Tamaño máximo dos temas nunha resposta de correo electrónico.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maximas auto respostas de correo electrónico que son propiedade dun enderezo de correo electrónico por día (Protección de Bucle).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>

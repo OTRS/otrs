@@ -2,9 +2,12 @@
 # Translators:
 # Alexey Yusov <yusovas@gmail.com>, 2015
 # Anton <anton.astashkin@gmail.com>, 2015
+# Antonio Kless, 2015
+# Antonio Kless, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
 # Makdorf <makdorf@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
+# Nadezhda Zavyalova <nadelorama@gmail.com>, 2015
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2015
@@ -12,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -949,7 +952,7 @@ msgstr "отвергнуть"
 
 #. Template: AAABase
 msgid "reverse"
-msgstr "вернуть"
+msgstr "обратный"
 
 #. Template: AAABase
 msgid "Facility"
@@ -1075,7 +1078,7 @@ msgstr "Состояние добавлено!"
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr "Состояние обновлено"
+msgstr "Состояние обновлено!"
 
 #. Template: AAABase
 msgid "Type added!"
@@ -1298,16 +1301,16 @@ msgstr "Здравствуйте, %s."
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Этот адрес почты не разрешен для регистрации. Обратитесь к персоналу поддержки"
+msgstr "Этот адрес почты не разрешен для регистрации. Обратитесь к персоналу поддержки."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Новая учетная запись создана. Информация о логине отправлена на %s. Проверьте свою почту."
+msgstr "Новая учетная запись создана. Данные для входа направлены на %s. Проверьте свою почту."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
-msgstr "Нажмите «Назад» и попробуйте еще раз"
+msgstr "Нажмите «Назад» и попробуйте еще раз."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
@@ -1331,7 +1334,7 @@ msgstr "События"
 
 #. Template: AAABase
 msgid "Invalid Token!"
-msgstr "Неверный токен !"
+msgstr "Неверный токен!"
 
 #. Template: AAABase
 msgid "more"
@@ -1375,7 +1378,7 @@ msgstr "Управление Процесами. Информация из ба�
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Пакет не верифицирован OTRS Group! Не рекомендуем его использовать"
+msgstr "Пакет не верифицирован OTRS Group! Его использование не рекомендуется."
 
 #. Template: AAABase
 msgid ""
@@ -1740,7 +1743,7 @@ msgstr "Словарь по умолчанию"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
-msgstr "Максимальное количество заявок при показе очереди"
+msgstr "Максимальное количество заявок при показе очереди."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
@@ -2192,7 +2195,7 @@ msgstr "внутренняя заметка"
 
 #. Template: AAATicket
 msgid "note-report"
-msgstr "Заметка-отчет"
+msgstr "заметка-отчет"
 
 #. Template: AAATicket
 msgid "phone"
@@ -2208,11 +2211,11 @@ msgstr "веб-заявка"
 
 #. Template: AAATicket
 msgid "lock"
-msgstr "блокировать"
+msgstr "заблокировано"
 
 #. Template: AAATicket
 msgid "unlock"
-msgstr "разблокировать"
+msgstr "разблокировано"
 
 #. Template: AAATicket
 msgid "very low"
@@ -2464,7 +2467,7 @@ msgstr "Напечатать эту заявку"
 
 #. Template: AAATicket
 msgid "Print this article"
-msgstr "Напечтаать это сообщение"
+msgstr "Напечатать это сообщение"
 
 #. Template: AAATicket
 msgid "Split"
@@ -2616,7 +2619,7 @@ msgstr "Уведомление об истечении срока блокиро
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr "Прислать мне уведомление, если заявка освобождена системой."
+msgstr "Прислать мне уведомление, если заявка разблокирована системой."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
@@ -3217,9 +3220,9 @@ msgstr "Регистрация системы - это сервис от OTRS Gr
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Обращаем внимание, что использование облачных сервисов OTRS требует регистрации системы."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -4380,7 +4383,7 @@ msgstr "Этот модуль OTRS invoker будет вызываться дл�
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr ""
+msgstr "Соответствие исходящему запросу данных"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
@@ -4400,7 +4403,7 @@ msgstr ""
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTRS expects."
-msgstr ""
+msgstr "Запрашиваемые данные будут обработаны, преобразованы в формат поддерживаемый OTRS"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -5754,6 +5757,10 @@ msgstr "Вы собираетесь выполнить откат к базов�
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Чат"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8812,6 +8819,10 @@ msgid "Compose Answer for %s%s"
 msgstr "Создать ответ для %s%s"
 
 #. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
 msgstr "Пожалуйста, включите хотя бы одного получателя."
 
@@ -9498,11 +9509,11 @@ msgstr "Забыли пароль?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr ""
+msgstr "2-факторный токен"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr ""
+msgstr "Ваш 2-факторный токен"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -11605,7 +11616,7 @@ msgstr "Включить доступные темы системы. Значе�
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr "Включить возможность поиска заявок в архиве в интерфейсе клиента"
+msgstr "Включить возможность поиска заявок в архиве в интерфейсе клиента."
 
 #. SysConfig
 msgid ""
@@ -12088,7 +12099,7 @@ msgstr "Проверяет, является ли письмо дополнен�
 msgid ""
 "Checks the SystemID in ticket number detection for follow-ups (use \"No\" if"
 " SystemID has been changed after using the system)."
-msgstr "Проверяет SystemID в номере заявки при обнаружении ответа коиента(follow-ups)(Используйте \"Нет\" если SystemID был изменен до получения ответа)."
+msgstr "Проверяет SystemID в номере заявки при обнаружении ответа клиента (follow-ups) (Используйте \"Нет\", если SystemID был изменен до получения ответа)."
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -16140,8 +16151,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Максимальный размер (в строках) списка привлекаемых агентов, в агентском интерфейсе."
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Максимальная длина Темы в почтовом ответе."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16643,7 +16655,7 @@ msgstr "Путь к лог файлу (применяется только ес�
 
 #. SysConfig
 msgid "People"
-msgstr "Исполнители"
+msgstr "Агенты"
 
 #. SysConfig
 msgid ""
@@ -18381,7 +18393,7 @@ msgstr "Задает различные типы сообщений/замето
 msgid ""
 "Specifies the directory to store the data in, if \"FS\" was selected for "
 "TicketStorageModule."
-msgstr "Задает каталог для хранения данных если \"FS\" выбрано в TicketStorageModule."
+msgstr "Задает каталог для хранения данных, если \"FS\" выбрано в TicketStorageModule."
 
 #. SysConfig
 msgid "Specifies the directory where SSL certificates are stored."

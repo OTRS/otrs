@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.535434995112414;
+    $Self->{Completeness}        = 0.53981436248168;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -577,10 +577,10 @@ sub Data {
         'Watched Tickets Reminder Reached' => 'Recordatorio Alcanzado de Tickets Monitoreados',
         'All tickets' => 'Todos los tickets',
         'Available tickets' => 'Tickets disponibles',
-        'Escalation' => 'Escalado',
+        'Escalation' => 'Escalada',
         'last-search' => 'última-búsqueda',
         'QueueView' => 'Ver la fila',
-        'Ticket Escalation View' => 'Ver Escalado del Ticket',
+        'Ticket Escalation View' => 'Vista de Escaladas de Ticket',
         'Message from' => 'Mensaje de',
         'End message' => '',
         'Forwarded message from' => '',
@@ -889,7 +889,7 @@ sub Data {
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
-        'Please note that you using OTRS cloud services requires the system to be registered.' =>
+        'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '',
         'Here you can configure available cloud services that communicate securely with %s.' =>
@@ -1138,17 +1138,17 @@ sub Data {
         'No pending time settings.' => 'No existen configuraciones para tiempo en espera',
         'Ticket pending time reached' => 'El tiempo en espera del Ticket ha sido alcanzado',
         'Ticket pending time reached between' => 'El tiempo en espera del Ticket ha sido alcanzado entre',
-        'Escalation times' => 'Tiempos de escalado',
-        'No escalation time settings.' => 'No existen configuraciones para tiempo de escalado',
-        'Ticket escalation time reached' => 'El tiempo de escalado del Ticket ha sido alcanzado',
-        'Ticket escalation time reached between' => 'El tiempo de escalado del Ticket ha sido alcanzado entre',
-        'Escalation - first response time' => 'Escalado - tiempo para la primer respuesta',
+        'Escalation times' => 'Tiempos para escalada',
+        'No escalation time settings.' => 'No existen configuraciones de tiempo para escalada',
+        'Ticket escalation time reached' => 'El tiempo para escalada del ticket ha sido alcanzado',
+        'Ticket escalation time reached between' => 'El tiempo para escalada del ticket ha sido alcanzado entre',
+        'Escalation - first response time' => 'Escalada - tiempo de primera respuesta',
         'Ticket first response time reached' => 'El tiempo para la primer respuesta del Ticket ha sido alcanzado',
         'Ticket first response time reached between' => 'El tiempo para la primer respuesta del Ticket ha sido alcanzado entre',
-        'Escalation - update time' => 'Escalado - tiempo para la actualización',
+        'Escalation - update time' => 'Escalada - tiempo de actualización',
         'Ticket update time reached' => 'El tiempo para la actualización del Ticket ha sido alcanzado',
         'Ticket update time reached between' => 'El tiempo para la actualización del Ticket ha sido alcanzado entre',
-        'Escalation - solution time' => 'Escalado - tiempo para la solución',
+        'Escalation - solution time' => 'Escalada - tiempo de solución',
         'Ticket solution time reached' => 'El tiempo para la solución del Ticket ha sido alcanzado',
         'Ticket solution time reached between' => 'El tiempo para la solución del Ticket ha sido alcanzado entre',
         'Archive search option' => 'Opción de búsqueda en el archivo',
@@ -1656,6 +1656,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
         'Chat' => '',
+        'Report Generator' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -1974,11 +1975,11 @@ sub Data {
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             'Si un agente bloquea un ticket y no lo cierra antes de que el tiempo de espera termine, dicho ticket se desbloqueará y estará disponible para otros agentes.',
         'Notify by' => 'Notificado por',
-        '0 = no escalation' => '0 = sin escalado',
+        '0 = no escalation' => '0 = sin escalada',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono, de un ticket nuevo antes de que el tiempo definido aquí termine, el ticket escalará.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'Si se añade un artículo, como seguimiento vía correo electrónico o la interfaz del cliente, el tiempo de escalado de actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono, de un ticket antes de que el tiempo definido aquí termine, el ticket escalará.',
+            'Si se añade un artículo, tal como un seguimiento, vía correo electrónico o interfaz del cliente, el tiempo para escalada por actualización se reinicia. Si no se ha contactado al cliente, ya sea por medio de una nota externa o por teléfono agregados a un ticket antes de que el tiempo definido aquí expire, el ticket escala.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Si el ticket no se cierra antes de que el tiempo definido aquí termine, dicho ticket escalará.',
         'Follow up Option' => 'Opción de seguimiento',
@@ -2430,7 +2431,7 @@ sub Data {
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
-            '',
+            'El Servicio OTRS es un proceso de servicio que efectúa tareas asíncronas, por ejemplo disparo de escalada de tickets, envío de emails, etc.',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
         'Starting the OTRS Daemon' => '',
@@ -2633,6 +2634,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => '',
+        'This address is registered as system address and cannot be used: %s' =>
+            '',
         'Please include at least one recipient' => '',
         'Remove Ticket Customer' => '',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2759,8 +2762,8 @@ sub Data {
         'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Tiempo de Cierre del Ticket (antes/después)',
         'Ticket Close Time (between)' => 'Tiempo de Cierre del Ticket (entre)',
-        'Ticket Escalation Time (before/after)' => '',
-        'Ticket Escalation Time (between)' => '',
+        'Ticket Escalation Time (before/after)' => 'Tiempo para Escalada de Ticket (antes/después)',
+        'Ticket Escalation Time (between)' => 'Tiempo para Escalada de Ticket (entre)',
         'Archive Search' => 'Búsqueda de Archivo',
         'Run search' => '',
 
@@ -3283,9 +3286,9 @@ sub Data {
         'CustomerUserLogin' => 'Cuenta de inicio de sesión del Cliente',
         'Create Time' => 'Tiempo de Creación',
         'Close Time' => 'Fecha de Cierre',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
+        'Escalation - First Response Time' => 'Escalada - Tiempo de Primera Respuesta',
+        'Escalation - Update Time' => 'Escalada - Tiempo de Actualización',
+        'Escalation - Solution Time' => 'Escalada - Tiempo de Solución',
         'Agent/Owner' => 'Agente/Propietario',
         'Created by Agent/Owner' => 'Creado por Agente/Propietario',
 
@@ -3809,7 +3812,7 @@ Thanks for your help!
         'Collect support data for asynchronous plug-in modules.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Columnas que pueden ser filtradas en la vista de escaladas de la interfaz de agente. Configuraciones posibles: 0 = Deshabilitado, 1 = Disponible, 2 = Habilitado por defecto. Nota: Sólo atributos de Ticket, Campos Dinámicos (DynamicField_NombreX) y atributos de Cliente (por ej. CustomerUserPhone, CustomerCompanyName, ...) están disponibles.',
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
@@ -4171,7 +4174,7 @@ Thanks for your help!
         'Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface.' =>
             'Define el atributo de ticket por defecto para ordenar los tickets en la búsqueda, en la interfaz del cliente.',
         'Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface.' =>
-            'Define el atributo de ticket por defecto para ordenar los tickets en la vista de escalado, en la interfaz del agente.',
+            'Define el atributo de ticket por defecto para ordenar los tickets en la vista de escaladas, en la interfaz del agente.',
         'Defines the default ticket attribute for ticket sorting in the locked ticket view of the agent interface.' =>
             'Define el atributo de ticket por defecto para ordenar los tickets en la vista de tickets bloqueados, en la interfaz del agente.',
         'Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface.' =>
@@ -4191,7 +4194,7 @@ Thanks for your help!
         'Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Define el valor por defecto del siguiente estado de un ticket, luego de haber añadido una nota telefónica, en la ventana de ticket telefónico saliente de la interfaz del agente.',
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            'Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escalado de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio.',
+            'Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de escaladas de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio.',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Define el orden por defecto de los tickets (luego de haberse ordenado por prioridad), en la vista de estados de la interfaz del agente. Arriba: más antiguo al principio. Abajo: más reciente al principio.',
         'Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.' =>
@@ -4478,7 +4481,7 @@ Thanks for your help!
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'Define el destinatario objetivo de los tickets telefónicos y el remitente de los tickets de correo electrónico ("Queue" muestra todas las filas, "SystemAddress" despliega todas las direcciones del sistema), en la interfaz del cliente.',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
-            '',
+            'Define los permisos requeridos para mostrar un ticket en la vista de escaladas de la interfaz del agente.',
         'Defines the search limit for the stats.' => 'Define el límite de búsqueda para las estadísticas.',
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -4700,16 +4703,16 @@ Thanks for your help!
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',
-        'Escalation response time finished' => '',
-        'Escalation response time forewarned' => '',
-        'Escalation response time in effect' => '',
-        'Escalation solution time finished' => '',
-        'Escalation solution time forewarned' => '',
-        'Escalation solution time in effect' => '',
-        'Escalation update time finished' => '',
-        'Escalation update time forewarned' => '',
-        'Escalation update time in effect' => '',
-        'Escalation view' => 'Vista de escalado',
+        'Escalation response time finished' => 'Tiempo para escalada por respuesta, finalizado',
+        'Escalation response time forewarned' => 'Tiempo para escalada por respuesta, advertido',
+        'Escalation response time in effect' => 'Tiempo para escalada por respuesta, en vigor',
+        'Escalation solution time finished' => 'Tiempo para escalada por solución, finalizado',
+        'Escalation solution time forewarned' => 'Tiempo para escalada por solución, advertido',
+        'Escalation solution time in effect' => 'Tiempo para escalada por solución, en vigor',
+        'Escalation update time finished' => 'Tiempo para escalada por actualización, finalizado',
+        'Escalation update time forewarned' => 'Tiempo para escalada por actualización, advertido',
+        'Escalation update time in effect' => 'Tiempo para escalada por actualización, en vigor',
+        'Escalation view' => 'Vista de escaladas',
         'EscalationTime' => '',
         'Estonian' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -5031,7 +5034,8 @@ Thanks for your help!
             '',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
-        'Max size of the subjects in an email reply.' => 'Tamaño máximo para los asuntos en la respuesta a un correo electrónico.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Número máximo de respuestas automáticas (vía correos electrónicos) al día para la dirección de correo electrónico propia (protección de bucle).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
@@ -5078,7 +5082,7 @@ Thanks for your help!
             'Módulo para generar estadísticas del tiempo de solución y respuesta de los tickets.',
         'Module to generate ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
-            'Módulo para mostrar notificaciones y escalados (ShownMax: Número máximo de escalados que se muestran, EscalationInMinutes: Mostrar el ticket que escalará en estos minutos, CacheTime: Caché de los escalados calculados en segundos).',
+            'Módulo para mostrar notificaciones y escaladas (ShownMax: Número máximo de escaladas que se muestran, EscalationInMinutes: Muestra el ticket que escalará en estos minutos, CacheTime: Caché de las escaladas calculadas, en segundos).',
         'Module to use database filter storage.' => 'Módulo para utilizar el almacenamiento de base de datos del filtro.',
         'Multiselect' => '',
         'My Services' => '',
@@ -5148,7 +5152,7 @@ Thanks for your help!
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Parámetros para el backend del panel principal del calendario de ticket de la interfaz del agente. "Limit" es el número de entradas mostradas por defecto. "Group" se usa para restringir el acceso al plugin (por ejemplo, Group: admin;group1;group2;). "Default" determina si el plugin está habilitado por defecto o si el usuario tiene que habilitarlo manualmente. "CacheTTLLocal" es el tiempo en minutos para la caché del plugin.',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
-            '',
+            'Parámetros para el backend del panel de control de la vista general de escaladas de ticket, de la interfaz del agente. "Límite" es el número de entradas mostradas por defecto. "Grupo" es usado para restringir el acceso al plugin (por ej., Grupo: admin;grupo1;grupo2;). "Por defecto" determina si el plugin está habilitado por defecto o si el usuario necesita habilitarlo manualmente. "CacheTTLLocal" es el tiempo de cache en minutos para el plugin. Nota: Sólo los atributos del Ticket y los Campos Dinámicos (DynamicField_NombreX) están permitidos para DefaultColumns. Configuraciones posibles: 0 = Deshabilitado, 1 = Disponible, 2 = Habilitado por defecto.',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -5599,7 +5603,7 @@ Thanks for your help!
         'Shows all both ro and rw queues in the queue view.' => 'Muestra las filas ro y rw en la vista de filas.',
         'Shows all both ro and rw tickets in the service view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
-            'Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escalado de la interfaz del agente.',
+            'Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escaladas, de la interfaz del agente.',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
             'Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de estados de la interfaz del agente.',
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
@@ -5767,7 +5771,7 @@ Thanks for your help!
         'The divider between TicketHook and ticket number. E.g \': \'.' =>
             'El divisor entre el candado y el número de ticket. Por ejemplo, \': \'.',
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
-            '',
+            'La duración en minutos después de emitir un evento, en el cual la notificación de nueva escalada, y los eventos de inicio, son suprimidos.',
         'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
             '',
         'The headline shown in the customer interface.' => 'El encabezado mostrado en la interfaz del cliente.',
@@ -5817,7 +5821,7 @@ Thanks for your help!
         'Ticket Notifications' => '',
         'Ticket Queue Overview' => 'Vista general por fila',
         'Ticket event module that triggers the escalation stop events.' =>
-            '',
+            'Módulo de eventos de Ticket, que dispara los eventos de finalización de tiempo para escalada.',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket movido a la fila "%s" (%s) de la fila "%s" (%s).',
         'Ticket notifications' => '',
         'Ticket overview' => 'Vista de resumen de los tickets',
@@ -5852,7 +5856,7 @@ Thanks for your help!
         'Updated: %s' => 'Actualizado: %s',
         'Updated: %s=%s;%s=%s;%s=%s;' => 'Actualizado: %s=%s;%s=%s;%s=%s;',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
-            'Actualiza el índice de escalado de ticket, luego de que un atributo de ticket se actualizó.',
+            'Actualiza el índice de escaladas de ticket, luego de que un atributo de ticket se actualizó.',
         'Updates the ticket index accelerator.' => 'Actualiza el acelerador de índice de ticket.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',

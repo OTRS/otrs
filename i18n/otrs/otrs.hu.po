@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2045,43 +2045,43 @@ msgstr "sikertelenül lezárva"
 
 #. Template: AAATicket
 msgid "Locked Tickets Total"
-msgstr "Zárolt jegyek összesen"
+msgstr "Zárolt jegyek (összes)"
 
 #. Template: AAATicket
 msgid "Locked Tickets Reminder Reached"
-msgstr "Zárolt jegyek emlékeztető elérve"
+msgstr "Zárolt jegyek (emlékeztető elérve)"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr "Zárolt jegyek új"
+msgstr "Zárolt jegyek (új)"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
-msgstr "Felelős jegyek összesen"
+msgstr "Felelős jegyek (összes)"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr "Felelős jegyek új"
+msgstr "Felelős jegyek (új)"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr "Felelős jegyek emlékeztető elérve"
+msgstr "Felelős jegyek (emlékeztető elérve)"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr "Megfigyelt jegyek összesen"
+msgstr "Megfigyelt jegyek (összes)"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr "Megfigyelt jegyek új"
+msgstr "Megfigyelt jegyek (új)"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr "Megfigyelt jegyek emlékeztető elérve"
+msgstr "Megfigyelt jegyek (emlékeztető elérve)"
 
 #. Template: AAATicket
 msgid "All tickets"
-msgstr "Minden jegy"
+msgstr "Összes jegy"
 
 #. Template: AAATicket
 msgid "Available tickets"
@@ -3218,9 +3218,9 @@ msgstr "A rendszer regisztráció az OTRS csoport szolgáltatása, amely számos
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Ne feledje, hogy az OTRS felhőszolgáltatás használatához a rendszer regisztrációja szükséges."
+msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -3417,7 +3417,7 @@ msgstr "Nem lehet változtatni ezeken a csoportokon."
 
 #. Template: AdminCustomerUserGroup
 msgid "ro"
-msgstr "csak olvasható"
+msgstr "csak olvasás"
 
 #. Template: AdminCustomerUserGroup
 msgid "Read only access to the ticket in this group/queue."
@@ -3425,7 +3425,7 @@ msgstr "Csak olvasható hozzáférés ebben a csoportban/várólistában lévő 
 
 #. Template: AdminCustomerUserGroup
 msgid "rw"
-msgstr "írható, olvasható"
+msgstr "írás, olvasás"
 
 #. Template: AdminCustomerUserGroup
 msgid "Full read and write access to the tickets in this group/queue."
@@ -5755,6 +5755,10 @@ msgstr "Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszí
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Csevegés"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8627,15 +8631,15 @@ msgstr "Statisztikák » %s%s megtekintése — %s"
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
-msgstr ""
+msgstr "Statisztika információk"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
-msgstr "Összegző sorok"
+msgstr "Sorok összegzése"
 
 #. Template: AgentStatisticsView
 msgid "Sum columns"
-msgstr "Összegző oszlopok"
+msgstr "Oszlopok összegzése"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
@@ -8811,6 +8815,10 @@ msgstr "Jegyek feloldása"
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
 msgstr "Válasz írása ehhez: %s%s"
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10226,7 +10234,7 @@ msgstr "A nap üzenete"
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
-msgstr "Elégtelen jogok"
+msgstr "Nincs elegendő joga"
 
 #. Template: NoPermission
 msgid "Back to the previous page"
@@ -11492,15 +11500,15 @@ msgstr "Osztályozatlan"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
-msgstr "tmp_lock"
+msgstr "átmenetileg zárolt"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-ext"
-msgstr "email-notification-ext"
+msgstr "külső e-mail értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-int"
-msgstr "email-notification-int"
+msgstr "belső e-mail értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
@@ -16141,8 +16149,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "A részt vevő ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen."
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "A tárgyak legnagyobb mérete egy e-mail válasznál."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""

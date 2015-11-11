@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-10-28 18:26+0000\n"
+"PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -3214,7 +3214,7 @@ msgstr "Usajili wa mfumo ni huduma ya kikundi cha OTRS, ambacho kina faida nying
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -5751,6 +5751,10 @@ msgstr "Unakaribia kushusha kwenda kwenye OTRS huru na utapoteza vipengele vifua
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Ongea"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8806,6 +8810,10 @@ msgstr "Fungua tiketi"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -16137,8 +16145,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Ukubwa wa upeo juu (katika safu mlalo) wa kikasha wa mawakala wanaohusika katika kioleusura cha wakala. "
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Ukubwa wa upeo wa juu wa masomo katika majibu ya barua pepe."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
