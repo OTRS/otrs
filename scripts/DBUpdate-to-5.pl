@@ -3032,10 +3032,10 @@ sub _FixNotificationTags {
     # map wrong to correct tags
     my %NotificationTagsOld2New = (
 
-        # ATTENTION, there MUST be NO closing tag for OTRS_CUSTOMER_BODY,
-        # because of things like this: <OTRS_CUSTOMER_BODY[30]>
-        '<OTRS_CUSTOMER_Body'      => '<OTRS_CUSTOMER_BODY',
-        '<OTRS_CONFIG_TicketHook>' => '<OTRS_CONFIG_Ticket::Hook>',
+        # ATTENTION, don't use opening or closing tags here (< or >)
+        # because old notifications can contain quoted tags (&lt; or &gt;)
+        'OTRS_CUSTOMER_Body'     => 'OTRS_CUSTOMER_BODY',
+        'OTRS_CONFIG_TicketHook' => 'OTRS_CONFIG_Ticket::Hook',
     );
 
     # get needed objects
