@@ -1,4 +1,5 @@
 #5.0.4 2015-??-??
+ - 2015-11-11 Set all OTRS Daemon cron tasks SysConfig settings to "Expert" ConfigLevel.
 
 #5.0.3 2015-11-17
  - 2014-11-11 Updated translations, thanks to all translators.

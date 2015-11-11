@@ -155,7 +155,7 @@
     </ConfigItem>
 
     <!-- var/cron tasks -->
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###CoreCacheCleanup" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###CoreCacheCleanup" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Delete expired cache from core modules.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -175,7 +175,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###LoaderCacheDelete" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###LoaderCacheDelete" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Delete expired loader cache weekly (Sunday mornings).</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -193,7 +193,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###FetchMail" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###FetchMail" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Fetch emails via fetchmail.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -211,7 +211,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###FetchMailSSL" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###FetchMailSSL" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Fetch emails via fetchmail (using SSL).</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -231,7 +231,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenerateDashboardStats" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenerateDashboardStats" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Generate dashboard statistics.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -250,7 +250,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketPendingCheck" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketPendingCheck" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Process pending tickets.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -268,7 +268,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SpoolMailsReprocess" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SpoolMailsReprocess" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Reprocess mails from spool directory that could not be imported in the first place.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -286,7 +286,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###MailAccountFetch" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###MailAccountFetch" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Fetch incoming emails from configured mail accounts.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -304,7 +304,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketAcceleratorRebuild" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketAcceleratorRebuild" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Rebuild the ticket index for AgentTicketQueue.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -322,7 +322,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SessionDeleteExpired" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SessionDeleteExpired" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Delete expired sessions.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -340,7 +340,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketUnlockTimeout" Required="0" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketUnlockTimeout" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Unlock tickets that are past their unlock timeout.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -360,7 +360,7 @@
     </ConfigItem>
 
     <!-- custom cron tasks -->
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -379,7 +379,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom2" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom2" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -398,7 +398,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom3" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom3" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -417,7 +417,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom4" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom4" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -436,7 +436,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom5" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom5" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -455,7 +455,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom6" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom6" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -474,7 +474,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom7" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom7" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -493,7 +493,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom8" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom8" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -512,7 +512,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom9" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom9" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -533,7 +533,7 @@
     </ConfigItem>
 
     <!-- custom generic agent tasks -->
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile1" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile1" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -554,7 +554,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile2" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile2" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -575,7 +575,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile3" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile3" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -596,7 +596,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile4" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile4" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -617,7 +617,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile5" Required="0" Valid="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile5" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -640,7 +640,7 @@
     </ConfigItem>
 
     <!-- new tasks -->
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###RegistrationUpdateSend" Required="1" Valid="1" ReadOnly="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###RegistrationUpdateSend" Required="1" Valid="1" ReadOnly="1" ConfigLevel="100">
         <Description Translatable="1">Sends registration information to OTRS group.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -658,7 +658,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SupportDataCollectAsynchronous" Required="1" Valid="1" ReadOnly="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SupportDataCollectAsynchronous" Required="1" Valid="1" ReadOnly="1" ConfigLevel="100">
         <Description Translatable="1">Collect support data for asynchronous plug-in modules.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -676,7 +676,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessEntitlementCheck" Required="1" Valid="1" ReadOnly="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessEntitlementCheck" Required="1" Valid="1" ReadOnly="1" ConfigLevel="100">
         <Description Translatable="1">Checks the entitlement status of OTRS Business Solution™.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -694,7 +694,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessAvailabilityCheck" Required="1" Valid="1" ReadOnly="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessAvailabilityCheck" Required="1" Valid="1" ReadOnly="1" ConfigLevel="100">
         <Description Translatable="1">Checks the availability of OTRS Business Solution™ for this system.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
@@ -713,7 +713,7 @@
         </Setting>
     </ConfigItem>
 
-    <ConfigItem Name="Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff" Required="1" Valid="1">
+    <ConfigItem Name="Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff" Required="1" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Defines the default the number of seconds (from current time) to re-schedule a generic interface failed task.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerGenericInterfaceTaskManager</SubGroup>
