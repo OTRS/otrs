@@ -36,8 +36,13 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
+        $ConfigObject->Set(
+            Key   => 'CheckMXRecord',
             Value => 0,
         );
 
@@ -80,7 +85,7 @@ $Selenium->RunTest(
         # check for password recovery message
         $Self->True(
             $Selenium->find_element( "#LoginBox p.Error", 'css' ),
-            "Password recovery message' - found on screen for valid user",
+            "Password recovery message found on screen for valid user",
         );
 
         # check if password recovery email is sent to valid user

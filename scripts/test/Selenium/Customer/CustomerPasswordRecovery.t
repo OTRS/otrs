@@ -36,8 +36,13 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
+        $ConfigObject->Set(
+            Key   => 'CheckMXRecord',
             Value => 0,
         );
 
