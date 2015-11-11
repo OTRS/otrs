@@ -1,4 +1,6 @@
-#5.0.3 2015-??-??
+#5.0.4 2015-??-??
+
+#5.0.3 2015-11-17
  - 2014-11-11 Updated translations, thanks to all translators.
  - 2015-11-11 Fixed bug#[11601](http://bugs.otrs.org/show_bug.cgi?id=11601) - OTRS 5 - 2fa and password change - error.
  - 2015-11-09 Fixed bug#[11511](http://bugs.otrs.org/show_bug.cgi?id=11511) - Text length for title is cut off after 50 characters.
