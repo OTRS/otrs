@@ -292,7 +292,7 @@ my $Output = $ProcessObject->ProcessDump( UserID => $UserID );
 $Self->IsNot(
     length $Output,
     0,
-    "ProcessDump() STRING | Output lenght",
+    "ProcessDump() STRING | Output length",
 );
 
 for my $Part (

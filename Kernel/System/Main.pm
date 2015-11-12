@@ -966,7 +966,7 @@ sub DirectoryRead {
 
 =item GenerateRandomString()
 
-generate a random string of defined lenght, and of a defined alphabet.
+generate a random string of defined length, and of a defined alphabet.
 defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
 
     my $String = $MainObject->GenerateRandomString();
