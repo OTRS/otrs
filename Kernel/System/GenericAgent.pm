@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -184,8 +184,10 @@ sub JobRun {
     # check needed stuff
     for (qw(Job UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -219,7 +221,10 @@ sub JobRun {
         my %DBJobRaw = $Self->JobGet( Name => $Param{Job} );
 
         # updated last run time
-        $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID} );
+        $Self->_JobUpdateRunTime(
+            Name   => $Param{Job},
+            UserID => $Param{UserID}
+        );
 
         # rework
         for my $Key ( sort keys %DBJobRaw ) {
@@ -316,6 +321,9 @@ sub JobRun {
 
     # escalation tickets
     my %Tickets;
+
+    # get ticket limit on job run
+    my $RunLimit = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentRunLimit');
     if ( $Job{Escalation} ) {
 
         # Find all tickets which will escalate within the next five days.
@@ -327,7 +335,7 @@ sub JobRun {
             TicketEscalationTimeOlderMinutes => $Job{TicketEscalationTimeOlderMinutes}
                 || -( 5 * 24 * 60 ),
             Permission => 'rw',
-            UserID => $Param{UserID} || 1,
+            UserID     => $Param{UserID} || 1,
         );
 
         for (@Tickets) {
@@ -362,7 +370,7 @@ sub JobRun {
                     %DynamicFieldSearchParameters,
                     ConditionInline => 1,
                     StateType       => $Type,
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -380,7 +388,7 @@ sub JobRun {
                         ConditionInline => 1,
                         Queues          => [$_],
                         StateType       => $Type,
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -395,7 +403,7 @@ sub JobRun {
                     ConditionInline => 1,
                     StateType       => $Type,
                     Queues          => [ $Job{Queue} ],
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -447,7 +455,7 @@ sub JobRun {
                 %Job,
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
@@ -462,7 +470,7 @@ sub JobRun {
                         %DynamicFieldSearchParameters,
                         ConditionInline => 1,
                         Queues          => [$_],
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -475,7 +483,7 @@ sub JobRun {
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
                 Queues          => [ $Job{Queue} ],
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
@@ -559,8 +567,10 @@ sub JobGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -642,8 +652,7 @@ sub JobGet {
                 && $Data{ $Type . 'TimeStartYear' }
                 )
             {
-                $Data{ $Type . 'TimeNewerDate' }
-                    = $Data{ $Type . 'TimeStartYear' } . '-'
+                $Data{ $Type . 'TimeNewerDate' } = $Data{ $Type . 'TimeStartYear' } . '-'
                     . $Data{ $Type . 'TimeStartMonth' } . '-'
                     . $Data{ $Type . 'TimeStartDay' }
                     . ' 00:00:01';
@@ -654,8 +663,7 @@ sub JobGet {
                 && $Data{ $Type . 'TimeStopYear' }
                 )
             {
-                $Data{ $Type . 'TimeOlderDate' }
-                    = $Data{ $Type . 'TimeStopYear' } . '-'
+                $Data{ $Type . 'TimeOlderDate' } = $Data{ $Type . 'TimeStopYear' } . '-'
                     . $Data{ $Type . 'TimeStopMonth' } . '-'
                     . $Data{ $Type . 'TimeStopDay' }
                     . ' 23:59:59';
@@ -755,8 +763,10 @@ sub JobAdd {
     # check needed stuff
     for (qw(Name Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -824,8 +834,10 @@ sub JobDelete {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -914,8 +926,10 @@ sub _JobRunTicket {
     # check needed stuff
     for (qw(TicketID TicketNumber Config UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -992,7 +1006,7 @@ sub _JobRunTicket {
 
     my %PendingStates = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => [ 'pending auto', 'pending reminder' ],
-        Result => 'HASH',
+        Result    => 'HASH',
     );
 
     $Self->{PendingStateList} = \%PendingStates || {};
@@ -1009,8 +1023,7 @@ sub _JobRunTicket {
             State    => $Param{Config}->{New}->{State},
         );
 
-        $IsPendingState
-            = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
+        $IsPendingState = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
     }
     if ( $Param{Config}->{New}->{StateID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -1022,8 +1035,7 @@ sub _JobRunTicket {
             StateID  => $Param{Config}->{New}->{StateID},
         );
 
-        $IsPendingState
-            = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
+        $IsPendingState = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
     }
 
     # set pending time, if new state is pending state
@@ -1337,7 +1349,10 @@ sub _JobRunTicket {
             };
 
             if ($@) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => $@ );
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $@
+                );
             }
         }
     }
@@ -1401,8 +1416,10 @@ sub _JobUpdateRunTime {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1418,7 +1435,11 @@ sub _JobUpdateRunTime {
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
-            push @Data, { Key => $Row[0], Value => $Row[1] };
+            push @Data,
+                {
+                Key   => $Row[0],
+                Value => $Row[1]
+                };
         }
     }
 
@@ -1435,7 +1456,7 @@ sub _JobUpdateRunTime {
 
     for my $Key ( sort keys %Insert ) {
         $DBObject->Do(
-            SQL => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
+            SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
         );
     }

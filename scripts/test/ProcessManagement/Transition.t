@@ -1,6 +1,6 @@
 # --
 # Transition.t - Transition module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,22 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# to enable debugging (normally is not needed)
+# $ConfigObject->Set(
+#     Key => 'ProcessManagement::Transition::Debug::Enabled',
+#     Value => 1,
+# );
+# $ConfigObject->Set(
+#     Key => 'ProcessManagement::Transition::Debug::LogPriority',
+#     Value => 'error',
+# );
+# $ConfigObject->Set(
+#     Key => 'ProcessManagement::Transition::Debug::Filter',
+#     Value => {},
+# );
+
 my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
 
@@ -1084,8 +1099,8 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message  => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
-            TestType => 'False',
+            Message            => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
+            TestType           => 'False',
         },
     },
 
@@ -1503,13 +1518,220 @@ my @Tests = (
             TestType           => 'False',
         },
     },
+
+    # Check: Array value with String match
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'String',
+                                    Match => 'Test2',
+                                },
+                            },
+                        },
+                    },
+                    ConditionLinking => 'and',
+                },
+            },
+            Data => {
+                DynamicField_Make => [ 'Test1', 'Test2', 'Test3' ],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Array value with String match)',
+            TestType           => 'True',
+        },
+    },
+
+    # Check: Array value with String match (wrong match)
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Type  => 'and',
+                        Cond1 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'String',
+                                    Match => 'Test4',
+                                },
+                            },
+                        },
+                        ConditionLinking => 'and',
+                    },
+                },
+            },
+            Data => {
+                DynamicField_Make => [ 'Test1', 'Test2', 'Test3' ],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Array value with String match - wrong match)',
+            TestType           => 'False',
+        },
+    },
+
+    # Check: Array value with RegExp match
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Regexp',
+                                    Match => qr/t2$/,
+                                },
+                            },
+                        },
+                        ConditionLinking => 'and',
+                    },
+                },
+            },
+            Data => {
+                DynamicField_Make => [ 'Test1', 'Test2', 'Test3' ],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Array value with Regexp match)',
+            TestType           => 'True',
+        },
+    },
+
+    # Check: Array value with String match (wrong match)
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Type  => 'and',
+                        Cond1 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Regexp',
+                                    Match => qr{t4$},
+                                },
+                            },
+                            ConditionLinking => 'and',
+                        },
+                    },
+                },
+            },
+            Data => {
+                DynamicField_Make => [ 'Test1', 'Test2', 'Test3' ],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Array value with Regexp match - wrong match)',
+            TestType           => 'False',
+        },
+    },
+
+    # Check: Complex Regexp - or condition State open
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                State => {
+                                    Type  => 'Regexp',
+                                    Match => qr/(open|pending reminder)/,
+                                },
+                            },
+                        },
+                        ConditionLinking => 'and',
+                    },
+                },
+            },
+            Data => {
+                State => 'open',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Regexp - or condition State Open)',
+            TestType           => 'True',
+        },
+    },
+
+    # Check: Complex Regexp - or condition State pending reminder
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                State => {
+                                    Type  => 'Regexp',
+                                    Match => qr/(open|pending reminder)/,
+                                },
+                            },
+                        },
+                        ConditionLinking => 'and',
+                    },
+                },
+            },
+            Data => {
+                State => 'pending reminder',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Regexp - or condition State pending reminder)',
+            TestType           => 'True',
+        },
+    },
+
+    # Check: Complex Regexp - or condition State new
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                State => {
+                                    Type  => 'Regexp',
+                                    Match => qr/(open|pending reminder)/,
+                                },
+                            },
+                        },
+                        ConditionLinking => 'and',
+                    },
+                },
+            },
+            Data => {
+                State => 'new',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Regexp - or condition  wrong State new)',
+            TestType           => 'False',
+        },
+    },
 );
 
 for my $Test (@Tests) {
     if ( $Test->{Check} ) {
 
-        $TransitionObject->{TransitionDebug}
-            = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+        $TransitionObject->{TransitionDebug} = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
 
         # Set Config
         if ( IsHashRefWithData( $Test->{Check}{Config} ) ) {
@@ -1583,10 +1805,9 @@ for my $Test (@Tests) {
             );
         }
         elsif ( $Test->{Get}{TestType} eq 'Result' ) {
-            my $GetResult
-                = $TransitionObject->TransitionGet(
+            my $GetResult = $TransitionObject->TransitionGet(
                 TransitionEntityID => $Test->{Get}{TransitionEntityID}
-                );
+            );
             my $ExpectedResult = $Test->{Get}{Result};
 
             # Get - Check given and expected result

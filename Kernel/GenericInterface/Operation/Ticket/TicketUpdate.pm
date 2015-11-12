@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,8 +58,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{Config}
-        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketUpdate');
+    $Self->{Config} = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketUpdate');
 
     return $Self;
 }
@@ -243,6 +242,8 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
+
     if ( $UserType eq 'Customer' ) {
         $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
     }
@@ -284,10 +285,10 @@ sub Run {
     }
 
     # check basic needed permissions
-    my $Access = $TicketObject->TicketPermission(
-        Type     => 'ro',
+    my $Access = $Self->CheckAccessPermissions(
         TicketID => $TicketID,
-        UserID   => $UserID
+        UserID   => $PermissionUserID,
+        UserType => $UserType,
     );
 
     if ( !$Access ) {
@@ -1903,8 +1904,7 @@ sub _TicketUpdate {
 
             # use data from customer user (if customer user is in database)
             if ( IsHashRefWithData( \%CustomerUserData ) ) {
-                $From
-                    = '"'
+                $From = '"'
                     . $CustomerUserData{UserFirstname} . ' '
                     . $CustomerUserData{UserLastname} . '"'
                     . ' <' . $CustomerUserData{UserEmail} . '>';

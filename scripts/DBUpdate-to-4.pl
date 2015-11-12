@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # DBUpdate-to-4.pl - update script to migrate OTRS 3.3.x to 4.0.x
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -34,6 +34,7 @@ use Kernel::Output::Template::Provider;
 use Kernel::System::ObjectManager;
 use Kernel::System::SysConfig;
 use Kernel::System::Cache;
+use Kernel::System::DynamicField;
 use Kernel::System::Package;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -48,6 +49,10 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-DBUpdate-to-4.pl',
     },
 );
+
+# define a global variable to store process management lookup old entity IDs and new GUIDs, so it
+# can be used by more than one function.
+my %EntityLookup;
 
 {
 
@@ -84,7 +89,7 @@ Please run it as the 'otrs' user or with the help of su:
     print "\nMigration started...\n\n";
 
     # define the number of steps
-    my $Steps = 12;
+    my $Steps = 15;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -179,6 +184,37 @@ Please run it as the 'otrs' user or with the help of su:
 
     print "Step $Step of $Steps: Migrate SysConfig settings from DT to Template::Toolkit... ";
     if ( _MigrateDTLInSysConfig() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print "Step $Step of $Steps: Migrate Dynamic Field links from DT to Template::Toolkit... ";
+    if ( _MigrateDTLInDynamicFieldLinks() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print "Step $Step of $Steps: Migrate Generic Agent Process Management Dynamic Fields ... ";
+    if ( _MigrateGenericAgentProcessManagementDynamicFields() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print
+        "Step $Step of $Steps: Migrate Notification (Event) Process Management Dynamic Fields ... ";
+    if ( _MigrateNotificationEventProcessManagementDynamicFields() ) {
         print "done.\n\n";
     }
     else {
@@ -341,8 +377,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
-            $Setting->{$ToolbarModule}->{$Attribute}
-                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+            $Setting->{$ToolbarModule}->{$Attribute} = $ModuleAttributes{$ToolbarModule}->{$Attribute};
         }
 
         # set new setting,
@@ -394,8 +429,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $CustomerUserAttributes{$CustomerUserModule} } ) {
-            $Setting->{$CustomerUserModule}->{$Attribute}
-                = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
+            $Setting->{$CustomerUserModule}->{$Attribute} = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
         }
 
         # set new setting,
@@ -418,15 +452,12 @@ Migrate process management EntityIDs from consecutive to GUID style.
 =cut
 
 sub _MigrateProcessManagementEntityIDs {
-    my $ProcessObject  = Kernel::System::ProcessManagement::DB::Process->new();
-    my $EntityObject   = Kernel::System::ProcessManagement::DB::Entity->new();
-    my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new();
-    my $ActivityDialogObject
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
-    my $TransitionObject
-        = Kernel::System::ProcessManagement::DB::Transition->new();
-    my $TransitionActionObject
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new();
+    my $ProcessObject          = Kernel::System::ProcessManagement::DB::Process->new();
+    my $EntityObject           = Kernel::System::ProcessManagement::DB::Entity->new();
+    my $ActivityObject         = Kernel::System::ProcessManagement::DB::Activity->new();
+    my $ActivityDialogObject   = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
+    my $TransitionObject       = Kernel::System::ProcessManagement::DB::Transition->new();
+    my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new();
 
     # get current process management data from the DB
     my %ProcessManagementList;
@@ -447,7 +478,6 @@ sub _MigrateProcessManagementEntityIDs {
     );
 
     # generate new EntityIDs and create a lookup table
-    my %EntityLookup;
     for my $Part (qw(Process Activity ActivityDialog Transition TransitionAction)) {
         my %PartList = map { $_->{EntityID} => $_ } @{ $ProcessManagementList{$Part} };
 
@@ -464,6 +494,26 @@ sub _MigrateProcessManagementEntityIDs {
             $EntityLookup{$Part}->{$EntityID} = $NewEntityID;
         }
     }
+
+    # print EntityIDs migration table
+    my $Output = "\n Process EntityIDs Migration Reference\n";
+    for my $Part (qw(Process Activity ActivityDialog Transition TransitionAction)) {
+        my $DisplayPart = uc $Part;
+        if ( $Part eq 'ActivityDialog' ) {
+            $DisplayPart = 'ACTIVITY DIALOG';
+        }
+        elsif ( $Part eq 'TransitionAction' ) {
+            $DisplayPart = 'TRANSITION ACTION';
+        }
+        $Output .= "  $DisplayPart:\n";
+        for my $OldEntitiy ( sort keys %{ $EntityLookup{$Part} } ) {
+            $Output .= '   ' . sprintf '%-8s', $OldEntitiy;
+            $Output .= "$EntityLookup{$Part}->{$OldEntitiy}\n";
+        }
+        $Output .= "\n";
+    }
+    $Output .= "\n";
+    print $Output;
 
     my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -501,10 +551,14 @@ sub _MigrateProcessManagementEntityIDs {
 
             my $NewActivityEntityID = $EntityLookup{Activity}->{$ActivityEntityID};
 
-            if ( !$NewActivityEntityID ) {
-                die "Error: No new EntityID was created for Activity: $ActivityEntityID}";
+            if ($NewActivityEntityID) {
+                $NewLayout{$NewActivityEntityID} = $Process->{Layout}->{$ActivityEntityID};
             }
-            $NewLayout{$NewActivityEntityID} = $Process->{Layout}->{$ActivityEntityID};
+            else {
+                print "\n Warning: Process '$Process->{EntityID} - $Process->{Name}' layout contains a reference"
+                    . " to a non existing Activity '$ActivityEntityID', this activity will be skipped."
+                    . " Please check the process after the migration process ends\n";
+            }
         }
         $Process->{Layout} = \%NewLayout;
 
@@ -513,9 +567,8 @@ sub _MigrateProcessManagementEntityIDs {
         for my $Attribute (qw(Activity ActivityDialog)) {
             next ATTRIBUTE if !$Process->{Config}->{"Start$Attribute"};
 
-            my $AttributeEntityID = $Process->{Config}->{"Start$Attribute"};
-            my $NewAttributeEntityID
-                = $EntityLookup{$Attribute}->{$AttributeEntityID};
+            my $AttributeEntityID    = $Process->{Config}->{"Start$Attribute"};
+            my $NewAttributeEntityID = $EntityLookup{$Attribute}->{$AttributeEntityID};
             if ( !$NewAttributeEntityID ) {
                 die "Error: No new EntityID was created for $Attribute: $AttributeEntityID";
             }
@@ -541,21 +594,30 @@ sub _MigrateProcessManagementEntityIDs {
                 for my $TransitionEntityID ( sort keys %{$Activity} ) {
                     my $Transition = $Activity->{$TransitionEntityID};
                     my $NewTransition;
+
+                    TRANSITIONACTION:
                     for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
                         # set new transition action EntityID from process path activity transition
-                        my $NewTransitionActionEntityID
-                            = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
+                        my $NewTransitionActionEntityID = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
+
+                        # due to a bug in ProcessManagement GUI it could be that there are
+                        # references to Transition Actions that no longer exists, see bug 11021.
+                        # migration script must be tolerant on this issue and do not stop if there
+                        # is a non existing Transition Action, but skip it instead.
                         if ( !$NewTransitionActionEntityID ) {
-                            die
-                                "Error: No new EntityID was created for TransitionAction: $TransitionActionEntityID";
+                            print "\n Warning: Process '$Process->{EntityID} - $Process->{Name}'"
+                                . " path contains a reference to a non existing Transition Action"
+                                . " '$TransitionActionEntityID', this Transition Action will be"
+                                . " skipped. Please check the process after the migration process"
+                                . " ends\n";
+                            next TRANSITIONACTION;
                         }
                         push @{ $NewTransition->{TransitionAction} }, $NewTransitionActionEntityID;
                     }
 
                     # set new activity EntityID stored in the transition
-                    my $NewDestinationActivityEntityID
-                        = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
+                    my $NewDestinationActivityEntityID = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
                     if ( !$NewDestinationActivityEntityID ) {
                         die
                             "Error: No new EntityID was created for Activity: $Transition->{ActivityEntityID}";
@@ -570,8 +632,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
 
                     # set new transition to its entity hash key
-                    $NewPath{$NewActivityEntityID}->{$NewTransitionEntityID}
-                        = $NewTransition;
+                    $NewPath{$NewActivityEntityID}->{$NewTransitionEntityID} = $NewTransition;
                 }
             }
         }
@@ -621,14 +682,12 @@ sub _MigrateProcessManagementEntityIDs {
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
             # set new activity dialog EntityID
-            my $NewActivityDialogEntityID
-                = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
+            my $NewActivityDialogEntityID = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
                 die
                     "Error: No new EntityID was created for ActivityDialog: $ActivityDialogEntityID";
             }
-            $Activity->{Config}->{ActivityDialog}->{$OrderKey}
-                = $NewActivityDialogEntityID;
+            $Activity->{Config}->{ActivityDialog}->{$OrderKey} = $NewActivityDialogEntityID;
         }
 
         # update dynamic fields
@@ -728,6 +787,7 @@ sub _MigrateProcessManagementEntityIDs {
                     @{ $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} }
                     )
                 {
+                    next ENTITY if !$EntityID;
 
                     if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
@@ -760,6 +820,8 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
+                    next ENTITY if !$EntityID;
+
                     if ( $EntityID =~ m{\A Activity - [0-9a-f]{32} \z}msx ) {
                         push @NewActivities, $EntityID;
                         next ENTITY;
@@ -791,6 +853,8 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
+                    next ENTITY if !$EntityID;
+
                     if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
                         next ENTITY;
@@ -803,8 +867,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
                     push @NewActivityDialogs, $NewEntityID;
                 }
-                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID}
-                    = \@NewActivityDialogs;
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID} = \@NewActivityDialogs;
             }
         }
 
@@ -814,6 +877,8 @@ sub _MigrateProcessManagementEntityIDs {
 
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} } ) {
+
+                    next ENTITY if !$EntityID;
 
                     if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
@@ -836,6 +901,8 @@ sub _MigrateProcessManagementEntityIDs {
 
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{Process} } ) {
+
+                    next ENTITY if !$EntityID;
 
                     if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
@@ -930,8 +997,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     if ($DeployProcesses) {
 
-        my $Location
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = ${ProcessObject}->ProcessDump(
@@ -967,8 +1033,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     # deploy ACLs
     if ($DeployACLs) {
-        my $Location
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
         my $ACLDump = $ACLObject->ACLDump(
             ResultType => 'FILE',
@@ -1083,8 +1148,9 @@ Migrate process management Dynamic Fields to use their own driver.
 
 sub _MigrateProcessManagementDynamicFieldTypes {
 
-    my $ProcessManagementProcessID = $Kernel::OM->Get('Kernel::Config')
-        ->Get('Process::DynamicFieldProcessManagementProcessID') || '';
+    my $ProcessManagementProcessID
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID')
+        || '';
 
     if ( !$ProcessManagementProcessID ) {
         print "\tProcess Management dynamic field for Process ID configuration is invalid!\n";
@@ -1092,8 +1158,8 @@ sub _MigrateProcessManagementDynamicFieldTypes {
         return;
     }
 
-    my $ProcessManagementActivityID = $Kernel::OM->Get('Kernel::Config')
-        ->Get('Process::DynamicFieldProcessManagementActivityID') || '';
+    my $ProcessManagementActivityID
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID') || '';
 
     if ( !$ProcessManagementActivityID ) {
         print "\tProcess Management dynamic field for Activity ID configuration is invalid!\n";
@@ -1238,14 +1304,31 @@ sub _MigrateSettings {
     my $NewTicketKey      = 'UserSendNewTicketNotification';
     my $FollowUpTicketKey = 'UserSendFollowUpNotification';
 
+    my $Operator = '=';
+
+    # get database object;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # use 'LIKE' operator instead of '=' as:
+    #    in oracle as the field is defined as CLOB
+    #    in mssql as the field is defined as ntext
+    #    under this scenarios a direct comparison is not possible using '=' operator
+    if (
+        $DBObject->{'DB::Type'} eq 'oracle'
+        || $DBObject->{'DB::Type'} eq 'mssql'
+        )
+    {
+        $Operator = 'LIKE';
+    }
+
     # do the update
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "
+    return if !$DBObject->Do(
+        SQL => '
             UPDATE user_preferences
             SET preferences_value = ?
             WHERE
                 ( preferences_key = ? OR preferences_key = ? )
-                AND preferences_value = ?",
+                AND preferences_value ' . $Operator . ' ?',
         Bind => [ \$NewValue, \$NewTicketKey, \$FollowUpTicketKey, \$OldValue ],
     );
     return 1;
@@ -1285,8 +1368,7 @@ sub _MigrateDBACLs {
 
         # convert old hash into an array using only the keys set to 0, and skip those that are set
         # to 1, set them as PossibleNot and delete the Possible->Action section form the ACL.
-        my @NewAction
-            = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
+        my @NewAction = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
             sort keys %{ $ACL->{ConfigChange}->{Possible}->{Action} };
 
         delete $ACL->{ConfigChange}->{Possible}->{Action};
@@ -1313,8 +1395,7 @@ sub _MigrateDBACLs {
                 . " possible, please check all ACLs and deploy them manually!\n";
         }
         else {
-            my $Location
-                = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+            my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
                 . '/Kernel/Config/Files/ZZZACL.pm';
 
             my $ACLDump = $ACLObject->ACLDump(
@@ -1466,7 +1547,7 @@ sub _MigrateDTLInSysConfig {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ProviderObject  = Kernel::Output::Template::Provider->new();
 
-    # initialize erro message
+    # initialize error message
     my $ErrorMessage = '';
 
     # define setting for migrating
@@ -1480,7 +1561,11 @@ sub _MigrateDTLInSysConfig {
         )
         )
     {
-        push @SettingsToTT, { Key => 'Ticket::Frontend::' . $Item, SubKey => 'Subject' };
+        push @SettingsToTT,
+            {
+            Key    => 'Ticket::Frontend::' . $Item,
+            SubKey => 'Subject'
+            };
     }
 
     # include menu settings
@@ -1491,13 +1576,21 @@ sub _MigrateDTLInSysConfig {
         if ( IsHashRefWithData($SysConfigEntry) ) {
 
             for my $Item ( sort keys %{$SysConfigEntry} ) {
-                push @SettingsToTT, { Key => $SettingName, SubKey => $Item };
+                push @SettingsToTT,
+                    {
+                    Key    => $SettingName,
+                    SubKey => $Item
+                    };
             }
         }
     }
 
     # add no hash setting
-    push @SettingsToTT, { Key => 'Ticket::Frontend::ResponseFormat', SubKey => '' };
+    push @SettingsToTT,
+        {
+        Key    => 'Ticket::Frontend::ResponseFormat',
+        SubKey => ''
+        };
 
     SETTING:
     for my $Values (@SettingsToTT) {
@@ -1581,4 +1674,190 @@ EOF
 
 }
 
+=item _MigrateDTLInDynamicFieldLinks()
+
+migrate dynamic field links that contain DTL to TT.
+
+    _MigrateDTLInDynamicFieldLinks ($CommonObject);
+
+=cut
+
+sub _MigrateDTLInDynamicFieldLinks {
+
+    my $DynamicFieldObject = Kernel::System::DynamicField->new();
+
+    # get a list of all Dynamic Fields
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+        Valid => 0,
+    );
+
+    # return success if there are no dynamic fields in the system, nothing to do
+    return 1 if !IsArrayRefWithData($DynamicFieldList);
+
+    my $ProviderObject = Kernel::Output::Template::Provider->new();
+
+    # initialize error message
+    my $ErrorMessage = '';
+
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+
+        # validate only dynamic fields with links set are updated
+        next DYNAMICFIELD if !$DynamicField->{Name};
+        next DYNAMICFIELD if !$DynamicField->{Config};
+        next DYNAMICFIELD if !IsHashRefWithData( $DynamicField->{Config} );
+        next DYNAMICFIELD if !$DynamicField->{Config}->{Link};
+
+        # make shortcuts
+        my $DynamicFieldConfig = $DynamicField->{Config};
+
+        my $TTLink;
+        eval {
+            $TTLink = $ProviderObject->MigrateDTLtoTT( Content => $DynamicFieldConfig->{Link} );
+        };
+        if ($@) {
+
+            $ErrorMessage .= " Dynamic Field $DynamicField->{Name} : $@ \n";
+        }
+        else {
+
+            # only update field where the link has been updated
+            next DYNAMICFIELD if $TTLink eq $DynamicFieldConfig->{Link};
+
+            # set new link in the dynamic field configuration
+            $DynamicFieldConfig->{Link} = $TTLink;
+
+            # update the field
+            my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+                %{$DynamicField},
+                Config  => $DynamicFieldConfig,
+                Reorder => 0,
+                UserID  => 1,
+            );
+        }
+    }
+
+    # check if an error is present
+    if ($ErrorMessage) {
+        print STDERR <<EOF;
+
+One or more dynamic field links could not be automatically converted
+from DTL to Template::Toolkit. The error was:
+$ErrorMessage
+
+The upgrading script will continue, please check and update this links in the dynamic fileds manually.
+See also http://otrs.github.io/doc/manual/developer/4.0/en/html/package-porting.html#package-porting-template-engine.
+
+EOF
+
+        # Treat as success, the user should fix this manually.
+    }
+
+    return 1;
+}
+
+=item _MigrateGenericAgentProcessManagementDynamicFields()
+
+migrate EntityIDs on Process Management fields in Generic Agent jobs.
+
+    _MigrateGenericAgentProcessManagementDynamicFields();
+
+=cut
+
+sub _MigrateGenericAgentProcessManagementDynamicFields {
+
+    # create needed objects
+    my $ConfigObject = Kernel::Config->new();
+    my $DBObject     = Kernel::System::DB->new();
+
+    # get the name of the dynamic field to store process information
+    my %DynamicFieldName = (
+        Process => $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
+            || 'ProcessManagementProcessID',
+        Activity => $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+            || 'ProcessManagementActivityID',
+    );
+
+    for my $Part (qw(Process Activity)) {
+
+        for my $Prefix (qw(DynamicField_ Search_DynamicField_)) {
+
+            my $Field = $Prefix . $DynamicFieldName{$Part};
+
+            ENTITYID:
+            for my $OldEntityID ( sort keys( %{ $EntityLookup{$Part} } ) ) {
+
+                next ENTITYID if $OldEntityID =~ m{\A $Part - [0-9a-f]{32} \z}msx;
+
+                # update dynamic fields
+                return if !$DBObject->Do(
+                    SQL => '
+                        UPDATE generic_agent_jobs
+                        SET job_value = ?
+                        WHERE job_key = ?
+                            AND job_value = ?',
+                    Bind => [
+                        \$EntityLookup{$Part}->{$OldEntityID},
+                        \$Field,
+                        \$OldEntityID,
+                    ],
+                );
+            }
+        }
+    }
+
+    return 1;
+}
+
+=item _MigrateNotificationEventProcessManagementDynamicFields()
+
+migrate EntityIDs on Process Management fields in event based notifications.
+
+    _MigrateNotificationEventProcessManagementDynamicFields();
+
+=cut
+
+sub _MigrateNotificationEventProcessManagementDynamicFields {
+
+    # create needed objects
+    my $ConfigObject = Kernel::Config->new();
+    my $DBObject     = Kernel::System::DB->new();
+
+    # get the name of the dynamic field to store process information
+    my %DynamicFieldName = (
+        Process => $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
+            || 'ProcessManagementProcessID',
+        Activity => $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+            || 'ProcessManagementActivityID',
+    );
+
+    for my $Part (qw(Process Activity)) {
+
+        my $Prefix = 'Search_DynamicField_';
+
+        my $Field = $Prefix . $DynamicFieldName{$Part};
+
+        ENTITYID:
+        for my $OldEntityID ( sort keys( %{ $EntityLookup{$Part} } ) ) {
+
+            next ENTITYID if $OldEntityID =~ m{\A $Part - [0-9a-f]{32} \z}msx;
+
+            # update dynamic fields
+            return if !$DBObject->Do(
+                SQL => '
+                    UPDATE notification_event_item
+                    SET event_value = ?
+                    WHERE event_key = ?
+                        AND event_value = ?',
+                Bind => [
+                    \$EntityLookup{$Part}->{$OldEntityID},
+                    \$Field,
+                    \$OldEntityID,
+                ],
+            );
+        }
+    }
+
+    return 1;
+}
 1;

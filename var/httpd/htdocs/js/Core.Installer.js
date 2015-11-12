@@ -1,6 +1,6 @@
 // --
 // Core.Installer.js - provides the special module functions for Installer
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,8 +48,8 @@ InstallerDBStart
             $('fieldset.Success').hide();
         }
         else {
-            $('#ButtonCheckDB').hide();
-            $('#FormDBSubmit').removeAttr('disabled');
+            $('#ButtonCheckDB').closest('.Field').hide();
+            $('#FormDBSubmit').removeAttr('disabled').removeClass('Disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
         }

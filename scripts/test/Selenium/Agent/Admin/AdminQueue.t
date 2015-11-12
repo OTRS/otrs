@@ -1,6 +1,6 @@
 # --
 # AdminQueue.t - frontend tests for AdminState
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,12 +44,16 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
+        sleep 5;
+
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new queue' link
         $Selenium->find_element( "a.Create", 'css' )->click();
+
+        sleep 5;
 
         # check add page
         for my $ID (
@@ -65,6 +69,8 @@ $Selenium->RunTest(
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
         $Element->submit();
+
+        sleep 5;
 
         #$Element->click("button#Submit");
         $Self->Is(
@@ -87,8 +93,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SystemAddressID option[value='1']", 'css' )->click();
         $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
-        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",    'css' )->submit();
+        $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
+        $Selenium->find_element( "#Name",                              'css' )->submit();
+
+        sleep 5;
 
         # check Queue - Responses page
         $Self->True(
@@ -101,6 +109,8 @@ $Selenium->RunTest(
 
         # go to new queue again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+        sleep 5;
 
         # check new queue values
         $Self->Is(
@@ -155,6 +165,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Comment",                   'css' )->submit();
 
+        sleep 5;
+
         # check overview page
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -166,6 +178,8 @@ $Selenium->RunTest(
 
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
+
+        sleep 5;
 
         # check new queue values
         $Self->Is(
@@ -188,7 +202,7 @@ $Selenium->RunTest(
             '',
             "#Comment updated value",
         );
-        }
+    }
 );
 
 1;

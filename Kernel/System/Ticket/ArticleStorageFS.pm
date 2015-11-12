@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,19 @@ sub ArticleStorageInit {
         );
         die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get activated cache backend configuration
+    my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
+
+    return 1 if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+    return 1 if !$ConfigObject->Get('Cache::ArticleStorageCache');
+
+    $Self->{ArticleStorageCache} = 1;
+    $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
+
     return 1;
 }
 
@@ -63,17 +76,18 @@ sub ArticleDelete {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
 
-    my $DynamicFieldListArticle
-        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicFieldListArticle = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'Article',
         Valid      => 0,
-        );
+    );
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -145,6 +159,14 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ],
     );
 
+    # delete cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
+
     return 1;
 }
 
@@ -154,8 +176,10 @@ sub ArticleDeletePlain {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -171,6 +195,15 @@ sub ArticleDeletePlain {
             );
             return;
         }
+    }
+
+    # delete cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key  => 'ArticlePlain',
+        );
     }
 
     # return if only delete in my backend
@@ -191,8 +224,10 @@ sub ArticleDeleteAttachment {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -223,6 +258,14 @@ sub ArticleDeleteAttachment {
         }
     }
 
+    # delete cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
+
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
@@ -241,8 +284,10 @@ sub ArticleWritePlain {
     # check needed stuff
     for (qw(ArticleID Email UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -270,8 +315,21 @@ sub ArticleWritePlain {
         Content    => \$Param{Email},
         Permission => '660',
     );
-    return if !$Success;
 
+    # set cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticlePlain',
+            Value          => $Param{Email},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
+
+    return if !$Success;
     return 1;
 }
 
@@ -281,8 +339,10 @@ sub ArticleWriteAttachment {
     # check needed stuff
     for (qw(Content Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -319,9 +379,9 @@ sub ArticleWriteAttachment {
     );
     if ( !$Param{Force} ) {
 
-       # Normalize filenames to find file names which are identical but in a different unicode form.
-       #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
-       #   Without this, the same file might be overwritten because the strings are not equal.
+        # Normalize filenames to find file names which are identical but in a different unicode form.
+        #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
+        #   Without this, the same file might be overwritten because the strings are not equal.
         for ( sort keys %Index ) {
             $UsedFile{ Unicode::Normalize::NFC( $Index{$_}->{Filename} ) } = 1;
         }
@@ -409,7 +469,16 @@ sub ArticleWriteAttachment {
         Content    => \$Param{Content},
         Permission => 660,
     );
+
     return if !$SuccessContent;
+
+    # delete cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
 
     return 1;
 }
@@ -419,14 +488,32 @@ sub ArticlePlain {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!',
+        );
         return;
     }
 
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticlePlain',
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return $Cache if $Cache;
+    }
 
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
@@ -442,6 +529,20 @@ sub ArticlePlain {
         );
 
         return if !$Data;
+
+        # set cache
+        if ( $Self->{ArticleStorageCache} ) {
+
+            $CacheObject->Set(
+                Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+                TTL            => $Self->{ArticleStorageCacheTTL},
+                Key            => 'ArticlePlain',
+                Value          => ${$Data},
+                CacheInMemory  => 0,
+                CacheInBackend => 1,
+            );
+        }
+
         return ${$Data};
     }
 
@@ -474,6 +575,19 @@ sub ArticlePlain {
         return;
     }
 
+    # set cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticlePlain',
+            Value          => $Data,
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
+
     return $Data;
 }
 
@@ -482,17 +596,38 @@ sub ArticleAttachmentIndexRaw {
 
     # check ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleContentPath!',
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!',
+        );
         return;
     }
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticleAttachmentIndexRaw',
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return %{$Cache} if $Cache;
+    }
+
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my %Index;
     my $Counter = 0;
@@ -619,7 +754,19 @@ sub ArticleAttachmentIndexRaw {
         };
     }
 
-    # return if index exists
+    # set cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticleAttachmentIndexRaw',
+            Value          => \%Index,
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
+
     return %Index if %Index;
 
     # return if we only need to check one backend
@@ -668,7 +815,7 @@ sub ArticleAttachmentIndexRaw {
 
             # converted article body should be inline
             elsif ( $Row[0] =~ m{file-[12]} ) {
-                $Disposition = 'inline'
+                $Disposition = 'inline';
             }
 
             # all others including attachments with content id that are not images
@@ -691,6 +838,19 @@ sub ArticleAttachmentIndexRaw {
         };
     }
 
+    # set cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticleAttachmentIndexRaw',
+            Value          => \%Index,
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
+
     return %Index;
 }
 
@@ -700,8 +860,10 @@ sub ArticleAttachment {
     # check needed stuff
     for (qw(ArticleID FileID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -709,6 +871,22 @@ sub ArticleAttachment {
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticleAttachment' . $Param{FileID},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return %{$Cache} if $Cache;
+    }
 
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
@@ -838,6 +1016,19 @@ sub ArticleAttachment {
 
                 chomp $Data{ContentType};
 
+                # set cache
+                if ( $Self->{ArticleStorageCache} ) {
+
+                    $CacheObject->Set(
+                        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+                        TTL            => $Self->{ArticleStorageCacheTTL},
+                        Key            => 'ArticleAttachment' . $Param{FileID},
+                        Value          => \%Data,
+                        CacheInMemory  => 0,
+                        CacheInBackend => 1,
+                    );
+                }
+
                 return %Data;
             }
         }
@@ -855,15 +1046,27 @@ sub ArticleAttachment {
     # try database, if no content is found
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT content_type, content, content_id, content_alternative, disposition, filename
+            SELECT id
             FROM article_attachment
             WHERE article_id = ?
             ORDER BY filename, id',
-        Bind   => [ \$Param{ArticleID} ],
-        Limit  => $Param{FileID},
-        Encode => [ 1, 0, 0, 0, 1, 1 ],
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => $Param{FileID},
     );
 
+    my $AttachmentID;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $AttachmentID = $Row[0];
+    }
+
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT content_type, content, content_id, content_alternative, disposition, filename
+            FROM article_attachment
+            WHERE id = ?',
+        Bind   => [ \$AttachmentID ],
+        Encode => [ 1, 0, 0, 0, 1, 1 ],
+    );
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         $Data{ContentType} = $Row[0];
@@ -909,6 +1112,19 @@ sub ArticleAttachment {
         return;
     }
 
+    # set cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticleAttachment' . $Param{FileID},
+            Value          => \%Data,
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
+
     return %Data;
 }
 
@@ -918,8 +1134,10 @@ sub _ArticleDeleteDirectory {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }

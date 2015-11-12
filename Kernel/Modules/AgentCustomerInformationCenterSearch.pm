@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentCustomerInformationCenterSearch.pm - customer information
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,39 +34,13 @@ sub new {
     $Self->{CustomerUserObject}    = Kernel::System::CustomerUser->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
-    $Self->{SlaveDBObject}     = $Self->{DBObject};
-    $Self->{SlaveTicketObject} = $Self->{TicketObject};
-
-    # use a slave db to search dashboard date
-    if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
-
-        $Self->{SlaveDBObject} = Kernel::System::DB->new(
-            LogObject    => $Param{LogObject},
-            ConfigObject => $Param{ConfigObject},
-            MainObject   => $Param{MainObject},
-            EncodeObject => $Param{EncodeObject},
-            DatabaseDSN  => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
-            DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
-        );
-
-        if ( $Self->{SlaveDBObject} ) {
-
-            $Self->{SlaveTicketObject} = Kernel::System::Ticket->new(
-                %Param,
-                DBObject => $Self->{SlaveDBObject},
-            );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent')->{CustomerSearch};
 
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
@@ -99,7 +73,11 @@ sub Run {
         my @Result;
         CUSTOMERID:
         for my $CustomerID ( sort keys %CustomerCompanyList ) {
-            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
+            push @Result,
+                {
+                Label => $CustomerCompanyList{$CustomerID},
+                Value => $CustomerID
+                };
             last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
@@ -130,7 +108,10 @@ sub Run {
                 User => $CustomerLogin,
             );
             push @Result,
-                { Label => $CustomerList{$CustomerLogin}, Value => $CustomerData{UserCustomerID} };
+                {
+                Label => $CustomerList{$CustomerLogin},
+                Value => $CustomerData{UserCustomerID}
+                };
 
             last CUSTOMERLOGIN if $Count++ >= $MaxResults;
         }
@@ -152,10 +133,11 @@ sub Run {
         Data         => \%Param,
     );
     return $Self->{LayoutObject}->Attachment(
-        ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        NoCache     => 1,
+        ContentType => 'text/html',
+        Charset     => $Self->{LayoutObject}->{UserCharset},
         Content     => $Output || '',
         Type        => 'inline',
-        NoCache     => 1,
     );
 }
 

@@ -1,6 +1,6 @@
 # --
 # AgentTicketEmail.tt - provides HTML form for agent email
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,7 @@ $('#TypeID').bind('change', function (Event) {
 <script type="text/javascript">//<![CDATA[
 $('#Dest').bind('change', function (Event) {
     var SignatureURL = '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Signature;Dest=' + $(this).val();
-    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'Dest', ['Signature', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
+    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'Signature', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
     if (!Core.Config.Get('SessionIDCookie')) {
         SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
     }
@@ -479,7 +479,9 @@ $('#NewResponsibleID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>
@@ -558,11 +560,12 @@ $('#FileUpload').bind('change', function () {
                     </div>
                     <div class="Clear"></div>
 
-                    <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
+                    <label>[% Translate("Pending date") | html %]:</label>
                     <div class="Field">
                         [% Data.PendingDateString %]
                         <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                         <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                     </div>
                     <div class="Clear"></div>
 

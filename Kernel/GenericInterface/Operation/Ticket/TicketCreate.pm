@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,8 +58,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{Config}
-        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketCreate');
+    $Self->{Config} = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketCreate');
 
     return $Self;
 }
@@ -232,6 +231,7 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
     if ( $UserType eq 'Customer' ) {
         $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
     }
@@ -298,7 +298,7 @@ sub Run {
     # check create permissions
     my $Permission = $Self->CheckCreatePermissions(
         Ticket   => $Ticket,
-        UserID   => $UserID,
+        UserID   => $PermissionUserID,
         UserType => $UserType,
     );
 
@@ -1237,6 +1237,32 @@ sub _TicketCreate {
         }
     }
 
+    # set dynamic fields (only for object type 'ticket')
+    if ( IsArrayRefWithData($DynamicFieldList) ) {
+
+        DYNAMICFIELD:
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+            next DYNAMICFIELD if !$Self->ValidateDynamicFieldObjectType( %{$DynamicField} );
+
+            my $Result = $Self->SetDynamicFieldValue(
+                %{$DynamicField},
+                TicketID => $TicketID,
+                UserID   => $Param{UserID},
+            );
+
+            if ( !$Result->{Success} ) {
+                my $ErrorMessage =
+                    $Result->{ErrorMessage} || "Dynamic Field $DynamicField->{Name} could not be"
+                    . " set, please contact the system administrator";
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => $ErrorMessage,
+                };
+            }
+        }
+    }
+
     if ( !defined $Article->{NoAgentNotify} ) {
 
         # check if new owner is given (then send no agent notify)
@@ -1356,10 +1382,18 @@ sub _TicketCreate {
         );
     }
 
-    # set dynamic fields
+    # set dynamic fields (only for object type 'article')
     if ( IsArrayRefWithData($DynamicFieldList) ) {
 
+        DYNAMICFIELD:
         for my $DynamicField ( @{$DynamicFieldList} ) {
+
+            my $IsArticleDynamicField = $Self->ValidateDynamicFieldObjectType(
+                %{$DynamicField},
+                Article => 1,
+            );
+            next DYNAMICFIELD if !$IsArticleDynamicField;
+
             my $Result = $Self->SetDynamicFieldValue(
                 %{$DynamicField},
                 TicketID  => $TicketID,

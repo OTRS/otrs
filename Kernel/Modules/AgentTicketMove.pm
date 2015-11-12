@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,9 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(TicketID)) {
         if ( !$Self->{$Needed} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $Needed!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed!",
+            );
         }
     }
 
@@ -139,8 +141,7 @@ sub Run {
                 Message => $Self->{LayoutObject}->{LanguageObject}
                     ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
                 Comment =>
-                    $Self->{LayoutObject}->{LanguageObject}
-                    ->Translate('Please change the owner first.'),
+                    $Self->{LayoutObject}->{LanguageObject}->Translate('Please change the owner first.'),
             );
 
             # show back link
@@ -210,8 +211,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -267,7 +267,7 @@ sub Run {
         $GetParam{'UserSelection::New'} = 'checked="checked"';
     }
 
-    # ajax update
+    # Ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' ) || '';
 
@@ -287,23 +287,22 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
             my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -315,7 +314,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -365,7 +364,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ElementChanged eq 'StandardTemplateID' ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -396,10 +395,9 @@ sub Run {
                 my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
                 # add std. attachments to ticket
-                my %AllStdAttachments
-                    = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                     StandardTemplateID => $GetParam{StandardTemplateID},
-                    );
+                );
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                     $Self->{UploadCacheObject}->FormIDAddFile(
@@ -520,7 +518,7 @@ sub Run {
         );
     }
 
-    # create html strings for all dynamic fields
+    # create HTML strings for all dynamic fields
     my %DynamicFieldHTML;
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -545,7 +543,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData($PossibleValues) ) {
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -564,8 +562,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $PossibleValues->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -575,7 +572,7 @@ sub Run {
         my $Value;
 
         # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-        # generates a new article, then article fields will be always empty at the beginign)
+        # generates a new article, then article fields will be always empty at the beginning)
         if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
             # get value stored on the database from Ticket
@@ -688,7 +685,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -707,8 +704,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -741,9 +737,8 @@ sub Run {
                 }
             }
 
-            # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
-                = $Self->{BackendObject}->EditFieldRender(
+            # get field HTML
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
@@ -754,7 +749,7 @@ sub Run {
                 ParamObject  => $Self->{ParamObject},
                 AJAXUpdate   => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
-                );
+            );
         }
     }
 
@@ -807,13 +802,11 @@ sub Run {
                         BodyClass => 'Popup',
                     );
                     $Output .= $Self->{LayoutObject}->Warning(
-                        Message => $Self->{LayoutObject}->{LanguageObject}
-                            ->Translate(
+                        Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
                             'Sorry, you need to be the ticket owner to perform this action.'
-                            ),
+                        ),
                         Comment =>
-                            $Self->{LayoutObject}->{LanguageObject}
-                            ->Translate('Please change the owner first.'),
+                            $Self->{LayoutObject}->{LanguageObject}->Translate('Please change the owner first.'),
                     );
 
                     # show back link
@@ -858,7 +851,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get next priorities
@@ -866,7 +859,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get old owners
@@ -956,7 +949,7 @@ sub Run {
             );
         }
 
-        # set pending time on pendig state
+        # set pending time on pending state
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
             # set pending time
@@ -1052,7 +1045,7 @@ sub Run {
             }
             @AttachmentData = @NewAttachmentData;
 
-            # verify html document
+            # verify HTML document
             $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
                 String => $GetParam{Body},
             );
@@ -1099,9 +1092,8 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            # set the object ID (TicketID or ArticleID) depending on the field configuration
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -1175,24 +1167,6 @@ sub AgentMove {
     my $TreeView = 0;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
         $TreeView = 1;
-    }
-
-    # Widget Ticket Actions
-    if (
-        ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} )
-        ||
-        ( $Self->{ConfigObject}->Get('Ticket::Service')     && $Self->{Config}->{Service} )     ||
-        ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) ||
-        $Self->{Config}->{Title} ||
-        $Self->{Config}->{Queue} ||
-        $Self->{Config}->{Owner} ||
-        $Self->{Config}->{State} ||
-        $Self->{Config}->{Priority}
-        )
-    {
-        $Self->{LayoutObject}->Block(
-            Name => 'WidgetTicketActions',
-        );
     }
 
     my %Data       = %{ $Param{MoveQueues} };
@@ -1318,7 +1292,7 @@ sub AgentMove {
 
     # set move queues
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { %MoveQueues, '' => '-' },
+        Data           => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
         Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
@@ -1351,7 +1325,7 @@ sub AgentMove {
             $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
         );
 
-        # get the html strings form $Param
+        # get the HTML strings form $Param
         my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
 
         $Self->{LayoutObject}->Block(
@@ -1397,10 +1371,8 @@ sub AgentMove {
             $Param{BodyRequired}    = 'Validate_Required';
         }
         else {
-            $Param{SubjectRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
-            $Param{BodyRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
         }
 
         $Self->{LayoutObject}->Block(
@@ -1408,7 +1380,7 @@ sub AgentMove {
             Data => {%Param},
         );
 
-        # fillup configured default vars
+        # fill up configured default vars
         if ( $Param{Body} eq '' && $Self->{Config}->{Body} ) {
             $Param{Body} = $Self->{LayoutObject}->Output(
                 Template => $Self->{Config}->{Body},
@@ -1545,7 +1517,10 @@ sub AgentMove {
         }
     }
 
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketMove',
+        Data         => \%Param
+    );
 }
 
 sub _GetUsers {
@@ -1675,8 +1650,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updatable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
+        @UpdatableFields = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
     }
 
     # cycle trough the activated Dynamic Fields for this screen

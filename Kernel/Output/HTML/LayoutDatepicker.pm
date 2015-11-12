@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutDatepicker.pm - provides generic HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,8 +42,7 @@ sub DatepickerGetVacationDays {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -61,10 +60,9 @@ sub DatepickerGetVacationDays {
     for my $Year ( sort keys %{$TimeVacationDaysOneTime} ) {
         for my $Month ( sort keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
             for my $Day ( sort keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
-                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
-                    = $Self->{LanguageObject}->Translate(
+                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}->Translate(
                     $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
-                    );
+                );
             }
         }
     }

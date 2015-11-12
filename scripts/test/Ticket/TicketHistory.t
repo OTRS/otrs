@@ -1,6 +1,6 @@
 # --
 # TicketHistory.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,13 +39,13 @@ my @Tests = (
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some Agent <email@example.com>',           # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'ISO-8859-15',
+                    ArticleType => 'note-internal',                     # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',                             # agent|system|customer
+                    From        => 'Some Agent <email@example.com>',    # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'ISO-8859-15',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -57,11 +57,11 @@ my @Tests = (
                 ArticleCreate => {
                     ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
                     SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some other Agent <email2@example.com>',    # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'UTF-8',
+                    From        => 'Some other Agent <email2@example.com>',       # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'UTF-8',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -120,6 +120,65 @@ my @Tests = (
             },
         ],
     },
+
+    # Bug 10856 - TicketHistoryGet() dynamic field values
+    {
+        CreateData => [
+            {
+                TicketCreate => {
+                    Title                => 'HistoryCreateTitle',
+                    Queue                => 'Raw',
+                    Lock                 => 'unlock',
+                    PriorityID           => '3',
+                    State                => 'new',
+                    CustomerID           => '1',
+                    CustomerUser         => 'customer@example.com',
+                    OwnerID              => 1,
+                    UserID               => 1,
+                    DynamicFieldBug10856 => 'TestValue',
+                },
+
+                # history entry for a dynamic field update of OTRS 3.3
+                HistoryAdd => {
+                    HistoryType => 'TicketDynamicFieldUpdate',
+                    Name =>
+                        "\%\%FieldName\%\%DynamicFieldBug10856"
+                        . "\%\%Value\%\%TestValue",
+                    CreateUserID => 1,
+                },
+            },
+        ],
+    },
+
+    # Bug 10856 - TicketHistoryGet() dynamic field values
+    {
+        CreateData => [
+            {
+                TicketCreate => {
+                    Title                => 'HistoryCreateTitle',
+                    Queue                => 'Raw',
+                    Lock                 => 'unlock',
+                    PriorityID           => '3',
+                    State                => 'new',
+                    CustomerID           => '1',
+                    CustomerUser         => 'customer@example.com',
+                    OwnerID              => 1,
+                    UserID               => 1,
+                    DynamicFieldBug10856 => 'TestValue',
+                },
+
+                # history entry for a dynamic field update of OTRS 4
+                HistoryAdd => {
+                    HistoryType => 'TicketDynamicFieldUpdate',
+                    Name =>
+                        "\%\%FieldName\%\%DynamicFieldBug10856"
+                        . "\%\%Value\%\%TestValue"
+                        . "\%\%OldValue",
+                    CreateUserID => 1,
+                },
+            },
+        ],
+    },
 );
 
 my @HistoryCreateTicketIDs;
@@ -158,6 +217,18 @@ for my $Test (@Tests) {
                 }
             }
 
+            if ( $CreateData->{HistoryAdd} ) {
+                my $Success = $TicketObject->HistoryAdd(
+                    %{ $CreateData->{HistoryAdd} },
+                    TicketID => $HistoryCreateTicketID,
+                );
+
+                $Self->True(
+                    $Success,
+                    'HistoryAdd() - Create raw history entry',
+                );
+            }
+
             if ( $CreateData->{TicketCreate} ) {
                 my %ComputedTicketState = $TicketObject->HistoryTicketGet(
                     StopDay   => 1,
@@ -191,7 +262,7 @@ for my $Test (@Tests) {
                     TicketID  => $HistoryCreateTicketID,
                 );
 
-                for my $Key (qw(OwnerID PriorityID Queue State)) {
+                for my $Key (qw(OwnerID PriorityID Queue State DynamicFieldBug10856)) {
 
                     $Self->Is(
                         $ComputedTicketState{$Key},

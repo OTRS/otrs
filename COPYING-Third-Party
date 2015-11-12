@@ -18,12 +18,11 @@ o Name:    CPAN Apache::DBI
   Web:     n/a
   License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
 
-o Name:    CPAN Apache::Reload
+o Name:    CPAN Apache2::Reload
   Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-           # Edmund Mergl <E.Mergl@bawue.de>
-           # Ask Bjoern Hansen <ask@develooper.com>
-           # Philip M. Gollucci <pgollucci@p6m7g8.com>
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+           # Matt Sergeant, matt@sergeant.org
+           # Stas Bekman (porting to mod_perl 2.0)
 
 o Name:    CPAN Algorithm::Diff
   Web:     n/a

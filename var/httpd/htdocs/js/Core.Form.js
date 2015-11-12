@@ -1,6 +1,6 @@
 // --
 // Core.Form.js - provides functions for form handling
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@ Core.Form = (function (TargetNS) {
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
             var ElementName = $ClickedBox.attr('name'),
                 SelectAllID = $SelectAllCheckbox.attr('id'),
-                $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
+                $Elements = $('input[type="checkbox"][name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
                 Status = $ClickedBox.prop('checked'),
                 CountCheckboxes,
                 CountSelectedCheckboxes;

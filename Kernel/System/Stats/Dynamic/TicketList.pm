@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,8 +40,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{DBSlaveObject} = $Param{DBSlaveObject} || $Kernel::OM->Get('Kernel::System::DB');
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
@@ -128,8 +126,7 @@ sub GetObjectAttributes {
     );
 
     my %TicketAttributes = %{ $Self->_TicketAttributes() };
-    my %OrderBy
-        = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
+    my %OrderBy = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -478,7 +475,8 @@ sub GetObjectAttributes {
 
         # get service list
         my %Service = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-            UserID => 1,
+            KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren'),
+            UserID       => 1,
         );
 
         # get sla list
@@ -572,17 +570,19 @@ sub GetObjectAttributes {
         push @ObjectAttributes, @ObjectAttributeAdd;
     }
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if ( $ConfigObject->Get('Stats::CustomerIDAsMultiSelect') ) {
 
         # Get CustomerID
         # (This way also can be the solution for the CustomerUserID)
-        $Self->{DBSlaveObject}->Prepare(
+        $DBObject->Prepare(
             SQL => "SELECT DISTINCT customer_id FROM ticket",
         );
 
         # fetch the result
         my %CustomerID;
-        while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             if ( $Row[0] ) {
                 $CustomerID{ $Row[0] } = $Row[0];
             }
@@ -678,17 +678,15 @@ sub GetObjectAttributes {
                 my %Filter = $TicketObject->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
         # get dynamic field stats parameters
-        my $DynamicFieldStatsParameter
-            = $DynamicFieldBackendObject->StatsFieldParameterBuild(
+        my $DynamicFieldStatsParameter = $DynamicFieldBackendObject->StatsFieldParameterBuild(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
-            );
+        );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
 
@@ -703,8 +701,7 @@ sub GetObjectAttributes {
             if ( $DynamicFieldStatsParameter->{Block} eq 'Time' ) {
 
                 # create object attributes (date/time fields)
-                my $TimePeriodFormat
-                    = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
+                my $TimePeriodFormat = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
 
                 my %ObjectAttribute = (
                     Name             => $DynamicFieldStatsParameter->{Name},
@@ -767,6 +764,8 @@ sub GetStatTable {
     my %TicketAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
     my $SortedAttributesRef = $Self->_SortedAttributes();
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # check if a enumeration is requested
     my $AddEnumeration = 0;
     if ( $TicketAttributes{Number} ) {
@@ -800,13 +799,13 @@ sub GetStatTable {
         if ( ref $Param{Restrictions}->{$Key} ) {
             if ( ref $Param{Restrictions}->{$Key} eq 'ARRAY' ) {
                 $Param{Restrictions}->{$Key} = [
-                    map { $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $_ ) }
+                    map { $DBObject->QueryStringEscape( QueryString => $_ ) }
                         @{ $Param{Restrictions}->{$Key} }
                 ];
             }
         }
         else {
-            $Param{Restrictions}->{$Key} = $Self->{DBSlaveObject}->QueryStringEscape(
+            $Param{Restrictions}->{$Key} = $DBObject->QueryStringEscape(
                 QueryString => $Param{Restrictions}->{$Key}
             );
         }
@@ -843,12 +842,11 @@ sub GetStatTable {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{Restrictions}->{$ParameterName},
                     Operator           => $Operator,
-                    );
+                );
 
                 # add new search parameter
                 if ( !IsHashRefWithData( $DynamicFieldRestrictions{"DynamicField_$FieldName"} ) ) {
@@ -1072,7 +1070,7 @@ sub GetStatTable {
 
         $SQL = 'SELECT ticket_id, state_id, create_time FROM ticket_history WHERE ' . $SQL;
 
-        $Self->{DBSlaveObject}->Prepare( SQL => $SQL );
+        $DBObject->Prepare( SQL => $SQL );
 
         # Structure:
         # Stores the last TicketState:
@@ -1080,7 +1078,7 @@ sub GetStatTable {
         my %FoundTickets;
 
         # fetch the result
-        while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             if ( $Row[0] ) {
                 my $TicketID    = $Row[0];
                 my $StateID     = $Row[1];
@@ -1177,8 +1175,7 @@ sub GetStatTable {
 
         # add the accounted time if needed
         if ( $TicketAttributes{AccountedTime} ) {
-            $Ticket{AccountedTime}
-                = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
+            $Ticket{AccountedTime} = $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID );
         }
 
         $Ticket{SolutionTime}                ||= '';
@@ -1361,8 +1358,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $QueueObject->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $QueueObject->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $QueueObject->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1454,7 +1450,7 @@ sub _TicketAttributes {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %TicketAttributes = (
-        Number       => 'Number',                          # only a counter for a better readability
+        Number       => 'Number',                             # only a counter for a better readability
         TicketNumber => $ConfigObject->Get('Ticket::Hook'),
 
         #TicketID       => 'TicketID',
@@ -1479,7 +1475,7 @@ sub _TicketAttributes {
 
         #LockID         => 'LockID',
         UnlockTimeout       => 'UnlockTimeout',
-        AccountedTime       => 'Accounted time',       # the same wording is in AgentTicketPrint.dtl
+        AccountedTime       => 'Accounted time',        # the same wording is in AgentTicketPrint.dtl
         RealTillTimeNotUsed => 'RealTillTimeNotUsed',
 
         #GroupID        => 'GroupID',
@@ -1556,8 +1552,7 @@ sub _TicketAttributes {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-            = $DynamicFieldConfig->{Label}
+        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Label}
     }
 
     return \%TicketAttributes;

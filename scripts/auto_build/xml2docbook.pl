@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # xml2docbook.pl - script that generates docbook xml out of the SysConfig parameters of OTRS for inclusion in the admin manual
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -70,9 +70,9 @@ else {
 my %List = $SysConfigObject->ConfigGroupList();
 for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
-    print "<sect1 id=\"ConfigReference_$Group\"><title>$Group</title>\n";
+    print "<section id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<sect2 id=\"ConfigReference_$Group:$SubGroup\"><title>$SubGroup</title>\n";
+        print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$SubGroup</title>\n";
         my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
@@ -81,13 +81,14 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
             my %Item = $SysConfigObject->ConfigItemGet( Name => $Name );
             my $Link = $Name;
             $Link =~ s/###/_/g;
+            $Link =~ s/[ ]/_/g;
             $Link =~ s/\///g;
             print <<EOF;
-<sect3 id=\"ConfigReference_$Group:$SubGroup:$Link\"><title>$Name</title>
+<section id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc"><title>$Name</title>
 <informaltable>
-    <tgroup cols=\"2\">
-        <colspec colwidth=\"1*\"/>
-        <colspec colwidth=\"3*\"/>
+    <tgroup cols="2">
+        <colspec colwidth="1*"/>
+        <colspec colwidth="3*"/>
         <tbody>
 EOF
 
@@ -163,12 +164,12 @@ EOF
         </tbody>
     </tgroup>
 </informaltable>
-</sect3>
+</section>
 EOF
         }
-        print "</sect2>\n";
+        print "</section>\n";
     }
-    print "</sect1>\n";
+    print "</section>\n";
 }
 print "</appendix>\n";
 

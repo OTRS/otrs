@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/Entity.pm - Process Management DB Entity backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ sub EntityIDGenerate {
     # this is not a 'proper' GUID as defined in RFC 4122 but it's close enough for
     # our purposes and we can replace it later if needed
     my $GUID = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
-        Length => 32,
+        Length     => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
@@ -135,8 +135,10 @@ sub EntitySyncStateSet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID SyncState UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -214,8 +216,10 @@ sub EntitySyncStateGet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -281,8 +285,10 @@ sub EntitySyncStateDelete {
     # check needed stuff
     for my $Key (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -327,8 +333,10 @@ sub EntitySyncStatePurge {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -375,8 +383,10 @@ sub EntitySyncStateList {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

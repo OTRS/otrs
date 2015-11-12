@@ -1,6 +1,6 @@
 // --
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
-// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -481,6 +481,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     TargetNS.RemoveActivity = function (EntityID) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
             ProcessEntityID = $('#ProcessEntityID').val();
 
         // remove HTML elements
@@ -515,6 +516,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }
             });
         });
+
+        // remove layout information
+        delete Layout[EntityID];
 
         // remove connections
         jsPlumb.detachAllConnections(EntityID);

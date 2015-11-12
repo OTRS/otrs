@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.AddQueue2StdTemplate.pl - Assign Templates to Queues from CLI
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -66,10 +66,9 @@ if ( !$QueueID ) {
 }
 
 # check template
-my $StandardTemplateID
-    = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
+my $StandardTemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
     StandardTemplate => $Opts{t}
-    );
+);
 
 if ( !$StandardTemplateID ) {
     print STDERR "ERROR: Found no Standard Template for $Opts{t}\n";

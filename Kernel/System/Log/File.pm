@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log/File.pm - file log backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ sub new {
     if ( $ConfigObject->Get('LogModule::LogFile::Date') ) {
         my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );    ## no critic
         $Y = $Y + 1900;
-        $M++;
+        $M = sprintf '%02d', ++$M;
         $Self->{LogFile} .= ".$Y-$M";
     }
 

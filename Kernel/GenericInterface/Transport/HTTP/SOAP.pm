@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,8 +183,12 @@ sub ProviderProcessRequest {
 
     # convert charset if necessary
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
-        $ContentCharset = $1;
+    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A (.*) ;charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
+
+        # remember content type for the response
+        $Self->{ContentType} = $1;
+
+        $ContentCharset = $2;
     }
     if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
         $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
@@ -342,9 +346,7 @@ sub ProviderGenerateResponse {
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
-    my $Serialized = SOAP::Serializer
-        ->autotype(0)
-        ->default_ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
+    my $Serialized = SOAP::Serializer->autotype(0)->default_ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
         ->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
@@ -445,9 +447,7 @@ sub RequesterPerformRequest {
     }
 
     # prepare method
-    my $SOAPMethod = SOAP::Data
-        ->name( $Param{Operation} )
-        ->uri( $Config->{NameSpace} );
+    my $SOAPMethod = SOAP::Data->name( $Param{Operation} )->uri( $Config->{NameSpace} );
     if ( ref $SOAPMethod ne 'SOAP::Data' ) {
         return {
             Success      => 0,
@@ -522,13 +522,10 @@ sub RequesterPerformRequest {
 
     # prepare connect
     my $SOAPHandle = eval {
-        SOAP::Lite
-            ->autotype(0)
-            ->default_ns( $Config->{NameSpace} )
-            ->proxy(
+        SOAP::Lite->autotype(0)->default_ns( $Config->{NameSpace} )->proxy(
             $URL,
             timeout => 60,
-            );
+        );
     };
     my $SOAPHandleFault = $@ || '';
     if ($SOAPHandleFault) {
@@ -603,8 +600,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'SOAP Transport: Could not get XML data sent to remote system',
         };
     }
-    my $XMLRequest
-        = $SOAPResult->context()->transport()->proxy()->http_response()->request()->content();
+    my $XMLRequest = $SOAPResult->context()->transport()->proxy()->http_response()->request()->content();
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -683,7 +679,7 @@ sub RequesterPerformRequest {
     # all OK - return result
     return {
         Success => 1,
-        Data => $Body->{ $Param{Operation} . 'Response' } || undef,
+        Data    => $Body->{ $Param{Operation} . 'Response' } || undef,
     };
 }
 
@@ -788,6 +784,9 @@ sub _Output {
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
         $ContentType = 'application/soap+xml';
+        if ( $Self->{ContentType} ) {
+            $ContentType = $Self->{ContentType};
+        }
     }
     else {
         $ContentType = 'text/plain';

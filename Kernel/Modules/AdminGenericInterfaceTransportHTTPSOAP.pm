@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -242,8 +242,7 @@ sub Run {
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+            $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
         }
 
@@ -266,8 +265,7 @@ sub _ShowEdit {
     # configuration
     $Param{Type}           = 'HTTP::SOAP';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    my $TransportConfig
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
+    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
     $Param{Endpoint}            = $TransportConfig->{Endpoint};
@@ -337,8 +335,8 @@ sub _ShowEdit {
 
         # create SOAPActionSeparator select
         $Param{SOAPActionSeparatorStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ '#', '/' ],
-            Name => 'SOAPActionSeparator',
+            Data          => [ '#', '/' ],
+            Name          => 'SOAPActionSeparator',
             SelectedValue => $SelectedSeparator,
             Sort          => 'AlphaNumericValue',
         );

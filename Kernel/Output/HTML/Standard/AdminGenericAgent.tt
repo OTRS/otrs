@@ -1,6 +1,6 @@
 # --
 # AdminGenericAgent.tt - provides HTML form for AdminGenericAgent.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -212,6 +212,7 @@
                                         <td class="Center">
                                             <a id="DeleteEvent[% Data.Event | html %]" class="TrashCan DeleteEvent" href="#" title="[% Translate("Delete this event") | html %]">
                                                 [% Translate("Delete this event") | html %]
+                                                <i class="fa fa-trash-o"></i>
                                             </a>
                                             <input type="hidden" name="EventValues" class="EventValue" value="[% Data.Event | html %]" />
                                         </td>
@@ -242,7 +243,10 @@
 [% RenderBlockStart("EventAdd") %]
                             [% Data.EventStrg %]
 [% RenderBlockEnd("EventAdd") %]
-                            <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
+                            <a href="#" id="AddEvent" class="AddEvent">
+                                <i class="fa fa-plus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Add Event") | html %]</span>
+                            </a>
                             <p class="FieldExplanation">
                                 [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
                             </p>
@@ -257,7 +261,8 @@ Core.Agent.Admin.GenericAgent.Init({
         DuplicateEventMsg: [% Translate("This event is already attached to the job, Please use a different one.") | JSON %],
         DeleteEventMsg: [% Translate("Delete this Event Trigger") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
+        CancelMsg: [% Translate("Cancel") | JSON %],
+        RemoveSelection: [% Translate("Remove selection") | JSON %]
     }
 });
 //]]></script>
@@ -317,46 +322,61 @@ Core.Agent.Admin.GenericAgent.Init({
 [% RenderBlockEnd("TicketType") %]
                         <label for="From">[% Translate("From") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="From" id="From" class="W30pc" value="[% Data.From | html %]"/>
+                            <input type="text" name="From" id="From" class="W30pc [% Data.FromInvalid | html %]" value="[% Data.From | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="FromServerError" class="TooltipErrorMessage">
+                                <p>[% Data.FromInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="To">[% Translate("To") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="To" id="To" class="W33pc" value="[% Data.To | html %]"/>
+                            <input type="text" name="To" id="To" class="W33pc [% Data.ToInvalid | html %]" value="[% Data.To | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="ToServerError" class="TooltipErrorMessage">
+                                <p>[% Data.ToInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Cc">[% Translate("Cc") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Cc" id="Cc" class="W33pc" value="[% Data.Cc | html %]"/>
+                            <input type="text" name="Cc" id="Cc" class="W33pc [% Data.CcInvalid | html %]" value="[% Data.Cc | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="CcServerError" class="TooltipErrorMessage">
+                                <p>[% Data.CcInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Subject">[% Translate("Subject") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" class="W33pc" value="[% Data.Subject | html %]"/>
+                            <input type="text" name="Subject" id="Subject" class="W33pc [% Data.SubjectInvalid | html %]" value="[% Data.Subject | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Data.SubjectInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Body">[% Translate("Text") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Body" id="Body" class="W33pc" value="[% Data.Body | html %]"/>
+                            <input type="text" name="Body" id="Body" class="W33pc [% Data.BodyInvalid | html %]" value="[% Data.Body | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="BodyServerError" class="TooltipErrorMessage">
+                                <p>[% Data.BodyInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockStart("TicketService") %]
@@ -882,6 +902,12 @@ Core.Agent.Admin.GenericAgent.Init({
                     [% Translate("Warning: You used the DELETE option. All deleted tickets will be lost!") | html %]
                 </p>
 [% RenderBlockEnd("DeleteWarning") %]
+
+[% RenderBlockStart("RunLimit") %]
+                <p class="Error">
+                    [% Translate("Warning: There are %s tickets affected but only %s may be modified during one job execution!", Data.Counter, Data.RunLimit) | html %]
+                </p>
+[% RenderBlockEnd("RunLimit") %]
 
                 <div class="SpacingTop">
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Profile=[% Data.Name | uri %]">

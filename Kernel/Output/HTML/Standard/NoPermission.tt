@@ -1,6 +1,6 @@
 # --
 # NoPermission.tt - provides HTML NoPermission screen
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,7 +51,7 @@
 [% RenderBlockStart("PossibleNextActionContainer") %]
                 <p class="SpacingTop">
 [% RenderBlockStart("PossibleNextActionRow") %]
-                    <a href="[% Data.Link %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | html %]</a>
+                    <a href="[% Data.Link | Interpolate %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | html %]</a>
                     <br/>
 [% RenderBlockEnd("PossibleNextActionRow") %]
                 </p>

@@ -1,6 +1,6 @@
 # --
 # JSUnitTest.t - frontend tests that collect the JavaScript unit test results
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,15 +32,17 @@ $Selenium->RunTest(
         $Selenium->get("${WebPath}js/test/JSUnitTest.html");
 
         # wait for the javascript tests (including AJAX) to complete
-        WAIT:
+        ACTIVESLEEP:
         for ( 1 .. 20 ) {
 
             if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
-                last WAIT;
+                last ACTIVESLEEP;
             }
 
-            sleep(0.2);
+            sleep 1;
         }
+
+        sleep 1;
 
         $Selenium->find_element( "p.result span.failed", 'css' );
         $Selenium->find_element( "p.result span.passed", 'css' );
@@ -53,10 +55,9 @@ $Selenium->RunTest(
         $Failed = $Selenium->execute_script(
             "return \$('p.result span.failed').text()"
         );
-        $Total
-            = $Selenium->execute_script(
+        $Total = $Selenium->execute_script(
             "return \$('p.result span.total').text()"
-            );
+        );
 
         $Self->True( $Passed, 'Found passed tests' );
         $Self->Is( $Passed, $Total, 'Total number of tests' );
@@ -72,7 +73,12 @@ $Selenium->RunTest(
                 'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
             );
         }
+
+        # Generate screenshot on failure
+        if ( $Failed || !$Passed || $Passed != $Total ) {
+            die;
         }
+    }
 );
 
 1;

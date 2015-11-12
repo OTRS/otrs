@@ -1,6 +1,6 @@
 # --
 # AuthSession.t - auth session tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
             UserType                 => 'User',
-            SomeComplexData => {    # verify that complex data can be stored too
+            SomeComplexData          => {                     # verify that complex data can be stored too
                 'CaseSensitive' => 1,
             },
         );

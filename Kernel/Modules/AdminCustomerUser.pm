@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -328,11 +328,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                UserData => \%UserData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -481,16 +486,20 @@ sub Run {
                         UserObject => $Self->{CustomerUserObject},
                         Debug      => $Self->{Debug},
                     );
-                    my @Params
-                        = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                    my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                UserData => \%UserData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -861,13 +870,11 @@ sub _Edit {
             }
 
             # get the data of the current selection
-            my $SelectionsData
-                = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
+            my $SelectionsData = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
 
             # make sure the encoding stamp is set
             for my $Key ( sort keys %{$SelectionsData} ) {
-                $SelectionsData->{$Key}
-                    = $Self->{EncodeObject}->EncodeInput( $SelectionsData->{$Key} );
+                $SelectionsData->{$Key} = $Self->{EncodeObject}->EncodeInput( $SelectionsData->{$Key} );
             }
 
             # build option string
@@ -876,7 +883,7 @@ sub _Edit {
                 Name        => $Entry->[0],
                 Translation => 1,
                 SelectedID  => $Param{ $Entry->[0] },
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class       => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
@@ -892,7 +899,7 @@ sub _Edit {
                 Data       => { $Self->{ValidObject}->ValidList(), },
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class      => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif (
@@ -924,8 +931,13 @@ sub _Edit {
                 Name       => $Entry->[0],
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Class      => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
+        }
+        elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
+
+            # Use CustomerID param if called from CIC.
+            $Param{Value} = $Param{ $Entry->[0] } || $Param{CustomerID} || '';
         }
         else {
             $Param{Value} = $Param{ $Entry->[0] } || '';
@@ -938,7 +950,10 @@ sub _Edit {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'PreferencesGeneric',
-                Data => { Item => $Entry->[1], %Param },
+                Data => {
+                    Item => $Entry->[1],
+                    %Param
+                },
             );
             $Self->{LayoutObject}->Block(
                 Name => "PreferencesGeneric$Block",

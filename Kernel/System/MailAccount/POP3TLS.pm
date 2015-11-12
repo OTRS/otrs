@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/POP3TLS.pm - lib for pop3/tls accounts
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,8 +26,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -42,7 +44,10 @@ sub Connect {
     );
 
     if ( !$PopObject ) {
-        return ( Successful => 0, Message => "$Type: Can't connect to $Param{Host}" );
+        return (
+            Successful => 0,
+            Message    => "$Type: Can't connect to $Param{Host}"
+        );
     }
 
     $PopObject->starttls(

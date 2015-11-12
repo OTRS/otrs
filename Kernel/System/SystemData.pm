@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SystemData.pm - Provides simple key/value store for system data
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,14 +89,18 @@ sub SystemDataAdd {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need Value!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Value!"
+        );
         return;
     }
 
@@ -146,7 +150,10 @@ sub SystemDataGet {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Key!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Key!"
+        );
         return;
     }
 
@@ -170,7 +177,7 @@ sub SystemDataGet {
 
     my $Value;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Value = $Data[0] || '';
+        $Value = $Data[0] // '';
     }
 
     # set cache
@@ -178,7 +185,7 @@ sub SystemDataGet {
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
-        Value => $Value || '',
+        Value => $Value // '',
     );
 
     return $Value;
@@ -195,11 +202,13 @@ and so on.
         Group => 'SystemRegistration',
     );
 
-my %SystemData = (
-    UniqueID => 'CDC782BE-E483-11E2-83DA-9FFD99890B3C',
-    UpdateID => 'D8F55850-E483-11E2-BD60-9FFD99890B3C'
-    ...
-);
+returns
+
+    %SystemData = (
+        UniqueID => 'CDC782BE-E483-11E2-83DA-9FFD99890B3C',
+        UpdateID => 'D8F55850-E483-11E2-BD60-9FFD99890B3C'
+        ...
+    );
 
 =cut
 
@@ -208,8 +217,10 @@ sub SystemDataGroupGet {
 
     # check needed stuff
     if ( !$Param{Group} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need Group!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Group!"
+        );
         return;
     }
 
@@ -276,14 +287,18 @@ sub SystemDataUpdate {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need Value!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Value!"
+        );
         return;
     }
 
@@ -338,8 +353,10 @@ sub SystemDataDelete {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -393,8 +410,10 @@ sub _SystemDataCacheKeyDelete {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "_SystemDataCacheKeyDelete: need 'Key'!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "_SystemDataCacheKeyDelete: need 'Key'!"
+        );
         return;
     }
 
@@ -416,7 +435,7 @@ sub _SystemDataCacheKeyDelete {
             my $CacheKey = join( '::', @Parts );
             $Kernel::OM->Get('Kernel::System::Cache')->Delete(
                 Type => $Self->{CacheType},
-                Key => 'SystemDataGetGroup::' . join( '::', @Parts ),
+                Key  => 'SystemDataGetGroup::' . join( '::', @Parts ),
             );
 
             # stop if there is just one value left

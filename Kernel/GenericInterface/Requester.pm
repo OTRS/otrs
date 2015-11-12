@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,10 +102,9 @@ sub Run {
 
     my $WebserviceID = $Param{WebserviceID};
 
-    my $Webservice
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $WebserviceID,
-        );
+    );
 
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -153,6 +152,7 @@ sub Run {
 
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
         DebuggerObject => $DebuggerObject,
+        Invoker        => $Param{Invoker},
         InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
         WebserviceID   => $WebserviceID,
     );

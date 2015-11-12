@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/cgi-bin/app.psgi - Plack startup file for OTRS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -105,6 +105,9 @@ my $StaticPath = sub {
 # Create a Static middleware to serve static files directly without invoking the OTRS
 #   application handler.
 builder {
-    enable "Static", path => $StaticPath, root => "$Bin/../../var/httpd/htdocs", pass_trough => 0;
+    enable "Static",
+        path        => $StaticPath,
+        root        => "$Bin/../../var/httpd/htdocs",
+        pass_trough => 0;
     $App;
 }

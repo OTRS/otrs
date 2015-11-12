@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutPopup.pm - provides generic HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,10 @@ sub PopupClose {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{URL} && !$Param{Reload} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need URL or Reload!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need URL or Reload!'
+        );
         return;
     }
 

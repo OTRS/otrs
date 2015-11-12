@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,9 +34,8 @@ sub new {
     # create additional objects
     $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
 
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-    $Self->{WebserviceHistoryObject}
-        = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+    $Self->{WebserviceObject}        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{WebserviceHistoryObject} = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
 
     return $Self;
 }
@@ -186,8 +185,7 @@ sub _GetWebserviceHistoryDetails {
             )
         {
             $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}
-                ->{Password}
-                =
+                ->{Password} =
                 $PasswordMask;
         }
     }

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,11 +91,10 @@ sub LinkListWithData {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get config, which ticket state types should not be included in linked tickets overview
-    my @IgnoreLinkedTicketStateTypes
-        = @{
+    my @IgnoreLinkedTicketStateTypes = @{
         $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
             // []
-        };
+    };
 
     my %IgnoreLinkTicketStateTypesHash;
     map { $IgnoreLinkTicketStateTypesHash{$_}++ } @IgnoreLinkedTicketStateTypes;

@@ -1,6 +1,6 @@
 # --
 # TicketArticleCreate.t - TicketArticleCreate testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,8 +21,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate');
+my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate');
 
 # define variables
 my $UserID     = 1;
@@ -200,7 +199,7 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify => 0,
+                NoAgentNotify             => 0,
                 ForceNotificationToUserID => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
@@ -231,7 +230,7 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify => 0,
+                NoAgentNotify             => 0,
                 ForceNotificationToUserID => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
@@ -249,7 +248,7 @@ my @Tests = (
                 SenderType  => 'agent',
                 ContentType => 'text/plain; charset=ISO-8859-15',
                 Subject =>
-                    '<OTRS_Ticket_Title>',
+                    '<OTRS_TICKET_Title>',
                 Body =>
                     'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
                 HistoryType    => 'OwnerUpdate',
@@ -262,7 +261,7 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify => 0,
+                NoAgentNotify             => 0,
                 ForceNotificationToUserID => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
@@ -280,7 +279,7 @@ my @Tests = (
                 SenderType  => 'agent',
                 ContentType => 'text/plain; charset=ISO-8859-15',
                 Subject =>
-                    '<OTRS_Ticket_NotExisting>',
+                    '<OTRS_TICKET_NotExisting>',
                 Body =>
                     'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
                 HistoryType    => 'OwnerUpdate',
@@ -293,7 +292,7 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify => 0,
+                NoAgentNotify             => 0,
                 ForceNotificationToUserID => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
@@ -322,7 +321,7 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify => 0,
+                NoAgentNotify             => 0,
                 ForceNotificationToUserID => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
@@ -378,7 +377,7 @@ for my $Test (@Tests) {
             next ATTRIBUTE if $ExcludedArtributes{$Attribute};
 
             if (
-                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_Ticket_NotExisting>'
+                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_TICKET_NotExisting>'
                 && $DBObject->GetDatabaseFunction('Type') eq 'oracle'
                 )
             {
@@ -394,7 +393,7 @@ for my $Test (@Tests) {
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,9 +65,24 @@ sub Run {
     my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
-    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
-        || $Self->{Config}->{'Order::Default'}
+
+    # Determine the default ordering to be used. Observe the QueueSort setting.
+    my $DefaultOrderBy = $Self->{Config}->{'Order::Default'}
         || 'Up';
+    if ( $Self->{Config}->{QueueSort} ) {
+        if ( defined $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
+            if ( $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
+                $DefaultOrderBy = 'Down';
+            }
+            else {
+                $DefaultOrderBy = 'Up';
+            }
+        }
+    }
+
+    # Set the sort order from the request parameters, or take the default.
+    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
+        || $DefaultOrderBy;
 
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
@@ -156,8 +171,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -170,24 +184,6 @@ sub Run {
         $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
     }
 
-    # if we have only one queue, check if there
-    # is a setting in Config.pm for sorting
-    if ( !$OrderBy ) {
-        if ( $Self->{Config}->{QueueSort} ) {
-            if ( defined $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
-                if ( $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
-                    $OrderBy = 'Down';
-                }
-                else {
-                    $OrderBy = 'Up';
-                }
-            }
-        }
-    }
-    if ( !$OrderBy ) {
-        $OrderBy = $Self->{Config}->{'Order::Default'} || 'Up';
-    }
-
     # build NavigationBar & to get the output faster!
     my $Refresh = '';
     if ( $Self->{UserRefreshTime} ) {
@@ -196,7 +192,9 @@ sub Run {
 
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
     }
 
@@ -236,7 +234,9 @@ sub Run {
     # get custom queues
     my @ViewableQueueIDs;
     if ( !$Self->{QueueID} ) {
-        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Self->{UserID}, );
+        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
+            UserID => $Self->{UserID},
+        );
     }
     else {
         @ViewableQueueIDs = ( $Self->{QueueID} );
@@ -433,7 +433,10 @@ sub Run {
         $LastColumnFilter = 1;
     }
 
-    my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
+    my %NavBar = $Self->BuildQueueView(
+        QueueIDs => \@ViewableQueueIDs,
+        Filter   => $Self->{Filter}
+    );
 
     # show tickets
     $Output .= $Self->{LayoutObject}->TicketListShow(

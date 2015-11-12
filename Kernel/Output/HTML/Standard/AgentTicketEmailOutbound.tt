@@ -1,6 +1,6 @@
 # --
 # AgentTicketEmailOutbound.tt - provides HTML form for AgentEmailOutbound
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,6 @@
     <input type="hidden" name="Subaction" value="SendEmail"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
     <input type="hidden" name="Email" value="[% Data.Email | html %]"/>
-    <input type="hidden" name="InReplyTo" value="[% Data.InReplyTo | html %]"/>
-    <input type="hidden" name="References" value="[% Data.References | html %]"/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
 
     <div class="LayoutPopup ARIARoleMain">
@@ -301,7 +299,9 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdateTemplate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdateTemplate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>
@@ -369,11 +369,12 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
+                <label>[% Translate("Pending date") | html %]:</label>
                 <div class="Field">
                     [% Data.PendingDateString %]
                     <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
                     <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
+                    <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                 </div>
                 <div class="Clear"></div>
 

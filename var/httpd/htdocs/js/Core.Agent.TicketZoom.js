@@ -1,6 +1,6 @@
 // --
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
-// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,20 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         // Add loader to the widget
         $('#ArticleItems .WidgetBox').addClass('Loading');
         Core.AJAX.ContentUpdate($('#ArticleItems'), ArticleURL, function () {
-            var TicketScrollerTop = 0;
+            // Top position of Scroller element (surrounds article table)
+            var ScrollerY = parseInt($('div.Scroller').offset().top, 10),
+            // Height of scroller element
+                ScrollerHeight = parseInt($('div.Scroller').height(), 10),
+            // Top position of active article (offset based on screen position)
+                ActiveArticlePosY = parseInt($('#ArticleTable tbody tr.Active').offset().top, 10),
+            // Height of active article
+                ActiveArticleHeight = parseInt($('#ArticleTable tbody tr.Active').height(), 10),
+            // Bottom position of active article
+                ActiveArticleBottomY = ActiveArticlePosY + ActiveArticleHeight,
+            // Bottom position of scroller element
+                ScrollerBottomY = ScrollerY + ScrollerHeight,
+            // Offset of scroller element (relative)
+                ScrollerOffset = $('div.Scroller').get(0).scrollTop;
 
             $('#ArticleItems a.AsPopup').bind('click', function (Event) {
                 var Matches,
@@ -152,8 +165,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 
             // Scroll to new active article
-            TicketScrollerTop = parseInt($('#ArticleTable tbody tr.Active').offset().top, 10) - parseInt($('#ArticleTable tbody').offset().top, 10);
-            $('div.Scroller').get(0).scrollTop = TicketScrollerTop;
+            // if article is not visible and is above the visible area, move the visible area
+            // add 5px of delta for better usability (top border is definetly visible)
+            if (ActiveArticlePosY < ScrollerY) {
+                $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticlePosY - ScrollerY) - 5;
+            }
+            // if article is not visible and is below the visible area, move the visible area
+            // add 5px of delta for better usability (bottom border is definetly visible)
+            else if (ScrollerBottomY < ActiveArticleBottomY) {
+                $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticleBottomY - ScrollerBottomY) + 5;
+            }
+
 
             // Initiate URL hash check again
             TargetNS.CheckURLHash();
@@ -174,17 +196,24 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID +']'),
             ArticleURL;
 
-        if (!$Element.length) {
-            if (typeof WindowObject === 'undefined') {
-                WindowObject = window;
-            }
-            WindowObject.alert(Core.Config.Get('Language.AttachmentViewMessage'));
-
-            return;
+        // Check if we are in timeline view
+        // in this case we can jump directly to the article
+        if ($('.ArticleView .Chronical').hasClass('Active')) {
+            window.location.hash = '#ArticleID_' + ArticleID;
         }
+        else {
+            if (!$Element.length) {
+                if (typeof WindowObject === 'undefined') {
+                    WindowObject = window;
+                }
+                WindowObject.alert(Core.Config.Get('Language.AttachmentViewMessage'));
 
-        ArticleURL = $Element.siblings('.ArticleInfo').val();
-        LoadArticle(ArticleURL, ArticleID);
+                return;
+            }
+
+            ArticleURL = $Element.siblings('.ArticleInfo').val();
+            LoadArticle(ArticleURL, ArticleID);
+        }
     };
 
     /**
@@ -350,6 +379,15 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         // Scroll to active article
         if ( !ZoomExpand && $('#ArticleTable tbody tr.Active').length ) {
             $('div.Scroller').get(0).scrollTop = parseInt($('#ArticleTable tbody tr.Active').position().top, 10) - 30;
+        }
+
+        // init browser link message close button
+        if ($('.MessageBrowser').length) {
+            $('.MessageBrowser a.Close').on('click', function () {
+                $('.MessageBrowser').fadeOut("slow");
+                Core.Agent.PreferencesUpdate('UserAgentDoNotShowBrowserLinkMessage', 1);
+                return false;
+            });
         }
     };
 

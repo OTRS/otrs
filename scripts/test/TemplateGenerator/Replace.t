@@ -1,6 +1,6 @@
 # --
 # Replace.t - template generator
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,7 +142,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
 );
 $Self->IsNot(
     $ArticleID,
@@ -254,7 +254,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field value (text)',    # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (text)',                # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -263,7 +263,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field (Dropdown)',      # <OTRS_TICKET_DynamicField_*>
+        Name => 'OTRS dynamic field (Dropdown)',                  # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
@@ -272,7 +272,7 @@ my @Tests = (
         Result   => 'Test 1',
     },
     {
-        Name => 'OTRS dynamic field value (Dropdown)',    # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (Dropdown)',            # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -281,7 +281,7 @@ my @Tests = (
         Result   => 'Test A',
     },
     {
-        Name => 'OTRS config value',                      # <OTRS_CONFIG_*>
+        Name => 'OTRS config value',                              # <OTRS_CONFIG_*>
         Data => {
             From => 'test@home.com',
         },
@@ -289,7 +289,21 @@ my @Tests = (
         Template => 'Test <OTRS_CONFIG_DefaultTheme>',
         Result   => 'Test Standard',
     },
-
+    {
+        Name => 'mailto-Links',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 1,
+        Template =>
+            'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20%3COTRS_CUSTOMER_From%3E&amp;body=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
+        Result =>
+            'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
+    },
 );
 
 for my $Test (@Tests) {

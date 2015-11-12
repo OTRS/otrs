@@ -1,6 +1,6 @@
 # --
 # AAASupportDataCollector.tt - $Text variable file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,6 +44,10 @@
 [% Translate("Setting character_set_database needs to be UNICODE or UTF8.") | html %]
 [% Translate("Table Charset") | html %]
 [% Translate("There were tables found which do not have utf8 as charset.") | html %]
+
+# Database/mysql/InnoDBLogFileSize.pm
+[% Translate("InnoDB Log File Size") | html %]
+[% Translate("The setting innodb_log_file_size must be at least 256 MB.") | html %]
 
 # Database/mysql/MaxAllowedPacket.pm
 [% Translate("Maximum Query Size") | html %]
@@ -208,11 +212,17 @@
 # Webserver/Apache/LoadedModules.pm
 [% Translate("Loaded Apache Modules") | html %]
 
+# Webserver/Apache/MPMModel.pm
+[% Translate("MPM model") | html %]
+[% Translate("OTRS requires apache to be run with the 'prefork' MPM model.") | html %]
+
 # Webserver/Apache/Performance.pm
 [% Translate("CGI Accelerator Usage") | html %]
 [% Translate("You should use FastCGI or mod_perl to increase your performance.") | html %]
 [% Translate("mod_deflate Usage") | html %]
 [% Translate("Please install mod_deflate to improve GUI speed.") | html %]
+[% Translate("mod_filter Usage") | html %]
+[% Translate("Please install mod_filter if mod_deflate is used.") | html %]
 [% Translate("mod_headers Usage") | html %]
 [% Translate("Please install mod_headers to improve GUI speed.") | html %]
 [% Translate("Apache::Reload Usage") | html %]

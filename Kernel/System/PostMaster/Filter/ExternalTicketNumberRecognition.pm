@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/ExternalTicketNumberRecognition.pm - Recognize incoming emails as followups
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@ sub Run {
             if ( $Self->{Debug} >= 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
+                    Message  => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
                 );
             }
         }

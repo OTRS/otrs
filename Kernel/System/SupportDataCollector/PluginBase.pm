@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/PluginBase.pm - system data collector plugin base class
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,6 +103,9 @@ sub _AddResult {
         $Result{Identifier} = Scalar::Util::blessed($Self);
     }
 
+    $Result{ShortIdentifier} = $Result{Identifier};
+    $Result{ShortIdentifier} =~ s{Kernel::System::SupportDataCollector::Plugin(Asynchronous)?::}{}xmsg;
+
     $Result{DisplayPath} //= $Self->GetDisplayPath();
 
     $Self->{Results} //= [];
@@ -115,7 +118,7 @@ sub GetResults {
 
     return (
         Success => 1,
-        Result => $Self->{Results} // [],
+        Result  => $Self->{Results} // [],
     );
 }
 

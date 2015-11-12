@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -67,13 +67,17 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 # check needed params
 if ( $Opts{h} ) {
     print "otrs.PackageManager.pl - OTRS Package Manager\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|reinstall-all|list-repository|file|build|index \n";
     print
         "      [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     print " user (local):\n";
     print "   otrs.PackageManager.pl -a list\n";
+    print "   otrs.PackageManager.pl -a list -p Package\n";
+    print "   otrs.PackageManager.pl -a list -i\n";
+    print "   otrs.PackageManager.pl -a list -i -p Package\n";
+    print "   otrs.PackageManager.pl -a listinstalledfiles\n";
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
     print "   otrs.PackageManager.pl -a reinstall -p Package\n";
@@ -180,7 +184,17 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
 if ( $Opts{a} eq 'file' ) {
     $Opts{p} =~ s/\/\//\//g;
     my $Hit = 0;
+    PACKAGE:
     for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
+
+        # just shown in list if PackageIsVisible flag is enable
+        if (
+            defined $Package->{PackageIsVisible}
+            && !$Package->{PackageIsVisible}->{Content}
+            )
+        {
+            next PACKAGE;
+        }
         for my $File ( @{ $Package->{Filelist} } ) {
             if ( $Opts{p} =~ /^\Q$File->{Location}\E$/ ) {
                 print
@@ -237,6 +251,20 @@ if ( $Opts{a} eq 'exportfile' ) {
         exit 1;
     }
 
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $String,
+    );
+
+    # just export files if PackageIsDownloadable flag is enable
+    if (
+        defined $Structure{PackageIsDownloadable}
+        && !$Structure{PackageIsDownloadable}->{Content}
+        )
+    {
+        print STDERR "ERROR: Not possible to export files!\n";
+        exit 1;
+    }
+
     # export it
     print "+----------------------------------------------------------------------------+\n";
     print "| Export files of:\n";
@@ -252,8 +280,20 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
+
+    # just build it if PackageIsDownloadable flag is enable
+    if (
+        defined $Structure{PackageIsDownloadable}
+        && !$Structure{PackageIsDownloadable}->{Content}
+        )
+    {
+        print STDERR "ERROR: Not available package!\n";
+        exit 1;
+    }
+
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -298,8 +338,29 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
+
+    # just un-install it if PackageIsRemovable flag is enable
+    if (
+        defined $Structure{PackageIsRemovable}
+        && !$Structure{PackageIsRemovable}->{Content}
+        )
+    {
+        my $ExitMessage = "ERROR: Not possible to remove this package!\n";
+
+        # exchange message if package should not be visible
+        if (
+            defined $Structure{PackageIsVisible}
+            && !$Structure{PackageIsVisible}->{Content}
+            )
+        {
+            $ExitMessage = "ERROR: No such package!\n";
+        }
+        print STDERR $ExitMessage;
+        exit 1;
+    }
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -331,8 +392,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -364,8 +426,9 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -439,8 +502,9 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -470,8 +534,28 @@ elsif ( $Opts{a} eq 'upgrade' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'list' ) {
+
+    PACKAGE:
     for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
-        my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
+
+        # just shown in list if PackageIsVisible flag is enable
+        if (
+            defined $Package->{PackageIsVisible}
+            && !$Package->{PackageIsVisible}->{Content}
+            )
+        {
+            next PACKAGE;
+        }
+
+        if ( defined $Opts{p} && length $Opts{p} ) {
+            my $PackageString = $Package->{Name}->{Content} . '-' . $Package->{Version}->{Content};
+            next PACKAGE if $PackageString !~ m{$Opts{p}}i;
+        }
+
+        my %Data = _MessageGet(
+            Info     => $Package->{Description},
+            Reformat => 'No'
+        );
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
@@ -479,13 +563,52 @@ elsif ( $Opts{a} eq 'list' ) {
         print "| URL:         $Package->{URL}->{Content}\n";
         print "| License:     $Package->{License}->{Content}\n";
         print "| Description: $Data{Description}\n";
+
+        if ( defined $Opts{i} ) {
+
+            my $PackageDeploymentOK = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+                Log     => 0,
+            );
+            print '| Deployment:  ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n";
+
+            my %PackageDeploymentInfo = $Kernel::OM->Get('Kernel::System::Package')->DeployCheckInfo();
+            if ( defined $PackageDeploymentInfo{File} && %{ $PackageDeploymentInfo{File} } ) {
+                for my $File ( sort keys %{ $PackageDeploymentInfo{File} } ) {
+                    my $FileMessage = $PackageDeploymentInfo{File}->{$File};
+                    print "| File Status: $File => $FileMessage\n";
+                }
+            }
+        }
     }
     print "+----------------------------------------------------------------------------+\n";
     exit;
 }
+elsif ( $Opts{a} eq 'listinstalledfiles' ) {
+    my @Packages = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
+
+    PACKAGE:
+    for my $Package (@Packages) {
+
+        # Just show if PackageIsVisible flag is enabled.
+        if (
+            defined $Package->{PackageIsVisible}
+            && !$Package->{PackageIsVisible}->{Content}
+            )
+        {
+            next PACKAGE;
+        }
+
+        for my $File ( @{ $Package->{Filelist} } ) {
+            print "  $Package->{Name}->{Content}: $File->{Location}\n";
+        }
+    }
+    exit;
+}
 elsif ( $Opts{a} eq 'list-repository' ) {
     my $Count = 0;
-    my %List ;
+    my %List;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') ) {
         %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
     }
@@ -515,7 +638,17 @@ elsif ( $Opts{a} eq 'list-repository' ) {
                 Lang => $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage'),
             );
             my $Count = 0;
+            PACKAGE:
             for my $Package (@Packages) {
+
+                # just shown in list if PackageIsVisible flag is enable
+                if (
+                    defined $Package->{PackageIsVisible}
+                    && !$Package->{PackageIsVisible}->{Content}
+                    )
+                {
+                    next PACKAGE;
+                }
                 $Count++;
                 print
                     "+----------------------------------------------------------------------------+\n";
@@ -551,14 +684,59 @@ elsif ( $Opts{a} eq 'list-repository' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'p' ) {
-    my @Data = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
-    for my $Tag (@Data) {
-        print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
+
+    # parse package
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
+
+    # perform parsing only if PackageIsVisible flag is enable
+    if (
+        defined $Structure{PackageIsVisible}
+        && !$Structure{PackageIsVisible}->{Content}
+        )
+    {
+        print STDERR "ERROR: no such package $Opts{p}!\n";
+        exit 1;
     }
+
+    my @Data = keys %Structure;
+    for my $Tag (@Data) {
+        if ( ref $Structure{$Tag} eq 'HASH' ) {
+            print STDERR "Tag: $Structure{$Tag}->{TagType} - $Structure{$Tag}->{Tag} $Structure{$Tag}->{Content}\n";
+        }
+        elsif ( ref $Structure{$Tag} eq 'ARRAY' ) {
+
+            # add a sub-level reference
+            print STDERR "\n--- Open Sub-Tag: $Tag ---\n";
+
+            # loop over the second level tags
+            my @SubData = @{ $Structure{$Tag} };
+            for my $SubTag (@SubData) {
+                print STDERR "Tag: $SubTag->{TagType} $SubTag->{Tag} $SubTag->{Content}\n";
+            }
+
+            # add a sub-level reference
+            print STDERR "--- Close Sub-Tag: $Tag ---\n\n";
+        }
+    }
+
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
+
+    # perform parsing only if PackageIsVisible flag is enable
+    if (
+        defined $Structure{PackageIsVisible}
+        && !$Structure{PackageIsVisible}->{Content}
+        )
+    {
+        print STDERR "ERROR: no such package $Opts{p}!\n";
+        exit 1;
+    }
+
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -614,17 +792,17 @@ sub BuildPackageIndex {
             BuildPackageIndex($File);
             $File =~ s/$Opts{d}//;
 
-            #            print "Directory: $File\n";
+            # print "Directory: $File\n";
         }
         else {
             my $OrigFile = $File;
             $File =~ s/$Opts{d}//;
 
-            #               print "File: $File\n";
-            #               my $Dir =~ s/^(.*)\//$1/;
+            # print "File: $File\n";
+            # my $Dir =~ s/^(.*)\//$1/;
             if ( $File !~ /Entries|Repository|Root|CVS/ && $File =~ /\.opm$/ ) {
 
-                #               print "F: $File\n";
+                # print "F: $File\n";
                 my $Content    = '';
                 my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                     Location => $OrigFile,
@@ -635,11 +813,8 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure
-                    = $Kernel::OM->Get('Kernel::System::Package')
-                    ->PackageParse( String => ${$ContentRef} );
-                my $XML = $Kernel::OM->Get('Kernel::System::Package')
-                    ->PackageBuild( %Structure, Type => 'Index' );
+                my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => ${$ContentRef} );
+                my $XML = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;
                 print "  <File>$File</File>\n";

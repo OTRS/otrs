@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/QueuePreferencesGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,8 +34,7 @@ sub Param {
     my @Params = ();
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined($GetParam) ) {
-        $GetParam
-            = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )
+        $GetParam = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} }
             : $Self->{ConfigItem}->{DataSelected};
     }

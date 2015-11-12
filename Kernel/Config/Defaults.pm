@@ -169,12 +169,13 @@ sub LoadDefaults {
         'fi' => 'Suomi',
         'fr' => 'Fran&ccedil;ais',
         'fr_CA' => 'Fran&ccedil;ais (Canada)',
+        'gl' => 'Galego',
         'he' => 'Hebrew (עִבְרִית)',
         'hi' => 'Hindi',
         'hr' => 'Hrvatski',
         'hu' => 'Magyar',
         'it' => 'Italiano',
-        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e)',
+        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
         'lt' => 'Lietuvių kalba',
         'lv' => 'Latvijas',
         'ms' => 'Malay',
@@ -189,6 +190,7 @@ sub LoadDefaults {
         'sr_Cyrl' => 'Serbian Cyrillic (српски)',
         'sr_Latn' => 'Serbian Latin (Srpski)',
         'sv' => 'Svenska',
+        'sw' => 'Swahili',
         'tr' => 'T&uuml;rk&ccedil;e',
         'uk' => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
         'vi_VN' => 'Vietnam (Vi&#x0246;t Nam)',
@@ -617,6 +619,10 @@ sub LoadDefaults {
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'} = {
+        '100-OTRSBusiness' => {
+            'Group' => 'admin',
+            'Module' => 'Kernel::Output::HTML::NotificationAgentOTRSBusiness'
+        },
         '200-UID-Check' => {
           'Module' => 'Kernel::Output::HTML::NotificationUIDCheck',
         },
@@ -886,8 +892,8 @@ sub LoadDefaults {
         'Core.JSON.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Config.js',
-        'Core.AJAX.js',
         'Core.App.js',
+        'Core.AJAX.js',
         'Core.UI.js',
         'Core.UI.Accessibility.js',
         'Core.UI.Dialog.js',
@@ -918,8 +924,8 @@ sub LoadDefaults {
         'Core.Config.js',
         'Core.Exception.js',
         'Core.JSON.js',
-        'Core.AJAX.js',
         'Core.App.js',
+        'Core.AJAX.js',
         'Core.UI.js',
         'Core.UI.Accordion.js',
         'Core.UI.Datepicker.js',
@@ -1357,8 +1363,8 @@ via the Preferences button after logging in.
 #        AutoLoginCreationPrefix => 'auto',
 #        # admin can change customer preferences
 #        AdminSetPreferences => 1,
-#        # use customer company support (reference to company, See CustomerCompany settings)
-#        CustomerCompanySupport => 1,
+        # use customer company support (reference to company, See CustomerCompany settings)
+        CustomerCompanySupport => 1,
         # cache time to live in sec. - cache any database queries
         CacheTTL => 60 * 60 * 24,
 #        # just a read only source

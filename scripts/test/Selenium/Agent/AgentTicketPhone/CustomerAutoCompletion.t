@@ -1,6 +1,6 @@
 # --
 # CustomerAutoCompletion.t - frontend test AgentTicketPhone
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,8 +111,7 @@ $Selenium->RunTest(
             # Use type_ok() instead and emulate the key events.
             # see http://jira.openqa.org/browse/SRC-760
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
-            $Selenium->find_element( "input.CustomerAutoComplete", 'css' )
-                ->send_keys($AutocompleteInput);
+            $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
             # wait for autocomplete to load
             sleep 0.2;
@@ -134,7 +133,7 @@ $Selenium->RunTest(
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
         }
-        }
+    }
 );
 
 1;

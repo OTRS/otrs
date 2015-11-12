@@ -1,6 +1,6 @@
 # --
 # ActivityDialogACL.t - ActivityDialog module test script
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,12 +26,10 @@ my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # create common objects to be used in ActivityDialog object creation
 my %CommonObject;
-$CommonObject{ActivityObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
-$CommonObject{ActivityDialogObject}
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-$CommonObject{TransitionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
-$CommonObject{TransitionActionObject}
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+$CommonObject{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
+$CommonObject{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+$CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
+$CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 # define a testing environment, set defined processes to be easy to compare, this are done in memory
 #   no changes to the real system configuration

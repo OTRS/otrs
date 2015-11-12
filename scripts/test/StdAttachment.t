@@ -1,6 +1,6 @@
 # --
 # StdAttachment.t - StdAttachment tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -270,8 +270,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Success
-        = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd( %{ $Test->{Config} } );
+    my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
         $Self->True(
@@ -377,8 +376,7 @@ $Self->True(
 );
 
 for my $Test (@Tests) {
-    my %List
-        = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList( %{ $Test->{Config} } );
+    my %List              = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList( %{ $Test->{Config} } );
     my $IsHashRefWithData = IsHashRefWithData( \%List );
 
     if ( $Test->{Success} ) {

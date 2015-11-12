@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminType.pm - to add/update/delete ticket types
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,9 +91,10 @@ sub Run {
         }
 
         # check if a type exists with this name
-        my $NameExists
-            = $Self->{TypeObject}
-            ->NameExistsCheck( Name => $GetParam{Name}, ID => $GetParam{ID} );
+        my $NameExists = $Self->{TypeObject}->NameExistsCheck(
+            Name => $GetParam{Name},
+            ID   => $GetParam{ID}
+        );
 
         if ($NameExists) {
             $Errors{NameExists} = 1;
@@ -181,8 +182,7 @@ sub Run {
         }
 
         # check if a type exists with this name
-        my $NameExists
-            = $Self->{TypeObject}->NameExistsCheck( Name => $GetParam{Name} );
+        my $NameExists = $Self->{TypeObject}->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
             $Errors{NameExists} = 1;
             $Errors{'NameInvalid'} = 'ServerError';

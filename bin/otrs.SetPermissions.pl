@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -56,7 +56,7 @@ Usage: otrs.SetPermissions.pl
     [--dry-run]                     # only report, don't change
     [--help]
 
-Example: otrs.setPermissions.pl --web-group=www-data
+Example: otrs.SetPermissions.pl --web-group=www-data
 EOF
     return;
 }
@@ -69,6 +69,7 @@ my @IgnoreFiles = (
     qr{^/\.settings}smx,
     qr{^/\.ssh}smx,
     qr{^/\.gpg}smx,
+    qr{^/\.gnupg}smx,
 );
 
 # Files to be marked as executable.
@@ -101,7 +102,7 @@ sub Run {
         'skip-regex=s'     => \@SkipRegex,
     );
 
-    if (defined $Help) {
+    if ( defined $Help ) {
         PrintUsage();
         exit 0;
     }
@@ -151,6 +152,7 @@ sub SetPermissions {
 
     # First get a canonical full filename
     my $File = $File::Find::fullname;
+
     # If the link is a dangling symbolic link, then fullname will be set to undef.
     return if !defined $File;
 
@@ -186,7 +188,8 @@ sub SetFilePermissions {
     if ( -d $File ) {
 
         # SETGID for all directories so that both OTRS and the web server can write to the files.
-        $TargetPermission = 02770;
+        # Other users should be able to read and cd to the directories.
+        $TargetPermission = 02775;
     }
     else {
         # Executable bit for script files.
@@ -212,10 +215,11 @@ sub SetFilePermissions {
     # Special treatment for toplevel folder: this must be readonly,
     #   otherwise procmail will refuse to read .procmailrc (see bug#9391).
     if ( $RelativeFile eq '/' ) {
-        $TargetPermission = 0750;
+        $TargetPermission = 0755;
     }
 
-    my $Stat = File::stat::stat($File);
+    # There seem to be cases when stat does not work on a dangling link, skip in this case.
+    my $Stat = File::stat::stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
         if ( defined $DryRun ) {
             print sprintf(

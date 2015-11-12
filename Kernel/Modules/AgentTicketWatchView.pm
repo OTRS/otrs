@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,8 +138,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -159,7 +158,9 @@ sub Run {
     }
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
     }
 
@@ -227,7 +228,7 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                StateType => [ 'pending reminder', 'pending auto' ],
+                StateType    => [ 'pending reminder', 'pending auto' ],
                 WatchUserIDs => [ $Self->{UserID} ],
                 OrderBy      => $OrderBy,
                 SortBy       => $SortByS,

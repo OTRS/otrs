@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/Transition.pm - Process Management DB Transition backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -210,8 +210,10 @@ sub TransitionDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -265,8 +267,10 @@ sub TransitionGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or EntityID!'
+        );
         return;
     }
 
@@ -376,8 +380,10 @@ sub TransitionUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -391,7 +397,7 @@ sub TransitionUpdate {
             SELECT id FROM pm_transition
             WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        Bind  => [ \$Param{EntityID}, \$Param{ID} ],
         LIMIT => 1,
     );
 

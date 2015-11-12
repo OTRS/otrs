@@ -1,6 +1,6 @@
 # --
 # scripts/test/GenericAgent/MailForward.pm - generic agent test module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,8 +74,7 @@ sub Run {
         }
     }
 
-    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')
-        ->GetSystemAddress( QueueID => $Ticket{QueueID} );
+    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
 
     $Kernel::OM->Get('Kernel::System::Ticket')->ArticleSend(
         %Article,

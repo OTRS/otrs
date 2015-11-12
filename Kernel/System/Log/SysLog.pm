@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,8 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # set syslog facility
-    $Self->{SysLogFacility}
-        = $Kernel::OM->Get('Kernel::Config')->Get('LogModule::SysLog::Facility') || 'user';
+    $Self->{SysLogFacility} = $Kernel::OM->Get('Kernel::Config')->Get('LogModule::SysLog::Facility') || 'user';
 
     return $Self;
 }

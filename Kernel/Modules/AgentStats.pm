@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ sub new {
     for my $NeededData (
         qw(
         GroupObject   ParamObject  DBObject   ModuleReg  LayoutObject
-        LogObject     ConfigObject UserObject MainObject TimeObject
+        LogObject     ConfigObject UserObject MainObject TimeObject TicketObject
         SessionObject UserID       Subaction  AccessRo   SessionID
         EncodeObject
         )
@@ -107,8 +107,7 @@ sub Run {
 
         $Param{ 'CSSSort' . $Param{OrderBy} } = $Order2CSSSort{ $Param{Direction} };
         for my $Type (qw(ID Title Object)) {
-            $Param{"LinkSort$Type"}
-                = ( $Param{OrderBy} eq $Type ) ? $InverseSorting{ $Param{Direction} } : 'ASC';
+            $Param{"LinkSort$Type"} = ( $Param{OrderBy} eq $Type ) ? $InverseSorting{ $Param{Direction} } : 'ASC';
         }
 
         # build the info
@@ -150,7 +149,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header( Title => 'Overview' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            Data => { %Frontend, %Param },
+            Data         => { %Frontend, %Param },
             TemplateFile => 'AgentStatsOverview',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -298,7 +297,9 @@ sub Run {
 
             # load static module
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
-            $Self->{LayoutObject}->Block( Name => 'Static', );
+            $Self->{LayoutObject}->Block(
+                Name => 'Static',
+            );
             PARAMITEM:
             for my $ParamItem ( @{$Params} ) {
                 next PARAMITEM if $ParamItem->{Name} eq 'GraphSize';
@@ -417,15 +418,13 @@ sub Run {
                                     @{ $ObjectAttribute->{SortIndividual} };
                             }
                             else {
-                                @Sorted
-                                    = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
+                                @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
                             }
 
                             for (@Sorted) {
                                 my $Value = $ValueHash{$_};
                                 if ( $ObjectAttribute->{Translation} ) {
-                                    $Value = $Self->{LayoutObject}->{LanguageObject}
-                                        ->Translate( $ValueHash{$_} );
+                                    $Value = $Self->{LayoutObject}->{LanguageObject}->Translate( $ValueHash{$_} );
                                 }
                                 $Self->{LayoutObject}->Block(
                                     Name => 'Fixed',
@@ -522,20 +521,18 @@ sub Run {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
                                         last ITEM if $ObjectAttribute->{TimeRelativeUnit} eq $_;
                                     }
-                                    $BlockData{TimeRelativeUnit}
-                                        = $Self->{LayoutObject}->BuildSelection(
-                                        Name => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
-                                        Data => \%TimeScaleOption,
-                                        Sort => 'IndividualKey',
+                                    $BlockData{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
+                                        Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
+                                        Data           => \%TimeScaleOption,
+                                        Sort           => 'IndividualKey',
                                         SelectedID     => $ObjectAttribute->{TimeRelativeUnit},
                                         SortIndividual => [
                                             'Second', 'Minute', 'Hour', 'Day',
                                             'Week', 'Month', 'Year'
                                         ],
-                                        );
+                                    );
                                 }
-                                $BlockData{TimeRelativeCountMax}
-                                    = $ObjectAttribute->{TimeRelativeCount};
+                                $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
                                 $BlockData{TimeRelativeUnitMax}
                                     = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
 
@@ -565,14 +562,11 @@ sub Run {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                         last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                     }
-                                    $BlockData{TimeScaleUnitMax}
-                                        = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
+                                    $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
                                         {Value};
-                                    $BlockData{TimeScaleCountMax}
-                                        = $ObjectAttribute->{TimeScaleCount};
+                                    $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
 
-                                    $BlockData{TimeScaleUnit}
-                                        = $Self->{LayoutObject}->BuildSelection(
+                                    $BlockData{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
                                         Name           => $ObjectAttribute->{Element},
                                         Data           => \%TimeScaleOption,
                                         SelectedID     => $ObjectAttribute->{SelectedValues}[0],
@@ -581,7 +575,7 @@ sub Run {
                                             'Second', 'Minute', 'Hour', 'Day',
                                             'Week', 'Month', 'Year'
                                         ],
-                                        );
+                                    );
                                     $Self->{LayoutObject}->Block(
                                         Name => 'TimeScaleInfo',
                                         Data => \%BlockData,
@@ -608,12 +602,20 @@ sub Run {
 
                 # Show this Block if no value series or restrictions are selected
                 if ( !$Flag ) {
-                    $Self->{LayoutObject}->Block( Name => 'NoElement', );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'NoElement',
+                    );
                 }
             }
         }
-        my %YesNo        = ( 0 => 'No',      1 => 'Yes' );
-        my %ValidInvalid = ( 0 => 'invalid', 1 => 'valid' );
+        my %YesNo = (
+            0 => 'No',
+            1 => 'Yes'
+        );
+        my %ValidInvalid = (
+            0 => 'invalid',
+            1 => 'valid'
+        );
         $Stat->{SumRowValue}                = $YesNo{ $Stat->{SumRow} };
         $Stat->{SumColValue}                = $YesNo{ $Stat->{SumCol} };
         $Stat->{CacheValue}                 = $YesNo{ $Stat->{Cache} };
@@ -675,7 +677,48 @@ sub Run {
                 Priority => 'Error',
             );
         }
-        $Output .= $Self->_Notify( StatData => $Stat, Section => 'All' );
+
+        # Show warning if restrictions contain stop words within ticket search.
+        if (
+            $Stat->{UseAsRestriction}
+            && ref $Stat->{UseAsRestriction} eq 'ARRAY'
+            && $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive()
+            )
+        {
+            my %StopWordFields = $Self->_StopWordFieldsGet();
+            my %StopWordStrings;
+
+            RESTRICTION:
+            for my $Restriction ( @{ $Stat->{UseAsRestriction} } ) {
+                next RESTRICTION if !$Restriction->{Name};
+                next RESTRICTION if !$StopWordFields{ $Restriction->{Name} };
+                next RESTRICTION if !$Restriction->{SelectedValues};
+                next RESTRICTION if ref $Restriction->{SelectedValues} ne 'ARRAY';
+
+                for my $StopWordString ( @{ $Restriction->{SelectedValues} } ) {
+                    $StopWordStrings{ $Restriction->{Name} } = $StopWordString;
+                }
+            }
+
+            if (%StopWordStrings) {
+                my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(%StopWordStrings);
+                if (%StopWordsServerErrors) {
+                    my $Info = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        'Please check restrictions of this stat for errors.'
+                    );
+
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Info     => $Info,
+                        Priority => 'Error',
+                    );
+                }
+            }
+        }
+
+        $Output .= $Self->_Notify(
+            StatData => $Stat,
+            Section  => 'All'
+        );
         $Output .= $Self->{LayoutObject}->Output(
             Data         => $Stat,
             TemplateFile => 'AgentStatsView',
@@ -780,7 +823,9 @@ sub Run {
                     Encoding => 'Raw'
                 );
                 if ( $UploadStuff{Content} =~ m{<otrs_stats>}x ) {
-                    my $StatID = $Self->{StatsObject}->Import( Content => $UploadStuff{Content}, );
+                    my $StatID = $Self->{StatsObject}->Import(
+                        Content => $UploadStuff{Content},
+                    );
 
                     if ( !$StatID ) {
                         return $Self->{LayoutObject}->ErrorScreen(
@@ -808,10 +853,14 @@ sub Run {
 
         # show errors
         if ( $Error == 1 ) {
-            $Self->{LayoutObject}->Block( Name => 'ErrorDoctype1', );
+            $Self->{LayoutObject}->Block(
+                Name => 'ErrorDoctype1',
+            );
         }
         elsif ( $Error == 2 ) {
-            $Self->{LayoutObject}->Block( Name => 'ErrorDoctype2', );
+            $Self->{LayoutObject}->Block(
+                Name => 'ErrorDoctype2',
+            );
         }
 
         # show import form
@@ -1062,8 +1111,7 @@ sub Run {
                     }
 
                     # for working with extended time
-                    $Data{UseAsValueSeries}[$Index]{TimeScaleCount}
-                        = $Self->{ParamObject}->GetParam(
+                    $Data{UseAsValueSeries}[$Index]{TimeScaleCount} = $Self->{ParamObject}->GetParam(
                         Param => $ObjectAttribute->{Element} . 'TimeScaleCount'
                         )
                         || 1;
@@ -1095,6 +1143,7 @@ sub Run {
             my $Stat             = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
             my $Index            = 0;
             my $SelectFieldError = 0;
+            my $StopWordError    = 0;
             $Data{StatType} = $Stat->{StatType};
 
             OBJECTATTRIBUTE:
@@ -1114,8 +1163,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{Block} eq 'Time' ) {
                     my %Time;
-                    my $TimeSelect
-                        = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
+                    my $TimeSelect = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
                         || 'Absolut';
                     if ( $TimeSelect eq 'Absolut' ) {
                         for my $Limit (qw(Start Stop)) {
@@ -1166,18 +1214,32 @@ sub Run {
                         }
                     }
                     else {
-                        $Data{UseAsRestriction}[$Index]{TimeRelativeUnit}
-                            = $Self->{ParamObject}->GetParam(
+                        $Data{UseAsRestriction}[$Index]{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(
                             Param => $Element . 'TimeRelativeUnit'
-                            );
-                        $Data{UseAsRestriction}[$Index]{TimeRelativeCount}
-                            = $Self->{ParamObject}->GetParam(
+                        );
+                        $Data{UseAsRestriction}[$Index]{TimeRelativeCount} = $Self->{ParamObject}->GetParam(
                             Param => $Element . 'TimeRelativeCount'
-                            );
+                        );
                     }
                 }
-                $Index++;
 
+                # check for stop words
+                my %StopWordFields = $Self->_StopWordFieldsGet();
+
+                # only check if a stop word has been found in any one of the input fields
+                # as soon as a stop word has been found, no further check of other input fields is necessary
+                if ( !$StopWordError && $StopWordFields{$Element} ) {
+                    my $Value = join( ' ', @{ $Data{UseAsRestriction}[$Index]{SelectedValues} } );
+                    my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+                        $Element => $Value,
+                    );
+
+                    if (%StopWordsServerErrors) {
+                        $StopWordError = 1;
+                    }
+                }
+
+                $Index++;
             }
 
             $Data{UseAsRestriction} ||= [];
@@ -1187,7 +1249,7 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Restrictions'
             );
-            if ( @Notify || $SelectFieldError ) {
+            if ( @Notify || $SelectFieldError || $StopWordError ) {
                 $Subaction = 'EditRestrictions';
             }
             elsif ( $Param{Back} ) {
@@ -1256,7 +1318,9 @@ sub Run {
 
             # build the Dynamic Object selection
             if (@DynamicFilesArray) {
-                $Self->{LayoutObject}->Block( Name => 'Selection', );
+                $Self->{LayoutObject}->Block(
+                    Name => 'Selection',
+                );
 
                 # need a radiobutton if dynamic and static stats available
                 if ( $StaticFilesArray[0] ) {
@@ -1291,7 +1355,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
-                        Data => { SelectField => $Frontend{SelectField}, },
+                        Data => {
+                            SelectField => $Frontend{SelectField},
+                        },
                     );
                 }
 
@@ -1310,7 +1376,9 @@ sub Run {
 
             # build the static stats selection if one or more static stats are available
             if (@StaticFilesArray) {
-                $Self->{LayoutObject}->Block( Name => 'Selection', );
+                $Self->{LayoutObject}->Block(
+                    Name => 'Selection',
+                );
 
                 # need a radiobutton if both dynamic and static stats are available
                 if ( $DynamicFilesArray[0] ) {
@@ -1365,7 +1433,9 @@ sub Run {
 
         # show the dynamic object if it is selected
         elsif ( $Stat->{StatType} eq 'dynamic' ) {
-            $Self->{LayoutObject}->Block( Name => 'Selection', );
+            $Self->{LayoutObject}->Block(
+                Name => 'Selection',
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'NoRadioButton',
                 Data => {
@@ -1386,7 +1456,9 @@ sub Run {
         # show the static file if it is selected
         elsif ( $Stat->{StatType} eq 'static' ) {
 
-            $Self->{LayoutObject}->Block( Name => 'Selection', );
+            $Self->{LayoutObject}->Block(
+                Name => 'Selection',
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'NoRadioButton',
                 Data => {
@@ -1416,8 +1488,8 @@ sub Run {
             );
         }
 
-  # If this is a new stat, assume that it does not support the dashboard widget at the start.
-  #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
+        # If this is a new stat, assume that it does not support the dashboard widget at the start.
+        #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
         if ( $Stat->{StatID} eq 'new' || !$Stat->{ObjectBehaviours}->{ProvidesDashboardWidget} ) {
             $Frontend{'SelectShowAsDashboardWidget'} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
@@ -1439,8 +1511,8 @@ sub Run {
 
         # create multiselectboxes 'permission'
         my %Permission = (
-            Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-            Name => 'Permission',
+            Data        => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+            Name        => 'Permission',
             Class       => 'Validate_Required',
             Multiple    => 1,
             Size        => 5,
@@ -1450,8 +1522,7 @@ sub Run {
             $Permission{SelectedID} = $Stat->{Permission};
         }
         else {
-            $Permission{SelectedValue}
-                = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions');
+            $Permission{SelectedValue} = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions');
         }
         $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(%Permission);
 
@@ -1504,11 +1575,14 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if ( $Param{StatID} ne 'new' ) {
-            $Output .= $Self->_Notify( StatData => $Stat, Section => 'Specification' );
+            $Output .= $Self->_Notify(
+                StatData => $Stat,
+                Section  => 'Specification'
+            );
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditSpecification',
-            Data => { %{$Stat}, %Frontend, },
+            Data         => { %{$Stat}, %Frontend, },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1614,7 +1688,10 @@ sub Run {
             Title => 'Xaxis',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Notify( StatData => $Stat, Section => 'Xaxis' );
+        $Output .= $Self->_Notify(
+            StatData => $Stat,
+            Section  => 'Xaxis'
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditXaxis',
             Data         => $Stat,
@@ -1746,7 +1823,10 @@ sub Run {
             Title => 'Value Series',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Notify( StatData => $Stat, Section => 'ValueSeries' );
+        $Output .= $Self->_Notify(
+            StatData => $Stat,
+            Section  => 'ValueSeries'
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditValueSeries',
             Data         => $Stat,
@@ -1827,8 +1907,27 @@ sub Run {
             $BlockData{Element} = $ObjectAttribute->{Element};
             $BlockData{Name}    = $ObjectAttribute->{Name};
 
+            # stop word check
+            my %StopWordFields = $Self->_StopWordFieldsGet();
+            if ( $StopWordFields{ $ObjectAttribute->{Name} } ) {
+                my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+                    $ObjectAttribute->{Name} => $BlockData{SelectedValue},
+                );
+
+                if ( $StopWordsServerErrors{ $ObjectAttribute->{Name} . 'Invalid' } ) {
+                    $BlockData{Invalid} = $StopWordsServerErrors{ $ObjectAttribute->{Name} . 'Invalid' };
+
+                    if ( $StopWordsServerErrors{ $ObjectAttribute->{Name} . 'InvalidTooltip' } ) {
+                        $BlockData{InvalidTooltip}
+                            = $StopWordsServerErrors{ $ObjectAttribute->{Name} . 'InvalidTooltip' };
+                    }
+                }
+            }
+
             # show the attribute block
-            $Self->{LayoutObject}->Block( Name => 'Attribute', );
+            $Self->{LayoutObject}->Block(
+                Name => 'Attribute',
+            );
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
                 my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
                 $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
@@ -1851,7 +1950,10 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        $Output .= $Self->_Notify( StatData => $Stat, Section => 'Restrictions' );
+        $Output .= $Self->_Notify(
+            StatData => $Stat,
+            Section  => 'Restrictions'
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditRestrictions',
             Data         => $Stat,
@@ -1944,8 +2046,7 @@ sub Run {
                 }
 
                 # param is string
-                $GetParam{ $ParamItem->{Name} }
-                    = $Self->{ParamObject}->GetParam( Param => $ParamItem->{Name} );
+                $GetParam{ $ParamItem->{Name} } = $Self->{ParamObject}->GetParam( Param => $ParamItem->{Name} );
             }
         }
         else {
@@ -1989,10 +2090,9 @@ sub Run {
                                             )
                                             )
                                         {
-                                            $Time{ $Limit . $Unit }
-                                                = $Self->{ParamObject}->GetParam(
+                                            $Time{ $Limit . $Unit } = $Self->{ParamObject}->GetParam(
                                                 Param => $Use . $Element->{Element} . "$Limit$Unit",
-                                                );
+                                            );
                                         }
                                     }
                                     if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
@@ -2061,8 +2161,7 @@ sub Run {
                                 }
                                 $Element->{TimeStart} = $Time{TimeStart};
                                 $Element->{TimeStop}  = $Time{TimeStop};
-                                $TimePeriod
-                                    = (
+                                $TimePeriod           = (
                                     $Self->{TimeObject}->TimeStamp2SystemTime(
                                         String => $Element->{TimeStop}
                                         )
@@ -2075,10 +2174,9 @@ sub Run {
                             }
                             else {
                                 my %Time;
-                                my ( $s, $m, $h, $D, $M, $Y )
-                                    = $Self->{TimeObject}->SystemTime2Date(
+                                my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
                                     SystemTime => $Self->{TimeObject}->SystemTime(),
-                                    );
+                                );
                                 $Time{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(
                                     Param => $Use . $Element->{Element} . 'TimeRelativeUnit'
                                 );
@@ -2093,8 +2191,7 @@ sub Run {
                                     );
                                 }
 
-                                my $TimePeriodAdmin
-                                    = $Element->{TimeRelativeCount}
+                                my $TimePeriodAdmin = $Element->{TimeRelativeCount}
                                     * $Self->_TimeInSeconds(
                                     TimeUnit => $Element->{TimeRelativeUnit}
                                     );
@@ -2295,8 +2392,7 @@ sub Run {
                 my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = ' ';
                 if ( $ENV{REQUEST_URI} ) {
-                    $Url
-                        = $Self->{ConfigObject}->Get('HttpType') . '://'
+                    $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
                         . $Self->{ConfigObject}->Get('FQDN')
                         . $ENV{REQUEST_URI};
                 }
@@ -2344,12 +2440,10 @@ sub Run {
                 $PageParam{MarginRight}     = 40;
                 $PageParam{MarginBottom}    = 40;
                 $PageParam{MarginLeft}      = 40;
-                $PageParam{HeaderRight}
-                    = $Self->{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
-                $PageParam{FooterLeft}   = $Url;
-                $PageParam{HeadlineLeft} = $Title;
-                $PageParam{HeadlineRight}
-                    = $PrintedBy . ' '
+                $PageParam{HeaderRight}     = $Self->{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+                $PageParam{FooterLeft}      = $Url;
+                $PageParam{HeadlineLeft}    = $Title;
+                $PageParam{HeadlineRight}   = $PrintedBy . ' '
                     . $User{UserFirstname} . ' '
                     . $User{UserLastname} . ' ('
                     . $User{UserEmail} . ') '
@@ -2374,7 +2468,10 @@ sub Run {
                 );
 
                 # start table output
-                $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' 1', );
+                $Self->{PDFObject}->PageNew(
+                    %PageParam,
+                    FooterRight => $Page . ' 1',
+                );
                 COUNT:
                 for ( 2 .. $MaxPages ) {
 
@@ -2384,7 +2481,10 @@ sub Run {
                     # stop output or output next page
                     last COUNT if $TableParam{State};
 
-                    $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
+                    $Self->{PDFObject}->PageNew(
+                        %PageParam,
+                        FooterRight => $Page . ' ' . $_,
+                    );
                 }
 
                 # return the pdf document
@@ -2393,7 +2493,7 @@ sub Run {
                     Filename    => $Filename . '.pdf',
                     ContentType => 'application/pdf',
                     Content     => $PDFString,
-                    Type        => 'attachment',
+                    Type        => 'inline',
                 );
             }
 
@@ -2465,8 +2565,7 @@ sub EditSpecificationAJAXUpdate {
     $GetParam{Object}   = $Self->{ParamObject}->GetParam( Param => "Object" )   || '';
     $GetParam{File}     = $Self->{ParamObject}->GetParam( Param => "File" )     || '';
     $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" ) || '';
-    $GetParam{ShowAsDashboardWidget}
-        = $Self->{ParamObject}->GetParam( Param => "ShowAsDashboardWidget" || 0 );
+    $GetParam{ShowAsDashboardWidget} = $Self->{ParamObject}->GetParam( Param => "ShowAsDashboardWidget" || 0 );
 
     my $Data = {
         0 => 'No (not supported)',
@@ -2550,8 +2649,9 @@ sub _Timeoutput {
     }
 
     # get time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     my $Element = $Param{Element};
     my %TimeConfig;
 
@@ -2659,7 +2759,7 @@ sub _TimeScaleBuildSelection {
             Month  => 'month(s)',
             Year   => 'year(s)',
         },
-        Sort => 'IndividualKey',
+        Sort           => 'IndividualKey',
         SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ]
     );
 
@@ -2753,10 +2853,7 @@ sub _ColumnAndRowTranslation {
             for my $Element (@Array) {
                 next ELEMENT if !$Element->{SelectedValues};
 
-                if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
-                    $Translation{$Use} = 'Time';
-                }
-                elsif ( $Element->{Translation} ) {
+                if ( $Element->{Translation} && $Element->{Block} ne 'Time' ) {
                     $Translation{$Use} = 'Common';
                 }
                 else {
@@ -2790,16 +2887,7 @@ sub _ColumnAndRowTranslation {
     # translate the headline
     $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Translate( $Param{HeadArrayRef}->[0] );
 
-    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time' ) {
-        for my $Word ( @{ $Param{HeadArrayRef} } ) {
-            if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
-                $Word =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-
-    elsif ( $Translation{UseAsXvalue} ) {
+    if ( $Translation{UseAsXvalue} ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             $Word = $Self->{LanguageObject}->Translate($Word);
         }
@@ -2853,15 +2941,7 @@ sub _ColumnAndRowTranslation {
     }
 
     # translate the row description
-    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} eq 'Time' ) {
-        for my $Word ( @{ $Param{StatArrayRef} } ) {
-            if ( $Word->[0] =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
-                $Word->[0] =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
-            }
-        }
-    }
-    elsif ( $Translation{UseAsValueSeries} ) {
+    if ( $Translation{UseAsValueSeries} ) {
 
         # translate
         for my $Word ( @{ $Param{StatArrayRef} } ) {
@@ -2963,6 +3043,66 @@ sub _OutputHTMLTable {
     }
     $Output .= "</table>\n";
     return $Output;
+}
+
+sub _StopWordsServerErrorsGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !%Param ) {
+        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+    }
+
+    my %StopWordsServerErrors;
+    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+        return %StopWordsServerErrors;
+    }
+
+    my %SearchStrings;
+
+    FIELD:
+    for my $Field ( sort keys %Param ) {
+        next FIELD if !defined $Param{$Field};
+        next FIELD if !length $Param{$Field};
+
+        $SearchStrings{$Field} = $Param{$Field};
+    }
+
+    if (%SearchStrings) {
+
+        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings
+        );
+
+        FIELD:
+        for my $Field ( sort keys %{$StopWords} ) {
+            next FIELD if !defined $StopWords->{$Field};
+            next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
+            next FIELD if !@{ $StopWords->{$Field} };
+
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                'Please remove the following words because they cannot be used for the ticket restrictions:'
+                )
+                . ' '
+                . join( ',', sort @{ $StopWords->{$Field} } );
+        }
+    }
+
+    return %StopWordsServerErrors;
+}
+
+sub _StopWordFieldsGet {
+    my ( $Self, %Param ) = @_;
+
+    my %StopWordFields = (
+        'From'    => 1,
+        'To'      => 1,
+        'Cc'      => 1,
+        'Subject' => 1,
+        'Body'    => 1,
+    );
+
+    return %StopWordFields;
 }
 
 =end Internal:

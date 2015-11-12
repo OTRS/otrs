@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,10 @@ sub AgentCustomerViewTable {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'AgentCustomerTableView',
+        Data         => \%Param
+    );
 }
 
 sub AgentQueueListOption {
@@ -240,8 +243,7 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange}
-            = "Core.AJAX.FormUpdate(\$('#"
+        $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
@@ -288,8 +290,7 @@ sub AgentQueueListOption {
     }
 
     # build tree list
-    $Param{MoveQueuesStrg}
-        = '<select name="'
+    $Param{MoveQueuesStrg} = '<select name="'
         . $Param{Name}
         . '" id="'
         . $Param{Name}
@@ -349,7 +350,10 @@ sub AgentQueueListOption {
         my $UpQueue = $Param{Data}->{$_};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
         if ( !$Queue[$MaxLevel] && $Queue[-1] ne '' ) {
-            $Queue[-1] = $Self->Ascii2Html( Text => $Queue[-1], Max => 50 - $#Queue );
+            $Queue[-1] = $Self->Ascii2Html(
+                Text => $Queue[-1],
+                Max  => 50 - $#Queue
+            );
             my $Space = '';
             for ( my $i = 0; $i < $#Queue; $i++ ) {
                 $Space .= '&nbsp;&nbsp;';
@@ -446,8 +450,7 @@ sub AgentQueueListOption {
     $Param{MoveQueuesStrg} .= "</select>\n";
 
     if ( $Param{TreeView} ) {
-        my $TreeSelectionMessage
-            = $Self->{LanguageObject}->Translate("Show Tree Selection");
+        my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
         $Param{MoveQueuesStrg}
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -901,6 +904,7 @@ sub TicketListShow {
         SelectedID  => $PageShown,
         Translation => 0,
         Data        => \%Data,
+        Sort        => 'NumericValue',
     );
 
     # nav bar at the beginning of a overview
@@ -1042,8 +1046,7 @@ sub TicketListShow {
 
                 my %Columns;
                 for my $ColumnName ( sort @ColumnsAvailable ) {
-                    $Columns{Columns}->{$ColumnName}
-                        = ( grep { $ColumnName eq $_ } @ColumnsEnabled ) ? 1 : 0;
+                    $Columns{Columns}->{$ColumnName} = ( grep { $ColumnName eq $_ } @ColumnsEnabled ) ? 1 : 0;
                 }
 
                 $Env->{LayoutObject}->Block(
@@ -1060,20 +1063,18 @@ sub TicketListShow {
                         %Param,
                     },
                 );
+            }
+        }    # end show column filters preferences
 
-                # check if there was stored filters, and print a link to delete them
-                if ( IsHashRefWithData( $Object->{StoredFilters} ) ) {
-                    $Env->{LayoutObject}->Block(
-                        Name => 'DocumentActionRowRemoveColumnFilters',
-                        Data => {
-                            CSS => "ContextSettings RemoveFilters",
-                            %Param,
-                        },
-                    );
-                }
-
-            }    # end show column filters preferences
-
+        # check if there was stored filters, and print a link to delete them
+        if ( IsHashRefWithData( $Object->{StoredFilters} ) ) {
+            $Env->{LayoutObject}->Block(
+                Name => 'DocumentActionRowRemoveColumnFilters',
+                Data => {
+                    CSS => "ContextSettings RemoveFilters",
+                    %Param,
+                },
+            );
         }
     }
 

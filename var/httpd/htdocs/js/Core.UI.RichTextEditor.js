@@ -1,6 +1,6 @@
 // --
 // Core.UI.RichTextEditor.js - provides all UI functions
-// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ Core.UI = Core.UI || {};
  *      CKEDITOR
  */
 Core.UI.RichTextEditor = (function (TargetNS) {
-    var $FormID;
+    var $FormID, TimeOutRTEOnChange;
 
     /**
      * @function
@@ -63,23 +63,24 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         $EditorArea.addClass('HasCKEInstance');
 
         CKEDITOR.on('instanceCreated', function (Editor) {
-
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
 
             // Remove the validation error tooltip if content is added to the editor
             Editor.editor.on('change', function(evt) {
-                Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+                window.clearTimeout(TimeOutRTEOnChange);
+                TimeOutRTEOnChange = window.setTimeout(function () {
+                    Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+                }, 250);
             });
 
             // if spell checker is used on paste new content should spell check again
             Editor.editor.on('paste', function(evt) {
-                Core.Config.Set('TextIsSpellChecked', '0');
+                Core.Config.Set('TextIsSpellChecked', false);
             });
             // if spell checker is used on any key new content should spell check again
             Editor.editor.on('key', function(evt) {
-                Core.Config.Set('TextIsSpellChecked', '0');
+                Core.Config.Set('TextIsSpellChecked', false);
             });
-
         });
 
         // The format for the language is different between OTRS and CKEditor (see bug#8024)
@@ -98,7 +99,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             forcePasteAsPlainText: false,
             format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-            extraAllowedContent: 'div table tr td th colgroup col style[*]{*}',
+            extraAllowedContent: 'div table tr td th colgroup col img style[*]{*}',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
@@ -228,13 +229,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.IsEnabled = function ($EditorArea) {
         var EditorID = '';
 
-        if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
-            EditorID = $EditorArea.attr('id');
-            if ($('#cke_' + Core.App.EscapeSelector(EditorID)).length) {
-                return true;
-            }
+        if (typeof CKEDITOR === 'undefined') {
+            return false;
         }
 
+        if (isJQueryObject($EditorArea) && $EditorArea.length) {
+            return (CKEDITOR.instances[$EditorArea[0].id] ? true : false);
+        }
         return false;
     };
 

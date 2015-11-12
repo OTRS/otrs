@@ -1,6 +1,6 @@
 // --
 // Core.Agent.TicketProcess.js - provides the special module functions for TicketProcess
-// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
             // remove/destroy CKEditor instances
             // This is needed to initialize other instances (in other activity dialogs)
             // without a page reload
-            if (CKEDITOR !== 'undefined' && CKEDITOR.instances) {
+            if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances) {
                 $.each(CKEDITOR.instances, function (Key) {
                     CKEDITOR.instances[Key].destroy();
                 });

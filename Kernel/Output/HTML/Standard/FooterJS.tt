@@ -1,6 +1,6 @@
 # --
 # FooterJS.tt - provides global HTML footer JavaScript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,9 +40,11 @@ Core.App.Ready(function () {
         AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
         MenuDragDropEnabled: parseInt('[% Config("Frontend::MenuDragDropEnabled") %]', 10),
         OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
+        CustomerInfoSet: parseInt('[% Config("Ticket::Frontend::CustomerInfoCompose") %]', 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]
+        CheckSearchStringsForStopWords: [% Config("Ticket::SearchIndex::WarnOnStopWordUsage") and Config("Ticket::SearchIndexModule") == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ? 1 : 0 %],
         // translations
         ValidateServerErrorTitle: [% Translate("Error") | JSON %],
         ValidateServerErrorMsg: [% Translate("One or more errors occurred!") | JSON %],
@@ -53,6 +55,13 @@ Core.App.Ready(function () {
         LoadingMsg: [% Translate("Loading...") | JSON %],
         EmptySearchMsg: [% Translate("Please enter at least one search value or * to find anything.") | JSON %],
         SearchMsg: [% Translate("Search") | JSON %],
+        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from your search as they cannot be searched for:") |JSON %],
+        FieldTitleFulltext: [% Translate("Fulltext") | JSON %],
+        FieldTitleFrom: [% Translate("From") | JSON %],
+        FieldTitleTo: [% Translate("To") | JSON %],
+        FieldTitleCc: [% Translate("Cc") | JSON %],
+        FieldTitleSubject: [% Translate("Subject") | JSON %],
+        FieldTitleBody: [% Translate("Body") | JSON %],
         ValidationErrorMsg: [% Translate("Please check the fields marked as red for valid inputs.") | JSON %],
         SpellCheckNeededMsg: [% Translate("Please perform a spell check on the the text first.") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],
@@ -62,7 +71,9 @@ Core.App.Ready(function () {
         TurnOffCompatibilityModeMsg: [% Translate("Please turn off Compatibility Mode in Internet Explorer!") | JSON %],
         BrowserTooOldMsg: [% Translate("The browser you are using is too old.") | JSON %],
         BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
-        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %]
+        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
+        TicketActionTemplateOverwrite: [% Translate("Setting a template will overwrite any text or attachment.") | JSON %],
+        TicketActionTemplateOverwriteConfirm: [% Translate("Do you really want to continue?") | JSON %]
     });
 
     Core.Agent.Init();

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/Template/Plugin/OTRS.pm - TT plugin for OTRS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,9 @@ sub new {
     my ( $Class, $Context, @Params ) = @_;
 
     # Produce a weak reference to the LayoutObject and use that in the filters.
+    # We do this because there could be more than one LayoutObject in the process,
+    #   so we don't fetch it from the ObjectManager.
+    #
     # Don't use $Context in the filters as that creates a circular dependency.
     my $LayoutObject = $Context->{LayoutObject};
     Scalar::Util::weaken($LayoutObject);
@@ -83,22 +86,33 @@ sub new {
         };
     };
 
+    my $LocalizeFunction = sub {
+        my $Format = $_[1];
+        if ( $Format eq 'TimeLong' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat' );
+        }
+        elsif ( $Format eq 'TimeShort' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
+        }
+        elsif ( $Format eq 'Date' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
+        }
+        return;
+    };
+
     my $LocalizeFilterFactory = sub {
         my ( $FilterContext, @Parameters ) = @_;
         my $Format = $Parameters[0] || 'TimeLong';
 
         return sub {
             if ( $Format eq 'TimeLong' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormat' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat' );
             }
             elsif ( $Format eq 'TimeShort' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
             }
             elsif ( $Format eq 'Date' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormatShort' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
             }
             return;
         };
@@ -138,6 +152,7 @@ sub new {
     $Context->stash()->set( 'Config',      $ConfigFunction );
     $Context->stash()->set( 'Env',         $EnvFunction );
     $Context->stash()->set( 'Translate',   $TranslateFunction );
+    $Context->stash()->set( 'Localize',    $LocalizeFunction );
     $Context->stash()->set( 'Interpolate', $InterpolateFunction );
     $Context->stash()->set( 'JSON',        $JSONFunction );
 

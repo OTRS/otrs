@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/Sendmail.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
 );
 
@@ -36,8 +37,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -83,8 +86,13 @@ sub Send {
         return;
     }
 
-    # switch filehandle to utf8 mode if utf-8 is used
-    binmode $FH, ':utf8';    ## no critic
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # encode utf8 header strings (of course, there should only be 7 bit in there!)
+    $EncodeObject->EncodeOutput( $Param{Header} );
+
+    # encode utf8 body strings
+    $EncodeObject->EncodeOutput( $Param{Body} );
 
     print $FH ${ $Param{Header} };
     print $FH "\n";
@@ -121,10 +129,16 @@ sub Check {
     my $SendmailBinary = $Sendmail;
     $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
     if ( !-f $SendmailBinary ) {
-        return ( Successful => 0, Message => "No such binary: $SendmailBinary!" );
+        return (
+            Successful => 0,
+            Message    => "No such binary: $SendmailBinary!"
+        );
     }
     else {
-        return ( Successful => 1, Sendmail => $Sendmail );
+        return (
+            Successful => 1,
+            Sendmail   => $Sendmail
+        );
     }
 }
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/TransitionAction/TicketCreate.pm - A Module to create a ticket
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,8 +193,7 @@ sub Run {
     for my $Attribute (qw(Queue State Lock Priority)) {
 
         if ( !$TicketParam{$Attribute} && !$TicketParam{ $Attribute . "ID" } ) {
-            $TicketParam{$Attribute}
-                = $Kernel::OM->Get('Kernel::Config')->Get("Process::Default$Attribute") || '';
+            $TicketParam{$Attribute} = $Kernel::OM->Get('Kernel::Config')->Get("Process::Default$Attribute") || '';
         }
     }
 

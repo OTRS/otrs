@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SLA.pm - all sla functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -58,6 +59,9 @@ sub new {
     # get preferences object
     $Self->{PreferencesObject} = $Kernel::OM->Get($GeneratorModule);
 
+    $Self->{CacheType} = 'SLA';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
+
     return $Self;
 }
 
@@ -78,8 +82,10 @@ sub SLAList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -176,16 +182,25 @@ sub SLAGet {
     # check needed stuff
     for my $Argument (qw(SLAID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
             return;
         }
     }
 
     # check if result is already cached
     my $CacheKey = 'Cache::SLAGet::' . $Param{SLAID};
-    if ( $Self->{$CacheKey} ) {
-        return %{ $Self->{$CacheKey} };
+    my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type           => $Self->{CacheType},
+        Key            => $CacheKey,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    if ( ref $Cached eq 'HASH' ) {
+        return %{$Cached};
     }
 
     # get database object
@@ -255,8 +270,17 @@ sub SLAGet {
         %SLAData = ( %SLAData, %Preferences );
     }
 
-    # cache the result
-    $Self->{$CacheKey} = \%SLAData;
+    # cache result
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => $CacheKey,
+
+        # make a local copy of the sla data to avoid it being altered in-memory later
+        Value          => {%SLAData},
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
 
     return %SLAData;
 }
@@ -296,8 +320,14 @@ sub SLALookup {
 
         # check cache
         my $CacheKey = 'Cache::SLALookup::ID::' . $Param{SLAID};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
+        my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type           => $Self->{CacheType},
+            Key            => $CacheKey,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
+        if ( defined $Cached ) {
+            return $Cached;
         }
 
         # lookup
@@ -308,13 +338,20 @@ sub SLALookup {
         );
 
         # fetch the result
-        my $Name;
+        my $Name = '';
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $Name = $Row[0];
         }
 
         # cache
-        $Self->{$CacheKey} = $Name;
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => $Self->{CacheType},
+            TTL            => $Self->{CacheTTL},
+            Key            => $CacheKey,
+            Value          => $Name,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
 
         return $Name;
     }
@@ -322,8 +359,14 @@ sub SLALookup {
 
         # check cache
         my $CacheKey = 'Cache::SLALookup::Name::' . $Param{Name};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
+        my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type           => $Self->{CacheType},
+            Key            => $CacheKey,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
+        if ( defined $Cached ) {
+            return $Cached;
         }
 
         # lookup
@@ -334,13 +377,20 @@ sub SLALookup {
         );
 
         # fetch the result
-        my $SLAID;
+        my $SLAID = '';
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $SLAID = $Row[0];
         }
 
         # cache
-        $Self->{$CacheKey} = $SLAID;
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => $Self->{CacheType},
+            TTL            => $Self->{CacheTTL},
+            Key            => $CacheKey,
+            Value          => $SLAID,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
 
         return $SLAID;
     }
@@ -446,9 +496,9 @@ sub SLAAdd {
             . 'valid_id, comments, create_time, create_by, change_time, change_by) VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
-            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
-            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
+            \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -486,7 +536,7 @@ sub SLAAdd {
 
         # add one allocation
         $DBObject->Do(
-            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$SLAID ],
         );
     }
@@ -590,9 +640,18 @@ sub SLAUpdate {
     }
 
     # reset cache
-    delete $Self->{ 'Cache::SLAGet::' . $Param{SLAID} };
-    delete $Self->{ 'Cache::SLALookup::Name::' . $Param{Name} };
-    delete $Self->{ 'Cache::SLALookup::ID::' . $Param{SLAID} };
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLAGet::' . $Param{SLAID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLALookup::Name::' . $Param{Name},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLALookup::ID::' . $Param{SLAID},
+    );
 
     # update service
     return if !$DBObject->Do(
@@ -602,9 +661,9 @@ sub SLAUpdate {
             . 'valid_id = ?, comments = ?, change_time = current_timestamp, change_by = ? '
             . 'WHERE id = ?',
         Bind => [
-            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
-            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
-            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
+            \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{SLAID},
         ],
     );
@@ -620,7 +679,7 @@ sub SLAUpdate {
 
         # add one allocation
         return if !$DBObject->Do(
-            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$Param{SLAID} ],
         );
     }

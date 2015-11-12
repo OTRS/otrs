@@ -1,6 +1,6 @@
 # --
 # TransitionAction.t - Transition Action module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,9 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $TransitionActionObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
@@ -359,8 +358,7 @@ for my $Test (@Tests) {
     );
 
     # list get transtion actions
-    my $TransitionActionList
-        = $TransitionActionObject->TransitionActionList( %{ $Test->{Config} } );
+    my $TransitionActionList = $TransitionActionObject->TransitionActionList( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
         $Self->IsNot(

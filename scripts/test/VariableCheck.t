@@ -1,6 +1,6 @@
 # --
 # VariableCheck.t - tests for VariableCheck
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -933,7 +933,10 @@ my $Count = 0;
 for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     $Count++;
     $Self->Is(
-        scalar DataIsDifferent( Data1 => $Value1, Data2 => $Value1 ),
+        scalar DataIsDifferent(
+            Data1 => $Value1,
+            Data2 => $Value1
+        ),
         scalar undef,
         'DataIsDifferent() - Test ' . $Count,
     );
@@ -946,7 +949,10 @@ for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
         $Count2++;
 
         $Self->Is(
-            scalar DataIsDifferent( Data1 => $Value1, Data2 => $Value2 ),
+            scalar DataIsDifferent(
+                Data1 => $Value1,
+                Data2 => $Value2
+            ),
             1,
             'DataIsDifferent() - Test ' . $Count . ':' . $Count2,
         );

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketService.pm - the service view of all tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -166,8 +166,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -206,7 +205,9 @@ sub Run {
 
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
     }
 
@@ -546,7 +547,7 @@ sub Run {
         View   => $Self->{View},
 
         Bulk       => 1,
-        TitleName  => 'ServiceView',
+        TitleName  => 'Service View',
         TitleValue => $NavBar{SelectedService},
 
         Env        => $Self,
@@ -581,9 +582,8 @@ sub _MaskServiceView {
     my %Counter;
     my %UsedService;
     my @ListedServices;
-    my $Level = 0;
-    my $CustomService
-        = $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CustomService} );
+    my $Level         = 0;
+    my $CustomService = $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CustomService} );
     $Self->{HighlightAge1} = $Self->{Config}->{HighlightAge1};
     $Self->{HighlightAge2} = $Self->{Config}->{HighlightAge2};
     $Self->{Blink}         = $Self->{Config}->{Blink};
@@ -741,7 +741,7 @@ sub _MaskServiceView {
     for my $Level ( 1 .. 5 ) {
         next LEVEL if !$Param{ 'ServiceStrg' . $Level };
         $Param{ServiceStrg}
-            .= '<ul class="ServiceOverviewList">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
+            .= '<ul class="ServiceOverviewList Level_' . $Level . '">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
     }
 
     return (

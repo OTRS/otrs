@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,10 @@ package Kernel::Modules::AgentTicketHistory;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,8 +98,7 @@ sub Run {
 
     # Get mapping of history types to readable strings
     my %HistoryTypes;
-    my %HistoryTypeConfig
-        = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
+    my %HistoryTypeConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
     for my $Entry ( sort keys %HistoryTypeConfig ) {
         %HistoryTypes = (
             %HistoryTypes,

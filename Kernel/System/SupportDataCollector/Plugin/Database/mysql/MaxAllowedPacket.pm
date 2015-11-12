@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm - system data collector plugin
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ sub Run {
         {
             $Self->AddResultProblem(
                 Label => 'Maximum Query Size',
-                Value => $Row[1],
+                Value => $Row[1] / 1024 / 1024 . ' MB',
                 Message =>
                     "The setting 'max_allowed_packet' must be higher than 20 MB.",
             );
@@ -50,7 +50,7 @@ sub Run {
         else {
             $Self->AddResultOk(
                 Label => 'Maximum Query Size',
-                Value => $Row[1],
+                Value => $Row[1] / 1024 / 1024 . ' MB',
             );
         }
     }

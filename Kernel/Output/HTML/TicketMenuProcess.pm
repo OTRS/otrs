@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuProcess.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,8 +30,7 @@ sub new {
     }
 
     # use the nav bar module to check for process ACLs to prevent code duplication
-    $Self->{NavBarModule}
-        = Kernel::Output::HTML::NavBarAgentTicketProcess->new( %{$Self} );
+    $Self->{NavBarModule} = Kernel::Output::HTML::NavBarAgentTicketProcess->new( %{$Self} );
 
     return $Self;
 }
@@ -41,7 +40,10 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Ticket!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Ticket!'
+        );
         return;
     }
 

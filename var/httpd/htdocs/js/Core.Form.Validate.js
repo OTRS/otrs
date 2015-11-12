@@ -1,6 +1,6 @@
 // --
 // Core.Form.Validate.js - provides functions for validating form inputs
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -91,7 +91,7 @@ Core.Form.Validate = (function (TargetNS) {
         // save value of element for a later check if field value was changed.
         // if the field has a servererror class and the value was not changed,
         // keep the error class.
-        if ($Element.is('input:checkbox, input:radio')) {
+        if ($Element.is('input[type="checkbox"], input[type="radio"]')) {
             $Element.data('ValidateOldValue', $Element.prop('checked'));
         }
         else {
@@ -142,7 +142,7 @@ Core.Form.Validate = (function (TargetNS) {
         // check ServerError
         // if the field value has not changed, do not remove error class
         if ($Element.hasClass(Options.ServerErrorClass)) {
-            if ($Element.is('input:checkbox, input:radio')) {
+            if ($Element.is('input[type="checkbox"], input[type="radio"]')) {
                 ElementValue = $Element.prop('checked');
             }
             else {
@@ -226,14 +226,17 @@ Core.Form.Validate = (function (TargetNS) {
             return (Text.length && Text !== '-');
         }
 
-        // for rich text areas, update the linked field for the validation first
+        // for richtextareas, get editor code and remove all tags and whitespace
+        // keep tags if images are embedded because of inline-images
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            CKEDITOR.instances[$Element.attr('id')].updateElement();
-            Value = $Element.val();
+            Value = CKEDITOR.instances[Element.id].getData();
+            if (!Value.match(/<img/)) {
+                Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+            }
         }
 
         // checkable inputs
-        if ($Element.filter('input:checkbox, input:radio').length) {
+        if ($Element.filter('input[type="checkbox"], input[type="radio"]').length) {
             return $Element.filter(':checked').length > 0;
         }
 
@@ -399,6 +402,35 @@ Core.Form.Validate = (function (TargetNS) {
         }
     });
 
+    /*
+     * Adds a generic method to compare if the given fields are not equal
+     */
+    $.validator.addMethod("Validate_NotEqual", function (Value, Element) {
+        var Classes = $(Element).attr('class'),
+            GroupClass = '',
+            ApplyRule = 1,
+            EqualClassPrefix = 'Validate_NotEqual_',
+            RegExEqual;
+
+        RegExEqual = new RegExp(EqualClassPrefix);
+        $.each(Classes.split(' '), function (Index, ClassValue) {
+            if (RegExEqual.test(ClassValue)) {
+                GroupClass = ClassValue;
+            }
+        });
+
+        if ( GroupClass !== '' ) {
+            $(Element).closest('fieldset fieldset.TableLike').find('.' + GroupClass).each( function () {
+                if ( $(Element).attr('id') !== $(this).attr('id') && $(this).val() === Value ) {
+                    ApplyRule = 0;
+                }
+            });
+
+        }
+
+        return ApplyRule;
+    });
+
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
     });
@@ -450,6 +482,10 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_Equal", {
         Validate_Equal: true
+    });
+
+    $.validator.addClassRules("Validate_NotEqual", {
+        Validate_NotEqual: true
     });
 
     function GetDependentElements(Element) {

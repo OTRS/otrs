@@ -1,0 +1,41 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+.BusinessLogo {
+    width: 82px;
+    height: 82px;
+    margin: 20px auto;
+    position: relative;
+    text-align: center;
+}
+
+.BusinessLogo span {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 70px;
+    height: 70px;
+    border: 5px solid #3B6D7F;
+    border-radius: 90px;
+}
+
+.BusinessLogo i {
+    margin-top: 28px;
+    font-size: 25px;
+    color: #fff;
+    font-weight: normal;
+    color: #264654;
+}
+
+} /* end @media */

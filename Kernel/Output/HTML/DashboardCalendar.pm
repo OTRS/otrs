@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardCalendar.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,8 +50,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # find tickets with reached times in near future
-    my $PendingReminderStateTypes
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingReminderStateType');
+    my $PendingReminderStateTypes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingReminderStateType');
 
     my %Map = (
         Escalation => [
@@ -128,6 +127,10 @@ sub Run {
             my $TimeStamp;
             my $TimeTill;
             if ( $Type eq 'Escalation' ) {
+
+                next TICKETID if !$Ticket{EscalationTime};
+                next TICKETID if !$Ticket{EscalationDestinationDate};
+
                 $TimeTill  = $Ticket{EscalationTime};
                 $TimeStamp = $Ticket{EscalationDestinationDate};
             }

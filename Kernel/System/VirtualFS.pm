@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VirtualFS.pm - all virtual fs functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,8 +103,10 @@ sub Read {
     # check needed stuff
     for (qw(Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -185,8 +187,10 @@ sub Write {
     # check needed stuff
     for (qw(Filename Content Mode)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -250,7 +254,7 @@ sub Write {
 
     # update backend key
     return if !$DBObject->Do(
-        SQL => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
+        SQL  => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
         Bind => [ \$BackendKey, \$FileID ],
     );
 
@@ -276,8 +280,10 @@ sub Delete {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

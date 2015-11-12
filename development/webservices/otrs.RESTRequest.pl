@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.RESTRequest.pl - sample to send a REST request to OTRS Generic Interface Ticket Connector
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -60,8 +60,8 @@ my $Params = {
     AllArticles   => 1,                       # optional, if set to 1,
                                               # all ticket articles are included in response
                                               # more options to be found in
-         # /Kernel/GenericInterface/Operation/Ticket/TicketGet.pm's
-         # Run() subroutine documentation.
+                                              # /Kernel/GenericInterface/Operation/Ticket/TicketGet.pm's
+                                              # Run() subroutine documentation.
 };
 
 my @RequestParam;

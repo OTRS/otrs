@@ -1,6 +1,6 @@
 // --
 // Core.Form.Validate.UnitTest.js - UnitTests
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -49,10 +49,10 @@ Core.Form.Validate = (function (Namespace) {
                 equal($(this).hasClass('Error'), true);
 
                 // now focus field, change something and leave again
-                if ($(this).is('input:text, input:password, input:hidden, textarea, select')) {
+                if ($(this).is('input[type="text"], input[type="password"], input:hidden, textarea, select')) {
                     $(this).val('2');
                 }
-                else if ($(this).is('input:checkbox, input:radio')) {
+                else if ($(this).is('input[type="checkbox"], input[type="radio"]')) {
                     if (!$(this).prop('checked')) {
                         $(this).prop('checked', true);
                     }

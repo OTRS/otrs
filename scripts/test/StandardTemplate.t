@@ -1,6 +1,6 @@
 # --
 # StandardTemplate.t - StandardTemplate tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -220,10 +220,9 @@ for my $Test (@Tests) {
     );
 
     # test StandardTemplateList()
-    my %StandardTemplates = $StandardTemplateObject->StandardTemplateList();
-    my %AnswerStandardTemplates = $StandardTemplateObject->StandardTemplateList( Type => 'Answer' );
-    my %ForwardStandardTemplates
-        = $StandardTemplateObject->StandardTemplateList( Type => 'Forward' );
+    my %StandardTemplates        = $StandardTemplateObject->StandardTemplateList();
+    my %AnswerStandardTemplates  = $StandardTemplateObject->StandardTemplateList( Type => 'Answer' );
+    my %ForwardStandardTemplates = $StandardTemplateObject->StandardTemplateList( Type => 'Forward' );
 
     $Self->IsNotDeeply(
         \%StandardTemplates,

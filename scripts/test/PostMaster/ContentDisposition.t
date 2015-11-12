@@ -1,6 +1,6 @@
 # --
 # ContentDisposition.t - PostMaster tests for content disposition
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,8 +180,7 @@ for my $Test (@Tests) {
             UserID    => 1,
         );
 
-        my %AttachmentsLookup
-            = map { $AttachmentIndex{$_}->{Filename} => $_ } sort keys %AttachmentIndex;
+        my %AttachmentsLookup = map { $AttachmentIndex{$_}->{Filename} => $_ } sort keys %AttachmentIndex;
 
         for my $AttachmentFilename ( sort keys %{ $Test->{ExpectedResults} } ) {
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/Template/Provider.pm - Template Toolkit provider
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,8 +78,7 @@ sub OTRSInit {
     #   registered for a particular or for all templates, the template cannot be
     #   cached any more.
     #
-    $Self->{FilterElementPre}
-        = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
+    $Self->{FilterElementPre} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
 
     my %UncacheableTemplates;
 
@@ -102,9 +101,19 @@ sub OTRSInit {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "Please add a template list to output filter $FilterConfig->{Module} "
-                    . "to improve performance. Use ALL if OutputFilter should modify all "
-                    . "templates of the system (deprecated).",
+                    "Please add a template list to output filter $FilterConfig->{Module} to improve performance.",
+            );
+
+            next FILTER;
+        }
+        elsif ( $TemplateList{ALL} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => <<EOF,
+$FilterConfig->{Module} wants to operate on ALL templates.
+This will prohibit the templates from being cached and can therefore lead to serious performance issues.
+EOF
             );
 
             next FILTER;
@@ -143,8 +152,7 @@ sub _fetch {
 
     $self->debug("_fetch($name)") if $self->{DEBUG};
 
-    my $TemplateIsCacheable
-        = !$self->{UncacheableTemplates}->{ALL} && !$self->{UncacheableTemplates}->{$t_name};
+    my $TemplateIsCacheable = !$self->{UncacheableTemplates}->{ALL} && !$self->{UncacheableTemplates}->{$t_name};
 
     # Check in-memory template cache if we already had this template.
     $self->{_TemplateCache} //= {};
@@ -376,6 +384,28 @@ sub _PreProcessTemplateContent {
     my $TemplateFileWithoutTT = substr( $Param{TemplateFile}, 0, -3 );
 
     #
+    # Include other templates into this one before parsing.
+    # [% IncludeTemplate("DatePicker.tt") %]
+    #
+    my ( $ReplaceCounter, $Replaced );
+    do {
+        $Replaced = $Content =~ s{
+            \[% -? \s* InsertTemplate \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]\n?
+            }{
+                # Load the template via the provider.
+                # We'll use SUPER::load here because we don't need the preprocessing twice.
+                my $TemplateContent = ($Self->SUPER::load($1))[0];
+                $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$TemplateContent);
+
+                # Remove commented lines already here because of problems when the InsertTemplate tag
+                #   is not on the beginning of the line.
+                $TemplateContent =~ s/^#.*\n//gm;
+                $TemplateContent;
+            }esmxg;
+
+    } until ( !$Replaced || ++$ReplaceCounter > 100 );
+
+    #
     # pre putput filter handling
     #
     if ( $Self->{FilterElementPre} && ref $Self->{FilterElementPre} eq 'HASH' ) {
@@ -400,20 +430,32 @@ sub _PreProcessTemplateContent {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
+                        "Please add a template list to output filter $FilterConfig->{Module} to improve performance.",
                 );
+
+                next FILTER;
             }
+            elsif ( $TemplateList{ALL} ) {
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => <<EOF,
+$FilterConfig->{Module} wants to operate on ALL templates.
+This will prohibit the templates from being cached and can therefore lead to serious performance issues.
+EOF
+                );
+
+                next FILTER;
+            }
+
+            # only operate on real files
+            next FILTER if !$Param{TemplateFile};
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList{ALL} ) {
-                next FILTER if !$TemplateList{$TemplateFileWithoutTT};
-            }
+            next FILTER if !$TemplateList{$TemplateFileWithoutTT};
 
-            next FILTER if !$Param{TemplateFile} && !$TemplateList{ALL};
-            next FILTER
-                if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
+            # check filter construction
+            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(
@@ -425,32 +467,11 @@ sub _PreProcessTemplateContent {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => \$Content,
+                Data         => \$Content,
                 TemplateFile => $TemplateFileWithoutTT || '',
             );
         }
     }
-
-    #
-    # Include other templates into this one before parsing.
-    # [% IncludeTemplate("DatePicker.tt") %]
-    #
-    my ( $ReplaceCounter, $Replaced );
-    do {
-        $Replaced = $Content =~ s{
-            \[% -? \s* InsertTemplate \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]\n?
-            }{
-                # Load the template via the provider.
-                # We'll use SUPER::load here because we don't need the preprocessing twice.
-                my $TemplateContent = ($Self->SUPER::load($1))[0];
-
-                # Remove commented lines already here because of problems when the InsertTemplate tag
-                #   is not on the beginning of the line.
-                $TemplateContent =~ s/^#.*\n//gm;
-                $TemplateContent;
-            }esmxg;
-
-    } until ( !$Replaced || ++$ReplaceCounter > 100 );
 
     #
     # Remove DTL-style comments (lines starting with #)

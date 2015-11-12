@@ -1,6 +1,6 @@
 # --
 # SystemData.t - SystemData tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,6 +118,26 @@ $Self->Is(
     $SystemData,
     '',
     'SystemDataGet() - value - empty string',
+);
+
+# set to 0
+$Success = $SystemDataObject->SystemDataUpdate(
+    Key    => $SystemDataNameRand1,
+    Value  => 0,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "SystemDataAdd() - added '$SystemDataNameRand1' value empty string",
+);
+
+$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand1 );
+
+$Self->IsDeeply(
+    $SystemData,
+    0,
+    'SystemDataGet() - value - 0',
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(

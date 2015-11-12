@@ -1,6 +1,6 @@
 # --
 # Language.t - frontend tests for admin area
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,15 +52,31 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "select#UserLanguage", 'css' );
 
             # select the current language & submit
-            $Element
-                = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
+            $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
             $Element->click();
             $Element->submit();
+
+            ACTIVESLEEP:
+            for my $Second ( 1 .. 20 ) {
+                if ( $Selenium->execute_script("return \$('.MainBox h1').length") ) {
+                    last ACTIVESLEEP;
+                }
+                sleep 1;
+            }
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(
                 UserLanguage => $Language,
             );
+
+            # Wait until form has loaded, if neccessary
+            ACTIVESLEEP:
+            for my $Second ( 1 .. 20 ) {
+                if ( $Selenium->execute_script('return typeof($) === "function" && $(".MainBox h1").length') ) {
+                    last ACTIVESLEEP;
+                }
+                sleep 0.5;
+            }
 
             $Element = $Selenium->find_element( '.MainBox h1', 'css' );
             $Self->Is(
@@ -77,7 +93,7 @@ $Selenium->RunTest(
                 "Success notification in $Language",
             );
         }
-        }
+    }
 );
 
 1;

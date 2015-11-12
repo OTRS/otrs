@@ -1,6 +1,6 @@
 # --
 # RPM spec file for RHEL7 of the OTRS package
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd apache || :
 groupadd apache || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --otrs-group=apache --web-user=apache --web-group=apache $RPM_BUILD_ROOT/opt/otrs
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
 
 %pre
 # remember about the installed version

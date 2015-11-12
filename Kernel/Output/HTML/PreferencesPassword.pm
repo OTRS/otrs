@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,9 @@ package Kernel::Output::HTML::PreferencesPassword;
 
 use strict;
 use warnings;
+
+use Kernel::System::Auth;
+use Kernel::System::CustomerAuth;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +37,7 @@ sub Param {
     # check if we need to show password change option
 
     # define AuthModule for frontend
-    my $AuthModule
-        = $Self->{ConfigItem}->{Area} eq 'Agent'
+    my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'AuthModule'
         : 'Customer::AuthModule';
 
@@ -98,8 +100,7 @@ sub Run {
     }
 
     # define AuthModule for frontend
-    my $AuthModule
-        = $Self->{ConfigItem}->{Area} eq 'Agent'
+    my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'Kernel::System::Auth'
         : 'Kernel::System::CustomerAuth';
 
@@ -117,22 +118,28 @@ sub Run {
     return 1 if !$AuthObject;
 
     # validate current password
-    if ( !$AuthObject->Auth( User => $Param{UserData}->{UserLogin}, Pw => $CurPw ) ) {
-        $Self->{Error}
-            = 'The current password is not correct. Please try again!';
-        return;
-    }
-
-    # compare pws
-    if ( $Pw ne $Pw1 ) {
-        $Self->{Error}
-            = 'Can\'t update password, your new passwords do not match. Please try again!';
+    if (
+        !$AuthObject->Auth(
+            User => $Param{UserData}->{UserLogin},
+            Pw   => $CurPw
+        )
+        )
+    {
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('The current password is not correct. Please try again!');
         return;
     }
 
     # check if pw is true
     if ( !$Pw || !$Pw1 ) {
-        $Self->{Error} = 'Please supply your new password!';
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Please supply your new password!');
+        return;
+    }
+
+    # compare pws
+    if ( $Pw ne $Pw1 ) {
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, your new passwords do not match. Please try again!');
         return;
     }
 
@@ -141,15 +148,16 @@ sub Run {
 
     # check if password is not matching PasswordRegExp
     if ( $Config->{PasswordRegExp} && $Pw !~ /$Config->{PasswordRegExp}/ ) {
-        $Self->{Error} = 'Can\'t update password, it contains invalid characters!';
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it contains invalid characters!');
         return;
     }
 
     # check min size of password
     if ( $Config->{PasswordMinSize} && length $Pw < $Config->{PasswordMinSize} ) {
-        $Self->{Error} = (
-            'Can\'t update password, it must be at least %s characters long!", "'
-                . $Config->{PasswordMinSize}
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Can\'t update password, it must be at least %s characters long!',
+            $Config->{PasswordMinSize}
         );
         return;
     }
@@ -160,20 +168,22 @@ sub Run {
         && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ )
         )
     {
-        $Self->{Error}
-            = 'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!';
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
         return;
     }
 
     # check min 1 digit password
     if ( $Config->{PasswordNeedDigit} && $Pw !~ /\d/ ) {
-        $Self->{Error} = 'Can\'t update password, it must contain at least 1 digit!';
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 1 digit!');
         return;
     }
 
     # check min 2 char password
     if ( $Config->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = 'Can\'t update password, it must contain at least 2 characters!';
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 2 characters!');
         return;
     }
 

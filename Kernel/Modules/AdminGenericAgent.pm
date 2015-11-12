@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,8 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,7 +95,9 @@ sub Run {
 
         # redirect
         if ($Run) {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
         }
 
         # redirect
@@ -260,6 +264,16 @@ sub Run {
             $Errors{ProfileInvalid} = 'ServerError';
         }
 
+        # Check if ticket selection contains stop words
+        my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $GetParam{From},
+            To      => $GetParam{To},
+            Cc      => $GetParam{Cc},
+            Subject => $GetParam{Subject},
+            Body    => $GetParam{Body},
+        );
+        %Errors = ( %Errors, %StopWordsServerErrors );
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -300,6 +314,7 @@ sub Run {
             %GetParam,
             %DynamicFieldValues,
             %Errors,
+            StopWordsAlreadyChecked => 1,
         );
 
         # generate search mask
@@ -322,6 +337,7 @@ sub Run {
 
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header( Title => 'Edit' );
+
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -350,9 +366,15 @@ sub Run {
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd', );
-    $Self->{LayoutObject}->Block( Name => 'Overview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+    );
     my %Jobs = $Self->{GenericAgentObject}->JobList();
 
     # if there are any data, it is shown
@@ -628,7 +650,7 @@ sub _MaskUpdate {
                 Next   => 'within the next ...',
                 Before => 'more than ... ago',
             },
-            Name => $Type . 'TimePointStart',
+            Name       => $Type . 'TimePointStart',
             SelectedID => $JobData{ $Type . 'TimePointStart' } || 'Last',
         );
         $JobData{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
@@ -693,6 +715,18 @@ sub _MaskUpdate {
         SelectedID => $JobData{NewLockID},
     );
 
+    # Show server errors if ticket selection contains stop words
+    my %StopWordsServerErrors;
+    if ( !$Param{StopWordsAlreadyChecked} ) {
+        %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $JobData{From},
+            To      => $JobData{To},
+            Cc      => $JobData{Cc},
+            Subject => $JobData{Subject},
+            Body    => $JobData{Body},
+        );
+    }
+
     # REMARK: we changed the wording "Send no notifications" to
     # "Send agent/customer notifications on changes" in frontend.
     # But the backend code is still the same (compatiblity).
@@ -702,16 +736,21 @@ sub _MaskUpdate {
             '1' => 'No',
             '0' => 'Yes'
         },
-        Name => 'NewSendNoNotification',
+        Name       => 'NewSendNoNotification',
         SelectedID => $JobData{NewSendNoNotification} || 0,
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Edit',
         Data => {
-            %Param,
             %JobData,
+            %Param,
+            %StopWordsServerErrors,
         },
     );
 
@@ -737,7 +776,9 @@ sub _MaskUpdate {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
         $JobData{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Type,
             Name        => 'TypeIDs',
@@ -796,7 +837,9 @@ sub _MaskUpdate {
             Translation => 0,
             Max         => 200,
         );
-        my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
         $JobData{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%SLA,
             Name        => 'SLAIDs',
@@ -864,7 +907,7 @@ sub _MaskUpdate {
                 NotArchivedTickets => 'Unarchived tickets',
                 AllTickets         => 'All tickets',
             },
-            Name => 'SearchInArchive',
+            Name       => 'SearchInArchive',
             SelectedID => $JobData{SearchInArchive} || 'AllTickets',
         );
 
@@ -978,8 +1021,7 @@ sub _MaskUpdate {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $PossibleValues->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -995,6 +1037,7 @@ sub _MaskUpdate {
             OverridePossibleNone => 1,
             ConfirmationNeeded   => 1,
             Template             => \%JobData,
+            MaxLength            => 200,
         );
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
@@ -1036,7 +1079,7 @@ sub _MaskUpdate {
         $Self->{LayoutObject}->Block(
             Name => 'EventRow',
             Data => {
-                Event => $Event,
+                Event     => $Event,
                 EventType => $EventType || '-',
             },
         );
@@ -1184,8 +1227,12 @@ sub _MaskRun {
         %DynamicFieldSearchParameters,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Result',
         Data => {
@@ -1194,6 +1241,17 @@ sub _MaskRun {
             AffectedIDs => $Counter,
         },
     );
+
+    my $RunLimit = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentRunLimit');
+    if ( $Counter > $RunLimit ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RunLimit',
+            Data => {
+                Counter  => $Counter,
+                RunLimit => $RunLimit,
+            },
+        );
+    }
 
     if (@TicketIDs) {
         $Self->{LayoutObject}->Block( Name => 'ResultBlock' );
@@ -1218,8 +1276,10 @@ sub _MaskRun {
                 $Data{Subject} = $Data{Title};
             }
 
-            $Data{Age}
-                = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+            $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                Age   => $Data{Age},
+                Space => ' '
+            );
             $Data{css} = "PriorityID-$Data{PriorityID}";
 
             # user info
@@ -1251,6 +1311,51 @@ sub _MaskRun {
     # build footer
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
+}
+
+sub _StopWordsServerErrorsGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !%Param ) {
+        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+    }
+
+    my %StopWordsServerErrors;
+    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+        return %StopWordsServerErrors;
+    }
+
+    my %SearchStrings;
+
+    FIELD:
+    for my $Field ( sort keys %Param ) {
+        next FIELD if !defined $Param{$Field};
+        next FIELD if !length $Param{$Field};
+
+        $SearchStrings{$Field} = $Param{$Field};
+    }
+
+    if (%SearchStrings) {
+
+        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings
+        );
+
+        FIELD:
+        for my $Field ( sort keys %{$StopWords} ) {
+            next FIELD if !defined $StopWords->{$Field};
+            next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
+            next FIELD if !@{ $StopWords->{$Field} };
+
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+                ->Translate('Please remove the following words because they cannot be used for the ticket selection:')
+                . ' '
+                . join( ',', sort @{ $StopWords->{$Field} } );
+        }
+    }
+
+    return %StopWordsServerErrors;
 }
 
 1;

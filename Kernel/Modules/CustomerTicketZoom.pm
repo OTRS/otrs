@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,8 @@ use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,6 +49,19 @@ sub new {
     $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam( Param => 'ZoomExpand' );
     if ( !defined $Self->{ZoomExpand} ) {
         $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpand') || '';
+    }
+
+    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+        my %UserPreferences = $Self->{UserObject}->GetPreferences(
+            UserID => $Self->{UserID},
+        );
+
+        if ( $UserPreferences{UserCustomerDoNotShowBrowserLinkMessage} ) {
+            $Self->{DoNotShowBrowserLinkMessage} = 1;
+        }
+        else {
+            $Self->{DoNotShowBrowserLinkMessage} = 0;
+        }
     }
 
     # needed objects
@@ -95,13 +110,11 @@ sub new {
     $Self->{FollowUpDynamicField} = \@CustomerDynamicFields;
 
     # create additional objects for process management
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
 
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(%Param);
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new(%Param);
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
 
     $Self->{ProcessObject} = Kernel::System::ProcessManagement::Process->new(
         %Param,
@@ -199,8 +212,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -233,7 +245,6 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
             my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -313,6 +324,23 @@ sub Run {
 
     #   end AJAX Update
 
+    # save, if browser link message was closed
+    elsif ( $Self->{Subaction} eq 'BrowserLinkMessage' ) {
+
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'UserCustomerDoNotShowBrowserLinkMessage',
+            Value  => 1,
+        );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => 1,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # check follow up
     elsif ( $Self->{Subaction} eq 'Store' ) {
 
@@ -322,21 +350,15 @@ sub Run {
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error;
 
-        # rewrap body if no rich text is used
-        if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->WrapPlainText(
-                MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote'),
-                PlainText     => $GetParam{Body},
-            );
-        }
-
         # get follow up option (possible or not)
         my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
             QueueID => $Ticket{QueueID},
         );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
@@ -447,8 +469,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -767,8 +788,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $PossibleValues->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -876,8 +896,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( sort keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -1080,7 +1099,7 @@ sub _Mask {
             ACTIVITYDIALOGPERMISSION:
             for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
-                my $CurrentActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                my $CurrentActivityDialog         = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID,
                     Interface              => 'CustomerInterface',
                 );
@@ -1117,14 +1136,14 @@ sub _Mask {
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 Data           => \%PermissionActivityDialogList,
                 TicketID       => $Param{TicketID},
+                Action         => $Self->{Action},
                 ReturnType     => 'ActivityDialog',
                 ReturnSubType  => '-',
                 CustomerUserID => $Self->{UserID},
             );
 
             if ($ACL) {
-                %{$NextActivityDialogs}
-                    = $Self->{TicketObject}->TicketAclData()
+                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData()
             }
 
             $Self->{LayoutObject}->Block(
@@ -1168,7 +1187,7 @@ sub _Mask {
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # skip the dynamic field if is not desinged for customer interface
+        # skip the dynamic field if is not designed for customer interface
         my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsCustomerInterfaceCapable',
@@ -1180,7 +1199,7 @@ sub _Mask {
             ObjectID           => $Param{TicketID},
         );
 
-        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if !defined $Value;
         next DYNAMICFIELD if $Value eq "";
 
         # get print string for this dynamic field
@@ -1399,6 +1418,13 @@ sub _Mask {
                             %Article,
                         },
                     );
+
+                    # show message about links in iframes, if user didn't close it already
+                    if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'BrowserLinkMessage',
+                        );
+                    }
                 }
                 else {
                     my $SessionInformation;
@@ -1417,6 +1443,13 @@ sub _Mask {
                             SessionInformation => $SessionInformation,
                         },
                     );
+
+                    # show message about links in iframes, if user didn't close it already
+                    if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'BrowserLinkMessage',
+                        );
+                    }
                 }
             }
             else {
@@ -1444,7 +1477,9 @@ sub _Mask {
             my %AtmIndex = %{ $Article{Atms} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
-                Data => { Key => 'Attachment', },
+                Data => {
+                    Key => 'Attachment',
+                },
             );
             for my $FileID ( sort keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$FileID} };
@@ -1524,8 +1559,9 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible
-        = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+        QueueID => $Article{QueueID},
+    );
     my %State = $Self->{StateObject}->StateGet(
         ID => $Article{StateID},
     );
@@ -1699,8 +1735,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updatable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw( ServiceID SLAID PriorityID StateID );
+        @UpdatableFields = qw( ServiceID SLAID PriorityID StateID );
     }
 
     # cycle trough the activated Dynamic Fields for this screen

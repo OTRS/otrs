@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentDashboardCommon.pm - common base for agent dashboards
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,8 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Stats;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -37,30 +39,9 @@ sub new {
     $Self->{CacheObject}           = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
+    # TODO: remove for OTRS 5, only kept for backwards compatibility
     $Self->{SlaveDBObject}     = $Self->{DBObject};
     $Self->{SlaveTicketObject} = $Self->{TicketObject};
-
-    # use a slave db to search dashboard date
-    if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
-
-        $Self->{SlaveDBObject} = Kernel::System::DB->new(
-            LogObject    => $Param{LogObject},
-            ConfigObject => $Param{ConfigObject},
-            MainObject   => $Param{MainObject},
-            EncodeObject => $Param{EncodeObject},
-            DatabaseDSN  => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
-            DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
-        );
-
-        if ( $Self->{SlaveDBObject} ) {
-
-            $Self->{SlaveTicketObject} = Kernel::System::Ticket->new(
-                %Param,
-                DBObject => $Self->{SlaveDBObject},
-            );
-        }
-    }
 
     # create extra needed objects
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
@@ -123,14 +104,12 @@ sub Run {
                 }
                 my $StatsPermissionGroups = join( ';', @StatsPermissionGroupNames );
 
-               # replace all line breaks with spaces (otherwise Translate() will not work correctly)
+                # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
-                my $Description = $Self->{LayoutObject}->{LanguageObject}
-                    ->Get( $StatsHash->{$StatID}->{Description} );
+                my $Description = $Self->{LayoutObject}->{LanguageObject}->Get( $StatsHash->{$StatID}->{Description} );
 
-                my $Title = $Self->{LayoutObject}->{LanguageObject}
-                    ->Get( $StatsHash->{$StatID}->{Title} );
+                my $Title = $Self->{LayoutObject}->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
                 $Title = $Self->{LayoutObject}->{LanguageObject}->Translate('Statistic') . ': '
                     . $Title;
 
@@ -154,8 +133,7 @@ sub Run {
                 ->{JavaScript} || []
         };
         @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
-            = \@ModuleJS;
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript} = \@ModuleJS;
     }
 
     if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
@@ -164,7 +142,7 @@ sub Run {
 
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
-            if ( !$Self->{CustomerID} || $Self->{CustomerID} =~ /[*|%]/i ) {
+            if ( !$Self->{CustomerID} ) {
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Output(
@@ -259,7 +237,11 @@ sub Run {
         }
 
         # deliver new content page
-        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        my %ElementReload = $Self->_Element(
+            Name    => $Name,
+            Configs => $Config,
+            AJAX    => 1
+        );
         if ( !%ElementReload ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -372,8 +354,7 @@ sub Run {
             qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
             )
         {
-            my $FilterValue
-                = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
+            my $FilterValue = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
                 || '';
             next COLUMNNAME if $FilterValue eq '';
 
@@ -402,10 +383,9 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-            my $FilterValue
-                = $Self->{ParamObject}->GetParam(
+            my $FilterValue = $Self->{ParamObject}->GetParam(
                 Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name} . $Name
-                );
+            );
 
             next DYNAMICFIELD if !defined $FilterValue;
             next DYNAMICFIELD if $FilterValue eq '';
@@ -413,10 +393,8 @@ sub Run {
             $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
                 Equals => $FilterValue,
             };
-            $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} . $Name }
-                = $FilterValue;
-            $GetColumnFilterSelect{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $FilterValue;
+            $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} . $Name } = $FilterValue;
+            $GetColumnFilterSelect{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
         }
 
         my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
@@ -500,8 +478,7 @@ sub Run {
         );
 
         if ( $CustomerCompanyData{CustomerCompanyName} ) {
-            $ContentBlockData{CustomerIDTitle}
-                = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
+            $ContentBlockData{CustomerIDTitle} = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
         }
     }
 
@@ -675,7 +652,7 @@ sub Run {
     }
 
     # add translations for the allocation lists for regular columns
-    my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    my $Columns = $Self->{Config}->{DefaultColumns} || $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
 
         COLUMN:
@@ -684,11 +661,28 @@ sub Run {
             # dynamic fields will be translated in the next block
             next COLUMN if $Column =~ m{ \A DynamicField_ }xms;
 
+            my $TranslatedWord = $Column;
+            if ( $Column eq 'EscalationTime' ) {
+                $TranslatedWord = 'Service Time';
+            }
+            elsif ( $Column eq 'EscalationResponseTime' ) {
+                $TranslatedWord = 'First Response Time';
+            }
+            elsif ( $Column eq 'EscalationSolutionTime' ) {
+                $TranslatedWord = 'Solution Time';
+            }
+            elsif ( $Column eq 'EscalationUpdateTime' ) {
+                $TranslatedWord = 'Update Time';
+            }
+            elsif ( $Column eq 'PendingTime' ) {
+                $TranslatedWord = 'Pending till';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
                     ColumnName      => $Column,
-                    TranslateString => $Column,
+                    TranslateString => $TranslatedWord,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -792,6 +786,9 @@ sub _Element {
     my @Preferences = $Object->Preferences();
     return @Preferences if $Param{PreferencesOnly};
 
+    # Perform the actual data fetching and computation on the slave db, if configured
+    local $Kernel::System::DB::UseSlaveDB = 1;
+
     if ( $Param{FilterContentOnly} ) {
         my $FilterContent = $Object->FilterContent(
             FilterColumn => $Param{FilterColumn},
@@ -823,8 +820,7 @@ sub _Element {
     my $Content;
     my $CacheKey = $Config{CacheKey};
     if ( !$CacheKey ) {
-        $CacheKey
-            = $Name . '-'
+        $CacheKey = $Name . '-'
             . ( $Self->{CustomerID} || '' ) . '-'
             . $Self->{LayoutObject}->{UserLanguage};
     }
@@ -840,7 +836,7 @@ sub _Element {
     if ( !defined $Content || $SortBy ) {
         $CacheUsed = 0;
         $Content   = $Object->Run(
-            AJAX => $Param{AJAX},
+            AJAX       => $Param{AJAX},
             CustomerID => $Self->{CustomerID} || '',
         );
     }

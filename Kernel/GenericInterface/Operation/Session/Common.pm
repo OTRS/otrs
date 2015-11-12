@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Session/Common.pm - common operation functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,8 +93,7 @@ sub CreateSessionID {
     # login is invalid
     return if !$User;
 
-    my $GroupObjectName
-        = $UserType eq 'User' ? 'Kernel::System::Group' : 'Kernel::System::CustomerGroup';
+    my $GroupObjectName = $UserType eq 'User' ? 'Kernel::System::Group' : 'Kernel::System::CustomerGroup';
 
     # get groups rw/ro
     for my $Type (qw(rw ro)) {

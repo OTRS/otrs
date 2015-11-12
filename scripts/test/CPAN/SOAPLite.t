@@ -1,6 +1,6 @@
 # --
 # SOAPLite.t - SOAP::Lite specific tests for known issues
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,16 +60,14 @@ if ( !$Host ) {
 }
 
 # prepare RPC config
-my $Proxy
-    = $ConfigObject->Get('HttpType')
+my $Proxy = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
     . '/rpc.pl';
 
-my $URI
-    = $ConfigObject->Get('HttpType')
+my $URI = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/Core';

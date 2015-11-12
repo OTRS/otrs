@@ -1,6 +1,6 @@
 # --
 # SystemMaintenance.t - SystemMaintenance tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -508,8 +508,7 @@ for my $Test (@Tests) {
         $TimeObject->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
     );
 
-    my $IsComming
-        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsComming();
+    my $IsComming = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsComming();
 
     if ( $Test->{IsComming} ) {
 
@@ -526,8 +525,7 @@ for my $Test (@Tests) {
         );
     }
 
-    my $IsActive
-        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+    my $IsActive = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
 
     if ( $Test->{IsActive} ) {
 

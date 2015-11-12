@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,13 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Auth',
     'Kernel::System::AuthSession',
     'Kernel::System::DB',
     'Kernel::System::Encode',
+    'Kernel::System::Email',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -26,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
+    'Kernel::System::Valid',
 );
 
 =head1 NAME
@@ -139,6 +142,11 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
+    # validate language
+    if ( $Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms ) {
+        delete $Param{Lang};
+    }
+
     # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     my $BrowserHasCookie = 0;
@@ -229,13 +237,19 @@ sub Run {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         # login is invalid
         if ( !$User ) {
@@ -279,8 +293,9 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
-                        || $AuthObject->GetLastErrorMessage()
-                        || 'Login failed! Your user name or password was entered incorrectly.',
+                        || $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
+                        || $LayoutObject->{LanguageObject}
+                        ->Translate('Login failed! Your user name or password was entered incorrectly.'),
                     LoginFailed => 1,
                     User        => $User,
                     %Param,
@@ -290,7 +305,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
 
         # check if the browser supports cookies
 
@@ -470,7 +488,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Logout',
-                    Message => 'Session invalid. Please log in again.',
+                    Message => $LayoutObject->{LanguageObject}->Translate('Session invalid. Please log in again.'),
                     %Param,
                 ),
             );
@@ -550,7 +568,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => 'Feature not active!',
+                    Message => $LayoutObject->{LanguageObject}->Translate('Feature not active!'),
                 ),
             );
             return;
@@ -580,8 +598,15 @@ sub Run {
         }
 
         # get user data
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
-        if ( !$UserData{UserID} ) {
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
+
+        # verify user is valid when requesting password reset
+        my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+        my $UserIsValid = grep { $UserData{ValidID} == $_ } @ValidIDs;
+        if ( !$UserData{UserID} || !$UserIsValid ) {
 
             # Security: pretend that password reset instructions were actually sent to
             #   make sure that users cannot find out valid usernames by
@@ -597,7 +622,7 @@ sub Run {
         }
 
         # create email object
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
         # send password reset token
         if ( !$Token ) {
@@ -659,7 +684,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         # send notify email
         my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
@@ -683,12 +711,15 @@ sub Run {
             );
             return;
         }
+        my $Message = $LayoutObject->{LanguageObject}->Translate(
+            'Sent new password to %s. Please check your email.',
+            $UserData{UserEmail},
+        );
         $LayoutObject->Print(
             Output => \$LayoutObject->Login(
-                Title => 'Login',
-                Message =>
-                    "Sent new password to \%s. Please check your email.\", \"$UserData{UserEmail}",
-                User => $User,
+                Title   => 'Login',
+                Message => $Message,
+                User    => $User,
                 %Param,
             ),
         );
@@ -749,9 +780,9 @@ sub Run {
                             Secure   => scalar $CookieSecureAttribute,
                             HTTPOnly => 1,
                         ),
-                        %Param,
                     },
-                    }
+                    %Param,
+                },
             );
 
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -782,8 +813,9 @@ sub Run {
             # show login
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title   => 'Login',
-                    Message => $Self->{SessionObject}->SessionIDErrorMessage(),
+                    Title => 'Login',
+                    Message =>
+                        $LayoutObject->{LanguageObject}->Translate( $Self->{SessionObject}->SessionIDErrorMessage() ),
                     %Param,
                 ),
             );
@@ -888,12 +920,14 @@ sub Run {
         );
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
 
-        # updated last request time
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Param{SessionID},
-            Key       => 'UserLastRequest',
-            Value     => $Self->{TimeObject}->SystemTime(),
-        );
+        # update last request time
+        if ( !$Self->{ParamObject}->IsAJAXRequest() ) {
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Param{SessionID},
+                Key       => 'UserLastRequest',
+                Value     => $Self->{TimeObject}->SystemTime(),
+            );
+        }
 
         # pre application module
         my $PreModule = $Self->{ConfigObject}->Get('PreApplicationModule');
@@ -999,15 +1033,16 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,
             %Data,
         },
     );
-    $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-        ->FatalError( Comment => 'Please contact your administrator' );
+    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Comment => 'Please contact your administrator' );
     return;
 }
 

@@ -1,6 +1,6 @@
 # --
 # scripts/test/Layout/Template/Render.t - layout testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -145,6 +145,14 @@ my @Tests = (
         Result   => '01.01.2000',
     },
     {
+        Name => 'Localize() as function call',
+        Data => {
+            DateTime => '2000-01-01 00:00:00',
+        },
+        Template => '[% Localize(Data.DateTime, "Date") %]',
+        Result   => '01.01.2000',
+    },
+    {
         Name => 'Blocks',
         Data => {
             Title => 'Template',
@@ -152,35 +160,51 @@ my @Tests = (
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
             {
                 Name => 'b11',
-                Data => { Title => 'b11', },
+                Data => {
+                    Title => 'b11',
+                },
             },
             {
                 Name => 'b11',
-                Data => { Title => 'b11', },
+                Data => {
+                    Title => 'b11',
+                },
             },
             {
                 Name => 'b12',
-                Data => { Title => 'b12', },
+                Data => {
+                    Title => 'b12',
+                },
             },
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
             {
                 Name => 'b2',
-                Data => { Title => 'b2', },
+                Data => {
+                    Title => 'b2',
+                },
             },
             {
                 Name => 'b21',
-                Data => { Title => 'b21', },
+                Data => {
+                    Title => 'b21',
+                },
             },
             {
                 Name => 'b2',
-                Data => { Title => 'b2', },
+                Data => {
+                    Title => 'b2',
+                },
             },
         ],
         Template => '
@@ -219,7 +243,9 @@ b2
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
         ],
         Template => 'empty',
@@ -248,7 +274,9 @@ b1
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
         ],
         Template => "
@@ -291,9 +319,13 @@ console.log(22);
 [% PROCESS "JSOnDocumentCompleteInsert" -%]',
         Result => '
 console.log(11);
+
 console.log(12);
+
 console.log(23);
+
 console.log(21);
+
 console.log(22);
 ',
     },
@@ -396,7 +428,7 @@ for my $Test (@Tests) {
 
     my $Result = $LayoutObject->Output(
         Template => $Test->{Template},
-        Data => $Test->{Data} // {},
+        Data     => $Test->{Data} // {},
     );
 
     $Self->Is(

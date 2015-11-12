@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SystemMaintenance/DB/SystemMaintenance.pm - SystemMaintenance backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,8 +216,10 @@ sub SystemMaintenanceGet {
     # check needed stuff
     for my $Needed (qw(ID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -485,8 +487,7 @@ sub SystemMaintenanceIsActive {
     my @ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
     if ( scalar @ValidList ) {
 
-        my $ValidIDsStrgDB
-            = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @ValidList;
+        my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @ValidList;
 
         $SQL .= " AND valid_id IN ($ValidIDsStrgDB)";
     }
@@ -539,8 +540,7 @@ sub SystemMaintenanceIsComming {
     my @ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
     if ( scalar @ValidList ) {
 
-        my $ValidIDsStrgDB
-            = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @ValidList;
+        my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @ValidList;
 
         $SQL .= " AND valid_id IN ($ValidIDsStrgDB)";
     }

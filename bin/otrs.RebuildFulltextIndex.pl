@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.RebuildFulltextIndex.pl - the global search indexer handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -38,7 +38,7 @@ my %Opts;
 getopt( 'b', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildFulltextIndex.pl - rebuild fulltext index\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RebuildFulltextIndex.pl [-b sleeptime per ticket in microseconds]\n";
     exit 1;
 }
@@ -64,14 +64,13 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get all tickets
 my @TicketIDs = $TicketObject->TicketSearch(
-
-    # result (required)
-    Result => 'ARRAY',
-
-    # result limit
-    Limit      => 100_000_000,
-    UserID     => 1,
-    Permission => 'ro',
+    ArchiveFlags => [ 'y', 'n' ],
+    OrderBy      => 'Down',
+    SortBy       => 'Age',
+    Result       => 'ARRAY',
+    Limit        => 100_000_000,
+    Permission   => 'ro',
+    UserID       => 1,
 );
 
 my $Count = 0;
@@ -93,7 +92,7 @@ for my $TicketID (@TicketIDs) {
         );
     }
 
-    if ( $Count % 5000 == 0 ) {
+    if ( $Count % 100 == 0 ) {
         my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
         print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
     }

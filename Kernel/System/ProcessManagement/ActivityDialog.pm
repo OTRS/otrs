@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/ActivityDialog.pm - all activity dialog functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,8 +128,10 @@ sub ActivityDialogGet {
     my $ActivityDialog = $Kernel::OM->Get('Kernel::Config')->Get('Process::ActivityDialog');
 
     if ( !IsHashRefWithData($ActivityDialog) ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ActivityDialog config!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ActivityDialog config!'
+        );
         return;
     }
 
@@ -210,8 +212,10 @@ sub ActivityDialogCompletedCheck {
 
     for my $Needed (qw(ActivityDialogEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -224,11 +228,10 @@ sub ActivityDialogCompletedCheck {
         return;
     }
 
-    my $ActivityDialog
-        = $Self->ActivityDialogGet(
+    my $ActivityDialog = $Self->ActivityDialogGet(
         ActivityDialogEntityID => $Param{ActivityDialogEntityID},
         Interface              => 'all',
-        );
+    );
     if ( !$ActivityDialog ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

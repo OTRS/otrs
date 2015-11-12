@@ -1,6 +1,6 @@
 // --
 // Core.Agent.Admin.DynamicFieldText.js - provides the special module functions for the Text Dynamic Fields.
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -98,16 +98,3 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
 
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldText || {}));
-
-// click handler to remove regex
-$('.RemoveRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.RemoveRegEx( $(this).attr('id') );
-    return false;
-});
-// click handler to add regex
-$('#AddRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.AddRegEx(
-        $(this).closest('fieldset').find('.RegExInsert')
-    );
-    return false;
-});

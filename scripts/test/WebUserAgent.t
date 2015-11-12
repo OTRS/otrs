@@ -1,6 +1,6 @@
 # --
 # WebUserAgent.t - Authentication tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,20 +146,20 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - Credentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Success     => '1',
         Credentials => {
             User     => 'guest',
             Password => 'guest',
-            Realm    => 'test',
-            Location => 'jigsaw.w3.org:80',
+            Realm    => 'OTRS UnitTest',
+            Location => 'makalu.otrs.com:443',
         },
     },
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Success     => '0',
@@ -167,7 +167,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Credentials => {

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/TriggerEscalationStartEvents.pm - trigger escalation start events
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,16 +100,14 @@ sub Run {
     for my $Attr ( grep { defined $Ticket{$_} } sort keys %TicketAttr2Event ) {
 
         # the decay time is configured in minutes
-        my $DecayTimeInSeconds
-            = $Kernel::OM->Get('Kernel::Config')->Get('OTRSEscalationEvents::DecayTime') || 0;
+        my $DecayTimeInSeconds = $Kernel::OM->Get('Kernel::Config')->Get('OTRSEscalationEvents::DecayTime') || 0;
 
         $DecayTimeInSeconds *= 60;
 
         # get the last time this event was triggered
         # search in reverse order, as @HistoryLines sorted ascendingly by CreateTime
         if ($DecayTimeInSeconds) {
-            my $PrevEventLine
-                = first { $_->{HistoryType} eq $TicketAttr2Event{$Attr} }
+            my $PrevEventLine = first { $_->{HistoryType} eq $TicketAttr2Event{$Attr} }
             reverse @HistoryLines;
             if ( $PrevEventLine && $PrevEventLine->{CreateTime} ) {
                 my $PrevEventTime = $TimeObject->TimeStamp2SystemTime(

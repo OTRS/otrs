@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
+use Storable;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
@@ -308,7 +309,7 @@ sub FileRead {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -423,7 +424,7 @@ sub FileWrite {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -535,7 +536,7 @@ sub FileDelete {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -598,7 +599,7 @@ sub FileGetMTime {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -750,8 +751,10 @@ sub Dump {
 
     # check needed data
     if ( !defined $Data ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need \$String in Dump()!"
+        );
         return;
     }
 
@@ -760,8 +763,10 @@ sub Dump {
         $Type = 'binary';
     }
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid Type '$Type'!"
+        );
         return;
     }
 
@@ -776,7 +781,7 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if ( $Self->Require('Storable') && $Type eq 'binary' ) {
+    if ( $Type eq 'binary' ) {
 
         # Clone the data because we need to disable the utf8 flag in all
         # reference variables and do not to want to do this in the orig.
@@ -1051,6 +1056,16 @@ sub _Dump {
 
             # start recursion
             $Self->_Dump( \${$Data}->{$Key} );
+
+            my $KeyNew = $Key;
+
+            $Self->_Dump( \$KeyNew );
+
+            if ( $Key ne $KeyNew ) {
+
+                ${$Data}->{$KeyNew} = ${$Data}->{$Key};
+                delete ${$Data}->{$Key};
+            }
         }
 
         return;

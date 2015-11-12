@@ -1,6 +1,6 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,15 +103,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );

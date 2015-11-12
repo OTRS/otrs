@@ -1,6 +1,6 @@
 # --
 # ProcessACL.t - Process module test script
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,12 +26,10 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create common objects to be used in ActivityDialog object creation
 my %CommonObject;
-$CommonObject{ActivityObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
-$CommonObject{ActivityDialogObject}
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-$CommonObject{TransitionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
-$CommonObject{TransitionActionObject}
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+$CommonObject{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
+$CommonObject{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+$CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
+$CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 # define a testing environment, set defined processes to be easy to compare, this are done in memory
 #   no changes to the real system configuration
@@ -91,8 +89,8 @@ my %TestActivityDialogs = (
                 Display          => '1'
             },
         },
-        Interface => [ 'AgentInterface', 'CustomerInterface' ],
-        Name => 'AD1',
+        Interface        => [ 'AgentInterface', 'CustomerInterface' ],
+        Name             => 'AD1',
         Permission       => '',
         RequiredLock     => '',
         SubmitAdviceText => '',
@@ -233,7 +231,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
         },
@@ -251,7 +249,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['[Not]Process1'],
+                    Process => ['[Not]P1'],
                 },
             },
         },
@@ -288,7 +286,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['[regexp]^pro.+4$'],
+                    Process => ['[regexp]^p4$'],
                 },
             },
         },
@@ -325,7 +323,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['[Notregexp]^pro.+4$'],
+                    Process => ['[Notregexp]^p4$'],
                 },
             },
         },
@@ -344,7 +342,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -354,7 +352,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['Process2'],
+                    Process => ['P2'],
                 },
             },
 
@@ -374,7 +372,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -384,7 +382,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['[Not]Process1'],
+                    Process => ['[Not]P1'],
                 },
             },
 
@@ -405,7 +403,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -435,7 +433,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -445,7 +443,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['[regexp]^pro.+4$'],
+                    Process => ['[regexp]^p4$'],
                 },
             },
 
@@ -465,7 +463,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -495,7 +493,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -505,7 +503,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['[Notregexp]^pro.+4$'],
+                    Process => ['[Notregexp]^p4$'],
                 },
             },
 
@@ -525,7 +523,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -535,7 +533,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['Process2'],
+                    Process => ['P2'],
                 },
             },
             '103-Test' => {
@@ -545,7 +543,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process4'],
+                    Process => ['P4'],
                 },
             },
         },
@@ -563,7 +561,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
         },
@@ -582,7 +580,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['[Not]Process1'],
+                    Process => ['[Not]P1'],
                 },
             },
         },
@@ -619,7 +617,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['[regexp]^pro.+4$'],
+                    Process => ['[regexp]^p4$'],
                 },
             },
         },
@@ -656,7 +654,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['[Notregexp]^pro.+4$'],
+                    Process => ['[Notregexp]^p4$'],
                 },
             },
         },
@@ -674,7 +672,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => [ 'Process1', 'Process2' ],
+                    Process => [ 'P1', 'P2' ],
                 },
             },
             '101-Test' => {
@@ -684,7 +682,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
 
@@ -703,7 +701,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => [ 'Process1', 'Process4' ],
+                    Process => [ 'P1', 'P4' ],
                 },
             },
             '101-Test' => {
@@ -713,7 +711,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['Process2'],
+                    Process => ['P2'],
                 },
             },
             '103-Test' => {
@@ -723,7 +721,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['Process4'],
+                    Process => ['P4'],
                 },
             },
         },
@@ -742,7 +740,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => [ 'Process1', 'Process2' ],
+                    Process => [ 'P1', 'P2' ],
                 },
             },
         },
@@ -761,7 +759,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process1'],
+                    Process => ['P1'],
                 },
             },
             '101-Test' => {
@@ -771,7 +769,7 @@ my @Tests = (
                     },
                 },
                 PossibleAdd => {
-                    Process => ['Process2'],
+                    Process => ['P2'],
                 },
             },
         },
@@ -790,7 +788,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['Process2'],
+                    Process => ['P2'],
                 },
             },
         },
@@ -809,7 +807,7 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['Process4'],
+                    Process => ['P4'],
                 },
             },
         },
@@ -827,7 +825,7 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['Process4'],
+                    Process => ['P4'],
                 },
             },
         },
@@ -858,19 +856,31 @@ for my $Test (@Tests) {
 
         my $ProcessList = $ProcessObject->ProcessList(
             ProcessState => [ 'Active', 'FadeAway' ],
-            Interface => ['AgentInterface'],
+            Interface    => ['AgentInterface'],
         );
+
+        # prepare process list for ACLs, use only entities instead of names, convert from
+        #   P1 => Name to P1 => P1. As ACLs should work only against entities
+        my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
 
         # validate the ProcessList with stored ACLs
         my $ACL = $TicketObject->TicketAcl(
             ReturnType    => 'Process',
             ReturnSubType => '-',
-            Data          => $ProcessList,
+            Data          => \%ProcessListACL,
             UserID        => $UserID,
         );
 
         if ($ACL) {
-            %{$ProcessList} = $TicketObject->TicketAclData();
+
+            # get ACL results
+            my %ACLData = $TicketObject->TicketAclData();
+
+            # recover process names
+            my %ReducedProcessList = map { $_ => $ProcessList->{$_} } sort keys %ACLData;
+
+            # replace original process list with the reduced one
+            $ProcessList = \%ReducedProcessList;
         }
 
         if ( $UserID == $AffectedUserID ) {

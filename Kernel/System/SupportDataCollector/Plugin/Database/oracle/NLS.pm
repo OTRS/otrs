@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm - system data collector plugin
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,10 @@ sub Run {
     }
 
     my $CreateTime;
-    $DBObject->Prepare( SQL => "SELECT create_time FROM valid", Limit => 1 );
+    $DBObject->Prepare(
+        SQL   => "SELECT create_time FROM valid",
+        Limit => 1
+    );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $CreateTime = $Row[0];
     }
@@ -78,7 +81,7 @@ sub Run {
         $Self->AddResultOk(
             Identifier => 'NLS_DATE_FORMAT_SELECT',
             Label      => 'NLS_DATE_FORMAT Setting SQL Check',
-            Value => $ENV{NLS_DATE_FORMAT},    # use environment variable to avoid different values
+            Value      => $ENV{NLS_DATE_FORMAT},                 # use environment variable to avoid different values
         );
     }
     else {

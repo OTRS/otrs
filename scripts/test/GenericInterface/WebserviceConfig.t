@@ -1,6 +1,6 @@
 # --
 # WebserviceConfig.t - WebserviceConfig tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,8 +154,7 @@ TEST:
 for my $Test (@Tests) {
 
     # add (call with 2>&1 to also get STDERR)
-    my $WebserviceConfigResult
-        = `$WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd} 2>&1`;
+    my $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd} 2>&1`;
 
     if ( !$Test->{SuccessAdd} ) {
         $Self->True(
@@ -233,8 +232,7 @@ for my $Test (@Tests) {
     );
 
     # update config with a modification (call with 2>&1 to also get STDERR)
-    $WebserviceConfigResult
-        = `$WebserviceConfig $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID 2>&1`;
+    $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID 2>&1`;
     if ( !$Test->{SuccessUpdate} ) {
         $Self->True(
             $?,
@@ -299,15 +297,13 @@ $Self->Is(
 
 # delete Webservices
 for my $WebserviceID (@WebserviceIDs) {
-    my $WebserviceConfigDelete
-        = `$WebserviceConfig -a delete -i $WebserviceID`;
+    my $WebserviceConfigDelete = `$WebserviceConfig -a delete -i $WebserviceID`;
     $Self->True(
         $WebserviceConfigDelete,
         "Webservice Delete ID: $WebserviceID",
     );
 
-    $WebserviceConfigDelete
-        = `$WebserviceConfig -a delete -i $WebserviceID`;
+    $WebserviceConfigDelete = `$WebserviceConfig -a delete -i $WebserviceID`;
     $Self->False(
         $WebserviceConfigDelete,
         "Webservice Delete ID: $WebserviceID",

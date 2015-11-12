@@ -1,6 +1,6 @@
 # --
 # TicketDynamicFieldSearch.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,7 +126,7 @@ my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
     FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
-        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
         PossibleValues => {
             ticket1_field5 => 'ticket1_field51',
             ticket2_field5 => 'ticket2_field52',

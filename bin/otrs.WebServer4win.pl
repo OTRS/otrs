@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.WebServer4win.pl - provides Web Server Daemon control for Microsoft Windows OS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -173,7 +173,7 @@ else {
 # Internal
 sub _Help {
     print "otrs.WebServer4win.pl - OTRS Web Server Daemon for Windows\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.WebServer4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 
@@ -198,9 +198,8 @@ sub _Start {
     }
 
     # delete old log files
-    my $DaysToKeep = 10;
-    my $DaysToKeepSystemTime
-        = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $DaysToKeep * 24 * 60 * 60;
+    my $DaysToKeep           = 10;
+    my $DaysToKeepSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob("$LogPath/*.log");
 
@@ -417,7 +416,7 @@ sub _AutoRestart {
     # Log daemon start-up
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message => $Param{Message} || 'Unknown reason to restart',
+        Message  => $Param{Message} || 'Unknown reason to restart',
     );
 
     # Send service control a stop message otherwise the execution of a new server will not be

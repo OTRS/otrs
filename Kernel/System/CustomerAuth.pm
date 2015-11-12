@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerAuth.pm - provides the authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,8 +168,7 @@ sub Auth {
 
     # on system maintenance customers
     # shouldn't be allowed get into the system
-    my $ActiveMaintenance
-        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+    my $ActiveMaintenance = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
 
     # check if system maintenance is active
     if ($ActiveMaintenance) {

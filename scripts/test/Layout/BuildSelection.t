@@ -1,6 +1,6 @@
 # --
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -958,6 +958,764 @@ my @Tests = (
                 [
                     'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
                     $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'Max with HashRef',
+        Definition => {
+            Data => {
+                1 => 'Object1',
+                2 => 'Object1::AttributeA',
+                3 => 'Object1::AttributeA::Value1',
+                4 => 'Object1::AttributeA::Value2',
+                5 => 'Object1::AttributeB',
+                6 => 'Object1::AttributeB::Value1',
+                7 => 'Object1::AttributeB::Value2',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 2,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'Max with ArrayRef',
+        Definition => {
+            Data => [
+                'Object1',
+                'Object1::AttributeA',
+                'Object1::AttributeA::Value1',
+                'Object1::AttributeA::Value2',
+                'Object1::AttributeB',
+                'Object1::AttributeB::Value1',
+                'Object1::AttributeB::Value2',
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => 'Object1::AttributeA',
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="Object1">Object1</option>
+  <option value="Object1::AttributeA" selected="selected">Objec[...]</option>
+  <option value="Object1::AttributeA::Value1">Objec[...]</option>
+  <option value="Object1::AttributeA::Value2">Objec[...]</option>
+  <option value="Object1::AttributeB">Objec[...]</option>
+  <option value="Object1::AttributeB::Value1">Objec[...]</option>
+  <option value="Object1::AttributeB::Value2">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    'Object1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeA', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeA::Value1', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeA::Value2', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeB', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeB::Value1', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeB::Value2', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'Max with ArrayHashRef',
+        Definition => {
+            Data => [
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '2',
+                    Value    => 'Object1::AttributeA',
+                    Selected => 1,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '5',
+                    Value    => 'Object1::AttributeB',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'Max with HashRef and TreeView',
+        Definition => {
+            Data => {
+                1 => 'Object1',
+                2 => 'Object1::AttributeA',
+                3 => 'Object1::AttributeA::Value1',
+                4 => 'Object1::AttributeA::Value2',
+                5 => 'Object1::AttributeB',
+                6 => 'Object1::AttributeB::Value1',
+                7 => 'Object1::AttributeB::Value2',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'TreeView',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 2,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 1,
+            DisabledBranch => undef,
+            Max            => 9,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">&nbsp;&nbsp;Attr[...]</option>
+  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="5">&nbsp;&nbsp;Attr[...]</option>
+  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', '&nbsp;&nbsp;Attr[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', '&nbsp;&nbsp;Attr[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'Max with HashRef and TreeView and HTMLQuote',
+        Definition => {
+            Data => {
+                1 => 'Object1<test1>',
+                2 => 'Object1<test1>::AttributeA<test2>',
+                3 => 'Object1<test1>::AttributeA<test2>::Value1<test3>',
+                4 => 'Object1<test1>::AttributeA<test2>::Value2<test3>',
+                5 => 'Object1<test1>::AttributeB<test2>',
+                6 => 'Object1<test1>::AttributeB<test2>::Value1<test3>',
+                7 => 'Object1<test1>::AttributeB<test2>::Value2<test3>',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Number',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 2,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 1,
+            DisabledBranch => undef,
+            Max            => 15,
+            HTMLQuote      => 1,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1&lt;test1&gt;</option>
+  <option value="2" selected="selected">&nbsp;&nbsp;AttributeA[...]</option>
+  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1&lt;test3&gt;</option>
+  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2&lt;test3&gt;</option>
+  <option value="5">&nbsp;&nbsp;AttributeB[...]</option>
+  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1&lt;test3&gt;</option>
+  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2&lt;test3&gt;</option>
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
+        Success     => 1,
+        ExecuteJSON => 1,
+
+        # BuilsSelectionAJAX sets HTMLQuoting to 0
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1<test1>',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', '&nbsp;&nbsp;AttributeA[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1<test3>',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2<test3>',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', '&nbsp;&nbsp;AttributeB[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1<test3>',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2<test3>',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'ArrayHashRef with delete filter and disabled possible none',
+        Definition => {
+            Data => [
+                {
+                    Key   => 'DeleteFilter',
+                    Value => 'DELETE',
+                },
+                {
+                    Key      => '-',
+                    Value    => '-',
+                    Disabled => 1,
+                },
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '2',
+                    Value    => 'Object1::AttributeA',
+                    Selected => 1,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '5',
+                    Value    => 'Object1::AttributeB',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="DeleteFilter">DELETE</option>
+  <option value="-" disabled="disabled">-</option>
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    'DeleteFilter', 'DELETE',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '-', '-',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'ArrayHashRef with delete filter and active possible none',
+        Definition => {
+            Data => [
+                {
+                    Key   => 'DeleteFilter',
+                    Value => 'DELETE',
+                },
+                {
+                    Key      => '-',
+                    Value    => '-',
+                    Disabled => 0,
+                },
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '2',
+                    Value    => 'Object1::AttributeA',
+                    Selected => 1,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '5',
+                    Value    => 'Object1::AttributeB',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="DeleteFilter">DELETE</option>
+  <option value="-">-</option>
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    'DeleteFilter', 'DELETE',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '-', '-',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'ArrayHashRef Treeview with missing parents',
+        Definition => {
+            Data => [
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 1,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                    Disabled => 1,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 1,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="Object1::AttributeA_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
+  <option value="3" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object1::AttributeB_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
+  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="7" disabled="disabled">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeA_Disabled', '&nbsp;&nbsp;AttributeA',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeB_Disabled', '&nbsp;&nbsp;AttributeB',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
             ],
         },

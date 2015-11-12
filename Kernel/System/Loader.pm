@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@ sub MinifyFiles {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }
@@ -255,7 +255,7 @@ sub GetMinifiedFile {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }

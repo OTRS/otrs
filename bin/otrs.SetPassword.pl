@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -103,7 +103,7 @@ sub Usage {
 
     print "\n";
     print "$0 - set a new password\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "Usage: otrs.SetPassword [--customer | --agent] user [password]\n";
     print "\n";
     print "\tIf you do not specify --customer, --agent is assumed.\n";

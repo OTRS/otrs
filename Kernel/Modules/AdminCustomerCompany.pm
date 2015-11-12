@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,13 +41,19 @@ sub Run {
 
     my $Nav = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
     my $NavigationBarType = $Nav eq 'Agent' ? 'Companies' : 'Admin';
+    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
+    $Search
+        ||= $Self->{ConfigObject}->Get('AdminCustomerCompany::RunInitialWildcardSearch') ? '*' : '';
 
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $CustomerID, );
+        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+            CustomerID => $CustomerID,
+        );
+        $Data{CustomerCompanyID} = $CustomerID;
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -75,9 +81,8 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
-
-        $GetParam{CustomerCompanyID}
-            = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
+        $GetParam{Source}            = $Self->{ParamObject}->GetParam( Param => 'Source' );
+        $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
 
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
@@ -92,6 +97,21 @@ sub Run {
             $GetParam{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         }
 
+        # check for duplicate entries
+        if ( $GetParam{CustomerCompanyID} ne $GetParam{CustomerID} ) {
+
+            # get CustomerCompany list
+            my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+                Search => $Param{Search},
+                Valid  => 0,
+            );
+
+            # check duplicate field
+            if ( %List && $List{ $GetParam{CustomerID} } ) {
+                $Errors{Duplicate} = 'ServerError';
+            }
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -104,7 +124,8 @@ sub Run {
                 )
             {
                 $Self->_Overview(
-                    Nav => $Nav,
+                    Nav    => $Nav,
+                    Search => $Search,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -126,6 +147,14 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
+        # set notification for duplicate entry
+        if ( $Errors{Duplicate} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Info     => "CustomerCompany $GetParam{CustomerID} already exists!.",
+            );
+        }
         $Self->_Edit(
             Action => 'Change',
             Nav    => $Nav,
@@ -174,6 +203,10 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
+        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
+        my $CustomerCompanyKey = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey};
+        my $CustomerCompanyID;
+
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
 
@@ -181,6 +214,22 @@ sub Run {
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
                 $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
             }
+
+            # save customer company key for checking duplicate
+            if ( $Entry->[2] eq $CustomerCompanyKey ) {
+                $CustomerCompanyID = $GetParam{ $Entry->[0] };
+            }
+        }
+
+        # get CustomerCompany list
+        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Param{Search},
+            Valid  => 0,
+        );
+
+        # check duplicate field
+        if ( %List && $List{$CustomerCompanyID} ) {
+            $Errors{Duplicate} = 'ServerError';
         }
 
         # if no errors occurred
@@ -195,7 +244,8 @@ sub Run {
                 )
             {
                 $Self->_Overview(
-                    Nav => $Nav,
+                    Nav    => $Nav,
+                    Search => $Search,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -217,6 +267,14 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
+        # set notification for duplicate entry
+        if ( $Errors{Duplicate} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Info     => "CustomerCompany $CustomerCompanyID already exists!.",
+            );
+        }
         $Self->_Edit(
             Action => 'Add',
             Nav    => $Nav,
@@ -236,16 +294,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            Nav => $Nav,
+            Nav    => $Nav,
+            Search => $Search,
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
         );
-
-        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
-            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
-        }
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminCustomerCompany',
@@ -259,25 +314,21 @@ sub Run {
 
 sub _Edit {
     my ( $Self, %Param ) = @_;
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+        Data => \%Param,
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     # shows header
@@ -418,23 +469,16 @@ sub _Edit {
 
 sub _Overview {
     my ( $Self, %Param ) = @_;
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
-    my $Output = '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block(
         Name => 'ActionSearch',
-        Data => {
-            Nav => $Param{Nav},
-            }
+        Data => \%Param,
     );
 
     # get writable data sources
@@ -464,33 +508,33 @@ sub _Overview {
     my %List = ();
 
     # if there are any registries to search, the table is filled and shown
-    if ($Search) {
+    if ( $Param{Search} ) {
+        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Param{Search},
+            Valid  => 0,
+        );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResult',
-            Data => {
-                %Param,
-                Search => $Search,
-            },
-        );
-        %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
-            Search => $Search,
-            Valid  => 0,
+            Data => \%Param,
         );
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
 
+        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
+        }
+
         # if there are results to show
         if (%List) {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-                my %Data
-                    = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
+                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         %Data,
-                        Search => $Search,
+                        Search => $Param{Search},
                         Nav    => $Param{Nav},
                     },
                 );

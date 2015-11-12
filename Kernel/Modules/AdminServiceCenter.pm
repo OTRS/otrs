@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminServiceCenter.pm - to register the OTRS system
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,8 @@ use Kernel::System::SupportBundleGenerator;
 use Kernel::System::SupportDataCollector;
 use Kernel::System::SupportDataCollector::PluginBase;
 use Kernel::System::User;
+
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,7 +104,6 @@ sub _SupportDataCollectorView {
             || $Self->{SupportDataSending} ne 'Yes'
             )
         {
-
             $Self->{LayoutObject}->Block(
                 Name => 'NoteNotRegisteredNotSending',
             );
@@ -124,7 +125,10 @@ sub _SupportDataCollectorView {
                 $Entry->{Status}
             };
 
-            my ( $Group, $SubGroup ) = split( m{/}, $Entry->{DisplayPath} // '' );
+            # get the display path, display type and additional information for the output
+            my ( $DisplayPath, $DisplayType, $DisplayAdditional ) = split( m{[\@\:]}, $Entry->{DisplayPath} // '' );
+
+            my ( $Group, $SubGroup ) = split( m{/}, $DisplayPath );
             if ( $Group ne $LastGroup ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataGroup',
@@ -136,6 +140,7 @@ sub _SupportDataCollectorView {
             $LastGroup = $Group // '';
 
             if ( !$SubGroup || $SubGroup ne $LastSubGroup ) {
+
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataRow',
                     Data => $Entry,
@@ -153,7 +158,48 @@ sub _SupportDataCollectorView {
             }
             $LastSubGroup = $SubGroup // '';
 
-            if ( !$SubGroup ) {
+            if ( $DisplayType && $DisplayType eq 'Table' && ref $Entry->{Value} eq 'ARRAY' ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'SupportDataEntryTable',
+                    Data => $Entry,
+                );
+
+                if ( IsArrayRefWithData( $Entry->{Value} ) ) {
+
+                    # get the table columns
+                    my @TableColumns = split( m{,}, $DisplayAdditional // '' );
+
+                    my @Identifiers;
+                    my @Labels;
+
+                    COLUMN:
+                    for my $Column (@TableColumns) {
+
+                        next COLUMN if !$Column;
+
+                        # get the identifier and label
+                        my ( $Identifier, $Label ) = split( m{\|}, $Column );
+
+                        # set the identifier as default label
+                        $Label ||= $Identifier;
+
+                        push @Identifiers, $Identifier;
+                        push @Labels,      $Label;
+                    }
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'SupportDataEntryTableDetails',
+                        Data => {
+                            Identifiers => \@Identifiers,
+                            Labels      => \@Labels,
+                            %{$Entry},
+                        },
+                    );
+                }
+            }
+            elsif ( !$SubGroup ) {
+
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataEntry',
                     Data => $Entry,
@@ -233,7 +279,7 @@ sub _GenerateSupportBundle {
     my ( $Self, %Param ) = @_;
 
     my $RandomID = $Self->{MainObject}->GenerateRandomString(
-        Length => 8,
+        Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
 
@@ -307,8 +353,7 @@ sub _DownloadSupportBundle {
         );
     }
 
-    my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
+    my $TempDir  = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
     my $Location = $TempDir . '/' . $Filename;
 
     my $Content = $Self->{MainObject}->FileRead(
@@ -354,8 +399,7 @@ sub _SendSupportBundle {
     my $Success;
     if ($Filename) {
 
-        my $TempDir
-            = $Self->{ConfigObject}->Get('TempDir')
+        my $TempDir = $Self->{ConfigObject}->Get('TempDir')
             . '/SupportBundleDownloadCache/'
             . $RandomID;
         my $Location = $TempDir . '/' . $Filename;

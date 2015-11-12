@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminProcessManagement.pm - process management
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,16 +53,13 @@ sub new {
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject}     = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
 
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
-    $Self->{TransitionObject}
-        = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
 
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -106,8 +103,7 @@ sub Run {
             Param => 'FileUpload',
         );
 
-        my $OverwriteExistingEntities
-            = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );
+        my $OverwriteExistingEntities = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );
 
         # import the process YAML file
         my %ProcessImport = $Self->{ProcessObject}->ProcessImport(
@@ -220,8 +216,7 @@ sub Run {
                 );
 
                 # list all assigned dialogs
-                my $AssignedDialogs
-                    = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
+                my $AssignedDialogs = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
                 if ( $AssignedDialogs && %{$AssignedDialogs} ) {
 
                     $Self->{LayoutObject}->Block(
@@ -230,8 +225,7 @@ sub Run {
 
                     for my $AssignedDialog ( sort keys %{$AssignedDialogs} ) {
 
-                        my $AssignedDialogEntityID
-                            = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
+                        my $AssignedDialogEntityID = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
                             ->{ActivityDialog}->{$AssignedDialog};
 
                         $Self->{LayoutObject}->Block(
@@ -296,8 +290,7 @@ sub Run {
                 }
 
                 # list all assigned fields
-                my $AssignedFields
-                    = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
+                my $AssignedFields = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
                     ->{FieldOrder};
                 if ( $AssignedFields && @{$AssignedFields} ) {
 
@@ -471,8 +464,7 @@ sub Run {
                 );
 
                 # list config
-                my $Config
-                    = $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config}
+                my $Config = $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config}
                     ->{Config};
                 if ( $Config && %{$Config} ) {
 
@@ -503,14 +495,58 @@ sub Run {
             );
         }
 
+        # determine skin for selection of the correct logo
+        # 1. use UserSkin setting from Agent preferences, if available
+        # 2. use HostBased skin setting, if available
+        # 3. use default skin from configuration
+
+        my $SkinSelectedHostBased;
+        my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+        if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+            REGEXP:
+            for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
+
+                # do not use empty regexp or skin directories
+                next REGEXP if !$RegExp;
+                next REGEXP if !$DefaultSkinHostBased->{$RegExp};
+
+                # check if regexp is matching
+                if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                    $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
+                }
+            }
+        }
+
+        my $SkinSelected = $Self->{'UserSkin'}
+            || $SkinSelectedHostBased
+            || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+            || 'default';
+
+        my %AgentLogo;
+
+        # check if we need to display a custom logo for the selected skin
+        my $AgentLogoCustom = $Self->{ConfigObject}->Get('AgentLogoCustom');
+        if (
+            $SkinSelected
+            && $AgentLogoCustom
+            && IsHashRefWithData($AgentLogoCustom)
+            && $AgentLogoCustom->{$SkinSelected}
+            )
+        {
+            %AgentLogo = %{ $AgentLogoCustom->{$SkinSelected} };
+        }
+
+        # Otherwise show default header logo, if configured
+        elsif ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
+            %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+        }
+
         # get logo
-        my $Logo = $Self->{ConfigObject}->Get('AgentLogo');
-        if ( $Logo && %{$Logo} ) {
+        if ( $AgentLogo{URL} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Logo',
                 Data => {
-                    LogoURL => $Param{LogoURL}
-                        = $Self->{ConfigObject}->Get('Frontend::WebPath') . $Logo->{URL},
+                    LogoURL => $Self->{ConfigObject}->Get('Frontend::WebPath') . $AgentLogo{URL},
                 },
             );
         }
@@ -947,7 +983,7 @@ sub Run {
 
         if ( $Self->{ParamObject}->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
 
-          # if the user would like to continue editing the process, just redirect to the edit screen
+            # if the user would like to continue editing the process, just redirect to the edit screen
             return $Self->{LayoutObject}->Redirect(
                 OP =>
                     "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcessData->{EntityID}"
@@ -1063,8 +1099,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
 
-        my $Location
-            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
+        my $Location = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
             ResultType => 'FILE',
@@ -1337,8 +1372,7 @@ sub Run {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList
-                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
@@ -1540,8 +1574,7 @@ sub _ShowEdit {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList
-                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
@@ -1767,37 +1800,85 @@ sub _CheckEntityUsage {
             Method => 'ProcessListGet',
             Array  => 'Transitions',
         },
-        TransitionAction => {
-            Parent => 'Transition',
-            Method => 'TransitionListGet',
-            Array  => 'TransitionActions',
-        },
-    );
-
-    return if !$Config{ $Param{EntityType} };
-
-    my $Parent = $Config{ $Param{EntityType} }->{Parent};
-    my $Method = $Config{ $Param{EntityType} }->{Method};
-    my $Array  = $Config{ $Param{EntityType} }->{Array};
-
-    # get a list of parents with all the details
-    my $List = $Self->{ $Parent . 'Object' }->$Method(
-        UserID => 1,
     );
 
     my @Usage;
 
-    # search entity id in all parents
-    PARENT:
-    for my $ParentData ( @{$List} ) {
-        next PARENT if !$ParentData;
-        next PARENT if !$ParentData->{$Array};
+    # transition action needs to be handled on a different way than other process parts as it does
+    # not depend directly on a parent part, it is nested in the process path configuration
+    if ( $Param{EntityType} eq 'TransitionAction' ) {
 
-        ENTITY:
-        for my $EntityID ( @{ $ParentData->{$Array} } ) {
-            if ( $EntityID eq $Param{EntityID} ) {
-                push @Usage, $ParentData->{Name};
-                last ENTITY;
+        my $ProcessList = $Self->{ProcessObject}->ProcessListGet(
+            UserID => $Self->{UserID},
+        );
+
+        # search in all processes
+        PROCESS:
+        for my $Process ( @{$ProcessList} ) {
+
+            next PROCESS if !$Process->{Config}->{Path};
+            my $Path = $Process->{Config}->{Path};
+
+            # search on each activity on the process path
+            ACTIVITY:
+            for my $ActivityEntityID ( sort keys %{$Path} ) {
+
+                # search on each transition on the activity
+                TRANSITION:
+                for my $TransitionEntityID ( sort keys %{ $Path->{$ActivityEntityID} } ) {
+
+                    next TRANSITION if !$Path->{$ActivityEntityID}->{$TransitionEntityID};
+                    my $TransitionConfig = $Path->{$ActivityEntityID}->{$TransitionEntityID};
+
+                    next TRANSITION if !$TransitionConfig->{TransitionAction};
+                    my @TransitionActions = @{ $TransitionConfig->{TransitionAction} };
+
+                    ENTITY:
+                    for my $EntityID (@TransitionActions) {
+                        if ( $EntityID eq $Param{EntityID} ) {
+                            my $TransitionData = $Self->{TransitionObject}->TransitionGet(
+                                EntityID => $TransitionEntityID,
+                                UserID   => $Self->{UserID},
+                            );
+                            my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+                                EntityID => $ActivityEntityID,
+                                UserID   => $Self->{UserID},
+                            );
+
+                            push @Usage, "$Process->{Name} -> $ActivityData->{Name} -> $TransitionData->{Name}";
+                            last ENTITY;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else {
+
+        return if !$Config{ $Param{EntityType} };
+
+        my $Parent = $Config{ $Param{EntityType} }->{Parent};
+        my $Method = $Config{ $Param{EntityType} }->{Method};
+        my $Array  = $Config{ $Param{EntityType} }->{Array};
+
+        # get a list of parents with all the details
+        my $List = $Self->{ $Parent . 'Object' }->$Method(
+            UserID => 1,
+        );
+
+        # search entity id in all parents
+        PARENT:
+        for my $ParentData ( @{$List} ) {
+
+            next PARENT if !$ParentData;
+            next PARENT if !$ParentData->{$Array};
+
+            ENTITY:
+            for my $EntityID ( @{ $ParentData->{$Array} } ) {
+                if ( $EntityID eq $Param{EntityID} ) {
+                    push @Usage, $ParentData->{Name};
+                    last ENTITY;
+                }
             }
         }
     }

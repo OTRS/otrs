@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -114,12 +114,16 @@ if ( _CheckActiveStatePerl() ) {
 my $AllModules;
 my $PackageList;
 my $Help;
-GetOptions( all => \$AllModules, list => \$PackageList, h => \$Help );
+GetOptions(
+    all  => \$AllModules,
+    list => \$PackageList,
+    h    => \$Help
+);
 
 # check needed params
 if ($Help) {
     print "otrs.CheckModules.pl - OTRS CheckModules\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CheckModules.pl [-list|all] \n";
     print "
    otrs.CheckModules.pl
@@ -549,10 +553,19 @@ else {
     if ($AllModules) {
         print "\nBundled modules:\n\n";
 
-        my %PerlInfo = Kernel::System::Environment->PerlInfoGet( BundledModules => 1, );
+        my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
+            BundledModules => 1,
+        );
 
         for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
-            _Check( { Module => $Module, Required => 1, }, $Depends, $NoColors );
+            _Check(
+                {
+                    Module   => $Module,
+                    Required => 1,
+                },
+                $Depends,
+                $NoColors
+            );
         }
     }
 }

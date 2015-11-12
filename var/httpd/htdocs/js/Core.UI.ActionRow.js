@@ -1,6 +1,6 @@
 // --
 // Core.UI.ActionRow.js - provides all functions for the Action row
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,9 +31,9 @@ Core.UI.ActionRow = (function (TargetNS) {
     }
 
     var TicketElementSelectors = {
-            'Small': 'div.Overview table td input:checkbox[name=TicketID]',
-            'Medium': 'ul.Overview input:checkbox[name=TicketID]',
-            'Large': 'ul.Overview input:checkbox[name=TicketID]'
+            'Small': 'div.Overview table td input[type="checkbox"][name=TicketID]',
+            'Medium': 'ul.Overview input[type="checkbox"][name=TicketID]',
+            'Large': 'ul.Overview input[type="checkbox"][name=TicketID]'
         },
         TicketView;
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/TransitionAction/TicketLockSet.pm - A Module to unlock a ticket
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@ sub Run {
     # If Ticket's LockID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
-        defined $Param{Config}->{LoclID}
+        defined $Param{Config}->{LockID}
         && $Param{Config}->{LockID} eq $Param{Ticket}->{LockID}
         )
     {

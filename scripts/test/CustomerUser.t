@@ -1,6 +1,6 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ my $DatabaseCaseSensitive                = $DBObject->{Backend}->{'DB::CaseSensi
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
 my $UserID = '';
-for my $Key ( 1 .. 3, 'ä', 'カス' ) {
+for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
 
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
 
@@ -160,14 +160,104 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerUserGet() - uc() - $UserID",
     );
 
-    # search
+    # search by CustomerID
     my %List = $CustomerUserObject->CustomerSearch(
         CustomerID => $UserRand . '-Customer-Update-Id',
         ValidID    => 1,
     );
     $Self->True(
         $List{$UserID},
-        "CustomerSearch() - CustomerID - $UserID",
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer-Update-Id\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer-Update-Id',
+        ValidID       => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer-Update-Id\' - $UserID is found",
+    );
+
+    # search by CustomerID with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => '*',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'*\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => '*',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'*\' - $UserID is not found",
+    );
+
+    # search by CustomerID with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => $UserRand . '-Customer*',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer*\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer*',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer*\' - $UserID is not found",
+    );
+
+    # search by CustomerID with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => '%',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'%\' - $UserID is  found",
+    );
+
+    # search by CustomerIDRaw with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => '%',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'%\' - $UserID is not found",
+    );
+
+    # search by CustomerID with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => $UserRand . '-Customer%',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer%\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer%',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer%\' - $UserID is not found",
     );
 
     # START CaseSensitive
@@ -249,8 +339,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 0)",
     );
 
-    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive}
-        = $CustomerDatabaseCaseSensitiveDefault;
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = $CustomerDatabaseCaseSensitiveDefault;
 
     # END CaseSensitive
 
@@ -488,6 +577,15 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerSearch() - Search uc('*\$User*') - $UserID",
     );
 
+    %List = $CustomerUserObject->CustomerSearch(
+        Search  => uc("*$UserID*"),
+        ValidID => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - Search uc('*\$User*') - $UserID",
+    );
+
     # check password support
     for my $Config (qw( plain crypt apr1 md5 sha1 sha2 bcrypt )) {
 
@@ -511,7 +609,10 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 "SetPassword() - $Config - $UserID - $Password",
             );
 
-            my $Ok = $CustomerAuth->Auth( User => $UserID, Pw => $Password );
+            my $Ok = $CustomerAuth->Auth(
+                User => $UserID,
+                Pw   => $Password
+            );
             $Self->True(
                 $Ok,
                 "Auth() - $Config - $UserID - $Password",

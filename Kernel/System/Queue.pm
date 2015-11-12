@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -441,8 +441,7 @@ sub GetAllQueues {
         return if !@GroupIDs;
 
         my $GroupString = join ', ', sort @GroupIDs;
-        $CacheKey
-            = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
+        $CacheKey = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
 
         # check cache
         my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -503,8 +502,10 @@ sub GetAllCustomQueues {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -557,8 +558,10 @@ sub QueueLookup {
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no Queue or QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no Queue or QueueID!'
+        );
         return;
     }
 
@@ -609,8 +612,10 @@ sub GetFollowUpOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -648,8 +653,10 @@ sub GetFollowUpLockOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -675,8 +682,10 @@ sub GetQueueGroupID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -738,8 +747,10 @@ sub QueueAdd {
 
     for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -753,6 +764,15 @@ sub QueueAdd {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Invalid Queue name '$Param{Name}'!",
+        );
+        return;
+    }
+
+    # check if a queue with this name already exists
+    if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A queue with name '$Param{Name}' already exists!"
         );
         return;
     }
@@ -771,8 +791,8 @@ sub QueueAdd {
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
             . ' ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
-            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
+            \$Param{Name},     \$Param{GroupID},        \$Param{UnlockTimeout}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},  \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
             \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{ValidID},
@@ -798,8 +818,7 @@ sub QueueAdd {
         Type => $Self->{CacheType},
     );
 
-    my $StandardTemplate2QueueByCreating
-        = $ConfigObject->Get('StandardTemplate2QueueByCreating');
+    my $StandardTemplate2QueueByCreating = $ConfigObject->Get('StandardTemplate2QueueByCreating');
 
     # add default responses (if needed), add response by name
     if (
@@ -831,8 +850,7 @@ sub QueueAdd {
     }
 
     # get standard template id
-    my $StandardTemplateID2QueueByCreating
-        = $ConfigObject->Get(' StandardTemplate2QueueByCreating');
+    my $StandardTemplateID2QueueByCreating = $ConfigObject->Get(' StandardTemplate2QueueByCreating');
 
     # get queue data with updated name for QueueCreate event
     my %Queue = $Self->QueueGet( Name => $Param{Name} );
@@ -883,8 +901,10 @@ sub QueueGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -1036,8 +1056,10 @@ sub QueueUpdate {
         )
     {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1062,8 +1084,10 @@ sub QueueUpdate {
         $Param{$Time} = $Param{$Time} || 0;
 
         if ( $Param{$Time} !~ m{^\d+$}smx ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "$Time is not numeric!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Time is not numeric!"
+            );
             return;
         }
     }
@@ -1099,14 +1123,19 @@ sub QueueUpdate {
     my %AllQueue = $Self->QueueList( Valid => 0 );
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
 
-    for ( sort keys %AllQueue ) {
-        if ( $AllQueue{$_} =~ /^\Q$Param{Name}\E$/i && $_ != $Param{QueueID} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Queue '$Param{Name}' exists! Can't updated queue '$OldQueue{Name}'.",
-            );
-            return;
-        }
+    # check if a queue with this name already exists
+    if (
+        $Self->NameExistsCheck(
+            ID   => $Param{QueueID},
+            Name => $Param{Name}
+        )
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A queue with name '$Param{Name}' already exists!"
+        );
+        return;
     }
 
     # get database object
@@ -1309,6 +1338,42 @@ sub DESTROY {
     $Self->EventHandlerTransaction();
 
     return 1;
+}
+
+=item NameExistsCheck()
+
+return 1 if another queue with this name already exists
+
+    $Exist = $QueueObject->NameExistsCheck(
+        Name => 'Some::Queue',
+        ID => 1, # optional
+    );
+
+=cut
+
+sub NameExistsCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Prepare(
+        SQL  => 'SELECT id FROM queue WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+
+    # fetch the result
+    my $Flag;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
+            $Flag = 1;
+        }
+    }
+
+    if ($Flag) {
+        return 1;
+    }
+
+    return 0;
 }
 
 1;

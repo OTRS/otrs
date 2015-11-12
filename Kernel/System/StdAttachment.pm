@@ -1,6 +1,6 @@
 # --
 # Kernel/System/StdAttachment.pm - lib for std attachment
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,8 +82,10 @@ sub StdAttachmentAdd {
     # check needed stuff
     for (qw(Name ValidID Content ContentType Filename UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -107,7 +109,7 @@ sub StdAttachmentAdd {
     );
 
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
+        SQL  => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
         Bind => [ \$Param{Name}, \$Param{ContentType}, ],
     );
     my $ID;
@@ -132,7 +134,10 @@ sub StdAttachmentGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -191,8 +196,10 @@ sub StdAttachmentUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -201,10 +208,23 @@ sub StdAttachmentUpdate {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{ 'StdAttachmentLookupID::' . $Data{ID} }      = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} }  = 0;
-    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }     = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Param{Name} } = 0;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Data{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Data{Name},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Param{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Param{Name},
+    );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -250,8 +270,10 @@ sub StdAttachmentDelete {
     # check needed stuff
     for (qw(ID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -260,8 +282,15 @@ sub StdAttachmentDelete {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }    = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} } = 0;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Param{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Data{Name},
+    );
 
     # delete attachment<->std template relation
     return if !$Self->{DBObject}->Do(
@@ -317,8 +346,16 @@ sub StdAttachmentLookup {
         $Key      = 'StdAttachment';
         $Value    = $Param{StdAttachment};
     }
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
+
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type           => $Self->{CacheType},
+        Key            => $CacheKey,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    if ($Cached) {
+        return $Cached;
     }
 
     # get data
@@ -332,13 +369,18 @@ sub StdAttachmentLookup {
         $SQL = 'SELECT name FROM standard_attachment WHERE id = ?';
         push @Bind, \$Param{StdAttachmentID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
+
+    my $DBValue;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $DBValue = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$DBValue ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Found no $Key found for $Value!",
@@ -346,7 +388,17 @@ sub StdAttachmentLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    # cache result
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type           => $Self->{CacheType},
+        TTL            => $Self->{CacheTTL},
+        Key            => $CacheKey,
+        Value          => $DBValue,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    return $DBValue;
 }
 
 =item StdAttachmentsByResponseID()
@@ -366,8 +418,10 @@ sub StdAttachmentsByResponseID {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no ID!'
+        );
         return;
     }
 
@@ -441,8 +495,10 @@ sub StdAttachmentSetResponses {
     # check needed stuff
     for (qw(ID AttachmentIDsRef UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

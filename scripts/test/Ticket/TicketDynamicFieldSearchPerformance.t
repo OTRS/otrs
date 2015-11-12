@@ -1,6 +1,6 @@
 # --
 # TicketDynamicFieldSearchPerformance.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@ for my $Counter ( 1 .. $FieldCount ) {
         Name       => "DFT$Counter$RandomID",
         Label      => 'Description',
         FieldOrder => 9999,
-        FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+        FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
         ObjectType => 'Ticket',
         Config     => {
             DefaultValue => 'Default',

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ my %Opts;
 getopt( '', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PendingJobs.pl - check pending tickets\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.PendingJobs.pl\n";
     exit 1;
 }
@@ -207,10 +207,9 @@ for my $TicketID (@TicketIDs) {
         );
 
         # check if a reminder has already been sent today
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
             SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-            );
+        );
 
         # get ticket history
         my @Lines = $TicketObject->HistoryGet(

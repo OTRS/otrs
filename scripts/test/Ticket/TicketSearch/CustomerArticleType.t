@@ -1,6 +1,6 @@
 # --
 # CustomerArticleType.t - TicketSearch test for Customer ArticleType
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,8 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     # create 2 tickets
     # create ticket 1
     my $TicketID1 = $TicketObject->TicketCreate(
-        Title        => 'Ticket One Title' . $RandomID,,
+        Title => 'Ticket One Title' . $RandomID,
+        ,
         Queue        => 'Raw',
         Lock         => 'unlock',
         Priority     => '3 normal',

@@ -1,6 +1,6 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -627,6 +627,21 @@ if ( !$MemberList6{$UserID2} || !$MemberList6{$UserID3} ) {
 $Self->True(
     $GroupMemberList6,
     'GroupMemberList6()',
+);
+
+# check groupmembers of User1 via GroupGroupMemberList (there was a bug in generated SQL when using parameter UserIDs)
+%MemberList1 = $GroupObject->GroupGroupMemberList(
+    UserIDs => [$UserID1],
+    Type    => 'ro',
+    Result  => 'HASH',
+);
+$GroupMemberList1 = 1;
+if ( keys %MemberList1 != 1 || !exists $MemberList1{$GroupID1} ) {
+    $GroupMemberList1 = 0;
+}
+$Self->True(
+    $GroupMemberList1,
+    'GroupGroupMemberList1() - UserIDs param (array)',
 );
 
 # check involved users of User1

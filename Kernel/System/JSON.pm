@@ -1,6 +1,6 @@
 # --
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -155,7 +155,10 @@ as a JavaScript string instead.
 =cut
 
 sub True {
-    return JSON::true();
+
+    # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
+    # (encountered object '1', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
+    return \1;
 }
 
 =item False()
@@ -165,7 +168,10 @@ like C<True()>, but for a false boolean value.
 =cut
 
 sub False {
-    return JSON::false();
+
+    # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
+    # (encountered object '0', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
+    return \0;
 }
 
 1;

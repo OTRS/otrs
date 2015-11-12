@@ -1,6 +1,6 @@
 # --
 # ChatStartForm.tt - provides HTML the chat starting form
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
             <input type="hidden" name="ChatStartUserID" />
             <input type="hidden" name="ChatStartUserType" />
             <input type="hidden" name="ChatStartUserFullname" />
-            <input type="text"   name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]" />
+            <textarea name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]"></textarea>
             <button type="submit" class="CallForAction Primary" disabled="disabled"><span>[% Translate('Start Chat') | html %]</span></button>
         </form>
     </div>

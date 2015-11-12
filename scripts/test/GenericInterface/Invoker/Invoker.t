@@ -1,6 +1,6 @@
 # --
 # Invoker.t - Invoker tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,9 +46,22 @@ $Self->IsNot(
     'Invoker::new() constructor failure, no InvokerType',
 );
 
+# correct call (without invoker type info)
+$InvokerObject = Kernel::GenericInterface::Invoker->new(
+    DebuggerObject => $DebuggerObject,
+    Invoker        => 'Test',
+    WebserviceID   => 1,
+);
+$Self->IsNot(
+    ref $InvokerObject,
+    'Kernel::GenericInterface::Invoker',
+    'Invoker::new() constructor failure, no InvokerType',
+);
+
 # provide incorrect invoker
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     DebuggerObject => $DebuggerObject,
+    Invoker        => 'Test',
     InvokerType    => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
     WebserviceID   => 1,
 );
@@ -61,6 +74,7 @@ $Self->IsNot(
 # provide no WebserviceID
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     DebuggerObject => $DebuggerObject,
+    Invoker        => 'Test',
     InvokerType    => 'Test::Test',
 );
 $Self->IsNot(
@@ -72,6 +86,7 @@ $Self->IsNot(
 # correct call
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     DebuggerObject => $DebuggerObject,
+    Invoker        => 'Test',
     InvokerType    => 'Test::Test',
     WebserviceID   => 1,
 );

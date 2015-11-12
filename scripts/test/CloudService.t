@@ -1,6 +1,6 @@
 # --
 # CloudService.t - Authentication tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,7 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
+        Name        => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
         RequestData => {
             CloudServiceTest => [
                 {

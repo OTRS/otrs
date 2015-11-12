@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,13 @@ sub Run {
         if ( !%Errors ) {
 
             # fetch database and add row blocks
-            if ( $Self->{DBObject}->Prepare( SQL => $Param{SQL}, Limit => $Param{Max} ) ) {
+            if (
+                $Self->{DBObject}->Prepare(
+                    SQL   => $Param{SQL},
+                    Limit => $Param{Max}
+                )
+                )
+            {
 
                 my @Data;
                 my $MatchesFound;
@@ -226,8 +232,7 @@ sub Run {
                     Type => 'Error',
                     What => 'Message',
                 );
-                $Errors{ErrorType}
-                    = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
+                $Errors{ErrorType} = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
                 $Errors{SQLInvalid} = 'ServerError';
             }
         }

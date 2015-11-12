@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -258,11 +258,15 @@ sub Run {
             # send mail && create new article
             # get queue if of From: and To:
             if ( !$Param{QueueID} ) {
-                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam, );
+                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
+                    Params => $GetParam,
+                );
             }
 
             # check if trusted returns a new queue id
-            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+                Params => $GetParam,
+            );
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
             }
@@ -355,7 +359,9 @@ sub Run {
         }
 
         # check if trusted returns a new queue id
-        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+            Params => $GetParam,
+        );
         if ($TQueueID) {
             $Param{QueueID} = $TQueueID;
         }
@@ -475,7 +481,9 @@ sub CheckFollowUp {
 
             next REFERENCE if !$TicketID;
 
-            my $Tn = $TicketObject->TicketNumberLookup( TicketID => $TicketID, );
+            my $Tn = $TicketObject->TicketNumberLookup(
+                TicketID => $TicketID,
+            );
 
             if ( $TicketID && $Tn ) {
                 return ( $Tn, $TicketID );
@@ -598,7 +606,7 @@ sub GetEmailParams {
         if ( $Self->{Debug} > 2 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
+                Message  => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
             );
         }
         $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
@@ -668,7 +676,7 @@ sub GetEmailParams {
         if ( !$TicketObject->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
+                Message  => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
             );
             $GetParam{$Key} = 'email-external';
         }

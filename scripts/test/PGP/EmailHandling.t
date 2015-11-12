@@ -1,6 +1,6 @@
 # --
 # EmailHandling.t - PGP email handling tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ $ConfigObject->Set(
 );
 
 $ConfigObject->Set(
-    Key => 'PGP::Key::Password',
+    Key   => 'PGP::Key::Password',
     Value => { '04A17B7A' => 'somepass' },
 );
 
@@ -50,12 +50,18 @@ $ConfigObject->Set(
 if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
     if ( -e '/usr/bin/gpg' ) {
-        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/usr/bin/gpg' );
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/usr/bin/gpg'
+        );
     }
 
     # maybe it's a mac with macport
     elsif ( -e '/opt/local/bin/gpg' ) {
-        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/opt/local/bin/gpg'
+        );
     }
 }
 

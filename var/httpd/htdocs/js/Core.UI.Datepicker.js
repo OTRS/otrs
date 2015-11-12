@@ -1,6 +1,6 @@
 // --
 // Core.UI.Datepicker.js - Datepicker
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -180,7 +180,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         if (!$('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').length) {
 
             // add datepicker icon and click event
-            $DatepickerElement.parent().append('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + LocalizationData.IconText + '"><i class="fa fa-calendar"></i></a>');
+            $DatepickerElement.after('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + LocalizationData.IconText + '"><i class="fa fa-calendar"></i></a>');
 
             if (Element.DateInFuture) {
                 ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateInFuture');

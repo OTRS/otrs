@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Group.pm - All Groups and Roles related functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,8 +163,10 @@ sub GroupAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -199,8 +201,13 @@ sub GroupAdd {
     );
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => $Self->{CacheType},
+    );
+    $CacheObject->CleanUp(
+        Type => 'CustomerGroup',
     );
 
     return $GroupID;
@@ -303,8 +310,13 @@ sub GroupUpdate {
     );
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => $Self->{CacheType},
+    );
+    $CacheObject->CleanUp(
+        Type => 'CustomerGroup',
     );
 
     return 1;
@@ -403,8 +415,10 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -529,14 +543,18 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or GroupID!'
+        );
         return;
     }
 
@@ -570,7 +588,10 @@ sub GroupMemberList {
                 Result => 'ID',
             );
             if (@Member) {
-                my @ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member, );
+                my @ResultGroupRole = $Self->GroupRoleMemberList(
+                    %Param,
+                    RoleIDs => \@Member,
+                );
                 push @Result, @ResultGroupRole;
             }
         }
@@ -664,8 +685,10 @@ sub GroupMemberInvolvedList {
     # check needed stuff
     for my $Attribute (qw(UserID Type)) {
         if ( !$Param{$Attribute} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Attribute!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Attribute!"
+            );
             return;
         }
     }
@@ -819,8 +842,10 @@ sub GroupGroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -890,7 +915,7 @@ sub GroupGroupMemberList {
         for my $UserID (@UserIDs) {
             $UserID = $DBObject->Quote( $UserID, 'Integer' );
         }
-        $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
+        $SQL .= ' gu.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
@@ -1007,8 +1032,10 @@ sub GroupRoleMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1187,8 +1214,10 @@ sub GroupRoleMemberAdd {
     # check needed stuff
     for (qw(RID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1302,8 +1331,10 @@ sub GroupUserRoleMemberList {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Result!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Result!'
+        );
         return;
     }
 
@@ -1467,8 +1498,10 @@ sub GroupUserRoleMemberAdd {
     # check needed stuff
     for (qw(RID UID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1478,7 +1511,7 @@ sub GroupUserRoleMemberAdd {
 
     # delete existing relation
     return if !$DBObject->Do(
-        SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
+        SQL  => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
 
@@ -1532,8 +1565,10 @@ sub RoleLookup {
 
     # check needed stuff
     if ( !$Param{Role} && !$Param{RoleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no Role or RoleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no Role or RoleID!'
+        );
         return;
     }
 
@@ -1625,7 +1660,10 @@ sub RoleGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -1672,8 +1710,10 @@ sub RoleAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -1,6 +1,6 @@
 // --
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@ Core.Agent.Stats = (function (TargetNS) {
      * @param {Object} The name of the radio button to be selected
      */
     TargetNS.SelectCheckbox = function (Name) {
-        $('input:checkbox[name=' + Name + ']').prop('checked', true);
+        $('input[type="checkbox"][name=' + Name + ']').prop('checked', true);
     };
 
     /**
@@ -66,7 +66,7 @@ Core.Agent.Stats = (function (TargetNS) {
      */
 
     TargetNS.SelectRadiobutton = function (Value, Name) {
-        $('input:radio[name=' + Name + '][value=' + Value + ']').prop('checked', true);
+        $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
 
     return TargetNS;

@@ -1,6 +1,6 @@
 # --
 # Selenium.pm - run frontend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,6 @@ package Kernel::System::UnitTest::Selenium;
 use strict;
 use warnings;
 
-use base qw(Selenium::Remote::Driver);
 use MIME::Base64();
 use File::Temp();
 
@@ -70,8 +69,7 @@ sub new {
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    my %SeleniumTestsConfig
-        = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
+    my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
@@ -84,6 +82,9 @@ sub new {
             die "SeleniumTestsConfig must provide $Needed!";
         }
     }
+
+    $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver')
+        || die "Could not load Selenium::Remote::Driver";
 
     my $Self = $Class->SUPER::new(%SeleniumTestsConfig);
     $Self->{UnitTestObject}      = $Param{UnitTestObject};
@@ -110,8 +111,7 @@ sub new {
         $Self->{BaseURL} = '127.0.0.1';
     }
 
-    $Self->{BaseURL}
-        = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://' . $Self->{BaseURL};
+    $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://' . $Self->{BaseURL};
 
     return $Self;
 }
@@ -248,6 +248,15 @@ sub Login {
 
         # login
         $Element->submit();
+
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Self->execute_script('return typeof($) === "function" && $("a#LogoutButton").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
 
         # login succressful?
         $Element = $Self->find_element( 'a#LogoutButton', 'css' );

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -182,8 +182,7 @@ sub Run {
                 && $TicketSearch{ $TimeType . 'TimeStartYear' }
                 )
             {
-                $TicketSearch{ $TimeType . 'TimeNewerDate' }
-                    = $TicketSearch{ $TimeType . 'TimeStartYear' } . '-'
+                $TicketSearch{ $TimeType . 'TimeNewerDate' } = $TicketSearch{ $TimeType . 'TimeStartYear' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStartMonth' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStartDay' }
                     . ' 00:00:00';
@@ -194,8 +193,7 @@ sub Run {
                 && $TicketSearch{ $TimeType . 'TimeStopYear' }
                 )
             {
-                $TicketSearch{ $TimeType . 'TimeOlderDate' }
-                    = $TicketSearch{ $TimeType . 'TimeStopYear' } . '-'
+                $TicketSearch{ $TimeType . 'TimeOlderDate' } = $TicketSearch{ $TimeType . 'TimeStopYear' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStopMonth' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStopDay' }
                     . ' 23:59:59';

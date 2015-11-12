@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm - system data collector plugin
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,13 @@ sub Run {
     my %Environment = %ENV;
 
     # No apache webserver with mod_perl, skip this check
-    if ( !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{apache}i || !$ENV{MOD_PERL} ) {
+    if (
+        !$ENV{SERVER_SOFTWARE}
+        || $ENV{SERVER_SOFTWARE} !~ m{apache}i
+        || !$ENV{MOD_PERL}
+        || !eval { require Apache2::Module; }
+        )
+    {
         return $Self->GetResults();
     }
 

@@ -1,6 +1,6 @@
 # --
 # Cache/KeepTypes.t - Cache tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,13 +78,19 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'A', Key => 'A' ),
+        $CacheObject->Get(
+            Type => 'A',
+            Key  => 'A'
+        ),
         'A',
         "Cache A/A is present",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'B', Key => 'B' ),
+        $CacheObject->Get(
+            Type => 'B',
+            Key  => 'B'
+        ),
         'B',
         "Cache B/B is present",
     );
@@ -97,12 +103,18 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'A', Key => 'A' ),
+        $CacheObject->Get(
+            Type => 'A',
+            Key  => 'A'
+        ),
         "Cache A/A is not present",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'B', Key => 'B' ),
+        $CacheObject->Get(
+            Type => 'B',
+            Key  => 'B'
+        ),
         'B',
         "Cache B/B is present",
     );
@@ -115,13 +127,19 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'A', Key => 'A' ),
+        $CacheObject->Get(
+            Type => 'A',
+            Key  => 'A'
+        ),
         'A',
         "Cache A/A is present",
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'B', Key => 'B' ),
+        $CacheObject->Get(
+            Type => 'B',
+            Key  => 'B'
+        ),
         "Cache B/B is not present",
     );
 
@@ -133,12 +151,18 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'A', Key => 'A' ),
+        $CacheObject->Get(
+            Type => 'A',
+            Key  => 'A'
+        ),
         "Cache A/A is not present",
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'B', Key => 'B' ),
+        $CacheObject->Get(
+            Type => 'B',
+            Key  => 'B'
+        ),
         "Cache B/B is not present",
     );
 

@@ -1,6 +1,6 @@
 # --
 # AdminQueue.tt - provides HTML form for AdminQueue
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,12 @@
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("NameServerError") %]
                                 <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("NameServerError") %]
+[% RenderBlockStart("ExistNameServerError") %]
+                                <p>[% Translate("A queue with this name already exists!") | html %] </p>
+[% RenderBlockEnd("ExistNameServerError") %]
                             </div>
                         </div>
                         <div class="Clear"></div>

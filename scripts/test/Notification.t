@@ -1,6 +1,6 @@
 # --
 # Notification.t - Notification tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,11 +199,11 @@ my @Tests = (
             ContentType => 'text/plain',
         },
         Update => {
-            Type     => 'NewTicket - Modified - äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
-            Charset  => 'utf-8',
-            Language => 'en',
-            Subject => 'Some Subject modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
-            Body    => 'Some Body modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Type        => 'NewTicket - Modified - äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Charset     => 'utf-8',
+            Language    => 'en',
+            Subject     => 'Some Subject modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Body        => 'Some Body modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             ContentType => 'text/plain',
         },
     },

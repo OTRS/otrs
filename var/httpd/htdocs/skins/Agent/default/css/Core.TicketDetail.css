@@ -68,7 +68,22 @@ div.Headline .Flag {
  */
 
 #ArticleItems .Header h2 {
-    padding-right: 245px;
+    float: left;
+}
+
+#ArticleItems .WidgetSimple .Header {
+    overflow: hidden;
+}
+
+#ArticleItems .WidgetSimple .Header h2 {
+    max-width: 80%;
+}
+
+#ArticleItems .WidgetSimple .Header .AdditionalInformation {
+    position: static;
+    line-height: 22px;
+    font-size: 11px;
+    float: right;
 }
 
 #ArticleTableBody {
@@ -251,6 +266,40 @@ div.Headline .Flag {
 .ItemRow a:hover {
     color: #666;
 }
+
+/**
+ * @subsection  ArticleBody
+ * @note        styles for article body
+ */
+.MessageBrowser {
+    margin: 5px 0;
+    padding: 0px;
+    border: 1px solid #999;
+    border-radius: 2px;
+    position: relative;
+}
+
+.MessageBrowser p {
+     padding: 5px 25px 5px 25px;
+     background-color: #DDD;
+     font-size: 11px;
+     text-align: center;
+}
+
+.MessageBrowser a.Close {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #5D5D5D;
+}
+
+.MessageBrowser a.Close:hover {
+    color: #000;
+}
+
 
 /**
  * @subsection  ArticleColors
@@ -440,7 +489,8 @@ div.Headline .Flag {
 }
 
 .ChronicalView > ul > li p {
-    max-height: 45px;
+    max-height: 106px;
+    white-space: pre;
     overflow: hidden;
     position: relative;
 }
@@ -622,6 +672,15 @@ div.Headline .Flag {
     margin-top: 3px;
 }
 
+.ChronicalView li ul li.subject,
+.ChronicalView li ul li.from,
+.ChronicalView li ul li.to,
+.ChronicalView li ul li.cc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .ChronicalView li ul li.AttachmentsLink {
     background: #ddd;
     color: #555;
@@ -651,8 +710,9 @@ div.Headline .Flag {
 }
 
 .ChronicalView > ul > li.NewTicket {
+    left: 50%;
     bottom: 10px;
-    margin-left: -85px;
+    margin-left: -86px;
     position: absolute;
     width: 150px;
     text-align: center;
@@ -721,6 +781,17 @@ div.Headline .Flag {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: 11px;
+}
+
+.ChronicalView .PlainText > div.ChatMessage.SystemGenerated {
+    font-style: italic;
+    color: #aaa;
+}
+
+.ChronicalView .PlainText > div.ChatMessage span {
+    font-weight: bold;
+    font-style: normal;
 }
 
 .ChronicalPlainText .ArticleChat {
@@ -732,6 +803,10 @@ div.Headline .Flag {
 .ChronicalArticleiFrame {
     width: 800px;
     height: 400px;
+}
+
+.ActionsChronicalView .Actions li select {
+    max-width: 120px;
 }
 
 /* Define colors for different event types */

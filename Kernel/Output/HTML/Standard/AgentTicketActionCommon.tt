@@ -1,6 +1,6 @@
 # --
 # AgentTicketActionCommon.tt - provides common HTML form for several masks
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -246,6 +246,7 @@ $('#TypeID').bind('change', function (Event) {
                     [% Data.DateString %]
                             <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                             <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("StatePending") %]
@@ -375,7 +376,9 @@ $('#TypeID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>
@@ -482,6 +485,18 @@ $('#TypeID').bind('change', function (Event) {
                             </div>
                         </fieldset>
 [% RenderBlockEnd("InformAdditionalAgents") %]
+[% RenderBlockStart("InformAgentsWithoutSelection") %]
+                        <fieldset class="TableLike FixedLabel">
+                            <label>[% Translate("Note will be (also) received by:") | html %]:</label>
+                            <p class="Value">
+                                <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
+[% RenderBlockStart("InformAgentsWithoutSelectionSingleUser") %]
+                                <span title="[% Data.UserEmail %]">[% Data.UserFullname %]</span>[% RenderBlockStart("InformAgentsWithoutSelectionSingleUserSeparator") %],[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUserSeparator") %]
+[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUser") %]
+                            </p>
+                            <div class="Clear"></div>
+                        </fieldset>
+[% RenderBlockEnd("InformAgentsWithoutSelection") %]
                     </div>
                 </div>
 [% RenderBlockEnd("WidgetArticle") %]

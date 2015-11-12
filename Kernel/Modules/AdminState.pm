@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminState.pm - to add/update/delete state
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StateObject}->StateGet( ID => $ID, );
+        my %Data = $Self->{StateObject}->StateGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -236,8 +238,8 @@ sub _Edit {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
-        Name => 'TypeID',
+        Data       => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
+        Name       => 'TypeID',
         SelectedID => $Param{TypeID},
         Class => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );

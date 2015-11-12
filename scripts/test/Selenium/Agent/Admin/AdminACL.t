@@ -1,6 +1,6 @@
 # --
 # AdminACL.t - frontend tests for the ACL admin screen
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,8 @@ JAVASCRIPT
         # click 'Create new ACL' link
         $Selenium->find_element( "a.Create", 'css' )->click();
 
+        sleep 5;
+
         # check add page
         for my $ID (
             qw(Name Comment Description StopAfterMatch ValidID)
@@ -91,14 +93,16 @@ JAVASCRIPT
         my $RandomID = $Helper->GetRandomID();
 
         # fill in test data
-        $Selenium->find_element( "#Name",           'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
+        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium Test ACL');
+        $Selenium->find_element( "#Description",               'css' )->send_keys('Selenium Test ACL');
+        $Selenium->find_element( "#StopAfterMatch",            'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
 
         # send form
         $Selenium->find_element( "#Name", 'css' )->submit();
+
+        sleep 5;
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -160,8 +164,7 @@ JAVASCRIPT
         );
 
         # now lets add the CustomerUser element on level 2
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )
-            ->click();
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )->click();
 
         # now there should be a new .DataItem element with an input element
         $Self->Is(
@@ -172,8 +175,7 @@ JAVASCRIPT
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
         $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )
-            ->send_keys("\N{U+E007}");
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("\N{U+E007}");
 
         # now there should be a two new elements: .ItemPrefix and .NewDataItem
         $Self->Is(
@@ -189,12 +191,10 @@ JAVASCRIPT
 
         # now lets add the DynamicField element on level 2, which should create a new dropdown
         # element containing dynamic fields and an 'Add all' button
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )
-            ->click();
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->click();
 
         $Self->Is(
-            $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )
-                ->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )->is_displayed(),
             '1',
             'Check for .NewDataKeyDropdown element',
         );
@@ -203,7 +203,7 @@ JAVASCRIPT
             '1',
             'Check for .AddAll element',
         );
-        }
+    }
 );
 
 1;

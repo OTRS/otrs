@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,22 +52,21 @@ sub new {
         }
     }
 
-    $Self->{StateObject}          = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject}    = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{LockObject}           = Kernel::System::Lock->new(%Param);
-    $Self->{PriorityObject}       = Kernel::System::Priority->new(%Param);
-    $Self->{ServiceObject}        = Kernel::System::Service->new(%Param);
-    $Self->{SLAObject}            = Kernel::System::SLA->new(%Param);
-    $Self->{UserObject}           = Kernel::System::User->new(%Param);
-    $Self->{GroupObject}          = Kernel::System::Group->new(%Param);
-    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
-    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
-    $Self->{TransitionObject}   = Kernel::System::ProcessManagement::Transition->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{ProcessObject}      = Kernel::System::ProcessManagement::Process->new(
+    $Self->{StateObject}            = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}      = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{LockObject}             = Kernel::System::Lock->new(%Param);
+    $Self->{PriorityObject}         = Kernel::System::Priority->new(%Param);
+    $Self->{ServiceObject}          = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject}              = Kernel::System::SLA->new(%Param);
+    $Self->{UserObject}             = Kernel::System::User->new(%Param);
+    $Self->{GroupObject}            = Kernel::System::Group->new(%Param);
+    $Self->{ActivityObject}         = Kernel::System::ProcessManagement::Activity->new(%Param);
+    $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new(%Param);
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{ProcessObject}          = Kernel::System::ProcessManagement::Process->new(
         ActivityObject         => $Self->{ActivityObject},
         ActivityDialogObject   => $Self->{ActivityDialogObject},
         TransitionObject       => $Self->{TransitionObject},
@@ -130,9 +129,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $TicketID = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID
-        = $Self->{ParamObject}->GetParam( Param => 'ActivityDialogEntityID' );
+    my $TicketID               = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
+    my $ActivityDialogEntityID = $Self->{ParamObject}->GetParam( Param => 'ActivityDialogEntityID' );
     my $ActivityDialogHashRef;
 
     if ($TicketID) {
@@ -146,11 +144,10 @@ sub Run {
         # for the ActivityDialog (if there is one)
         my $ActivityDialogPermission = 'rw';
         if ($ActivityDialogEntityID) {
-            $ActivityDialogHashRef
-                = $Self->{ActivityDialogObject}->ActivityDialogGet(
+            $ActivityDialogHashRef = $Self->{ActivityDialogObject}->ActivityDialogGet(
                 ActivityDialogEntityID => $ActivityDialogEntityID,
                 Interface              => 'CustomerInterface',
-                );
+            );
 
             if ( !IsHashRefWithData($ActivityDialogHashRef) ) {
                 return $Self->{LayoutObject}->CustomerErrorScreen(
@@ -252,7 +249,7 @@ sub Run {
     # for the customer interface
     my $FollowupProcessList = $Self->{ProcessObject}->ProcessList(
         ProcessState => \@ProcessStates,
-        Interface => [ 'AgentInterface', 'CustomerInterface' ],
+        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
     );
 
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
@@ -264,27 +261,28 @@ sub Run {
         );
     }
 
-    # validate the ProcessList with stored acls
+    # prepare process list for ACLs, use only entities instead of names, convert from
+    #   P1 => Name to P1 => P1. As ACLs should work only against entities
+    my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
+
+    # validate the ProcessList with stored ACLs
     my $ACL = $Self->{TicketObject}->TicketAcl(
         ReturnType     => 'Process',
         ReturnSubType  => '-',
-        Data           => $ProcessList,
+        Data           => \%ProcessListACL,
         CustomerUserID => $Self->{UserID},
     );
 
     if ( IsHashRefWithData($ProcessList) && $ACL ) {
-        %{$ProcessList} = $Self->{TicketObject}->TicketAclData();
-    }
 
-    $ACL = $Self->{TicketObject}->TicketAcl(
-        ReturnType     => 'Process',
-        ReturnSubType  => '-',
-        Data           => $FollowupProcessList,
-        CustomerUserID => $Self->{UserID},
-    );
+        # get ACL results
+        my %ACLData = $Self->{TicketObject}->TicketAclData();
 
-    if ( IsHashRefWithData($FollowupProcessList) && $ACL ) {
-        %{$FollowupProcessList} = $Self->{TicketObject}->TicketAclData();
+        # recover process names
+        my %ReducedProcessList = map { $_ => $ProcessList->{$_} } sort keys %ACLData;
+
+        # replace original process list with the reduced one
+        $ProcessList = \%ReducedProcessList;
     }
 
     # if we have no subaction display the process list to start a new one
@@ -316,9 +314,7 @@ sub Run {
     {
 
         # translate the error message (as it will be injected in the HTML)
-        my $ErrorMessage
-            = $Self->{LayoutObject}->{LanguageObject}
-            ->Translate("The selected process is invalid!");
+        my $ErrorMessage = $Self->{LayoutObject}->{LanguageObject}->Translate("The selected process is invalid!");
 
         # return a predefined HTML sctructure as the AJAX call is expecting and HTML response
         return $Self->{LayoutObject}->Attachment(
@@ -403,21 +399,20 @@ sub Run {
         );
     }
     return $Self->{LayoutObject}->CustomerErrorScreen(
-        Message => 'Subacion is invalid!',
+        Message => 'Subaction is invalid!',
         Comment => 'Please contact the admin.',
     );
 }
 
 sub _RenderAjax {
 
-    # FatalError is safe because a JSON strcuture is expecting, then it will result into a
+    # FatalError is safe because a JSON structure is expecting, then it will result into a
     # communications error
 
     my ( $Self, %Param ) = @_;
     for my $Needed (qw(ProcessEntityID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LayoutObject}
-                ->CustomerFatalError( Message => "Got no $Needed in _RenderAjax!" );
+            $Self->{LayoutObject}->CustomerFatalError( Message => "Got no $Needed in _RenderAjax!" );
         }
     }
     my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
@@ -458,12 +453,11 @@ sub _RenderAjax {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-            = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -473,8 +467,7 @@ sub _RenderAjax {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
@@ -497,8 +490,7 @@ sub _RenderAjax {
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
             my $DynamicFieldName = $1;
 
-            my $DynamicFieldConfig
-                = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
+            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
@@ -535,7 +527,7 @@ sub _RenderAjax {
             my $DataValues = $Self->{BackendObject}->BuildSelectionDataGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 PossibleValues     => $PossibleValues,
-                Value => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                Value              => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             ) || $PossibleValues;
 
             # add dynamic field to the JSONCollector
@@ -649,7 +641,7 @@ sub _RenderAjax {
 
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
-                Services => $Services,
+                Services  => $Services,
                 ServiceID => $Self->{ParamObject}->GetParam( Param => 'ServiceID' ) || '',
             );
 
@@ -825,9 +817,8 @@ sub _GetParam {
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
             my $DynamicFieldName = $1;
 
-           # Get the Config of the current DynamicField (the first element of the grep result array)
-            my $DynamicFieldConfig
-                = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
+            # Get the Config of the current DynamicField (the first element of the grep result array)
+            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             if ( !IsHashRefWithData($DynamicFieldConfig) ) {
                 my $Message = "DynamicFieldConfig missing for field: $DynamicFieldName!";
@@ -1077,8 +1068,7 @@ sub _OutputActivityDialog {
 
         my $DynamicFieldProcessID = 'DynamicField_'
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
-        my $DynamicFieldActivityID
-            = 'DynamicField_'
+        my $DynamicFieldActivityID = 'DynamicField_'
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementActivityID');
 
         if ( !$Ticket{$DynamicFieldProcessID} || !$Ticket{$DynamicFieldActivityID} ) {
@@ -1287,10 +1277,10 @@ sub _OutputActivityDialog {
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'ProcessManagement/CustomerActivityDialogHeader',
         Data         => {
-            FormName  => 'ActivityDialogDialog' . $ActivityActivityDialog->{ActivityDialog},
-            FormID    => $Self->{FormID},
-            Subaction => 'StoreActivityDialog',
-            TicketID  => $Ticket{TicketID} || '',
+            FormName               => 'ActivityDialogDialog' . $ActivityActivityDialog->{ActivityDialog},
+            FormID                 => $Self->{FormID},
+            Subaction              => 'StoreActivityDialog',
+            TicketID               => $Ticket{TicketID} || '',
             ActivityDialogEntityID => $ActivityActivityDialog->{ActivityDialog},
             ProcessEntityID        => $Param{ProcessEntityID}
                 || $Ticket{
@@ -1609,7 +1599,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                InformAgents => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents},
+                InformAgents        => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents},
             );
 
             if ( !$Response->{Success} ) {
@@ -1733,8 +1723,7 @@ sub _OutputActivityDialog {
 
     # display regular footer only in non-ajax case
     if ( !$Self->{IsAjaxRequest} ) {
-        $Output .= $Self->{LayoutObject}
-            ->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
+        $Output .= $Self->{LayoutObject}->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
     }
 
     return $Output;
@@ -1751,8 +1740,7 @@ sub _RenderDynamicField {
             };
         }
     }
-    my $DynamicFieldConfig
-        = ( grep { $_->{Name} eq $Param{FieldName} } @{ $Self->{DynamicField} } )[0];
+    my $DynamicFieldConfig = ( grep { $_->{Name} eq $Param{FieldName} } @{ $Self->{DynamicField} } )[0];
 
     my $PossibleValuesFilter;
 
@@ -1794,8 +1782,7 @@ sub _RenderDynamicField {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
     }
@@ -1833,7 +1820,7 @@ sub _RenderDynamicField {
     );
 
     my %Data = (
-        Name    => $DynamicFieldHTML->{Name},
+        Name    => $DynamicFieldConfig->{Name},
         Label   => $DynamicFieldHTML->{Label},
         Content => $DynamicFieldHTML->{Field},
     );
@@ -1862,7 +1849,7 @@ sub _RenderDynamicField {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
     };
 }
 
@@ -1939,7 +1926,7 @@ sub _RenderTitle {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Title' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Title' ),
     };
 
 }
@@ -2092,7 +2079,7 @@ sub _RenderArticle {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Article' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Article' ),
     };
 }
 
@@ -2114,8 +2101,7 @@ sub _RenderCustomer {
         };
     }
 
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
 
     my %CustomerUserData = ();
 
@@ -2160,11 +2146,10 @@ sub _RenderCustomer {
         || $SubmittedCustomerUserID
         )
     {
-        %CustomerUserData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $SubmittedCustomerUserID
                 || $Param{Ticket}{CustomerUserID},
-            );
+        );
     }
 
     # show customer field as "FirstName Lastname" <MailAddress>
@@ -2219,7 +2204,7 @@ sub _RenderCustomer {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Customer' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Customer' ),
     };
 }
 
@@ -2367,7 +2352,7 @@ sub _RenderSLA {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/SLA' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/SLA' ),
     };
 }
 
@@ -2519,7 +2504,7 @@ sub _RenderService {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Service' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Service' ),
     };
 
 }
@@ -2650,7 +2635,7 @@ sub _RenderPriority {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Priority' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Priority' ),
     };
 }
 
@@ -2788,7 +2773,7 @@ sub _RenderQueue {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Queue' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Queue' ),
     };
 }
 
@@ -2913,7 +2898,7 @@ sub _RenderState {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/State' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/State' ),
     };
 }
 
@@ -3058,7 +3043,7 @@ sub _RenderType {
 
     return {
         Success => 1,
-        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Type' ),
+        HTML    => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Type' ),
     };
 }
 
@@ -3132,7 +3117,7 @@ sub _StoreActivityDialog {
 
     if ( !$IsUpload ) {
 
-   # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
+        # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
         my %CheckedFields;
         DIALOGFIELD:
         for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -3143,9 +3128,8 @@ sub _StoreActivityDialog {
             if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
                 my $DynamicFieldName = $1;
 
-           # Get the Config of the current DynamicField (the first element of the grep result array)
-                my $DynamicFieldConfig
-                    = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
+                # Get the Config of the current DynamicField (the first element of the grep result array)
+                my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
                 if ( !IsHashRefWithData($DynamicFieldConfig) ) {
                     $Self->{LayoutObject}->CustomerFatalError(
@@ -3173,14 +3157,12 @@ sub _StoreActivityDialog {
 
                 if ( $ValidationResult->{ServerError} ) {
                     $Error{ $DynamicFieldConfig->{Name} } = 1;
-                    $ErrorMessage{ $DynamicFieldConfig->{Name} }
-                        = $ValidationResult->{ErrorMessage} || '';
+                    $ErrorMessage{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage} || '';
                 }
 
                 # if we had an invisible field, use config's default value
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
-                    $TicketParam{$CurrentField}
-                        = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
+                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
                         || '';
                 }
 
@@ -3212,9 +3194,8 @@ sub _StoreActivityDialog {
                 }
                 $TicketParam{CustomerID} = $CustomerID;
 
-              # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
-                my $CustomerUserID
-                    = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
+                # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
+                my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
                     || $Self->{UserID};
                 if ( !$CustomerUserID ) {
                     $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
@@ -3417,8 +3398,8 @@ sub _StoreActivityDialog {
                 $Self->{BackendObject}->ValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
-                    Value  => $TicketParam{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    Value              => $TicketParam{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
 
@@ -3502,8 +3483,7 @@ sub _StoreActivityDialog {
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
             my $DynamicFieldName = $1;
-            my $DynamicFieldConfig
-                = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
+            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -3538,17 +3518,17 @@ sub _StoreActivityDialog {
 
                 my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID       => $TicketID,
-                    SenderType     => 'customer',
-                    From           => $From,
-                    MimeType       => $MimeType,
-                    Charset        => $Self->{LayoutObject}->{UserCharset},
-                    UserID         => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                    HistoryType    => 'AddNote',
-                    HistoryComment => '%%Note',
-                    Body           => $Param{GetParam}{Body},
-                    Subject        => $Param{GetParam}{Subject},
-                    ArticleType    => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
+                    TicketID                  => $TicketID,
+                    SenderType                => 'customer',
+                    From                      => $From,
+                    MimeType                  => $MimeType,
+                    Charset                   => $Self->{LayoutObject}->{UserCharset},
+                    UserID                    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    HistoryType               => 'AddNote',
+                    HistoryComment            => '%%Note',
+                    Body                      => $Param{GetParam}{Body},
+                    Subject                   => $Param{GetParam}{Subject},
+                    ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
                     ForceNotificationToUserID => $Param{GetParam}{InformUserID},
                 );
                 if ( !$ArticleID ) {
@@ -3862,7 +3842,10 @@ sub _CheckField {
     # check needed stuff
     for my $Needed (qw(Field)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -4103,8 +4086,7 @@ sub _GetServices {
     return \%Service if !$Param{QueueID} && !$Param{TicketID};
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # if no CustomerUserID is present, consider the logged in customer
     if ( !$Param{CustomerUserID} ) {

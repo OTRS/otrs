@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NavBarCustomerTicketProcess.pm - to show or hide AgentTicketProcess menu item
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,8 +54,7 @@ sub new {
     $Self->{TicketObject} //= $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::NavBar::CacheTTL') || 900 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::NavBar::CacheTTL') || 900 );
 
     return $Self;
 }
@@ -64,8 +63,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get process management configuration
-    my $FrontendModuleConfig
-        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketProcess};
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketProcess};
 
     # check if the registration config is valid
     return if !IsHashRefWithData($FrontendModuleConfig);
@@ -98,13 +96,11 @@ sub Run {
     else {
 
         # create objects (only create objects if no cache, to increse performance)
-        $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-        $Self->{ActivityDialogObject}
-            = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
-        $Self->{TransitionActionObject}
-            = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
-        $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
-        $Self->{ProcessObject}    = Kernel::System::ProcessManagement::Process->new(
+        $Self->{ActivityObject}         = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+        $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
+        $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
+        $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
+        $Self->{ProcessObject}          = Kernel::System::ProcessManagement::Process->new(
             %{$Self},
             ActivityObject         => $Self->{ActivityObject},
             ActivityDialogObject   => $Self->{ActivityDialogObject},
@@ -124,16 +120,28 @@ sub Run {
                 Interface    => ['CustomerInterface'],
             );
 
-            # validate the ProcessList with stored acls
+            # prepare process list for ACLs, use only entities instead of names, convert from
+            #   P1 => Name to P1 => P1. As ACLs should work only against entities
+            my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
+
+            # validate the ProcessList with stored ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 ReturnType     => 'Process',
                 ReturnSubType  => '-',
-                Data           => $ProcessList,
+                Data           => \%ProcessListACL,
                 CustomerUserID => $Self->{UserID},
             );
 
             if ( IsHashRefWithData($ProcessList) && $ACL ) {
-                %{$ProcessList} = $Self->{TicketObject}->TicketAclData();
+
+                # get ACL results
+                my %ACLData = $Self->{TicketObject}->TicketAclData();
+
+                # recover process names
+                my %ReducedProcessList = map { $_ => $ProcessList->{$_} } sort keys %ACLData;
+
+                # replace original process list with the reduced one
+                $ProcessList = \%ReducedProcessList;
             }
 
             # set the value to show or hide the menu item (based in process list)

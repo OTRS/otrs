@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -131,6 +131,11 @@ sub Run {
     for my $Key ( sort keys %{$FrameworkParams} ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key )
             || $FrameworkParams->{$Key};
+    }
+
+    # validate language
+    if ( $Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms ) {
+        delete $Param{Lang};
     }
 
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie

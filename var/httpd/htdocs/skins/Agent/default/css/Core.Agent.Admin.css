@@ -41,6 +41,7 @@
     width: 100%;
     text-indent: -9999px;
     position: absolute;
+    z-index: 9999;
 }
 
 .RTL .Admin .Size1of2 .AsBlock {
@@ -82,6 +83,10 @@
     color: #F72;
 }
 
+.Admin ul.AdminNavigation li {
+    cursor: pointer;
+}
+
 .WidgetSimple {
     border: 0px;
     margin: 0px 10px 15px 10px !important;
@@ -103,6 +108,11 @@
 
 .Header .Small i {
     font-size: 10px;
+}
+
+.RTL .Header .Small {
+    right: auto;
+    left: 0px;
 }
 
 /**

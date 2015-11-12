@@ -1,6 +1,6 @@
 // --
 // Core.Customer.TicketZoom.js - provides functions for the customer login
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -198,6 +198,28 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             /* correct the status saved in the hidden field of the initial visible message */
             $('> input[name=ArticleState]', $VisibleMessage).val("true");
             ResizeIframe($VisibleIframe.get(0));
+        }
+
+        // init browser link message close button
+        if ($('.MessageBrowser').length) {
+            $('.MessageBrowser a.Close').on('click', function () {
+                var Data = {
+                    Action: 'CustomerTicketZoom',
+                    Subaction: 'BrowserLinkMessage',
+                    TicketID: $('input[name=TicketID]').val()
+                };
+
+                $('.MessageBrowser').fadeOut("slow");
+
+                // call server, to save that the bo was closed and do not show it again on reload
+                Core.AJAX.FunctionCall(
+                    Core.Config.Get('CGIHandle'),
+                    Data,
+                    function () {}
+                );
+
+                return false;
+            });
         }
     };
 

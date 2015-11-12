@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,8 +93,10 @@ sub Salutation {
     # check needed stuff
     for (qw(TicketID Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -178,16 +180,20 @@ sub Signature {
     # check needed stuff
     for (qw(Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # need ticket id or queue id
     if ( !$Param{TicketID} && !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need TicketID or QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID or QueueID!'
+        );
         return;
     }
 
@@ -281,8 +287,10 @@ sub Sender {
     # check needed stuff
     for (qw( UserID QueueID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -364,8 +372,10 @@ sub Template {
     # check needed stuff
     for (qw(TemplateID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -437,8 +447,10 @@ sub Attributes {
     # check needed stuff
     for (qw(TicketID Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -504,8 +516,10 @@ sub AutoResponse {
     # check needed stuff
     for (qw(TicketID AutoResponseType OrigHeader UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -520,11 +534,10 @@ sub AutoResponse {
     );
 
     # get auto default responses
-    my %AutoResponse
-        = $Kernel::OM->Get('Kernel::System::AutoResponse')->AutoResponseGetByTypeQueueID(
+    my %AutoResponse = $Kernel::OM->Get('Kernel::System::AutoResponse')->AutoResponseGetByTypeQueueID(
         QueueID => $Ticket{QueueID},
         Type    => $Param{AutoResponseType},
-        );
+    );
 
     return if !%AutoResponse;
 
@@ -568,6 +581,14 @@ sub AutoResponse {
         }
     }
 
+    # get recipient
+    my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        User => $Ticket{CustomerUserID},
+    );
+
+    # get user language
+    my $Language = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
         $AutoResponse{ContentType} = 'text/html';
@@ -595,6 +616,7 @@ sub AutoResponse {
         },
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
     $AutoResponse{Subject} = $Self->_Replace(
         RichText => 0,
@@ -606,6 +628,7 @@ sub AutoResponse {
         },
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
 
     $AutoResponse{Subject} = $TicketObject->TicketSubjectBuild(
@@ -691,8 +714,10 @@ sub NotificationAgent {
     # check needed stuff
     for (qw(TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -753,8 +778,7 @@ sub NotificationAgent {
     );
 
     # get user language
-    my $Language
-        = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+    my $Language = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 
     # get notification data
     my %Notification = $Kernel::OM->Get('Kernel::System::Notification')->NotificationGet(
@@ -807,7 +831,7 @@ sub NotificationAgent {
     # prepare subject (insert old subject)
     $Param{CustomerMessageParams}->{Subject} = $TicketObject->TicketSubjectClean(
         TicketNumber => $Ticket{TicketNumber},
-        Subject => $Param{CustomerMessageParams}->{Subject} || '',
+        Subject      => $Param{CustomerMessageParams}->{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -877,8 +901,10 @@ sub NotificationCustomer {
     # check needed stuff
     for (qw(TicketID Type UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -896,11 +922,12 @@ sub NotificationCustomer {
         %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
     }
 
-    my %User;
+    my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+        UserID => $Ticket{CustomerUserID},
+    );
 
     # get user language
-    my $Language
-        = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+    my $Language = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 
     # get notification data
     my %Notification = $Kernel::OM->Get('Kernel::System::Notification')->NotificationGet(
@@ -945,11 +972,48 @@ sub _Replace {
     # check needed stuff
     for (qw(Text RichText Data UserID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
+
+    # check for mailto links
+    # since the subject and body of those mailto links are
+    # uri escaped we have to uri unescape them, replace
+    # possible placeholders and then re-uri escape them
+    $Param{Text} =~ s{
+        (href="mailto:[^\?]+\?)([^"]+")
+    }
+    {
+        my $MailToHref        = $1;
+        my $MailToHrefContent = $2;
+
+        $MailToHrefContent =~ s{
+            ((?:subject|body)=)(.+?)("|&)
+        }
+        {
+            my $SubjectOrBodyPrefix  = $1;
+            my $SubjectOrBodyContent = $2;
+            my $SubjectOrBodySuffix  = $3;
+
+            my $SubjectOrBodyContentUnescaped = URI::Escape::uri_unescape $SubjectOrBodyContent;
+
+            my $SubjectOrBodyContentReplaced = $Self->_Replace(
+                %Param,
+                Text     => $SubjectOrBodyContentUnescaped,
+                RichText => 0,
+            );
+
+            my $SubjectOrBodyContentEscaped = URI::Escape::uri_escape_utf8 $SubjectOrBodyContentReplaced;
+
+            $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
+        }egx;
+
+        $MailToHref . $MailToHrefContent;
+    }egx;
 
     my $Start = '<';
     my $End   = '>';

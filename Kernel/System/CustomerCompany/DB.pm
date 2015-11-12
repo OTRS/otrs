@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerCompany/DB.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,8 +135,7 @@ sub CustomerCompanyList {
                 $SQL .= " AND ";
             }
 
-            my $CustomerCompanySearchFields
-                = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+            my $CustomerCompanySearchFields = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
 
             if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
 
@@ -159,8 +158,7 @@ sub CustomerCompanyList {
     }
 
     # sql
-    my $CompleteSQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
 
     # ask database
@@ -175,7 +173,7 @@ sub CustomerCompanyList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', @Row );
+        $List{$CustomerCompanyID} = join( ' ', map { defined($_) ? $_ : '' } @Row );
     }
 
     # cache request
@@ -196,8 +194,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need CustomerID!'
+        );
         return;
     }
 
@@ -280,8 +280,10 @@ sub CustomerCompanyAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'CustomerCompany backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'CustomerCompany backend is read only!'
+        );
         return;
     }
 
@@ -326,16 +328,20 @@ sub CustomerCompanyUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -392,8 +398,10 @@ sub _CustomerCompanyCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{CustomerID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need CustomerID!'
+        );
         return;
     }
 

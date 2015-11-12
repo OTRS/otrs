@@ -1,6 +1,6 @@
 # --
 # AgentDashboardUserOnline.tt - provides HTML for global dashboard
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@
                 [% ELSE %]
                     </span>
                 [% END %]
-                [% IF Data.EnableChat && Data.UserID != Env('UserID') %]
+                [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
                     <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments"></i></a>
                 [% END %]
                 </p>
@@ -90,12 +90,12 @@ $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
     Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
 
     // Only enable button if there is a message
-    $('.Dialog input[name="ChatStartFirstMessage"]').on('keyup', function(){
+    $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
         $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
     });
 
     $('.Dialog form').on('submit', function(){
-        if (!$('.Dialog input[name=ChatStartFirstMessage]').val().length) {
+        if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
             return false;
         }
         // Close after submit

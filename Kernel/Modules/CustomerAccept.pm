@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerAccept.pm - to show an agent an login/changes info
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,10 @@ sub Run {
         # show info
         $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => $Self->{InfoFile}, Data => \%Param );
+            .= $Self->{LayoutObject}->Output(
+            TemplateFile => $Self->{InfoFile},
+            Data         => \%Param
+            );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }

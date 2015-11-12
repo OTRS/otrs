@@ -1,6 +1,6 @@
 # --
 # DynamicFieldValue.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -65,7 +65,7 @@ my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfield2test$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                         # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -85,7 +85,7 @@ my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfield3test$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                         # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     TreeView   => 1,
     Config     => {
@@ -243,6 +243,7 @@ my @Tests = (
                 ValueText => '',
             },
         ],
+        NoValue => 1,
         UserID  => 1,
         Success => 1,
     },
@@ -357,6 +358,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
     my $Success = $DynamicFieldValueObject->ValueSet(
         FieldID    => $Test->{DynamicFieldConfig}->{ID},
@@ -382,48 +384,57 @@ for my $Test (@Tests) {
             $Value->[0]->{ID},
             "ValueGet() - Test $Test->{Name} - with False",
         );
+        next TEST;
     }
-    else {
-        $Self->True(
-            $Success,
-            "ValueSet() - Test $Test->{Name} - with True",
+
+    $Self->True(
+        $Success,
+        "ValueSet() - Test $Test->{Name} - with True",
+    );
+
+    # get the value with ValueGet()
+    my $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $Test->{DynamicFieldConfig}->{ID},
+        ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Test->{ObjectID},
+    );
+
+    if ( $Test->{NoValue} ) {
+        $Self->Is(
+            scalar @{$Value},
+            0,
+            "ValueGet() after ValueSet() - Test $Test->{Name} - no value",
         );
+        next TEST;
+    }
 
-        # get the value with ValueGet()
-        my $Value = $DynamicFieldValueObject->ValueGet(
-            FieldID    => $Test->{DynamicFieldConfig}->{ID},
-            ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
-            ObjectID   => $Test->{ObjectID},
-        );
+    # sanity check
+    $Self->True(
+        $Value->[0],
+        "ValueGet() after ValueSet() - Test $Test->{Name} - with True",
+    );
 
-        # sanity check
-        $Self->True(
-            $Value->[0],
-            "ValueGet() after ValueSet() - Test $Test->{Name} - with True",
-        );
+    for my $ValueKey ( sort keys %{ $Test->{Value}->[0] } ) {
 
-        for my $ValueKey ( sort keys %{ $Test->{Value}->[0] } ) {
+        # workaround for oracle
+        # oracle databases can't determine the difference between NULL and ''
+        if ( !defined $Value->[0]->{$ValueKey} || $Value->[0]->{$ValueKey} eq '' ) {
 
-            # workaround for oracle
-            # oracle databases can't determine the difference between NULL and ''
-            if ( !defined $Value->[0]->{$ValueKey} || $Value->[0]->{$ValueKey} eq '' ) {
+            # test falseness
+            $Self->False(
+                $Value->[0]->{$ValueKey},
+                "ValueGet() after ValueSet() - Test $Test->{Name} - "
+                    . " (Special case for '')"
+            );
+        }
+        else {
 
-                # test falseness
-                $Self->False(
-                    $Value->[0]->{$ValueKey},
-                    "ValueGet() after ValueSet() - Test $Test->{Name} - "
-                        . " (Special case for '')"
-                );
-            }
-            else {
-
-                # compare data
-                $Self->Is(
-                    $Value->[0]->{$ValueKey},
-                    $Test->{Value}->[0]->{$ValueKey},
-                    "ValueGet() after ValueSet() - Test $Test->{Name} - Key $ValueKey",
-                );
-            }
+            # compare data
+            $Self->Is(
+                $Value->[0]->{$ValueKey},
+                $Test->{Value}->[0]->{$ValueKey},
+                "ValueGet() after ValueSet() - Test $Test->{Name} - Key $ValueKey",
+            );
         }
     }
 }
@@ -827,7 +838,7 @@ $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',

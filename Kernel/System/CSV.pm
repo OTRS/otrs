@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CSV.pm - all csv functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,8 +76,10 @@ sub Array2CSV {
     # check required params
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Got no $_ param!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Got no $_ param!"
+            );
             return;
         }
     }
@@ -117,13 +119,16 @@ sub Array2CSV {
         my @ColumnLengths;
         my $Row = 0;
         for my $DataRaw ( \@Head, @Data ) {
+            COL:
             for my $Col ( 0 .. ( scalar @{ $DataRaw // [] } ) - 1 ) {
+                next COL if !defined( $DataRaw->[$Col] );
                 my $CellLength = length( $DataRaw->[$Col] );
                 $CellLength = 30 if ( $CellLength > 30 );
                 if ( !defined $ColumnLengths[$Col] || $ColumnLengths[$Col] < $CellLength ) {
                     $ColumnLengths[$Col] = $CellLength;
                 }
                 if ( $Row == 0 && @Head ) {
+
                     # Format header nicely if present.
                     $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $HeaderFormat );
                 }

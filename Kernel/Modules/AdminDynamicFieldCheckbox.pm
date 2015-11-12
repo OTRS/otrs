@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -451,8 +451,7 @@ sub _ShowScreen {
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
-            $OrderNamesList{$OrderNumber}
-                = $OrderNumber . ' - '
+            $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
                 . $DynamicfieldNamesList{$OrderNumber}
         }

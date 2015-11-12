@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CheckItem.pm - module to check and manipulate strings
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,8 +97,10 @@ sub CheckEmail {
 
     # check needed stuff
     if ( !$Param{Address} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Address!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Address!'
+        );
         return;
     }
 
@@ -251,6 +253,16 @@ sub StringClean {
 
     return $Param{StringRef} if !defined ${ $Param{StringRef} };
     return $Param{StringRef} if ${ $Param{StringRef} } eq '';
+
+    # check for invalid utf8 characters and remove invalid strings
+    if ( !utf8::valid( ${ $Param{StringRef} } ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Removed string containing invalid utf8: '${ $Param{StringRef} }'!",
+        );
+        ${ $Param{StringRef} } = '';
+        return;
+    }
 
     # set default values
     $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;

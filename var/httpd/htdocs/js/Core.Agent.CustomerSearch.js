@@ -1,6 +1,6 @@
 // --
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
-// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -230,7 +230,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 BackupData.CustomerEmail = CustomerValue;
 
                 if (Core.Config.Get('Action') === 'AgentBook') {
-                    $('#' + $(this).attr('id')).val(CustomerValue);
+                    $(Event.target).val(CustomerValue);
                     return false;
                 }
 
@@ -292,9 +292,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }
         }
 
-        // On unload remove old selected data. If the page is reloaded (with F5) this data stays in the field and invokes an ajax request otherwise
-        $(window).bind('unload', function () {
-           $('#SelectedCustomerUser').val('');
+        // On unload remove old selected data. If the page is reloaded (with F5) this data
+        // stays in the field and invokes an ajax request otherwise. We need to use beforeunload
+        // here instead of unload because the URL of the window does not change on reload which
+        // doesn't trigger pagehide.
+        $(window).bind('beforeunload.CustomerSearch', function () {
+            $('#SelectedCustomerUser').val('');
+            return; // return nothing to suppress the confirmation message
         });
 
         CheckPhoneCustomerCountLimit();
@@ -341,7 +345,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // get number of how much customer ticket are present
-        TicketCustomerIDs = $('.CustomerContainer input:radio').length;
+        TicketCustomerIDs = $('.CustomerContainer input[type="radio"]').length;
 
         // increment customer counter
         CustomerTicketCounter ++;
@@ -413,7 +417,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $('#CustomerSelected_' + CustomerTicketCounter).prop('checked', true).trigger('change');
             }
             else {
-                $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
+                $('.CustomerContainer input[type="radio"]:first').prop('checked', true).trigger('change');
             }
         }
 
@@ -456,7 +460,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
-        TicketCustomerIDs = $('.CustomerContainer input:radio').length;
+        TicketCustomerIDs = $('.CustomerContainer input[type="radio"]').length;
         if (TicketCustomerIDs === 0) {
             TargetNS.ResetCustomerInfo();
         }
@@ -466,9 +470,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
-        if( !$('.CustomerContainer input:radio').is(':checked') ){
+        if( !$('.CustomerContainer input[type="radio"]').is(':checked') ){
             //set the first one as checked
-            $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
+            $('.CustomerContainer input[type="radio"]:first').prop('checked', true).trigger('change');
         }
 
         if ($Field.find('.CustomerTicketText:visible').length === 0) {

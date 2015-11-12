@@ -1,6 +1,6 @@
 # --
 # TicketHistoryDynamicField.t - DynamicFieldValue tests for TicketHistory
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "TestTextArea$RandomID",
     Label      => 'TestTextAreaShortName',
     FieldOrder => 9991,
-    FieldType  => 'TextArea',              # mandatory, selects the DF backend to use for this field
+    FieldType  => 'TextArea',                # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'TestTextAreaShortName',
@@ -486,8 +486,7 @@ for my $Test (@Tests) {
                 my $ResultEntryDynamicField = 'Name';
 
                 #check if there is OldValue
-                ( my $CheckOldValue )
-                    = $HistoryGet[$ResultCount]->{$ResultEntryDynamicField}
+                ( my $CheckOldValue ) = $HistoryGet[$ResultCount]->{$ResultEntryDynamicField}
                     =~ /\%\%OldValue\%\%(?:(.+?))?$/;
                 if ($CheckOldValue) {
                     $Self->Is(

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomService.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
     'Kernel::System::DB',
@@ -40,8 +41,14 @@ sub Param {
     my @Params;
     my @CustomServiceIDs;
 
-    # check needed param, if no user id is given, do not show this box
-    if ( !$Param{UserData}->{UserID} ) {
+    # check needed param,
+    # if no user id is given or Ticket::Service is disabled
+    # do not show this box
+    if (
+        !$Param{UserData}->{UserID}
+        || !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service')
+        )
+    {
         return ();
     }
 
@@ -52,8 +59,7 @@ sub Param {
     );
 
     if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' ) ) {
-        @CustomServiceIDs
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' );
+        @CustomServiceIDs = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomServiceIDs[0] ) {
         @CustomServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices(

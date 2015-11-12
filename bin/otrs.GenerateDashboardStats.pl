@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.GenerateDashboardStats.pl - calculate stats caches for dashboard stats widgets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -99,8 +99,7 @@ sub Run {
             Value => 1,
         );
 
-        my $UserWidgetConfigSetting
-            = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
+        my $UserWidgetConfigSetting = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
 
         # Calculate the cache for each user, if needed. If several users have the same settings
         #   for a stat, the cache will not be recalculated.

@@ -1,6 +1,6 @@
 # --
 # Login.t - frontend tests for login
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,15 @@ $Selenium->RunTest(
         # login
         $Element->submit();
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("a#LogoutButton").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # login succressful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
@@ -71,7 +80,7 @@ $Selenium->RunTest(
         $Element->is_displayed();
         $Element->is_enabled();
         $Element->send_keys($TestUserLogin);
-        }
+    }
 );
 
 1;

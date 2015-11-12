@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardEventsTicketCalendar.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,8 +73,7 @@ sub Run {
     my $Queues = $ConfigObject->{DashboardEventsTicketCalendar}->{Queues};
 
     # get start and end time from config
-    my $StartTimeDynamicField
-        = $ConfigObject->Get('DashboardEventsTicketCalendar::DynamicFieldStartTime')
+    my $StartTimeDynamicField = $ConfigObject->Get('DashboardEventsTicketCalendar::DynamicFieldStartTime')
         || 'TicketCalendarStartTime';
     my $EndTimeDynamicField =
         $ConfigObject->Get('DashboardEventsTicketCalendar::DynamicFieldEndTime')
@@ -86,10 +85,8 @@ sub Run {
         UserID => $Self->{UserID},
     );
 
-    my $EventTicketFields
-        = $ConfigObject->Get('DashboardEventsTicketCalendar::TicketFieldsForEvents');
-    my $EventDynamicFields
-        = $ConfigObject->Get('DashboardEventsTicketCalendar::DynamicFieldsForEvents');
+    my $EventTicketFields  = $ConfigObject->Get('DashboardEventsTicketCalendar::TicketFieldsForEvents');
+    my $EventDynamicFields = $ConfigObject->Get('DashboardEventsTicketCalendar::DynamicFieldsForEvents');
 
     my %DynamicFieldTimeSearch = (
         'DynamicField_' . $StartTimeDynamicField => {
@@ -229,16 +226,14 @@ sub Run {
                         next TICKETFIELD if !$EventTicketFields->{$Key};
 
                         if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key}
-                                = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
+                            $TicketDetail{$Key} = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                                 UserLogin => $TicketDetail{$Key},
-                                );
+                            );
                         }
 
                         # translate state and priority name
                         if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}
-                                ->Get( $TicketDetail{$Key} );
+                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}->Get( $TicketDetail{$Key} );
                         }
 
                         $LayoutObject->Block(
@@ -270,12 +265,11 @@ sub Run {
                         # check if we need to format the date
                         my $InfoValue = $TicketDetail{ 'DynamicField_' . $Item };
                         if ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime' ) {
-                            $InfoValue = $LayoutObject->{LanguageObject}
-                                ->FormatTimeString($InfoValue);
+                            $InfoValue = $LayoutObject->{LanguageObject}->FormatTimeString($InfoValue);
                         }
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
-                            $InfoValue = $LayoutObject->{LanguageObject}
-                                ->FormatTimeString( $InfoValue, 'DateFormatShort' );
+                            $InfoValue
+                                = $LayoutObject->{LanguageObject}->FormatTimeString( $InfoValue, 'DateFormatShort' );
                         }
 
                         $LayoutObject->Block(
@@ -313,6 +307,7 @@ sub Run {
         TemplateFile => 'DashboardEventsTicketCalendar',
         Data         => {
             %{ $Self->{Config} },
+            FirstDay => $Kernel::OM->Get('Kernel::Config')->Get('CalendarWeekDayStart') || 0,
         },
     );
 

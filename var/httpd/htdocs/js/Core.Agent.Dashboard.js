@@ -1,6 +1,6 @@
 // --
 // Core.Agent.Dashboard.js - provides the special module functions for the dashboard
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -329,6 +329,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             allDayText: Params.AllDayText,
             axisFormat: 'H(:mm)', // uppercase H for 24-hour clock
             editable: false,
+            firstDay: Params.FirstDay,
             monthNames: Params.MonthNames,
             monthNamesShort: Params.MonthNamesShort,
             dayNames: Params.DayNames,

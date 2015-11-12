@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -132,7 +132,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentSpelling', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentSpelling',
+        Data         => \%Param
+    );
 }
 
 1;

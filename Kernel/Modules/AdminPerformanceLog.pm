@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,9 @@ sub Run {
         else {
 
             # redirect
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
         }
     }
 
@@ -99,7 +101,10 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'View',
             Data => {
-                Age => $Self->{LayoutObject}->CustomerAge( Age => $MinuteSlot * 60, Space => ' ' ),
+                Age => $Self->{LayoutObject}->CustomerAge(
+                    Age   => $MinuteSlot * 60,
+                    Space => ' '
+                ),
                 Interface => $Interface || '-',
                 Module    => $Module    || '-',
                 Period    => $Slot,
@@ -289,8 +294,7 @@ sub Run {
                         }
                         $Action{$Module}->{Count}->{ $Row->[1] }++;
                         if ( $Action{$Module}->{Sum}->{ $Row->[1] } ) {
-                            $Action{$Module}->{Sum}->{ $Row->[1] }
-                                = $Action{$Module}->{Sum}->{ $Row->[1] } + $Row->[2];
+                            $Action{$Module}->{Sum}->{ $Row->[1] } = $Action{$Module}->{Sum}->{ $Row->[1] } + $Row->[2];
                         }
                         else {
                             $Action{$Module}->{Sum}->{ $Row->[1] } = $Row->[2];
@@ -318,7 +322,10 @@ sub Run {
                     Name => 'OverviewTable',
                     Data => {
                         Age =>
-                            $Self->{LayoutObject}->CustomerAge( Age => $Minute * 60, Space => ' ' ),
+                            $Self->{LayoutObject}->CustomerAge(
+                            Age   => $Minute * 60,
+                            Space => ' '
+                            ),
                     },
                 );
             }

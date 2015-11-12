@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,8 +139,7 @@ sub ProviderGenerateResponse {
     my $Response;
 
     if ( !$Param{Success} ) {
-        $Response
-            = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
+        $Response = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
         $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain; charset=UTF-8");
         $Response->date(time);
@@ -148,8 +147,7 @@ sub ProviderGenerateResponse {
     else {
 
         # generate a request string from the data
-        my $Request
-            = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
+        my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
         $Response = HTTP::Response->new( 200 => "OK" );
         $Response->protocol('HTTP/1.0');

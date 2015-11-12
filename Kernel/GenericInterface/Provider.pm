@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,21 +89,18 @@ sub Run {
     # on Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
 
-    my ($WebserviceID)
-        = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
+    my ($WebserviceID) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
     if ($WebserviceID) {
 
-        $Webservice
-            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
             ID => $WebserviceID,
-            );
+        );
 
     }
     else {
 
-        my ($WebserviceName)
-            = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
+        my ($WebserviceName) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
 
         if ( !$WebserviceName ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -116,10 +113,9 @@ sub Run {
 
         $WebserviceName = URI::Escape::uri_unescape($WebserviceName);
 
-        $Webservice
-            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
             Name => $WebserviceName,
-            );
+        );
     }
 
     if ( !IsHashRefWithData($Webservice) ) {

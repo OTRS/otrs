@@ -1,6 +1,6 @@
 # --
 # ObjectManager/ObjectOnDemand.t - ObjectManager tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,11 @@ use Kernel::System::ObjectManager;
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
+
+$Self->True(
+    exists $Kernel::OM->{Objects}->{'Kernel::System::Encode'},
+    'Kernel::System::Encode is always preloaded',
+);
 
 $Self->False(
     exists $Kernel::OM->{Objects}->{'Kernel::System::Time'},

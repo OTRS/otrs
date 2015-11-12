@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardStats.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,9 @@ sub Preferences {
 
         # load static module
         my $Params = $StatsObject->GetParams( StatID => $StatID );
-        $LayoutObject->Block( Name => 'Static', );
+        $LayoutObject->Block(
+            Name => 'Static',
+        );
         PARAM_ITEM:
         for my $ParamItem ( @{$Params} ) {
 
@@ -226,15 +228,13 @@ sub Preferences {
                                 @{ $ObjectAttribute->{SortIndividual} };
                         }
                         else {
-                            @Sorted
-                                = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
+                            @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
                         }
 
                         for (@Sorted) {
                             my $Value = $ValueHash{$_};
                             if ( $ObjectAttribute->{Translation} ) {
-                                $Value = $LayoutObject->{LanguageObject}
-                                    ->Translate( $ValueHash{$_} );
+                                $Value = $LayoutObject->{LanguageObject}->Translate( $ValueHash{$_} );
                             }
                             $LayoutObject->Block(
                                 Name => 'Fixed',
@@ -272,8 +272,7 @@ sub Preferences {
                             && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
                             )
                         {
-                            $ObjectAttribute->{SelectedValues}
-                                = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
+                            $ObjectAttribute->{SelectedValues} = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
                         }
 
                         $BlockData{SelectField} = $LayoutObject->BuildSelection(
@@ -299,8 +298,7 @@ sub Preferences {
                             && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
                             )
                         {
-                            $ObjectAttribute->{SelectedValues}
-                                = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
+                            $ObjectAttribute->{SelectedValues} = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
                         }
 
                         $BlockData{SelectField} = $LayoutObject->BuildSelection(
@@ -416,25 +414,22 @@ sub Preferences {
                                     last ITEM if $SelectedID eq $_;
                                 }
 
-                                $BlockData{TimeRelativeUnit}
-                                    = $LayoutObject->BuildSelection(
-                                    Name       => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
-                                    Data       => \%TimeScaleOption,
-                                    Class      => 'TimeRelativeUnitGeneric',
-                                    Sort       => 'IndividualKey',
-                                    SelectedID => $SelectedID || '',
+                                $BlockData{TimeRelativeUnit} = $LayoutObject->BuildSelection(
+                                    Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
+                                    Data           => \%TimeScaleOption,
+                                    Class          => 'TimeRelativeUnitGeneric',
+                                    Sort           => 'IndividualKey',
+                                    SelectedID     => $SelectedID || '',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
                                         'Week', 'Month', 'Year'
                                     ],
-                                    );
+                                );
                             }
-                            $BlockData{TimeRelativeCountMax}
-                                = $ObjectAttribute->{TimeRelativeCount};
+                            $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
                             $BlockData{TimeRelativeUnitMax}
                                 = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
-                            $BlockData{TimeRelativeMaxSeconds}
-                                = $ObjectAttribute->{TimeRelativeCount}
+                            $BlockData{TimeRelativeMaxSeconds} = $ObjectAttribute->{TimeRelativeCount}
                                 * $Self->_TimeInSeconds(
                                 TimeUnit => $ObjectAttribute->{TimeRelativeUnit}
                                 );
@@ -513,12 +508,20 @@ sub Preferences {
 
             # Show this Block if no value series or restrictions are selected
             if ( !$Flag ) {
-                $LayoutObject->Block( Name => 'NoElement', );
+                $LayoutObject->Block(
+                    Name => 'NoElement',
+                );
             }
         }
     }
-    my %YesNo        = ( 0 => 'No',      1 => 'Yes' );
-    my %ValidInvalid = ( 0 => 'invalid', 1 => 'valid' );
+    my %YesNo = (
+        0 => 'No',
+        1 => 'Yes'
+    );
+    my %ValidInvalid = (
+        0 => 'invalid',
+        1 => 'valid'
+    );
     $Stat->{SumRowValue}                = $YesNo{ $Stat->{SumRow} };
     $Stat->{SumColValue}                = $YesNo{ $Stat->{SumCol} };
     $Stat->{CacheValue}                 = $YesNo{ $Stat->{Cache} };
@@ -620,9 +623,33 @@ sub Run {
         );
 
         my $Stat = $StatsObject->StatsGet( StatID => $StatID );
+
+        # check permission for AgentStats
+        my $StatsReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{'AgentStats'};
+        my $StatsPermission;
+        if ( !$StatsReg->{GroupRo} && !$StatsReg->{Group} ) {
+            $StatsPermission = 1;
+        }
+        else {
+            TYPE:
+            for my $Type (qw(GroupRo Group)) {
+                my $StatsGroups = ref $StatsReg->{$Type} eq 'ARRAY' ? $StatsReg->{$Type} : [ $StatsReg->{$Type} ];
+                GROUP:
+                for my $StatsGroup ( @{$StatsGroups} ) {
+                    next GROUP if !$StatsGroup;
+                    next GROUP if !$LayoutObject->{"UserIsGroupRo[$StatsGroup]"};
+                    next GROUP if $LayoutObject->{"UserIsGroupRo[$StatsGroup]"} ne 'Yes';
+                    $StatsPermission = 1;
+                    last TYPE;
+                }
+            }
+        }
+
+        # add download buttons if agent has permission for AgentStats
         my $StatFormat = $Stat->{Format};
         if (
-            IsArrayRefWithData($StatFormat)
+            $StatsPermission
+            && IsArrayRefWithData($StatFormat)
             && grep { $_ eq 'Print' || $_ eq 'CSV' } @{$StatFormat}
             )
         {
@@ -688,8 +715,9 @@ sub _Timeoutput {
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # get time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $TimeObject->SystemTime2Date( SystemTime => $TimeObject->SystemTime(), );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
+    );
     my $Element = $Param{Element};
     my %TimeConfig;
 
@@ -797,7 +825,7 @@ sub _TimeScaleBuildSelection {
             Month  => 'month(s)',
             Year   => 'year(s)',
         },
-        Sort => 'IndividualKey',
+        Sort           => 'IndividualKey',
         SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ]
     );
 

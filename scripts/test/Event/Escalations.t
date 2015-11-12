@@ -1,6 +1,6 @@
 # --
 # Escalations.t - escalation event tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,9 @@ $ConfigObject->Set(
 );
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
+);
 
 my $CheckNumEvents = sub {
     my (%Param) = @_;
@@ -94,8 +96,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         time(),
         int( rand 1_000_000 );
     my $StartingSystemTime = $TimeObject->SystemTime();
-    my $StartingTimeStamp
-        = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+    my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
     # set schedule on each day
     my %Week;
@@ -133,7 +134,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             SalutationID        => 1,
             SignatureID         => 1,
             UserID              => 1,
-            Comment => "Queue for OTRSEscalationEvents.t for test run at $StartingTimeStamp",
+            Comment             => "Queue for OTRSEscalationEvents.t for test run at $StartingTimeStamp",
         );
         $Self->True( $QueueID, "QueueAdd() $QueueName" );
 
@@ -318,7 +319,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         if ( $WorkingHours{$Hours} ) {
 
-          # check whether events were triggered: first response escalation, solution time escalation
+            # check whether events were triggered: first response escalation, solution time escalation
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }

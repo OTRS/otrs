@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -305,6 +305,7 @@ sub TicketSearch {
     if ( !$Param{ContentSearch} ) {
         $Param{ContentSearch} = 'AND';
     }
+
     my %SortOptions = (
         Owner                  => 'st.user_id',
         Responsible            => 'st.responsible_user_id',
@@ -500,7 +501,7 @@ sub TicketSearch {
     # use also history table if required
     ARGUMENT:
     for my $Key ( sort keys %Param ) {
-        if ( $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
+        if ( $Param{$Key} && $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
             $SQLFrom .= 'INNER JOIN ticket_history th ON st.id = th.ticket_id ';
             last ARGUMENT;
         }
@@ -535,14 +536,13 @@ sub TicketSearch {
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{NotTicketFlag} } ) {
             $SQLFrom .= "LEFT JOIN ticket_flag ntf$Index ON st.id = ntf$Index.ticket_id  "
-                     . " AND ntf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'"
-                     . " AND ntf$Index.create_by = "
-                        . $DBObject->Quote( $TicketFlagUserID, 'Integer' )
-                     . ' ';
+                . " AND ntf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'"
+                . " AND ntf$Index.create_by = "
+                . $DBObject->Quote( $TicketFlagUserID, 'Integer' )
+                . ' ';
             $Index++;
         }
     }
-
 
     # current type lookup
     if ( $Param{Types} ) {
@@ -1088,7 +1088,7 @@ sub TicketSearch {
             return if !defined $Value;
 
             $SQLExt .= " AND (ntf$Index.ticket_value IS NULL "
-                       . "OR ntf$Index.ticket_value <> '" . $DBObject->Quote($Value) . "')";
+                . "OR ntf$Index.ticket_value <> '" . $DBObject->Quote($Value) . "')";
 
             $Index++;
         }
@@ -1127,7 +1127,13 @@ sub TicketSearch {
             next VALUE if !$Value;
 
             # replace wild card search
-            $Value =~ s/\*/%/gi;
+            if (
+                $Key ne 'CustomerIDRaw'
+                && $Key ne 'CustomerUserLoginRaw'
+                )
+            {
+                $Value =~ s/\*/%/gi;
+            }
 
             # check search attribute, we do not need to search for *
             next VALUE if $Value =~ /^\%{1,3}$/;
@@ -1243,8 +1249,7 @@ sub TicketSearch {
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
-            my @SearchParams
-                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
                 ? @{ $SearchParam->{$Operator} }
                 : ( $SearchParam->{$Operator} );
 
@@ -1890,7 +1895,7 @@ sub TicketSearch {
         # get close state ids
         my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => [ 'pending reminder', 'pending auto' ],
-            Result => 'ID',
+            Result    => 'ID',
         );
         if (@List) {
             $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ', sort @List)}) ";
@@ -2046,9 +2051,9 @@ sub TicketSearch {
 
                     if ( $TicketDynamicFieldName2Config{$DynamicFieldName} ) {
 
-                       # Join the table for this dynamic field; use a left outer join in this case.
-                       # With an INNER JOIN we'd limit the result set to tickets which have an entry
-                       #   for the DF which is used for sorting.
+                        # Join the table for this dynamic field; use a left outer join in this case.
+                        # With an INNER JOIN we'd limit the result set to tickets which have an entry
+                        #   for the DF which is used for sorting.
                         $SQLFrom
                             .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                             ON (st.id = dfv$DynamicFieldJoinCounter.object_id
@@ -2068,8 +2073,7 @@ sub TicketSearch {
                             $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
 
-                    $DynamicFieldJoinTables{ $DynamicField->{Name} }
-                        = "dfv$DynamicFieldJoinCounter";
+                    $DynamicFieldJoinTables{ $DynamicField->{Name} } = "dfv$DynamicFieldJoinCounter";
 
                     $DynamicFieldJoinCounter++;
                 }
@@ -2130,7 +2134,10 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
     return
-        if !$DBObject->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
+        if !$DBObject->Prepare(
+        SQL   => $SQLSelect . $SQLFrom . $SQLExt,
+        Limit => $Limit
+        );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
@@ -2177,6 +2184,97 @@ sub TicketSearch {
     }
 }
 
+=item SearchStringStopWordsFind()
+
+Find stop words within given search string.
+
+    my $StopWords = $TicketObject->SearchStringStopWordsFind(
+        SearchStrings => {
+            'Fulltext' => '(this AND is) OR test',
+            'From'     => 'myself',
+        },
+    );
+
+    Returns Hashref with found stop words.
+
+=cut
+
+sub SearchStringStopWordsFind {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(SearchStrings)) {
+        if ( !$Param{$Key} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!",
+            );
+            return;
+        }
+    }
+
+    # create lower case stop words
+    my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
+    my %StopWord;
+    WORD:
+    for my $Word ( sort keys %StopWordRaw ) {
+
+        next WORD if !$Word;
+        $Word = lc $Word;
+        $StopWord{$Word} = 1;
+    }
+
+    my %StopWordsFound;
+    SEARCHSTRING:
+    for my $Key ( sort keys %{ $Param{SearchStrings} } ) {
+        my $SearchString = $Param{SearchStrings}->{$Key};
+        my %Result       = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+            'Key'      => '.',             # resulting SQL is irrelevant
+            'Value'    => $SearchString,
+            'BindMode' => 1,
+        );
+
+        next SEARCHSTRING if !%Result || ref $Result{Values} ne 'ARRAY' || !@{ $Result{Values} };
+
+        my %Words;
+        for my $Value ( @{ $Result{Values} } ) {
+            my @Words = split '\s+', $$Value;
+            for my $Word (@Words) {
+                $Words{ lc $Word } = 1;
+            }
+        }
+
+        @{ $StopWordsFound{$Key} } = grep { $StopWord{$_} } sort keys %Words;
+    }
+
+    return \%StopWordsFound;
+}
+
+=item SearchStringStopWordsUsageWarningActive()
+
+Checks if warnings for stop words in search strings are active or not.
+
+    my $WarningActive = $TicketObject->SearchStringStopWordsUsageWarningActive();
+
+=cut
+
+sub SearchStringStopWordsUsageWarningActive {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my $SearchIndexModule   = $ConfigObject->Get('Ticket::SearchIndexModule');
+    my $WarnOnStopWordUsage = $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
+    if (
+        $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB'
+        && $WarnOnStopWordUsage
+        )
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 =begin Internal:
 
 =cut
@@ -2214,11 +2312,36 @@ sub _InConditionGet {
     my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
 
     # quote values
+    SORTEDID:
     for my $Value (@SortedIDs) {
-        return if !defined $Kernel::OM->Get('Kernel::System::DB')->Quote( $Value, 'Integer' );
+        next SORTEDID if !defined $Kernel::OM->Get('Kernel::System::DB')->Quote( $Value, 'Integer' );
     }
 
-    return " AND $Param{TableColumn} IN (" . ( join ',', @SortedIDs ) . ")";
+    # split IN statement with more than 900 elements in more statements combined with OR
+    # because Oracle doesn't support more than 1000 elements for one IN statement.
+    my @SQLStrings;
+    while ( scalar @SortedIDs ) {
+
+        # remove section in the array
+        my @SortedIDsPart = splice @SortedIDs, 0, 900;
+
+        # link together IDs
+        my $IDString = join ', ', @SortedIDsPart;
+
+        # add new statement
+        push @SQLStrings, " $Param{TableColumn} IN ($IDString) ";
+    }
+
+    my $SQL = '';
+    if (@SQLStrings) {
+
+        # combine statements
+        $SQL = join ' OR ', @SQLStrings;
+
+        # encapsulate conditions
+        $SQL = ' AND ( ' . $SQL . ' ) ';
+    }
+    return $SQL;
 }
 
 1;

@@ -1,6 +1,6 @@
 # --
 # Ticket/UnlockOnAway.t - automatic ticket unlocking test script
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,10 @@ $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
     UnlockOnAway   => 1,
 );
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1
+);
 
 $Self->Is(
     $Ticket{Lock},
@@ -121,7 +124,10 @@ $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
     UnlockOnAway   => 1,
 );
-%Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+%Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1
+);
 
 $Self->Is(
     $Ticket{Lock},

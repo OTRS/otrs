@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,8 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Time',
 );
+
+our $UseSlaveDB = 0;
 
 =head1 NAME
 
@@ -206,6 +208,10 @@ sub Connect {
         $Self->{dbh}->{pg_enable_utf8} = 1;
     }
 
+    if ( $Self->{SlaveDBObject} ) {
+        $Self->{SlaveDBObject}->Connect();
+    }
+
     return $Self->{dbh};
 }
 
@@ -232,6 +238,10 @@ sub Disconnect {
     # do disconnect
     if ( $Self->{dbh} ) {
         $Self->{dbh}->disconnect();
+    }
+
+    if ( $Self->{SlaveDBObject} ) {
+        $Self->{SlaveDBObject}->Disconnect();
     }
 
     return 1;
@@ -372,7 +382,10 @@ sub Do {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
 
@@ -425,16 +438,6 @@ sub Do {
         );
     }
 
-    # check length, don't use more than 4 k
-    if ( bytes::length( $Param{SQL} ) > 4 * 1024 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Caller   => 1,
-            Priority => 'notice',
-            Message  => 'Your SQL is longer than 4k, this does not work on many '
-                . 'databases. Use bind instead! SQL: ' . $Param{SQL},
-        );
-    }
-
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -446,6 +449,37 @@ sub Do {
     }
 
     return 1;
+}
+
+sub _InitSlaveDB {
+    my ( $Self, %Param ) = @_;
+
+    # Run only once!
+    return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
+
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $MasterDSN     = $ConfigObject->Get('DatabaseDSN');
+    my $SlaveDSN      = $ConfigObject->Get('Core::MirrorDB::DSN');
+    my $SlaveUser     = $ConfigObject->Get('Core::MirrorDB::User');
+    my $SlavePassword = $ConfigObject->Get('Core::MirrorDB::Password');
+
+    # If a slave is configured and it is not already used in the current object
+    #   and we are actually in the master connection object: then create a slave.
+    if (
+        $SlaveDSN
+        && $SlaveUser
+        && $SlavePassword
+        && $SlaveDSN ne $Self->{DSN}
+        && $MasterDSN eq $Self->{DSN}
+        )
+    {
+        $Self->{SlaveDBObject} = Kernel::System::DB->new(
+            DatabaseDSN  => $SlaveDSN,
+            DatabaseUser => $SlaveUser,
+            DatabasePw   => $SlavePassword,
+        );
+    }
+    return $Self->{SlaveDBObject};
 }
 
 =item Prepare()
@@ -494,9 +528,26 @@ sub Prepare {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
+
+    $Self->{_PreparedOnSlaveDB} = 0;
+
+    # Route SELECT statements to the DB slave if requested and a slave is configured.
+    if (
+        $UseSlaveDB
+        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
+        && $SQL =~ m{\A\s*SELECT}xms
+        )
+    {
+        $Self->{_PreparedOnSlaveDB} = 1;
+        return $Self->{SlaveDBObject}->Prepare(%Param);
+    }
+
     if ( defined $Param{Encode} ) {
         $Self->{Encode} = $Param{Encode};
     }
@@ -517,7 +568,7 @@ sub Prepare {
             $SQL .= " LIMIT $Limit";
         }
         elsif ( $Self->{Backend}->{'DB::Limit'} eq 'top' ) {
-            $SQL =~ s{ \A (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
+            $SQL =~ s{ \A \s* (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
         }
         else {
             $Self->{Limit} = $Limit;
@@ -615,6 +666,10 @@ to process the results of a SELECT statement
 
 sub FetchrowArray {
     my $Self = shift;
+
+    if ( $UseSlaveDB && $Self->{_PreparedOnSlaveDB} && $Self->_InitSlaveDB() ) {
+        return $Self->{SlaveDBObject}->FetchrowArray();
+    }
 
     # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
@@ -1046,8 +1101,10 @@ sub QueryCondition {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1226,7 +1283,7 @@ sub QueryCondition {
         }
 
         # if word exists, do something with it
-        if ($Word) {
+        if ( $Word ne '' ) {
 
             # remove escape characters from $Word
             $Word =~ s{\\}{}smxg;
@@ -1274,12 +1331,12 @@ sub QueryCondition {
                         $WordSQL = "'" . $WordSQL . "'";
                     }
 
-# check if database supports LIKE in large text types
-# the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
-# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-# so if the database dont support case sensitivity or the configuration of the customer database want to do this
-# then we prevent the LOWER() statements.
+        # check if database supports LIKE in large text types
+        # the first condition is a little bit opaque
+        # CaseSensitive of the database defines, if the database handles case sensitivity or not
+        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+        # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type $WordSQL";
                     }
@@ -1290,7 +1347,7 @@ sub QueryCondition {
                         $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'NOT LIKE' && !$BindMode ) {
+                    if ( $Type eq 'NOT LIKE' ) {
                         $SQLA .= " $LikeEscapeString";
                     }
 
@@ -1323,12 +1380,12 @@ sub QueryCondition {
                         $WordSQL = "'" . $WordSQL . "'";
                     }
 
-# check if database supports LIKE in large text types
-# the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
-# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-# so if the database dont support case sensitivity or the configuration of the customer database want to do this
-# then we prevent the LOWER() statements.
+        # check if database supports LIKE in large text types
+        # the first condition is a little bit opaque
+        # CaseSensitive of the database defines, if the database handles case sensitivity or not
+        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+        # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type $WordSQL";
                     }
@@ -1339,7 +1396,7 @@ sub QueryCondition {
                         $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'LIKE' && !$BindMode ) {
+                    if ( $Type eq 'LIKE' ) {
                         $SQLA .= " $LikeEscapeString";
                     }
 
@@ -1464,8 +1521,10 @@ sub QueryStringEscape {
     # check needed stuff
     for my $Key (qw(QueryString)) {
         if ( !defined $Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

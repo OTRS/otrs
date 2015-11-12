@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,15 +46,19 @@ sub Run {
     # check needed stuff
     for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }
@@ -300,8 +304,10 @@ sub _SendNotificationToRecipients {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Notification)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -463,6 +469,15 @@ sub _SendNotificationToRecipients {
             next RECIPIENT if $Recipient == 1;
             next RECIPIENT if $AgentUsed{$Recipient};
 
+            # skip users with out ro permissions
+            my $Permission = $TicketObject->TicketPermission(
+                Type     => 'ro',
+                TicketID => $Param{TicketID},
+                UserID   => $Recipient,
+            );
+
+            next RECIPIENT if !$Permission;
+
             $AgentUsed{$Recipient} = 1;
 
             my %User = $UserObject->GetUserData(
@@ -498,6 +513,15 @@ sub _SendNotificationToRecipients {
                 next GROUPMEMBER if $Recipient == 1;
                 next GROUPMEMBER if $AgentUsed{$Recipient};
 
+                # skip users with out ro permissions
+                my $Permission = $TicketObject->TicketPermission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Recipient,
+                );
+
+                next GROUPMEMBER if !$Permission;
+
                 $AgentUsed{$Recipient} = 1;
 
                 my %UserData = $UserObject->GetUserData(
@@ -531,6 +555,15 @@ sub _SendNotificationToRecipients {
 
                 next ROLEMEMBER if $Recipient == 1;
                 next ROLEMEMBER if $AgentUsed{$Recipient};
+
+                # skip users with out ro permissions
+                my $Permission = $TicketObject->TicketPermission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Recipient,
+                );
+
+                next ROLEMEMBER if !$Permission;
 
                 $AgentUsed{$Recipient} = 1;
 
@@ -630,20 +663,6 @@ sub _SendNotification {
     # get recipient data
     my %Recipient = %{ $Param{Recipient} };
 
-    # convert values to html to get correct line breaks etc.
-    if ( $Notification{Type} =~ m{text\/html} ) {
-
-        KEY:
-        for my $Key ( sort keys %Recipient ) {
-
-            next KEY if !$Recipient{$Key};
-
-            $Recipient{$Key} = $HTMLUtilsObject->ToHTML(
-                String => $Recipient{$Key},
-            );
-        }
-    }
-
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -720,7 +739,7 @@ sub _SendNotification {
 
         my $RealName = $CustomerUserObject->CustomerName(
             UserLogin => $Ticket{CustomerUserID}
-        ) || $Recipient{Realname};
+        ) || $Recipient{Realname} || '';
 
         $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_REALNAME${End}/$RealName/g;
     }
@@ -1004,7 +1023,7 @@ sub _SendNotification {
             # prepare subject (insert old subject)
             $Article{Subject} = $TicketObject->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             if ( $Notification{Body} =~ /${Start}$ArticleItem(SUBJECT)\[(.+?)\]${End}/ ) {

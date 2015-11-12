@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,7 +175,7 @@ sub PostValueSet {
         my $ValueLength = $FieldNameLength;
         if ( length($FieldName) > $FieldNameLength ) {
 
-# HistoryValue will be at least 55 chars or more, if is FieldName or HistoryOldValue less than 55 chars
+            # HistoryValue will be at least 55 chars or more, if is FieldName or HistoryOldValue less than 55 chars
             if ( length($HistoryValue) > $ValueLength ) {
                 $FieldNameLength = $FieldNameLength - 5;
                 $FieldName = substr( $FieldName, 0, $FieldNameLength );
@@ -185,8 +185,7 @@ sub PostValueSet {
                 $HistoryValue .= '[...]';
             }
             else {
-                $FieldNameLength
-                    = $NoCharacters - length($HistoryOldValue) - length($HistoryValue) - 5;
+                $FieldNameLength = $NoCharacters - length($HistoryOldValue) - length($HistoryValue) - 5;
                 $FieldName = substr( $FieldName, 0, $FieldNameLength );
                 $FieldName .= '[...]';
             }

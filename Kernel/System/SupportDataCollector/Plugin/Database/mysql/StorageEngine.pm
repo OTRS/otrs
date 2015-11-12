@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm - system data collector plugin
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@ sub Run {
             Identifier => 'TablesWithDifferentStorageEngine',
             Label      => 'Table Storage Engine',
             Value      => join( ', ', @TablesWithDifferentStorageEngine ),
-            Message => 'Tables with a different storage engine than the default engine were found.'
+            Message    => 'Tables with a different storage engine than the default engine were found.'
         );
     }
     else {

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,8 +68,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -83,7 +85,7 @@ sub NotificationGet {
             . ' notification_language, subject, text, content_type '
             . ' FROM notifications WHERE '
             . ' notification_type = ? AND notification_language = ?',
-        Bind => [ \$Type, \$Language, ],
+        Bind  => [ \$Type, \$Language, ],
         Limit => 1,
     );
 
@@ -102,8 +104,8 @@ sub NotificationGet {
         );
 
         # convert subject
-        $Data[3] = $EncodeObject->Convert(
-            Text  => $Data[3],
+        $Data[4] = $EncodeObject->Convert(
+            Text  => $Data[4],
             From  => $Data[2],
             To    => 'utf-8',
             Force => 1,
@@ -232,8 +234,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

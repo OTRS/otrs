@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminRegistration.pm - to register the OTRS system
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,10 @@ use warnings;
 use Kernel::System::Environment;
 use Kernel::System::Registration;
 use Kernel::System::SystemData;
+use Kernel::System::OTRSBusiness;
+use Kernel::System::PID;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,6 +36,8 @@ sub new {
     $Self->{EnvironmentObject}  = Kernel::System::Environment->new(%Param);
     $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
     $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
+    $Self->{OTRSBusinessObject} = Kernel::System::OTRSBusiness->new(%Param);
+    $Self->{PIDObject}          = Kernel::System::PID->new(%Param);
 
     $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
         Key => 'Registration::State',
@@ -55,10 +61,41 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # Scheduler not running screen
+    # ------------------------------------------------------------ #
+    if (
+        $Self->{Subaction} ne 'OTRSIDValidate'
+        && $Self->{RegistrationState} ne 'registered'
+        && !$Self->_SchedulerRunning()
+        )
+    {
+
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => \%Param,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SchedulerNotRunning',
+        );
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminRegistration',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # check OTRS ID
     # ------------------------------------------------------------ #
 
-    if ( $Self->{Subaction} eq 'CheckOTRSID' ) {
+    elsif ( $Self->{Subaction} eq 'CheckOTRSID' ) {
 
         my $OTRSID   = $Self->{ParamObject}->GetParam( Param => 'OTRSID' )   || '';
         my $Password = $Self->{ParamObject}->GetParam( Param => 'Password' ) || '';
@@ -104,8 +141,12 @@ sub Run {
             Data => \%Param,
         );
 
-        my $Block
-            = $Self->{RegistrationState} ne 'registered'
+        $Self->{LayoutObject}->Block(
+            Name => 'OTRSIDValidationForm',
+            Data => \%Param,
+        );
+
+        my $Block = $Self->{RegistrationState} ne 'registered'
             ? 'OTRSIDRegistration'
             : 'OTRSIDDeregistration';
 
@@ -134,18 +175,57 @@ sub Run {
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
-            Name => 'OTRSIDValidation',
-            Data => \%Param,
-        );
+        my $EntitlementStatus = 'forbidden';
+        if ( $Self->{RegistrationState} eq 'registered' ) {
 
-        my $Block
-            = $Self->{RegistrationState} ne 'registered'
-            ? 'OTRSIDRegistration'
-            : 'OTRSIDDeregistration';
-        $Self->{LayoutObject}->Block(
-            Name => $Block,
-        );
+            # Only call cloud service for a registered system
+            $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
+                CallCloudService => 1,
+            );
+        }
+
+        # users should not be able to de-register their system if they either have
+        # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
+        if (
+            $Self->{RegistrationState} eq 'registered'
+            && ( $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' )
+            )
+        {
+
+            $Self->{LayoutObject}->Block( Name => 'ActionList' );
+            $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSIDDeregistrationNotPossible',
+            );
+        }
+        else {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSIDValidation',
+                Data => \%Param,
+            );
+
+            # check if the scheduler is not running
+            if ( $Self->{RegistrationState} ne 'registered' && !$Self->_SchedulerRunning() ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OTRSIDValidationSchedulerNotRunning',
+                );
+            }
+            else {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OTRSIDValidationForm',
+                    Data => \%Param,
+                );
+            }
+
+            my $Block = $Self->{RegistrationState} ne 'registered' ? 'OTRSIDRegistration' : 'OTRSIDDeregistration';
+            $Self->{LayoutObject}->Block(
+                Name => $Block,
+            );
+        }
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminRegistration',
@@ -352,10 +432,9 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $RegistrationType = $Self->{ParamObject}->GetParam( Param => 'Type' );
-        my $Description      = $Self->{ParamObject}->GetParam( Param => 'Description' );
-        my $SupportDataSending
-            = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
+        my $RegistrationType   = $Self->{ParamObject}->GetParam( Param => 'Type' );
+        my $Description        = $Self->{ParamObject}->GetParam( Param => 'Description' );
+        my $SupportDataSending = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
 
         my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
             Type               => $RegistrationType,
@@ -394,6 +473,13 @@ sub Run {
         return $Self->{LayoutObject}->Redirect(
             OP => 'Action=Admin',
         );
+    }
+
+    # ------------------------------------------------------------ #
+    # sent data overview
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'SentDataOverview' ) {
+        return $Self->_SentDataOverview();
     }
 
     # ------------------------------------------------------------
@@ -450,12 +536,92 @@ sub _Overview {
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionUpdate' );
+    $Self->{LayoutObject}->Block( Name => 'ActionSentDataOverview' );
     $Self->{LayoutObject}->Block( Name => 'ActionDeregister' );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewRegistered',
         Data => \%Param,
     );
+
+    return 1;
+}
+
+sub _SentDataOverview {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+    my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+
+    $Self->{LayoutObject}->Block(
+        Name => 'SentDataOverview',
+    );
+
+    if ( $Self->{RegistrationState} ne 'registered' ) {
+        $Self->{LayoutObject}->Block( Name => 'SentDataOverviewNoData' );
+    }
+    else {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
+        my %System       = (
+            PerlVersion     => sprintf( "%vd", $^V ),
+            OSType          => $OSInfo{OS},
+            OSVersion       => $OSInfo{OSName},
+            OTRSVersion     => $ConfigObject->Get('Version'),
+            FQDN            => $ConfigObject->Get('FQDN'),
+            DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
+            SupportDataSending => $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No',
+        );
+        my $RegistrationUpdateDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( \%System );
+
+        my $SupportDataDump;
+        if ( $System{SupportDataSending} eq 'Yes' ) {
+            my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
+            $SupportDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( $SupportData{Result} );
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SentDataOverviewData',
+            Data => {
+                RegistrationUpdate => $RegistrationUpdateDataDump,
+                SupportData        => $SupportDataDump,
+            },
+        );
+    }
+
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminRegistration',
+        Data         => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+
+    return $Output;
+}
+
+sub _SchedulerRunning {
+    my ( $Self, %Param ) = @_;
+
+    # try to get scheduler PID
+    my %PID = $Self->{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 600;
+
+    # check if scheduler process is registered in the DB and if the update was not too long ago
+    if ( !%PID || ( time() - $PID{Changed} > 4 * $PIDUpdateTime ) ) {
+        return;
+    }
 
     return 1;
 }

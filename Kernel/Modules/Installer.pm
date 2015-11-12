@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,7 +109,9 @@ sub Run {
     if ( $Self->{Subaction} ne 'CheckRequirements' ) {
         $Self->{LayoutObject}->Block(
             Name => 'Steps',
-            Data => { Steps => scalar @Steps, },
+            Data => {
+                Steps => scalar @Steps,
+            },
         );
 
         # mapping of subactions to steps
@@ -314,13 +316,11 @@ sub Run {
         my $GeneratedPassword = $Self->{MainObject}->GenerateRandomString();
 
         if ( $DBType eq 'mysql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}->Translate(
                 'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Translate('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -361,12 +361,10 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'mssql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}
                 ->Get('Enter the password for the administrative database user.')
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -409,12 +407,10 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'postgresql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}
                 ->Get('Enter the password for the administrative database user.')
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -583,9 +579,8 @@ sub Run {
             }
 
             # set DSN for Config.pm
-            $DB{ConfigDSN}
-                = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost}';
-            $DB{DSN} = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost}';
+            $DB{DSN}       = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
@@ -597,15 +592,14 @@ sub Run {
             }
 
             # set DSN for Config.pm
-            $DB{ConfigDSN}
-                = 'DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}';
-            $DB{DSN} = "DBI:Pg:dbname=$DB{DBName};host=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}';
+            $DB{DSN}       = "DBI:Pg:dbname=$DB{DBName};host=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'oracle' ) {
 
             # set DSN for Config.pm
-            $DB{ConfigDSN} = 'DBI:Oracle://$Self->{DatabaseHost}:' . $DB{DBPort} . '/' . $DB{DBSID};
-            $DB{DSN}       = "DBI:Oracle://$Self->{DBHost}:$DB{DBPort}/$Self->{DBSID}";
+            $DB{ConfigDSN} = 'DBI:Oracle://$Self->{DatabaseHost}:' . $DB{DBPort} . '/$Self->{Database}';
+            $DB{DSN}       = "DBI:Oracle://$DB{DBHost}:$DB{DBPort}/$DB{DBSID}";
             $Self->{ConfigObject}->Set(
                 Key   => 'Database::Connect',
                 Value => "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'",
@@ -632,7 +626,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -654,13 +650,25 @@ sub Run {
         }
 
         # ReConfigure Config.pm
-        my $ReConfigure = $Self->ReConfigure(
-            DatabaseDSN  => $DB{ConfigDSN},
-            DatabaseHost => $DB{DBHost},
-            Database     => $DB{DBName},
-            DatabaseUser => $DB{OTRSDBUser},
-            DatabasePw   => $DB{OTRSDBPassword},
-        );
+        my $ReConfigure;
+        if ( $DB{DBType} eq 'oracle' ) {
+            $ReConfigure = $Self->ReConfigure(
+                DatabaseDSN  => $DB{ConfigDSN},
+                DatabaseHost => $DB{DBHost},
+                Database     => $DB{DBSID},
+                DatabaseUser => $DB{OTRSDBUser},
+                DatabasePw   => $DB{OTRSDBPassword},
+            );
+        }
+        else {
+            $ReConfigure = $Self->ReConfigure(
+                DatabaseDSN  => $DB{ConfigDSN},
+                DatabaseHost => $DB{DBHost},
+                Database     => $DB{DBName},
+                DatabaseUser => $DB{OTRSDBUser},
+                DatabasePw   => $DB{OTRSDBPassword},
+            );
+        }
 
         if ($ReConfigure) {
             my $Output =
@@ -1090,8 +1098,8 @@ sub ReConfigure {
             # replace config with %Param
             for my $Key ( sort keys %Param ) {
 
-             # database passwords can contain characters like '@' or '$' and should be single-quoted
-             # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
+                # database passwords can contain characters like '@' or '$' and should be single-quoted
+                # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
                         s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
@@ -1174,7 +1182,7 @@ sub ConnectToDB {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};dbname=$Param{DBName}";
     }
     elsif ( $Param{DBType} eq 'oracle' ) {
-        $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
+        $Param{DSN} = "DBI:Oracle://$Param{DBHost}:$Param{DBPort}/$Param{DBSID}";
     }
 
     # extract driver to load for install test
@@ -1235,6 +1243,47 @@ sub CheckDBRequirements {
         %Param,
     );
 
+    # if mysql, check some more values
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+
+        # max_allowed_packed
+        my $MySQLMaxAllowedPacket            = 0;
+        my $MySQLMaxAllowedPacketRecommended = 20;
+
+        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
+        $MySQLMaxAllowedPacket = $Data->[0]->[1] / 1024 / 1024;
+
+        if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.",
+                $MySQLMaxAllowedPacketRecommended, $MySQLMaxAllowedPacket
+            );
+        }
+    }
+
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+
+        # innodb_log_file_size
+        my $MySQLInnoDBLogFileSize            = 0;
+        my $MySQLInnoDBLogFileSizeMinimum     = 256;
+        my $MySQLInnoDBLogFileSizeRecommended = 512;
+
+        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'innodb_log_file_size'");
+        $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;
+
+        if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.",
+                $MySQLInnoDBLogFileSizeMinimum,
+                $MySQLInnoDBLogFileSize,
+                $MySQLInnoDBLogFileSizeRecommended,
+                'http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html',
+            );
+        }
+    }
+
     # delete not necessary key/value pairs
     delete $Result{DB};
     delete $Result{DBH};
@@ -1293,7 +1342,10 @@ sub CheckMailConfiguration {
 
     # if config option smtp and no smtp host given, return with error
     if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
-        return ( Successful => 0, Message => 'No SMTP Host given!' );
+        return (
+            Successful => 0,
+            Message    => 'No SMTP Host given!'
+        );
     }
 
     # check outbound mail configuration
@@ -1363,7 +1415,10 @@ sub CheckMailConfiguration {
 
     for (qw(InboundUser InboundPassword InboundHost)) {
         if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
-            return ( Successful => 0, Message => "Missing parameter: $_!" );
+            return (
+                Successful => 0,
+                Message    => "Missing parameter: $_!"
+            );
         }
     }
 

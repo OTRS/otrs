@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,8 +39,20 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewPreview")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewPreview")->{DynamicField};
+
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    # set stored filters if present
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    if ( $Preferences{$StoredFiltersKey} ) {
+        my $StoredFilters = $Self->{JSONObject}->Decode(
+            Data => $Preferences{$StoredFiltersKey},
+        );
+        $Self->{StoredFilters} = $StoredFilters;
+    }
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -146,9 +158,9 @@ sub ActionRow {
                 $Self->{LayoutObject}->Block(
                     Name => $Item->{Block},
                     Data => {
-                        ID   => $Item->{ID},
-                        Name => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
-                        Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        ID          => $Item->{ID},
+                        Name        => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
+                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,
@@ -192,7 +204,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -302,7 +317,10 @@ sub _Show {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -320,16 +338,14 @@ sub _Show {
         UserID        => $Self->{UserID},
         DynamicFields => 0,
         Order         => 'DESC',
-        Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleLimit') || 5,
+        Limit         => $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleLimit') || 5,
     );
 
     # check if certain article sender types should be excluded from preview
-    my $PreviewArticleSenderTypes
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
+    my $PreviewArticleSenderTypes = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
     my @ActiveArticleSenderTypes;
     if ( ref $PreviewArticleSenderTypes eq 'HASH' ) {
-        @ActiveArticleSenderTypes
-            = grep { $PreviewArticleSenderTypes->{$_} == 1 } keys %{$PreviewArticleSenderTypes};
+        @ActiveArticleSenderTypes = grep { $PreviewArticleSenderTypes->{$_} == 1 } keys %{$PreviewArticleSenderTypes};
     }
 
     # if a list of active article sender types has been determined, add them to params hash
@@ -367,7 +383,10 @@ sub _Show {
     %Article = ( %UserInfo, %Article );
 
     # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    );
 
     # fetch all std. templates ...
     my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
@@ -399,8 +418,7 @@ sub _Show {
         my %Actions = %{ $Self->{ConfigObject}->Get('Frontend::Module') };
 
         # only use those Actions that stats with AgentTicket
-        %PossibleActions
-            = map { ++$Counter => $_ }
+        %PossibleActions = map { ++$Counter => $_ }
             grep { substr( $_, 0, length 'AgentTicket' ) eq 'AgentTicket' }
             sort keys %Actions;
     }
@@ -430,7 +448,10 @@ sub _Show {
             if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+            my $Object = $Menus{$Menu}->{Module}->new(
+                %{$Self},
+                TicketID => $Param{TicketID},
+            );
 
             # run module
             my $Item = $Object->Run(
@@ -503,7 +524,7 @@ sub _Show {
             %Article,
             Class             => 'ArticleCount' . $ArticleCount,
             AdditionalClasses => $AdditionalClasses,
-            Created           => $Ticket{Created},              # use value from ticket, not article
+            Created           => $Ticket{Created},                 # use value from ticket, not article
         },
     );
 
@@ -598,7 +619,10 @@ sub _Show {
                 );
 
                 # run module
-                my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                my @Data = $Object->Check(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
 
                 for my $DataRef (@Data) {
                     if ( $DataRef->{Successful} ) {
@@ -615,7 +639,10 @@ sub _Show {
                 }
 
                 # filter option
-                $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                $Object->Filter(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
             }
         }
     }
@@ -1009,7 +1036,7 @@ sub _Show {
 
         $ArticleItem->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $ArticleItem->{TicketNumber},
-            Subject => $ArticleItem->{Subject} || '',
+            Subject      => $ArticleItem->{Subject} || '',
         );
 
         $Self->{LayoutObject}->Block(
@@ -1078,10 +1105,10 @@ sub _Show {
                         %StandardResponses = %{ $StandardTemplates{Answer} };
                     }
 
-              # get StandardResponsesStrg
-              # get revers StandardResponse because we need to sort by Values
-              # from %ReverseStandardResponseHash we get value of Key by %StandardResponse Value
-              # and @StandardResponseArray is created as array of hashes with elements Key and Value
+                    # get StandardResponsesStrg
+                    # get revers StandardResponse because we need to sort by Values
+                    # from %ReverseStandardResponseHash we get value of Key by %StandardResponse Value
+                    # and @StandardResponseArray is created as array of hashes with elements Key and Value
 
                     my %ReverseStandardResponseHash = reverse %StandardResponses;
                     my @StandardResponseArray       = map {
@@ -1158,8 +1185,7 @@ sub _Show {
                             {
                                 Key   => '0',
                                 Value => '- '
-                                    . $Self->{LayoutObject}->{LanguageObject}
-                                    ->Translate('Reply All')
+                                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Reply All')
                                     . ' -',
                                 Selected => 1,
                             }

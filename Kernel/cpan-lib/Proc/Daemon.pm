@@ -4,10 +4,11 @@
 ##  Authors:
 ##      Earl Hood         earl@earlhood.com
 ##      Detlef Pilzecker  deti@cpan.org
+##      Pavel Denisov     akreal@cpan.org
 ##  Description:
-##      Run Perl program(s) as a daemon process, see docu in the Daemon.pod file
+##      Run Perl program(s) as a daemon process, see docs in the Daemon.pod file
 ################################################################################
-##  Copyright (C) 1997-2011 by Earl Hood and Detlef Pilzecker.
+##  Copyright (C) 1997-2015 by Earl Hood, Detlef Pilzecker and Pavel Denisov.
 ##
 ##  All rights reserved.
 ##
@@ -21,7 +22,7 @@ package Proc::Daemon;
 use strict;
 use POSIX();
 
-$Proc::Daemon::VERSION = '0.14';
+$Proc::Daemon::VERSION = '0.21';
 
 
 ################################################################################
@@ -30,6 +31,7 @@ $Proc::Daemon::VERSION = '0.14';
 #
 #   %Daemon_Settings are hash key=>values and can be:
 #     work_dir     => '/working/daemon/directory'   -> defaults to '/'
+#     setgid       => 12345                         -> defaults to <undef>
 #     setuid       => 12345                         -> defaults to <undef>
 #     child_STDIN  => '/path/to/daemon/STDIN.file'  -> defautls to '</dev/null'
 #     child_STDOUT => '/path/to/daemon/STDOUT.file' -> defaults to '+>/dev/null'
@@ -40,6 +42,7 @@ $Proc::Daemon::VERSION = '0.14';
 #       descriptors you do not want to be closed in the daemon.
 #     pid_file =>     '/path/to/pid/file.txt'       -> defaults to
 #       undef (= write no file).
+#     file_umask   => 022                           -> defaults to 066
 #     exec_command => 'perl /home/script.pl'        -> execute a system command
 #       via Perls *exec PROGRAM* at the end of the Init routine and never return.
 #       Must be an arrayref if you want to create several daemons at once.
@@ -151,8 +154,9 @@ sub Init {
             # Set the new working directory.
             die "Can't <chdir> to $self->{work_dir}: $!" unless chdir $self->{work_dir};
 
-            # Clear the file creation mask.
-            umask 0;
+            # Set the file creation mask.
+            $self->{_orig_umask} = umask;
+            umask($self->{file_umask});
 
             # Detach the child from the terminal (no controlling tty), make it the
             # session-leader and the process-group-leader of a new process group.
@@ -226,6 +230,12 @@ sub Init {
                     }
                 }
 
+                # Sets the real group identifier and the effective group
+                # identifier for the daemon process before opening files.
+                # Must set group first because you cannot change group
+                # once you have changed user
+                POSIX::setgid( $self->{setgid} ) if defined $self->{setgid};
+
                 # Sets the real user identifier and the effective user
                 # identifier for the daemon process before opening files.
                 POSIX::setuid( $self->{setuid} ) if defined $self->{setuid};
@@ -253,10 +263,12 @@ sub Init {
                     # potential damage later.
                 }
 
+                # Restore the original file creation mask.
+                umask $self->{_orig_umask};
 
                 # Execute a system command and never return.
                 if ( $exec_command ) {
-                    exec $exec_command;
+                    exec ($exec_command) or die "couldn't exec $exec_command: $!";
                     exit; # Not a real exit, but needed since Perl warns you if
                     # there is no statement like <die>, <warn>, or <exit>
                     # following <exec>. The <exec> function executes a system
@@ -294,7 +306,7 @@ sub Init {
             # will be adopted by init(8), which automatically performs a <wait>
             # to remove the zombie when the child exits.
 
-            exit;
+            POSIX::_exit(0);
         }
 
 
@@ -319,6 +331,7 @@ sub Init {
     if ( $FH_MEMORY ) {
         seek( $FH_MEMORY, 0, 0 );
         @pid = map { chomp $_; $_ eq '' ? undef : $_ } <$FH_MEMORY>;
+        $_ = (/^(\d+)$/)[0] foreach @pid; # untaint
         close $FH_MEMORY;
     }
     elsif ( $self->{memory}{pid_file} ) {
@@ -359,6 +372,8 @@ sub adjust_settings {
 
         $self->fix_filename( 'pid_file' );
     }
+
+    $self->{file_umask} ||= 066;
 
     return;
 }
@@ -546,8 +561,8 @@ sub get_pid {
 
     if ( $string ) {
         # $string is already a PID.
-        if ( $string =~ /^\d+$/ ) {
-            $pid = $string;
+        if ( $string =~ /^(\d+)$/ ) {
+            $pid = $1; # untaint
         }
         # Open the pidfile and get the PID from it.
         elsif ( open( my $FH_MEMORY, "<", $string ) ) {
@@ -555,6 +570,7 @@ sub get_pid {
             close $FH_MEMORY;
 
             die "I found no valid PID ('$pid') in the pidfile: '$string'" if $pid =~ /\D/s;
+            $pid = ($pid =~ /^(\d+)$/)[0]; # untaint
 
             $pidfile = $string;
         }
@@ -572,8 +588,12 @@ sub get_pid {
             $pid = <$FH_MEMORY>;
             close $FH_MEMORY;
 
-            if ( ! $pid || ( $pid && $pid =~ /\D/s ) ) { $pid = undef }
-            else { $pidfile = $self->{pid_file} }
+            if ($pid && $pid =~ /^(\d+)$/) {
+                $pid = $1; # untaint
+                $pidfile = $self->{pid_file};
+            } else {
+                $pid = undef;
+            }
         }
 
         # Try to get the PID out of the system process
@@ -621,7 +641,7 @@ sub get_pid_by_proc_table_attr {
 
         foreach ( @$table ) {
             # fix for Proc::ProcessTable: under some conditions $_->cmndline
-            # retruns with space and/or other characters at the end
+            # returns with space and/or other characters at the end
             next unless $_->$command =~ /^$match\s*$/;
             $pid = $_->pid;
             last;

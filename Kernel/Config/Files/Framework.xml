@@ -144,15 +144,16 @@
                 <Item Key="et">Eesti</Item>
                 <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
                 <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
+                <Item Key="fi">Suomi</Item>
                 <Item Key="fr">Fran&amp;ccedil;ais</Item>
                 <Item Key="fr_CA">Fran&amp;ccedil;ais (Canada)</Item>
-                <Item Key="fi">Suomi</Item>
+                <Item Key="gl">Galego</Item>
                 <Item Key="he">Hebrew (עִבְרִית)</Item>
                 <Item Key="hi">Hindi</Item>
                 <Item Key="hr">Hrvatski</Item>
                 <Item Key="hu">Magyar</Item>
                 <Item Key="it">Italiano</Item>
-                <Item Key="ja">Japanese (&amp;#x65e5;&amp;#x672c;&amp;#x8a9e)</Item>
+                <Item Key="ja">Japanese (&amp;#x65e5;&amp;#x672c;&amp;#x8a9e;)</Item>
                 <Item Key="lt">Lietuvi&#371; kalba</Item>
                 <Item Key="lv">Latvijas</Item>
                 <Item Key="ms">Malay</Item>
@@ -167,6 +168,7 @@
                 <Item Key="sr_Cyrl">Serbian Cyrillic (&#1089;&#1088;&#1087;&#1089;&#1082;&#1080;)</Item>
                 <Item Key="sk_SK">Slovak (Sloven&amp;#x010d;ina)</Item>
                 <Item Key="sv">Svenska</Item>
+                <Item Key="sw">Swahili</Item>
                 <Item Key="tr">T&amp;uuml;rk&amp;ccedil;e</Item>
                 <Item Key="uk">Ukrainian (&amp;#x0423;&amp;#x043a;&amp;#x0440;&amp;#x0430;&amp;#x0457;&amp;#x043d;&amp;#x0441;&amp;#x044c;&amp;#x043a;&amp;#x0430;)</Item>
                 <Item Key="vi_VN">Vietnam (Vi&amp;#x0246;t Nam)</Item>
@@ -345,7 +347,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.4.5/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.4.8/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -737,6 +739,27 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::HeaderMetaRefresh</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###100-OTRSBusiness" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOTRSBusiness</Item>
+                <Item Key="Group">admin</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::NotifyModule###1-OTRSBusiness" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOTRSBusiness</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2886,6 +2909,17 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="WebUserAgent::DisableSSLVerification" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::WebUserAgent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Package::FileUpload" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables file upload in the package manager frontend.</Description>
         <Group>Framework</Group>
@@ -5003,6 +5037,29 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminOTRSBusiness" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>OTRS Business Solution™</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>OTRS Business Solution™</Name>
+                    <Description Translatable="1">Deploy and manage OTRS Business Solution™.</Description>
+                    <Block>System</Block>
+                    <Prio>360</Prio>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.OTRSBusiness.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminServiceCenter" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -5018,7 +5075,7 @@ via the Preferences button after logging in.
                     <Name Translatable="1">Service Center</Name>
                     <Description Translatable="1">Manage OTRS Group services.</Description>
                     <Block>System</Block>
-                    <Prio>351</Prio>
+                    <Prio>370</Prio>
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.ServiceCenter.css</CSS>
@@ -5800,8 +5857,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
-                <Item Key="Title">Product News</Item>
-                <Item Key="Description">News about OTRS releases!</Item>
+                <Item Key="Title" Translatable="1">Product News</Item>
+                <Item Key="Description" Translatable="1">News about OTRS releases!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
@@ -5835,7 +5892,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardUserOnline</Item>
-                <Item Key="Title">Online</Item>
+                <Item Key="Title" Translatable="1">Online</Item>
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
                 <Item Key="IdleMinutes">60</Item>
@@ -5849,15 +5906,38 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0410-RSS" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0405-News" Required="0" Valid="1">
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardNews</Item>
+                <Item Key="Title" Translatable="1">OTRS News</Item>
+                <Item Key="Description"></Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Limit">6</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">360</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0410-RSS" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardRSS</Item>
-                <Item Key="Title">OTRS News</Item>
+                <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description"></Item>
+                <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
+                <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
+                <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
+                <Item Key="URL_nl">http://www.otrs.com/nl/rss.xml</Item>
+                <Item Key="URL_ru">http://www.otrs.com/ru/rss.xml</Item>
+                <Item Key="URL_zh">http://www.otrs.com/cn/rss.xml</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
@@ -5873,7 +5953,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardCmdOutput</Item>
-                <Item Key="Title">Sample command output</Item>
+                <Item Key="Title" Translatable="1">Sample command output</Item>
                 <Item Key="Description"></Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Group"></Item>
@@ -5890,8 +5970,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardImage</Item>
-                <Item Key="Title">A picture</Item>
-                <Item Key="Description">Some picture description!</Item>
+                <Item Key="Title" Translatable="1">A picture</Item>
+                <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.com/uploads/pics/jointhecommunity_02.jpg</Item>
                 <Item Key="Group"></Item>
@@ -5924,8 +6004,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardIFrame</Item>
-                <Item Key="Title">A Website</Item>
-                <Item Key="Description">Some description!</Item>
+                <Item Key="Title" Translatable="1">A Website</Item>
+                <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.org/</Item>
                 <Item Key="Group"></Item>
@@ -6270,8 +6350,8 @@ via the Preferences button after logging in.
                 <Item>Core.Config.js</Item>
                 <Item>Core.Exception.js</Item>
                 <Item>Core.JSON.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
@@ -6353,8 +6433,8 @@ via the Preferences button after logging in.
                 <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.Accessibility.js</Item>
                 <Item>Core.UI.Dialog.js</Item>
@@ -6480,14 +6560,14 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Customer::Skin###000-default" Required="0" Valid="1">
-        <Description Translatable="1">Default skin for OTRS 3.0 interface.</Description>
+        <Description Translatable="1">Default skin for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin for OTRS 3.0.</Item>
+                <Item Key="Description">This is the default orange - black skin for the customer interface.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6526,6 +6606,17 @@ via the Preferences button after logging in.
         <Description Translatable="1">Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::AdminCustomerUser</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+     <ConfigItem Name="AdminCustomerCompany::RunInitialWildcardSearch" Required="1" Valid="1">
+        <Description Translatable="1">Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::AdminCustomerCompany</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -6730,6 +6821,17 @@ via the Preferences button after logging in.
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
             <String Regex="">A maintenance period is running, get into the system is not possible for now.</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="0" Valid="0" ConfigLevel="100">
+        <Description Translatable="1">Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::OTRSBusiness</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Development</Item>
+                <Item Key="1">Stable</Item>
+            </Option>
         </Setting>
     </ConfigItem>
 </otrs_config>

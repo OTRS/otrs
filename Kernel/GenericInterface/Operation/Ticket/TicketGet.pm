@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -278,6 +278,24 @@ sub Run {
             ErrorMessage => "TicketGet: Structure for TicketID is not correct!",
         );
     }
+
+    TICKET:
+    for my $TicketID (@TicketIDs) {
+
+        my $Access = $Self->CheckAccessPermissions(
+            TicketID => $TicketID,
+            UserID   => $UserID,
+            UserType => $UserType,
+        );
+
+        next TICKET if $Access;
+
+        return $Self->ReturnError(
+            ErrorCode    => 'TicketGet.AccessDenied',
+            ErrorMessage => 'TicketGet: User does not have access to the ticket!',
+        );
+    }
+
     my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
     my $Extended          = $Param{Data}->{Extended}          || 0;
     my $AllArticles       = $Param{Data}->{AllArticles}       || 0;
@@ -376,7 +394,9 @@ sub Run {
         }    # finish article loop
 
         # set Ticket entry data
-        $TicketBundle->{Article} = \@ArticleBox;
+        if (@ArticleBox) {
+            $TicketBundle->{Article} = \@ArticleBox;
+        }
 
         # add
         push @Item, $TicketBundle;

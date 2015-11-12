@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,8 @@ use Kernel::System::PDF;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,8 +48,7 @@ sub new {
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketZoom");
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketPrint")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketPrint")->{DynamicField};
 
     return $Self;
 }
@@ -109,7 +110,10 @@ sub Run {
     }
 
     # do some html quoting
-    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' );
+    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Ticket{Age},
+        Space => ' '
+    );
     if ( $Ticket{UntilTime} ) {
         $Ticket{PendingUntil} = $Self->{LayoutObject}->CustomerAge(
             Age   => $Ticket{UntilTime},
@@ -139,14 +143,13 @@ sub Run {
             $Title .= ' / ' . $Ticket{Title};
         }
 
-        $Page{MarginTop}    = 30;
-        $Page{MarginRight}  = 40;
-        $Page{MarginBottom} = 40;
-        $Page{MarginLeft}   = 40;
-        $Page{HeaderRight}  = $HeaderRight;
-        $Page{HeadlineLeft} = $HeadlineLeft;
-        $Page{HeadlineRight}
-            = $PrintedBy . ' '
+        $Page{MarginTop}     = 30;
+        $Page{MarginRight}   = 40;
+        $Page{MarginBottom}  = 40;
+        $Page{MarginLeft}    = 40;
+        $Page{HeaderRight}   = $HeaderRight;
+        $Page{HeadlineLeft}  = $HeadlineLeft;
+        $Page{HeadlineRight} = $PrintedBy . ' '
             . $Self->{UserFirstname} . ' '
             . $Self->{UserLastname} . ' ('
             . $Self->{UserEmail} . ') '
@@ -163,7 +166,8 @@ sub Run {
 
         # create first pdf page
         $Self->{PDFObject}->PageNew(
-            %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+            %Page,
+            FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
         );
         $Page{PageCount}++;
 
@@ -229,7 +233,7 @@ sub Run {
             Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
             ContentType => "application/pdf",
             Content     => $PDFString,
-            Type        => 'attachment',
+            Type        => 'inline',
         );
     }
 
@@ -270,7 +274,10 @@ sub _PDFOutputTicketInfos {
     # check needed stuff
     for my $Needed (qw(PageData TicketData)) {
         if ( !defined( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -322,7 +329,7 @@ sub _PDFOutputTicketInfos {
         )
     {
         my $RowService = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Translate('Service') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Service') . ':',
             Value => $Ticket{Service} || '-',
         };
         push( @{$TableLeft}, $RowService );
@@ -332,7 +339,7 @@ sub _PDFOutputTicketInfos {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{AttributesView}->{SLA} )
     {
         my $RowSLA = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Translate('SLA') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('SLA') . ':',
             Value => $Ticket{SLA} || '-',
         };
         push( @{$TableLeft}, $RowSLA );
@@ -403,7 +410,8 @@ sub _PDFOutputTicketInfos {
         }
         else {
             $Self->{PDFObject}->PageNew(
-                %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                %Page,
+                FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
             );
             $Page{PageCount}++;
         }
@@ -417,7 +425,10 @@ sub _PDFOutputTicketDynamicFields {
     # check needed stuff
     for my $Needed (qw(PageData TicketData)) {
         if ( !defined( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -523,7 +534,8 @@ sub _PDFOutputTicketDynamicFields {
             }
             else {
                 $Self->{PDFObject}->PageNew(
-                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
                 );
                 $Page{PageCount}++;
             }
@@ -538,7 +550,10 @@ sub _PDFOutputCustomerInfos {
     # check needed stuff
     for my $Needed (qw(PageData CustomerData)) {
         if ( !defined( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -616,7 +631,8 @@ sub _PDFOutputCustomerInfos {
             }
             else {
                 $Self->{PDFObject}->PageNew(
-                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
                 );
                 $Page{PageCount}++;
             }
@@ -631,7 +647,10 @@ sub _PDFOutputArticles {
     # check needed stuff
     for my $Needed (qw(PageData ArticleData)) {
         if ( !defined( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -706,11 +725,9 @@ sub _PDFOutputArticles {
                 $Row++;
             }
         }
-        $TableParam1{CellData}[$Row][0]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Translate('Created') . ':';
-        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+        $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Translate('Created') . ':';
+        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+        $TableParam1{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
             $Article{Created},
             'DateFormat',
             ),
@@ -763,9 +780,8 @@ sub _PDFOutputArticles {
             $Row++;
         }
 
-        $TableParam1{CellData}[$Row][0]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Translate('Type') . ':';
-        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
+        $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Translate('Type') . ':';
+        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Translate( $Article{ArticleType} );
         $Row++;
@@ -807,7 +823,8 @@ sub _PDFOutputArticles {
             }
             else {
                 $Self->{PDFObject}->PageNew(
-                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
                 );
                 $Page{PageCount}++;
             }
@@ -861,7 +878,8 @@ sub _PDFOutputArticles {
             }
             else {
                 $Self->{PDFObject}->PageNew(
-                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
                 );
                 $Page{PageCount}++;
             }
@@ -1054,7 +1072,8 @@ sub _HTMLMask {
 
             # check if just a only html email
             my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-                %Param, %Article, Action => 'AgentTicketZoom',
+                %Param, %Article,
+                Action => 'AgentTicketZoom',
             );
             if ($MimeTypeText) {
                 $Param{TextNote} = $MimeTypeText;

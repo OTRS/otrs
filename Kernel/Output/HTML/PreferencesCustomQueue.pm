@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,12 +51,11 @@ sub Param {
     if ( $Param{UserData}->{UserID} ) {
         %QueueData = $QueueObject->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
-            Type => $Self->{ConfigItem}->{Permission} || 'ro',
+            Type   => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
     if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' ) ) {
-        @CustomQueueIDs
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
+        @CustomQueueIDs = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
         @CustomQueueIDs = $QueueObject->GetAllCustomQueues(

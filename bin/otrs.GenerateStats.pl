@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -62,7 +62,7 @@ GetOptions(
 
 if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Excel|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print
@@ -103,10 +103,12 @@ if ( !$Opts{m} && $Opts{r} ) {
 }
 
 # language
-my $Lang = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
-if ( $Opts{l} ) {
-    $Lang = $Opts{l};
-}
+my $UserLanguage = $Opts{l} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Language' => {
+        UserLanguage => $UserLanguage,
+    },
+);
 
 # format
 $Opts{f} //= 'CSV';
@@ -154,17 +156,23 @@ if ( $Stat->{StatType} eq 'static' ) {
     my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
-            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
+            );
             if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } =
-                    GetParam( Param => $ParamItem->{Name}, );
+                    GetParam(
+                    Param => $ParamItem->{Name},
+                    );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray( Param => $ParamItem->{Name}, );
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
@@ -181,9 +189,10 @@ elsif ( $Stat->{StatType} eq 'dynamic' ) {
 # run stat...
 my @StatArray = @{
     $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-        StatID   => $StatID,
-        GetParam => \%GetParam,
-        )
+        StatID       => $StatID,
+        GetParam     => \%GetParam,
+        UserLanguage => $UserLanguage,
+    );
 };
 
 # generate output
@@ -290,7 +299,8 @@ if ( $Format eq 'Print' && $Kernel::OM->Get('Kernel::System::PDF') ) {
         # if first page
         if ( $Counter == 1 ) {
             $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . $Counter,
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
             );
         }
 

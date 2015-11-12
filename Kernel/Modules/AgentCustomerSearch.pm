@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,9 +75,15 @@ sub Run {
             )
         {
 
+            my $CustomerValue = $CustomerUserList{$CustomerUserID};
+
+            # replace new lines with one space (see bug#11133)
+            $CustomerValue =~ s/\n/ /gs;
+            $CustomerValue =~ s/\r/ /gs;
+
             push @Data, {
                 CustomerKey   => $CustomerUserID,
-                CustomerValue => $CustomerUserList{$CustomerUserID},
+                CustomerValue => $CustomerValue,
             };
 
             $MaxResultCount--;
@@ -188,7 +194,7 @@ sub Run {
                 Total      => scalar @ViewableTickets,
                 Env        => $Self,
                 View       => $View,
-                TitleName  => 'Customer history',
+                TitleName  => 'Customer History',
                 LinkPage   => $LinkPage,
                 LinkSort   => $LinkSort,
                 LinkFilter => $LinkFilter,

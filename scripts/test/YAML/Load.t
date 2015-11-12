@@ -1,6 +1,6 @@
 # --
 # YAML/Load.t - YAML module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ my @Tests = (
         Name   => 'YAML - simple',
     },
     {
-        Input => [ 1, 2, "3", "Foo", 5 ],
+        Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => "---\n- 1\n- 2\n- '3'\n- Foo\n- 5\n",
         Name   => 'YAML - simple',
     },
@@ -122,7 +122,7 @@ for my $Test (@Tests) {
         Name      => 'YAML - simple'
     },
     {
-        Result => [ 1, 2, "3", "Foo", 5 ],
+        Result    => [ 1, 2, "3", "Foo", 5 ],
         InputLoad => "---\n- 1\n- 2\n- '3'\n- Foo\n- 5\n",
         Name      => 'YAML - simple'
     },

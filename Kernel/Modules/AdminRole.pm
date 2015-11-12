@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,11 +39,12 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID
-            = $Self->{ParamObject}->GetParam( Param => 'ID' )
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' )
             || $Self->{ParamObject}->GetParam( Param => 'RoleID' )
             || '';
-        my %Data = $Self->{GroupObject}->RoleGet( ID => $ID, );
+        my %Data = $Self->{GroupObject}->RoleGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -288,7 +289,9 @@ sub _Overview {
         Data => {},
     );
 
-    my %List = $Self->{GroupObject}->RoleList( ValidID => 0, );
+    my %List = $Self->{GroupObject}->RoleList(
+        ValidID => 0,
+    );
 
     # if there is data available, it is shown
     if (%List) {

@@ -1,6 +1,6 @@
 # --
 # scripts/test/ObjectManager/Dummy.pm - Dummy object to test ObjectManager
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::ObjectManager;
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
-our @ObjectDependencies = ();    # we want to use an undeclared dependency for testing
+our @ObjectDependencies = ();                   # we want to use an undeclared dependency for testing
 
 sub new {
     my ( $Class, %Param ) = @_;

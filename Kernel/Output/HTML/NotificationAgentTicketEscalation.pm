@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,7 @@ sub Run {
     if ($CacheTime) {
         my $Output = $Self->{CacheObject}->Get(
             Type => 'TicketEscalation',
-            Key  => 'EscalationResult::' . $Self->{UserID},
+            Key  => 'EscalationResult::' . $Self->{UserID} . '::' . $Self->{LayoutObject}->{UserLanguage},
         );
         return $Output if defined $Output;
     }
@@ -215,7 +215,7 @@ sub Run {
     if ($CacheTime) {
         $Self->{CacheObject}->Set(
             Type  => 'TicketEscalation',
-            Key   => 'EscalationResult::' . $Self->{UserID},
+            Key   => 'EscalationResult::' . $Self->{UserID} . '::' . $Self->{LayoutObject}->{UserLanguage},
             Value => $Output,
             TTL   => $CacheTime,
         );

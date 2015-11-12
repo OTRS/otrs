@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,6 +62,11 @@ sub new {
 
     # get article for whom this should be a reply, if available
     my $ReplyToArticle = $Self->{ParamObject}->GetParam( Param => 'ReplyToArticle' ) || "";
+
+    # get list of users that will be informed without selection in informed/involved list
+    my @UserListWithoutSelection
+        = split( ',', $Self->{ParamObject}->GetParam( Param => 'UserListWithoutSelection' ) || "" );
+    $Self->{UserListWithoutSelection} = \@UserListWithoutSelection;
 
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
@@ -228,8 +233,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
                         ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Please change the owner first.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -279,12 +283,11 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-            = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -294,8 +297,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -538,8 +540,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -683,7 +684,7 @@ sub Run {
                     push @NotifyDone, $GetParam{OldOwnerID};
                 }
             }
-            elsif ( $GetParam{NewOwnerID} ) {
+            elsif ( $GetParam{NewOwnerType} eq 'New' && $GetParam{NewOwnerID} ) {
                 $Self->{TicketObject}->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
@@ -843,9 +844,9 @@ sub Run {
             my @NotifyUserIDs;
             if ( $Self->{ReplyToArticle} ) {
                 @NotifyUserIDs = (
-                    @{ $Self->{ReplyToSenderUserID} },
+                    @{ $Self->{UserListWithoutSelection} },
                     @{ $Self->{InformUserID} },
-                    @{ $Self->{InvolvedUserID} }
+                    @{ $Self->{InvolvedUserID} },
                 );
             }
             else {
@@ -937,8 +938,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -982,8 +982,7 @@ sub Run {
             next DYNAMICFIELD if !$DynamicField;
             next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-                = $DynamicFieldValues{$DynamicField};
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
         }
 
         # get list type
@@ -1015,6 +1014,11 @@ sub Run {
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
         );
+        my $Types = $Self->_GetTypes(
+            %GetParam,
+            CustomerUserID => $CustomerUser,
+            QueueID        => $QueueID,
+        );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
         if ( !defined $ServiceID || !$Services->{$ServiceID} ) {
@@ -1039,7 +1043,6 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
             my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -1156,10 +1159,9 @@ sub Run {
                 my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
                 # add std. attachments to ticket
-                my %AllStdAttachments
-                    = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                     StandardTemplateID => $GetParam{StandardTemplateID},
-                    );
+                );
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                     $Self->{UploadCacheObject}->FormIDAddFile(
@@ -1261,6 +1263,14 @@ sub Run {
                     Translation  => 1,
                     Max          => 100,
                 },
+                {
+                    Name         => 'TypeID',
+                    Data         => $Types,
+                    SelectedID   => $GetParam{TypeID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
                 @DynamicFieldAJAX,
                 @TemplateAJAX,
             ],
@@ -1328,8 +1338,7 @@ sub Run {
         if ( $Self->{ReplyToArticle} && $Self->{Config}->{Subject} ) {
             my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
             if ($TicketSubjectRe) {
-                $GetParam{Subject}
-                    = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
+                $GetParam{Subject} = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
             }
             else {
                 $GetParam{Subject} = 'Re: ' . $Self->{ReplyToArticleContent}{Subject};
@@ -1384,8 +1393,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -1616,7 +1624,7 @@ sub _Mask {
 
         # set move queues
         $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { %MoveQueues, '' => '-' },
+            Data           => { %MoveQueues, '' => '-' },
             Multiple       => 0,
             Size           => 0,
             Class          => 'NewQueueID',
@@ -1921,10 +1929,8 @@ sub _Mask {
             $Param{BodyRequired}    = 'Validate_Required';
         }
         else {
-            $Param{SubjectRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
-            $Param{BodyRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
         }
 
         $Self->{LayoutObject}->Block(
@@ -1932,12 +1938,32 @@ sub _Mask {
             Data => {%Param},
         );
 
+        # get all user ids of agents, that can be shown in this dialog
+        # based on queue rights
+        my %ShownUsers;
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1,
+        );
+        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type    => 'note',
+            Result  => 'HASH',
+            Cached  => 1,
+        );
+
+        for my $UserID ( sort keys %MemberList ) {
+            $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+        }
+
         # check and retrieve involved and informed agents of ReplyTo Note
         my @ReplyToUsers;
         my %ReplyToUsersHash;
+        my %ReplyToUserIDs;
         if ( $Self->{ReplyToArticle} ) {
             my @ReplyToParts = $Self->{EmailParserObject}->SplitAddressLine(
-                Line => $Self->{ReplyToArticleContent}->{To},
+                Line => $Self->{ReplyToArticleContent}->{To} || '',
             );
 
             REPLYTOPART:
@@ -1951,6 +1977,30 @@ sub _Mask {
             }
 
             $ReplyToUsersHash{$_}++ for @ReplyToUsers;
+
+            # get user ids of available users
+            for my $UserID ( sort keys %ShownUsers ) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $UserID,
+                );
+
+                my $UserEmail = $UserData{UserEmail};
+                if ( $ReplyToUsersHash{$UserEmail} ) {
+                    $ReplyToUserIDs{$UserID} = 1;
+                }
+            }
+
+            # add original note sender to list of user ids
+            for my $UserID ( sort @{ $Self->{ReplyToSenderUserID} } ) {
+
+                # if sender replies to himself, do not include sender in list
+                if ( $UserID ne $Self->{UserID} ) {
+                    $ReplyToUserIDs{$UserID} = 1;
+                }
+            }
+
+            # remove user id of active user
+            delete $ReplyToUserIDs{ $Self->{UserID} };
         }
 
         if ( $Self->{Config}->{InformAgent} || $Self->{Config}->{InvolvedAgent} ) {
@@ -1959,35 +2009,58 @@ sub _Mask {
             );
         }
 
-        # agent list
-        if ( $Self->{Config}->{InformAgent} ) {
-            my %ShownUsers;
-            my %AllGroupsMembers = $Self->{UserObject}->UserList(
-                Type  => 'Long',
-                Valid => 1,
+        # get all agents for "involved agents"
+        if ( $Self->{Config}->{InvolvedAgent} ) {
+
+            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList(
+                TicketID => $Self->{TicketID},
             );
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $GID,
-                Type    => 'note',
-                Result  => 'HASH',
-                Cached  => 1,
-            );
-            for my $UserID ( sort keys %MemberList ) {
-                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+
+            my @InvolvedAgents;
+            my $Counter = 1;
+
+            USER:
+            for my $User ( reverse @UserIDs ) {
+
+                my $Value = "$Counter: $User->{UserFullname}";
+                if ( $User->{OutOfOfficeMessage} ) {
+                    $Value .= " $User->{OutOfOfficeMessage}";
+                }
+
+                push @InvolvedAgents, {
+                    Key   => $User->{UserID},
+                    Value => $Value,
+                };
+                $Counter++;
+
+                # add involved user as selected entries, if available in ReplyToAddresses list
+                if ( $Self->{ReplyToArticle} && $ReplyToUserIDs{ $User->{UserID} } ) {
+                    push @{ $Self->{InvolvedUserID} }, $User->{UserID};
+                    delete $ReplyToUserIDs{ $User->{UserID} };
+                }
             }
 
+            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
+            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data       => \@InvolvedAgents,
+                SelectedID => $Self->{InvolvedUserID},
+                Name       => 'InvolvedUserID',
+                Multiple   => 1,
+                Size       => $InvolvedAgentSize,
+            );
+
+            # block is called below "inform agents"
+        }
+
+        # agent list
+        if ( $Self->{Config}->{InformAgent} ) {
             if ( $Self->{ReplyToArticle} ) {
 
                 # get email address of all users and compare to replyto-addresses
                 for my $UserID ( sort keys %ShownUsers ) {
-                    my %UserData = $Self->{UserObject}->GetUserData(
-                        UserID => $UserID,
-                    );
-
-                    my $UserEmail = $UserData{UserEmail};
-                    if ( $ReplyToUsersHash{$UserEmail} ) {
+                    if ( $ReplyToUserIDs{$UserID} ) {
                         push @{ $Self->{InformUserID} }, $UserID;
+                        delete $ReplyToUserIDs{$UserID};
                     }
                 }
             }
@@ -2010,49 +2083,49 @@ sub _Mask {
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
 
-            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList(
-                TicketID => $Self->{TicketID},
-            );
-
-            my @InvolvedAgents;
-            my %SeenInvolvedAgents;
-            my $Counter = 1;
-
-            USER:
-            for my $User ( reverse @UserIDs ) {
-
-                next USER if $SeenInvolvedAgents{ $User->{UserID} };
-
-                my $Value = "$Counter: $User->{UserFullname}";
-                if ( $User->{OutOfOfficeMessage} ) {
-                    $Value .= " $User->{OutOfOfficeMessage}";
-                }
-
-                push @InvolvedAgents, {
-                    Key   => $User->{UserID},
-                    Value => $Value,
-                };
-                $Counter++;
-
-                # add involved user, if available in ReplyToAddresses list
-                if ( $Self->{ReplyToArticle} && $ReplyToUsersHash{ $User->{UserEmail} } ) {
-                    push @{ $Self->{InvolvedUserID} }, $User->{UserID};
-                }
-            }
-
-            my $InvolvedAgentSize
-                = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
-            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \@InvolvedAgents,
-                SelectedID => $Self->{InvolvedUserID},
-                Name       => 'InvolvedUserID',
-                Multiple   => 1,
-                Size       => $InvolvedAgentSize,
-            );
             $Self->{LayoutObject}->Block(
                 Name => 'InvolvedAgent',
                 Data => \%Param,
             );
+        }
+
+        # show list of agents, that receive this note (ReplyToNote)
+        # at least sender of original note and all recepients of the original note
+        # that couldn't be selected with involved/inform agents
+        if ( $Self->{ReplyToArticle} ) {
+
+            my $UsersHashSize = keys %ReplyToUserIDs;
+            my $Counter       = 0;
+            $Param{UserListWithoutSelection} = join( ',', keys %ReplyToUserIDs );
+
+            if ( $UsersHashSize > 0 ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InformAgentsWithoutSelection',
+                    Data => \%Param,
+                );
+
+                for my $UserID ( sort keys %ReplyToUserIDs ) {
+                    $Counter++;
+
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $UserID,
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'InformAgentsWithoutSelectionSingleUser',
+                        Data => \%UserData,
+                    );
+
+                    # output a separator (InformAgentsWithoutSelectionSingleUserSeparator),
+                    # if not last entry
+                    if ( $Counter < $UsersHashSize ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'InformAgentsWithoutSelectionSingleUserSeparator',
+                            Data => \%UserData,
+                        );
+                    }
+                }
+            }
         }
 
         # add rich text editor
@@ -2209,7 +2282,10 @@ sub _Mask {
     # End Widget Article
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => $Self->{Action},
+        Data         => \%Param
+    );
 }
 
 sub _GetNextStates {
@@ -2322,8 +2398,7 @@ sub _GetOldOwners {
 
             next USER if $UserHash{ $User->{UserID} };
 
-            $UserHash{ $User->{UserID} }
-                = "$Counter: $User->{UserFullname}";
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserFullname}";
             $Counter++;
         }
     }
@@ -2349,8 +2424,7 @@ sub _GetServices {
     my %Service;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -2372,6 +2446,21 @@ sub _GetServices {
 
 sub _GetSLAs {
     my ( $Self, %Param ) = @_;
+
+    # if non set customers can get default services then they should also be able to get the SLAs
+    #  for those services (this works during ticket creation).
+    # if no CustomerUserID is set, TicketSLAList will complain during AJAX updates as UserID is not
+    #  passed. See bug 11147.
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+
+    # check if no CustomerUserID is selected
+    # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
+    # if $DefaultServiceUnknownCustomer = 1 set CustomerUserID to get default services
+    if ( !$Param{CustomerUserID} && $DefaultServiceUnknownCustomer ) {
+        $Param{CustomerUserID} = '<DEFAULT>';
+    }
 
     my %SLA;
     if ( $Param{ServiceID} ) {
@@ -2405,8 +2494,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw(
+        @UpdatableFields = qw(
             TypeID ServiceID SLAID NewOwnerID OldOwnerID NewResponsibleID NewStateID
             NewPriorityID
         );
@@ -2479,10 +2567,8 @@ sub _GetQuotedReplyBody {
                     String => $Param{From},
                 );
 
-                my $MessageFrom
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
-                my $EndMessage
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
+                my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                 $Param{Body} = "<br/>---- $MessageFrom $From ---<br/><br/>" . $Param{Body};
                 $Param{Body} .= "<br/>---- $EndMessage ---<br/>";
@@ -2522,10 +2608,8 @@ sub _GetQuotedReplyBody {
                     }
                 }
 
-                my $MessageFrom
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
-                my $EndMessage
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
+                my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                 $Param{Body} = "\n---- $MessageFrom $Param{From} ---\n\n" . $Param{Body};
                 $Param{Body} .= "\n---- $EndMessage ---\n";
@@ -2568,6 +2652,21 @@ sub _GetStandardTemplates {
 
     # return just the templates for this screen
     return $StandardTemplates{Note};
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    # get type
+    my %Type;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
 }
 
 1;

@@ -1,6 +1,6 @@
 # --
 # TicketSubject.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
+            Subject      => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
         );
         $Self->Is(
             $NewSubject,
@@ -97,7 +97,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
+            Subject      => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
         );
         $Self->Is(
             $NewSubject,
@@ -145,7 +145,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => '[' . $TicketHook . ':2004040510440485] Antwort: Antwort: Some Subject2',
+            Subject      => '[' . $TicketHook . ':2004040510440485] Antwort: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(
@@ -182,7 +182,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
+            Subject      => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(

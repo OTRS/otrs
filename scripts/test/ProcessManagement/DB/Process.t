@@ -1,6 +1,6 @@
 # --
 # Process.t - ProcessManagement DB process tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -531,8 +531,7 @@ for my $Test (@Tests) {
                 "$Test->{Name} | Process Activities structure is HASH",
             );
 
-            my %ExpectedActivities
-                = map { $_ => $ActivityLookup{$_} }
+            my %ExpectedActivities = map { $_ => $ActivityLookup{$_} }
                 sort keys %{ $AddedProcess{ $Process->{ID} }->{Config}->{Path} };
             $Self->IsDeeply(
                 $Process->{Activities},
@@ -547,8 +546,7 @@ for my $Test (@Tests) {
                 "$Test->{Name} | Process Activities structure is ARRAY",
             );
 
-            my @ExpectedActivities
-                = map {$_} sort keys %{ $AddedProcess{ $Process->{ID} }->{Config}->{Path} };
+            my @ExpectedActivities = map {$_} sort keys %{ $AddedProcess{ $Process->{ID} }->{Config}->{Path} };
             $Self->IsDeeply(
                 $Process->{Activities},
                 \@ExpectedActivities,
@@ -863,8 +861,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        my $CacheKey
-            = 'ProcessGet::ID::'
+        my $CacheKey = 'ProcessGet::ID::'
             . $Test->{Config}->{ID}
             . '::ActivityNames::0::TransitionNames::0::TransitionActionNames::0';
 

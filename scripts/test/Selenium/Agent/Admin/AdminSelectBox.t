@@ -1,6 +1,6 @@
 # --
 # AdminSelectBox.t - frontend tests for AdminSQL
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM valid");
         $Selenium->find_element( "#SQL", 'css' )->submit();
 
+        sleep 5;
+
         # verify results
         my @Elements = $Selenium->find_elements( 'table thead tr', 'css' );
         $Self->Is(
@@ -78,7 +80,7 @@ $Selenium->RunTest(
             3,
             "Result table body rows found",
         );
-        }
+    }
 );
 
 1;

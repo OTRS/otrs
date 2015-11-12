@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -196,12 +196,14 @@ sub Run {
         }
 
         # define notification
-        my $Notify = 'Webservice "%s" updated!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" updated!',
+            $WebserviceData->{Name},
+        );
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            my $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;";
+            my $RedirectURL = "Action=AdminGenericInterfaceWebservice;";
             return $Self->{LayoutObject}->Redirect(
                 OP => $RedirectURL,
             );
@@ -312,7 +314,10 @@ sub Run {
         $WebserviceID = $ID;
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         # return to edit to continue changing the configuration
         return $Self->_ShowEdit(
@@ -456,7 +461,10 @@ sub Run {
         }
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         # return to overview
         return $Self->_ShowOverview(
@@ -501,7 +509,11 @@ sub Run {
         }
 
         # check if imported configuration has current framework version otherwise update it
-        if ( $ImportedConfig->{FrameworkVersion} ne $Self->{FrameworkVersion} ) {
+        if (
+            !$ImportedConfig->{FrameworkVersion}
+            || $ImportedConfig->{FrameworkVersion} ne $Self->{FrameworkVersion}
+            )
+        {
             $ImportedConfig = $Self->_UpdateConfiguration( Configuration => $ImportedConfig );
         }
 
@@ -566,7 +578,10 @@ sub Run {
         );
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         return $Self->_ShowOverview(
             %Param,
@@ -600,7 +615,10 @@ sub Run {
     if ($DeletedWebservice) {
 
         # define notification
-        $Notify = 'Webservice "%s" deleted!", "' . $DeletedWebservice;
+        $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" deleted!',
+            $DeletedWebservice,
+        );
 
     }
 
@@ -1013,8 +1031,7 @@ sub _ShowEdit {
             {
 
                 # get control information
-                my $ActionDetails
-                    = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
+                my $ActionDetails = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
 
                 # create output data
                 my %ActionData = (

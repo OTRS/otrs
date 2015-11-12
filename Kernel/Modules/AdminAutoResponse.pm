@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+            ID => $ID,
+        );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -274,11 +276,11 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'AddressID',
+        Data        => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     # shows header
@@ -354,7 +356,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+            my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+                ID => $ID,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

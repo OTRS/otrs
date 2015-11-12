@@ -1,12 +1,13 @@
 # --
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -221,7 +222,7 @@ my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
     FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
-        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
         PossibleValues => {
             ticket1_field5 => 'ticket1_field51',
             ticket2_field5 => 'ticket2_field52',
@@ -253,7 +254,7 @@ my @TicketIDs;
 
 # create ticket 1
 my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => 'Ticket One Title',
+    Title        => 'Ticket One Title ' . $RandomID,
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -269,6 +270,34 @@ my $TicketID1 = $TicketObject->TicketCreate(
 $Self->True(
     $TicketID1,
     "TicketCreate() successful for Ticket One ID $TicketID1",
+);
+
+my $TicketNumber1 = $TicketObject->TicketNumberLookup(
+    TicketID => $TicketID1,
+);
+
+# sanity check
+$Self->True(
+    $TicketNumber1,
+    "TicketNumberLookup() successful for Ticket One ID $TicketID1",
+);
+
+# update escalation times directly in the DB
+my $EscalationTime = $TimeObject->SystemTime() + 120;
+return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    SQL => '
+        UPDATE ticket
+        SET escalation_time = ?, escalation_response_time = ?, escalation_update_time = ?,
+            escalation_solution_time = ?, change_time = current_timestamp, change_by = ?
+        WHERE id = ?',
+    Bind => [
+        \$EscalationTime,
+        \$EscalationTime,
+        \$EscalationTime,
+        \$EscalationTime,
+        \'1',
+        \$TicketID1,
+    ],
 );
 
 # create backend object and delegates
@@ -378,6 +407,16 @@ my $TicketID2 = $TicketObject->TicketCreate(
 $Self->True(
     $TicketID2,
     "TicketCreate() successful for Ticket Two ID $TicketID2",
+);
+
+my $TicketNumber2 = $TicketObject->TicketNumberLookup(
+    TicketID => $TicketID2,
+);
+
+# sanity check
+$Self->True(
+    $TicketNumber2,
+    "TicketNumberLookup() successful for Ticket One ID $TicketID2",
 );
 
 # set dynamic field values
@@ -838,15 +877,44 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            TicketNumber => 'NotARealTicketNumber',
+            TicketNumber => $TicketNumber1,
         },
         ExpectedReturnLocalData => {
-            Data    => {},
+            Data => {
+                TicketID => [$TicketID1],
+            },
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data => {
+                TicketID => $TicketID1,
+            },
             Success => 1
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketNumber => [
+                $TicketNumber1,
+                $TicketNumber2,
+            ],
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
         },
         Operation => 'TicketSearch',
     },
@@ -865,6 +933,31 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 TicketID => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title => [
+                'Ticket One Title ' . $RandomID,
+                'Ticket Two Title ' . $RandomID,
+            ],
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
@@ -980,8 +1073,8 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             CustomerID => '123465' . $RandomID,
-            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
-            OrderBy => 'Down',
+            SortBy     => 'Ticket',               # force order, because the Age (default) can be the same
+            OrderBy    => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1063,18 +1156,20 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            States => ['new'],
-            Title  => '*' . $RandomID,
+            States  => ['new'],
+            Title   => '*' . $RandomID,
+            SortBy  => 'Ticket',          # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [$TicketID2],
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => $TicketID2,
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
@@ -1232,6 +1327,86 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 TicketID => $TicketID4,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test EscalationTime " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketEscalationTimeNewerMinutes => 120,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID1],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID1,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test EscalationResponseTime " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketEscalationResponseTimeNewerMinutes => 120,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID1],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID1,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test EscalationUpdateTime " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketEscalationUpdateTimeNewerMinutes => 120,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID1],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID1,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test EscalationSolutionTime " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketEscalationSolutionTimeNewerMinutes => 120,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID1],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID1,
             },
             Success => 1,
         },

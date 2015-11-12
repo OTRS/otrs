@@ -1,6 +1,6 @@
 # --
 # Kernel/System/WebUserAgent.pm - a web user agent
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -162,6 +163,23 @@ sub Request {
 
         # init agent
         my $UserAgent = LWP::UserAgent->new();
+
+        # In some scenarios like transparent HTTPS proxies, it can be neccessary to turn off
+        #   SSL certificate validation.
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') ) {
+            my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
+                'Net::SSLeay',
+                Silent => 1,
+            );
+            if ($Loaded) {
+                $UserAgent->ssl_opts(
+                    verify_hostname => 0,
+                );
+                $UserAgent->ssl_opts(
+                    SSL_verify_mode => Net::SSLeay::VERIFY_NONE(),
+                );
+            }
+        }
 
         # set credentials
         if ( $Param{Credentials} ) {

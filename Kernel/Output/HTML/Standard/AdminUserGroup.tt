@@ -1,6 +1,6 @@
 # --
 # AdminUserGroup.tt - provides HTML form for AdminInterface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,8 +119,8 @@
                                 </th>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=[% Data.Type | html %]]'), $('#SelectAll[% Data.Type | html %]'));
-    $('input:checkbox[name=[% Data.Type | html %]]').bind('click', function () {
+    Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=[% Data.Type | html %]]'), $('#SelectAll[% Data.Type | html %]'));
+    $('input[type="checkbox"][name=[% Data.Type | html %]]').bind('click', function () {
         Core.Form.SelectAllCheckboxes($(this), $('#SelectAll[% Data.Type | html %]'));
     });
 //]]></script>

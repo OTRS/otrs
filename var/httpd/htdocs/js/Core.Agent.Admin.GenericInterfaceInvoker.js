@@ -1,6 +1,6 @@
 // --
 // Core.Agent.Admin.GenericInterfaceInvoker.js - provides the special module functions for the GenericInterface invoker.
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,6 +68,8 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             Data.Asynchronous = 1;
         }
 
+        $('#AddEvent').prop('disabled', true);
+
         Core.App.InternalRedirect(Data);
     };
 
@@ -134,7 +136,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         var LocalDialogData;
 
         // get global saved DialogData for this function
-        LocalDialogData = DialogData[$(Event.target).attr('id')];
+        LocalDialogData = DialogData[$(this).attr('id')];
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteEventDialogContainer'),
             TargetNS.Localization.DeleteEventMsg,

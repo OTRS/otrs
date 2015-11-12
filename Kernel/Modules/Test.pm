@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Test.pm - a simple test module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,10 @@ sub Run {
     );
 
     # get test page
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'Test', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'Test',
+        Data         => \%Param
+    );
 
     # get test page footer
     $Output .= $Self->{LayoutObject}->Footer();

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,8 +38,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -50,10 +52,13 @@ sub Connect {
     my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
         timeout => $Param{Timeout},
-        debug   => $Param{Debug}
+        debug   => $Param{Debug} || undef,
     );
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "$Type: Can't connect to $Param{Host}" );
+        return (
+            Successful => 0,
+            Message    => "$Type: Can't connect to $Param{Host}"
+        );
     }
 
     # authentication
@@ -91,15 +96,19 @@ sub _Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -175,7 +184,7 @@ sub _Fetch {
                 my $MessageSizeKB = int( $MessageSize / (1024) );
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                    Message  => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
                         . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!",
                 );
             }
@@ -221,11 +230,11 @@ sub _Fetch {
                                 . "$File, report it on http://bugs.otrs.org/)!",
                         );
                     }
+                    # mark email to delete once it was processed
+                    $IMAPObject->delete($Messageno);
                     undef $PostMasterObject;
-                }
 
-                # mark email to delete if it got processed
-                $IMAPObject->delete($Messageno);
+                }
 
                 # check limit
                 $Self->{Limit}++;
@@ -244,7 +253,7 @@ sub _Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPObject->expunge_mailbox($IMAPFolder);
@@ -262,8 +271,10 @@ sub _ProcessFailed {
 
     # check needed stuff
     if ( !defined $Param{Email} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "'Email' not defined!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "'Email' not defined!"
+        );
         return;
     }
 

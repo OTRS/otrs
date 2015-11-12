@@ -1,6 +1,6 @@
 # --
 # AdminSysConfigEdit.tt - provides HTML form for SysConfig
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,9 @@
                     <input type="hidden" name="SysConfigGroup" value="[% Data.Group | html %]"/>
                     <input type="hidden" name="SysConfigSubGroup" value="[% Data.SubGroup | html %]"/>
                     <input type="hidden" name="DontWriteDefault" value="1"/>
+# hidden image which work as submit-button in case the user just presses 'enter' on the form. Otherwise
+# the first submit button in the form would be used, which could be a reset button
+                    <input type="image" src="[% Config("Frontend::ImagePath") %]empty.png" alt="Empty placeholder image"/>
 
 [% RenderBlockStart("ConfigElementBlock") %]
 

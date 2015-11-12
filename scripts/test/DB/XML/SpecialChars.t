@@ -1,6 +1,6 @@
 # --
 # SpecialChars.t - database tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@ for my $Character (@SpecialCharacters) {
 
     # insert
     my $Result = $DBObject->Do(
-        SQL => "INSERT INTO test_d (name_a, name_b) VALUES ( ?, ? )",
+        SQL  => "INSERT INTO test_d (name_a, name_b) VALUES ( ?, ? )",
         Bind => [ \$Counter, \$Character ],
     );
     $Self->True(
@@ -289,7 +289,7 @@ for my $UTF8Test (@UTF8Tests) {
     $EncodeObject->EncodeInput( \$TestData{SelectData} );
 
     my $Result = $DBObject->Do(
-        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        SQL  => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
     $Self->True(

@@ -1,6 +1,6 @@
 # --
 # RPM spec file for OpenSUSE 11.x of the OTRS package
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd wwwrun || :
 groupadd www || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --web-user=wwwrun --otrs-group=www --web-group=www $RPM_BUILD_ROOT/opt/otrs
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=www
 
 %pre
 # remember about the installed version

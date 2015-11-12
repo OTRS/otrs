@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector.pm - system data collector
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,10 +128,20 @@ sub Collect {
         Recursive => 1,
     );
 
+    # Look for all asynchronous plugins in the FS
+    my @PluginAsynchronousFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # merge the both plugins types together
+    my @PluginFilesAll = ( @PluginFiles, @PluginAsynchronousFiles );
+
     my @Result;
 
     # Execute all Plugins
-    for my $PluginFile (@PluginFiles) {
+    for my $PluginFile (@PluginFilesAll) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
@@ -158,6 +168,9 @@ sub Collect {
         push @Result, @{ $PluginResult{Result} // [] };
     }
 
+    # sort the results from the plugins by the short identifier
+    @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
+
     my %ReturnData = (
         Success => 1,
         Result  => \@Result,
@@ -180,13 +193,12 @@ sub CollectByWebRequest {
     # Create a challenge token to authenticate this request without customer/agent login.
     #   PublicSupportDataCollector requires this ChallengeToken.
     my $ChallengeToken = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
-        Length => 32,
+        Length     => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
     if (
-        $Kernel::OM->Get('Kernel::System::SystemData')
-        ->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' )
+        $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' )
         )
     {
         $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataUpdate(
@@ -300,6 +312,94 @@ sub CollectByWebRequest {
     );
 
     return %{$ResponseData};
+}
+
+=item CollectAsynchronous()
+
+collect asynchronous data (the asynchronous plugin decide at which place the data will be saved)
+
+    my $Success = $SupportDataCollectorObject->CollectAsynchronous();
+
+=cut
+
+sub CollectAsynchronous {
+    my ( $Self, %Param ) = @_;
+
+    # Look for all plugins in the FS
+    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # Execute all Plugins
+    for my $PluginFile (@PluginFiles) {
+
+        # Convert file name => package name
+        $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+        $PluginFile =~ s{/+}{::}xmsg;
+
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Could not load $PluginFile!",
+            );
+        }
+        my $PluginObject = $PluginFile->new( %{$Self} );
+
+        my $Success = $PluginObject->RunAsynchronous();
+
+        if ( !$Success ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Error during asynchrone execution of $PluginFile.",
+            );
+        }
+    }
+
+    return 1;
+}
+
+=item CleanupAsynchronous()
+
+cleanup asynchronous data (the asynchronous plugin decide for themselve)
+
+    my $Success = $SupportDataCollectorObject->CleanupAsynchronous();
+
+=cut
+
+sub CleanupAsynchronous {
+    my ( $Self, %Param ) = @_;
+
+    # Look for all plugins in the FS
+    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # Execute all Plugins
+    PLUGINFILE:
+    for my $PluginFile (@PluginFiles) {
+
+        # Convert file name => package name
+        $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+        $PluginFile =~ s{/+}{::}xmsg;
+
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Could not load $PluginFile!",
+            );
+        }
+        my $PluginObject = $PluginFile->new( %{$Self} );
+
+        next PLUGINFILE if !$PluginFile->can('CleanupAsynchronous');
+
+        $PluginObject->CleanupAsynchronous();
+    }
+
+    return 1;
 }
 
 =back

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm - system data collector plugin
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,6 +71,25 @@ sub Run {
                 Label      => 'mod_deflate Usage',
                 Value      => 'not active',
                 Message    => 'Please install mod_deflate to improve GUI speed.',
+            );
+        }
+
+        my $ModFilterLoaded =
+            Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
+
+        if ($ModFilterLoaded) {
+            $Self->AddResultOk(
+                Identifier => "ModFilterLoaded",
+                Label      => 'mod_filter Usage',
+                Value      => 'active',
+            );
+        }
+        else {
+            $Self->AddResultWarning(
+                Identifier => "ModFilterLoaded",
+                Label      => 'mod_filter Usage',
+                Value      => 'not active',
+                Message    => 'Please install mod_filter if mod_deflate is used.',
             );
         }
 

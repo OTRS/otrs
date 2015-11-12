@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationOutofOfficeCheck.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,8 +40,7 @@ sub Run {
     my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $Start,
     );
-    my $End
-        = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
+    my $End     = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
     my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $End,
     );

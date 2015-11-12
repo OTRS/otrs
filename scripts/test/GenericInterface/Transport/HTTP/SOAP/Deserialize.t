@@ -1,6 +1,6 @@
 # --
 # Deserialize.t - Deserialize tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -289,9 +289,7 @@ for my $Test (@Tests) {
             '<Response xsi:nil="true" />' .
             $SOAPTagEnd;
     }
-    my $Content = SOAP::Serializer
-        ->autotype(0)
-        ->envelope(@CallData);
+    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
 
     $Self->Is(
         $Content,

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/IMAPTLS.pm - lib for imap accounts over TLS encryption
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,8 +38,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -58,7 +60,10 @@ sub Connect {
     );
 
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "IMAPTLS: Can't connect to $Param{Host}: $@\n" );
+        return (
+            Successful => 0,
+            Message    => "IMAPTLS: Can't connect to $Param{Host}: $@\n"
+        );
     }
 
     return (
@@ -85,15 +90,19 @@ sub _Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -225,11 +234,10 @@ sub _Fetch {
                                 . "$File, report it on http://bugs.otrs.org/)!",
                         );
                     }
+                    # mark email to delete once it was processed
+                    $IMAPObject->delete_message($Messageno);
                     undef $PostMasterObject;
                 }
-
-                # mark email for deletion if it got processed
-                $IMAPObject->delete_message($Messageno);
 
                 # check limit
                 $Self->{Limit}++;
@@ -248,7 +256,7 @@ sub _Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPObject->close();
@@ -266,8 +274,10 @@ sub _ProcessFailed {
     # check needed stuff
     for (qw(Email)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

@@ -1,6 +1,6 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -368,7 +368,9 @@ sub FormatTimeString {
         # get time object
         my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-        my $TimeStamp = $TimeObject->TimeStamp2SystemTime( String => "$Y-$M-$D $h:$m:$s", );
+        my $TimeStamp = $TimeObject->TimeStamp2SystemTime(
+            String => "$Y-$M-$D $h:$m:$s",
+        );
 
         # Add user time zone diff, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.

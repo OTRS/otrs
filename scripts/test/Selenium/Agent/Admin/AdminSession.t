@@ -1,6 +1,6 @@
 # --
 # AdminSession.t - frontend tests for AdminSession
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ $Selenium->RunTest(
 
         # make sure that we now see the login screen
         $Selenium->find_element( "#LoginBox", 'css' );
-        }
+    }
 );
 
 1;

@@ -167,7 +167,7 @@ a.Reset{
     padding: 3px;
 }
 
-.AddButton, 
+.AddButton,
 .RemoveButton {
     color: #000;
     font-size: 14px;
@@ -205,6 +205,24 @@ button.Reset:active {
 
 .RTL .GetAllAJAX {
     margin: 0 3px 0 0;
+}
+
+
+/**
+ * @subsection    GenericAgent ClearSelect
+ */
+
+.GenericAgentClearSelect {
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    color: #333;
+}
+
+.GenericAgentClearSelect span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
 }
 
 /**
@@ -691,6 +709,12 @@ input[type=text].ArticleFreeKey {
     overflow: auto;
     background: #fff;
     border: 1px solid #eee;
+}
+
+.ArticleMailContent .ArticleChat {
+    max-height: none;
+    font-size: 12px;
+    padding: 10px;
 }
 
 } /* end @media */

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -210,6 +210,9 @@ sub GetUserData {
         }
     }
 
+    # Store CacheTTL locally so that we can reduce it for users that are out of office.
+    my $CacheTTL = $Self->{CacheTTL};
+
     # check valid, return if there is locked for valid users
     if ( $Param{Valid} ) {
 
@@ -226,7 +229,7 @@ sub GetUserData {
             # set cache
             $Kernel::OM->Get('Kernel::System::Cache')->Set(
                 Type  => $Self->{CacheType},
-                TTL   => $Self->{CacheTTL},
+                TTL   => $CacheTTL,
                 Key   => $CacheKey,
                 Value => {},
             );
@@ -281,6 +284,10 @@ sub GetUserData {
                 $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
+
+            # Reduce CacheTTL to one hour for users that are out of office to make sure the cache expires timely
+            #   even if there is no update action.
+            $CacheTTL = 60 * 60 * 1;
         }
     }
 
@@ -307,7 +314,7 @@ sub GetUserData {
     # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
+        TTL   => $CacheTTL,
         Key   => $CacheKey,
         Value => \%Data,
     );
@@ -337,8 +344,10 @@ sub UserAdd {
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -355,8 +364,7 @@ sub UserAdd {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Kernel::OM->Get('Kernel::System::CheckItem')
-        ->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{UserEmail} )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -422,10 +430,17 @@ sub UserAdd {
     );
 
     # set password
-    $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+    $Self->SetPassword(
+        UserLogin => $Param{UserLogin},
+        PW        => $Param{UserPw}
+    );
 
     # set email address
-    $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+    $Self->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserEmail',
+        Value  => $Param{UserEmail}
+    );
 
     # delete cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -461,14 +476,22 @@ sub UserUpdate {
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check if a user with this login (username) already exits
-    if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin}, UserID => $Param{UserID} ) ) {
+    if (
+        $Self->UserLoginExistsCheck(
+            UserLogin => $Param{UserLogin},
+            UserID    => $Param{UserID}
+        )
+        )
+    {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "A user with username '$Param{UserLogin}' already exists!"
@@ -479,8 +502,7 @@ sub UserUpdate {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Kernel::OM->Get('Kernel::System::CheckItem')
-        ->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{UserEmail} )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -511,7 +533,10 @@ sub UserUpdate {
 
     # check pw
     if ( $Param{UserPw} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPw}
+        );
     }
 
     # set email address
@@ -669,8 +694,10 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -695,7 +722,7 @@ sub SetPassword {
         $CryptedPw = $Pw;
     }
 
-    # crypt with unix crypt
+    # crypt with UNIX crypt
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
@@ -818,8 +845,10 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin or UserID!'
+        );
         return;
     }
 
@@ -1098,8 +1127,10 @@ sub SetPreferences {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1116,14 +1147,47 @@ sub SetPreferences {
         && defined $Param{Value}
         && $User{ $Param{Key} } eq $Param{Value};
 
-    # delete cache
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
+
+    # create cachekey
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+    my @CacheKeys = (
+        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::1',
     );
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # delete cache
+    for my $CacheKey (@CacheKeys) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+    }
+
     # get user preferences config
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
+    my $GeneratorModule = $ConfigObject->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
 
     # get generator preferences module
@@ -1195,8 +1259,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need UserID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
     my $Token = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
@@ -1229,8 +1295,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Token and UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Token and UserID!'
+        );
         return;
     }
 

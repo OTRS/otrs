@@ -1255,10 +1255,6 @@ msgid "Hello %s,"
 msgstr ""
 
 #. Template: AAABase
-msgid "This email address already exists. Please log in or reset your password."
-msgstr ""
-
-#. Template: AAABase
 msgid "This email address is not allowed to register. Please contact support staff."
 msgstr ""
 
@@ -1443,6 +1439,10 @@ msgid "Scheduler is not running."
 msgstr ""
 
 #. Template: AAABase
+msgid "All sessions have been killed, except for your own."
+msgstr ""
+
+#. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
 msgstr ""
 
@@ -1460,6 +1460,54 @@ msgstr ""
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
+msgstr ""
+
+#. Template: AAABase
+msgid "Upgrade to %s now!"
+msgstr ""
+
+#. Template: AAABase
+msgid "%s Go to the upgrade center %s"
+msgstr ""
+
+#. Template: AAABase
+msgid "The license for your %s is about to expire. Please make contact with %s to renew your contract!"
+msgstr ""
+
+#. Template: AAABase
+msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
+msgstr ""
+
+#. Template: AAABase
+msgid "Your system was successfully upgraded to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly reinstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem reinstalling %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "Your %s was successfully updated."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade of %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly uninstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem uninstalling %s."
 msgstr ""
 
 #. Template: AAACalendar
@@ -2031,6 +2079,14 @@ msgid "There were tables found which do not have utf8 as charset."
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "InnoDB Log File Size"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "The setting innodb_log_file_size must be at least 256 MB."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
 msgstr ""
 
@@ -2231,6 +2287,14 @@ msgid "Dynamic Field Values"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Fields"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Field Values"
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
 msgstr ""
 
@@ -2363,6 +2427,18 @@ msgid "Could not determine webserver version."
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2376,6 +2452,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_deflate to improve GUI speed."
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "mod_filter Usage"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Please install mod_filter if mod_deflate is used."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -2408,6 +2492,10 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Status View"
+msgstr ""
+
+#. Template: AAATicket
+msgid "Service View"
 msgstr ""
 
 #. Template: AAATicket
@@ -2731,6 +2819,10 @@ msgid "Bounce Article to a different mail address"
 msgstr ""
 
 #. Template: AAATicket
+msgid "Reply to note"
+msgstr ""
+
+#. Template: AAATicket
 msgid "new"
 msgstr ""
 
@@ -2968,6 +3060,14 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Search Tickets"
+msgstr ""
+
+#. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
+
+#. Template: AAATicket
+msgid "Customer History"
 msgstr ""
 
 #. Template: AAATicket
@@ -4335,6 +4435,10 @@ msgid "Add Event Trigger"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Add Event"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
 msgstr ""
 
@@ -4348,6 +4452,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -5686,6 +5794,166 @@ msgstr ""
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr ""
 
+#. Template: AdminOTRSBusinessInstalled
+msgid "Manage %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Downgrade to OTRS Free"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Unauthorized Usage Detected"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s not Correctly Installed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your %s is not correctly installed. Please reinstall it with the button below."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Reinstall %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your %s is not correctly installed, and there is also an update available."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You can either reinstall your current version or perform an update with the buttons below (update recommended)."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Update %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Not Yet Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s will be available soon."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Update Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "An update for your %s is available! Please update at your earliest!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Correctly Deployed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Congratulations, your %s is correctly installed and up to date!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Upgrade to %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "%s will be available soon. Please check again in a few days."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Please have a look at %s for more information."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Register this System"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "System Registration is disabled for your system. Please check your configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Before you can benefit from %s, please contact %s to get your %s contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "With your existing contract you can only use a small part of the %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "If you would like to take full advantage of the %s get your contract upgraded now! Contact %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Cancel downgrade and go back"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Go to OTRS Package Manager"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Sorry, but currently you can't downgrade due to the following packages which depend on %s:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Vendor"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Please uninstall the packages first using the package manager and try again."
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "You are about to downgrade to OTRS Free and will lose the following features and all data related to these:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Timeline view in ticket zoom"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "The %s skin"
+msgstr ""
+
 #. Template: AdminPGP
 msgid "PGP Management"
 msgstr ""
@@ -5779,15 +6047,7 @@ msgid "Update repository information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:"
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Vendor"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -5815,7 +6075,11 @@ msgid "Reinstall"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Feature Add-Ons"
+msgid "Features for %s customers only"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "With %s, you can benefit from the following optional features. Please make contact with %s if you need more information."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6551,6 +6815,10 @@ msgid "Remove this Field"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
+msgid "And can't be repeated on the same condition."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
 msgstr ""
 
@@ -6600,6 +6868,10 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Edit Queue"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "A queue with this name already exists!"
 msgstr ""
 
 #. Template: AdminQueue
@@ -6727,6 +6999,10 @@ msgid "Edit details"
 msgstr ""
 
 #. Template: AdminRegistration
+msgid "Show transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
 msgid "Deregister system"
 msgstr ""
 
@@ -6756,6 +7032,26 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Send support data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System registration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Please note that you can't register your system if your scheduler is not running correctly!"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Instructions"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System deregistration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Please note that you can't deregister your system if you're using the %s or having a valid service contract."
 msgstr ""
 
 #. Template: AdminRegistration
@@ -7042,6 +7338,30 @@ msgstr ""
 msgid "You can modify registration settings here."
 msgstr ""
 
+#. Template: AdminRegistration
+msgid "Overview of transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "There is no data regularly sent from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "The following data is sent at minimum every 3 days from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "The data will be transferred in JSON format via a secure https connection."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System Registration Data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Support Data"
+msgstr ""
+
 #. Template: AdminRole
 msgid "Role Management"
 msgstr ""
@@ -7108,6 +7428,22 @@ msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "note"
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "owner"
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -7240,6 +7576,10 @@ msgstr ""
 
 #. Template: AdminSMIMECertRead
 msgid "Close window"
+msgstr ""
+
+#. Template: AdminSMIMECertRead
+msgid "Certificate details"
 msgstr ""
 
 #. Template: AdminSalutation
@@ -7415,7 +7755,7 @@ msgid "The support bundle is too large to send it by email, this option has been
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
-msgid "The email address for this user is invalid, this ption has been disabled."
+msgid "The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -7432,10 +7772,6 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method."
-msgstr ""
-
-#. Template: AdminServiceCenterSupportDataCollector
-msgid "Support Data"
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -7815,7 +8151,7 @@ msgid "Customer Sessions"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Kill all Sessions, exept current"
+msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -7906,6 +8242,10 @@ msgstr ""
 msgid "Edit Type"
 msgstr ""
 
+#. Template: AdminType
+msgid "A type with this name already exists!"
+msgstr ""
+
 #. Template: AdminUser
 msgid "Add agent"
 msgstr ""
@@ -7972,22 +8312,6 @@ msgstr ""
 
 #. Template: AdminUserGroup
 msgid "Change Agent Relations for Group"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "note"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "Permissions to add notes to tickets in this group/queue."
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "owner"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
 
 #. Template: AgentBook
@@ -8088,6 +8412,10 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Start chat"
 msgstr ""
 
 #. Template: AgentDashboardProductNotify
@@ -8591,6 +8919,10 @@ msgid "Next state"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "For all pending* states."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Add Article"
 msgstr ""
 
@@ -8628,6 +8960,10 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Here you can select additional agents which should receive a notification regarding the new article."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -8719,14 +9055,6 @@ msgid "Address book"
 msgstr ""
 
 #. Template: AgentTicketCompose
-msgid "Pending Date"
-msgstr ""
-
-#. Template: AgentTicketCompose
-msgid "for pending* states"
-msgstr ""
-
-#. Template: AgentTicketCompose
 msgid "Date Invalid!"
 msgstr ""
 
@@ -8770,8 +9098,32 @@ msgstr ""
 msgid "Get all"
 msgstr ""
 
+#. Template: AgentTicketEmail
+msgid "Do you really want to continue?"
+msgstr ""
+
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -8888,6 +9240,10 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
+msgstr ""
+
+#. Template: AgentTicketPhone
+msgid "The chat will be appended as a separate article."
 msgstr ""
 
 #. Template: AgentTicketPlain
@@ -9127,6 +9483,10 @@ msgid "Article(s)"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Page"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Add Filter"
 msgstr ""
 
@@ -9183,6 +9543,10 @@ msgid "Resize"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Mark this article as read"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Show Full Text"
 msgstr ""
 
@@ -9194,12 +9558,28 @@ msgstr ""
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS)."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
+msgstr ""
+
+#. Template: ChatStartForm
+msgid "First message"
 msgstr ""
 
 #. Template: CustomerError
@@ -9252,6 +9632,10 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "One moment please, you are being redirected..."
 msgstr ""
 
 #. Template: CustomerLogin
@@ -9328,6 +9712,14 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
+msgstr ""
+
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
+#. Template: CustomerRichTextEditor
+msgid "Split Quote"
 msgstr ""
 
 #. Template: CustomerTicketMessage
@@ -9428,10 +9820,6 @@ msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr ""
-
-#. Template: CustomerTicketSearchResultShort
-msgid "Page"
 msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
@@ -9575,6 +9963,10 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid "Please remove the following words from your search as they cannot be searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -9590,6 +9982,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr ""
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr ""
@@ -9600,6 +9996,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
+msgstr ""
+
+#. Template: Installer
+msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
@@ -9799,11 +10199,11 @@ msgid "Your OTRS Team"
 msgstr ""
 
 #. Template: InstallerLicense
-msgid "Accept license"
+msgid "Don't accept license"
 msgstr ""
 
 #. Template: InstallerLicense
-msgid "Don't accept license"
+msgid "Accept license and continue"
 msgstr ""
 
 #. Template: InstallerSystem
@@ -9902,10 +10302,6 @@ msgstr ""
 msgid "Back to the previous page"
 msgstr ""
 
-#. Template: Notify
-msgid "Close this message"
-msgstr ""
-
 #. Template: Pagination
 msgid "Show first page"
 msgstr ""
@@ -9947,11 +10343,19 @@ msgid "OTRS Test Page"
 msgstr ""
 
 #. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
+
+#. Template: Test
 msgid "Counter"
 msgstr ""
 
 #. Template: Warning
 msgid "Go back to the previous page"
+msgstr ""
+
+#. SysConfig
+msgid " (work units)"
 msgstr ""
 
 #. SysConfig
@@ -9975,7 +10379,15 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr ""
 
 #. SysConfig
+msgid "A Website"
+msgstr ""
+
+#. SysConfig
 msgid "A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set."
+msgstr ""
+
+#. SysConfig
+msgid "A picture"
 msgstr ""
 
 #. SysConfig
@@ -10103,7 +10515,7 @@ msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View i
 msgstr ""
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
+msgid "Agent interface notification module to see the number of locked tickets."
 msgstr ""
 
 #. SysConfig
@@ -10435,6 +10847,10 @@ msgid "Comment for new history entries in the customer interface."
 msgstr ""
 
 #. SysConfig
+msgid "Comment2"
+msgstr ""
+
+#. SysConfig
 msgid "Company Status"
 msgstr ""
 
@@ -10583,6 +10999,10 @@ msgid "Create new process ticket"
 msgstr ""
 
 #. SysConfig
+msgid "Custom RSS Feed"
+msgstr ""
+
+#. SysConfig
 msgid "Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module)."
 msgstr ""
 
@@ -10620,6 +11040,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer request via web."
+msgstr ""
+
+#. SysConfig
+msgid "Customer user search"
+msgstr ""
+
+#. SysConfig
+msgid "CustomerID search"
 msgstr ""
 
 #. SysConfig
@@ -10667,15 +11095,15 @@ msgid "Default queue ID used by the system in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Default skin for OTRS 3.0 interface."
-msgstr ""
-
-#. SysConfig
 msgid "Default skin for the agent interface (slim version)."
 msgstr ""
 
 #. SysConfig
 msgid "Default skin for the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Default skin for the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -10708,6 +11136,18 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the max depth of queues."
+msgstr ""
+
+#. SysConfig
+msgid "Define the queue comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the service comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the sla comment 2."
 msgstr ""
 
 #. SysConfig
@@ -11615,6 +12055,10 @@ msgid "Defines the module to authenticate customers."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in the agent interface if the scheduler is not running."
 msgstr ""
 
@@ -11823,7 +12267,7 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the receipent target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"SystemAddress\" displays all system addresses) in the agent interface."
+msgid "Defines the receipent target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"System address\" displays all system addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -12011,6 +12455,10 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr ""
 
 #. SysConfig
+msgid "Deploy and manage OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
 msgid "Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If \"New Window\" is set you can add a move note to the ticket."
 msgstr ""
 
@@ -12076,6 +12524,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to \"No\", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid "Display a warning and prevent search when using stop words within fulltext search."
 msgstr ""
 
 #. SysConfig
@@ -12299,7 +12751,11 @@ msgid "Enables file upload in the package manager frontend."
 msgstr ""
 
 #. SysConfig
-msgid "Enables or disable the debug mode over frontend interface."
+msgid "Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!"
+msgstr ""
+
+#. SysConfig
+msgid "Enables or disables the debug mode over frontend interface."
 msgstr ""
 
 #. SysConfig
@@ -12379,6 +12835,10 @@ msgid "Escalation view"
 msgstr ""
 
 #. SysConfig
+msgid "EscalationTime"
+msgstr ""
+
+#. SysConfig
 msgid "Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate)."
 msgstr ""
 
@@ -12452,6 +12912,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Filter incoming emails."
+msgstr ""
+
+#. SysConfig
+msgid "First Queue"
 msgstr ""
 
 #. SysConfig
@@ -12532,6 +12996,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
+msgstr ""
+
+#. SysConfig
+msgid "Fulltext search"
 msgstr ""
 
 #. SysConfig
@@ -12811,6 +13279,10 @@ msgid "If enabled, the OTRS version tag will be removed from the Webinterface, t
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer)."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time."
 msgstr ""
 
@@ -12888,6 +13360,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
+msgstr ""
+
+#. SysConfig
+msgid "Left"
 msgstr ""
 
 #. SysConfig
@@ -12984,6 +13460,10 @@ msgstr ""
 
 #. SysConfig
 msgid "List of default Standard Templates which are assigned automatically to new Queues upon creation."
+msgstr ""
+
+#. SysConfig
+msgid "List view"
 msgstr ""
 
 #. SysConfig
@@ -13215,6 +13695,10 @@ msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr ""
 
 #. SysConfig
+msgid "New Window"
+msgstr ""
+
+#. SysConfig
 msgid "New email ticket"
 msgstr ""
 
@@ -13247,6 +13731,10 @@ msgid "No Notification"
 msgstr ""
 
 #. SysConfig
+msgid "None"
+msgstr ""
+
+#. SysConfig
 msgid "Notification sent to \"%s\"."
 msgstr ""
 
@@ -13272,6 +13760,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
+msgstr ""
+
+#. SysConfig
+msgid "Online"
 msgstr ""
 
 #. SysConfig
@@ -13611,11 +14103,19 @@ msgid "Retains all services in listings even if they are children of invalid ele
 msgstr ""
 
 #. SysConfig
+msgid "Right"
+msgstr ""
+
+#. SysConfig
 msgid "Roles <-> Groups"
 msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
+msgstr ""
+
+#. SysConfig
+msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
 msgstr ""
 
 #. SysConfig
@@ -13631,7 +14131,11 @@ msgid "S/MIME Certificate Upload"
 msgstr ""
 
 #. SysConfig
-msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data."
+msgid "Sample command output"
+msgstr ""
+
+#. SysConfig
+msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used."
 msgstr ""
 
 #. SysConfig
@@ -13652,6 +14156,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Search backend router."
+msgstr ""
+
+#. SysConfig
+msgid "Second Queue"
 msgstr ""
 
 #. SysConfig
@@ -14531,6 +15039,14 @@ msgid "SolutionInMin"
 msgstr ""
 
 #. SysConfig
+msgid "Some description!"
+msgstr ""
+
+#. SysConfig
+msgid "Some picture description!"
+msgstr ""
+
+#. SysConfig
 msgid "Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value."
 msgstr ""
 
@@ -14672,6 +15188,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory."
+msgstr ""
+
+#. SysConfig
+msgid "Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!"
 msgstr ""
 
 #. SysConfig
@@ -14883,6 +15403,14 @@ msgid "Toolbar Item for a shortcut."
 msgstr ""
 
 #. SysConfig
+msgid "Tree view"
+msgstr ""
+
+#. SysConfig
+msgid "Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!"
+msgstr ""
+
+#. SysConfig
 msgid "Turns on drag and drop for the main navigation."
 msgstr ""
 
@@ -14988,6 +15516,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Write a new, outgoing mail"
+msgstr ""
+
+#. SysConfig
+msgid "Yes, but hide archived tickets"
 msgstr ""
 
 #. SysConfig

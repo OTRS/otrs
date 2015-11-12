@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSystemMaintenance.pm - to control all system maintenance actions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,9 +41,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $SystemMaintenanceID
-        = $Self->{ParamObject}->GetParam( Param => 'SystemMaintenanceID' ) || '';
-    my $WantSessionID = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' ) || '';
+    my $SystemMaintenanceID = $Self->{ParamObject}->GetParam( Param => 'SystemMaintenanceID' ) || '';
+    my $WantSessionID       = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' )       || '';
 
     my $SessionVisibility = 'Collapsed';
 
@@ -175,11 +174,10 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}
-            ->Redirect(
+        return $Self->{LayoutObject}->Redirect(
             OP =>
                 "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-            );
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -207,10 +205,9 @@ sub Run {
         for my $Key (qw(StartDate StopDate)) {
 
             # try to convert SystemTime to TimeStamp
-            $SystemMaintenanceData->{ $Key . 'TimeStamp' }
-                = $Self->{TimeObject}->SystemTime2TimeStamp(
+            $SystemMaintenanceData->{ $Key . 'TimeStamp' } = $Self->{TimeObject}->SystemTime2TimeStamp(
                 SystemTime => $SystemMaintenanceData->{$Key},
-                );
+            );
         }
 
         # check for valid system maintenance data
@@ -246,7 +243,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => 'All sessions has been killed, exept the current one!',
+                Info     => 'All sessions have been killed, except for your own.',
             };
 
             # set class for expanding sessions widget
@@ -346,11 +343,10 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}
-            ->Redirect(
+        return $Self->{LayoutObject}->Redirect(
             OP =>
                 "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-            );
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -410,10 +406,9 @@ sub Run {
                 for my $Key (qw(StartDate StopDate)) {
 
                     # try to convert SystemTime to TimeStamp
-                    $SystemMaintenance->{ $Key . 'TimeStamp' }
-                        = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    $SystemMaintenance->{ $Key . 'TimeStamp' } = $Self->{TimeObject}->SystemTime2TimeStamp(
                         SystemTime => $SystemMaintenance->{$Key},
-                        );
+                    );
                 }
 
                 # create blocks
@@ -608,10 +603,9 @@ sub _GetParams {
         Comment LoginMessage ShowLoginMessage NotifyMessage ValidID )
         )
     {
-        my $EmptyValue = ( $ParamName eq 'ShowLoginMessage' ? 0 : undef );
-        $GetParam->{$ParamName}
-            = $Self->{ParamObject}->GetParam( Param => $ParamName ) || $EmptyValue;
+        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName );
     }
+    $Param{ShowLoginMessage} ||= 0;
 
     ITEM:
     for my $Item (qw(StartDate StopDate)) {

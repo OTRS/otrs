@@ -1,6 +1,6 @@
 # --
 # Activity.t - Activity module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -203,7 +203,7 @@ my @Tests = (
             },
         },
         Config => {
-            Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            Interface        => [ 'AgentInterface', 'CustomerInterface' ],
             ActivityEntityID => 'A1' . $RandomID,
         },
         ExpectedActivityDialogs => {
@@ -623,8 +623,7 @@ for my $Test (@Tests) {
         );
 
         # create the expected acitivity list manually
-        my %ExpectedActivities
-            = map { $_ => $Test->{Activities}->{$_}->{Name} } keys %{ $Test->{Activities} };
+        my %ExpectedActivities = map { $_ => $Test->{Activities}->{$_}->{Name} } keys %{ $Test->{Activities} };
 
         $Self->IsDeeply(
             $ActivityList,

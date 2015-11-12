@@ -1,6 +1,6 @@
 # --
 # LinkQuote.t - HTMLUtils tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,6 +85,14 @@ my @Tests = (
             'Some text with a complicated url http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631',
         Result =>
             'Some text with a complicated url <a href="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631" title="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631">http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631</a>',
+        Name   => 'LinkQuote - complicated',
+        Target => '',
+    },
+    {
+        Input =>
+            'Some text with a complicated url http://example.com/index.pl?key=v_al-ue#hash-te_st',
+        Result =>
+            'Some text with a complicated url <a href="http://example.com/index.pl?key=v_al-ue#hash-te_st" title="http://example.com/index.pl?key=v_al-ue#hash-te_st">http://example.com/index.pl?key=v_al-ue#hash-te_st</a>',
         Name   => 'LinkQuote - complicated',
         Target => '',
     },

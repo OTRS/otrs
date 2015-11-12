@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/Template/Document.pm - Template Toolkit document
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ sub _InstallOTRSExtensions {
 
             die $@ if $@;
             return $output;
-            }
+        }
     );
 
     #
@@ -150,12 +150,19 @@ sub _InstallOTRSExtensions {
 
         eval {
 
-            my $Code = join '', @{ $context->{LayoutObject}->{_JSOnDocumentComplete} || [] };
+            my $Code = join "\n", @{ $context->{LayoutObject}->{_JSOnDocumentComplete} || [] };
+
+            # remove opening script tags
             $Code =~ s{ \s* <script[^>]+> (?:\s*<!--)? (?:\s*//\s*<!\[CDATA\[)? \n? }{}smxg;
-            $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{}smxg;
+
+            # remove closing script tags
+            $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{\n\n}smxg;
+
+            # remove additional newlines at the end of the code block
+            $Code =~ s{ \n+ \z }{\n}smxg;
+
             $output .= $Code;
             delete $context->{LayoutObject}->{_JSOnDocumentComplete};
-
         };
 
         if ($@) {
