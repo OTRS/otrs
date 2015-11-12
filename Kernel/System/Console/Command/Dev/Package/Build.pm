@@ -77,7 +77,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Building pacakge...</yellow>\n");
+    $Self->Print("<yellow>Building package...</yellow>\n");
 
     my $FileString;
     my $SourcePath = $Self->GetArgument('source-path');
