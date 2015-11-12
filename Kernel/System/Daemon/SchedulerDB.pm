@@ -800,12 +800,13 @@ sub TaskUnlockExpired {
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # ask the database (get all recurrent tasks for the given type with a lock key different than 0)
+    # ask the database (get all worker tasks with a lock key different than 0)
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id, name, lock_update_time
             FROM scheduler_task
             WHERE lock_key <> 0
+                AND lock_key <> 1
             ORDER BY id ASC',
     );
 
@@ -815,9 +816,19 @@ sub TaskUnlockExpired {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # convert lock update time stamp to a system time
-        my $LockUpdateTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Row[2],
-        ) || 0;
+        my $LockUpdateTime = 0;
+
+        if ( $Row[2] ) {
+            $LockUpdateTime = $TimeObject->TimeStamp2SystemTime(
+                String => $Row[2],
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Lock Update Time missing for task $Row[1]! ($Row[0])",
+            );
+        }
 
         # get current system time
         my $SystemTime = $TimeObject->SystemTime();
