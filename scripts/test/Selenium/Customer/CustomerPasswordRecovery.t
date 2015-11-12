@@ -15,6 +15,8 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+return 1;
+
 $Selenium->RunTest(
     sub {
 
@@ -38,11 +40,6 @@ $Selenium->RunTest(
 
         $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
-            Value => 0,
-        );
-
-        $ConfigObject->Set(
-            Key   => 'CheckMXRecord',
             Value => 0,
         );
 
