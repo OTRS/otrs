@@ -39,7 +39,8 @@ Core.UI.InputFields = (function (TargetNS) {
         ResizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
         ResizeTimeout: 0,
         SafeMargin: 30,
-        MaxNumberOfOptions: 999,
+        MaxNumberOfOptions: 1000,
+        MinQueryLength: 4,
         Diacritics: {
             "\u24B6":"A", "\uFF21":"A", "\u00C0":"A", "\u00C1":"A", "\u00C2":"A", "\u1EA6":"A",
             "\u1EA4":"A", "\u1EAA":"A", "\u1EA8":"A", "\u00C3":"A", "\u0100":"A", "\u0102":"A",
@@ -1847,6 +1848,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 // Escape
                                 case $.ui.keyCode.ESCAPE:
                                     $ListContainerObj.find('.InputField_Filters')
+
                                         .click();
                                     $SearchObj.focus();
                                     break;
@@ -1889,125 +1891,130 @@ Core.UI.InputFields = (function (TargetNS) {
 
                         var SearchValue = $SearchObj.val().trim(),
                             NoMatchNodeJSON,
-                            $ClearSearchObj;
+                            $ClearSearchObj,
+                            SearchTimeout;
 
-                        // Abandon search if empty string
-                        if (SearchValue === '') {
+                        // Clear search timeout
+                        window.clearTimeout(SearchTimeout);
+
+                        SearchTimeout = window.setTimeout(function () {
+                            // Abandon search if empty string
+                            if (SearchValue === '') {
+                                $TreeObj.jstree('delete_node', $TreeObj.find('.jstree-no-match'));
+                                $TreeObj.jstree('clear_search');
+                                Searching = false;
+                                $SearchObj.siblings('.InputField_ClearSearch')
+                                    .remove();
+
+                                if (Multiple) {
+
+                                    // Reset select all and clear all functions to original behavior
+                                    $SelectAllObj.off('click.InputField').on('click.InputField', function () {
+
+                                        // Make sure subtrees of all nodes are expanded
+                                        $TreeObj.jstree('open_all');
+
+                                        // Select all nodes
+                                        $TreeObj.find('li')
+                                            .not('.jstree-clicked,.Disabled')
+                                            .each(function () {
+                                                $TreeObj.jstree('select_node', this);
+                                            });
+
+                                        return false;
+                                    });
+                                    $ClearAllObj.off('click.InputField').on('click.InputField', function () {
+
+                                        // Clear selection
+                                        $TreeObj.jstree('deselect_node', $TreeObj.jstree('get_selected'));
+
+                                        return false;
+                                    });
+
+                                }
+                                return false;
+                            }
+
+                            // Remove no match entry if existing from previous search
                             $TreeObj.jstree('delete_node', $TreeObj.find('.jstree-no-match'));
-                            $TreeObj.jstree('clear_search');
-                            Searching = false;
-                            $SearchObj.siblings('.InputField_ClearSearch')
-                                .remove();
+
+                            // Start jsTree search
+                            $TreeObj.jstree('search', Core.App.EscapeHTML(SearchValue));
+                            Searching = true;
 
                             if (Multiple) {
 
-                                // Reset select all and clear all functions to original behavior
-                                $SelectAllObj.off('click.InputField').on('click.InputField', function () {
+                                // Change select all action to select only matched values
+                                RegisterActionEvent($TreeObj, $SelectAllObj, 'SelectAll_Search');
 
-                                    // Make sure subtrees of all nodes are expanded
-                                    $TreeObj.jstree('open_all');
-
-                                    // Select all nodes
-                                    $TreeObj.find('li')
-                                        .not('.jstree-clicked,.Disabled')
-                                        .each(function () {
-                                            $TreeObj.jstree('select_node', this);
-                                        });
-
-                                    return false;
-                                });
-                                $ClearAllObj.off('click.InputField').on('click.InputField', function () {
-
-                                    // Clear selection
-                                    $TreeObj.jstree('deselect_node', $TreeObj.jstree('get_selected'));
-
-                                    return false;
-                                });
+                                // Change clear all action to deselect only matched values
+                                RegisterActionEvent($TreeObj, $ClearAllObj, 'ClearAll_Search');
 
                             }
-                            return false;
-                        }
 
-                        // Remove no match entry if existing from previous search
-                        $TreeObj.jstree('delete_node', $TreeObj.find('.jstree-no-match'));
+                            // No match
+                            if ($TreeObj.find('.jstree-search').length === 0) {
 
-                        // Start jsTree search
-                        $TreeObj.jstree('search', Core.App.EscapeHTML(SearchValue));
-                        Searching = true;
-
-                        if (Multiple) {
-
-                            // Change select all action to select only matched values
-                            RegisterActionEvent($TreeObj, $SelectAllObj, 'SelectAll_Search');
-
-                            // Change clear all action to deselect only matched values
-                            RegisterActionEvent($TreeObj, $ClearAllObj, 'ClearAll_Search');
-
-                        }
-
-                        // No match
-                        if ($TreeObj.find('.jstree-search').length === 0) {
-
-                            // Add no match node
-                            NoMatchNodeJSON = {
-                                text: Core.Config.Get('InputFieldsNoMatchMsg'),
-                                state: {
-                                    disabled: true
-                                },
-                                'li_attr': {
-                                    class: 'Disabled jstree-no-match'
-                                }
-                            };
-                            $TreeObj.jstree('create_node', $TreeObj, NoMatchNodeJSON);
-
-                            // Hide all other nodes
-                            $TreeObj.find('li:visible')
-                                .not('.jstree-no-match')
-                                .hide();
-                        }
-
-                        // Check if we are searching for something
-                        if ($SearchObj.siblings('.InputField_ClearSearch').length === 0) {
-
-                            // Clear search action stops search
-                            $ClearSearchObj = $('<a />').insertAfter($SearchObj);
-                            $ClearSearchObj.addClass('InputField_Action InputField_ClearSearch')
-                                .attr('href', '#')
-                                .attr('title', Core.Config.Get('InputFieldsClearSearch'))
-                                .css(($('body').hasClass('RTL') ? 'left' : 'right'), Config.SelectionBoxOffsetRight + 'px')
-                                .append($('<i />').addClass('fa fa-times-circle'))
-                                .attr('role', 'button')
-                                .attr('tabindex', '-1')
-                                .attr('aria-label', Core.Config.Get('InputFieldsClearSearch'))
-                                .off('click.InputField').on('click.InputField', function () {
-
-                                    // Reset the search field
-                                    $SearchObj.val('');
-
-                                    // Clear search from jsTree and remove no match node
-                                    $TreeObj.jstree('delete_node', $TreeObj.find('.jstree-no-match'));
-                                    $TreeObj.jstree('clear_search');
-                                    Searching = false;
-
-                                    if (Multiple) {
-
-                                        // Reset select all and clear all functions to original behavior
-                                        RegisterActionEvent($TreeObj, $SelectAllObj, 'SelectAll');
-                                        RegisterActionEvent($TreeObj, $ClearAllObj, 'ClearAll');
-
+                                // Add no match node
+                                NoMatchNodeJSON = {
+                                    text: Core.Config.Get('InputFieldsNoMatchMsg'),
+                                    state: {
+                                        disabled: true
+                                    },
+                                    'li_attr': {
+                                        class: 'Disabled jstree-no-match'
                                     }
+                                };
+                                $TreeObj.jstree('create_node', $TreeObj, NoMatchNodeJSON);
 
-                                    // Remove the action icon
-                                    $(this).remove();
+                                // Hide all other nodes
+                                $TreeObj.find('li:visible')
+                                    .not('.jstree-no-match')
+                                    .hide();
+                            }
 
-                                    return false;
+                            // Check if we are searching for something
+                            if ($SearchObj.siblings('.InputField_ClearSearch').length === 0) {
 
-                                // Prevent clicks on action to steal focus from search field
-                                }).on('mousedown.InputField', function () {
-                                    return false;
-                            });
-                        }
+                                // Clear search action stops search
+                                $ClearSearchObj = $('<a />').insertAfter($SearchObj);
+                                $ClearSearchObj.addClass('InputField_Action InputField_ClearSearch')
+                                    .attr('href', '#')
+                                    .attr('title', Core.Config.Get('InputFieldsClearSearch'))
+                                    .css(($('body').hasClass('RTL') ? 'left' : 'right'), Config.SelectionBoxOffsetRight + 'px')
+                                    .append($('<i />').addClass('fa fa-times-circle'))
+                                    .attr('role', 'button')
+                                    .attr('tabindex', '-1')
+                                    .attr('aria-label', Core.Config.Get('InputFieldsClearSearch'))
+                                    .off('click.InputField').on('click.InputField', function () {
 
+                                        // Reset the search field
+                                        $SearchObj.val('');
+
+                                        // Clear search from jsTree and remove no match node
+                                        $TreeObj.jstree('delete_node', $TreeObj.find('.jstree-no-match'));
+                                        $TreeObj.jstree('clear_search');
+                                        Searching = false;
+
+                                        if (Multiple) {
+
+                                            // Reset select all and clear all functions to original behavior
+                                            RegisterActionEvent($TreeObj, $SelectAllObj, 'SelectAll');
+                                            RegisterActionEvent($TreeObj, $ClearAllObj, 'ClearAll');
+
+                                        }
+
+                                        // Remove the action icon
+                                        $(this).remove();
+
+                                        return false;
+
+                                    // Prevent clicks on action to steal focus from search field
+                                    }).on('mousedown.InputField', function () {
+                                        return false;
+                                });
+                            }
+                        }, 250);
                     });
 
 
