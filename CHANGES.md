@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-12 Fixed bug#[11304](http://bugs.otrs.org/show_bug.cgi?id=11304) - <OTRS_CUSTOMER_Subject> in "move"-notification is replaced with ticket-subject, not with article-subject, thanks to S7.
  - 2015-11-09 Fixed bug#[11320](http://bugs.otrs.org/show_bug.cgi?id=11320) - Invalid customer user can update password.
  - 2015-11-09 Fixed bug#[5509](http://bugs.otrs.org/show_bug.cgi?id=5509) - Wrong umlauts if bounce function is used.
  - 2015-11-09 Fixed bug#[11475](http://bugs.otrs.org/show_bug.cgi?id=11475) - Kernel::System::MailAccount::IMAP->Fetch() could delete unprocessed mails from server.

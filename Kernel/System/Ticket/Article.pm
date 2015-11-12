@@ -560,7 +560,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => {%Param},
+                CustomerMessageParams => {},
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
                 UserID                => $Param{UserID},
@@ -603,7 +603,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => {%Param},
+                CustomerMessageParams => {},
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
                 UserID                => $Param{UserID},
@@ -709,7 +709,7 @@ sub ArticleCreate {
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
-                    CustomerMessageParams => {%Param},
+                    CustomerMessageParams => \%Param,
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
                     UserID                => $Param{UserID},
@@ -757,7 +757,7 @@ sub ArticleCreate {
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
-                    CustomerMessageParams => {%Param},
+                    CustomerMessageParams => {},
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
                     UserID                => $Param{UserID},
@@ -820,7 +820,7 @@ sub ArticleCreate {
                     $Self->SendAgentNotification(
                         Type                  => $Param{HistoryType},
                         RecipientID           => $UserID,
-                        CustomerMessageParams => {%Param},
+                        CustomerMessageParams => {},
                         TicketID              => $Param{TicketID},
                         Queue                 => $Param{Queue},
                         UserID                => $Param{UserID},
@@ -851,7 +851,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => {%Param},
+                CustomerMessageParams => {},
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
             );
