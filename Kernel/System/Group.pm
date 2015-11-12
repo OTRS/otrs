@@ -2446,6 +2446,8 @@ sub _DBGroupUserGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get all data from table group_user
+    # We need to check for permission_value=1 because in previous OTRS 4 and below there could be records created
+    #   with 0 (see bug#11616).
     $DBObject->Prepare(
         SQL => 'SELECT user_id, group_id, permission_key FROM group_user WHERE permission_value = 1',
     );
