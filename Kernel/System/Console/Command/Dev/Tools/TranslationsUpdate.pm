@@ -200,6 +200,7 @@ sub HandleLanguage {
         my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Directory,
             Filter    => '*.tt',
+            Recursive => 1,
         );
 
         for my $File (@TemplateList) {
