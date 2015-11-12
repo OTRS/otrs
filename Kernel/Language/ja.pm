@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.724963361016121;
+    $Self->{Completeness}        = 0.7203000241955;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1224,16 +1224,16 @@ sub Data {
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '呼び出し元をWebサービス %s に追加',
-        'Change Invoker %s of Web Service %s' => '',
+        'Change Invoker %s of Web Service %s' => 'Webサービス %s の呼び出し元%sを変更する',
         'Add new invoker' => '新しい呼び出し元を追加',
         'Change invoker %s' => '呼び出し元%sを変更',
         'Do you really want to delete this invoker?' => 'この呼び出し元を本当に削除しますか。',
-        'All configuration data will be lost.' => '',
+        'All configuration data will be lost.' => 'すべての設定情報は失われます',
         'Invoker Details' => '呼び出し元詳細',
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
-        'Invoker backend' => '',
+        'Invoker backend' => 'バックエンド インボーカー',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
@@ -1266,7 +1266,7 @@ sub Data {
         'Remove key mapping' => 'キー割り当ての削除',
         'Key mapping' => 'キー割り当て',
         'Map key' => 'キーの割り当て',
-        'matching the' => '',
+        'matching the' => '一致',
         'to new key' => 'へ新しいキーを割り当てる',
         'Value mapping' => '値のマッピング',
         'Map value' => '値の割り当て',
@@ -1354,11 +1354,11 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
-        'Endpoint' => '',
+        'Endpoint' => 'エンドポイント',
         'URI to indicate a specific location for accessing a service.' =>
             '',
         'e.g. http://local.otrs.com:8000/Webservice/Example' => '例… http://local.otrs.com:8000/Webservice/Example',
-        'Namespace' => '',
+        'Namespace' => '名前空間',
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             '例… urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
@@ -1382,7 +1382,7 @@ sub Data {
         'Encoding' => '',
         'The character encoding for the SOAP message contents.' => '',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '例… utf-8, latin1, iso-8859-1, cp1250, Etc.',
-        'SOAPAction' => '',
+        'SOAPAction' => 'SOAPアクション',
         'Set to "Yes" to send a filled SOAPAction header.' => '',
         'Set to "No" to send an empty SOAPAction header.' => '',
         'SOAPAction separator' => '',
@@ -1392,9 +1392,9 @@ sub Data {
         'Proxy Server' => 'プロキシサーバ',
         'URI of a proxy server to be used (if needed).' => 'プロキシサーバのURI (任意)',
         'e.g. http://proxy_hostname:8080' => '例… http://proxy_hostname:8080',
-        'Proxy User' => '',
+        'Proxy User' => 'Proxy ユーザー',
         'The user name to be used to access the proxy server.' => '',
-        'Proxy Password' => '',
+        'Proxy Password' => 'Proxy パスワード',
         'The password for the proxy user.' => '',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             '',
@@ -3130,8 +3130,82 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
 
+        # Template: ActivityDialogHeader
+        'Process Information' => 'プロセス情報',
+        'Dialog' => '',
+
+        # Template: Article
+        'Inform Agent' => '',
+
         # Template: PublicDefault
         'Welcome' => 'ようこそ',
+
+        # Template: GeneralSpecificationsWidget
+        'Permissions' => '',
+        'You can select one or more groups to define access for different agents.' =>
+            '',
+        'Result formats' => '',
+        'The selected time periods in the statistic are time zone neutral.' =>
+            '',
+        'Create summation row' => '',
+        'Generate an additional row containing sums for all data columns.' =>
+            '',
+        'Create summation column' => '',
+        'Generate an additional column containing sums for all data rows.' =>
+            '',
+        'Cache results' => '',
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+            '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'If set to invalid end users can not generate the stat.' => '',
+
+        # Template: PreviewWidget
+        'There are problems in the configuration of this statistic:' => '',
+        'You may now configure the X-axis of your statistic.' => '',
+        'This statistic does not provide preview data.' => '',
+        'Preview format:' => '',
+        'Please note that the preview uses random data and does not consider data restrictions.' =>
+            '',
+        'Configure X-Axis' => '',
+        'X-axis' => 'X軸',
+        'Configure Y-Axis' => '',
+        'Y-axis' => 'Y軸',
+        'Configure Filter' => '',
+
+        # Template: RestrictionsWidget
+        'Please select only one element or turn off the button \'Fixed\'.' =>
+            '',
+        'Absolute period' => '',
+        'Between' => '',
+        'Relative period' => '',
+        'The past complete %s and the current+upcoming complete %s %s' =>
+            '',
+        'Do not allow changes to this element when the statistic is generated.' =>
+            '',
+
+        # Template: StatsParamsWidget
+        'Format' => '',
+        'Exchange Axis' => '',
+        'Configurable params of static stat' => '',
+        'No element selected.' => '',
+        'Scale' => '',
+
+        # Template: D3
+        'Download SVG' => '',
+        'Download PNG' => '',
+
+        # Template: XAxisWidget
+        'The selected time period defines the default time frame for this statistic to collect data from.' =>
+            '',
+        'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
+            '',
+
+        # Template: YAxisWidget
+        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+            '',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS テストページ',
@@ -3254,8 +3328,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please supply your new password!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
-        'X-axis' => 'X軸',
-        'Y-axis' => 'Y軸',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
@@ -5193,7 +5265,6 @@ Thanks for your help!
         'Portuguese (Brasil)' => '',
         'PostMaster Filters' => 'ポストマスター・フィルタ',
         'PostMaster Mail Accounts' => 'メールアカウント',
-        'Process Information' => 'プロセス情報',
         'Process Management Activity Dialog GUI' => 'プロセス管理アクティビティダイアログGUI',
         'Process Management Activity GUI' => 'プロセス管理アクテビティGUI',
         'Process Management Path GUI' => 'プロセス管理パスGUI',
