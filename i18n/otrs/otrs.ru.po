@@ -4,6 +4,7 @@
 # Anton <anton.astashkin@gmail.com>, 2015
 # Antonio Kless, 2015
 # Antonio Kless, 2015
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
 # Makdorf <makdorf@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
@@ -15,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-11 15:57+0000\n"
+"PO-Revision-Date: 2015-11-12 03:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -10286,9 +10287,192 @@ msgstr "Отсутствуют уведомления, настраиваемы�
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Получить сообщения для уведомления '%s'  с помощью метода доставки '%s'."
 
+#. Template: ActivityDialogHeader
+msgid "Process Information"
+msgstr "Информация о процессе"
+
+#. Template: ActivityDialogHeader
+msgid "Dialog"
+msgstr ""
+
+#. Template: Article
+msgid "Inform Agent"
+msgstr ""
+
 #. Template: PublicDefault
 msgid "Welcome"
 msgstr "Добро пожаловать"
+
+#. Template: GeneralSpecificationsWidget
+msgid "Permissions"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"You can select one or more groups to define access for different agents."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Result formats"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "The selected time periods in the statistic are time zone neutral."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation row"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional row containing sums for all data columns."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation column"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional column containing sums for all data rows."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Cache results"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Stores statistics result data in a cache to be used in subsequent views with"
+" the same configuration."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Provide the statistic as a widget that agents can activate in their "
+"dashboard."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Please note that enabling the dashboard widget will activate caching for "
+"this statistic in the dashboard."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "If set to invalid end users can not generate the stat."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "There are problems in the configuration of this statistic:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "You may now configure the X-axis of your statistic."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "This statistic does not provide preview data."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Preview format:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid ""
+"Please note that the preview uses random data and does not consider data "
+"restrictions."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Configure X-Axis"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "X-axis"
+msgstr "Ось X"
+
+#. Template: PreviewWidget
+msgid "Configure Y-Axis"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Y-axis"
+msgstr "Ось Y"
+
+#. Template: PreviewWidget
+msgid "Configure Filter"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Please select only one element or turn off the button 'Fixed'."
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Absolute period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Between"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Relative period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "The past complete %s and the current+upcoming complete %s %s"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Do not allow changes to this element when the statistic is generated."
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Format"
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Exchange Axis"
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Configurable params of static stat"
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "No element selected."
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Scale"
+msgstr ""
+
+#. Template: D3
+msgid "Download SVG"
+msgstr ""
+
+#. Template: D3
+msgid "Download PNG"
+msgstr ""
+
+#. Template: XAxisWidget
+msgid ""
+"The selected time period defines the default time frame for this statistic "
+"to collect data from."
+msgstr ""
+
+#. Template: XAxisWidget
+msgid ""
+"Defines the time unit that will be used to split the selected time period "
+"into reporting data points."
+msgstr ""
+
+#. Template: YAxisWidget
+msgid ""
+"Please remember that the scale for value series has to be larger than the "
+"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+msgstr ""
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10521,14 +10705,6 @@ msgstr "Пожалуйста, укажите Дату окончания ран�
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
 msgstr "Пожалуйста, укажите ваш новый пароль!"
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "X-axis"
-msgstr "Ось X"
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "Y-axis"
-msgstr "Ось Y"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
@@ -16700,10 +16876,6 @@ msgid "PostMaster Mail Accounts"
 msgstr "Учетные записи почты для PostMaster"
 
 #. SysConfig
-msgid "Process Information"
-msgstr "Информация о процессе"
-
-#. SysConfig
 msgid "Process Management Activity Dialog GUI"
 msgstr "Управление процессами Интерфейс Диалоги Активности"
 
@@ -16954,7 +17126,7 @@ msgid ""
 "user. You can switch between the modules even on a system that is already in"
 " production without any loss of data. Note: Searching for attachment names "
 "is not supported when \"FS\" is used."
-msgstr "Сохраняет вложения из сообщений/заметок. \"DB\" - сохраняет их в БД (не рекомендуется для больших вложений). \"FS\" - сохраняет данные в файловой системе; это быстрее, но веб-сервер должен запускаться от имени пользователя OTRS. Вы можете переключать это значение в процессе работы без потери данных. \nПримечание: Поиск по именам вложений не поддерживается при использовании \"FS\"."
+msgstr "Сохраняет вложения из сообщений/заметок. \"DB\" - сохраняет их в БД (не рекомендуется для больших вложений). \"FS\" - сохраняет данные в файловой системе; это быстрее, но веб-сервер должен запускаться от имени пользователя OTRS. Вы можете переключать это значение в процессе работы без потери данных. Примечание: Поиск по именам вложений не поддерживается при использовании \"FS\"."
 
 #. SysConfig
 msgid "Schedule a maintenance period."

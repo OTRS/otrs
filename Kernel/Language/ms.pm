@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.945285784074255;
+    $Self->{Completeness}        = 0.936365835954513;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3124,8 +3124,82 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Terima mesej pemberitahuan \'%s\' dengan kaedah pengangkutan \'%s\'.',
 
+        # Template: ActivityDialogHeader
+        'Process Information' => 'Proses maklumat ',
+        'Dialog' => '',
+
+        # Template: Article
+        'Inform Agent' => '',
+
         # Template: PublicDefault
         'Welcome' => 'Selamat datang',
+
+        # Template: GeneralSpecificationsWidget
+        'Permissions' => '',
+        'You can select one or more groups to define access for different agents.' =>
+            '',
+        'Result formats' => '',
+        'The selected time periods in the statistic are time zone neutral.' =>
+            '',
+        'Create summation row' => '',
+        'Generate an additional row containing sums for all data columns.' =>
+            '',
+        'Create summation column' => '',
+        'Generate an additional column containing sums for all data rows.' =>
+            '',
+        'Cache results' => '',
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+            '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'If set to invalid end users can not generate the stat.' => '',
+
+        # Template: PreviewWidget
+        'There are problems in the configuration of this statistic:' => '',
+        'You may now configure the X-axis of your statistic.' => '',
+        'This statistic does not provide preview data.' => '',
+        'Preview format:' => '',
+        'Please note that the preview uses random data and does not consider data restrictions.' =>
+            '',
+        'Configure X-Axis' => '',
+        'X-axis' => 'Paksi-X',
+        'Configure Y-Axis' => '',
+        'Y-axis' => 'Paksi-Y',
+        'Configure Filter' => '',
+
+        # Template: RestrictionsWidget
+        'Please select only one element or turn off the button \'Fixed\'.' =>
+            '',
+        'Absolute period' => '',
+        'Between' => '',
+        'Relative period' => '',
+        'The past complete %s and the current+upcoming complete %s %s' =>
+            '',
+        'Do not allow changes to this element when the statistic is generated.' =>
+            '',
+
+        # Template: StatsParamsWidget
+        'Format' => '',
+        'Exchange Axis' => '',
+        'Configurable params of static stat' => '',
+        'No element selected.' => '',
+        'Scale' => '',
+
+        # Template: D3
+        'Download SVG' => '',
+        'Download PNG' => '',
+
+        # Template: XAxisWidget
+        'The selected time period defines the default time frame for this statistic to collect data from.' =>
+            '',
+        'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
+            '',
+
+        # Template: YAxisWidget
+        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+            '',
 
         # Template: Test
         'OTRS Test Page' => 'Halaman percubaan OTRS',
@@ -3248,8 +3322,6 @@ sub Data {
         'Please supply your new password!' => 'Sila berikan kata laluan baru anda!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
-        'X-axis' => 'Paksi-X',
-        'Y-axis' => 'Paksi-Y',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Tiada lengkapan masa lalu atau nilai masa relatif lengkapan semasa+akan datang dipilih.',
         'The selected time period is larger than the allowed time period.' =>
@@ -5196,7 +5268,6 @@ dalaman.',
         'Portuguese (Brasil)' => 'Portugis (Brazil)',
         'PostMaster Filters' => 'Penapis PostMaster',
         'PostMaster Mail Accounts' => 'Akaun Mel PostMaster',
-        'Process Information' => 'Proses maklumat ',
         'Process Management Activity Dialog GUI' => 'Dialog Aktiviti Pengurusan Proses GUI',
         'Process Management Activity GUI' => 'Aktiviti Pengurusan Proses GUI',
         'Process Management Path GUI' => 'Laluan Pengurusan Proses GUI',

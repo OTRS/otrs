@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.961651196873473;
+    $Self->{Completeness}        = 0.952818775707718;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2583,7 +2583,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Statistika » Pogledaj %s%s — %s',
-        'Statistic Information' => '',
+        'Statistic Information' => 'Statističke informacije',
         'Sum rows' => 'Zbir redova',
         'Sum columns' => 'Zbir kolona',
         'Show as dashboard widget' => 'Prikaži kontrolnu tablu aplikativnog dodatka (Widget-a)',
@@ -3131,8 +3131,82 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Primite poruke za obaveštavanje „%s” prenete putem „%s”.',
 
+        # Template: ActivityDialogHeader
+        'Process Information' => 'Informacije o procesu',
+        'Dialog' => '',
+
+        # Template: Article
+        'Inform Agent' => '',
+
         # Template: PublicDefault
         'Welcome' => 'Dobrodošli',
+
+        # Template: GeneralSpecificationsWidget
+        'Permissions' => '',
+        'You can select one or more groups to define access for different agents.' =>
+            '',
+        'Result formats' => '',
+        'The selected time periods in the statistic are time zone neutral.' =>
+            '',
+        'Create summation row' => '',
+        'Generate an additional row containing sums for all data columns.' =>
+            '',
+        'Create summation column' => '',
+        'Generate an additional column containing sums for all data rows.' =>
+            '',
+        'Cache results' => '',
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+            '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'If set to invalid end users can not generate the stat.' => '',
+
+        # Template: PreviewWidget
+        'There are problems in the configuration of this statistic:' => '',
+        'You may now configure the X-axis of your statistic.' => '',
+        'This statistic does not provide preview data.' => '',
+        'Preview format:' => '',
+        'Please note that the preview uses random data and does not consider data restrictions.' =>
+            '',
+        'Configure X-Axis' => '',
+        'X-axis' => 'H-osa',
+        'Configure Y-Axis' => '',
+        'Y-axis' => 'Y-osa',
+        'Configure Filter' => '',
+
+        # Template: RestrictionsWidget
+        'Please select only one element or turn off the button \'Fixed\'.' =>
+            '',
+        'Absolute period' => '',
+        'Between' => '',
+        'Relative period' => '',
+        'The past complete %s and the current+upcoming complete %s %s' =>
+            '',
+        'Do not allow changes to this element when the statistic is generated.' =>
+            '',
+
+        # Template: StatsParamsWidget
+        'Format' => '',
+        'Exchange Axis' => '',
+        'Configurable params of static stat' => '',
+        'No element selected.' => '',
+        'Scale' => '',
+
+        # Template: D3
+        'Download SVG' => '',
+        'Download PNG' => '',
+
+        # Template: XAxisWidget
+        'The selected time period defines the default time frame for this statistic to collect data from.' =>
+            '',
+        'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
+            '',
+
+        # Template: YAxisWidget
+        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+            '',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS test strana',
@@ -3218,8 +3292,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            'Greška: Molimo da proverite da vaša baza podataka prihvata pakete po veličini veće od
-%s MB  (trenutno prihvata pakete veličine do %s MB). Molimo da prilagodite parametar „max_allowed_packet setting” u vašoj bazi podataka kako bi izbegli greške.',
+            'Greška: Molimo da proverite da vaša baza podataka prihvata pakete po veličini veće od %s MB  (trenutno prihvata pakete veličine do %s MB). Molimo da prilagodite parametar „max_allowed_packet setting” u vašoj bazi podataka kako bi izbegli greške.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Greška: Molimo da podesete vrednost za „innodb_log_file_size” u vašoj bazi podataka na najmanje %s MB (trenutno: %s MB, preporučeno: %s MB). Za više informacija, molimo pogledajte na %s.',
 
@@ -3256,8 +3329,6 @@ sub Data {
         'Please supply your new password!' => 'Molimo da obezbedite novu lozinku!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
-        'X-axis' => 'H-osa',
-        'Y-axis' => 'Y-osa',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Nije odabrana vremenska vrednost sa kompletnom prošlošću ili kompletnim trenutnim i budućim relativnim periodom.',
         'The selected time period is larger than the allowed time period.' =>
@@ -5202,7 +5273,6 @@ Vaša tehnička podrška
         'Portuguese (Brasil)' => 'Portugalski (Brazil)',
         'PostMaster Filters' => 'PostMaster filteri',
         'PostMaster Mail Accounts' => 'PostMaster mejl nalozi',
-        'Process Information' => 'Informacije o procesu',
         'Process Management Activity Dialog GUI' => '',
         'Process Management Activity GUI' => '',
         'Process Management Path GUI' => '',

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999022960429897;
+    $Self->{Completeness}        = 0.989595935156061;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3130,8 +3130,82 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel.',
 
+        # Template: ActivityDialogHeader
+        'Process Information' => 'Folyamat-információk',
+        'Dialog' => '',
+
+        # Template: Article
+        'Inform Agent' => '',
+
         # Template: PublicDefault
         'Welcome' => 'Üdvözöljük',
+
+        # Template: GeneralSpecificationsWidget
+        'Permissions' => '',
+        'You can select one or more groups to define access for different agents.' =>
+            '',
+        'Result formats' => '',
+        'The selected time periods in the statistic are time zone neutral.' =>
+            '',
+        'Create summation row' => '',
+        'Generate an additional row containing sums for all data columns.' =>
+            '',
+        'Create summation column' => '',
+        'Generate an additional column containing sums for all data rows.' =>
+            '',
+        'Cache results' => '',
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+            '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'If set to invalid end users can not generate the stat.' => '',
+
+        # Template: PreviewWidget
+        'There are problems in the configuration of this statistic:' => '',
+        'You may now configure the X-axis of your statistic.' => '',
+        'This statistic does not provide preview data.' => '',
+        'Preview format:' => '',
+        'Please note that the preview uses random data and does not consider data restrictions.' =>
+            '',
+        'Configure X-Axis' => '',
+        'X-axis' => 'X-tengely',
+        'Configure Y-Axis' => '',
+        'Y-axis' => 'Y-tengely',
+        'Configure Filter' => '',
+
+        # Template: RestrictionsWidget
+        'Please select only one element or turn off the button \'Fixed\'.' =>
+            '',
+        'Absolute period' => '',
+        'Between' => '',
+        'Relative period' => '',
+        'The past complete %s and the current+upcoming complete %s %s' =>
+            '',
+        'Do not allow changes to this element when the statistic is generated.' =>
+            '',
+
+        # Template: StatsParamsWidget
+        'Format' => '',
+        'Exchange Axis' => '',
+        'Configurable params of static stat' => '',
+        'No element selected.' => '',
+        'Scale' => '',
+
+        # Template: D3
+        'Download SVG' => '',
+        'Download PNG' => '',
+
+        # Template: XAxisWidget
+        'The selected time period defines the default time frame for this statistic to collect data from.' =>
+            '',
+        'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
+            '',
+
+        # Template: YAxisWidget
+        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+            '',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS tesztoldal',
@@ -3254,8 +3328,6 @@ sub Data {
         'Please supply your new password!' => 'Adja meg az új jelszavát!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
-        'X-axis' => 'X-tengely',
-        'Y-axis' => 'Y-tengely',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Nincs már teljes vagy a jelenlegi+közelgő teljes relatív időérték kiválasztva.',
         'The selected time period is larger than the allowed time period.' =>
@@ -5200,7 +5272,6 @@ Az Ön segélyszolgálat csapata
         'Portuguese (Brasil)' => 'Portugál (Brazil)',
         'PostMaster Filters' => 'Levelezési szűrők',
         'PostMaster Mail Accounts' => 'Levelezési levélfiókok',
-        'Process Information' => 'Folyamat-információk',
         'Process Management Activity Dialog GUI' => 'Folyamatkezelés tevékenység párbeszéd grafikus felület',
         'Process Management Activity GUI' => 'Folyamatkezelés tevékenység grafikus felület',
         'Process Management Path GUI' => 'Folyamatkezelés útvonal grafikus felület',
