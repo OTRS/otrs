@@ -284,6 +284,10 @@ div.InputField_ToolbarContainer ul li a:hover {
     white-space: nowrap;
 }
 
+.jstree-InputField .jstree-node.jstree-hidden {
+    display: none;
+}
+
 .jstree-InputField .jstree-anchor {
     display: inline-block;
     color: black;

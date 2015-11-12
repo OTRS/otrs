@@ -229,7 +229,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     line-height: 1.5em;
     width: 100%;
     font-size: 11px;
-}   
+}
 
 .InputField_FiltersList span {
     margin-right: 5px;
@@ -254,6 +254,7 @@ div.InputField_ToolbarContainer ul li a:hover {
     margin: 0 !important;
     padding: 0 !important;
 }
+
 .jstree-InputField .jstree-node,
 .jstree-InputField .jstree-children,
 .jstree-InputField .jstree-container-ul {
@@ -268,11 +269,15 @@ div.InputField_ToolbarContainer ul li a:hover {
     white-space: nowrap;
 }
 
+.jstree-InputField .jstree-node.jstree-hidden {
+    display: none;
+}
+
 .jstree-InputField .jstree-anchor {
     display: inline-block;
     color: black;
     white-space: nowrap;
-    padding: 0 4px 0 1px; 
+    padding: 0 4px 0 1px;
     margin: 0;
     vertical-align: top;
 }
