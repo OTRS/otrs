@@ -7,7 +7,6 @@
 # --
 
 package Kernel::Modules::AdminQueueAutoResponse;
-## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -28,10 +27,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
     my $Output      = '';
     $Param{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
-    $Param{ID} = $DBObject->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
     $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
 
@@ -65,22 +62,22 @@ sub Run {
             },
         );
         for my $TypeID ( sort keys %TypeResponsesData ) {
-            my %Data = $DBObject->GetTableData(
-                Table => 'auto_response ar, auto_response_type art',
-                What  => 'ar.id, ar.name',
-                Where => " art.id = $TypeID AND ar.type_id = art.id "
-                    . "AND ar.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )",
+
+            # get all valid Auto Responses data for appropriate Auto Responses type
+            my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
+                TypeID => $TypeID,
             );
-            my ( $SelectedID, $Name ) = $DBObject->GetTableData(
-                Table => 'auto_response ar, auto_response_type art, queue_auto_response qar',
-                What  => 'ar.id, ar.name',
-                Where => " art.id = $TypeID AND ar.type_id = art.id AND qar.queue_id = $Param{ID} "
-                    . "AND qar.auto_response_id = ar.id",
+
+            # get selected Auto Responses for appropriate Auto Responses type and Queue
+            my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
+                QueueID => $Param{ID},
+                Type    => $TypeResponsesData{$TypeID},
             );
+
             $Param{DataStrg} = $LayoutObject->BuildSelection(
                 Name         => "IDs_$TypeID",
-                SelectedID   => $SelectedID || '',
-                Data         => \%Data,
+                SelectedID   => $AutoResponseData{AutoResponseID} || '',
+                Data         => \%AutoResponseListByType,
                 Size         => 1,
                 PossibleNone => 1,
                 Class        => 'Modernize W50pc',
@@ -112,7 +109,7 @@ sub Run {
         # get Type Auto Responses data
         my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
-        # Set Autoresponses IDs for this queue.
+        # set Auto Responses IDs for this queue.
         for my $TypeID ( sort keys %TypeResponsesData ) {
             push( @NewIDs, $ParamObject->GetParam( Param => "IDs_$TypeID" ) );
         }
@@ -145,7 +142,6 @@ sub Run {
         # if there are any queues, they are shown
         if (%QueueData) {
             for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
-
                 $LayoutObject->Block(
                     Name => 'Item',
                     Data => {
@@ -158,7 +154,7 @@ sub Run {
             }
         }
 
-        # otherwise a no data found msg is displayed
+        # otherwise a no data found message is displayed
         else {
             $LayoutObject->Block(
                 Name => 'NoQueuesFoundMsg',
@@ -166,35 +162,31 @@ sub Run {
             );
         }
 
-        # Get Auto Response data.
-        my @ResponseData;
-        my $SQL = "SELECT ar.name, art.name, ar.id FROM "
-            . " auto_response ar, auto_response_type art, valid "
-            . " WHERE ar.type_id = art.id "
-            . " AND ar.valid_id = valid.id AND valid.name = 'valid'"
-            . " ORDER BY ar.name ASC"
-            ;
-        $DBObject->Prepare( SQL => $SQL );
-
-        while ( my @Row = $DBObject->FetchrowArray() ) {
-            my %AutoResponseData;
-            $AutoResponseData{Name} = $Row[0];
-            $AutoResponseData{Type} = $Row[1];
-            $AutoResponseData{ID}   = $Row[2];
-            push( @ResponseData, \%AutoResponseData );
-        }
+        # get valid Auto Response IDs
+        my @AutoResponse = keys { $AutoResponseObject->AutoResponseList() };
 
         # if there are any auto responses, they are shown
-        if (@ResponseData) {
-            for my $ResponseDataItem (@ResponseData) {
+        if (@AutoResponse) {
+            for my $AutoResponseID (@AutoResponse) {
+
+                my %Data = $AutoResponseObject->AutoResponseGet(
+                    ID => $AutoResponseID,
+                );
+
+                my %ResponseDataItem = (
+                    ID   => $Data{ID},
+                    Type => $Data{Type},
+                    Name => $Data{Name},
+                );
+
                 $LayoutObject->Block(
                     Name => 'ItemList',
-                    Data => $ResponseDataItem,
+                    Data => \%ResponseDataItem,
                 );
             }
         }
 
-        # otherwise a no data found msg is displayed
+        # otherwise a no data found message is displayed
         else {
             $LayoutObject->Block(
                 Name => 'NoAutoResponsesFoundMsg',

@@ -252,15 +252,6 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    $Param{AutoResponseOption} = $LayoutObject->BuildSelection(
-        Data       => { $AutoResponseObject->AutoResponseList(), },
-        Name       => 'ID',
-        Max        => 75,
-        Multiple   => 1,
-        SelectedID => $Param{ID},
-        Class      => 'Modernize',
-    );
-
     $Param{TypeOption} = $LayoutObject->BuildSelection(
         Data       => { $AutoResponseObject->AutoResponseTypeList(), },
         Name       => 'TypeID',
@@ -275,14 +266,6 @@ sub _Edit {
         Translation => 0,
         Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
-
-    # shows header
-    if ( $Param{Action} eq 'Change' ) {
-        $LayoutObject->Block( Name => 'HeaderEdit' );
-    }
-    else {
-        $LayoutObject->Block( Name => 'HeaderAdd' );
-    }
 
     my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
@@ -314,6 +297,14 @@ sub _Edit {
         },
     );
 
+    # shows header
+    if ( $Param{Action} eq 'Change' ) {
+        $LayoutObject->Block( Name => 'HeaderEdit' );
+    }
+    else {
+        $LayoutObject->Block( Name => 'HeaderAdd' );
+    }
+
     if ( $LayoutObject->{BrowserRichText} ) {
         $LayoutObject->Block(
             Name => 'RichText',
@@ -343,8 +334,7 @@ sub _Overview {
         Data => \%Param,
     );
     my %List = $AutoResponseObject->AutoResponseList(
-        UserID => 1,
-        Valid  => 0,
+        Valid => 0,
     );
 
     # if there are any results, they are shown
