@@ -439,6 +439,46 @@ sub Run {
 
         my %Error;
 
+        # check some values
+        LINE:
+        for my $Line (qw(To Cc Bcc)) {
+            next LINE if !$GetParam{$Line};
+            for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{ $Line . 'ErrorType' }
+                        = $Line . $Self->{CheckItemObject}->CheckErrorType() . 'ServerErrorMsg';
+                    $Error{ $Line . 'Invalid' } = 'ServerError';
+                }
+                my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                    Address => $Email->address()
+                );
+                if ($IsLocal) {
+                    $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
+                }
+            }
+        }
+
+        if ( $Error{ToIsLocalAddress} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ToIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
+        if ( $Error{CcIsLocalAddress} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CcIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
+        if ( $Error{BccIsLocalAddress} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'BccIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
         # If is an action about attachments
         my $IsUpload = 0;
 

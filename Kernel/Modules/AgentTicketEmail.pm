@@ -943,6 +943,12 @@ sub Run {
                         . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
                 }
+                my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                    Address => $Email->address()
+                );
+                if ($IsLocal) {
+                    $Error{ $Parameter . 'IsLocalAddress' } = 'ServerError';
+                }
             }
         }
 
@@ -1061,6 +1067,27 @@ sub Run {
         }
 
         if (%Error) {
+
+            if ( $Error{ToIsLocalAddress} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ToIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
+
+            if ( $Error{CcIsLocalAddress} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CcIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
+
+            if ( $Error{BccIsLocalAddress} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'BccIsLocalAddressServerErrorMsg',
+                    Data => \%GetParam,
+                );
+            }
 
             # get and format default subject and body
             my $Subject = $Self->{LayoutObject}->Output(
