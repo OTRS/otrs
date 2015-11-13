@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-13 Fixed bug#[11612](http://bugs.otrs.org/show_bug.cgi?id=11612) - Wrong order in the notification procedure, thanks to S7.
  - 2015-11-06 Fixed bug#[11348](http://bugs.otrs.org/show_bug.cgi?id=11348) - Error handling in AgentTicketForward.
  - 2015-11-12 Fixed bug#[11304](http://bugs.otrs.org/show_bug.cgi?id=11304) - <OTRS_CUSTOMER_Subject> in "move"-notification is replaced with ticket-subject, not with article-subject, thanks to S7.
  - 2015-11-09 Fixed bug#[11320](http://bugs.otrs.org/show_bug.cgi?id=11320) - Invalid customer user can update password.
