@@ -347,19 +347,6 @@ sub Check {
             )
         {
 
-            # check if article is already verified
-            if ( $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
-
-                # return result
-                push(
-                    @Return,
-                    {
-                        Key   => 'Signed',
-                        Value => 'Signature verified before!',
-                    }
-                );
-            }
-
             # check sign and get clear content
             %SignCheck = $Self->{CryptObject}->Verify(
                 Message => $Message,
