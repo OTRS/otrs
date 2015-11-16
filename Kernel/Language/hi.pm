@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.501572707476409;
+    $Self->{Completeness}        = 0.504112239961297;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3132,15 +3132,15 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'प्रतिनिधि को सूचित करें ',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'अनुमतियाँ',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'आप एक या अधिक समूहों का चयन करके विभिन्न प्रतिनिधियॊ के लिए उपयोग निर्धारित कर सकते हैं।',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3157,14 +3157,14 @@ sub Data {
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'यदि अवैध अंत उपयोगकर्ताओं के लिए निर्धारित तॊ आँकड़े उत्पन्न नहीं कर सकते।',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'X-अक्ष',
@@ -3174,9 +3174,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'कृपया केवल एक ही तत्व का चयन करें या "निश्चित" बटन बंद करें।',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'के बीच',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3184,11 +3184,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'प्रारूप',
+        'Exchange Axis' => 'विनिमय अक्ष',
+        'Configurable params of static stat' => 'स्थिर आँकड़ॊ के विन्यास मापदंड',
+        'No element selected.' => 'कोई भी तत्व चयनित नहीं',
+        'Scale' => 'मापक',
 
         # Template: D3
         'Download SVG' => '',
@@ -3201,7 +3201,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4670,6 +4670,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में एक अनुच्छेद के समय का हिसाब प्रदर्शित करता है।',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

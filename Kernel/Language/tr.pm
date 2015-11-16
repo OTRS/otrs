@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.332930075006049;
+    $Self->{Completeness}        = 0.335510401548137;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3130,15 +3130,15 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Aracıyı bilgilendir',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'İzinler',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'Farklı aracılara erişim tanımlamak için bir yada daha fazla grup seçebilirsiniz.',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3155,14 +3155,14 @@ sub Data {
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Eğer geçersiz kullanıcı ayarlarsanız istatistik oluşturamayabilirsiniz.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'X-Ekseni',
@@ -3172,9 +3172,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Lütfen sadece bir öğe seçin veya \'Sabit\' düğmesini kapatın.',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Arasında',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3182,11 +3182,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Biçim',
+        'Exchange Axis' => 'Eksenlerin Yerini Değiştir',
+        'Configurable params of static stat' => 'Değişmez istatistiğin ayarlanabilir parametreleri',
+        'No element selected.' => 'Öğe seçilmedi.',
+        'Scale' => 'Ölçek',
 
         # Template: D3
         'Download SVG' => '',
@@ -3199,7 +3199,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4668,6 +4668,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.972901040406484;
+    $Self->{Completeness}        = 0.985244315432995;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -901,7 +901,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрация системы - это сервис от OTRS Group, который предоставляет много преимуществ!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Обращаем внимание, что использование облачных сервисов OTRS требует регистрации системы.',
         'Register this system' => 'Зарегистрировать эту систему',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Здесь вы можете настроить доступные облачные сервисы, которые будут безопасно взаимодействовать с %s.',
@@ -1667,7 +1667,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Вы собираетесь выполнить откат к базовой OTRS и потеряете следующие возможности и данные с ними связанные:',
         'Chat' => 'Чат',
-        'Report Generator' => '',
+        'Report Generator' => 'Генератор отчетов',
         'Timeline view in ticket zoom' => 'Хронологический вид при подробном просмотре заявки',
         'DynamicField ContactWithData' => 'Динамическое поле ContactWithData',
         'DynamicField Database' => 'База данных Динамических полей',
@@ -2646,7 +2646,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Создать ответ для %s%s',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Этот адрес является системным зарегистрированным адресом и не может быть использован: %s',
         'Please include at least one recipient' => 'Пожалуйста, включите хотя бы одного получателя.',
         'Remove Ticket Customer' => 'Удалить клиента-инициатора заявки',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3138,79 +3138,79 @@ sub Data {
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Информация о процессе',
-        'Dialog' => '',
+        'Dialog' => 'Диалог',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Уведомить агента',
 
         # Template: PublicDefault
         'Welcome' => 'Добро пожаловать',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Права',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Вы можете выбрать одну или несколько групп для определения доступа для разных агентов.',
+        'Result formats' => 'Форматы результата',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Выбранный период времени для отчета не зависит от временНой зоны.',
+        'Create summation row' => 'Создать итоговую строку',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Генерирует дополнительную строку, содержащую суммы по колонкам.',
+        'Create summation column' => 'Создать итоговую колонку',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Генерирует дополнительную колонку, содержащую суммы по строкам.',
+        'Cache results' => 'Кэширование результатов',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Сохраняет результирующие данные отчета в кэше для использования в последующих обзорах с такими же настройками.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Представляет отчет как виджет, который агент может активировать в своем Дайджесте.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
-        'If set to invalid end users can not generate the stat.' => '',
+            'Обращаем внимание, что включение виджета статистики в Дайджесте активирует кэширование для этого виджета.',
+        'If set to invalid end users can not generate the stat.' => 'Если установлен недействительным, конечные пользователи не могут генерировать этот отчет.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'There are problems in the configuration of this statistic:' => 'Обнаружены проблемы в настройках этого отчета:',
+        'You may now configure the X-axis of your statistic.' => 'Теперь вы можете настроить параметры оси Х для отчета.',
+        'This statistic does not provide preview data.' => 'Этот отчет не предоставляет возможности предварительного просмотра.',
+        'Preview format:' => 'Формат предварительного просмотра: ',
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
-        'Configure X-Axis' => '',
+        'Configure X-Axis' => 'Настройка оси X',
         'X-axis' => 'Ось X',
-        'Configure Y-Axis' => '',
+        'Configure Y-Axis' => 'Настройка оси Y',
         'Y-axis' => 'Ось Y',
-        'Configure Filter' => '',
+        'Configure Filter' => 'Настройка фильтров',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
-        'Absolute period' => '',
-        'Between' => '',
-        'Relative period' => '',
+            'Выберите только один пункт или уберите флажок «Фиксировано».',
+        'Absolute period' => 'Абсолютный период',
+        'Between' => 'Между',
+        'Relative period' => 'Относительный период',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            'Прошлое заканчивается %s и текущее+наступающее заканчивается %s %s',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'После создания отчета данные для этого элемента уже не могут быть изменены.',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Формат',
+        'Exchange Axis' => 'Поменять оси',
+        'Configurable params of static stat' => 'Конфигурируемые параметры статического отчета',
+        'No element selected.' => 'Элементы не выбраны',
+        'Scale' => 'Масштаб',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'Скачать как SVG файл.',
+        'Download PNG' => 'Скачать как PNG файл.',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'Выбранный период времени задает временной период по умолчанию для этого отчета',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Определяет единицу времени, которая будет использоваться для разделения выбранного периода времени в отчете на отрезки для которых вычисляются данные..',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -3816,7 +3816,7 @@ Thanks for your help!
         'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
             'Позволяет клиенту выбирать Тип для заявки. Если установить "Нет", необходимо настроить параметр TicketTypeDefault(Тип по умолчанию).',
         'Allows default services to be selected also for non existing customers.' =>
-            'Разрешает установить Сервис по умолчанию для не существующих клиентов.',
+            'Разрешает установить Сервис по умолчанию для несуществующих клиентов.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Позволяет определить новые Типы для заявок (если включено использование Типа).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -4039,23 +4039,23 @@ Thanks for your help!
             'Укажите первый день недели для использования при выборе даты для выбранного календаря.',
         'Define the start day of the week for the date picker.' => 'Укажите первый день недели для использовании при выборе даты',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
-            '',
+            'Задает элемент данных клиента, на основании которого создается изображение из LinkedIn  в конце блока информации о клиенте.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
-            '',
+            'Задает элемент данных клиента, на основании которого создается изображение из XING в конце блока информации о клиенте.',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' =>
-            '',
+            'Задает элемент данных клиента, на основании которого создается изображение из Google в конце блока информации о клиенте.',
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
-            '',
+            'Задает элемент данных клиента, на основании которого создается изображение из Google Maps в конце блока информации о клиенте.',
         'Defines a default list of words, that are ignored by the spell checker.' =>
             'Задайте список слов, игнорируемых при проверке правописания',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Задает фильтр для HTML для добавления ссылки после CVE numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Задает фильтр для HTML для добавления ссылки после MSBulletin numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Задать фильтр для вывода в HTML для добавления ссылки после определенной строки. Элемент Image может быть в двух вариантах. Первый - имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Задает фильтр для HTML для добавления ссылки после bugtraq numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Задает фильтр для текста сообщений для подсветки определенных слов.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -4066,7 +4066,7 @@ Thanks for your help!
             'Задает "паузу", в микросекундах, между обработкой заявок заданием.',
         'Defines a useful module to load specific user options or to display news.' =>
             'Задать полезные модули для загрузки пользовательских опций или отображения новостей',
-        'Defines all the X-headers that should be scanned.' => 'Задать все X-headers, которые должны проверятся.',
+        'Defines all the X-headers that should be scanned.' => 'Задать все X-headers, которые должны проверяться.',
         'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
             'Задает все языки доступные в приложении. Указывайте здесь только английские названия языков.',
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
@@ -4124,11 +4124,11 @@ Thanks for your help!
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Требуется ли блокировка заявки при изменении клента заявки в интерфейсе агента (если заявка еще не заблокирована, она блокируется и текущий агент становится ее Владельцем)',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Задает возможность входа для агента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Включает проверку правописания при написании сообщений.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Включает расширенные средства редактирования.',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
@@ -4675,7 +4675,7 @@ Thanks for your help!
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Задает способ отображения связанных объектов в подробных просмотрах.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            '',
+            'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
@@ -4690,6 +4690,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Отображает учтенное время для заметки в подробном просмотре заявки.',
         'Dropdown' => 'Выпадающий список',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => 'Редактор динамических полей типа Checkbox',
         'Dynamic Fields Date Time Backend GUI' => 'Редактор динамических полей типа Date Time',
         'Dynamic Fields Drop-down Backend GUI' => 'Редактор динамических полей типа Drop-down',
@@ -5040,7 +5042,7 @@ Thanks for your help!
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             'Если установлено в "Да", заявки, созданные через веб - интерфес клиента или агента, будут получать автоответы (если они заданы). Иначе, автоответы посылаться не будут.',
         'If this regex matches, no message will be send by the autoresponder.' =>
-            'Если это регулярное выражение верно, сообщение не будет посылаться автоответчиком.',
+            'Если это регулярное выражение верно, автоответ не будет посылаться.',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'Игнорировать системные сообщения для новых сообщений (например автоответы или почтовые уведомления).',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5129,7 +5131,7 @@ Thanks for your help!
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Максимальный размер (в строках) списка привлекаемых агентов, в агентском интерфейсе.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
-            '',
+            'Максимальная длина поля Тема в почтовом ответе и некоторых экранах просмотра.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Максимальное количество почтовых автоответов на собственный почтовый адрес в день (Loop-Protection).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
@@ -5334,7 +5336,7 @@ Thanks for your help!
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
             'Права, требуемые для изменения Ответственного заявки в интерфейсе агента.',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
-            'Сбрасывает Владельца и разблокирует заявку при перемещнии ее в другую очередь.',
+            'Сбрасывает Владельца и разблокирует заявку при перемещении ее в другую очередь.',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Восстанавливает заявку из архива (только по событию изменения состояния из "закрыта" в любое другое доступное состояние).',
         'Retains all services in listings even if they are children of invalid elements.' =>
@@ -5823,7 +5825,7 @@ Thanks for your help!
             'Задает текст, который записывается в лог для регистрации обращения к скриптам CGI.',
         'Specifies user id of the postmaster data base.' => 'Задает user id БД postmaster.',
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
-            'Указывет, должны ли все виды хранилищ проверятся при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных.',
+            'Указывет, должны ли все виды хранилищ проверяться при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Задает количество уровней подкаталога для кэш файлов. параметр предотвращает от создания большого количества файлов в одном каталоге.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
@@ -5864,7 +5866,7 @@ Thanks for your help!
         'The divider between TicketHook and ticket number. E.g \': \'.' =>
             'Разделитель между символом номера и его значением. (Например ":", ".").',
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
-            'Период в минутах, после наступления события, в который новое уведомление об эскалации подавляется.',
+            'Период в минутах после наступления события, в который новое уведомление об эскалации подавляется.',
         'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
             'Формат поля Тема. "Left" означает "[TicketHook#:12345] текст темы", "Right" - "текст темы [TicketHook#:12345]", "None" "текст темы без номера заявки". В последнем случае вы должны убедиться, что параметр PostMaster::CheckFollowUpModule###0200-References активирован для распознавания ответов/дополнений, на основании анализа заголовка/темы письма.',
         'The headline shown in the customer interface.' => 'Заголовок, отображаемый в интерфейсе клиента.',

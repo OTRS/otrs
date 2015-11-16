@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (Canada) (http://www.transifex.com/otrs/OTRS/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10285,7 +10285,7 @@ msgstr ""
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Informer l'agent"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10293,12 +10293,12 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Permissions "
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Afin de donner des accès à différents agents, sélectionnez un ou plusieurs groupes."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -10348,7 +10348,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Si l'option « non admissible » est choisie, les utilisateurs finaux ne pourront pas générer les statistiques."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -10369,7 +10369,7 @@ msgstr ""
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -10394,7 +10394,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Veuillez ne sélectionner qu'un seul élément ou désactiver le bouton « Figer »."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -10402,7 +10402,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "entre le"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -10418,23 +10418,23 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Format "
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Échangez les axes"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Paramètres des statistiques configurables"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Aucun élément n'est sélectionné."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Échelle de l'axe X "
 
 #. Template: D3
 msgid "Download SVG"
@@ -10458,8 +10458,8 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14860,6 +14860,12 @@ msgid "Dropdown"
 msgstr "Menu déroulant"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr "IUG de l'arrière-plan pour les case à cocher "
 
@@ -15701,8 +15707,8 @@ msgstr "Si vous sélectionnez l'option « HTTPBasicAuth » pour le module « Cus
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Si vous sélectionnez l'option « HTTPBasicAuth » pour le module « Customer::AuthModule », vous pouvez préciser la mise en chaîne de parties de noms d'utilisateur que vous souhaitez mettre de l'avant (p. ex. pour les domaines de type « exemple_domaine\\utilisateur à utilisateur »)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""

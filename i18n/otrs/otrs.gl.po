@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10287,7 +10287,7 @@ msgstr ""
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Informar o Axente"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10295,12 +10295,12 @@ msgstr "Benvido"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Permisos"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Pode seleccionar un ou mais grupos para definir o acceso para distintos axentes."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -10340,7 +10340,7 @@ msgstr ""
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Proporcione a estatística como un widget que os axentes poden activar no seu cadro de mando."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -10350,7 +10350,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Se se establece a inválido os usuarios finales non poden xerar o stat."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -10371,7 +10371,7 @@ msgstr ""
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -10396,7 +10396,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Por favor seleccione soamente un elemento ou apague o botón 'Fixo'."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -10404,7 +10404,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Entre"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -10420,23 +10420,23 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Eixe de Intercambio"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Parámetros configurables de estaísticas estaticas"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Non hai ningún elemento seleccionado."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Escala"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10460,8 +10460,8 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14862,6 +14862,12 @@ msgid "Dropdown"
 msgstr "Despregable"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr "Campos Dinámicos Checkbox Backend GUI"
 
@@ -15703,8 +15709,8 @@ msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode es
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode especificar espir partes líderes de nomes de usuarios (ex. para dominios como example_domain\\user a usuario ). "
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""

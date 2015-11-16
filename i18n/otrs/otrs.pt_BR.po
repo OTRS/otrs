@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1717,7 +1717,7 @@ msgstr "Outras Configurações"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Configurações de notificação"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -5509,7 +5509,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Remover notificação de idioma"
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
@@ -5586,7 +5586,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Exemplo de notificação"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -5604,7 +5604,7 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Template de e-mail"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -5674,7 +5674,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s estará disponível em breve."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
@@ -5762,7 +5762,7 @@ msgstr "Bate-papo"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Gerador de relatório"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6975,7 +6975,7 @@ msgstr "Instruções"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
-msgstr ""
+msgstr "Cancelamento do registro do sistema não é possível."
 
 #. Template: AdminRegistration
 msgid ""
@@ -8008,7 +8008,7 @@ msgstr "Editar Manutenção do Sistema  %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance information"
-msgstr ""
+msgstr "Editar informação de Manutenção do sistema"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -8044,7 +8044,7 @@ msgstr "Sessões de Cliente"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Matar todas as Sessões, exceto a sua."
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8134,7 +8134,7 @@ msgstr "Alterar Tipo"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "Um tipo com esse nome já existe!"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -8174,7 +8174,7 @@ msgstr "Sobrenome"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "Um usuário com esse Nome de usuário já existe!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8256,11 +8256,11 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "A execução do OTRS Daemon é obrigatório para a correta operação do sistema."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr ""
+msgstr "Iniciado o OTRS Daemon"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8525,7 +8525,7 @@ msgstr "Aplicar estas modificações"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Estatística  » Adicionar"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
@@ -8533,7 +8533,7 @@ msgstr "Adicionar Nova Estatística"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
-msgstr ""
+msgstr "Matriz Dinâmica "
 
 #. Template: AgentStatisticsAdd
 msgid ""
@@ -8543,7 +8543,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic List"
-msgstr ""
+msgstr "Lista Dinâmica"
 
 #. Template: AgentStatisticsAdd
 msgid ""
@@ -8553,7 +8553,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Static"
-msgstr ""
+msgstr "Estático"
 
 #. Template: AgentStatisticsAdd
 msgid ""
@@ -9461,7 +9461,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr ""
+msgstr "e %s mais..."
 
 #. Template: CustomerFooterJS
 msgid "Filters"
@@ -9469,7 +9469,7 @@ msgstr "Filtros"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -9487,7 +9487,7 @@ msgstr "Aviso de Navegador"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr ""
+msgstr "Um momento por favor, você está sendo redirecionado..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -9869,7 +9869,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity"
-msgstr ""
+msgstr "Nova atividade"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
@@ -9877,7 +9877,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "Você realmente quer continuar?"
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
@@ -10298,7 +10298,7 @@ msgstr ""
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Informar Atendente"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10306,12 +10306,12 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Permissões"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Você pode selecionar um ou mais grupos para definir o acesso de diferentes atendentes."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -10351,7 +10351,7 @@ msgstr ""
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Prover a estatística como um componente que agentes podem ativar em sues painéis de controle."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -10361,7 +10361,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Se configurado como inválido, usuários finais não poderão gerar a estatística."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -10382,7 +10382,7 @@ msgstr ""
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -10403,23 +10403,23 @@ msgstr ""
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Configurar Filtro"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Por favor, selecione apenas um elemento ou desabilite o botão \"Fixo\"."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Periodo absoluto"
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Entre"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Período relativo"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
@@ -10431,23 +10431,23 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Trocar Eixo"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Parâmetros configuráveis da estatística estática"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Nenhum elemento selecionado."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Escala"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10471,8 +10471,8 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14873,6 +14873,12 @@ msgid "Dropdown"
 msgstr "Suspenso"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr ""
 
@@ -15714,7 +15720,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16388,7 +16394,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Outros"
 
 #. SysConfig
 msgid ""

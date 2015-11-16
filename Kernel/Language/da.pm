@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.531333172030002;
+    $Self->{Completeness}        = 0.53410740203193;
 
     # csv separator
     $Self->{Separator} = '';
@@ -3131,15 +3131,15 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Informer Agent',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Rettigheder',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'Du kan vælge en eller flere grupper for at give adgang for forskellige agenter.',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3153,17 +3153,17 @@ sub Data {
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Tilbyd rapporten som en widget, agenter kan aktivere på deres dashboard.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Hvis sat til ugyldig, kan brugere ikke køre rapporten.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'X-akse',
@@ -3173,9 +3173,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Vælg venligst kun et Element, eller fravælg knappen \'Fast\'',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Mellem',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3183,11 +3183,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Ombyt akser',
+        'Configurable params of static stat' => 'Konfigurerbare parametre af en statisk rapport',
+        'No element selected.' => 'Intet element er valgt',
+        'Scale' => 'Skala',
 
         # Template: D3
         'Download SVG' => '',
@@ -3200,7 +3200,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4669,6 +4669,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3215,7 +3215,7 @@ msgstr "Регистрација система је услуга OTRS Груп�
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Напомињемо да коришћење OTRS сервиса у облаку захтевају да систем буде регистрован."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5753,7 +5753,7 @@ msgstr "Ћаскање"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Генератор извештаја"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8813,7 +8813,7 @@ msgstr "Напиши одговор за %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Ова адреса је регистрована као системска и не може бити коришћена: %s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10285,11 +10285,11 @@ msgstr "Информације о процесу"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Дијалог"
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Обавести оператера"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10297,88 +10297,88 @@ msgstr "Добродошли"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Дозволе"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Можете изабрати једну или више група за дефинисање приступа за различите оператере."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Формат резултата"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "Изабрани временски периоди у статистици су неутрални по питању временске зоне."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Креирај ред са збиром"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data columns."
-msgstr ""
+msgstr "Генериши додатни ред са збиром свих колона са подацима."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Креирај колону са збиром"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data rows."
-msgstr ""
+msgstr "Генериши додатну колону са збиром свих редова са подацима."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Кеширај резултате"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration."
-msgstr ""
+msgstr "Чува резултате статистика у кешу за касније коришћење у прегледима са истим подешавањима."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Обезбеди статистику као апликативни додатак (widget), који опертатери могу активирати путем своје контролне табле."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Напомињемо да омогућавање апликативног додатка (widget) ће кеширати ову статистику на контролној табли."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Ако је подешено на неважеће, крајњи корисници не могу генерисати статистику."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Постоје неки проблеми у подешавању ове статистике:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Сада можете подесити X осу ваше статистике."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Ова статистика не омогућава привремени приказ."
 
 #. Template: PreviewWidget
 msgid "Preview format:"
-msgstr ""
+msgstr "Формат приказа:"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "Подеси X осу"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10386,7 +10386,7 @@ msgstr "Х-оса"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Подеси Y осу"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10394,76 +10394,76 @@ msgstr "Y-оса"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Подеси филтер"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Молимо да изаберете само један елемент или искључите дугме \"фиксирано\"!"
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Апсолутни период"
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Између"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Релативни период"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "Комплетна прошлост %s и комплетна тренутна+будућа %s %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Онемогући промене овог елемента при генерисању статистике."
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Замени осе"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Подесиви параметри статичке статистике"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Није изабран ни један елемент."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Скала"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "Преузми SVG"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "Преузме PNG"
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr ""
+msgstr "Одабрани временски период дефинише подразумеван временски оквир за прикупљање података статистике."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "Дефинише временску јединицу која се користи за поделу изабраног временског периода у појединачне тачке на извештају."
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14864,6 +14864,12 @@ msgid "Dropdown"
 msgstr "Падајући"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr "Позадински приказ динамичког поља за потврду"
 
@@ -15644,55 +15650,55 @@ msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, �
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, могуће је подесити лозинку за табелу корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, могуће је подесити корисничко име за табелу корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити DSN за конекцију ка табели корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив колоне за CustomerPassword у табели корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the crypt type of passwords"
 " must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити начин енкрипције за лозинке."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив колоне за CustomerKey у табели корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив табеле где се чувају кориснички подаци."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"DB\" за SessionModule, неопходно је подесити назив табеле где ће се чувати подаци сесија."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data"
 " will be stored must be specified."
-msgstr ""
+msgstr "Уколико је изабрано \"FS\" за SessionModule, неопходно је подесити назив директоријума где ће се чувати подаци сесија."
 
 #. SysConfig
 msgid ""
@@ -15705,7 +15711,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

@@ -9911,7 +9911,7 @@ msgid "Preview format:"
 msgstr ""
 
 #. Template: PreviewWidget
-msgid "Please note that the preview uses random data and does not consider data restrictions."
+msgid "Please note that the preview uses random data and does not consider data filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -9995,7 +9995,7 @@ msgid "Defines the time unit that will be used to split the selected time period
 msgstr ""
 
 #. Template: YAxisWidget
-msgid "Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+msgid "Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -13386,6 +13386,10 @@ msgid "Dropdown"
 msgstr ""
 
 #. SysConfig
+msgid "Dutch stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr ""
 
@@ -14054,7 +14058,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

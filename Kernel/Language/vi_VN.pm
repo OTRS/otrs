@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.28332930075006;
+    $Self->{Completeness}        = 0.285437832607644;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3129,13 +3129,13 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Thông báo điều hành',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Các quyền',
         'You can select one or more groups to define access for different agents.' =>
             '',
         'Result formats' => '',
@@ -3161,7 +3161,7 @@ sub Data {
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'trục X',
@@ -3171,9 +3171,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Hãy chọn chỉ 1 thành tố hoặc tắt nút \'Đã sửa\'!',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Giữa',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3181,11 +3181,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Định dạng',
+        'Exchange Axis' => 'Trục trao đổi',
+        'Configurable params of static stat' => 'Tham số cấu hình của thống kê tĩnh',
+        'No element selected.' => 'Không thành tố nào được chọn.',
+        'Scale' => 'Phạm vi',
 
         # Template: D3
         'Download SVG' => '',
@@ -3198,7 +3198,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4667,6 +4667,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

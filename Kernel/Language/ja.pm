@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.7203000241955;
+    $Self->{Completeness}        = 0.722544750846638;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3135,15 +3135,15 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => '担当者に知らせる',
 
         # Template: PublicDefault
         'Welcome' => 'ようこそ',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => '権限',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'エージェントごとに、複数のグループを同時選択することもできます。',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3160,14 +3160,14 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => '無効なエンドユーザーに設定されている場合、統計を生成できません。',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'X軸',
@@ -3179,7 +3179,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please select only one element or turn off the button \'Fixed\'.' =>
             '',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'この間',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3187,11 +3187,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => '書式',
+        'Exchange Axis' => '縦横軸の交換',
+        'Configurable params of static stat' => '静的統計情報の設定可能パラメータ',
+        'No element selected.' => '要素が選択されていません。',
+        'Scale' => '目盛',
 
         # Template: D3
         'Download SVG' => '',
@@ -3204,7 +3204,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4676,6 +4676,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'チケットズームビューで、項目に関してアカウントされた時間を表示します。',
         'Dropdown' => 'ドロップダウン',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

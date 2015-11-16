@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843697072344544;
+    $Self->{Completeness}        = 0.857039187227866;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -890,7 +890,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele Vorteile sichert!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Bitte beachten Sie, dass die Verwendung von OTRS Cloud Services ein registriertes System voraussetzt.',
         'Register this system' => 'Registrieren Sie dieses System',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Hier können Sie verfügbare Cloud-Services konfigurieren die sicher mit %s kommunizieren.',
@@ -1360,19 +1360,19 @@ sub Data {
             'z. B. urn:otrs-com:soap:functions oder http://www.otrs.com/GenericInterface/actions',
         'Request name scheme' => 'Anfragennamensschema',
         'Select how SOAP request function wrapper should be constructed.' =>
-            '',
+            'Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
-            '',
+            '\'FunctionName\' wird als Beispiel für den tatsächlichen Namen eines Invokers / einer Operation verwendet.',
         '\'FreeText\' is used as example for actual configured value.' =>
-            '',
+            '\'FreeText\' wird als Beispiel für einen tatsächlich konfigurierten Wert verwendet.',
         'Response name free text' => 'Antwortnamensfreitext',
         'Text to be used to as function wrapper name suffix or replacement.' =>
-            '',
+            'Text, der als Anhang oder Ersatz für den Funktionsnamen verwendet werden soll.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
-            '',
+            'Bitte beachten Sie die Beschränkungen von XML-Elementnamen (verwenden Sie z. B. kein \'<\' oder \'&\').',
         'Response name scheme' => 'Antwortnamensschema',
         'Select how SOAP response function wrapper should be constructed.' =>
-            '',
+            'Wählen Sie, wie die SOAP-Antwort konstruiert werden soll.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, die OTRS verarbeitet.',
         'Encoding' => 'Kodierung',
@@ -1406,7 +1406,7 @@ sub Data {
         'Sort options' => 'Sortierungsoptionen',
         'Add new first level element' => 'Neues First-Level Element hinzufügen',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            '',
+            'Sortierung für ausgehende XML-Ffelder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport.',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => 'GenericInterface Webservice-Verwaltung',
@@ -1561,13 +1561,13 @@ sub Data {
         'At least one method is needed per notification.' => 'Mindestens eine Methode ist für jede Benachrichtigung erforderlich.',
         'Send by default' => 'Standardmäßig senden',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
-            '',
+            'Sollten die Benachrichtigungen an Agenten gesendet werden, die noch keine persönliche Einstellung dafür konfiguriert haben?',
         'This feature is currently not available.' => 'Diese Funktion ist derzeit nicht verfügbar.',
         'No data found' => 'Keine Daten gefunden',
         'No notification method found.' => 'Keine Benachrichtigungsmethode gefunden.',
         'Notification Text' => 'Benachrichtigungstext',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
+            'Diese Sprache ist im System nicht verfügbar. Der Benachrichtigungstext kann gelöscht werden, falls er nicht mehr benötigt wird.',
         'Remove Notification Language' => 'Benachrichtigungssprache entfernen',
         'Message body' => 'Nachrichteninhalt',
         'Add new notification language' => 'Neue Sprache für Benachrichtigungen hinzufügen',
@@ -2635,7 +2635,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Antwort für %s%s verfassen',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Diese Adresse ist als Systemadresse registriert und kann daher nicht verwendet werden: %s.',
         'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
         'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3123,84 +3123,84 @@ sub Data {
         'Notification' => 'Benachrichtigung',
         'No user configurable notifications found.' => 'Keine vom Benutzer konfigurierbaren Benachrichtigungen gefunden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            '',
+            'Nachrichten für Benachrichtigung \'%s\' mittels Transportmethode \'%s\' empfangen.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Prozess-Informationen',
-        'Dialog' => '',
+        'Dialog' => 'Dialog',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Agenten informieren',
 
         # Template: PublicDefault
         'Welcome' => 'Willkommen',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Rechtevergabe',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Sie können eine oder mehrere Gruppen definieren, um Zugriffsrechte für verschiedene Agenten zu vergeben.',
+        'Result formats' => 'Ergebnisformate',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig.',
+        'Create summation row' => 'Summenzeile erzeugen',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Eine zusätzliche Zeile mit Summen für alle Datenspalten erzeugen.',
+        'Create summation column' => 'Summenspalte erzeugen',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Eine zusätzliche Spalte mit Summen für alle Datenzeilen erzeugen.',
+        'Cache results' => 'Ergebnisse cachen',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Speichert Statistikergebnisse in einem Cache, der in weiteren Aufrufen mit derselben Konfiguration verwendet wird.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Diese Statistik als Dashboard-Widget anbieten, die Agenten in Ihrem Dashboard aktivieren können.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
-        'If set to invalid end users can not generate the stat.' => '',
+            'Bitte beachten Sie, dass das Dashboard-Widget das Caching für diese Statistik aktiviert.',
+        'If set to invalid end users can not generate the stat.' => 'Bei "ungültig" können Nutzer die Statistik nicht mehr ausführen.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
-            '',
-        'Configure X-Axis' => '',
+        'There are problems in the configuration of this statistic:' => 'Es bestehen Probleme in der Konfiguration dieser Statistik:',
+        'You may now configure the X-axis of your statistic.' => 'Sie können jetzt die X-Achse Ihrer Statistik konfigurieren.',
+        'This statistic does not provide preview data.' => 'Diese Statistik stellt keine Vorschaudaten zur Verfügung.',
+        'Preview format:' => 'Vorschauformat:',
+        'Please note that the preview uses random data and does not consider data filters.' =>
+            'Bitte beachten Sie, dass die Vorschau Zufallsdaten verwendet und keine Datenfilter berücksichtigt.',
+        'Configure X-Axis' => 'X-Achse konfigurieren',
         'X-axis' => 'X-Achse',
-        'Configure Y-Axis' => '',
+        'Configure Y-Axis' => 'Y-Achse konfigurieren',
         'Y-axis' => 'Y-Achse',
-        'Configure Filter' => '',
+        'Configure Filter' => 'Filter konfigurieren',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
-        'Absolute period' => '',
-        'Between' => '',
-        'Relative period' => '',
+            'Bitte wählen Sie nur ein Attribut aus oder entfernen Sie das Häkchen der Checkbox \'Fixiert\'!',
+        'Absolute period' => 'Absoluter Zeitraum',
+        'Between' => 'Zwischen',
+        'Relative period' => 'Relativer Zeitraum',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            'Die vergangenen %s und der/die aktuelle+kommenden %s %s.',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Beim Erzeugen der Statistik keine Veränderungen an diesem Element erlauben.',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Achsen vertauschen',
+        'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
+        'No element selected.' => 'Es wurde kein Element ausgewählt.',
+        'Scale' => 'Skalierung',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'SVG herunterladen',
+        'Download PNG' => 'PNG herunterladen',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'Der ausgewählte Zeitabschnitt definiert den (voreingestellten) Zeitraum, aus dem diese Statistik Daten aggregiert.',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Definiert die Zeiteinheit, anhand welcher der ausgewählte Zeitraum in Berichts-Datenpunkte aufgeteilt wird.',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
-            '',
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
+            'Bitte beachten Sie, dass die Skalierung der Y-Achse größer sein muss als die Skalierung der X-Achse (z. B. X-Achse => Monat, Y-Achse => Jahr).',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Testseite',
@@ -3324,11 +3324,11 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'Kein relativer Zeitraum ausgewählt.',
         'The selected time period is larger than the allowed time period.' =>
             'Der ausgewählte Zeitraum ist größer als der erlaubte Zeitraum.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
+            'Keine Zeitskalierung für den aktuell ausgewählten Zeitskalierungswert der X-Achse verfügbar.',
         'The selected date is not valid.' => 'Das ausgewählte Datum ist ungültig.',
         'The selected end time is before the start time.' => 'Die ausgewählte Endzeit ist vor der Startzeit.',
         'There is something wrong with your time selection.' => 'Bitte überprüfen Sie Ihre Zeitauswahl.',
@@ -3657,11 +3657,11 @@ sub Data {
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             'Eine Automatische Antwort wird versandt, nachdem ein neues Ticket erstellt wurde.',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
-            '',
+            'Automatische Ablehnung, die gesendet wird, nachdem eine Rückantwort abgelehnt wurde (falls die Rückantworts-Einstellung der Queue "Ablehnen" ist).',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
-            '',
+            'Automatische Bestätigung, die gesendet wird, nachdem eine Rückantwort für ein Ticket empfangen wurde (falls die Rückantworts-Einstellung der Queue "Möglich" ist).',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
-            '',
+            'Automatische Antwort, die gesendet wird, nachdem eine Rückantwort abgelehnt und ein neues Ticket erstellt wurde (falls die Rückantworts-Einstellung der Queue "Neues Ticket" ist).',
         'Auto remove will be sent out after a customer removed the request.' =>
             'Auto Remove wird versendet, nachdem der Kundenbenutzer die Anfrage entfernt hat.',
         'default reply (after new ticket has been created)' => 'Standardantwort (nachdem ein neues Ticket erstellt wurde)',
@@ -3875,7 +3875,7 @@ Thanks for your help!
         'Chinese (Simplified)' => 'Chinesisch (vereinfacht)',
         'Chinese (Traditional)' => 'Chinesisch (traditionell)',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            'Für welche Veränderungen an Tickets möchten Sie Benachrichtigungen erhalten',
+            'Für welche Veränderungen an Tickets möchten Sie Benachrichtigungen erhalten?',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
         'Closed tickets (customer)' => 'Geschlossene Tickets (Kunden)',
         'Cloud Services' => 'Cloud Service',
@@ -4668,6 +4668,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
         'Dropdown' => 'Einfachauswahl',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields-Oberfläche für Checkboxen',
         'Dynamic Fields Date Time Backend GUI' => 'Dynamic Fields-Oberfläche für DatumZeit-Felder',
         'Dynamic Fields Drop-down Backend GUI' => 'Dynamic Fields-Oberfläche für Auswahlboxen',

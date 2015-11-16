@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.752480038712799;
+    $Self->{Completeness}        = 0.755200774068699;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3133,15 +3133,15 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Poinformuj agenta',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Uprawnienia',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'Możesz wskazać jedną lub więcej grup aby zdefiniować dostęp dla różnych agentów.',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3155,17 +3155,17 @@ sub Data {
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Udostępnij statystyki jako widget który agenci mogą aktywowac na swoim pulpicie.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Jeśli ustawiono wartość \'nieaktywne\' to użytkownicy nie będą mogli wygenerować tej statystyki.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'Oś X',
@@ -3175,9 +3175,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Wybierz jeden element lub odznacz przycisk \'Stały\'.',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Pomiędzy',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3185,11 +3185,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Zamień osie',
+        'Configurable params of static stat' => 'Konfigurowalne parametry statystyki statycznej',
+        'No element selected.' => 'Nie wybrano elementu',
+        'Scale' => 'Skala',
 
         # Template: D3
         'Download SVG' => '',
@@ -3202,7 +3202,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4671,6 +4671,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Wyświetla zliczony czas artykułu w widoku przybliżonym zgłoszenia.',
         'Dropdown' => 'Lista rozwijana',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => 'Interfejs pól dynamicznych okna wyboru',
         'Dynamic Fields Date Time Backend GUI' => 'Interfejs pól dynamicznych daty i czasu',
         'Dynamic Fields Drop-down Backend GUI' => 'Interfejs pól dynamicznych rozwijanej listy',

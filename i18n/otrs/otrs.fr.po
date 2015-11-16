@@ -10,12 +10,13 @@
 # osallou <olivier.sallou@irisa.fr>, 2014
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
 # Thierry Larmier <tlarmier@free.fr>, 2015
+# Vincent SAOUT <v.saout@atool-dev.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -189,7 +190,7 @@ msgstr "semaine(s)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AAABase
 msgid "quarter(s)"
@@ -4953,7 +4954,7 @@ msgstr "par ex. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Lister options"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
@@ -5414,15 +5415,15 @@ msgstr "Inclure les pièces jointes à la notification"
 
 #. Template: AdminNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataires"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Envoyer à"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Envoyer aux agents"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
@@ -5442,7 +5443,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Un par jour"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5488,7 +5489,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Aucune donnée trouvée"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5502,7 +5503,7 @@ msgstr ""
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Cette langue n'est pas disponible ou activée dans le système. Cette notification peut être supprimée si celle-ci n'est plus nécessaire."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -5510,7 +5511,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Corps du message"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -5628,32 +5629,32 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
-msgstr ""
+msgstr "Usage non autorisé détécté"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr ""
+msgstr "Ce système utilise %s sans une licence valide ! Merci prendre contact avec %s pour renouveler ou activer votre contrat!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
-msgstr ""
+msgstr "%s n'est pas installé correctement"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr ""
+msgstr "Votre %s n'est pas correctement installé. Merci de le réinstaller avec le bouton suivant."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Réinstaller %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr ""
+msgstr "Votre %s n'est pas correctement installé, et une mise à jour est disponible."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -5663,31 +5664,31 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Mettre à jour %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "%s n'est pas encore disponible"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s sera bientôt disponible."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%S Mise à jour disponible"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr ""
+msgstr "Une mise à jour est disponible pour votre %s! Merci de l'effectuer le plus rapidement possible!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%S Installé Correctement"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr ""
+msgstr "Félicitations, votre %s est installée correctement et à jour!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
@@ -5755,7 +5756,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Chat"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
@@ -6968,7 +6969,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Instructions"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
@@ -6982,21 +6983,21 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
-msgstr ""
+msgstr "Identifiant OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "Read more"
-msgstr ""
+msgstr "Lire plus"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to register your system."
-msgstr ""
+msgstr "Vous devez vous identifier avec votre identifiant OTRS-ID pour enregistrer votre système."
 
 #. Template: AdminRegistration
 msgid ""
 "Your OTRS-ID is the email address you used to sign up on the OTRS.com "
 "webpage."
-msgstr ""
+msgstr "Votre identifiant OTRS-ID est votre adresse email utilisée pour vous connecter à la page web OTRS.com."
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -7004,11 +7005,11 @@ msgstr "Protection des données"
 
 #. Template: AdminRegistration
 msgid "What are the advantages of system registration?"
-msgstr ""
+msgstr "Quels sont les avantages de l'enregistrement de votre installation ?"
 
 #. Template: AdminRegistration
 msgid "You will receive updates about relevant security releases."
-msgstr ""
+msgstr "Vous recevrez les mises à jour de sécurité majeures."
 
 #. Template: AdminRegistration
 msgid ""
@@ -8522,11 +8523,11 @@ msgstr "Appliquer ces changements"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Statistiques » Ajouter"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Ajout une nouvelle statistique"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8721,7 +8722,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr ""
+msgstr "Informer des agents"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
@@ -10295,7 +10296,7 @@ msgstr ""
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Informer l'opérateur"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10303,12 +10304,12 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Permissions"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Afin de donner des accès à différents opérateurs, sélectionnez un ou plusieurs groupes."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -10358,7 +10359,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Si mis à invalide, les utilisateurs finaux ne pourront pas générer la statistique."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -10379,7 +10380,7 @@ msgstr ""
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -10404,7 +10405,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Sélectionnez un seul élément ou désactivez le bouton 'Fixé'"
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -10412,7 +10413,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Entre"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -10428,23 +10429,23 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Échangez les axes"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Paramètres modifiables des statistiques"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Aucun élément sélectionné."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Échelle"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10468,8 +10469,8 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14870,6 +14871,12 @@ msgid "Dropdown"
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr ""
 
@@ -15456,11 +15463,11 @@ msgstr "Transféré vers \"%s\"."
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "Français (Canada)"
 
 #. SysConfig
 msgid ""
@@ -15616,11 +15623,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "Grec"
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "Hébreu"
 
 #. SysConfig
 msgid ""
@@ -15711,7 +15718,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16099,7 +16106,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "Japonais"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -16119,7 +16126,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -16381,7 +16388,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "Fusionner le ticket <OTRS_TICKET> avec <OTRS_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Miscellaneous"
