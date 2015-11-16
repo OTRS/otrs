@@ -313,7 +313,7 @@
                 <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
-                    <JavaScript>Core.Agent.Admin.GenericInterfaceMappingSimple.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceMapping.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

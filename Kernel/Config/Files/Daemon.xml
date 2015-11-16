@@ -29,7 +29,7 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>Core.Agent.DaemonInfo.css</Item>
+                <Item>Core.Agent.Daemon.css</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -39,7 +39,7 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>Core.Agent.DaemonInfo.js</Item>
+                <Item>Core.Agent.Daemon.js</Item>
             </Array>
         </Setting>
     </ConfigItem>

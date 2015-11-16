@@ -13,7 +13,7 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace Core.Agent.Admin.GenericInterfaceMappingSimple
+ * @namespace Core.Agent.Admin.GenericInterfaceMapping
  * @memberof Core.Agent.Admin
  * @author OTRS AG
  * @description
@@ -23,7 +23,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name Init
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @param {Object} Params - Initialization and internationalization parameters.
      * @description
@@ -83,7 +83,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name AddKeyMapping
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @returns {Bool} Returns false to prevent event bubbling.
      * @description
@@ -180,7 +180,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name AddValueMapping
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @returns {Bool} Returns false to prevent event bubbling.
      * @param {jQueryObject} ValueInsert - JQuery object where the new value mapping should be included.
@@ -241,7 +241,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name RemoveValueMapping
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @param {jQueryObject} Object - JQuery object used to decide if is, or not necessary to hide the input text control for MapTo value.
      * @description
@@ -266,7 +266,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name ToggleMapTo
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @param {jQueryObject} Object - JQuery object used to decide if is, or not necessary to hide the input text control for MapTo value.
      * @description
@@ -286,7 +286,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name ShowDeleteDialog
-     * @memberof Core.Agent.Admin.GenericInterfaceMappingSimple
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
      * @param {String} IDSelector - ID object of the clicked element.
      * @description
