@@ -163,7 +163,7 @@ sub Run {
         }
 
         # get valid Auto Response IDs
-        my @AutoResponse = keys { $AutoResponseObject->AutoResponseList() };
+        my @AutoResponse = keys %{ $AutoResponseObject->AutoResponseList() };
 
         # if there are any auto responses, they are shown
         if (@AutoResponse) {
