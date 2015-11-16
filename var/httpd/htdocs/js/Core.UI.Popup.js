@@ -477,9 +477,23 @@ Core.UI.Popup = (function (TargetNS) {
                     // Get the position of the current screen on browsers which support it (non-IE) and
                     //  use it to open the popup on the same screen
                     PopupFeatures += ',left=' + ((window.screen.left || 0) + PopupProfiles[PopupProfile].Left);
-                    PopupFeatures += ',top=' + ((window.screen.top || 0) + PopupProfiles[PopupProfile].Top);
                     PopupFeatures += ',width=' + PopupProfiles[PopupProfile].Width;
-                    PopupFeatures += ',height=' + PopupProfiles[PopupProfile].Height;
+
+                    // Bug#11205 (http://bugs.otrs.org/show_bug.cgi?id=11205)
+                    // On small screens (still wide enough to open a popup)
+                    // it can happen, that the popup window is higher than the screen height
+                    // In this case, reduce the popup height to fit into the screen
+                    // We don't have to do that for the width, because a smaller screen width
+                    // would result in a "responsive popup" aka iframe.
+                    if (window.screen.availHeight < PopupProfiles[PopupProfile].Height + PopupProfiles[PopupProfile].Top) {
+                        PopupFeatures += ',height=' + (window.screen.availHeight - PopupProfiles[PopupProfile].Top - 20);
+                        // Adjust top position to have the same distance between top and bottom line.
+                        PopupFeatures += ',top=' + ((window.screen.top || 0) + (PopupProfiles[PopupProfile].Top / 2));
+                    }
+                    else {
+                        PopupFeatures += ',height=' + PopupProfiles[PopupProfile].Height;
+                        PopupFeatures += ',top=' + ((window.screen.top || 0) + PopupProfiles[PopupProfile].Top);
+                    }
 
                     NewWindow = window.open(URL, WindowName, PopupFeatures);
 
