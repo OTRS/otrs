@@ -14,7 +14,9 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    RestoreDatabase => 1,
+);
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -481,31 +483,6 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup the system
-for my $DynamicFieldID ( sort keys %AddedDynamicFieldIds ) {
-
-    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-        Name => $AddedDynamicFieldIds{$DynamicFieldID},
-    );
-
-    my $Success = $BackendObject->AllValuesDelete(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        UserID             => 1,
-    );
-    $Self->True(
-        $Success,
-        "DynamicField AllValuesDelete() - for DynamicFieldID '$DynamicFieldID' with true",
-    );
-}
-
-# the ticket is no longer needed
-$Success = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "TicketDelete() - fort TicketID '$TicketID' with true",
-);
+# Cleanup is done by RestoreDatabase.
 
 1;
