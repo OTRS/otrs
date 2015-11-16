@@ -135,7 +135,7 @@
             <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
             [% END %]
             <span class="Warning">
-                [% Translate('Please note that the preview uses random data and does not consider data restrictions.') | html %]
+                [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
             </span>
         </div>
         [% WRAPPER JSOnDocumentComplete %]

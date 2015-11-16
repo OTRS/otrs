@@ -28,7 +28,7 @@
             [% Data.TimeScaleUnit %]
             <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
 #            <p class="FieldExplanation">
-#                [% Translate("Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).") | html %]
+#                [% Translate("Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).") | html %]
 #            </p>
 # [% Data.TimeScaleCount %] Comment: Danger to use and no best practise
         </div>
