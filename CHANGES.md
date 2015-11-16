@@ -1,4 +1,5 @@
 #5.0.4 2015-??-??
+ - 2015-11-16 Fixed bug#[11205](http://bugs.otrs.org/show_bug.cgi?id=11205) - Popup window height does not check for actual screen height.
  - 2015-11-16 Fixed bug#[11651](http://bugs.otrs.org/show_bug.cgi?id=11651) - All customers shown as invalid if using an LDAP backend.
  - 2015-11-13 Fixed bug#[11351](http://bugs.otrs.org/show_bug.cgi?id=11351) - S/Mime signed mails always show "Signature verified before!".
  - 2015-11-06 Fixed bug#[11348](http://bugs.otrs.org/show_bug.cgi?id=11348) - Error handling in AgentTicketForward.
