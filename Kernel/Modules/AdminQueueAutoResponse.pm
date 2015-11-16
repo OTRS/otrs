@@ -163,11 +163,11 @@ sub Run {
         }
 
         # get valid Auto Response IDs
-        my @AutoResponse = keys %{ $AutoResponseObject->AutoResponseList() };
+        my %AutoResponseList = $AutoResponseObject->AutoResponseList();
 
         # if there are any auto responses, they are shown
-        if (@AutoResponse) {
-            for my $AutoResponseID (@AutoResponse) {
+        if (keys %AutoResponseList) {
+            for my $AutoResponseID (sort keys %AutoResponseList) {
 
                 my %Data = $AutoResponseObject->AutoResponseGet(
                     ID => $AutoResponseID,
