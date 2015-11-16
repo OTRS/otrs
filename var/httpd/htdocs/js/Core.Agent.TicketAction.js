@@ -437,7 +437,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
      *      in the textarea or RTE will be overwritten with the template content.
      */
     TargetNS.ConfirmTemplateOverwrite = function (FieldName, $TemplateSelect, Callback) {
-        var Content = '';
+        var Content = '',
+            LastValue = $TemplateSelect.data('LastValue') || '';
 
         // Fallback for non-richtext content
         Content = $('#' + FieldName).val();
@@ -453,11 +454,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
             !window.confirm(Core.Config.Get('TicketActionTemplateOverwrite') + ' ' + Core.Config.Get('TicketActionTemplateOverwriteConfirm')))
             {
                 // if user cancels confirmation, reset template selection
-                $TemplateSelect.val('').trigger('redraw');
+                $TemplateSelect.val(LastValue).trigger('redraw');
 
         }
         else if ($.isFunction(Callback)) {
             Callback();
+            $TemplateSelect.data('LastValue', $TemplateSelect.val());
         }
     }
 
