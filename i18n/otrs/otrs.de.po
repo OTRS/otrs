@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:11+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3233,7 +3233,7 @@ msgstr "Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Bitte beachten Sie, dass die Verwendung von OTRS Cloud Services ein registriertes System voraussetzt."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -4824,15 +4824,15 @@ msgstr "Anfragennamensschema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
-msgstr ""
+msgstr "Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
-msgstr ""
+msgstr "'FunctionName' wird als Beispiel für den tatsächlichen Namen eines Invokers / einer Operation verwendet."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr ""
+msgstr "'FreeText' wird als Beispiel für einen tatsächlich konfigurierten Wert verwendet."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
@@ -4840,13 +4840,13 @@ msgstr "Antwortnamensfreitext"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr ""
+msgstr "Text, der als Anhang oder Ersatz für den Funktionsnamen verwendet werden soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Please consider XML element naming restrictions (e.g. don't use '<' and "
 "'&')."
-msgstr ""
+msgstr "Bitte beachten Sie die Beschränkungen von XML-Elementnamen (verwenden Sie z. B. kein '<' oder '&')."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
@@ -4854,7 +4854,7 @@ msgstr "Antwortnamensschema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
-msgstr ""
+msgstr "Wählen Sie, wie die SOAP-Antwort konstruiert werden soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -4975,7 +4975,7 @@ msgstr "Neues First-Level Element hinzufügen"
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr ""
+msgstr "Sortierung für ausgehende XML-Ffelder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
@@ -5492,7 +5492,7 @@ msgstr "Standardmäßig senden"
 msgid ""
 "Should the notification be sent to agents who have not yet made a choice in "
 "their preferences?"
-msgstr ""
+msgstr "Sollten die Benachrichtigungen an Agenten gesendet werden, die noch keine persönliche Einstellung dafür konfiguriert haben?"
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5514,7 +5514,7 @@ msgstr "Benachrichtigungstext"
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Diese Sprache ist im System nicht verfügbar. Der Benachrichtigungstext kann gelöscht werden, falls er nicht mehr benötigt wird."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
@@ -8831,7 +8831,7 @@ msgstr "Antwort für %s%s verfassen"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Diese Adresse ist als Systemadresse registriert und kann daher nicht verwendet werden: %s."
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10295,7 +10295,7 @@ msgstr "Keine vom Benutzer konfigurierbaren Benachrichtigungen gefunden."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "Nachrichten für Benachrichtigung '%s' mittels Transportmethode '%s' empfangen."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -10303,11 +10303,11 @@ msgstr "Prozess-Informationen"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Dialog"
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Agenten informieren"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10315,88 +10315,88 @@ msgstr "Willkommen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Rechtevergabe"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Sie können eine oder mehrere Gruppen definieren, um Zugriffsrechte für verschiedene Agenten zu vergeben."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Ergebnisformate"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Summenzeile erzeugen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data columns."
-msgstr ""
+msgstr "Eine zusätzliche Zeile mit Summen für alle Datenspalten erzeugen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Summenspalte erzeugen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data rows."
-msgstr ""
+msgstr "Eine zusätzliche Spalte mit Summen für alle Datenzeilen erzeugen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Ergebnisse cachen"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration."
-msgstr ""
+msgstr "Speichert Statistikergebnisse in einem Cache, der in weiteren Aufrufen mit derselben Konfiguration verwendet wird."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Diese Statistik als Dashboard-Widget anbieten, die Agenten in Ihrem Dashboard aktivieren können."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Bitte beachten Sie, dass das Dashboard-Widget das Caching für diese Statistik aktiviert."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Bei \"ungültig\" können Nutzer die Statistik nicht mehr ausführen."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Es bestehen Probleme in der Konfiguration dieser Statistik:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Sie können jetzt die X-Achse Ihrer Statistik konfigurieren."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Diese Statistik stellt keine Vorschaudaten zur Verfügung."
 
 #. Template: PreviewWidget
 msgid "Preview format:"
-msgstr ""
+msgstr "Vorschauformat:"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
-msgstr ""
+"filters."
+msgstr "Bitte beachten Sie, dass die Vorschau Zufallsdaten verwendet und keine Datenfilter berücksichtigt."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "X-Achse konfigurieren"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10404,7 +10404,7 @@ msgstr "X-Achse"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Y-Achse konfigurieren"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10412,77 +10412,77 @@ msgstr "Y-Achse"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Filter konfigurieren"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Bitte wählen Sie nur ein Attribut aus oder entfernen Sie das Häkchen der Checkbox 'Fixiert'!"
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Absoluter Zeitraum"
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Zwischen"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Relativer Zeitraum"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "Die vergangenen %s und der/die aktuelle+kommenden %s %s."
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Beim Erzeugen der Statistik keine Veränderungen an diesem Element erlauben."
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Achsen vertauschen"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Konfigurierbare Parameter der statischen Statistik"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Es wurde kein Element ausgewählt."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Skalierung"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "SVG herunterladen"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "PNG herunterladen"
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr ""
+msgstr "Der ausgewählte Zeitabschnitt definiert den (voreingestellten) Zeitraum, aus dem diese Statistik Daten aggregiert."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "Definiert die Zeiteinheit, anhand welcher der ausgewählte Zeitraum in Berichts-Datenpunkte aufgeteilt wird."
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
-msgstr ""
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
+msgstr "Bitte beachten Sie, dass die Skalierung der Y-Achse größer sein muss als die Skalierung der X-Achse (z. B. X-Achse => Monat, Y-Achse => Jahr)."
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10720,7 +10720,7 @@ msgstr "Bitte bestätigen Sie ihr neues Passwort"
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr ""
+msgstr "Kein relativer Zeitraum ausgewählt."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
@@ -10730,7 +10730,7 @@ msgstr "Der ausgewählte Zeitraum ist größer als der erlaubte Zeitraum."
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "Keine Zeitskalierung für den aktuell ausgewählten Zeitskalierungswert der X-Achse verfügbar."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -11645,20 +11645,20 @@ msgstr "Eine Automatische Antwort wird versandt, nachdem ein neues Ticket erstel
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
-msgstr ""
+msgstr "Automatische Ablehnung, die gesendet wird, nachdem eine Rückantwort abgelehnt wurde (falls die Rückantworts-Einstellung der Queue \"Ablehnen\" ist)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received"
 " for a ticket (in case queue follow-up option is \"possible\")."
-msgstr ""
+msgstr "Automatische Bestätigung, die gesendet wird, nachdem eine Rückantwort für ein Ticket empfangen wurde (falls die Rückantworts-Einstellung der Queue \"Möglich\" ist)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
-msgstr ""
+msgstr "Automatische Antwort, die gesendet wird, nachdem eine Rückantwort abgelehnt und ein neues Ticket erstellt wurde (falls die Rückantworts-Einstellung der Queue \"Neues Ticket\" ist)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
@@ -12306,7 +12306,7 @@ msgstr "Chinesisch (traditionell)"
 #. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr "Für welche Veränderungen an Tickets möchten Sie Benachrichtigungen erhalten"
+msgstr "Für welche Veränderungen an Tickets möchten Sie Benachrichtigungen erhalten?"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -14882,6 +14882,12 @@ msgid "Dropdown"
 msgstr "Einfachauswahl"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr "Dynamic Fields-Oberfläche für Checkboxen"
 
@@ -15723,7 +15729,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

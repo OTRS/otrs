@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.503992257440116;
+    $Self->{Completeness}        = 0.516207063376875;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -81,7 +81,7 @@ sub Data {
         'month(s)' => 'mois',
         'week' => 'semaine',
         'week(s)' => 'semaine(s)',
-        'quarter' => '',
+        'quarter' => 'ex. /opt/otrs/var/certificates/REST/CA/ca.file',
         'quarter(s)' => '',
         'half-year' => '',
         'half-year(s)' => '',
@@ -1411,7 +1411,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Le chemin complet menant au répertoire de l\'autorité de certification, où les certificats sont stockés dans le système de fichiers.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'par ex. /opt/otrs/var/certificates/SOAP/CA',
-        'Sort options' => '',
+        'Sort options' => 'Lister options',
         'Add new first level element' => '',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
@@ -1551,14 +1551,14 @@ sub Data {
         'Subject match' => 'Correspondance du sujet',
         'Body match' => 'Correspondance du corps du message',
         'Include attachments to notification' => 'Inclure les pièces jointes à la notification',
-        'Recipients' => '',
-        'Send to' => '',
-        'Send to these agents' => '',
+        'Recipients' => 'Destinataires',
+        'Send to' => 'Envoyer à',
+        'Send to these agents' => 'Envoyer aux agents',
         'Send to all group members' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Un par jour',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
@@ -1571,13 +1571,13 @@ sub Data {
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
         'This feature is currently not available.' => '',
-        'No data found' => '',
+        'No data found' => 'Aucune donnée trouvée',
         'No notification method found.' => '',
         'Notification Text' => '',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
+            'Cette langue n\'est pas disponible ou activée dans le système. Cette notification peut être supprimée si celle-ci n\'est plus nécessaire.',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Corps du message',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => '',
@@ -1617,26 +1617,26 @@ sub Data {
         'Read documentation' => '',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
-        'Unauthorized Usage Detected' => '',
+        'Unauthorized Usage Detected' => 'Usage non autorisé détécté',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Ce système utilise %s sans une licence valide ! Merci prendre contact avec %s pour renouveler ou activer votre contrat!',
+        '%s not Correctly Installed' => '%s n\'est pas installé correctement',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            'Votre %s n\'est pas correctement installé. Merci de le réinstaller avec le bouton suivant.',
+        'Reinstall %s' => 'Réinstaller %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            'Votre %s n\'est pas correctement installé, et une mise à jour est disponible.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
+        'Update %s' => 'Mettre à jour %s',
+        '%s Not Yet Available' => '%s n\'est pas encore disponible',
+        '%s will be available soon.' => '%s sera bientôt disponible.',
+        '%s Update Available' => '%S Mise à jour disponible',
         'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
+            'Une mise à jour est disponible pour votre %s! Merci de l\'effectuer le plus rapidement possible!',
+        '%s Correctly Deployed' => '%S Installé Correctement',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
+            'Félicitations, votre %s est installée correctement et à jour!',
 
         # Template: AdminOTRSBusinessNotInstalled
         '%s will be available soon. Please check again in a few days.' =>
@@ -1663,7 +1663,7 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Chat',
         'Report Generator' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
@@ -2029,19 +2029,19 @@ sub Data {
         'System registration not possible' => '',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             '',
-        'Instructions' => '',
+        'Instructions' => 'Instructions',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
-        'OTRS-ID Login' => '',
-        'Read more' => '',
+        'OTRS-ID Login' => 'Identifiant OTRS-ID',
+        'Read more' => 'Lire plus',
         'You need to log in with your OTRS-ID to register your system.' =>
-            '',
+            'Vous devez vous identifier avec votre identifiant OTRS-ID pour enregistrer votre système.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
-            '',
+            'Votre identifiant OTRS-ID est votre adresse email utilisée pour vous connecter à la page web OTRS.com.',
         'Data Protection' => 'Protection des données',
-        'What are the advantages of system registration?' => '',
-        'You will receive updates about relevant security releases.' => '',
+        'What are the advantages of system registration?' => 'Quels sont les avantages de l\'enregistrement de votre installation ?',
+        'You will receive updates about relevant security releases.' => 'Vous recevrez les mises à jour de sécurité majeures.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
             '',
         'This is only the beginning!' => '',
@@ -2548,8 +2548,8 @@ sub Data {
         'Apply these changes' => 'Appliquer ces changements',
 
         # Template: AgentStatisticsAdd
-        'Statistics » Add' => '',
-        'Add New Statistic' => '',
+        'Statistics » Add' => 'Statistiques » Ajouter',
+        'Add New Statistic' => 'Ajout une nouvelle statistique',
         'Dynamic Matrix' => '',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
@@ -2610,7 +2610,7 @@ sub Data {
         'For all pending* states.' => 'Pour tous les états en attente*',
         'Add Article' => 'Ajout article',
         'Create an Article' => '',
-        'Inform agents' => '',
+        'Inform agents' => 'Informer des agents',
         'Inform involved agents' => '',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
@@ -3138,15 +3138,15 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Informer l\'opérateur',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Permissions',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'Afin de donner des accès à différents opérateurs, sélectionnez un ou plusieurs groupes.',
         'Result formats' => '',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
@@ -3163,14 +3163,14 @@ sub Data {
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Si mis à invalide, les utilisateurs finaux ne pourront pas générer la statistique.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'Axe X',
@@ -3180,9 +3180,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Sélectionnez un seul élément ou désactivez le bouton \'Fixé\'',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Entre',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3190,11 +3190,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Échangez les axes',
+        'Configurable params of static stat' => 'Paramètres modifiables des statistiques',
+        'No element selected.' => 'Aucun élément sélectionné.',
+        'Scale' => 'Échelle',
 
         # Template: D3
         'Download SVG' => '',
@@ -3207,7 +3207,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4676,6 +4676,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
@@ -4853,8 +4855,8 @@ Thanks for your help!
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
         'Forwarded to "%s".' => 'Transféré vers "%s".',
-        'French' => '',
-        'French (Canada)' => '',
+        'French' => 'Français',
+        'French (Canada)' => 'Français (Canada)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
@@ -4899,8 +4901,8 @@ Thanks for your help!
         'Google Authenticator' => '',
         'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
             '',
-        'Greek' => '',
-        'Hebrew' => '',
+        'Greek' => 'Grec',
+        'Hebrew' => 'Hébreu',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
         'Hindi' => '',
@@ -5047,12 +5049,12 @@ Thanks for your help!
         'Italian' => '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Japanese' => '',
+        'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
-        'Left' => '',
+        'Left' => 'Gauche',
         'Link agents to groups.' => 'Lier les opérateurs aux groupes.',
         'Link agents to roles.' => 'Lier les opérateurs aux rôles.',
         'Link attachments to templates.' => 'Lier les pièces jointes aux modèles.',
@@ -5133,7 +5135,7 @@ Thanks for your help!
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Merge this ticket and all articles into a another ticket' => '',
-        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
+        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Fusionner le ticket <OTRS_TICKET> avec <OTRS_MERGE_TO_TICKET>.',
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.420275828695863;
+    $Self->{Completeness}        = 0.422109337203677;
 
     # csv separator
     $Self->{Separator} = '';
@@ -3135,13 +3135,13 @@ sub Data {
         'Dialog' => '',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'יידע סוכן',
 
         # Template: PublicDefault
         'Welcome' => '',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'הרשאות',
         'You can select one or more groups to define access for different agents.' =>
             '',
         'Result formats' => '',
@@ -3167,7 +3167,7 @@ sub Data {
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'ציר X',
@@ -3179,7 +3179,7 @@ sub Data {
         'Please select only one element or turn off the button \'Fixed\'.' =>
             '',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'בין',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3187,11 +3187,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'תצורה',
+        'Exchange Axis' => 'שנה ציר',
+        'Configurable params of static stat' => 'פרמטרים שניתן להגדיר לסטטיסטיקה סטטית',
+        'No element selected.' => 'לא נבחר רכיב.',
+        'Scale' => 'סולם',
 
         # Template: D3
         'Download SVG' => '',
@@ -3204,7 +3204,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4673,6 +4673,8 @@ Thanks for your help!
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => 'Einfachauswahl',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',

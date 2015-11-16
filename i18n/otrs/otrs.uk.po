@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10286,7 +10286,7 @@ msgstr ""
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Повідомити агента"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10294,7 +10294,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Права"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -10370,7 +10370,7 @@ msgstr ""
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
@@ -10395,7 +10395,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Виберіть тільки один пункт або заберіть прапорець «Фіксоване»."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -10403,7 +10403,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr " Між"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -10419,23 +10419,23 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Поміняти осі"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Налаштовувані параметри статичного звіту"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Елементи не обрані"
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Масштаб"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10459,8 +10459,8 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -14861,6 +14861,12 @@ msgid "Dropdown"
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr ""
 
@@ -15702,7 +15708,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

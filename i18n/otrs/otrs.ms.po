@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3212,7 +3212,7 @@ msgstr "Sistem pendaftaran ialah perkhirmatan Kumpulan OTRS, yang memberikan ban
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Sila ambil perhatian bahawa penggunaan perkhidmatan cloud OTRS memerlukan pendaftaran sistem."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5750,7 +5750,7 @@ msgstr "Sembang"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Penjana Laporan"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8810,7 +8810,7 @@ msgstr "Karang Jawapan untuk %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Alamat ini didaftarkan sebagai alamat sistem dan tidak boleh digunakan: %s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10282,11 +10282,11 @@ msgstr "Proses maklumat "
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Dialog"
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Memaklumkan Agen."
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10294,88 +10294,88 @@ msgstr "Selamat datang"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "kebenaran"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Anda boleh memilih satu atau lebih kumpulan untuk menentukan akses untuk ejen yang berbeza."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Format Keputusan"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "Tempoh masa yang dipilih di dalam statistik ialah zon masa neutral."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Cipta baris penjumlahan"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data columns."
-msgstr ""
+msgstr "Hasilkan baris tambahan yang mengandungi jumlah untuk semua lajur data."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Cipta lajur penjumlahan"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data rows."
-msgstr ""
+msgstr "Hasilkan lajur tambahan yang mengandungi jumlah untuk semua lajur baris."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Keputusan cache"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration."
-msgstr ""
+msgstr "Simpan keputusan data statistik dalam cache untuk digunakan dalam paparan berikutnya dengan konfigurasi yang sama."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Sediakan statistik sebagai widget yang ejen boleh aktifkan pada papan pemuka mereka."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Sila ambil perhatian bahawa membolehkan widget papan pemuka akan mengaktifkan caching untuk statistik ini pada papan pemuka."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Jika ditetapkan ke tidak sah, pengguna tidak boleh menjana stat"
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Terdapat masalah dalam konfigurasi statistik ini:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Anda kini boleh mengkonfigurasi paksi-X statistik anda."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Statistik ini tidak menyediakan data pratonton."
 
 #. Template: PreviewWidget
 msgid "Preview format:"
-msgstr ""
+msgstr "Format pratonton:"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "Konfigurasi Paksi-X"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10383,7 +10383,7 @@ msgstr "Paksi-X"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Konfigurasi Paksi-Y"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10391,76 +10391,76 @@ msgstr "Paksi-Y"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Konfigurasi Tapisan"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Sila pilih hanya satu elemen atau mematikan butang 'Tetap'!"
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Tempoh mutlak"
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Between"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Tempoh relatif"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "%s lengkap lalu dan  %s %s semasa+lengkap akan datang"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Tidak membenarkan perubahan kepada unsur ini apabila statistik dihasilkan ."
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Paksi Pertukaran"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Parameter statistik statik yang boleh dikonfigurasi."
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Tiada unsur yang dipilih."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Skala"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "Muat turun SVG"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "Muat turun PNG"
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr ""
+msgstr "Tempoh masa yang dipilih mendefinisikan tempoh masa default untuk statistik ini untuk mengumpul data daripada."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "Mentakrifkan unit masa yang akan digunakan untuk memisahkan tempoh masa yang dipilih ke dalam melaporkan titik data."
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -11281,7 +11281,7 @@ msgstr "Modul Indeks Tiket"
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Anda mempunyai lebih daripada 60,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -11303,7 +11303,7 @@ msgstr "Modul Indeks Carian Tiket"
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Anda mempunyai lebih daripada 50,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -14861,6 +14861,12 @@ msgid "Dropdown"
 msgstr "Dropdown"
 
 #. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
 msgstr "GUI Backend Checkbox Medan Dinamik"
 
@@ -15702,8 +15708,8 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian termuka dari nama pengguna (cth: untuk domain seperti example_domain\\user kepada user)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""

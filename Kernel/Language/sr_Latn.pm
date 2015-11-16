@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.952818775707718;
+    $Self->{Completeness}        = 0.9644412191582;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -896,7 +896,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Registracija sistema je usluga OTRS Grupe, koja obezbeđuje mnoge prednosti.',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Napominjemo da korišćenje OTRS servisa u oblaku zahtevaju da sistem bude registrovan.',
         'Register this system' => 'Registruj ovaj sistem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Ovde možete podesiti da dostupni servisi u oblaku koriste sigurnu komunikaciju preko %s.',
@@ -1662,7 +1662,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vratićete se na staru verziju besplatnog „OTRS” i izgubićete sledeća svojstva i podatke povezane sa:',
         'Chat' => 'Ćaskanje',
-        'Report Generator' => '',
+        'Report Generator' => 'Generator izveštaja',
         'Timeline view in ticket zoom' => 'Detaljni prikaz tiketa na vremenskoj liniji',
         'DynamicField ContactWithData' => 'Dinamičko polje „Kontakt sa podacima”',
         'DynamicField Database' => 'Baza podataka dinamičkih polja',
@@ -2641,7 +2641,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Napiši odgovor za %s%s',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Ova adresa je registrovana kao sistemska i ne može biti korišćena: %s',
         'Please include at least one recipient' => 'Molimo da uključite bar jednog primaoca',
         'Remove Ticket Customer' => 'Ukloni klijent sa tiketa **',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3133,79 +3133,79 @@ sub Data {
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Informacije o procesu',
-        'Dialog' => '',
+        'Dialog' => 'Dijalog',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Obavesti operatera',
 
         # Template: PublicDefault
         'Welcome' => 'Dobrodošli',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Dozvole',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Možete izabrati jednu ili više grupa za definisanje pristupa za različite operatere.',
+        'Result formats' => 'Format rezultata',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Izabrani vremenski periodi u statistici su neutralni po pitanju vremenske zone.',
+        'Create summation row' => 'Kreiraj red sa zbirom',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Generiši dodatni red sa zbirom svih kolona sa podacima.',
+        'Create summation column' => 'Kreiraj kolonu sa zbirom',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Generiši dodatnu kolonu sa zbirom svih redova sa podacima.',
+        'Cache results' => 'Keširaj rezultate',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Čuva rezultate statistika u kešu za kasnije korišćenje u pregledima sa istim podešavanjima.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Obezbedi statistiku kao aplikativni dodatak (widget), koji opertateri mogu aktivirati putem svoje kontrolne table.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
-        'If set to invalid end users can not generate the stat.' => '',
+            'Napominjemo da omogućavanje aplikativnog dodatka (widget) će keširati ovu statistiku na kontrolnoj tabli.',
+        'If set to invalid end users can not generate the stat.' => 'Ako je podešeno na nevažeće, krajnji korisnici ne mogu generisati statistiku.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'There are problems in the configuration of this statistic:' => 'Postoje neki problemi u podešavanju ove statistike:',
+        'You may now configure the X-axis of your statistic.' => 'Sada možete podesiti X osu vaše statistike.',
+        'This statistic does not provide preview data.' => 'Ova statistika ne omogućava privremeni prikaz.',
+        'Preview format:' => 'Format prikaza:',
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
-        'Configure X-Axis' => '',
+        'Configure X-Axis' => 'Podesi X osu',
         'X-axis' => 'H-osa',
-        'Configure Y-Axis' => '',
+        'Configure Y-Axis' => 'Podesi Y osu',
         'Y-axis' => 'Y-osa',
-        'Configure Filter' => '',
+        'Configure Filter' => 'Podesi filter',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
-        'Absolute period' => '',
-        'Between' => '',
-        'Relative period' => '',
+            'Molimo da izaberete samo jedan element ili isključite dugme "fiksirano"!',
+        'Absolute period' => 'Apsolutni period',
+        'Between' => 'Između',
+        'Relative period' => 'Relativni period',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            'Kompletna prošlost %s i kompletna trenutna+buduća %s %s',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Onemogući promene ovog elementa pri generisanju statistike.',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Zameni ose',
+        'Configurable params of static stat' => 'Podesivi parametri statičke statistike',
+        'No element selected.' => 'Nije izabran ni jedan element.',
+        'Scale' => 'Skala',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'Preuzmi SVG',
+        'Download PNG' => 'Preuzme PNG',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'Odabrani vremenski period definiše podrazumevan vremenski okvir za prikupljanje podataka statistike.',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Definiše vremensku jedinicu koja se koristi za podelu izabranog vremenskog perioda u pojedinačne tačke na izveštaju.',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4685,6 +4685,8 @@ Vaša tehnička podrška
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Prikazuje obračunato vreme za jedan članak u prikazu uvećanog tiketa.',
         'Dropdown' => 'Padajući',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => 'Pozadinski prikaz dinamičkog polja za potvrdu',
         'Dynamic Fields Date Time Backend GUI' => 'Pozadinski prikaz dinamičkog polja za datum i vreme',
         'Dynamic Fields Drop-down Backend GUI' => 'Pozadinski prikaz padajućeg dinamičkog polja',
@@ -4917,23 +4919,23 @@ Vaša tehnička podrška
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti drajver baze podataka (obično se koristi automatsko prepoznavanje).',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti lozinku za tabelu korisnika.',
         'If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti korisničko ime za tabelu korisnika.',
         'If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti DSN za konekciju ka tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv kolone za CustomerPassword u tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the crypt type of passwords must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti način enkripcije za lozinke.',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv kolone za CustomerKey u tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv tabele gde se čuvaju korisnički podaci.',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
-            '',
+            'Ukoliko je izabrano "DB" za SessionModule, neophodno je podesiti naziv tabele gde će se čuvati podaci sesija.',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
-            '',
+            'Ukoliko je izabrano "FS" za SessionModule, neophodno je podesiti naziv direktorijuma gde će se čuvati podaci sesija.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-12 03:32+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-11-16 14:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3223,7 +3223,7 @@ msgstr "Регистрация системы - это сервис от OTRS Gr
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Обращаем внимание, что использование облачных сервисов OTRS требует регистрации системы."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5761,7 +5761,7 @@ msgstr "Чат"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Генератор отчетов"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8821,7 +8821,7 @@ msgstr "Создать ответ для %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Этот адрес является системным зарегистрированным адресом и не может быть использован: %s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10293,11 +10293,11 @@ msgstr "Информация о процессе"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Диалог"
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr ""
+msgstr "Уведомить агента"
 
 #. Template: PublicDefault
 msgid "Welcome"
@@ -10305,88 +10305,88 @@ msgstr "Добро пожаловать"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "Права"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Вы можете выбрать одну или несколько групп для определения доступа для разных агентов."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Форматы результата"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "Выбранный период времени для отчета не зависит от временНой зоны."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Создать итоговую строку"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data columns."
-msgstr ""
+msgstr "Генерирует дополнительную строку, содержащую суммы по колонкам."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Создать итоговую колонку"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data rows."
-msgstr ""
+msgstr "Генерирует дополнительную колонку, содержащую суммы по строкам."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Кэширование результатов"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration."
-msgstr ""
+msgstr "Сохраняет результирующие данные отчета в кэше для использования в последующих обзорах с такими же настройками."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "Представляет отчет как виджет, который агент может активировать в своем Дайджесте."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Обращаем внимание, что включение виджета статистики в Дайджесте активирует кэширование для этого виджета."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr ""
+msgstr "Если установлен недействительным, конечные пользователи не могут генерировать этот отчет."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Обнаружены проблемы в настройках этого отчета:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Теперь вы можете настроить параметры оси Х для отчета."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Этот отчет не предоставляет возможности предварительного просмотра."
 
 #. Template: PreviewWidget
 msgid "Preview format:"
-msgstr ""
+msgstr "Формат предварительного просмотра: "
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
-"restrictions."
+"filters."
 msgstr ""
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "Настройка оси X"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10394,7 +10394,7 @@ msgstr "Ось X"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Настройка оси Y"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10402,76 +10402,76 @@ msgstr "Ось Y"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Настройка фильтров"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "Выберите только один пункт или уберите флажок «Фиксировано»."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Абсолютный период"
 
 #. Template: RestrictionsWidget
 msgid "Between"
-msgstr ""
+msgstr "Между"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Относительный период"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "Прошлое заканчивается %s и текущее+наступающее заканчивается %s %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "После создания отчета данные для этого элемента уже не могут быть изменены."
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "Поменять оси"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr ""
+msgstr "Конфигурируемые параметры статического отчета"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr ""
+msgstr "Элементы не выбраны"
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "Масштаб"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "Скачать как SVG файл."
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "Скачать как PNG файл."
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr ""
+msgstr "Выбранный период времени задает временной период по умолчанию для этого отчета"
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "Определяет единицу времени, которая будет использоваться для разделения выбранного периода времени в отчете на отрезки для которых вычисляются данные.."
 
 #. Template: YAxisWidget
 msgid ""
-"Please remember that the scale for value series has to be larger than the "
-"scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -12032,7 +12032,7 @@ msgstr "Позволяет клиенту выбирать Тип для зая�
 #. SysConfig
 msgid ""
 "Allows default services to be selected also for non existing customers."
-msgstr "Разрешает установить Сервис по умолчанию для не существующих клиентов."
+msgstr "Разрешает установить Сервис по умолчанию для несуществующих клиентов."
 
 #. SysConfig
 msgid ""
@@ -12812,25 +12812,25 @@ msgstr "Укажите первый день недели для использ�
 msgid ""
 "Defines a customer item, which generates a LinkedIn icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "Задает элемент данных клиента, на основании которого создается изображение из LinkedIn  в конце блока информации о клиенте."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a XING icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "Задает элемент данных клиента, на основании которого создается изображение из XING в конце блока информации о клиенте."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "Задает элемент данных клиента, на основании которого создается изображение из Google в конце блока информации о клиенте."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google maps icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "Задает элемент данных клиента, на основании которого создается изображение из Google Maps в конце блока информации о клиенте."
 
 #. SysConfig
 msgid ""
@@ -12843,7 +12843,7 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Задает фильтр для HTML для добавления ссылки после CVE numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок."
 
 #. SysConfig
 msgid ""
@@ -12851,7 +12851,7 @@ msgid ""
 " element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Задает фильтр для HTML для добавления ссылки после MSBulletin numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок."
 
 #. SysConfig
 msgid ""
@@ -12859,7 +12859,7 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Задать фильтр для вывода в HTML для добавления ссылки после определенной строки. Элемент Image может быть в двух вариантах. Первый - имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок."
 
 #. SysConfig
 msgid ""
@@ -12867,7 +12867,7 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Задает фильтр для HTML для добавления ссылки после bugtraq numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок."
 
 #. SysConfig
 msgid ""
@@ -12902,7 +12902,7 @@ msgstr "Задать полезные модули для загрузки по�
 
 #. SysConfig
 msgid "Defines all the X-headers that should be scanned."
-msgstr "Задать все X-headers, которые должны проверятся."
+msgstr "Задать все X-headers, которые должны проверяться."
 
 #. SysConfig
 msgid ""
@@ -13094,7 +13094,7 @@ msgid ""
 "Defines if agents should be allowed to login if they have no shared secret "
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Задает возможность входа для агента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация."
 
 #. SysConfig
 msgid ""
@@ -13107,7 +13107,7 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация."
 
 #. SysConfig
 msgid ""
@@ -14824,7 +14824,7 @@ msgstr "Задает способ отображения связанных об
 msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr ""
+msgstr "Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента."
 
 #. SysConfig
 msgid ""
@@ -14870,6 +14870,12 @@ msgstr "Отображает учтенное время для заметки �
 #. SysConfig
 msgid "Dropdown"
 msgstr "Выпадающий список"
+
+#. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -15713,8 +15719,8 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16019,7 +16025,7 @@ msgstr "Если установлено в \"Да\", заявки, создан�
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
-msgstr "Если это регулярное выражение верно, сообщение не будет посылаться автоответчиком."
+msgstr "Если это регулярное выражение верно, автоответ не будет посылаться."
 
 #. SysConfig
 msgid ""
@@ -16329,7 +16335,7 @@ msgstr "Максимальный размер (в строках) списка �
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
-msgstr ""
+msgstr "Максимальная длина поля Тема в почтовом ответе и некоторых экранах просмотра."
 
 #. SysConfig
 msgid ""
@@ -17049,7 +17055,7 @@ msgstr "Права, требуемые для изменения Ответст�
 #. SysConfig
 msgid ""
 "Resets and unlocks the owner of a ticket if it was moved to another queue."
-msgstr "Сбрасывает Владельца и разблокирует заявку при перемещнии ее в другую очередь."
+msgstr "Сбрасывает Владельца и разблокирует заявку при перемещении ее в другую очередь."
 
 #. SysConfig
 msgid ""
@@ -18659,7 +18665,7 @@ msgid ""
 "Specifies whether all storage backends should be checked when looking for "
 "attachments. This is only required for installations where some attachments "
 "are in the file system, and others in the database."
-msgstr "Указывет, должны ли все виды хранилищ проверятся при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных."
+msgstr "Указывет, должны ли все виды хранилищ проверяться при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных."
 
 #. SysConfig
 msgid ""
@@ -18784,7 +18790,7 @@ msgstr "Разделитель между символом номера и ег�
 msgid ""
 "The duration in minutes after emitting an event, in which the new escalation"
 " notify and start events are suppressed."
-msgstr "Период в минутах, после наступления события, в который новое уведомление об эскалации подавляется."
+msgstr "Период в минутах после наступления события, в который новое уведомление об эскалации подавляется."
 
 #. SysConfig
 msgid ""

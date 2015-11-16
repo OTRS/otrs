@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.936365835954513;
+    $Self->{Completeness}        = 0.946298984034833;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -889,7 +889,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Sistem pendaftaran ialah perkhirmatan Kumpulan OTRS, yang memberikan banyak kelebihan!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Sila ambil perhatian bahawa penggunaan perkhidmatan cloud OTRS memerlukan pendaftaran sistem.',
         'Register this system' => 'Daftar sistem ini',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Di sini anda boleh mengkonfigurasi perkhidmatan awan yang sedia ada yang berkomunikasi dengan selamat dengan %s.',
@@ -1655,7 +1655,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Anda akan menurunkan taraf kepada OTRS percuma dan akan kehilangan ciri-ciri berikut dan semua data yang berkaitan dengan ini:',
         'Chat' => 'Sembang',
-        'Report Generator' => '',
+        'Report Generator' => 'Penjana Laporan',
         'Timeline view in ticket zoom' => 'Pandangan garis masa di zum tiket',
         'DynamicField ContactWithData' => 'MedanDinamik KenalanDenganData',
         'DynamicField Database' => 'Pangkalan data MedanDinamik',
@@ -2634,7 +2634,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Karang Jawapan untuk %s%s',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Alamat ini didaftarkan sebagai alamat sistem dan tidak boleh digunakan: %s',
         'Please include at least one recipient' => 'Sila sertakan sekurang-kurangnya satu penerima',
         'Remove Ticket Customer' => 'Buang Pelanggan Tiket',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3126,79 +3126,79 @@ sub Data {
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Proses maklumat ',
-        'Dialog' => '',
+        'Dialog' => 'Dialog',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Memaklumkan Agen.',
 
         # Template: PublicDefault
         'Welcome' => 'Selamat datang',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'kebenaran',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Anda boleh memilih satu atau lebih kumpulan untuk menentukan akses untuk ejen yang berbeza.',
+        'Result formats' => 'Format Keputusan',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Tempoh masa yang dipilih di dalam statistik ialah zon masa neutral.',
+        'Create summation row' => 'Cipta baris penjumlahan',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Hasilkan baris tambahan yang mengandungi jumlah untuk semua lajur data.',
+        'Create summation column' => 'Cipta lajur penjumlahan',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Hasilkan lajur tambahan yang mengandungi jumlah untuk semua lajur baris.',
+        'Cache results' => 'Keputusan cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Simpan keputusan data statistik dalam cache untuk digunakan dalam paparan berikutnya dengan konfigurasi yang sama.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Sediakan statistik sebagai widget yang ejen boleh aktifkan pada papan pemuka mereka.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
-        'If set to invalid end users can not generate the stat.' => '',
+            'Sila ambil perhatian bahawa membolehkan widget papan pemuka akan mengaktifkan caching untuk statistik ini pada papan pemuka.',
+        'If set to invalid end users can not generate the stat.' => 'Jika ditetapkan ke tidak sah, pengguna tidak boleh menjana stat',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'There are problems in the configuration of this statistic:' => 'Terdapat masalah dalam konfigurasi statistik ini:',
+        'You may now configure the X-axis of your statistic.' => 'Anda kini boleh mengkonfigurasi paksi-X statistik anda.',
+        'This statistic does not provide preview data.' => 'Statistik ini tidak menyediakan data pratonton.',
+        'Preview format:' => 'Format pratonton:',
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
-        'Configure X-Axis' => '',
+        'Configure X-Axis' => 'Konfigurasi Paksi-X',
         'X-axis' => 'Paksi-X',
-        'Configure Y-Axis' => '',
+        'Configure Y-Axis' => 'Konfigurasi Paksi-Y',
         'Y-axis' => 'Paksi-Y',
-        'Configure Filter' => '',
+        'Configure Filter' => 'Konfigurasi Tapisan',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
-        'Absolute period' => '',
-        'Between' => '',
-        'Relative period' => '',
+            'Sila pilih hanya satu elemen atau mematikan butang \'Tetap\'!',
+        'Absolute period' => 'Tempoh mutlak',
+        'Between' => 'Between',
+        'Relative period' => 'Tempoh relatif',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            '%s lengkap lalu dan  %s %s semasa+lengkap akan datang',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Tidak membenarkan perubahan kepada unsur ini apabila statistik dihasilkan .',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Format',
+        'Exchange Axis' => 'Paksi Pertukaran',
+        'Configurable params of static stat' => 'Parameter statistik statik yang boleh dikonfigurasi.',
+        'No element selected.' => 'Tiada unsur yang dipilih.',
+        'Scale' => 'Skala',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'Muat turun SVG',
+        'Download PNG' => 'Muat turun PNG',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'Tempoh masa yang dipilih mendefinisikan tempoh masa default untuk statistik ini untuk mengumpul data daripada.',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Mentakrifkan unit masa yang akan digunakan untuk memisahkan tempoh masa yang dipilih ke dalam melaporkan titik data.',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -3541,7 +3541,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Modul Indeks Tiket',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'Anda mempunyai lebih daripada 60,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
         'Open Tickets' => 'TIket Terbuka',
@@ -3551,7 +3551,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Modul Indeks Carian Tiket',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'Anda mempunyai lebih daripada 50,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => '',
@@ -4680,6 +4680,8 @@ dalaman.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Pamerkan masa yang diperuntukkan untuk artikel dalam paparan zum tiket.',
         'Dropdown' => 'Dropdown',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => 'GUI Backend Checkbox Medan Dinamik',
         'Dynamic Fields Date Time Backend GUI' => 'GUI Backend Tarikh Masa Medan Dinamik',
         'Dynamic Fields Drop-down Backend GUI' => 'GUI Backend Drop-down Medan Dinamik',

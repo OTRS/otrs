@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.741592063876119;
+    $Self->{Completeness}        = 0.747460087082729;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -895,7 +895,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '!El registro del sistema es un servicio del grupo OTRS, el cual provee innumerables ventajas!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Por favor tenga en cuenta que el uso de servicios en la nube de OTRS requiere que el sistema esté registrado.',
         'Register this system' => 'Registrar este sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Aquí puede configurar los servicios en la nube disponibles para comunicarse de forma segura con %s.',
@@ -1661,7 +1661,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vas a degradar a OTRS gratuito y perderá las siguientes características y todos los datos relacionados con los siguientes:',
         'Chat' => 'Chat',
-        'Report Generator' => '',
+        'Report Generator' => 'Generador de Reportes',
         'Timeline view in ticket zoom' => 'Vista LineaTiempo en ticket zoom',
         'DynamicField ContactWithData' => 'CampoDinamico ContactoConDatos',
         'DynamicField Database' => 'CampoDinamico BaseDatos',
@@ -2582,7 +2582,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Estadísticas » Ver %s%s — %s',
-        'Statistic Information' => '',
+        'Statistic Information' => 'Información Estadística',
         'Sum rows' => 'Sumar las filas',
         'Sum columns' => 'Sumar las columnas',
         'Show as dashboard widget' => 'Mostrar como un elemento gráfico en el panel principal',
@@ -2640,7 +2640,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Composición Respuesta para %s%s',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Esta dirección está registrada como una dirección de sistema y no se puede utilizar: %s',
         'Please include at least one recipient' => 'Incluya al menos un destinatario',
         'Remove Ticket Customer' => 'Eliminar el cliente del ticket',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3132,42 +3132,42 @@ sub Data {
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Información de Proceso',
-        'Dialog' => '',
+        'Dialog' => 'Diálogo',
 
         # Template: Article
-        'Inform Agent' => '',
+        'Inform Agent' => 'Informar al agente',
 
         # Template: PublicDefault
         'Welcome' => 'Bienvenido',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => '',
+        'Permissions' => 'Permisos',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Puede seleccionar uno o más grupos para definir accesos para diferentes agentes.',
+        'Result formats' => 'Formatos de Resultado',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Los periodos de tiempo seleccionados en la estadística son de zona horaria neutral.',
+        'Create summation row' => 'Crear una fila de agregación',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Generar una fila adicional que contenga agregaciones para todas las columnas de datos.',
+        'Create summation column' => 'Crear una columna de agregación',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Generar una columna adicional que contenga agregaciones para todas las filas de datos.',
+        'Cache results' => 'Almacenar resultados temporalmente',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Almacena los datos estadísticos resultantes en una caché para ser utilizados en vistas subsecuentes con las misma configuración.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Proporcionar la estadística como un elemento gráfico que los agentes pueden activar en su panel principal.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Si se establece a un valor no válido los usuarios finales no pueden generar la estadística.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
         'You may now configure the X-axis of your statistic.' => '',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
-        'Please note that the preview uses random data and does not consider data restrictions.' =>
+        'Please note that the preview uses random data and does not consider data filters.' =>
             '',
         'Configure X-Axis' => '',
         'X-axis' => 'Eje-X',
@@ -3177,9 +3177,9 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            '',
+            'Por favor seleccione sólo un elemento o desactive el botón «Fijado».',
         'Absolute period' => '',
-        'Between' => '',
+        'Between' => 'Entre',
         'Relative period' => '',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
@@ -3187,11 +3187,11 @@ sub Data {
             '',
 
         # Template: StatsParamsWidget
-        'Format' => '',
-        'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
-        'No element selected.' => '',
-        'Scale' => '',
+        'Format' => 'Formato',
+        'Exchange Axis' => 'Intercambiar los ejes',
+        'Configurable params of static stat' => 'Parámetros configurables de estadística estática',
+        'No element selected.' => 'No hay seleccionado ningún elemento',
+        'Scale' => 'Escala',
 
         # Template: D3
         'Download SVG' => '',
@@ -3204,7 +3204,7 @@ sub Data {
             '',
 
         # Template: YAxisWidget
-        'Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
+        'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
         # Template: Test
@@ -4684,6 +4684,8 @@ Tu Equipo de Soporte
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
