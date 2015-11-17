@@ -72,10 +72,9 @@ my %List = $SysConfigObject->ConfigGroupList();
 
 for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
-    print "<section id=\"ConfigReference_$Group\"><title><literal>$Group</literal></title>\n";
+    print "<section id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title><literal>$SubGroup</literal></title>\n";
-        print "<variablelist>\n";
+        print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$SubGroup</title>\n";
         my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
@@ -88,9 +87,8 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
             $Link =~ s/\///g;
 
             print <<EOF;
-<varlistentry id="ConfigReference_$Group:$SubGroup:$Link">
-<term><literal>$Name</literal> (<literal>$Group</literal> → <literal>$SubGroup</literal>)</term>
-<listitem>
+<section id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc">
+<title>$Name ($Group → $SubGroup)</title>
 EOF
 
             #Description
@@ -137,10 +135,8 @@ EOF
 
             my $DefaultValueText = $LanguageObject->Translate('Default value');
             print "<para>$DefaultValueText:<programlisting><![CDATA[$Config]]></programlisting></para>\n";
-            print "</listitem>\n";
-            print "</varlistentry>\n";
+            print "</section>\n";
         }
-        print "</variablelist>\n";
         print "</section>\n";
     }
     print "</section>\n";
