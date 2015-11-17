@@ -72,9 +72,9 @@ my %List = $SysConfigObject->ConfigGroupList();
 
 for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
-    print "<section id=\"ConfigReference_$Group\"><title>$Group</title>\n";
+    print "<section id=\"ConfigReference_$Group\"><title><literal>$Group</literal></title>\n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$SubGroup</title>\n";
+        print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title><literal>$SubGroup</literal></title>\n";
         print "<variablelist>\n";
         my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
@@ -89,8 +89,8 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
 
             print <<EOF;
 <varlistentry id="ConfigReference_$Group:$SubGroup:$Link">
-            <term>$Name ($Group → $SubGroup)</term>
-            <listitem>
+<term><literal>$Name</literal> (<literal>$Group</literal> → <literal>$SubGroup</literal>)</term>
+<listitem>
 EOF
 
             #Description
