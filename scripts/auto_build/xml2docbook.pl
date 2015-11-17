@@ -132,7 +132,7 @@ EOF
             }
             elsif  ($Required) {
                 my $RequiredText = $LanguageObject->Translate('This setting can not be deactivated.');
-                print "<para>$Required</para>\n";
+                print "<para>$RequiredText</para>\n";
             }
 
             my $DefaultValueText = $LanguageObject->Translate('Default value');
