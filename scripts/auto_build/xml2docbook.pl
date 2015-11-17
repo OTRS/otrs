@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use utf8;
 
 # use ../ as lib location
 use File::Basename;
@@ -28,6 +29,14 @@ use lib dirname($RealBin) . "/../";
 use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use Getopt::Std;
+
+# get options
+my %Opts = ();
+getopt( 'l', \%Opts );
+
+if ( !$Opts{l} ) {
+    die "Need -l <Language>\n";
+}
 
 use Kernel::System::ObjectManager;
 
@@ -38,17 +47,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-# get options
-my %Opts = ();
-getopt( 'l', \%Opts );
-
-if ( !$Opts{l} ) {
-    die "Need -l <Language>\n";
-}
-
-my $UserLang = $Opts{l};
+my $UserLanguage = $Opts{l};
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Language' => {
+        UserLanguage => $UserLanguage,
+    },
+);
+my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
 print <<'EOF';
 <?xml version="1.0" encoding="utf-8"?>
@@ -59,19 +64,18 @@ print <<'EOF';
 
 EOF
 
-if ( $UserLang eq 'de' ) {
-    print "<appendix id=\"ConfigReference\"><title>Referenz der Konfigurationsoptionen</title>\n";
-}
-else {
-    print "<appendix id=\"ConfigReference\"><title>Configuration Options Reference</title>\n";
-}
+my $AppendixTitle = $LanguageObject->Translate('Configuration Options Reference');
+print "<appendix id=\"ConfigReference\"><title>$AppendixTitle</title>\n";
 
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 my %List = $SysConfigObject->ConfigGroupList();
+
 for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
     print "<section id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
         print "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$SubGroup</title>\n";
+        print "<variablelist>\n";
         my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
@@ -82,13 +86,11 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
             $Link =~ s/###/_/g;
             $Link =~ s/[ ]/_/g;
             $Link =~ s/\///g;
+
             print <<EOF;
-<section id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc"><title>$Name</title>
-<informaltable>
-    <tgroup cols="2">
-        <colspec colwidth="1*"/>
-        <colspec colwidth="3*"/>
-        <tbody>
+<varlistentry id="ConfigReference_$Group:$SubGroup:$Link">
+            <term>$Name ($Group → $SubGroup)</term>
+            <listitem>
 EOF
 
             #Description
@@ -100,44 +102,17 @@ EOF
             my $Description;
 
             # Description in User Language
-            if ( defined $HashLang{$UserLang} ) {
-                $Description = $HashLang{$UserLang};
-            }
+            $Description = $HashLang{$UserLanguage} // $HashLang{'en'};
 
-            # Description in Default Language
-            else {
-                $Description = $HashLang{'en'};
-            }
             $Description =~ s/&/&amp;/g;
             $Description =~ s/</&lt;/g;
             $Description =~ s/>/&gt;/g;
-            print <<EOF;
-            <row>
-                <entry>Description:</entry>
-                <entry>$Description</entry>
-            </row>
-            <row>
-                <entry>Group:</entry>
-                <entry>$Group</entry>
-            </row>
-EOF
-
-            for my $Area (qw(SubGroup)) {
-                for ( 1 .. 10 ) {
-                    if ( $Item{$Area}->[$_] ) {
-                        print <<EOF;
-            <row>
-                <entry>$Area:</entry>
-                <entry>$Item{$Area}->[$_]->{Content}</entry>
-            </row>
-EOF
-                    }
-                }
-            }
+            print "<para>$Description</para>\n";
             my %ConfigItemDefault = $SysConfigObject->ConfigItemGet(
                 Name    => $Name,
                 Default => 1,
             );
+            my $ReadOnly = defined $ConfigItemDefault{ReadOnly} ? $ConfigItemDefault{ReadOnly} : 0;
             my $Valid    = defined $ConfigItemDefault{Valid}    ? $ConfigItemDefault{Valid}    : 1;
             my $Required = defined $ConfigItemDefault{Required} ? $ConfigItemDefault{Required} : 0;
             my $Key      = $Name;
@@ -147,25 +122,25 @@ EOF
             my $Config = " \$Self->{'$Key'} = "
                 . $SysConfigObject->_XML2Perl( Data => \%ConfigItemDefault );
 
-            print <<EOF;
-            <row>
-                <entry>Valid:</entry>
-                <entry>$Valid</entry>
-            </row>
-            <row>
-                <entry>Required:</entry>
-                <entry>$Required</entry>
-            </row>
-            <row>
-                <entry>Config-Setting:</entry>
-                <entry><programlisting><![CDATA[$Config]]></programlisting></entry>
-            </row>
-        </tbody>
-    </tgroup>
-</informaltable>
-</section>
-EOF
+            if ($ReadOnly) {
+                my $ReadOnlyText = $LanguageObject->Translate('This setting can not be changed.');
+                print "<para>$ReadOnlyText</para>\n";
+            }
+            elsif (!$Valid) {
+                my $InvalidText = $LanguageObject->Translate('This setting is not active by default.');
+                print "<para>$InvalidText</para>\n";
+            }
+            elsif  ($Required) {
+                my $RequiredText = $LanguageObject->Translate('This setting can not be deactivated.');
+                print "<para>$Required</para>\n";
+            }
+
+            my $DefaultValueText = $LanguageObject->Translate('Default value');
+            print "<para>$DefaultValueText:<programlisting><![CDATA[$Config]]></programlisting></para>\n";
+            print "</listitem>\n";
+            print "</varlistentry>\n";
         }
+        print "</variablelist>\n";
         print "</section>\n";
     }
     print "</section>\n";
