@@ -84,7 +84,7 @@ sub new {
         },
         {
             Name        => 'allow-root',
-            Description => 'Allow root user to execute the command.',
+            Description => 'Allow root user to execute the command. This might damage your system; use at your own risk.',
         },
     ];
 
@@ -402,13 +402,6 @@ sub Execute {
     # First handle the optional global options.
     if ( $ParsedGlobalOptions->{'no-ansi'} ) {
         $Self->ANSI(0);
-    }
-
-    # Show warning if command is executed as root
-    if ( $ParsedGlobalOptions->{'allow-root'} && $> == 0 ) {    # $EFFECTIVE_USER_ID
-        $Self->Print(
-            "\n<red>You are running otrs.Console.pl as root. This could potentially damage your system, continue at your own risk.</red>\n\n"
-            )
     }
 
     if ( $ParsedGlobalOptions->{help} ) {
