@@ -832,6 +832,57 @@ input.FilterBox {
 }
 
 /**
+ * @subsection      Widget messages
+ */
+
+.Content .WidgetMessage {
+    background: #eee;
+    margin: 10px -8px;
+    padding: 5px 20px;
+    font-size: 11px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    color: #000;
+}
+
+.SidebarColumn .Content .WidgetMessage {
+    margin: 5px -8px;
+    padding: 5px 8px;
+}
+
+.Content .WidgetMessage.Bottom {
+    margin-bottom: -10px;
+}
+
+.Content .WidgetMessage.Top {
+    margin-top: -8px;
+}
+
+.Content .WidgetMessage.Error {
+    background: #F25C5C;
+    color: #fff;
+    border-color: #D14545;
+}
+
+.Content .WidgetMessage.Warning {
+    background: #F7AE40;
+    border-color: #D18F2B;
+}
+
+.Content .WidgetMessage.Success {
+    background: #6EB22A;
+    color: #fff;
+    border-color: #52891B;
+}
+
+.Content .WidgetMessage.Notice {
+    background: #2A61AF;
+    color: #fff;
+    border-color: #15468C;
+}
+
+
+/**
  * @subsection      Icon colors
  */
 
