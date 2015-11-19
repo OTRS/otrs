@@ -1025,7 +1025,7 @@ sub Safety {
             }egsxim;
         }
 
-        # remove HTTP refirects
+        # remove HTTP redirects
         $Replaced += ${$String} =~ s{
             $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
         }
