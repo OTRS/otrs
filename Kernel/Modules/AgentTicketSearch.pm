@@ -334,10 +334,47 @@ sub Run {
                 $GetParam{ShownAttributes} = [ split /;/, $GetParam{ShownAttributes} ];
             }
 
+            # replace StateType to StateIDs
+            if ( $GetParam{StateType} ) {
+                my @StateIDs;
+
+                if ( $GetParam{StateType} eq 'Open' ) {
+                    @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                        Type   => 'Viewable',
+                        Result => 'ID',
+                    );
+                }
+                elsif ( $Param{StateType} eq 'Closed' ) {
+                    @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                        Type   => 'Viewable',
+                        Result => 'ID',
+                    );
+                }
+
+                # current ticket state type
+                else {
+                    @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                        StateType => $GetParam{StateType},
+                        Result    => 'ID',
+                    );
+                }
+
+                # merge with StateIDs
+                if ( @StateIDs && $GetParam{StateIDs} ) {
+                    my %StateIDs = map { $_ => 1 } @StateIDs;
+                    @StateIDs = grep { exists $StateIDs{$_} } @{ $GetParam{StateIDs} };
+                }
+
+                if ( @StateIDs ) {
+                    $GetParam{StateIDs} = \@StateIDs;
+                }
+            }
+
             # insert new profile params
             KEY:
             for my $Key ( sort keys %GetParam ) {
                 next KEY if !defined $GetParam{$Key};
+                next KEY if $Key eq 'StateType';
                 $SearchProfileObject->SearchProfileAdd(
                     Base      => 'TicketSearch',
                     Name      => $Self->{Profile},
