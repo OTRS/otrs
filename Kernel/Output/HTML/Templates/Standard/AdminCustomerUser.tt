@@ -143,10 +143,15 @@
 [% RenderBlockEnd("HeaderEdit") %]
             </div>
             <div class="Content">
-            [% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module == 'Kernel::System::CustomerUser::LDAP' %]
+            [% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module.match('LDAP') %]
                 <div class="WidgetMessage Top Warning">
                     <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
                 </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.DisableForm($('form[name=compose]'));
+//]]></script>
+[% END %]
             [% END %]
                 <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" name="compose" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
@@ -251,7 +256,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Item") %]
-                        [% IF Config(Data.Source).ReadOnly != 1 && Config(Data.Source).Module == 'Kernel::System::CustomerUser::DB' %]
+                        [% IF Config(Data.Source).ReadOnly != 1 && Config(Data.Source).Module.match('DB') %]
                         <div class="Field SpacingTop">
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                                 [% Translate("or") | html %]
