@@ -31,6 +31,14 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
 
+    $Self->AddOption(
+        Name        => 'sql-part',
+        Description => "Generate only 'pre' or 'post' SQL",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^(pre|post)$/smx,
+    );
+
     return;
 }
 
@@ -65,7 +73,19 @@ sub Run {
 
     my @SQLPost = $Kernel::OM->Get('Kernel::System::DB')->SQLProcessorPost();
 
-    for my $SQL ( @SQL, @SQLPost ) {
+    my $SQLPart = $Self->GetOption('sql-part') || 'both';
+    my @SQLCollection;
+    if ( $SQLPart eq 'both' ) {
+        push @SQLCollection, @SQL, @SQLPost;
+    }
+    elsif ( $SQLPart eq 'pre' ) {
+        push @SQLCollection, @SQL;
+    }
+    elsif ( $SQLPart eq 'post' ) {
+        push @SQLCollection, @SQLPost;
+    }
+
+    for my $SQL ( @SQLCollection ) {
         $Self->Print("$SQL\n");
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL );
         if ( !$Success ) {
