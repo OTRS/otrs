@@ -7107,7 +7107,7 @@
     </ConfigItem>
 
     <ConfigItem Name="OnlyValuesOnTicket" Required="1" Valid="1">
-        <Description Translatable="1">Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system's tickets.</Description>
+        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard::TicketFilters</SubGroup>
         <Setting>
