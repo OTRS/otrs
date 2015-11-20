@@ -379,6 +379,25 @@ sub _Init {
         }
     }
 
+    # if a day and month are specified validate that the month has that specific day
+    # this could be removed after Schedule::Cron::Events 1.94 is released and tested
+    # see https://rt.cpan.org/Public/Bug/Display.html?id=109246
+    my ( $Min, $Hour, $DayMonth, $Month, $DayWeek ) = split ' ', $Param{Schedule};
+    if ( IsPositiveInteger($DayMonth) && IsPositiveInteger($Month) ) {
+
+        my @MonthLastDay = ( 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
+        my $LastDayOfMonth = $MonthLastDay[ $Month - 1 ];
+
+        if ( $DayMonth > $LastDayOfMonth ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Schedule: $Param{Schedule} is invalid",
+            );
+
+            return;
+        }
+    }
+
     # create new internal cron object
     my $CronObject;
     eval {

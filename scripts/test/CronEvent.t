@@ -219,6 +219,31 @@ my @Tests = (
         ExpectedValue => '2016-01-01 00:00:00',
         Success       => 1,
     },
+    {
+        Name   => 'Not existing date April 31',
+        Config => {
+            Schedule       => '2 2 31 4 *',
+            StartTimeStamp => '2015-01-01 00:00:00',
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Not existing date February 30',
+        Config => {
+            Schedule       => '2 2 30 2 *',
+            StartTimeStamp => '2015-01-01 00:00:00',
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Existing date February 29',
+        Config => {
+            Schedule       => '2 2 29 2 *',
+            StartTimeStamp => '2015-01-01 00:00:00',
+        },
+        ExpectedValue => '2016-02-29 02:02:00',
+        Success       => 1,
+    },
 );
 
 # get cron event object
