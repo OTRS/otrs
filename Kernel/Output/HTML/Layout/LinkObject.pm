@@ -179,7 +179,7 @@ sub LinkObjectTableCreateComplex {
 
         # define the headline column
         my $Column = {
-            Content => 'Linked as',
+            Content => $Kernel::OM->Get('Kernel::Language')->Translate('Linked as'),
         };
 
         # add new column to the headline
