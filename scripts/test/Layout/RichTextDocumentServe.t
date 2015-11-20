@@ -250,6 +250,7 @@ my @Tests = (
 <body>
     <p>Some note about UTF8, UTF-8, utf8 and utf-8.</p>
     <p>Some note about ISO-8859-1 and iso-8859-1.</p>
+    <p>This line must stay unchanged: charset=iso-8859-1</p>
 </body>
 </html>
 EOF
@@ -272,6 +273,7 @@ EOF
 <body>
     <p>Some note about UTF8, UTF-8, utf8 and utf-8.</p>
     <p>Some note about ISO-8859-1 and iso-8859-1.</p>
+    <p>This line must stay unchanged: charset=iso-8859-1</p>
 </body>
 </html>
 EOF
