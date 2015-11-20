@@ -1,4 +1,5 @@
 #5.0.4 2015-??-??
+ - 2015-11-20 Fixed bug#[11647](http://bugs.otrs.org/show_bug.cgi?id=11647) - Ticket Notifications Broke when RichText is turned off.
  - 2015-11-20 Fixed bug#[10938](http://bugs.otrs.org/show_bug.cgi?id=10938) - Missing translation 'Linked As' in OTRS Interface.
  - 2015-11-20 Fixed bug#[11607](http://bugs.otrs.org/show_bug.cgi?id=11607) - charset string in body gets replaced.
  - 2015-11-20 Add possibility to XMLExecute command to only run pre or post SQL, thanks to Elias Probst.
