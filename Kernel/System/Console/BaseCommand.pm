@@ -85,6 +85,7 @@ sub new {
         {
             Name        => 'allow-root',
             Description => 'Allow root user to execute the command. This might damage your system; use at your own risk.',
+            Invisible   => 1,   # hide from usage screen
         },
     ];
 
@@ -520,6 +521,7 @@ sub GetUsageHelp {
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
     for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+        next GLOBALOPTION if $Option->{Invisible};
         my $OptionShort = "[--$Option->{Name}]";
         $OptionsText .= sprintf " <green>%-30s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }
