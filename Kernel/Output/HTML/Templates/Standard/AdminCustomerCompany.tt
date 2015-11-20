@@ -137,8 +137,13 @@ $('.MasterAction').bind('click', function (Event) {
                     <div class="WidgetMessage Top Warning">
                         <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
                     </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.DisableForm($('form#edit'));
+//]]></script>
+[% END %]
                 [% END %]
-                    <form action="[% Env("CGIHandle") %]"  class="Validate" method="post">
+                    <form action="[% Env("CGIHandle") %]" id="edit" class="Validate" method="post">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                         <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
