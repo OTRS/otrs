@@ -33,11 +33,6 @@ $Selenium->RunTest(
             Key   => 'CheckEmailAddresses',
             Value => 0
         );
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'CheckMXRecord',
-            Value => 0
-        );
 
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
