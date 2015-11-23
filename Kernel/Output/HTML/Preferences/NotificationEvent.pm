@@ -135,6 +135,7 @@ sub Param {
                 Data => {
                     NotificationName  => $Notification->{Name},
                     NotificationTitle => $Notification->{Data}->{VisibleForAgentTooltip}->[0] || '',
+                    VisibleForAgent   => $Notification->{Data}->{VisibleForAgent}->[0],
                 },
             );
 
@@ -208,20 +209,28 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my @IdentifierList;
+    my @MandatoryNotificationIDs;
 
     NOTIFICATION:
     for my $NotificationID ( sort keys %{ $Self->{NotificationList} } ) {
 
         next NOTIFICATION if !$Self->{NotificationList}->{$NotificationID};
 
-        my $Notification = $Self->{NotificationList}->{$NotificationID};
+        my $Notification          = $Self->{NotificationList}->{$NotificationID};
+        my $NotificationMandatory = 0;
+        if ( $Notification->{Data}->{VisibleForAgent} && $Notification->{Data}->{VisibleForAgent}->[0] == 2 ) {
+            $NotificationMandatory = 1;
+            push @MandatoryNotificationIDs, $NotificationID;
+        }
 
         TRANSPORT:
         for my $TransportName ( sort keys %{ $Self->{TransportConfig} } ) {
-
             next TRANSPORT if !grep { $_ eq $TransportName } @{ $Notification->{Data}->{Transports} };
-
-            push @IdentifierList, "Notification-$NotificationID-$TransportName";
+            push @IdentifierList, {
+                Name           => "Notification-$NotificationID-$TransportName",
+                NotificationID => $NotificationID,
+                IsMandatory    => $NotificationMandatory,
+            };
         }
     }
 
@@ -231,8 +240,26 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %UserNotificationTransport;
+    my %MandatoryFulfilled;
     for my $Identifier (@IdentifierList) {
-        $UserNotificationTransport{$Identifier} = $ParamObject->GetParam( Param => $Identifier ) || 0;
+        $UserNotificationTransport{ $Identifier->{Name} } = $ParamObject->GetParam( Param => $Identifier->{Name} ) || 0;
+
+        # check if this is a mandatory notification and this transport is selected
+        if ( $UserNotificationTransport{ $Identifier->{Name} } == 1 ) {
+            $MandatoryFulfilled{ $Identifier->{NotificationID} } = 1;
+        }
+    }
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # now check if there are notifications for which no transport has been selected
+    for my $NotificationID (@MandatoryNotificationIDs) {
+        if ( $MandatoryFulfilled{$NotificationID} != 1 ) {
+            $Self->{Error}
+                = $LayoutObject->{LanguageObject}->Translate("Please make sure you've chosen at least one transport method for mandatory notifications.");
+            return;
+        }
     }
 
     my $Value = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
@@ -248,7 +275,7 @@ sub Run {
         );
     }
 
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = $LayoutObject->{LanguageObject}->Translate('Preferences updated successfully!');
 
     return 1;
 }

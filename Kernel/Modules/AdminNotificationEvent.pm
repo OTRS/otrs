@@ -1203,13 +1203,21 @@ sub _Edit {
     # set once per day checked value
     $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked="checked"' : '' );
 
-    if ( $Param{VisibleForAgent} ) {
+    $Param{VisibleForAgentStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+            2 => Translatable('Yes, but require at least one active notification method'),
+        },
+        Name       => 'VisibleForAgent',
+        Sort       => 'NumericKey',
+        Size       => 1,
+        SelectedID => $Param{VisibleForAgent},
+        Class      => 'Modernize W50pc',
+    );
 
-        # include checked attribute
-        $Param{VisibleForAgentChecked} = 'checked="checked"';
-    }
-    else {
-        # include read-only attribute
+    # include read-only attribute
+    if ( !$Param{VisibleForAgent} ) {
         $Param{VisibleForAgentTooltipReadonly} = 'readonly="readonly"';
     }
 

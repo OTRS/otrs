@@ -51,7 +51,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
         function VisibleForAgentHandler() {
             var TooltipObject = $('#VisibleForAgentTooltip');
 
-            if ($('#VisibleForAgent').prop('checked')) {
+            if ($('#VisibleForAgent').val() > 0) {
                 TooltipObject.removeAttr('readonly');
 
                 // show default transport value
@@ -65,7 +65,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
             }
         }
 
-        $('#VisibleForAgent').bind('click', VisibleForAgentHandler);
+        $('#VisibleForAgent').bind('change', VisibleForAgentHandler);
 
         // Run on first view.
         VisibleForAgentHandler();

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table class="DataTable">
+<table class="DataTable NotificationList">
     <thead>
         <tr>
             <th class="Center">[% Translate("Notification") | html %]</th>
@@ -24,13 +24,13 @@
         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("BodyRow") %]
-        <tr title="[% Data.NotificationTitle | html %]">
-            <td>[% Data.NotificationName | html %]</td>
+        <tr title="[% Data.NotificationTitle | html %]"[% IF Data.VisibleForAgent == 2 %] class="Mandatory"[% END %]>
+            <td>[% IF Data.VisibleForAgent == 2 %]<span class="Mandatory">* [% END %][% Data.NotificationName | html %][% IF Data.VisibleForAgent == 2 %]</span>[% END %]</td>
 [% RenderBlockStart("BodyTransportColumn") %]
             <td class="Center">
 [% RenderBlockStart("BodyTransportColumnEnabled") %]
-                <input type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
-                <input type="hidden" name="[% Data.Identifier | html %]" value="[% Data.HiddenValue | html %]"/>
+                <input autocomplete="off" type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
+                <input autocomplete="off" type="hidden" name="[% Data.Identifier | html %]" value="[% Data.HiddenValue | html %]"/>
 [% RenderBlockEnd("BodyTransportColumnEnabled") %]
             </td>
 [% RenderBlockEnd("BodyTransportColumn") %]
@@ -38,19 +38,62 @@
 [% RenderBlockEnd("BodyRow") %]
     </tbody>
 </table>
+<p class="FieldExplanation">
+    [% Translate("Please note that you can't completely disable notifications marked as mandatory.") | html %]
+</p>
 <div class="Clear SpacingTop"></div>
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('.NotificationEvent').on("change",function(){
-        var Target = $(this).parent().find('input[type=hidden]').val();
-        if(Target == 0){
-            Target = 1;
+
+    // make sure user has chosen at least one transport for mandatory notifications
+    $('tr.Mandatory .NotificationEvent').closest('form').off().on('submit', function(Event) {
+        $(this).find('tr.Mandatory').each(function() {
+            var FoundEnabled = false;
+            $(this).find('.NotificationEvent').each(function() {
+                if ($(this).prop('checked')) {
+                    FoundEnabled = true;
+                }
+            });
+            // if there is not at least one transport enabled, omit the action
+            if (!FoundEnabled) {
+                alert([% Translate("Sorry, but you can't disable all methods for notifications marked as mandatory.") | JSON %]);
+                Event.preventDefault();
+                Event.stopPropagation();
+                return false;
+            }
+        });
+    });
+
+    $('.NotificationEvent').on('click', function(Event){
+        var FoundEnabled = false,
+            $TargetObj = $(this).parent().find('input[type=hidden]');
+
+        // if the user is trying to disable this transport, go through all transport checkboxes
+        // for this notification and check if at least one of them is checked
+        if (!$(this).prop('checked') && $(this).closest('tr').hasClass('Mandatory')) {
+
+            $(this).closest('tr.Mandatory').find('.NotificationEvent').each(function() {
+                if ($(this).prop('checked')) {
+                    FoundEnabled = true;
+                    return true;
+                }
+            });
+
+            // if there is not at least one transport enabled, omit the action
+            if (!FoundEnabled) {
+                alert([% Translate("Sorry, but you can't disable all methods for this notification.") | JSON %]);
+                Event.stopPropagation();
+                return false;
+            }
+        }
+
+        if ($TargetObj.val() == 0){
+            $TargetObj.val(1);
         }
         else{
-            Target = 0;
+            $TargetObj.val(0);
         }
-        $(this).parent().find('input[type=hidden]').val(Target);
     });
 //]]></script>
 [% END %]
