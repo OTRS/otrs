@@ -1865,13 +1865,15 @@ sub _FixupStatsTimeInterval {
     my $Stats;
     {
         # Here we need to suppress warnings about dynamic statistics where the
-        #   statistics file is currently not present in the file system (e. g. ITSM)
+        #   statistics file is currently not present or outdated in the file system (e. g. ITSM)
         #   because of the OTRS upgrade. Just capture the error messages and continue
         #   (see bug##11532).
         local *STDERR;
         my $Dummy;
         open *STDERR, '>', \$Dummy;    ## no critic
-        $Stats = $StatsObject->StatsListGet( UserID => 1 );
+        eval {
+            $Stats = $StatsObject->StatsListGet( UserID => 1 );
+        };
     }
 
     print "\n";
@@ -1954,15 +1956,17 @@ sub _FixupStatsTimeInterval {
         my $StatWithObjectAttributes;
         {
             # Here we need to suppress warnings about dynamic statistics where the
-            #   statistics file is currently not present in the file system (e. g. ITSM or FAQ)
+            #   statistics file is currently not present or outdated in the file system (e. g. ITSM)
             #   because of the OTRS upgrade. Just capture the error messages and continue
             #   (see bug##11532).
             local *STDERR;
             my $Dummy;
             open *STDERR, '>', \$Dummy;    ## no critic
-            $StatWithObjectAttributes = $StatsObject->StatsGet(
-                StatID => $StatID,
-            );
+            eval {
+                $StatWithObjectAttributes = $StatsObject->StatsGet(
+                    StatID => $StatID,
+                );
+            };
         }
 
         my %StatsConfigurationErrors;
@@ -2041,13 +2045,15 @@ sub _FixupDashboardStatsFormats {
     my $Stats;
     {
         # Here we need to suppress warnings about dynamic statistics where the
-        #   statistics file is currently not present in the file system (e. g. ITSM)
+        #   statistics file is currently not present or outdated in the file system (e. g. ITSM)
         #   because of the OTRS upgrade. Just capture the error messages and continue
         #   (see bug##11532).
         local *STDERR;
         my $Dummy;
         open *STDERR, '>', \$Dummy;    ## no critic
-        $Stats = $StatsObject->StatsListGet( UserID => 1 );
+        eval {
+            $Stats = $StatsObject->StatsListGet( UserID => 1 );
+        };
     }
 
     print "\n";
