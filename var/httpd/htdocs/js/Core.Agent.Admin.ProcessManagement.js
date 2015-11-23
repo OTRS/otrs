@@ -1115,6 +1115,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                      window.alert(Core.Agent.Admin.ProcessManagement.Localization.WrongArticleTypeMsg);
                                      return false;
                                  }
+
+                                 // add the time units value to the fieldconfig
+                                 FieldConfigElement.Config.TimeUnits = $('#TimeUnits').val();
                              }
 
                              $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfigElement));
@@ -1167,6 +1170,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     if (FieldConfig.Config.ArticleType) {
                         $('#ArticleType').val(FieldConfig.Config.ArticleType);
                     }
+                    if (FieldConfig.Config.TimeUnits) {
+                        $('#TimeUnits').val(FieldConfig.Config.TimeUnits);
+                    }
                 }
 
             }
@@ -1180,9 +1186,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // only article should show ArticleType select.
             if (Fieldname === 'Article') {
                 $('#ArticleTypeContainer').removeClass('Hidden');
+                $('#TimeUnitsContainer').removeClass('Hidden');
             }
             else {
                 $('#ArticleTypeContainer').addClass('Hidden');
+                $('#TimeUnitsContainer').addClass('Hidden');
             }
 
             Core.UI.InputFields.Activate($('.Dialog'));
