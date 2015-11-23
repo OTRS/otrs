@@ -332,7 +332,7 @@ sub CustomerSearch {
     return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
-        Limit => $Self->{UserSearchListLimit},
+        Limit => $Param{Limit} || $Self->{UserSearchListLimit},
     );
     ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
