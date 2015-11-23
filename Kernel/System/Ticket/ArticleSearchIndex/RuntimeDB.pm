@@ -25,6 +25,23 @@ sub ArticleIndexBuild {
 sub ArticleIndexDelete {
     my ( $Self, %Param ) = @_;
 
+    for my $Needed (qw(ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    # Make sure any stale entries from a previously used StaticDB are cleaned up,
+    #   they might otherwise prevent the ticket from being deleted.
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL  => 'DELETE FROM article_search WHERE id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
+
     return 1;
 }
 
