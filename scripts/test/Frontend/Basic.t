@@ -42,7 +42,9 @@ my $AgentBaseURL    = $BaseURL . 'index.pl?';
 my $CustomerBaseURL = $BaseURL . 'customer.pl?';
 my $PublicBaseURL   = $BaseURL . 'public.pl?';
 
-my $UserAgent = LWP::UserAgent->new();
+my $UserAgent = LWP::UserAgent->new(
+    Timeout => 60,
+);
 $UserAgent->cookie_jar( {} );    # keep cookies
 
 my $Response = $UserAgent->get(
