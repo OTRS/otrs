@@ -110,4 +110,13 @@
     display: none;
 }
 
+.PreferencesScreen .NotificationList td {
+    color: #777;
+}
+
+.PreferencesScreen .NotificationList td span.Mandatory {
+    color: #000;
+}
+
+
 } /* end @media*/
