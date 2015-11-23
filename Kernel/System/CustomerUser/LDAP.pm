@@ -377,7 +377,7 @@ sub CustomerSearch {
         base      => $Self->{BaseDN},
         scope     => $Self->{SScope},
         filter    => $Filter,
-        sizelimit => $Self->{UserSearchListLimit},
+        sizelimit => $Param{Limit} || $Self->{UserSearchListLimit},
         attrs     => \@Attributes,
     );
 
@@ -422,7 +422,7 @@ sub CustomerSearch {
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
                 filter    => 'memberUid=' . $Filter2,
-                sizelimit => $Self->{UserSearchListLimit},
+                sizelimit => $Param{Limit} || $Self->{UserSearchListLimit},
                 attrs     => ['1.1'],
             );
 
