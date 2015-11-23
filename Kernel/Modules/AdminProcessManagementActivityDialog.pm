@@ -889,6 +889,32 @@ sub _ShowEdit {
         Class         => 'Modernize',
     );
 
+    my %TimeUnitsSelectionList = (
+        0 => 'Do not show Field',
+        2 => 'Show Field As Mandatory',
+    );
+
+    if ( !$ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        $TimeUnitsSelectionList{1} = 'Show Field';
+    }
+
+    # create TimeUnits selection
+    if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
+
+        $Param{TimeUnitsSelection} = $LayoutObject->BuildSelection(
+            Data          => \%TimeUnitsSelectionList,
+            SelectedValue => 0,
+            Name          => 'TimeUnits',
+            ID            => 'TimeUnits',
+            Translation   => 1,
+        );
+
+        $LayoutObject->Block(
+            Name => 'TimeUnitsContainer',
+            Data => \%Param,
+        );
+    }
+
     # extract parameters from config
     $Param{DescriptionShort} = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
     $Param{DescriptionLong}  = $Param{ActivityDialogData}->{Config}->{DescriptionLong};

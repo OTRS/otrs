@@ -226,6 +226,18 @@
                 </fieldset>
             </div>
 
+[% RenderBlockStart("TimeUnitsContainer") %]
+            <div id="TimeUnitsContainer" class='Hidden'>
+                <fieldset class="TableLike">
+                    <label for="TimeUnits">[% Translate("Time units") | html %]:</label>
+                    <div class="Field">
+                        [% Data.TimeUnitsSelection %]
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+[% RenderBlockEnd("TimeUnitsContainer") %]
+
             <fieldset class="TableLike">
                 <label for="Display">[% Translate("Display") | html %]:</label>
                 <div class="Field">

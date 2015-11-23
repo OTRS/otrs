@@ -1008,6 +1008,8 @@ sub _GetParam {
             );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
+
+            $GetParam{TimeUnits} = $ParamObject->GetParam( Param => 'TimeUnits' );
         }
 
         if ( $CurrentField eq 'CustomerID' ) {
@@ -2618,6 +2620,52 @@ sub _RenderArticle {
         $LayoutObject->Block(
             Name => 'Attachment',
             Data => $Attachment,
+        );
+    }
+
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
+        $Data{TimeUnitsInvalid} = 'ServerError';
+    }
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # show time units
+    if (
+        $ConfigObject->Get('Ticket::Frontend::AccountTime')
+        && $Param{ActivityDialogField}->{Config}->{TimeUnits}
+        )
+    {
+
+        if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+        elsif ( $Param{ActivityDialogField}->{Config}->{TimeUnits} == 1 ) {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = '';
+        }
+        else {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+
+        $LayoutObject->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
         );
     }
 
@@ -4807,6 +4855,16 @@ sub _StoreActivityDialog {
 
                 # remove pre submitted attachments
                 $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+
+                # time accounting
+                if ( $Param{GetParam}{TimeUnits} ) {
+                    $TicketObject->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $Param{GetParam}{TimeUnits},
+                        UserID    => $Self->{UserID},
+                    );
+                }
             }
         }
 
