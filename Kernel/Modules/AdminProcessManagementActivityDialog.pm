@@ -854,18 +854,31 @@ sub _ShowEdit {
         Translation   => 1,
     );
 
-    # create TimeUnits selection
-    $Param{TimeUnitsSelection} = $Self->{LayoutObject}->BuildSelection(
-        Data => {
-            0 => 'Do not show Field',
-            1 => 'Show Field',
-            2 => 'Show Field As Mandatory',
-        },
-        SelectedValue => 0,
-        Name          => 'TimeUnits',
-        ID            => 'TimeUnits',
-        Translation   => 1,
+    my %TimeUnitsSelectionList = (
+        0 => 'Do not show Field',
+        2 => 'Show Field As Mandatory',
     );
+
+    if ( !$Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        $TimeUnitsSelectionList{1} = 'Show Field';
+    }
+
+    # create TimeUnits selection
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+
+        $Param{TimeUnitsSelection} = $Self->{LayoutObject}->BuildSelection(
+            Data          => \%TimeUnitsSelectionList,
+            SelectedValue => 0,
+            Name          => 'TimeUnits',
+            ID            => 'TimeUnits',
+            Translation   => 1,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsContainer',
+            Data => \%Param,
+        );
+    }
 
     # extract parameters from config
     $Param{DescriptionShort} = $Param{ActivityDialogData}->{Config}->{DescriptionShort};

@@ -2565,10 +2565,28 @@ sub _RenderArticle {
         );
     }
 
-    # show time units
-    if ( $Param{ActivityDialogField}->{Config}->{TimeUnits} ) {
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
+        $Data{TimeUnitsInvalid} = 'ServerError';
+    }
 
-        if ( $Param{ActivityDialogField}->{Config}->{TimeUnits} == 1 ) {
+    # show time units
+    if (
+        $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+        && $Param{ActivityDialogField}->{Config}->{TimeUnits}
+        )
+    {
+
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+        elsif ( $Param{ActivityDialogField}->{Config}->{TimeUnits} == 1 ) {
+
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnitsLabel',
                 Data => \%Param,
