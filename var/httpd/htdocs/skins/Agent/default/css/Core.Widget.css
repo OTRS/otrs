@@ -97,6 +97,14 @@ ul.Tablelike li.Header + li {
     margin: 15px 10px;
 }
 
+.WidgetSimple .WidgetSimple .WidgetSimple {
+    background: #f5f5f5;
+}
+
+.WidgetSimple .WidgetSimple .WidgetSimple h2 {
+    font-size: 12px;
+}
+
 .WidgetSimple > .Header,
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 2px 5px;

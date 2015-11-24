@@ -1076,19 +1076,17 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('.FieldDetailsOverlay').unbind('click').bind('click', function () {
             var FieldConfig = $(this).closest('li').data('config'),
                 $Element = $(this),
-                Fieldname = $.trim($(this).closest('li').data('id'));
+                Fieldname = $.trim($(this).closest('li').data('id')),
+                FieldNameTranslated = $('.AllocationList').find('li[data-id="' + Fieldname + '"]').data('name-translated');
 
             if (typeof FieldConfig === 'string') {
                 FieldConfig = Core.JSON.Parse(FieldConfig);
             }
 
-            // Set field values
-            $('#DialogFieldName').text(Fieldname);
-
             // Open dialog
             Core.UI.Dialog.ShowContentDialog(
                 $('#Dialogs #FieldDetails'),
-                TargetNS.Localization.DialogTitle,
+                TargetNS.Localization.DialogTitle + ': ' + FieldNameTranslated,
                 '200px',
                 'Center',
                 true,
@@ -1124,6 +1122,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                      },
                      {
                          Label: TargetNS.Localization.CancelMsg,
+                         Class: 'CallForAction',
                          Function: function () {
                              Core.UI.Dialog.CloseDialog($('.Dialog'));
                          }
@@ -1149,6 +1148,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             if ($.inArray(Fieldname, FieldsWithoutDefaultValue) > -1) {
                 $('#Display').find('option[value=0]').remove();
             }
+
+            // redraw display field
+            $('#Display').trigger('redraw.InputField');
 
             // if there is a field config already the default settings from above are now overwritten
             if (typeof FieldConfig !== 'undefined') {
@@ -1180,12 +1182,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // only article should show ArticleType select.
             if (Fieldname === 'Article') {
                 $('#ArticleTypeContainer').removeClass('Hidden');
+                $('#ArticleTypeContainer').prev('label').css('display', 'block');
+                $('#ArticleTypeContainer .Modernize').trigger('redraw.InputField');
             }
             else {
                 $('#ArticleTypeContainer').addClass('Hidden');
+                $('#ArticleTypeContainer').prev('label').css('display', 'none');
             }
-
-            Core.UI.InputFields.Activate($('.Dialog'));
 
             return false;
         });
@@ -1214,22 +1217,22 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init addition of new conditions
         $('#ConditionAdd').bind('click', function() {
             // get current parent index
-            var CurrentParentIndex = parseInt($(this).prev('.ConditionField').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''), 10),
+            var CurrentParentIndex = parseInt($(this).prev('.WidgetSimple').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''), 10),
                 // in case we add a whole new condition, the fieldindex must be 1
                 LastKnownFieldIndex = 1,
                 // get current index
                 ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, CurrentParentIndex + 1).replace(/_FIELDINDEX_/g, LastKnownFieldIndex);
 
             $($.parseHTML(ConditionHTML)).insertBefore($('#ConditionAdd'));
+            Core.UI.InputFields.Init();
             return false;
         });
 
         // Init removal of conditions
-        $('#PresentConditionsContainer').delegate('.ConditionField > .Remove', 'click', function() {
+        $('#PresentConditionsContainer').delegate('.ParentWidget > .Header .RemoveButton', 'click', function() {
             if ($('#PresentConditionsContainer').find('.ConditionField').length > 1) {
 
-                $(this).parent().prev('label').remove();
-                $(this).parent().remove();
+                $(this).closest('.WidgetSimple').remove();
             }
             else {
                 alert("Sorry, the only existing condition can't be removed.");
@@ -1239,25 +1242,25 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         // Init addition of new fields within conditions
-        $('#PresentConditionsContainer').delegate('.ConditionFieldAdd', 'click', function() {
+        $('#PresentConditionsContainer').off('click.AddField').on('click.AddField', '.FieldWidget .AddButton', function() {
             // get current parent index
-            var CurrentParentIndex = $(this).closest('.ConditionField').attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''),
+            var CurrentParentIndex = $(this).closest('.ParentWidget').attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''),
                 // get the index for the newly to be added element
                 // therefore, we search the preceding fieldset and the first
                 // label in it to get its "for"-attribute which contains the index
-                LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''), 10),
+                LastKnownFieldIndex = parseInt($(this).closest('.WidgetSimple').find('.Content').find('label').first().attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''), 10),
                 // add new field
                 ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
 
-            $($.parseHTML(ConditionFieldHTML)).insertBefore($(this));
+            $($.parseHTML(ConditionFieldHTML)).insertAfter($(this).closest('.WidgetSimple').find('fieldset').last());
+            Core.UI.InputFields.Init();
             return false;
         });
 
         // Init removal of fields within conditions
-        $('.Condition .Field').delegate('.Remove', 'click', function() {
-            if ($(this).closest('.Field').find('.Fields').length > 1) {
-                $(this).parent().prev('label').remove();
-                $(this).parent().remove();
+        $('#PresentConditionsContainer').off('click.RemoveField').on('click.RemoveField', '.FieldWidget .RemoveButton', function() {
+            if ($(this).closest('.Content').find('fieldset').length > 1) {
+                $(this).parent().closest('fieldset').remove();
             }
             else {
                 alert("Sorry, the only existing field can't be removed.");
@@ -1290,6 +1293,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $(window).unbind("beforeunload.PMPopup");
         });
 
+        Core.UI.InputFields.Init();
+
     };
 
     /**
@@ -1305,12 +1310,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get the index for the newly to be added element
             // therefore, we search the preceding fieldset and the first
             // label in it to get its "for"-attribute which contains the index
-            var $PreviousField = $(this).prev('fieldset'),
+            var $PreviousField = $(this).closest('.WidgetSimple').find('.Content fieldset').last(),
                 LastKnownFieldIndex,
                 ConfigParamHTML;
 
             if ($PreviousField.length) {
-                LastKnownFieldIndex = parseInt($PreviousField.find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10);
+                LastKnownFieldIndex = parseInt($PreviousField.find('label').first().attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10);
             }
             else {
                 LastKnownFieldIndex = 0;
@@ -1319,13 +1324,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get current index
             ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
 
-            $($.parseHTML(ConfigParamHTML)).insertBefore($('#ConfigAdd'));
+            $($.parseHTML(ConfigParamHTML)).insertAfter($PreviousField);
             return false;
         });
 
         // Init removal of fields
-        $('#ConfigParams').delegate('.Remove', 'click', function() {
-            $(this).parent().remove();
+        $('#ConfigParams').delegate('.RemoveButton', 'click', function() {
+            if ($(this).closest('.Content').find('fieldset').length > 1) {
+                $(this).closest('fieldset').remove();
+            }
+            else {
+                alert("Sorry, the only existing parameter can't be removed.");
+            }
             return false;
         });
 
@@ -1507,7 +1517,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $Conditions.each(function() {
 
             // get condition key
-            ConditionKey = $(this).attr('id').replace(/(Condition\[|\])/g, '');
+            ConditionKey = $(this).closest('.WidgetSimple').attr('id').replace(/(Condition\[|\])/g, '');
 
             // use condition key as key for our list
             Conditions[ConditionKey] = {
@@ -1516,7 +1526,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             };
 
             // get all fields of the current condition
-            $(this).find('fieldset.Fields').each(function() {
+            $(this).find('.FieldWidget fieldset').each(function() {
                 Conditions[ConditionKey].Fields[$(this).find('input').first().val()] = {
                     Type: $(this).find('select').val(),
                     Match: $(this).find('input').last().val()
