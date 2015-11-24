@@ -6725,6 +6725,50 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission###5-CreatureCheck" Required="0" Valid="0">
+        <Description Translatable="1">Module to check the creature of a ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::CreatureCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
+        <Description Translatable="1">Module to check if an agent is involved to a ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::InvolvedCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::CreatureCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Defines the queues the creature check will be active.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Postmaster</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::InvolvedCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Defines the queues the involved check will be active.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Postmaster</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check the group permissions for the access to customer tickets.</Description>
         <Group>Ticket</Group>
