@@ -105,7 +105,7 @@ $Selenium->RunTest(
             UserLanguage => $Language,
         );
 
-        my $Expected = $LanguageObject->Get(
+        my $Expected = $LanguageObject->Translate(
             "Your message was sent to"
         ) . ": $TestUserLogin\@localunittest.com";
 
