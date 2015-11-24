@@ -77,7 +77,7 @@ $Selenium->RunTest(
         }
 
         for my $Button (
-            qw(Remove ConditionFieldAdd Remove)
+            qw(RemoveButton ConditionFieldAdd RemoveButton)
             )
         {
             my $Element = $Selenium->find_element( ".$Button", 'css' );
@@ -103,9 +103,13 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element(".//*[\@id='ConditionLinking[_INDEX_]']/option[2]")->click();
+        $Selenium->execute_script(
+            "\$('#ConditionLinking[_INDEX_]').val('or').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][1]']")->send_keys($TransitionFieldName);
-        $Selenium->find_element(".//*[\@id='ConditionFieldType[_INDEX_][_FIELDINDEX_]']/option[3]")->click();
+        $Selenium->execute_script(
+            "\$('#ConditionLinking[_INDEX_]').val('String').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
         $Selenium->find_element( "#Name", 'css' )->submit();
 
