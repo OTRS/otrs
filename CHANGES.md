@@ -1,4 +1,5 @@
 #5.0.4 2015-??-??
+ - 2015-11-24 Fixed bug#[11472](http://bugs.otrs.org/show_bug.cgi?id=11472) - Process Management: Activity Dialog configuration for Article field is default set to "Do not show field".
  - 2015-11-24 Fixed bug#[10931](http://bugs.otrs.org/show_bug.cgi?id=10931) - Reply to note does not use the origin note subject, thanks to S7.
  - 2015-11-23 Added the possibility to set notifications as mandatory. Agents will be forced to chose at least one method for such notifications on their preferences.
  - 2015-11-23 Fixed bug#[11677](http://bugs.otrs.org/show_bug.cgi?id=11677) - Stale entries in article_search table prevent ticket from being deleted.
