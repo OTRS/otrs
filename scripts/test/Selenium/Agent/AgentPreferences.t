@@ -68,6 +68,7 @@ $Selenium->RunTest(
         # set one notification to mandatory and check if it's validated correctly
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Change;ID=1");
         $Selenium->execute_script("\$('#VisibleForAgent').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element("//input[\@id='AgentEnabledByDefaultEmail']")->click();
 
         # get notification name & save the form
         my $NotificationName = $Selenium->find_element( '#Name', 'css' )->get_value();
@@ -113,6 +114,8 @@ JAVASCRIPT
         # now enable the checkbox and try to submit again, it should work this time
         $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
         $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
+
+        $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
         $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
