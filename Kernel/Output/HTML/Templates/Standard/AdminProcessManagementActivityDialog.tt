@@ -150,7 +150,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableFields">
 [% RenderBlockStart("AvailableFieldRow") %]
-                                <li title="Name: [% Data.FieldnameTranslated | html %]" data-id="[% Data.Field | html %]" data-config="">
+                                <li title="Name: [% Data.FieldnameTranslated | html %]" data-name-translated="[% Data.FieldnameTranslated | html %]" data-id="[% Data.Field | html %]" data-config="">
                                     [% Data.FieldnameTranslated | html %]
                                     <span class="Functions ShowOnAssignedList">
                                         <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon" title="[% Translate("Edit") | html %]">
@@ -195,7 +195,6 @@
 <div id="Dialogs" class="Hidden">
     <div id="FieldDetails">
         <div style="width: 500px;">
-            <h2>[% Translate("Edit Details for Field") | html %] "<span id="DialogFieldName"></span>"</h2>
             <fieldset class="TableLike">
                 <label for="DescShort">[% Translate("Description (short)") | html %]:</label>
                 <div class="Field">
@@ -214,19 +213,13 @@
                     <input type="text" name="DefaultValue" id="DefaultValue" value="" class="W50pc" />
                 </div>
                 <div class="Clear"></div>
-            </fieldset>
 
-            <div id="ArticleTypeContainer" class='Hidden'>
-                <fieldset class="TableLike">
-                    <label for="ArticleType">[% Translate("ArticleType") | html %]:</label>
-                    <div class="Field">
-                        [% Data.ArticleTypeSelection %]
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-            </div>
+                <label for="ArticleType">[% Translate("ArticleType") | html %]:</label>
+                <div class="Field" id="ArticleTypeContainer" class="Hidden">
+                    [% Data.ArticleTypeSelection %]
+                </div>
+                <div class="Clear"></div>
 
-            <fieldset class="TableLike">
                 <label for="Display">[% Translate("Display") | html %]:</label>
                 <div class="Field">
                     [% Data.DisplaySelection %]
