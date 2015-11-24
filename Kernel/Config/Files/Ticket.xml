@@ -6725,13 +6725,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###5-CreatureCheck" Required="0" Valid="0">
-        <Description Translatable="1">Module to check the creature of a ticket.</Description>
+    <ConfigItem Name="Ticket::Permission###5-CreatorCheck" Required="0" Valid="0">
+        <Description Translatable="1">Module to check the creator of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Permission::CreatureCheck</Item>
+                <Item Key="Module">Kernel::System::Ticket::Permission::CreatorCheck</Item>
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">1</Item>
             </Hash>
@@ -6749,8 +6749,8 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission::CreatureCheck::Queues" Required="0" Valid="0">
-        <Description Translatable="1">Defines the queues the creature check will be active.</Description>
+    <ConfigItem Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Defines the queues the creator check will be active.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
