@@ -18,13 +18,14 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # do not check RichText
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
@@ -96,19 +97,64 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # get default subject value from Ticket::Frontend::AgentTicketNote###Subject
+        my $DefaultNoteSubject = $ConfigObject->Get("Ticket::Frontend::AgentTicketNote")->{Subject};
+
         # add note
-        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        my $NoteSubject;
+        if ($DefaultNoteSubject) {
+            $NoteSubject = $DefaultNoteSubject;
+        }
+        else {
+            $NoteSubject = 'Test';
+            $Selenium->find_element( "#Subject", 'css' )->send_keys($NoteSubject);
+        }
+
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        # switch window back to agent ticket zoom view of created test ticket
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # expand Miscellaneous dropdown menu
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # click on 'History' and switch window
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
+
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
 
         # confirm note action
         my $NoteMsg = "Added note (Note)";
         $Self->True(
             index( $Selenium->get_page_source(), $NoteMsg ) > -1,
             "Ticket note action completed",
+        );
+
+        # close history window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
+
+        # switch window
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # check for subject pre-loaded value
+        my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
+
+        $Self->Is(
+            $Selenium->find_element( '#Subject', 'css' )->get_value(),
+            $NoteSubjectRe . ': ' . $NoteSubject,
+            "Reply-To note #Subject pre-loaded value",
         );
 
         # delete created test tickets
