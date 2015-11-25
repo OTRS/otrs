@@ -1298,14 +1298,9 @@ sub Run {
         # set Body var to calculated content
         $GetParam{Body} = $Body;
 
-        if ( $Self->{ReplyToArticle} && $Config->{Subject} ) {
-            my $TicketSubjectRe = $ConfigObject->Get('Ticket::SubjectRe');
-            if ($TicketSubjectRe) {
-                $GetParam{Subject} = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
-            }
-            else {
-                $GetParam{Subject} = 'Re: ' . $Self->{ReplyToArticleContent}{Subject};
-            }
+        if ( $Self->{ReplyToArticle} ) {
+            my $TicketSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
+            $GetParam{Subject} = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
         }
         elsif ( !defined $GetParam{Subject} && $Config->{Subject} ) {
             $GetParam{Subject} = $LayoutObject->Output(

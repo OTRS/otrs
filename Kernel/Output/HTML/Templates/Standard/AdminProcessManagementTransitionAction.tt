@@ -69,11 +69,20 @@
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
-                        <fieldset class="TableLike">
-                            <label for="Config">[% Translate("Config Parameters") | html %]:</label>
-                            <div class="Field" id="ConfigParams">
+
+                        <div class="WidgetSimple">
+                            <div class="Header">
+                                <h2 for="Config">[% Translate("Config Parameters") | html %]</h2>
+                                <div class="AdditionalInformation">
+                                    <a class="AddButton" href="#" name="ConfigAdd" id="ConfigAdd" title="[% Translate("Add a new Parameter") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Add a new Parameter") | html %]</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="Content" id="ConfigParams">
 [% RenderBlockStart("ConfigItemInitRow") %]
-                                <fieldset class="Fields">
+                                <fieldset>
                                     <label for="ConfigKey[1]">[% Translate("Key") | html %]:</label>
                                     <input type="text" name="ConfigKey[1]" id="ConfigKey[1]" />
                                     <label for="ConfigValue[1]">[% Translate("Value") | html %]:</label>
@@ -81,19 +90,17 @@
                                 </fieldset>
 [% RenderBlockEnd("ConfigItemInitRow") %]
 [% RenderBlockStart("ConfigItemEditRow") %]
-                                <fieldset class="Fields">
+                                <fieldset>
                                     <label for="ConfigKey[[% Data.Index | html %]]">[% Translate("Key") | html %]:</label>
                                     <input type="text" value="[% Data.Key | html %]" name="ConfigKey[[% Data.Index | html %]]" id="ConfigKey[[% Data.Index | html %]]" />
                                     <label for="ConfigValue[[% Data.Index | html %]]">[% Translate("Value") | html %]:</label>
                                     <input type="text" value="[% Data.Value | html %]" name="ConfigValue[[% Data.Index | html %]]" id="ConfigValue[[% Data.Index | html %]]" />
-                                    <button class="Remove" type="button" title="[% Translate("Remove this Parameter") | html %]">
-                                        [% Translate("Remove this Parameter") | html %]
-                                    </button>
+                                    <a class="RemoveButton" href="#" title="[% Translate("Remove this Parameter") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove this Parameter") | html %]</span>
+                                    </a>
                                 </fieldset>
 [% RenderBlockEnd("ConfigItemEditRow") %]
-                                <button class="Add" type="button" name="ConfigAdd" id="ConfigAdd" title="[% Translate("Add a new Parameter") | html %]">
-                                    [% Translate("Add a new Parameter") | html %]
-                                </button>
                             </div>
                         </fieldset>
                     </div>
@@ -102,14 +109,15 @@
                 <input type="image" width="0" height="0" style="display: none;" />
             </form>
             <div id="ConfigParamContainer" style="display:none;">
-                <fieldset class="Fields">
+                <fieldset>
                     <label for="ConfigKey[_INDEX_]">[% Translate("Key") | html %]:</label>
                     <input type="text" name="ConfigKey[_INDEX_]" id="ConfigKey[_INDEX_]" />
                     <label for="ConfigValue[_INDEX_]">[% Translate("Value") | html %]:</label>
                     <input type="text" name="ConfigValue[_INDEX_]" id="ConfigValue[_INDEX_]" />
-                    <button class="Remove" title="[% Translate("Remove this Parameter") | html %]">
-                        [% Translate("Remove this Parameter") | html %]
-                    </button>
+                    <a class="RemoveButton" href="#" title="[% Translate("Remove this Parameter") | html %]">
+                        <i class="fa fa-minus-square-o"></i>
+                        <span class="InvisibleText">[% Translate("Remove this Parameter") | html %]</span>
+                    </a>
                 </fieldset>
             </div>
         </div>

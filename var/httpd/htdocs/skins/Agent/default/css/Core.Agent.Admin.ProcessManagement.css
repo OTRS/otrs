@@ -563,6 +563,44 @@ em.EntityID:after {
     margin-top: 15px;
 }
 
+#TransitionForm .WidgetSimple .WidgetSimple {
+    margin-top: 10px;
+}
+
+#TransitionForm .WidgetSimple .WidgetSimple + .WidgetSimple {
+    margin-top: -5px;
+}
+
+#TransitionForm .WidgetSimple .WidgetSimple .WidgetSimple {
+    margin-bottom: 0px;
+}
+
+#TransitionForm #PresentConditionsContainer > label {
+    width: auto;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#TransitionForm #ConditionAdd {
+    margin-left: 10px;
+    margin-top: -5px;
+}
+
+#TransitionForm .Condition > fieldset > label {
+    width: auto;
+    display: inline-block;
+    margin: 0px 5px 0px 10px;
+}
+
+#TransitionForm fieldset + fieldset {
+    margin-top: 7px;
+}
+
+#TransitionForm .FieldWidget label {
+    margin: 0px 3px 0px 5px;
+}
+
 /**
  * @subsubsection     Path popup
  */

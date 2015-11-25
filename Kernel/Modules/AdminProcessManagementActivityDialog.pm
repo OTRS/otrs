@@ -907,6 +907,7 @@ sub _ShowEdit {
             Name          => 'TimeUnits',
             ID            => 'TimeUnits',
             Translation   => 1,
+            Class         => 'Modernize',
         );
 
         $LayoutObject->Block(
