@@ -18,7 +18,6 @@
  - 2015-11-16 Fixed bug#[11651](http://bugs.otrs.org/show_bug.cgi?id=11651) - All customers shown as invalid if using an LDAP backend.
  - 2015-11-13 Fixed bug#[11351](http://bugs.otrs.org/show_bug.cgi?id=11351) - S/Mime signed mails always show "Signature verified before!".
  - 2015-11-06 Fixed bug#[11348](http://bugs.otrs.org/show_bug.cgi?id=11348) - Error handling in AgentTicketForward.
- - 2015-11-12 Fixed bug#[11304](http://bugs.otrs.org/show_bug.cgi?id=11304) - <OTRS_CUSTOMER_Subject> in "move"-notification is replaced with ticket-subject, not with article-subject, thanks to S7.
  - 2015-11-12 Added dutch stopwords, thanks to Thomas Wouters.
  - 2015-11-11 Added translation strings form Kernel/Output/HTML/Templates/Standard sub-directories.
  - 2015-11-11 Fixed bug#[11642](http://bugs.otrs.org/show_bug.cgi?id=11642) - Console Command Dev::Tools::TranslationsUpdate skips nested .tt files when gather translation strings.

@@ -528,7 +528,7 @@ sub ArticleCreate {
                 Queue                 => $Param{Queue},
                 Recipients            => $ExtraRecipients,
                 SkipRecipients        => \@SkipRecipients,
-                CustomerMessageParams => {},
+                CustomerMessageParams => {%Param},
             },
             UserID => $Param{UserID},
         );

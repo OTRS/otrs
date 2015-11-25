@@ -1928,6 +1928,7 @@ sub TicketQueueSet {
                 TicketID              => $Param{TicketID},
                 CustomerMessageParams => {
                     Queue => $Queue,
+                    Body  => $Param{Comment} || '',
                 },
                 Recipients => \@UserIDs,
             },
