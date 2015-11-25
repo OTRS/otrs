@@ -40,7 +40,7 @@ $Selenium->RunTest(
         my $Language = "en";
 
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups   => ['users', 'admin'],
+            Groups   => [ 'users', 'admin' ],
             Language => $Language,
         ) || die "Did not get test user";
 
@@ -68,10 +68,11 @@ $Selenium->RunTest(
         # set one notification to mandatory and check if it's validated correctly
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Change;ID=1");
         $Selenium->execute_script("\$('#VisibleForAgent').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element("//input[\@id='AgentEnabledByDefaultEmail']")->click();
 
         # get notification name & save the form
         my $NotificationName = $Selenium->find_element( '#Name', 'css' )->get_value();
-        $Selenium->find_element("#NotificationEvent button[type='submit']", 'css')->submit();
+        $Selenium->find_element( "#NotificationEvent button[type='submit']", 'css' )->submit();
 
         # get back to prefs and check if the notification is marked and validated correctly
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
@@ -106,13 +107,16 @@ JAVASCRIPT
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
-            $LanguageObject->Translate("Sorry, but you can't disable all methods for notifications marked as mandatory."),
+            $LanguageObject->Translate(
+                "Sorry, but you can't disable all methods for notifications marked as mandatory."),
             'Alert message shows up correctly',
         );
 
         # now enable the checkbox and try to submit again, it should work this time
         $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
         $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
+
+        $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
         $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
@@ -183,7 +187,7 @@ JAVASCRIPT
                 "Test widget 'Other Settings' found on screen"
             );
         }
-    }
+        }
 
 );
 

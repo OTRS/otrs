@@ -95,6 +95,17 @@ sub Encode {
     # get JSON-encoded presentation of perl structure
     my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || '""';
 
+    # Special handling for unicode line terminators (\u2028 and \u2029),
+    # they are allowed in JSON but not in JavaScript
+    # see: http://timelessrepo.com/json-isnt-a-javascript-subset
+    #
+    # Should be fixed in JSON module, but bug report is still open
+    # see: https://rt.cpan.org/Public/Bug/Display.html?id=75755
+    #
+    # Therefore must be encoded manually
+    $JSONEncoded =~ s/\x{2028}/\\u2028/xmsg;
+    $JSONEncoded =~ s/\x{2029}/\\u2029/xmsg;
+
     return $JSONEncoded;
 }
 

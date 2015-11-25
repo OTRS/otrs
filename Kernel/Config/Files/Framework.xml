@@ -6657,7 +6657,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Cache::InMemory" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Should the cache data be help in memory?</Description>
+        <Description Translatable="1">Should the cache data be held in memory?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
