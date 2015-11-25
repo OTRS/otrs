@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/otrs/OTRS/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1356,7 +1356,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "7 Day Stats"
-msgstr ""
+msgstr "الإحصائيات ل ٧ أيام"
 
 #. Template: AAABase
 msgid ""
@@ -1381,39 +1381,39 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "حدد"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "أحذف التحديد"
 
 #. Template: AAABase
 msgid "Bold"
-msgstr ""
+msgstr "عريض"
 
 #. Template: AAABase
 msgid "Italic"
-msgstr ""
+msgstr "مائل"
 
 #. Template: AAABase
 msgid "Underline"
-msgstr ""
+msgstr "تحته خط"
 
 #. Template: AAABase
 msgid "Font Color"
-msgstr ""
+msgstr "لون الخط"
 
 #. Template: AAABase
 msgid "Background Color"
-msgstr ""
+msgstr "لون الخلفية"
 
 #. Template: AAABase
 msgid "Remove Formatting"
-msgstr ""
+msgstr "حذف التنسيق"
 
 #. Template: AAABase
 msgid "Show/Hide Hidden Elements"
-msgstr ""
+msgstr "إظهار/إخفاء العناصر المخفية"
 
 #. Template: AAABase
 msgid "Align Left"
@@ -1429,7 +1429,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Justify"
-msgstr ""
+msgstr "ضبط"
 
 #. Template: AAABase
 msgid "Header"
@@ -1437,7 +1437,7 @@ msgstr "النوع"
 
 #. Template: AAABase
 msgid "Indent"
-msgstr ""
+msgstr "المسافة البادئة"
 
 #. Template: AAABase
 msgid "Outdent"
@@ -1445,7 +1445,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Create an Unordered List"
-msgstr ""
+msgstr "انشاء قائمة غير مرتبه"
 
 #. Template: AAABase
 msgid "Create an Ordered List"
@@ -1469,11 +1469,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Undo"
-msgstr ""
+msgstr "تراجع للخلف"
 
 #. Template: AAABase
 msgid "Redo"
-msgstr ""
+msgstr "تراجع للأمام"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
@@ -1481,83 +1481,83 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "لايمكن الإتصال بخادم التسجيل. الرجاء المحاولة لاحقاً."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "لم يتم استلام أية محتوى من خادم التسجيل. الرجاء المحاولة لاحقاً."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "يوجد مشاكل في معالجة نتائج الخادم. الرجاء المحاولة لاحقاً."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "ليس هناك تطابق بين إسم المستخدم وكلمة المرور. الرجاء المحاولة مرة أخرى."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "العلملية التي تم إختيارها غير صحيحة!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "الترقية إلى %s ألآن!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s أرسلت إلى مركز الترقية %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "ترخيص %s على وشك الإنتهاء. يُرجى الإتصال على %s لتجديد العقد!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث الفريم وورك خاصتك!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "تم بنجاح ترقية نظامك إلى %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "حدثت مشكلة أثناء الترقية إلى %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s تم إعادة تثبيتها بنجاح."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "حدثت مشكلة عند اعادة تثبيت %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "تم تحديث %s خاصتك بنجاح."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "حدثت هناك مشكلة أثناء ترقية %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "تمت إزالة تثبيت  %s بنجاح."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "حدثت مشكلة عند إزالة تثبيت %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "يوم السنة الجديدة"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "يوم العمال العالمي"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
@@ -6367,10 +6367,6 @@ msgid "Assigned Fields"
 msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr ""
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr ""
 
@@ -6715,15 +6711,15 @@ msgid "Type of Linking"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -6753,11 +6749,11 @@ msgid "Config Parameters"
 msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
+msgid "Add a new Parameter"
 msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Add a new Parameter"
+msgid "Remove this Parameter"
 msgstr ""
 
 #. Template: AdminQueue
@@ -10276,6 +10272,22 @@ msgstr ""
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr ""
@@ -10541,6 +10553,10 @@ msgstr ""
 msgid "Customer of the ticket"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10670,6 +10686,10 @@ msgstr ""
 msgid " You can take one of the next actions:"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr ""
@@ -10685,6 +10705,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
@@ -10772,6 +10798,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
@@ -14472,6 +14514,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15708,7 +15758,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16400,6 +16450,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16408,6 +16462,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
 msgstr ""
 
 #. SysConfig

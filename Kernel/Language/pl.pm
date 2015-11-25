@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.755200774068699;
+    $Self->{Completeness}        = 0.752592235350856;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1842,7 +1842,6 @@ sub Data {
         'Filter available fields' => 'Filtruj dostępne pola',
         'Available Fields' => 'Dostępne pola',
         'Assigned Fields' => 'Przypisane pola',
-        'Edit Details for Field' => 'Edytuj szczegóły pola',
         'ArticleType' => 'TypWiadomości',
         'Display' => 'Wyświetl',
         'Edit Field Details' => 'Edytuj szczegóły pola',
@@ -1950,9 +1949,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Typ połączenia pomiędzy warunkami',
         'Remove this Condition' => 'Usuń ten warunek',
         'Type of Linking' => 'Typ połączenia',
+        'Add a new Field' => 'Dodaj nowe pole',
         'Remove this Field' => 'Usuń to pole',
         'And can\'t be repeated on the same condition.' => '',
-        'Add a new Field' => 'Dodaj nowe pole',
         'Add New Condition' => 'Dodaj nowy warunek',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1962,8 +1961,8 @@ sub Data {
         'Transition Action Name' => 'Nazwa akcji przejścia',
         'Transition Action Module' => 'Moduł akcji przejścia',
         'Config Parameters' => 'Parametry konfiguracyjne',
-        'Remove this Parameter' => 'Usuń ten parametr',
         'Add a new Parameter' => 'Dodaj nowy parametr',
+        'Remove this Parameter' => 'Usuń ten parametr',
 
         # Template: AdminQueue
         'Manage Queues' => 'Zarządzaj kolejkami',
@@ -3127,6 +3126,12 @@ sub Data {
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Informacje procesowe',
@@ -3239,6 +3244,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3307,6 +3313,9 @@ sub Data {
             '',
         ' You can take one of the next actions:' => '',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
 
@@ -3318,6 +3327,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3353,6 +3366,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortuj według',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4551,6 +4570,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Definiuje domyślną ścieźkę postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5137,9 +5158,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Moduł sprawdzający prawa klienta.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => 'Moduł umożliwiający sprawdzenie odpowiedzialnego za zgłoszenie.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Moduł sprawdzający uprawnienia dostępu do zgłoszeń klienta.',
         'Module to check the owner of a ticket.' => 'Moduł sprawdzający właściciela zgłoszenia.',

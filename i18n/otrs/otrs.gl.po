@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6368,10 +6368,6 @@ msgid "Assigned Fields"
 msgstr "Campos asignados"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Edite Detalles para Campo"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "Tipo de Artigo"
 
@@ -6716,16 +6712,16 @@ msgid "Type of Linking"
 msgstr "Tipo de ligazón"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Engadir un campo novo"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Elimine este Campo"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr "E non pode repetirse na mesma condición."
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Engadir un campo novo"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6754,12 +6750,12 @@ msgid "Config Parameters"
 msgstr "Parámetros Configurables"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Elimine este Parámetro"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Engada un novo Parámetro"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Elimine este Parámetro"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -10277,6 +10273,22 @@ msgstr "Non se atoparon notificacións configurables de usuario."
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Recibir mensaxes para notificación '%s' polo método de transporte '%s'."
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "Información do proceso"
@@ -10542,6 +10554,10 @@ msgstr "Tódolos axentes suscritos aos dous cola e servizo de ticket"
 msgid "Customer of the ticket"
 msgstr "Cliente do ticket"
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10671,6 +10687,10 @@ msgstr "Sentímolo, pero non ten permisos nunca mais para acceder a este ticket 
 msgid " You can take one of the next actions:"
 msgstr "Pode coller unha das seguintes accións:"
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Actualice a %s agora! %s"
@@ -10687,6 +10707,12 @@ msgstr "Por favor contacte co seu administrador!"
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
 msgstr "(en proceso)"
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10774,6 +10800,22 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Ordene por"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -14473,6 +14515,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Define a prioridade na que á información é logeada e presentada. "
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15709,7 +15759,7 @@ msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode es
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16401,6 +16451,10 @@ msgid ""
 msgstr "Módulo para comprobar se un usuario pertence a algún grupo especial. Concédeselle acceso se o usuario está no grupo indicado e ten os permisos ro e rw."
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16410,6 +16464,10 @@ msgstr "Módulo para comprobar se hai que marcar o correo recibido como correo i
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
 msgstr "Módulo para comprobar o axente responsable dun ticket."
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""

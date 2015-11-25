@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3220,7 +3220,7 @@ msgstr "A rendszer regisztráció az OTRS csoport szolgáltatása, amely számos
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Ne feledje, hogy az OTRS felhőszolgáltatások használatához a rendszer regisztrációja szükséges."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -5758,7 +5758,7 @@ msgstr "Csevegés"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Jelentés előállító"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6375,10 +6375,6 @@ msgid "Assigned Fields"
 msgstr "Hozzárendelt mezők"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Mezőrészletek szerkesztése"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "Bejegyzéstípus"
 
@@ -6723,16 +6719,16 @@ msgid "Type of Linking"
 msgstr "Kapcsolat típusa"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Új mező hozzáadása"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Mező eltávolítása"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr "Én nem lehet ismételni ugyanazon a feltételen."
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Új mező hozzáadása"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6761,12 +6757,12 @@ msgid "Config Parameters"
 msgstr "Beállítási paraméterek"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Paraméter eltávolítása"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Új paraméter hozzáadása"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Paraméter eltávolítása"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -8818,7 +8814,7 @@ msgstr "Válasz írása ehhez: %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Ez a cím rendszercímként van regisztrálva és nem használható: %s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -10284,13 +10280,29 @@ msgstr "Nem találhatók felhasználó által beállítható értesítések."
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel."
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "Folyamat-információk"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Párbeszéd"
 
 #. Template: Article
 msgid "Inform Agent"
@@ -10311,37 +10323,37 @@ msgstr "Kiválaszthat egy vagy több csoportot a hozzáférés meghatározásáh
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Eredmény formátumok"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "A kiválasztott időszakok a statisztikában időzóna semlegesek."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Összegző sor létrehozása"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data columns."
-msgstr ""
+msgstr "Egy további sort állít elő, amely az összes adatoszlop összegeit tartalmazza."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Összegző oszlop létrehozása"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data rows."
-msgstr ""
+msgstr "Egy további oszlopot állít elő, amely az összes adatsor összegeit tartalmazza."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Eredmények gyorstárazása"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration."
-msgstr ""
+msgstr "Eltárolja a statisztikák eredményadatait egy gyorsítótárban az azonos beállítással rendelkező későbbi nézetek használatához."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -10353,7 +10365,7 @@ msgstr "A statisztika biztosítása felületi elemként, amelyet az ügyintéző
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Ne feledje, hogy a vezérlőpult felületi elem engedélyezése aktiválni fogja a statisztika gyorsítótárának használatát a vezérlőpulton."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -10361,29 +10373,29 @@ msgstr "Ha érvénytelenre állítja, a végfelhasználók nem tudják a statisz
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Problémák vannak ennek a statisztikának a beállításaiban:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Most beállíthatja a statisztika X-tengelyét."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "Ez a statisztika nem szolgáltat előnézeti adatokat."
 
 #. Template: PreviewWidget
 msgid "Preview format:"
-msgstr ""
+msgstr "Előnézeti formátum:"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
-msgstr ""
+msgstr "Ne feledje, hogy az előnézet véletlenszerű adatokat használ, és nincs tekintettel az adatszűrőkre."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "X-tengely beállítása"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10391,7 +10403,7 @@ msgstr "X-tengely"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Y-tengely beállítása"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10399,7 +10411,7 @@ msgstr "Y-tengely"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "Szűrő beállítása"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
@@ -10407,7 +10419,7 @@ msgstr "Csak egyetlen elemet válasszon, vagy kapcsolja ki a „Rögzített” g
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Abszolút időszak"
 
 #. Template: RestrictionsWidget
 msgid "Between"
@@ -10415,15 +10427,15 @@ msgstr "Között"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Relatív időszak"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "A már teljes %s és a jelenlegi+közelgő teljes %s %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "Ne tegyen lehetővé változtatásokat ezen az elemen, amikor a statisztikát előállítják."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -10435,7 +10447,7 @@ msgstr "Tengelyek felcserélése"
 
 #. Template: StatsParamsWidget
 msgid "Configurable params of static stat"
-msgstr "Állandó statisztika beállítható paraméterei"
+msgstr "Statikus statisztika beállítható paraméterei"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
@@ -10447,29 +10459,29 @@ msgstr "Skála"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "SVG letöltése"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "PNG letöltése"
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr ""
+msgstr "A kijelölt időszak határozza meg azt az alapértelmezett időkeretet ennél a statisztikánál, amelyből az adatokat begyűjti."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "Azt az időegységet határozza meg, amely a kijelölt időszaknak jelentési adatpontokba történő felosztásához lesz használva."
 
 #. Template: YAxisWidget
 msgid ""
 "Please remember that the scale for the Y-axis has to be larger than the "
 "scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
-msgstr ""
+msgstr "Ne feledje, hogy az Y-tengely méretezésének nagyobbnak kell lennie az X-tengely méretezésénél (például X-tengely => Hónap, Y-tengely => Év)."
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10548,6 +10560,10 @@ msgstr "A jegy várólistájára és szolgáltatására is feliratkozott összes
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer of the ticket"
 msgstr "A jegy ügyfele"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -10678,6 +10694,10 @@ msgstr "Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáfér�
 msgid " You can take one of the next actions:"
 msgstr " A következő műveletek egyikét választhatja:"
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Frissítés erre most: %s! %s"
@@ -10694,6 +10714,12 @@ msgstr "Lépjen kapcsolatba az adminisztrátorral!"
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
 msgstr "(folyamatban)"
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10781,6 +10807,22 @@ msgstr "Távolítsa el a következő szavakat, mert azok nem használhatók a je
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Rendezés"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -14480,6 +14522,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Meghatározza azt a prioritást, amelyben az információk naplózva lesznek és bemutatásra kerülnek."
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -14872,7 +14922,7 @@ msgstr "Legördülő"
 msgid ""
 "Dutch stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "Holland kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből."
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -15716,7 +15766,7 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16332,7 +16382,7 @@ msgstr "A részt vevő ügyintézők doboz legnagyobb mérete (sorokban) az ügy
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
-msgstr ""
+msgstr "A tárgyak legnagyobb mérete egy e-mail válasznál és néhány áttekintő képernyőnél."
 
 #. SysConfig
 msgid ""
@@ -16408,6 +16458,10 @@ msgid ""
 msgstr "Egy modul annak ellenőrzéséhez, hogy a felhasználó egy speciális csoportban van-e. A hozzáférés meg van adva, ha a felhasználó a megadott csoportban van, és csak olvasható és írható, olvasható jogosultságai vannak."
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16417,6 +16471,10 @@ msgstr "Egy modul annak ellenőrzéséhez, hogy a beérkező e-maileket meg kell
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
 msgstr "Egy modul egy jegy felelős ügyintézőjének ellenőrzéséhez."
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -6071,10 +6071,6 @@ msgid "Assigned Fields"
 msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr ""
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr ""
 
@@ -6391,15 +6387,15 @@ msgid "Type of Linking"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -6427,11 +6423,11 @@ msgid "Config Parameters"
 msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
+msgid "Add a new Parameter"
 msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Add a new Parameter"
+msgid "Remove this Parameter"
 msgstr ""
 
 #. Template: AdminQueue
@@ -9826,6 +9822,18 @@ msgstr ""
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 
+#. Template: PreferencesNotificationEvent
+msgid "Please note that you can't completely disable notifications marked as mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for notifications marked as mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr ""
@@ -10074,6 +10082,10 @@ msgstr ""
 msgid "Customer of the ticket"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified due a communication issue with verification server!"
 msgstr ""
@@ -10190,6 +10202,10 @@ msgstr ""
 msgid " You can take one of the next actions:"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr ""
@@ -10204,6 +10220,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid "Please make sure you've chosen at least one transport method for mandatory notifications."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
@@ -10280,6 +10300,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
@@ -13110,6 +13146,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the receipent target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"System address\" displays all system addresses) in the agent interface."
 msgstr ""
 
@@ -14058,7 +14102,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -14582,11 +14626,19 @@ msgid "Module to check if a user is in a special group. Access is granted, if th
 msgstr ""
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid "Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article."
 msgstr ""
 
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
 msgstr ""
 
 #. SysConfig

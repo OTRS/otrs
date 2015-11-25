@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.747460087082729;
+    $Self->{Completeness}        = 0.746081504702194;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1594,9 +1594,9 @@ sub Data {
             'Atributos del actual usuario agente que solicitó esta acción.',
         'Attributes of the recipient user for the notification' => 'Atributos del usuario destinatario para la notificación.',
         'Attributes of the ticket data' => 'Atributos de los datos del ticket',
-        'Ticket dynamic fields internal key values' => '',
+        'Ticket dynamic fields internal key values' => 'Valores de las claves internas de los campos dinámicos de los tickets',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Valores mostrados de los campos  dinámicos de los tickets, útil para los campos desplegables y de selección múltiple',
         'Example notification' => 'Notificación de ejemplo',
 
         # Template: AdminNotificationEventTransportEmailSettings
@@ -1844,7 +1844,6 @@ sub Data {
         'Filter available fields' => 'Campos filtro disponibles',
         'Available Fields' => 'Campos Disponibles',
         'Assigned Fields' => 'Campos Asignados',
-        'Edit Details for Field' => 'Edite Detalles para Campo',
         'ArticleType' => 'TipoArticulo',
         'Display' => 'Mostrar',
         'Edit Field Details' => 'Edite Detalles Campo',
@@ -1952,9 +1951,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Tipo de Vinculación entre Condiciones',
         'Remove this Condition' => 'Eliminar esta Condición',
         'Type of Linking' => 'Tipo de Vinculación',
+        'Add a new Field' => 'Añadir nuevo Campo',
         'Remove this Field' => 'Eliminar este Campo',
         'And can\'t be repeated on the same condition.' => 'Y no puede ser repetida en la misma condición.',
-        'Add a new Field' => 'Añadir nuevo Campo',
         'Add New Condition' => 'Añadir Nueva Condición',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1964,8 +1963,8 @@ sub Data {
         'Transition Action Name' => 'Nombre Acción de Transición',
         'Transition Action Module' => 'Módulo Acción de Transición',
         'Config Parameters' => 'Parámetros de Configuración',
-        'Remove this Parameter' => 'Elimine este Parámetro',
         'Add a new Parameter' => 'Añada un nuevo Parámetro',
+        'Remove this Parameter' => 'Elimine este Parámetro',
 
         # Template: AdminQueue
         'Manage Queues' => 'Gestionar las colas',
@@ -3129,6 +3128,12 @@ sub Data {
         'No user configurable notifications found.' => 'No encontrada ninguna notificación de usuario configurable.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Recibir mensajes para notificación \'%s\' por el método de transporte \'%s\'.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Información de Proceso',
@@ -3159,12 +3164,12 @@ sub Data {
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Proporcionar la estadística como un elemento gráfico que los agentes pueden activar en su panel principal.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            'Por favor, ten en cuenta que habilitar el elemento gráfico en el panel principal activará el cacheo para esta estadística en el panel principal.',
         'If set to invalid end users can not generate the stat.' => 'Si se establece a un valor no válido los usuarios finales no pueden generar la estadística.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
+        'There are problems in the configuration of this statistic:' => 'Hay problemas en la configuración de esta estadística:',
+        'You may now configure the X-axis of your statistic.' => 'Ahora tienes que configurar el eje-X de tu estadística.',
         'This statistic does not provide preview data.' => '',
         'Preview format:' => '',
         'Please note that the preview uses random data and does not consider data filters.' =>
@@ -3241,6 +3246,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Todos los agentes suscritos a ambos cola y servicio del ticket',
         'Customer of the ticket' => 'Cliente del ticket',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3309,6 +3315,9 @@ sub Data {
             'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
         ' You can take one of the next actions:' => 'Puede tomar una de las siguientes decisiones:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ¡Actualizar ahora a %s! %s',
 
@@ -3320,6 +3329,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(en proceso)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Por favor especifique una fecha de término posterior a la fecha de inicio.',
@@ -3355,6 +3368,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordenar por',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Tipo de Estado',
@@ -4564,6 +4583,8 @@ Tu Equipo de Soporte
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5150,9 +5171,11 @@ Tu Equipo de Soporte
         'Module to check customer permissions.' => '',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => '',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             '',
         'Module to check the owner of a ticket.' => 'Módulo para verificar el dueño de un ticket.',
