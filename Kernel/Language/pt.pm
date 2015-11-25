@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.374697629414611;
+    $Self->{Completeness}        = 0.380998312032795;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -477,7 +477,7 @@ sub Data {
         'User Profile' => 'Perfil de utilizador',
         'Email Settings' => 'Definições de email',
         'Other Settings' => 'Outras definições',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Configuração de Notificações',
         'Change Password' => 'Mudar a Palavra-passe',
         'Current password' => 'Senha atual',
         'New password' => 'Nova palavra-passe',
@@ -620,7 +620,7 @@ sub Data {
         '3 normal' => '3 normal',
         '4 high' => '4 alta',
         '5 very high' => '5 muito alta',
-        'auto follow up' => '',
+        'auto follow up' => 'acompanhamento automático',
         'auto reject' => 'rejeição automática',
         'auto remove' => 'remoção automática',
         'auto reply' => 'resposta automática',
@@ -649,8 +649,8 @@ sub Data {
         'Create new Email Ticket' => 'Criar novo Ticket via email',
         'Phone-Ticket' => 'Telefonema',
         'Search Tickets' => 'Procurar Tickets',
-        'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer Realname' => 'Nome Real do Cliente',
+        'Customer History' => 'História do Cliente',
         'Edit Customer Users' => 'Editar Utilizadores de cliente',
         'Edit Customer' => 'Editar cliente',
         'Bulk Action' => 'Em bloco',
@@ -658,8 +658,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar mensagem e criar novo Ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Criar novo Email Ticket e enviar para fora',
         'Create new Phone Ticket (Inbound)' => 'Criar novo Ticket por telefone',
-        'Address %s replaced with registered customer address.' => '',
-        'Customer user automatically added in Cc.' => '',
+        'Address %s replaced with registered customer address.' => 'Endereço %s substituído por um endereço de cliente registado ',
+        'Customer user automatically added in Cc.' => 'Utilizador de Cliente adicionado automaticamente em Cc (Com Conhecimento)',
         'Overview of all open Tickets' => 'Vista de todos os tickets abertos',
         'Locked Tickets' => 'Tickets bloqueados',
         'My Locked Tickets' => 'Os meus tickets bloqueados',
@@ -669,22 +669,22 @@ sub Data {
         'Watched' => 'Vigiado',
         'Watch' => 'Vigiar',
         'Unwatch' => '',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
+        'Lock it to work on it' => 'Bloqueá-lo para trabalhar com ele',
+        'Unlock to give it back to the queue' => 'Destranca para voltar à fila',
+        'Show the ticket history' => 'Mostra a história do pedido',
         'Print this ticket' => 'Imprimir este ticket',
         'Print this article' => 'Imprimir este artigo',
-        'Split' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
+        'Split' => 'Divide',
+        'Split this article' => 'Divide este artigo',
+        'Forward article via mail' => 'Envia o artigo via e-mail',
+        'Change the ticket priority' => 'Altera a prioridade do pedido',
         'Change the ticket free fields!' => 'Alterar os campos livres do ticket!',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
-        'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
+        'Link this ticket to other objects' => 'Liga este pedido a outros objetos',
+        'Change the owner for this ticket' => 'Altera o dono deste pedido',
+        'Change the  customer for this ticket' => 'Altera o cliente deste pedido',
+        'Add a note to this ticket' => 'Adiciona uma nota a este pedido',
+        'Merge into a different ticket' => 'Junta-se a um pedido diferente',
+        'Set this ticket to pending' => 'Coloca este pedido pendente',
         'Close this ticket' => 'Fechar este ticket',
         'Look into a ticket!' => 'Ver detalhe do ticket!',
         'Delete this ticket' => 'Apagar este ticket',
@@ -710,8 +710,8 @@ sub Data {
         'Send new ticket notifications' => 'Enviar notificações em novos tickets',
         'Ticket follow up notification' => 'Enviar notificações em atualizações de tickets',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '',
-        'Send ticket follow up notifications' => '',
+            'Envia-me uma notificação se um cliente dá seguimento e eu sou o dono deste pedido ou o pedido destá desbloqueado e é um das minhas filas subcritas',
+        'Send ticket follow up notifications' => 'Envia o pedido seguido de notificações',
         'Ticket lock timeout notification' => 'Notificação por expiração de tempo de bloqueio',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Enviar notificação se um ticket for desbloqueado pelo sistema.',
@@ -763,8 +763,8 @@ sub Data {
         'Archived tickets' => 'Tickets arquivados',
         'Unarchived tickets' => 'Tickets não arquivados',
         'Ticket Information' => 'Informação do ticket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'incluindo sub-filas',
+        'excluding subqueues' => 'excluindo sub-filas',
 
         # Template: AAAWeekDay
         'Sun' => 'Domingo',
@@ -786,20 +786,20 @@ sub Data {
         'Export ACLs' => 'Exportar ACLs',
         'Configuration import' => 'Importar configuração',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Aqui podes carregar o ficheiro de configuração para importar a Lista de Controle de Acesso (ACL) para o teu sistema. O ficheiro deve estar no formato .yml como exportado pelo módulo de edição Lista de Controle de Acesso (ACL).',
         'This field is required.' => 'Campo obrigatório',
         'Overwrite existing ACLs?' => 'Substituir ACLs existentes?',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Upload ACL configuration' => 'Envio de Configuração Lista de Controle de Acesso (ACL)',
+        'Import ACL configuration(s)' => 'Importar configuração(ões) Lista de Controle de Acesso (ACL)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Para criar uma nova Lista de Controle de Acesso (ACL) podes importar uma lista exportada de outro programa ou criar uma nova completa.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
+            'As alterações na Lista de Controle de Acesso (ACL) aqui só afectam o comportamento do sistema, se instalar os dados Lista de Controle de Acesso (ACL) depois. Ao instalar os dados da Lista de Controle de Acesso (ACL), as alterações mais recentes serão gravadas na configuração.',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => 'Nome da ACL',
-        'Validity' => '',
+        'Validity' => 'Validade',
         'Copy' => 'Copiar',
         'No data found.' => 'não há resultados',
 
@@ -808,7 +808,7 @@ sub Data {
         'Go to overview' => 'Vista geral',
         'Delete ACL' => 'Eliminar ACL',
         'Delete Invalid ACL' => 'Eliminar ACL inválida',
-        'Match settings' => '',
+        'Match settings' => 'Configurações correspondentes',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
         'Change settings' => 'Alterar definições',
@@ -822,7 +822,7 @@ sub Data {
         'Edit ACL structure' => '',
         'Save' => 'Guardar',
         'or' => 'ou',
-        'Save and finish' => '',
+        'Save and finish' => 'Grava e termina',
         'Do you really want to delete this ACL?' => '',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
@@ -1840,7 +1840,6 @@ sub Data {
         'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
-        'Edit Details for Field' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
@@ -1948,9 +1947,9 @@ sub Data {
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
+        'Add a new Field' => '',
         'Remove this Field' => '',
         'And can\'t be repeated on the same condition.' => '',
-        'Add a new Field' => '',
         'Add New Condition' => '',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1960,8 +1959,8 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Remove this Parameter' => '',
         'Add a new Parameter' => '',
+        'Remove this Parameter' => '',
 
         # Template: AdminQueue
         'Manage Queues' => 'Gerir filas',
@@ -3125,6 +3124,12 @@ sub Data {
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => '',
@@ -3237,6 +3242,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3305,6 +3311,9 @@ sub Data {
             '',
         ' You can take one of the next actions:' => '',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
 
@@ -3316,6 +3325,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3351,6 +3364,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordenado por',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4549,6 +4568,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5135,9 +5156,11 @@ Thanks for your help!
         'Module to check customer permissions.' => '',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => '',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             '',
         'Module to check the owner of a ticket.' => '',

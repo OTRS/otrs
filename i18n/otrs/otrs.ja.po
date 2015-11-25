@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3962,7 +3962,7 @@ msgstr "作成時間"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
-msgstr "作成時間を設定しない"
+msgstr "作成時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
@@ -3978,7 +3978,7 @@ msgstr "最終変更時間"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr "最終変更時間がセットされていません。"
+msgstr "最終変更時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
@@ -3986,7 +3986,7 @@ msgstr "チケットが最終更新された"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr "この間にチケットが最終変更された"
+msgstr "チケットの最終更新がこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -3994,7 +3994,7 @@ msgstr "変更時間"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "変更時間設定がありません。"
+msgstr "変更時間設定を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -4010,7 +4010,7 @@ msgstr "完了時間"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "完了時間を設定しない"
+msgstr "完了時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -4026,7 +4026,7 @@ msgstr "保留時間"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "保留時間を設定しない"
+msgstr "保留時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
@@ -4042,7 +4042,7 @@ msgstr "エスカレーション時間"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "エスカレーション時間を設定しない"
+msgstr "エスカレーション時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
@@ -5672,7 +5672,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s 利用できるアップデーターがあります"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -5680,7 +5680,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%s 正しくデプロイされました"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
@@ -6373,10 +6373,6 @@ msgid "Assigned Fields"
 msgstr "割り当てられた領域"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr ""
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "記事タイプ"
 
@@ -6721,16 +6717,16 @@ msgid "Type of Linking"
 msgstr "リンクのタイプ"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "新しい領域を追加"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "この領域を削除"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr ""
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "新しい領域を追加"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6759,12 +6755,12 @@ msgid "Config Parameters"
 msgstr "パラメータの設定"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "このパラメータを削除"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "新規パラメータを追加"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "このパラメータを削除"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -10282,6 +10278,22 @@ msgstr ""
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "プロセス情報"
@@ -10381,7 +10393,7 @@ msgstr ""
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "X軸の設定"
 
 #. Template: PreviewWidget
 msgid "X-axis"
@@ -10389,7 +10401,7 @@ msgstr "X軸"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "Y軸の設定"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
@@ -10397,7 +10409,7 @@ msgstr "Y軸"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "フィルタの設定"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
@@ -10445,11 +10457,11 @@ msgstr "目盛"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "SVG画像のダウンロード"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "PNG画像のダウンロード"
 
 #. Template: XAxisWidget
 msgid ""
@@ -10545,6 +10557,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer of the ticket"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -10676,6 +10692,10 @@ msgstr ""
 msgid " You can take one of the next actions:"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr ""
@@ -10691,6 +10711,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
@@ -10779,6 +10805,22 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "順序"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11235,7 +11277,7 @@ msgstr "システムログにエラーが出力されています。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (ドメインネーム)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Please configure your FQDN setting."
@@ -11547,7 +11589,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "対応中チケット"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
@@ -11597,7 +11639,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "新規チケット"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -11669,7 +11711,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "未分類"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
@@ -11685,7 +11727,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
-msgstr ""
+msgstr "fax"
 
 #. SysConfig
 msgid ""
@@ -11700,7 +11742,7 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr ""
+msgstr "\nお客様\n\n表題に記載ののチケット番号は有効ではございません。\n大変申し訳ありませんが、このメールの処理は行われません。\n\nカスタマーパネルより新たなチケットを作成願います。\n\nヘルプデスク担当\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -14478,6 +14520,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -14720,7 +14770,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "期限切れのセッションデータを削除する。"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
@@ -15133,7 +15183,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
-msgstr ""
+msgstr "フィルタを有効にする。"
 
 #. SysConfig
 msgid ""
@@ -15210,15 +15260,15 @@ msgstr "リストされたグループためにのみ、チケット監視機能
 
 #. SysConfig
 msgid "English (Canada)"
-msgstr ""
+msgstr "英語(カナダ)"
 
 #. SysConfig
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "英語(イギリス)"
 
 #. SysConfig
 msgid "English (United States)"
-msgstr ""
+msgstr "英語(アメリカ合衆国)"
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15274,7 +15324,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "エストニア語"
 
 #. SysConfig
 msgid ""
@@ -15403,7 +15453,7 @@ msgstr "受信メールフィルタ"
 
 #. SysConfig
 msgid "Finnish"
-msgstr ""
+msgstr "フィンランド語"
 
 #. SysConfig
 msgid "First Queue"
@@ -15459,11 +15509,11 @@ msgstr "Forwarded to \"%s\"."
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "フランス語"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "フランス語（カナダ）"
 
 #. SysConfig
 msgid ""
@@ -15517,11 +15567,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "全文検索"
 
 #. SysConfig
 msgid "Galician"
-msgstr ""
+msgstr "ガリシア語"
 
 #. SysConfig
 msgid ""
@@ -15588,7 +15638,7 @@ msgstr ""
 
 #. SysConfig
 msgid "German"
-msgstr ""
+msgstr "ドイツ語"
 
 #. SysConfig
 msgid ""
@@ -15619,11 +15669,11 @@ msgstr "チケットの顧客IDが顧客ユーザIDと合致していた、お�
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "ギリシャ語"
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "ヘブライ語"
 
 #. SysConfig
 msgid ""
@@ -15637,11 +15687,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Hindi"
-msgstr ""
+msgstr "ヒンディー語"
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "ハンガリー語"
 
 #. SysConfig
 msgid ""
@@ -15714,7 +15764,7 @@ msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されてい�
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16092,7 +16142,7 @@ msgstr "異なるテーマを、担当者と顧客の間で異なるように、
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "イタリア語"
 
 #. SysConfig
 msgid ""
@@ -16102,7 +16152,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "日本語"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -16118,7 +16168,7 @@ msgstr "名, 姓 (ユーザー名)"
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "ラトビア語"
 
 #. SysConfig
 msgid "Left"
@@ -16230,7 +16280,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Lithuanian"
-msgstr ""
+msgstr "リトアニア語"
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -16275,7 +16325,7 @@ msgstr "セッション管理に、htmlクッキーを使用させるように�
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "マレー語"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -16384,7 +16434,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "チケット番号 <OTRS_TICKET> は、チケット番号 <OTRS_MERGE_TO_TICKET> にマージされました。"
 
 #. SysConfig
 msgid "Miscellaneous"
@@ -16406,6 +16456,10 @@ msgid ""
 msgstr "あるユーザが、特別なグループに加入しているか確認するためのモジュールです。ユーザが特別なグループに入っておりro権限とrw権限を持っていれば、アクセスが付与されます。"
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16415,6 +16469,10 @@ msgstr ""
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
 msgstr "チケットの責任者となる担当者を確認するモジュールです。"
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16515,7 +16573,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Nederlands"
-msgstr ""
+msgstr "オランダ語"
 
 #. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
@@ -16555,7 +16613,7 @@ msgstr "なし"
 
 #. SysConfig
 msgid "Norwegian"
-msgstr ""
+msgstr "ノルウェー語"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -16850,23 +16908,23 @@ msgstr "メモ・ウィンドウを構成するために許容される幅です
 
 #. SysConfig
 msgid "Persian"
-msgstr ""
+msgstr "ペルシア語"
 
 #. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "画像のアップロード"
 
 #. SysConfig
 msgid "Polish"
-msgstr ""
+msgstr "ポーランド語"
 
 #. SysConfig
 msgid "Portuguese"
-msgstr ""
+msgstr "ポルトガル語"
 
 #. SysConfig
 msgid "Portuguese (Brasil)"
-msgstr ""
+msgstr "ポルトガル語（ブラジル）"
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16898,7 +16956,7 @@ msgstr "プロセス管理遷移GUI"
 
 #. SysConfig
 msgid "Process pending tickets."
-msgstr ""
+msgstr "保留中プロセスチケット"
 
 #. SysConfig
 msgid "ProcessID"
@@ -17105,7 +17163,7 @@ msgstr "システムを“デモ”モードで動作させます。“Yes”に
 
 #. SysConfig
 msgid "Russian"
-msgstr ""
+msgstr "ロシア語"
 
 #. SysConfig
 msgid "S/MIME Certificate Upload"
@@ -17113,7 +17171,7 @@ msgstr "S/MIME証明書アップロード"
 
 #. SysConfig
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #. SysConfig
 msgid "Sample command output"
@@ -17234,11 +17292,11 @@ msgstr "管理インタフェースの\"Notfication (Event)\"の下で設定さ�
 
 #. SysConfig
 msgid "Serbian Cyrillic"
-msgstr ""
+msgstr "セルビア語（キリル文字）"
 
 #. SysConfig
 msgid "Serbian Latin"
-msgstr ""
+msgstr "セルビア語（ラテン文字）"
 
 #. SysConfig
 msgid "Service view"
@@ -18470,11 +18528,11 @@ msgstr "スキン"
 
 #. SysConfig
 msgid "Slovak"
-msgstr ""
+msgstr "スロバキア語"
 
 #. SysConfig
 msgid "Slovenian"
-msgstr ""
+msgstr "スロベニア語"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -18520,15 +18578,15 @@ msgstr "SpamAssassinのセットアップ例です。マークされたメール
 
 #. SysConfig
 msgid "Spanish"
-msgstr ""
+msgstr "スペイン語"
 
 #. SysConfig
 msgid "Spanish (Colombia)"
-msgstr ""
+msgstr "スペイン語(コロンビア)"
 
 #. SysConfig
 msgid "Spanish (Mexico)"
-msgstr ""
+msgstr "スペイン語(メキシコ)"
 
 #. SysConfig
 msgid ""
@@ -18727,11 +18785,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Swahili"
-msgstr ""
+msgstr "スワヒリ語"
 
 #. SysConfig
 msgid "Swedish"
-msgstr ""
+msgstr "スウェーデン語"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -18992,7 +19050,7 @@ msgstr "ツリー表示"
 
 #. SysConfig
 msgid "Turkish"
-msgstr ""
+msgstr "トルコ語"
 
 #. SysConfig
 msgid ""
@@ -19019,7 +19077,7 @@ msgstr "リモートIPアドレス・チェックをONにします。もし、�
 
 #. SysConfig
 msgid "Ukrainian"
-msgstr ""
+msgstr "ウクライナ語"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -19111,7 +19169,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Vietnam"
-msgstr ""
+msgstr "ベトナム"
 
 #. SysConfig
 msgid "View performance benchmark results."

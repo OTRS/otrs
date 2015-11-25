@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:11+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -553,7 +553,7 @@ msgstr "alle"
 
 #. Template: AAABase
 msgid "Sorry"
-msgstr "Bedauere"
+msgstr "Entschuldigung"
 
 #. Template: AAABase
 msgid "update!"
@@ -2556,7 +2556,7 @@ msgstr "Gezeigte Spalten"
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTRS_TICKET>\" wurde zu Ticket-Nummer \"<OTRS_MERGE_TO_TICKET>\" gemerged!"
+msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTRS_TICKET>\" wurde zu Ticket-Nummer \"<OTRS_MERGE_TO_TICKET>\" zusammengefasst!"
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time is over (%s)!"
@@ -2744,7 +2744,7 @@ msgstr "Neues Ticket erstellen"
 
 #. Template: AAATicket
 msgid "Customer called"
-msgstr "Kunden angerufen"
+msgstr "Kundenanruf"
 
 #. Template: AAATicket
 msgid "phone call"
@@ -2782,11 +2782,11 @@ msgstr "Offene Tickets / Beantwortung erforderlich"
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Alle offenen Tickets, an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich"
+msgstr "Alle offenen Tickets; an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich"
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Alle neuen Tickets, an diesen Tickets wurde noch nicht gearbeitet"
+msgstr "Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet"
 
 #. Template: AAATicket
 msgid "All escalated tickets"
@@ -3042,7 +3042,7 @@ msgstr "Beim Lesen der ACL-Daten ist ein Fehler aufgetreten."
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr "Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich Konfigurations Parameter im Änderungsmodus einzufügen."
+msgstr "Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich, Konfigurationsparameter im Änderungsmodus einzufügen."
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -3098,7 +3098,7 @@ msgstr "Automatische Antwort von"
 
 #. Template: AdminAutoResponse
 msgid "Reference"
-msgstr "Referenz(en)"
+msgstr "Referenz"
 
 #. Template: AdminAutoResponse
 msgid "You can use the following tags"
@@ -3164,7 +3164,7 @@ msgstr "Beispielantwort"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr "Clouddienstverwaltung"
+msgstr "Verwaltung von Cloud Services"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
@@ -3180,7 +3180,7 @@ msgstr "Hinweis"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr "Aktuelle Supportdaten werden nur auf diesem System angezeigt"
+msgstr "Supportdaten werden derzeit nur auf diesem System angezeigt."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3247,7 +3247,7 @@ msgstr "Hier können Sie verfügbare Cloud-Services konfigurieren die sicher mit
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr "Verfügbare Clouddienste"
+msgstr "Verfügbare Cloud Services"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
@@ -3263,7 +3263,7 @@ msgstr "Platzhalter wie '*' sind erlaubt."
 
 #. Template: AdminCustomerCompany
 msgid "Add customer"
-msgstr "Kunde hinzufügen"
+msgstr "Kunden hinzufügen"
 
 #. Template: AdminCustomerCompany
 msgid "Select"
@@ -3275,7 +3275,7 @@ msgstr "Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen."
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
-msgstr "Kunde hinzufügen"
+msgstr "Kunden hinzufügen"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -3406,7 +3406,7 @@ msgstr "Gruppen"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
-msgstr "Gruppenzuordnungen verwalten für Kunde"
+msgstr "Gruppenzuordnungen verwalten für Kunden"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Customer Relations for Group"
@@ -3422,7 +3422,7 @@ msgstr "Recht %s für %s umschalten"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
-msgstr "Standardgruppen:"
+msgstr "Standard-Kundengruppen:"
 
 #. Template: AdminCustomerUserGroup
 msgid "No changes can be made to these groups."
@@ -3599,7 +3599,7 @@ msgstr "Standardwert"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
-msgstr "Dies ist der Standardwert für dieses Feld"
+msgstr "Dies ist der Standardwert für dieses Feld."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -3649,7 +3649,7 @@ msgstr "Link anzeigen"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr "Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben."
+msgstr "Hier können Sie einen optionalen Link für die Felddarstellung in Übersichten und Ansichtsseiten angeben."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -3789,7 +3789,7 @@ msgstr "Nachricht an Gruppenmitglieder senden"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
-msgstr "Gruppenmitglieder brauchen eine Erlaubnis"
+msgstr "Gruppenmitglieder brauchen eine Berechtigung"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
@@ -3841,7 +3841,7 @@ msgstr "Jobname"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr "Der eingegebene Name existiert bereits"
+msgstr "Der eingegebene Name existiert bereits."
 
 #. Template: AdminGenericAgent
 msgid "Toggle this widget"
@@ -3869,13 +3869,13 @@ msgstr "Ausführen an Tag(en)"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr "Derzeit würde dieser GenericAgentJob nicht automatisch ausgeführt werden."
+msgstr "Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden."
 
 #. Template: AdminGenericAgent
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Um ihn automatisch auszuführen muß mindestens ein Wert von Minuten, Stunden und Tagen ausgewählt werden!"
+msgstr "Um ihn automatisch auszuführen, muss mindestens je ein Wert von Minuten, Stunden und Tagen ausgewählt werden!"
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
@@ -3945,11 +3945,11 @@ msgstr "Tickets selektieren"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
-msgstr "z .B. 10*5144 oder 105658*"
+msgstr "(z .B. 10*5155 oder 105658*)"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 234321)"
-msgstr "z. B. 234321"
+msgstr "(z. B. 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer login"
@@ -3957,7 +3957,7 @@ msgstr "Kundenlogin"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
-msgstr "z. B. U5150"
+msgstr "(z. B. U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
@@ -4025,7 +4025,7 @@ msgstr "Schließ-Zeiten"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "keine Schließ-Zeiten"
+msgstr "Keine Schließ-Zeiten"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -4041,15 +4041,15 @@ msgstr "Erinnerungszeiten"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "Keine Warten-Zeiten"
+msgstr "Keine Erinnerungszeiten"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
-msgstr "Ticket Warten-Zeit erreicht"
+msgstr "Ticket-Erinnerungszeit erreicht"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached between"
-msgstr "Ticket Warten-Zeit erreicht zwischen"
+msgstr "Ticket-Erinnerungszeit erreicht zwischen"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
@@ -4057,15 +4057,15 @@ msgstr "Eskalationszeiten"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "Keine Eskalations-Zeiten"
+msgstr "Keine Eskalationszeiten"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "Ticket Eskalations-Zeit erreicht"
+msgstr "Ticket-Eskalationszeit erreicht"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "Ticket Eskalations-Zeit erreicht zwischen"
+msgstr "Ticket-Eskalationszeit erreicht zwischen"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
@@ -4109,7 +4109,7 @@ msgstr "Im Archiv suchen"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr "Ticket Attribute Aktualisieren/Hinzufügen"
+msgstr "Ticket-Attribute aktualisieren/hinzufügen"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4189,7 +4189,7 @@ msgstr "Ticket-Befehle ausführen"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
-msgstr "Sende eine Agent/Kunden Benachrichtigung bei Änderungen"
+msgstr "Sende eine Agenten-/Kunden-Benachrichtigung bei Änderungen"
 
 #. Template: AdminGenericAgent
 msgid "CMD"
@@ -4199,17 +4199,17 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Dieser Befehl wird mit ARG[0] (die Ticket Nummer) und ARG[1] die TicketID ausgeführt."
+msgstr "Dieser Befehl wird mit der Ticket-Nummer als erstes und der Ticket-ID als zweites Argument ausgeführt."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
-msgstr "Tickets Löschen"
+msgstr "Tickets löschen"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "Warnung: Alle betroffenen Tickets werden aus der Datenbank gelöscht und können nicht wiederhergestellt werden."
+msgstr "Warnung: Alle betroffenen Tickets werden aus der Datenbank gelöscht und können nicht wiederhergestellt werden!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -4217,11 +4217,11 @@ msgstr "Benutzerdefiniertes Modul ausführen"
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr "Schlüssel Parameter %s"
+msgstr "Schlüssel für Parameter %s"
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr "Wert Parameter %s"
+msgstr "Wert für Parameter %s"
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
@@ -4229,7 +4229,7 @@ msgstr "Änderungen speichern"
 
 #. Template: AdminGenericAgent
 msgid "Results"
-msgstr "Ergebnis"
+msgstr "Ergebnisse"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
@@ -4335,7 +4335,7 @@ msgstr "Anfragedetails"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "An error occurred during communication."
-msgstr "Während der Kommunikation ist ein Fehler aufgetreten"
+msgstr "Während der Kommunikation ist ein Fehler aufgetreten."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Show or hide the content."
@@ -4446,7 +4446,7 @@ msgstr "Diesen Invoker löschen"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
-msgstr "GenericInterface Simple mapping für Webservice %s"
+msgstr "GenericInterface Simple Mapping für Webservice %s"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
@@ -4454,7 +4454,7 @@ msgstr "Zurück zu"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr "Simple mapping"
+msgstr "Simple Mapping"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
@@ -4702,7 +4702,7 @@ msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr "Der Controller an den der Invoker Anfragen senden soll. Variablen, die mit einem ':' markiert sind, werden durch den Datenwert ersetzt und mit dem Request übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)"
+msgstr "Der Controller, an den der Invoker Anfragen senden soll. Variablen, die mit einem ':' markiert sind, werden durch den Datenwert ersetzt und mit dem Request übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
@@ -4712,7 +4712,7 @@ msgstr "Gültiger Anforderungsbefehl für Invoker"
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker "
 "(optional)."
-msgstr "Ein spezifisches HTTP-Kommando um Anfragen mit diesem Invoker zu verwenden (optional)."
+msgstr "Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
@@ -4756,7 +4756,7 @@ msgstr "Zertifikatsdatei"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr "Der vollständige Pfad und Name der SSL-Zertifikats-Datei"
+msgstr "Der vollständige Pfad und Name der SSL-Zertifikats-Datei."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
@@ -4820,7 +4820,7 @@ msgstr "z. B. urn:otrs-com:soap:functions oder http://www.otrs.com/GenericInterf
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr "Anfragennamensschema"
+msgstr "Anfragen-Namensschema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
@@ -4836,7 +4836,7 @@ msgstr "'FreeText' wird als Beispiel für einen tatsächlich konfigurierten Wert
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr "Antwortnamensfreitext"
+msgstr "Freitext für den Antwortnamen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -4850,7 +4850,7 @@ msgstr "Bitte beachten Sie die Beschränkungen von XML-Elementnamen (verwenden S
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr "Antwortnamensschema"
+msgstr "Antwort-Namensschema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
@@ -4868,7 +4868,7 @@ msgstr "Kodierung"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr "Die Zeichenkodierung für SOAP-Nachrichteninhalte"
+msgstr "Die Zeichenkodierung für SOAP-Nachrichteninhalte."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
@@ -4892,11 +4892,11 @@ msgstr "SOAPAction-Trenner"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
-msgstr "Trennzeichen zwischen dem Namespace und der SOAP-Methode"
+msgstr "Trennzeichen zwischen dem Namespace und der SOAP-Methode."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services uses a \"/\" as separator."
-msgstr "Normalerweise verwenden .Net-basierte Webservices \"/\" als Trenner"
+msgstr "Normalerweise verwenden .Net-basierte Webservices \"/\" als Trenner."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
@@ -4969,17 +4969,17 @@ msgstr "Sortierungsoptionen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr "Neues First-Level Element hinzufügen"
+msgstr "Neues Element auf der obersten Ebene hinzufügen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr "Sortierung für ausgehende XML-Ffelder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport."
+msgstr "Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
-msgstr "GenericInterface Webservice-Verwaltung"
+msgstr "GenericInterface-Webservice-Verwaltung"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
@@ -5101,7 +5101,7 @@ msgstr "Diese Aktion löschen"
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr "Noch mindestens ein %s hat einen Controller der nicht aktiv oder nicht vorhanden ist, bitte prüfen Sie die Controller-Registrierung oder löschen Sie %s"
+msgstr "Noch mindestens ein %s hat einen Controller, der nicht aktiv oder nicht vorhanden ist, bitte prüfen Sie die Controller-Registrierung oder löschen Sie %s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
@@ -5125,7 +5125,7 @@ msgstr "Webservice importieren"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
-msgstr "GenericInterface Konfigurations-Historie für Webservice %s"
+msgstr "GenericInterface-Konfigurations-Historie für Webservice %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
@@ -5180,7 +5180,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "VORSICHT: Wenn Sie den Namen der 'admin'-Gruppe ändern ohne zuvor die entsprechenden Anpassungen in der SysConfig getätigt haben, verlieren Sie den Zugang zum Adminbereich!"
+msgstr "VORSICHT: Wenn Sie den Namen der 'admin'-Gruppe ändern ohne zuvor die entsprechenden Anpassungen in der SysConfig getätigt haben, verlieren Sie den Zugang zum Adminbereich! In diesem Fall sollten Sie den Gruppennamen in der Datenbank zurücksetzen."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -5249,7 +5249,7 @@ msgid ""
 "If your account is trusted, the already existing X-OTRS header at arrival "
 "time (for priority, ...) will be used! PostMaster filter will be used "
 "anyway."
-msgstr "Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt."
+msgstr "Wird dem Konto vertraut, werden die eingehenden X-OTRS Header benutzt! PostMaster Filter werden in jedem Fall verwendet."
 
 #. Template: AdminMailAccount
 msgid "Delete account"
@@ -5315,7 +5315,7 @@ msgstr "Online-Administrationshandbuch"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr "Ticket Informationsmanagement"
+msgstr "Verwaltung von Ticket-Benachrichtigungen"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5338,15 +5338,15 @@ msgstr "Hier können Sie eine Konfigurationsdatei hochladen, mit der Ticket-Bena
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "Bestehende Informationen überschreiben?"
+msgstr "Bestehende Benachrichtigungen überschreiben?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr "Informationseinstellung hochladen"
+msgstr "Benachrichtigungs-Konfiguration hochladen"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr "Informationseinstellungen importieren"
+msgstr "Benachrichtigungs-Konfiguration importieren"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5406,7 +5406,7 @@ msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr "Wenn ArticleCreate oder ArticleSend aus auslösendes Ereignis verwendet werden, müssen Sie ebenfalls einen ArtikelFilter spezifizieren. Bitte wählen Sie mindestens eins der Artikelfilterfelder aus."
+msgstr "Wenn ArticleCreate oder ArticleSend aus auslösendes Ereignis verwendet werden, müssen Sie ebenfalls einen Artikelfilter spezifizieren. Bitte wählen Sie mindestens eins der Artikelfilterfelder aus."
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
@@ -5450,7 +5450,7 @@ msgstr "Trotz \"nicht im Büro\" senden"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr "Auch senden wenn der Benutzer nicht am Arbeitsplatz ist."
+msgstr "Auch senden, wenn der Benutzer nicht am Arbeitsplatz ist."
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
@@ -5543,21 +5543,21 @@ msgstr "Benachrichtigungen werden an Agenten und Kunden gesendet."
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr "Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikel)."
+msgstr "Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikels)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr "Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikel)."
+msgstr "Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikels)."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikel)"
+msgstr "Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikels)"
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikel)."
+msgstr "Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels)."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
@@ -5618,7 +5618,7 @@ msgstr "E-Mail-Vorlage"
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr "Benutze dieses Template um die komplette E-Mail zu generieren (Nur für HTML E-Mails)"
+msgstr "Benutze diese Vorlage, um die komplette E-Mail zu generieren (nur für HTML-E-Mails)."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -5787,7 +5787,7 @@ msgstr "DynamischesFeld Datenbank"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
-msgstr "SLA Auswahldialog"
+msgstr "SLA-Auswahldialog"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Ticket Attachment View"
@@ -5904,7 +5904,7 @@ msgstr "Moduldokumentation"
 
 #. Template: AdminPackageManager
 msgid "Upgrade"
-msgstr "Erneuern"
+msgstr "Upgrade"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
@@ -5942,7 +5942,7 @@ msgstr "Paket neu aufbauen (rebuild)"
 
 #. Template: AdminPackageManager
 msgid "Metadata"
-msgstr "Meta-Daten"
+msgstr "Metadaten"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
@@ -5998,7 +5998,7 @@ msgstr "Dieses Feature ist aktiv!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr "Nur aktivieren wenn jede Anfrage protokolliert werden soll."
+msgstr "Nur aktivieren, wenn jede Anfrage protokolliert werden soll."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
@@ -6050,7 +6050,7 @@ msgstr "Durchschnittliche Antwortzeit"
 
 #. Template: AdminPerformanceLog
 msgid "Period"
-msgstr "Periode"
+msgstr "Zeitraum"
 
 #. Template: AdminPerformanceLog
 msgid "Min"
@@ -6066,7 +6066,7 @@ msgstr "Durchschnitt"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
-msgstr "PostMaster Filter-Verwaltung"
+msgstr "PostMaster-Filter-Verwaltung"
 
 #. Template: AdminPostMasterFilter
 msgid "Add filter"
@@ -6082,7 +6082,7 @@ msgstr "Einkommende Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. F
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Wenn nur eine E-Mail-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc."
+msgstr "Wenn nur eine E-Mail-Adresse gesucht wird, dann benutzen Sie EMAILADDRESS:info@example.com in From, To oder Cc."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -6096,11 +6096,11 @@ msgstr "Diesen Filter löschen"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr "PostMaster Filter hinzufügen"
+msgstr "PostMaster-Filter hinzufügen"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr "PostMaster Filter bearbeiten"
+msgstr "PostMaster-Filter bearbeiten"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
@@ -6136,7 +6136,7 @@ msgstr "E-Mail-Kopfzeilen setzen"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr "Setze E-Mail Header"
+msgstr "Setze E-Mai-Kopfzeile"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
@@ -6148,7 +6148,7 @@ msgstr "Dieses Feld sollte ein Wort enthalten."
 
 #. Template: AdminPriority
 msgid "Priority Management"
-msgstr "Priorität-Verwaltung"
+msgstr "Prioritäten-Verwaltung"
 
 #. Template: AdminPriority
 msgid "Add priority"
@@ -6386,10 +6386,6 @@ msgstr "Verfügbare Felder"
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "Zugewiesene Felder"
-
-#. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Details bearbeiten für Feld"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6736,16 +6732,16 @@ msgid "Type of Linking"
 msgstr "Typ der Verknüpfung"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Neues Feld hinzufügen"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Feld entfernen"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr "Und können nicht innerhalb der selben Abfrage verwendet werden."
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Neues Feld hinzufügen"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6774,12 +6770,12 @@ msgid "Config Parameters"
 msgstr "Konfigurations-Parameter"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Parameter entfernen"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Neuen Parameter hinzufügen"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Parameter entfernen"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -10297,6 +10293,22 @@ msgstr "Keine vom Benutzer konfigurierbaren Benachrichtigungen gefunden."
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Nachrichten für Benachrichtigung '%s' mittels Transportmethode '%s' empfangen."
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "Prozess-Informationen"
@@ -10562,6 +10574,10 @@ msgstr "Alle Agenten, die sowohl Queue als auch Service des Tickets abonniert ha
 msgid "Customer of the ticket"
 msgstr "Kunde des Tickets"
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10691,6 +10707,10 @@ msgstr "Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seine
 msgid " You can take one of the next actions:"
 msgstr "Wählen Sie aus den folgenden Aktionen:"
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Jetzt auf %s upgraden! %s"
@@ -10707,6 +10727,12 @@ msgstr "Bitte kontaktieren Sie ihren Administrator"
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
 msgstr "(in Arbeit)"
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10794,6 +10820,22 @@ msgstr "Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticket-Ei
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Sortieren nach"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11715,7 +11757,7 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr ""
+msgstr "\nSehr geehrter Kunde,\n\nLeider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, so dass diese E-Mail nicht automatisch verarbeitet werden kann.\n\nBitte erstellen Sie ein neues Ticket im Kundenbereich.\n\nDanke für Ihr Verständnis!\n\nIhr Helpdesk-Team\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -12176,7 +12218,7 @@ msgstr "Balanced White Skin von Felix Niklas."
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
-msgstr ""
+msgstr "Basis-Einstellungen für den Volltext-Index. Führen Sie \"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\" aus, um den Index neu zu erstellen."
 
 #. SysConfig
 msgid ""
@@ -12279,7 +12321,7 @@ msgstr "Kontrollkästchen"
 msgid ""
 "Checks if an E-Mail is a followup to an existing ticket by searching the "
 "subject for a valid ticket number."
-msgstr ""
+msgstr "Prüft, ob eine E-Mail ein Follow-Up zu einem bestehenden Ticket ist, indem der Betreff nach einer gültigen Ticketnummer durchsucht wird."
 
 #. SysConfig
 msgid ""
@@ -12322,7 +12364,7 @@ msgstr "Cloud Service"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
-msgstr ""
+msgstr "CloudService-Adminmodulregistrierung für den Transport-Layer."
 
 #. SysConfig
 msgid "Collect support data for asynchronous plug-in modules."
@@ -12339,7 +12381,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Eskalations-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12348,7 +12390,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Gesperrt-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12357,7 +12399,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Queue-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12366,7 +12408,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Verantwortlicher-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12375,7 +12417,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Service-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12384,7 +12426,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Status-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12393,7 +12435,7 @@ msgid ""
 "default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) "
 "and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) "
 "are allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Suchergebnis-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid ""
@@ -12402,7 +12444,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr ""
+msgstr "Spalten, auf die in der Beobachten-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt."
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
@@ -12460,7 +12502,7 @@ msgid ""
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(http://otrs.github.io/doc/), chapter \"Ticket Event Module\"."
-msgstr ""
+msgstr "Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. \"Name\" beschreibt das dynamische Feld, das genutzt werden soll, \"Value\" die Daten, mit denen das Feld befüllt werden soll. \"Event\" enthält das auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch (http://otrs.github.io/doc/) im Kapitel \"Ticket-Eventmodule\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -12666,7 +12708,7 @@ msgstr "Kunden <-> Gruppen"
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
-msgstr ""
+msgstr "Anpassbare Stopworte für den Volltext-Index. Diese Worte werden aus dem Suchindex entfernt."
 
 #. SysConfig
 msgid "Czech"
@@ -12903,7 +12945,7 @@ msgstr "Definiert einen regulären Ausdruck, der alle E-Mail-Adressen filtert, d
 msgid ""
 "Defines a sleep time in microseconds between tickets while they are been "
 "processed by a job."
-msgstr ""
+msgstr "Definiert einen Zeitraum in Mikrosekunden, der zwischen der Verarbeitung von Tickets abgewartet werden soll."
 
 #. SysConfig
 msgid ""
@@ -12944,7 +12986,7 @@ msgstr "Definiert alle Parameter für Kunden-Einstellungen."
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
-msgstr ""
+msgstr "Steuert alle Parameter für diesen Benachrichtigungs-Transport."
 
 #. SysConfig
 msgid "Defines all the possible stats output formats."
@@ -13104,7 +13146,7 @@ msgid ""
 "Defines if agents should be allowed to login if they have no shared secret "
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Steuert, ob Agenten, die die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen."
 
 #. SysConfig
 msgid ""
@@ -13117,7 +13159,7 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
-msgstr ""
+msgstr "Steuert, ob Kunden, die die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen."
 
 #. SysConfig
 msgid ""
@@ -13137,7 +13179,7 @@ msgid ""
 "Defines if the previously valid token should be accepted for authentication."
 " This is slightly less secure but gives users 30 seconds more time to enter "
 "their one-time password."
-msgstr ""
+msgstr "Steuert, ob das vorherige, gültige Token für die Authentifizierung akzeptiert werden soll. Dies ist etwas weniger sicher, gibt Nutzern aber 30 Sekunden mehr Zeit, Ihre Einmal-Passwort einzugeben."
 
 #. SysConfig
 msgid ""
@@ -13192,7 +13234,7 @@ msgstr "Definiert die Adresse eines dedizierten DNS-Server, wenn nötig, für \"
 #. SysConfig
 msgid ""
 "Defines the agent preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "Defininiert das Einstellungsfeld für Agenten, in dem der Share Secret-Key gespeichert wird."
 
 #. SysConfig
 msgid ""
@@ -13239,7 +13281,7 @@ msgid ""
 "Defines the cluster node identifier. This is only used in cluster "
 "configurations where there is more than one OTRS frontend system. Note: only"
 " values from 1 to 99 are allowed."
-msgstr ""
+msgstr "Definiert den Identifizierer für den Clusterknoten. Wird nur in Clusterkonfigurationen genutzt, in denen mehr als ein OTRS-Frontendsystem vorhanden ist. Hinweis: Es sind nur Werte von 1-99 erlaubt."
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
@@ -13269,7 +13311,7 @@ msgstr "Definiert Verbindungen für HTTP/FTP über einen Proxy."
 #. SysConfig
 msgid ""
 "Defines the customer preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "Defininiert das Einstellungsfeld für Kunden, in dem der Share Secret-Key gespeichert wird."
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
@@ -13295,7 +13337,7 @@ msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at http://otrs.github.io/doc/."
-msgstr ""
+msgstr "Steuert das standardmäßig verwendete Theme (HTML) für das Frontend für Agenten und Kunden. Hinweis: Sie können Ihre eigenen Themes hinzufügen und verwenden (siehe http://otrs.github.io/doc/)."
 
 #. SysConfig
 msgid ""
@@ -13317,13 +13359,13 @@ msgstr "Definiert die standardmäßig eingestellte maximale Anzahl von Attribute
 msgid ""
 "Defines the default maximum number of statistics per page on the overview "
 "screen."
-msgstr ""
+msgstr "Steuert die maximale Anzahl angezeigter Statistiken pro Seite in der Übersicht."
 
 #. SysConfig
 msgid ""
 "Defines the default next state for a ticket after customer follow-up in the "
 "customer interface."
-msgstr ""
+msgstr "Steuert den Folgestatus für Tickets, für die im Kundenbereich eine Kundennachfrage eingegangen ist."
 
 #. SysConfig
 msgid ""
@@ -13413,7 +13455,7 @@ msgstr "Bestimmt die Vorbelegung des Textfeldes für Telefon-Tickets im Bildschi
 msgid ""
 "Defines the default priority of follow-up customer tickets in the ticket "
 "zoom screen in the customer interface."
-msgstr ""
+msgstr "Steuert die Folgepriorität für Tickets, für die im Kundenbereich eine Kundennachfrage eingegangen ist."
 
 #. SysConfig
 msgid ""
@@ -13554,7 +13596,7 @@ msgstr "Bestimmt den Standard-Betreff einer Notiz im Ticket-Freitext-Bildschirm 
 msgid ""
 "Defines the default the number of seconds (from current time) to re-schedule"
 " a generic interface failed task."
-msgstr ""
+msgstr "Definiert die Anzahl an Sekunden (ausgehend vom aktuellen Zeitpunkt), nach denen ein fehlgeschlagener Generic Interface-Task neu geplant werden soll."
 
 #. SysConfig
 msgid ""
@@ -13608,67 +13650,67 @@ msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets im 
 msgid ""
 "Defines the default ticket bounced notification for customer/sender in the "
 "ticket bounce screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standardbenachrichtigung für umgeleitete Tickets für Kunden/Absender im Umleiten-Bildschirm des Agentenbereichs."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "Steuert den Ticketstatus, nachdem eine Notiz über den \"Ausgehender Anruf\"-Bildschirm im Agentenbereich hinzugefügt wurde."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "Steuert den Ticketstatus, nachdem eine Notiz über den \"Ausgehender Anruf\"-Bildschirm im Agentenbereich hinzugefügt wurde."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung (nach der Sortierung nach Priorität) für die Eskalations-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order (after priority sort) in the status view of"
 " the agent interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung (nach der Sortierung nach Priorität) für die Status-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the responsible view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Verantwortlicher-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket locked view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Gesperrt-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the this "
 "operation. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht dieser Operation. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the watch view of the agent interface. "
 "Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Beobachten-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order of a search result in the customer "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr ""
+msgstr "Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht des Kundenbereichs. Auf: Älteste oben. Ab: Neuste oben."
 
 #. SysConfig
 msgid ""
@@ -13732,7 +13774,7 @@ msgstr "Definiert den Standard-Typ für Artikel im Kunden-Interface."
 msgid ""
 "Defines the default type of forwarded message in the ticket forward screen "
 "of the agent interface."
-msgstr ""
+msgstr "Steuert den Typ von weitergeleiteten Nachrichten im Weiterleiten-Bildschirm des Agentenbereichs."
 
 #. SysConfig
 msgid "Defines the default type of the article for this operation."
@@ -13843,7 +13885,7 @@ msgid ""
 "Defines the fall-back path to open fetchmail binary. Note: The name of the "
 "binary needs to be 'fetchmail', if it is different please use a symbolic "
 "link."
-msgstr ""
+msgstr "Steuert den Fallback-Pfad zum Öffnen des fetchmail-Binaries. Hinweis: Der Name des Binaries muss \"fetchmail\" sein. Bitte nutzen Sie einen symbolischen Link, wenn der Name anders lautet."
 
 #. SysConfig
 msgid ""
@@ -13856,7 +13898,7 @@ msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
-msgstr ""
+msgstr "Steuert das Format von Antworten im Ticket erstellen-Bildschirm im Agentenbereich ([% Data.OrigFrom | html %] entspricht genau dem Absender, [% Data.OrigFromName | html %] enthält nur den realen Namen des Absenders)."
 
 #. SysConfig
 msgid ""
@@ -13869,7 +13911,7 @@ msgstr "Definiert den Full Qualified Domain Name des OTRS Systems. Diese Einstel
 msgid ""
 "Defines the groups every customer user will be in (if CustomerGroupSupport "
 "is enabled and you don't want to manage every user for these groups)."
-msgstr ""
+msgstr "Steuert die Gruppen, in denen sich ein Kundenbenutzer standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Nutzer einzeln steuern möchten)."
 
 #. SysConfig
 msgid ""
@@ -13881,37 +13923,37 @@ msgstr "Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahl
 msgid ""
 "Defines the height for the rich text editor component. Enter number (pixels)"
 " or percent value (relative)."
-msgstr ""
+msgstr "Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Steuert den Historien-Kommentar für die Ticket schließen-Aktion im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the email ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Steuert den Historien-Kommentar für Emailtickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the phone ticket screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Steuert den Historien-Kommentar für Telefonticket im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket free text screen action, which "
 "gets used for ticket history."
-msgstr ""
+msgstr "Steuert den Historien-Kommentar für die Freitext-Aktion im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket note screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Steuert den Historien-Kommentar für die Ticketnotiz-Aktion im Agentenbereich."
 
 #. SysConfig
 msgid ""
@@ -14491,6 +14533,14 @@ msgstr "Definiert die Postmaster-Queue."
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
 msgstr "Definiert die Priorität in welcher die Information aufgezeichnet und präsentiert wird."
+
+#. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15729,7 +15779,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16421,6 +16471,10 @@ msgid ""
 msgstr "Module zum überprüfen ob der Benutzer Mitglied einer speziellen Gruppe ist. Der Zugriff wird gestattet, wenn der Benutzer in der angegebenen Gruppe ist und ro und rw Berechtigungen hat."
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16430,6 +16484,10 @@ msgstr ""
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
 msgstr "Modul zur Überprüfung des Ticketverantwortlichen."
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17411,7 +17469,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the default link type of splitted tickets in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Linktyp für geteilte Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
@@ -17455,117 +17513,117 @@ msgstr "Setzt die Standard Priorität für neue Telefon-Tickets in der Agenten-O
 #. SysConfig
 msgid ""
 "Sets the default sender type for new email tickets in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Sendertyp für neue E-Mail-Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the default sender type for new phone ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Sendertyp für neue Telefon-Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new email tickets (e.g. 'email Outbound') in "
 "the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für neue E-Mail-Tickets (z.B. \"Ausgehende E-Mail\") im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für neue Telefon-Tickets (z.B. \"Telefonanruf\") im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the close ticket screen of the "
 "agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticket schließen-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket move screen of the "
 "agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticket verschieben-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket note screen of the "
 "agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticketnotiz-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticketbesitzer-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Wartezeit für Ticket setzen-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticketprioriät-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket responsible screen of"
 " the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Notizen, die im Ticketverantwortlicher-Bildschirm im Agentenbereich hinzugefügt werden."
 
 #. SysConfig
 msgid "Sets the default text for new email tickets in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standardtext für neue E-Mail-Tickets im Agentenbereich."
 
 #. SysConfig
 msgid "Sets the display order of the different items in the preferences view."
-msgstr ""
+msgstr "Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Agenten."
 
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
 " a user is loged out."
-msgstr ""
+msgstr "Steuert die Zeit (in Sekunden), die vergehen darf, bevor ein Benutzer automatisch abgemeldet und seine Sitzung gelöscht wird."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionActiveTime."
-msgstr ""
+msgstr "Steuert die maximale Anzahl an gleichzeitig aktiven Agenten innerhalb der in SessionActiveTime definierten Zeitspanne."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
 "SessionActiveTime."
-msgstr ""
+msgstr "Steuert die maximale Anzahl an gleichzeitig aktiven Kunden innerhalb der in SessionActiveTime definierten Zeitspanne."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
 "defined in SessionActiveTime."
-msgstr ""
+msgstr "Steuert die maximale Anzahl an gleichzeitig aktiven Sitzungen pro Agent innerhalb der in SessionActiveTime definierten Zeitspanne."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
 " defined in SessionActiveTime."
-msgstr ""
+msgstr "Steuert die maximale Anzahl an gleichzeitig aktiven Sitzungen pro Kunde innerhalb der in SessionActiveTime definierten Zeitspanne."
 
 #. SysConfig
 msgid ""
 "Sets the minimal ticket counter size (if \"AutoIncrement\" was selected as "
 "TicketNumberGenerator). Default is 5, this means the counter starts from "
 "10000."
-msgstr ""
+msgstr "Steuert die Minimallänge für den Ticketzähler (wenn \"AutoIncrement \" als TicketNumberGenerator konfiguriert wurde). Standardwert ist 5, was bedeutet, dass der Zähler bei 10000 startet."
 
 #. SysConfig
 msgid ""
 "Sets the minutes a notification is shown for notice about upcoming system "
 "maintenance period."
-msgstr ""
+msgstr "Steuert, wie lange (in Minuten) die Benachrichtigung über eine bevorstehende Wartungsphase angezeigt werden soll."
 
 #. SysConfig
 msgid ""
@@ -17580,7 +17638,7 @@ msgstr "Legt die Optionen für die PGP-Binärdatei fest."
 #. SysConfig
 msgid ""
 "Sets the order of the different items in the customer preferences view."
-msgstr ""
+msgstr "Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Kunden."
 
 #. SysConfig
 msgid "Sets the password for private PGP key."
@@ -17602,137 +17660,137 @@ msgstr ""
 msgid ""
 "Sets the queue in the ticket close screen of a zoomed ticket in the agent "
 "interface."
-msgstr ""
+msgstr "Setzt die Queue im Schließen-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket free text screen of a zoomed ticket in the "
 "agent interface."
-msgstr ""
+msgstr "Setzt die Queue im Freitext-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket note screen of a zoomed ticket in the agent "
 "interface."
-msgstr ""
+msgstr "Setzt die Queue im Notiz-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket owner screen of a zoomed ticket in the agent "
 "interface."
-msgstr ""
+msgstr "Setzt die Queue im Besitzer-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket pending screen of a zoomed ticket in the agent "
 "interface."
-msgstr ""
+msgstr "Setzt die Queue im Wartezeit setzen-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket priority screen of a zoomed ticket in the agent"
 " interface."
-msgstr ""
+msgstr "Setzt die Queue im Priorität-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the queue in the ticket responsible screen of a zoomed ticket in the "
 "agent interface."
-msgstr ""
+msgstr "Setzt die Queue im Verantwortlicher-Bildschirm von Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the close ticket screen of the "
 "agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Schließen-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket bulk screen of the "
 "agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket free text screen of "
 "the agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Freitext-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket note screen of the "
 "agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Notiz-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Besitzer-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Priorität-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the responsible agent of the ticket in the ticket responsible screen of"
 " the agent interface."
-msgstr ""
+msgstr "Setzt den verantwortlichen Agenten im Verantwortlicher-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the service in the close ticket screen of the agent interface "
 "(Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Schließen-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
 "(Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Freitext-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface "
 "(Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Notiz-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
 "interface (Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Besitzer-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Priorität-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
 "(Ticket::Service needs to be activated)."
-msgstr ""
+msgstr "Setzt den Service im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein)."
 
 #. SysConfig
 msgid "Sets the stats hook."
-msgstr ""
+msgstr "Steuert den Hook für Statistiken."
 
 #. SysConfig
 msgid ""
@@ -17743,106 +17801,106 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Schließen-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Freitext-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Notiz-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Besitzer-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket pending screen of a zoomed ticket in the"
 " agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Priorität-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket owner in the ticket responsible screen of the agent "
 "interface."
-msgstr ""
+msgstr "Setzt den Besitzer im Verantwortlicher-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
 "(Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Schließen-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
 "(Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Freitext-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
 "(Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Notiz-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Besitzer-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the"
 " agent interface (Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Priorität-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
-msgstr ""
+msgstr "Setzt den Ticket-Typ im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
 msgid "Sets the time (in seconds) a user is marked as active."
-msgstr ""
+msgstr "Steuert die Zeit (in Sekunden), innerhalb derer ein Benutzer als aktiv gilt."
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
-msgstr ""
+msgstr "Steuert den Timeout (in Sekunden) für HTTP/FTP-Downloads."
 
 #. SysConfig
 msgid ""
 "Sets the timeout (in seconds) for package downloads. Overwrites "
 "\"WebUserAgent::Timeout\"."
-msgstr ""
+msgstr "Steuert den Timeout (in Sekunden) für Paket-Downloads. Überschreibt \"WebUserAgent::Timeout\"."
 
 #. SysConfig
 msgid ""
@@ -17866,34 +17924,34 @@ msgstr ""
 
 #. SysConfig
 msgid "Should the cache data be stored in the selected cache backend?"
-msgstr ""
+msgstr "Sollen Cache-Daten im ausgewählten Cache-Backend gespeichert werden?"
 
 #. SysConfig
 msgid ""
 "Show a responsible selection in phone and email tickets in the agent "
 "interface."
-msgstr ""
+msgstr "Steuert, ob in Telefon- und E-Mail-Tickets eine Auswahl für den verantwortlichen Agenten angezeigt werden soll (Agentenbereich)."
 
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
-msgstr ""
+msgstr "Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn das Schreiben von Richtext abgeschaltet ist."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
-msgstr ""
+msgstr "Steuert, ob der aktuelle Besitzer im Kundenbereich angezeigt werden soll."
 
 #. SysConfig
 msgid "Show the current queue in the customer interface."
-msgstr ""
+msgstr "Steuert, ob die aktuelle Queue im Kundenbereich angezeigt werden soll."
 
 #. SysConfig
 msgid "Show the history for this ticket"
-msgstr ""
+msgstr "Zeige die Historie für dieses Ticket an"
 
 #. SysConfig
 msgid ""
 "Shows a count of icons in the ticket zoom, if the article has attachments."
-msgstr ""
+msgstr "Zeigt ein Symbol mit Zähler im Ticket-Zoom an, wenn der Artikel Anhänge besitzt."
 
 #. SysConfig
 msgid ""
@@ -17904,7 +17962,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum beobachten/nicht mehr beobachten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17915,7 +17973,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Verlinken eines Tickets mit einem anderen Objekt im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17926,7 +17984,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Zusammenführen von Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17937,7 +17995,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Betrachten der Historie eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17948,7 +18006,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Bearbeiten der Freitextfelder eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17958,19 +18016,19 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Hinzufügen einer Notiz zu einem Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to add a note to a ticket in every ticket overview "
 "of the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Hinzufügen von Notizen zu Tickets in den Ticketübersichten des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Schließen von Tickets in den Ticketübersichten des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
@@ -17981,7 +18039,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Schließen eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -17989,7 +18047,7 @@ msgid ""
 "agent interface. Additional access control to show or not show this link can"
 " be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Zeigt einen Link zum Löschen von Tickets in den Ticketübersichten des Agentenbereichs an. Zusätzliche Zugriffskontrolle für diesen Link kann über den Schlüssel \"Group\" und dazugehörigen Inhalt wie \"rw:group1;move_into:group2\" als Wert erreicht werden."
 
 #. SysConfig
 msgid ""
@@ -18000,13 +18058,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Löschen eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to enroll a ticket into a process in the ticket "
 "zoom view of the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Umwandeln eines regulären Tickets in ein Prozessticket im Ticket-Zoom des Agentenbereichs an. "
 
 #. SysConfig
 msgid ""
@@ -18016,13 +18074,13 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum zurück Gehen im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to lock / unlock a ticket in the ticket overviews "
 "of the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Sperren/Entsperren eines Tickets im Ticket-Zoom des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
@@ -18033,13 +18091,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Sperren/Entsperren eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to move a ticket in every ticket overview of the "
 "agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Verschieben von Tickets in den Ticketübersichten des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
@@ -18050,7 +18108,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Drucken eines Tickets oder Artikels im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18061,13 +18119,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Anzeigen des Kunden, der das Ticket eröffnet hat im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Anzeigen der Historie von Tickets in den Ticketübersichten im Agentenbereich an."
 
 #. SysConfig
 msgid ""
@@ -18078,7 +18136,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Anzeigen des Besitzers eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18089,7 +18147,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Anzeigen der Priorität eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18100,7 +18158,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Anzeigen des verantwortlichen Agenten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18111,7 +18169,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Senden einer ausgehenden E-Mail im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18122,7 +18180,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Zeigt einen Link zum Setzen einer Wartezeit für ein Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -18130,25 +18188,25 @@ msgid ""
 " the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Zeigt einen Link zum Klassifizieren von Tickets als Spam in den Ticketübersichten des Agentenbereichs an. Zusätzliche Zugriffskontrolle für diesen Link kann über den Schlüssel \"Group\" und dazugehörigen Inhalt wie \"rw:group1;move_into:group2\" als Wert erreicht werden."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to set the priority of a ticket in every ticket "
 "overview of the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Verändern der Priorität von Tickets in den Ticketübersichten des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to zoom a ticket in the ticket overviews of the "
 "agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Betrachten (Zoomen) von Tickets in den Ticketübersichten des Agentenbereichs an."
 
 #. SysConfig
 msgid ""
 "Shows a link to access article attachments via a html online viewer in the "
 "zoom view of the article in the agent interface."
-msgstr ""
+msgstr "Zeigt einen Link zum Betrachten von Anhängen über eine Onlineansicht im Artikel-Zoom im Agentenbereich an."
 
 #. SysConfig
 msgid ""

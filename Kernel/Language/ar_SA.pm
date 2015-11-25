@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.141509433962264;
+    $Self->{Completeness}        = 0.149264528574873;
 
     # csv separator
     $Self->{Separator} = '';
@@ -380,62 +380,62 @@ sub Data {
         'News' => '',
         'Product News' => '',
         'OTRS News' => '',
-        '7 Day Stats' => '',
+        '7 Day Stats' => 'الإحصائيات ل ٧ أيام',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
-        'Bold' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
+        'Mark' => 'حدد',
+        'Unmark' => 'أحذف التحديد',
+        'Bold' => 'عريض',
+        'Italic' => 'مائل',
+        'Underline' => 'تحته خط',
+        'Font Color' => 'لون الخط',
+        'Background Color' => 'لون الخلفية',
+        'Remove Formatting' => 'حذف التنسيق',
+        'Show/Hide Hidden Elements' => 'إظهار/إخفاء العناصر المخفية',
         'Align Left' => '',
         'Align Center' => '',
         'Align Right' => '',
-        'Justify' => '',
+        'Justify' => 'ضبط',
         'Header' => 'النوع',
-        'Indent' => '',
+        'Indent' => 'المسافة البادئة',
         'Outdent' => '',
-        'Create an Unordered List' => '',
+        'Create an Unordered List' => 'انشاء قائمة غير مرتبه',
         'Create an Ordered List' => '',
         'HTML Link' => '',
         'Insert Image' => '',
         'CTRL' => '',
         'SHIFT' => '',
-        'Undo' => '',
-        'Redo' => '',
+        'Undo' => 'تراجع للخلف',
+        'Redo' => 'تراجع للأمام',
         'OTRS Daemon is not running.' => '',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'لايمكن الإتصال بخادم التسجيل. الرجاء المحاولة لاحقاً.',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+            'لم يتم استلام أية محتوى من خادم التسجيل. الرجاء المحاولة لاحقاً.',
+        'Problems processing server result. Please try again later.' => 'يوجد مشاكل في معالجة نتائج الخادم. الرجاء المحاولة لاحقاً.',
+        'Username and password do not match. Please try again.' => 'ليس هناك تطابق بين إسم المستخدم وكلمة المرور. الرجاء المحاولة مرة أخرى.',
+        'The selected process is invalid!' => 'العلملية التي تم إختيارها غير صحيحة!',
+        'Upgrade to %s now!' => 'الترقية إلى %s ألآن!',
+        '%s Go to the upgrade center %s' => '%s أرسلت إلى مركز الترقية %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'ترخيص %s على وشك الإنتهاء. يُرجى الإتصال على %s لتجديد العقد!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+            'يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث الفريم وورك خاصتك!',
+        'Your system was successfully upgraded to %s.' => 'تم بنجاح ترقية نظامك إلى %s.',
+        'There was a problem during the upgrade to %s.' => 'حدثت مشكلة أثناء الترقية إلى %s.',
+        '%s was correctly reinstalled.' => '%s تم إعادة تثبيتها بنجاح.',
+        'There was a problem reinstalling %s.' => 'حدثت مشكلة عند اعادة تثبيت %s.',
+        'Your %s was successfully updated.' => 'تم تحديث %s خاصتك بنجاح.',
+        'There was a problem during the upgrade of %s.' => 'حدثت هناك مشكلة أثناء ترقية %s.',
+        '%s was correctly uninstalled.' => 'تمت إزالة تثبيت  %s بنجاح.',
+        'There was a problem uninstalling %s.' => 'حدثت مشكلة عند إزالة تثبيت %s.',
 
         # Template: AAACalendar
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
+        'New Year\'s Day' => 'يوم السنة الجديدة',
+        'International Workers\' Day' => 'يوم العمال العالمي',
         'Christmas Eve' => '',
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
@@ -1841,7 +1841,6 @@ sub Data {
         'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
-        'Edit Details for Field' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
@@ -1949,9 +1948,9 @@ sub Data {
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
+        'Add a new Field' => '',
         'Remove this Field' => '',
         'And can\'t be repeated on the same condition.' => '',
-        'Add a new Field' => '',
         'Add New Condition' => '',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1961,8 +1960,8 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Remove this Parameter' => '',
         'Add a new Parameter' => '',
+        'Remove this Parameter' => '',
 
         # Template: AdminQueue
         'Manage Queues' => '',
@@ -3126,6 +3125,12 @@ sub Data {
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => '',
@@ -3238,6 +3243,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3306,6 +3312,9 @@ sub Data {
             '',
         ' You can take one of the next actions:' => '',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
 
@@ -3317,6 +3326,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3352,6 +3365,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => '',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4550,6 +4569,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5136,9 +5157,11 @@ Thanks for your help!
         'Module to check customer permissions.' => '',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => '',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             '',
         'Module to check the owner of a ticket.' => '',

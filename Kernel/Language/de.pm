@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.857039187227866;
+    $Self->{Completeness}        = 0.889558717144924;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -161,7 +161,7 @@ sub Data {
         'go' => 'Start',
         'All' => 'Alle',
         'all' => 'alle',
-        'Sorry' => 'Bedauere',
+        'Sorry' => 'Entschuldigung',
         'update!' => 'Aktualisieren!',
         'update' => 'Aktualisieren',
         'Update' => 'Aktualisieren',
@@ -692,7 +692,7 @@ sub Data {
         'Shown Tickets' => 'Gezeigte Tickets',
         'Shown Columns' => 'Gezeigte Spalten',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
-            'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" gemerged!',
+            'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" zusammengefasst!',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: Reaktionszeit ist abgelaufen (%s)!',
         'Ticket %s: first response time will be over in %s!' => 'Ticket %s: Reaktionszeit wird ablaufen in %s!',
         'Ticket %s: update time is over (%s)!' => 'Ticket %s: Aktualisierungszeit ist abgelaufen (%s)!',
@@ -744,7 +744,7 @@ sub Data {
         'Out Of Office Time' => 'Abwesenheitszeit',
         'New Ticket' => 'Neues Ticket',
         'Create new Ticket' => 'Neues Ticket erstellen',
-        'Customer called' => 'Kunden angerufen',
+        'Customer called' => 'Kundenanruf',
         'phone call' => 'Telefonanruf',
         'Phone Call Outbound' => 'Ausgehender Telefonanruf',
         'Phone Call Inbound' => 'Eingehender Telefonanruf',
@@ -754,8 +754,8 @@ sub Data {
         'New Tickets' => 'Neue Tickets',
         'Open Tickets / Need to be answered' => 'Offene Tickets / Beantwortung erforderlich',
         'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Alle offenen Tickets, an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich',
-        'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets, an diesen Tickets wurde noch nicht gearbeitet',
+            'Alle offenen Tickets; an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich',
+        'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Alle Tickets, deren Erinnerungszeit erreicht ist',
@@ -831,7 +831,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            'Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich Konfigurations Parameter im Änderungsmodus einzufügen.',
+            'Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich, Konfigurationsparameter im Änderungsmodus einzufügen.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Anlagenverwaltung',
@@ -849,7 +849,7 @@ sub Data {
         'Edit Auto Response' => 'Automatische Antwort bearbeiten',
         'Response' => 'Antwort',
         'Auto response from' => 'Automatische Antwort von',
-        'Reference' => 'Referenz(en)',
+        'Reference' => 'Referenz',
         'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
@@ -868,11 +868,11 @@ sub Data {
         'Example response' => 'Beispielantwort',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => 'Clouddienstverwaltung',
+        'Cloud Service Management' => 'Verwaltung von Cloud Services',
         'Support Data Collector' => 'Supportdaten-Sammler',
         'Support data collector' => 'Supportdaten-Sammler',
         'Hint' => 'Hinweis',
-        'Currently support data is only shown in this system.' => 'Aktuelle Supportdaten werden nur auf diesem System angezeigt',
+        'Currently support data is only shown in this system.' => 'Supportdaten werden derzeit nur auf diesem System angezeigt.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Es wird empfohlen, diese Daten an die OTRS Gruppe zu senden, um bessere Unterstützung zu erhalten.',
         'Configuration' => 'Konfiguration',
@@ -894,16 +894,16 @@ sub Data {
         'Register this system' => 'Registrieren Sie dieses System',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Hier können Sie verfügbare Cloud-Services konfigurieren die sicher mit %s kommunizieren.',
-        'Available Cloud Services' => 'Verfügbare Clouddienste',
+        'Available Cloud Services' => 'Verfügbare Cloud Services',
         'Upgrade to %s' => 'Auf %s upgraden',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Kundenverwaltung',
         'Wildcards like \'*\' are allowed.' => 'Platzhalter wie \'*\' sind erlaubt.',
-        'Add customer' => 'Kunde hinzufügen',
+        'Add customer' => 'Kunden hinzufügen',
         'Select' => 'Auswahl',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
-        'Add Customer' => 'Kunde hinzufügen',
+        'Add Customer' => 'Kunden hinzufügen',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Kundenbenutzerverwaltung',
@@ -945,11 +945,11 @@ sub Data {
         'Customers' => 'Kunden',
         'No matches found.' => 'Keine Treffer gefunden.',
         'Groups' => 'Gruppen',
-        'Change Group Relations for Customer' => 'Gruppenzuordnungen verwalten für Kunde',
+        'Change Group Relations for Customer' => 'Gruppenzuordnungen verwalten für Kunden',
         'Change Customer Relations for Group' => 'Kundenzuordnungen verwalten für Gruppe',
         'Toggle %s Permission for all' => 'Recht %s für alle umschalten',
         'Toggle %s permission for %s' => 'Recht %s für %s umschalten',
-        'Customer Default Groups:' => 'Standardgruppen:',
+        'Customer Default Groups:' => 'Standard-Kundengruppen:',
         'No changes can be made to these groups.' => 'An diesen Gruppen können keine Änderungen vorgenommen werden.',
         'ro' => 'ro',
         'Read only access to the ticket in this group/queue.' => 'Nur-Lesen-Zugriff auf Tickets in diesen Gruppen/Queues.',
@@ -1005,7 +1005,7 @@ sub Data {
         'This field is protected and can\'t be deleted.' => 'Dies ist ein geschütztes internes Feld und kann nicht gelöscht werden.',
         'Field Settings' => 'Feldeinstellungen',
         'Default value' => 'Standardwert',
-        'This is the default value for this field.' => 'Dies ist der Standardwert für dieses Feld',
+        'This is the default value for this field.' => 'Dies ist der Standardwert für dieses Feld.',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Standard-Datumsunterschied',
@@ -1021,7 +1021,7 @@ sub Data {
         'Years in the future to display (default: 5 years).' => 'Jahre in der Zukunft, die angezeigt werden (Standard: 5).',
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
+            'Hier können Sie einen optionalen Link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
         'Restrict entering of dates' => 'Eingabe von Daten einschränken',
         'Here you can restrict the entering of dates of tickets.' => 'Hier können Sie die Eingabe von Daten in dieses Feld einschränken.',
 
@@ -1066,7 +1066,7 @@ sub Data {
         'Your message was sent to' => 'Ihre Nachricht wurde gesendet an',
         'Send message to users' => 'Nachricht an Benutzer senden',
         'Send message to group members' => 'Nachricht an Gruppenmitglieder senden',
-        'Group members need to have permission' => 'Gruppenmitglieder brauchen eine Erlaubnis',
+        'Group members need to have permission' => 'Gruppenmitglieder brauchen eine Berechtigung',
         'Send message to role members' => 'Nachricht an Inhaber von Rollen senden',
         'Also send to customers in groups' => 'Auch an Kunden der Gruppe senden',
         'Body' => 'Text',
@@ -1081,7 +1081,7 @@ sub Data {
         'Run this task' => 'Diesen Job ausführen',
         'Job Settings' => 'Jobeinstellungen',
         'Job name' => 'Jobname',
-        'The name you entered already exists.' => 'Der eingegebene Name existiert bereits',
+        'The name you entered already exists.' => 'Der eingegebene Name existiert bereits.',
         'Toggle this widget' => 'Dieses Widget umschalten',
         'Automatic execution (multiple tickets)' => 'Automatische Ausführung (mehrere Tickets)',
         'Execution Schedule' => 'Ausführungsplan',
@@ -1089,9 +1089,9 @@ sub Data {
         'Schedule hours' => 'Ausführen zu Stunde(n)',
         'Schedule days' => 'Ausführen an Tag(en)',
         'Currently this generic agent job will not run automatically.' =>
-            'Derzeit würde dieser GenericAgentJob nicht automatisch ausgeführt werden.',
+            'Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
-            'Um ihn automatisch auszuführen muß mindestens ein Wert von Minuten, Stunden und Tagen ausgewählt werden!',
+            'Um ihn automatisch auszuführen, muss mindestens je ein Wert von Minuten, Stunden und Tagen ausgewählt werden!',
         'Event based execution (single ticket)' => 'Event-gesteuerte Ausführung (einzelnes Ticket)',
         'Event Triggers' => 'Event-Trigger',
         'List of all configured events' => 'Alle konfigurierten Events anzeigen',
@@ -1111,10 +1111,10 @@ sub Data {
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
         'Remove selection' => 'Auswahl entfernen',
         'Select Tickets' => 'Tickets selektieren',
-        '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
-        '(e. g. 234321)' => 'z. B. 234321',
+        '(e. g. 10*5155 or 105658*)' => '(z .B. 10*5155 oder 105658*)',
+        '(e. g. 234321)' => '(z. B. 234321)',
         'Customer login' => 'Kundenlogin',
-        '(e. g. U5150)' => 'z. B. U5150',
+        '(e. g. U5150)' => '(z. B. U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Volltextsuche in Artikeln (z. B. "Mar*in" oder "Baue*").',
         'Agent' => 'Agent',
         'Ticket lock' => 'Ticketsperre',
@@ -1131,17 +1131,17 @@ sub Data {
         'Ticket changed' => 'Ticket geändert',
         'Ticket changed between' => 'Ticket geändert zwischen',
         'Close times' => 'Schließ-Zeiten',
-        'No close time settings.' => 'keine Schließ-Zeiten',
+        'No close time settings.' => 'Keine Schließ-Zeiten',
         'Ticket closed' => 'Ticket geschlossen',
         'Ticket closed between' => 'Ticket geschlossen zwischen',
         'Pending times' => 'Erinnerungszeiten',
-        'No pending time settings.' => 'Keine Warten-Zeiten',
-        'Ticket pending time reached' => 'Ticket Warten-Zeit erreicht',
-        'Ticket pending time reached between' => 'Ticket Warten-Zeit erreicht zwischen',
+        'No pending time settings.' => 'Keine Erinnerungszeiten',
+        'Ticket pending time reached' => 'Ticket-Erinnerungszeit erreicht',
+        'Ticket pending time reached between' => 'Ticket-Erinnerungszeit erreicht zwischen',
         'Escalation times' => 'Eskalationszeiten',
-        'No escalation time settings.' => 'Keine Eskalations-Zeiten',
-        'Ticket escalation time reached' => 'Ticket Eskalations-Zeit erreicht',
-        'Ticket escalation time reached between' => 'Ticket Eskalations-Zeit erreicht zwischen',
+        'No escalation time settings.' => 'Keine Eskalationszeiten',
+        'Ticket escalation time reached' => 'Ticket-Eskalationszeit erreicht',
+        'Ticket escalation time reached between' => 'Ticket-Eskalationszeit erreicht zwischen',
         'Escalation - first response time' => 'Eskalation - Zeit für erste Reaktion',
         'Ticket first response time reached' => 'Ticket-Reaktionszeit erreicht',
         'Ticket first response time reached between' => 'Ticket-Reaktionszeit erreicht zwischen',
@@ -1152,7 +1152,7 @@ sub Data {
         'Ticket solution time reached' => 'Ticket-Lösungszeit erreicht',
         'Ticket solution time reached between' => 'Ticket-Lösungszeit erreicht zwischen',
         'Archive search option' => 'Im Archiv suchen',
-        'Update/Add Ticket Attributes' => 'Ticket Attribute Aktualisieren/Hinzufügen',
+        'Update/Add Ticket Attributes' => 'Ticket-Attribute aktualisieren/hinzufügen',
         'Set new service' => 'Neuen Service setzen',
         'Set new Service Level Agreement' => 'Neues Service-Level-Abkommen setzen',
         'Set new priority' => 'Neue Priorität setzen',
@@ -1172,18 +1172,18 @@ sub Data {
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
         'Execute Ticket Commands' => 'Ticket-Befehle ausführen',
-        'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
+        'Send agent/customer notifications on changes' => 'Sende eine Agenten-/Kunden-Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            'Dieser Befehl wird mit ARG[0] (die Ticket Nummer) und ARG[1] die TicketID ausgeführt.',
-        'Delete tickets' => 'Tickets Löschen',
+            'Dieser Befehl wird mit der Ticket-Nummer als erstes und der Ticket-ID als zweites Argument ausgeführt.',
+        'Delete tickets' => 'Tickets löschen',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            'Warnung: Alle betroffenen Tickets werden aus der Datenbank gelöscht und können nicht wiederhergestellt werden.',
+            'Warnung: Alle betroffenen Tickets werden aus der Datenbank gelöscht und können nicht wiederhergestellt werden!',
         'Execute Custom Module' => 'Benutzerdefiniertes Modul ausführen',
-        'Param %s key' => 'Schlüssel Parameter %s',
-        'Param %s value' => 'Wert Parameter %s',
+        'Param %s key' => 'Schlüssel für Parameter %s',
+        'Param %s value' => 'Wert für Parameter %s',
         'Save Changes' => 'Änderungen speichern',
-        'Results' => 'Ergebnis',
+        'Results' => 'Ergebnisse',
         '%s Tickets affected! What do you want to do?' => '%s Tickets sind betroffen! Was wollen Sie tun?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Warnung: Sie verwenden die Option LÖSCHEN. Alle gelöschten Tickets gehen verloren!',
@@ -1214,7 +1214,7 @@ sub Data {
         'Limit' => 'Limit',
         'Refresh' => 'Aktualisieren',
         'Request Details' => 'Anfragedetails',
-        'An error occurred during communication.' => 'Während der Kommunikation ist ein Fehler aufgetreten',
+        'An error occurred during communication.' => 'Während der Kommunikation ist ein Fehler aufgetreten.',
         'Show or hide the content.' => 'Inhalt anzeigen oder verbergen.',
         'Clear debug log' => 'Debug-Log leeren',
 
@@ -1249,9 +1249,9 @@ sub Data {
         'Delete this Invoker' => 'Diesen Invoker löschen',
 
         # Template: AdminGenericInterfaceMappingSimple
-        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Simple mapping für Webservice %s',
+        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Simple Mapping für Webservice %s',
         'Go back to' => 'Zurück zu',
-        'Mapping Simple' => 'Simple mapping',
+        'Mapping Simple' => 'Simple Mapping',
         'Default rule for unmapped keys' => 'Standardregel für nicht gemappte Schlüssel',
         'This rule will apply for all keys with no mapping rule.' => 'Diese Regel wird für alle Schlüssel ohne passende Regel angewendet.',
         'Default rule for unmapped values' => 'Standardregel für nicht gemappte Werte',
@@ -1324,10 +1324,10 @@ sub Data {
             'z. B. https://www.otrs.com:10745/api/v1.0 (ohne abschließenden Backslash)',
         'Controller mapping for Invoker' => 'Controller-Mapping für Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
-            'Der Controller an den der Invoker Anfragen senden soll. Variablen, die mit einem \':\' markiert sind, werden durch den Datenwert ersetzt und mit dem Request übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)',
+            'Der Controller, an den der Invoker Anfragen senden soll. Variablen, die mit einem \':\' markiert sind, werden durch den Datenwert ersetzt und mit dem Request übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)',
         'Valid request command for Invoker' => 'Gültiger Anforderungsbefehl für Invoker',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
-            'Ein spezifisches HTTP-Kommando um Anfragen mit diesem Invoker zu verwenden (optional).',
+            'Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional).',
         'Default command' => 'Standardbefehl',
         'The default HTTP command to use for the requests.' => 'Der Standard-HTTP-Befehl für die Anfragen.',
         'Authentication' => 'Authentifizierung',
@@ -1338,7 +1338,7 @@ sub Data {
         'Use SSL Options' => 'SSL-Optionen verwenden',
         'Show or hide SSL options to connect to the remote system.' => 'Optionen für die Verwendung von SSL zum Zugriff auf das entfernte System anzeigen oder verbergen.',
         'Certificate File' => 'Zertifikatsdatei',
-        'The full path and name of the SSL certificate file.' => 'Der vollständige Pfad und Name der SSL-Zertifikats-Datei',
+        'The full path and name of the SSL certificate file.' => 'Der vollständige Pfad und Name der SSL-Zertifikats-Datei.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => 'Zum Beispiel: /opt/otrs/var/certificates/REST/ssl.crt',
         'Certificate Password File' => 'Passwortdatei für Zertifikat',
         'The full path and name of the SSL key file.' => 'Der vollständige Pfad und Name der SSL-Schlüsseldatei.',
@@ -1358,33 +1358,33 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, die SOAP-Methoden einen Kontext gibt und damit Mehrdeutigkeiten auflöst.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'z. B. urn:otrs-com:soap:functions oder http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => 'Anfragennamensschema',
+        'Request name scheme' => 'Anfragen-Namensschema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
             '\'FunctionName\' wird als Beispiel für den tatsächlichen Namen eines Invokers / einer Operation verwendet.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FreeText\' wird als Beispiel für einen tatsächlich konfigurierten Wert verwendet.',
-        'Response name free text' => 'Antwortnamensfreitext',
+        'Response name free text' => 'Freitext für den Antwortnamen',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Text, der als Anhang oder Ersatz für den Funktionsnamen verwendet werden soll.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
             'Bitte beachten Sie die Beschränkungen von XML-Elementnamen (verwenden Sie z. B. kein \'<\' oder \'&\').',
-        'Response name scheme' => 'Antwortnamensschema',
+        'Response name scheme' => 'Antwort-Namensschema',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Wählen Sie, wie die SOAP-Antwort konstruiert werden soll.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, die OTRS verarbeitet.',
         'Encoding' => 'Kodierung',
-        'The character encoding for the SOAP message contents.' => 'Die Zeichenkodierung für SOAP-Nachrichteninhalte',
+        'The character encoding for the SOAP message contents.' => 'Die Zeichenkodierung für SOAP-Nachrichteninhalte.',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'z. B. utf-8, latin1, iso-8859-1, cp1250, usw.',
         'SOAPAction' => 'SOAPAction',
         'Set to "Yes" to send a filled SOAPAction header.' => 'Auf "Ja" stellen, um einen befüllten SOAPAction-Header zu senden.',
         'Set to "No" to send an empty SOAPAction header.' => 'Auf "Nein" stellen, um einen leeren SOAPAction-Header zu senden.',
         'SOAPAction separator' => 'SOAPAction-Trenner',
         'Character to use as separator between name space and SOAP method.' =>
-            'Trennzeichen zwischen dem Namespace und der SOAP-Methode',
-        'Usually .Net web services uses a "/" as separator.' => 'Normalerweise verwenden .Net-basierte Webservices "/" als Trenner',
+            'Trennzeichen zwischen dem Namespace und der SOAP-Methode.',
+        'Usually .Net web services uses a "/" as separator.' => 'Normalerweise verwenden .Net-basierte Webservices "/" als Trenner.',
         'Proxy Server' => 'Proxy-Server',
         'URI of a proxy server to be used (if needed).' => 'URI eines Proxy-Servers (optional).',
         'e.g. http://proxy_hostname:8080' => 'z. B. http://proxy_hostname:8080',
@@ -1404,12 +1404,12 @@ sub Data {
             'Voller Pfad und Dateiname des CA-Verzeichnisses, in dem CA-Zertifikate gespeichert sind.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'z. B. /opt/otrs/var/certificates/SOAP/CA',
         'Sort options' => 'Sortierungsoptionen',
-        'Add new first level element' => 'Neues First-Level Element hinzufügen',
+        'Add new first level element' => 'Neues Element auf der obersten Ebene hinzufügen',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            'Sortierung für ausgehende XML-Ffelder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport.',
+            'Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport.',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => 'GenericInterface Webservice-Verwaltung',
+        'GenericInterface Web Service Management' => 'GenericInterface-Webservice-Verwaltung',
         'Add web service' => 'Webservice hinzufügen',
         'Clone web service' => 'Webservice klonen',
         'The name must be unique.' => 'Der Name muss eindeutig sein.',
@@ -1445,7 +1445,7 @@ sub Data {
         'Outbound mapping' => 'Ausgehendes Mapping',
         'Delete this action' => 'Diese Aktion löschen',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
-            'Noch mindestens ein %s hat einen Controller der nicht aktiv oder nicht vorhanden ist, bitte prüfen Sie die Controller-Registrierung oder löschen Sie %s',
+            'Noch mindestens ein %s hat einen Controller, der nicht aktiv oder nicht vorhanden ist, bitte prüfen Sie die Controller-Registrierung oder löschen Sie %s',
         'Delete webservice' => 'Webservice löschen',
         'Delete operation' => 'Operation löschen',
         'Delete invoker' => 'Invoker löschen',
@@ -1453,7 +1453,7 @@ sub Data {
         'Import webservice' => 'Webservice importieren',
 
         # Template: AdminGenericInterfaceWebserviceHistory
-        'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Konfigurations-Historie für Webservice %s',
+        'GenericInterface Configuration History for Web Service %s' => 'GenericInterface-Konfigurations-Historie für Webservice %s',
         'Go back to Web Service' => 'Zurück zum Webservice',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
             'Hier können Sie ältere Versionen der Konfiguration dieses Webservices einsehen, exportieren oder wiederherstellen.',
@@ -1470,7 +1470,7 @@ sub Data {
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'VORSICHT: Wenn Sie den Namen der \'admin\'-Gruppe ändern ohne zuvor die entsprechenden Anpassungen in der SysConfig getätigt haben, verlieren Sie den Zugang zum Adminbereich!',
+            'VORSICHT: Wenn Sie den Namen der \'admin\'-Gruppe ändern ohne zuvor die entsprechenden Anpassungen in der SysConfig getätigt haben, verlieren Sie den Zugang zum Adminbereich! In diesem Fall sollten Sie den Gruppennamen in der Datenbank zurücksetzen.',
         'Group Management' => 'Gruppen-Verwaltung',
         'Add group' => 'Gruppe hinzufügen',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
@@ -1493,7 +1493,7 @@ sub Data {
         'All incoming emails with one account will be dispatched in the selected queue!' =>
             'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
-            'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
+            'Wird dem Konto vertraut, werden die eingehenden X-OTRS Header benutzt! PostMaster Filter werden in jedem Fall verwendet.',
         'Delete account' => 'E-Mailkonto löschen',
         'Fetch mail' => 'E-Mails abholen',
         'Add Mail Account' => 'E-Mailkonto hinzufügen',
@@ -1514,15 +1514,15 @@ sub Data {
         'Online Admin Manual' => 'Online-Administrationshandbuch',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => 'Ticket Informationsmanagement',
+        'Ticket Notification Management' => 'Verwaltung von Ticket-Benachrichtigungen',
         'Add notification' => 'Benachrichtigung hinzufügen',
         'Export Notifications' => 'Benachrichtigungen exportieren',
         'Configuration Import' => 'Konfigurationsimport',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Hier können Sie eine Konfigurationsdatei hochladen, mit der Ticket-Benachrichtigungen im System importiert werden können. Die Datei muss im .yml-Format vorliegen, so wie sie auch vom Ticket-Benachrichtigungsmodul exportiert wird.',
-        'Overwrite existing notifications?' => 'Bestehende Informationen überschreiben?',
-        'Upload Notification configuration' => 'Informationseinstellung hochladen',
-        'Import Notification configuration' => 'Informationseinstellungen importieren',
+        'Overwrite existing notifications?' => 'Bestehende Benachrichtigungen überschreiben?',
+        'Upload Notification configuration' => 'Benachrichtigungs-Konfiguration hochladen',
+        'Import Notification configuration' => 'Benachrichtigungs-Konfiguration importieren',
         'Delete this notification' => 'Diese Benachrichtigung löschen',
         'Do you really want to delete this notification?' => 'Möchten Sie diese Benachrichtigung wirklich löschen?',
         'Add Notification' => 'Benachrichtigung hinzufügen',
@@ -1538,7 +1538,7 @@ sub Data {
         'Only for ArticleCreate and ArticleSend event' => 'Nur für die Events ArticleCreate und ArticleSend',
         'Article type' => 'Artikeltyp',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
-            'Wenn ArticleCreate oder ArticleSend aus auslösendes Ereignis verwendet werden, müssen Sie ebenfalls einen ArtikelFilter spezifizieren. Bitte wählen Sie mindestens eins der Artikelfilterfelder aus.',
+            'Wenn ArticleCreate oder ArticleSend aus auslösendes Ereignis verwendet werden, müssen Sie ebenfalls einen Artikelfilter spezifizieren. Bitte wählen Sie mindestens eins der Artikelfilterfelder aus.',
         'Article sender type' => 'Sender-Typ des Artikels',
         'Subject match' => 'Suchbegriff im Betreff',
         'Body match' => 'Suchbegriff im Text',
@@ -1549,7 +1549,7 @@ sub Data {
         'Send to all group members' => 'An alle Gruppenmitglieder senden',
         'Send to all role members' => 'An alle Rollenmitglieder senden',
         'Send on out of office' => 'Trotz "nicht im Büro" senden',
-        'Also send if the user is currently out of office.' => 'Auch senden wenn der Benutzer nicht am Arbeitsplatz ist.',
+        'Also send if the user is currently out of office.' => 'Auch senden, wenn der Benutzer nicht am Arbeitsplatz ist.',
         'Once per day' => 'Einmal pro Tag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Nur einmal am Tag pro Ticket und Benachrichtigungs-Transportmethode versenden.',
@@ -1575,13 +1575,13 @@ sub Data {
         'Tag Reference' => 'Tag-Referenz',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikel).',
+            'Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikels).',
         'To get the first 5 lines of the body (of the latest agent article).' =>
-            'Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikel).',
+            'Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikels).',
         'To get the first 20 character of the subject (of the latest customer article).' =>
-            'Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikel)',
+            'Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikels)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
-            'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikel).',
+            'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels).',
         'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
         'Attibutes of the current ticket owner\'s user data' => 'Attribute der Benutzerdaten des Ticketbesitzers',
         'Attibutes of the current ticket responsible\'s user data' => 'Attribute der Benutzerdaten des Ticket-Verantwortlichen',
@@ -1601,7 +1601,7 @@ sub Data {
             'Ein Artikel wird erstellt, wenn die Benachrichtigung an den Kunden oder an eine zusätzliche E-Mail-Adresse versendet wird.',
         'Email template' => 'E-Mail-Vorlage',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            'Benutze dieses Template um die komplette E-Mail zu generieren (Nur für HTML E-Mails)',
+            'Benutze diese Vorlage, um die komplette E-Mail zu generieren (nur für HTML-E-Mails).',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => ' %s verwalten',
@@ -1660,7 +1660,7 @@ sub Data {
         'Timeline view in ticket zoom' => 'Timeline-View im Ticket-Zoom',
         'DynamicField ContactWithData' => 'DynamischesFeld KontaktMitDaten',
         'DynamicField Database' => 'DynamischesFeld Datenbank',
-        'SLA Selection Dialog' => 'SLA Auswahldialog',
+        'SLA Selection Dialog' => 'SLA-Auswahldialog',
         'Ticket Attachment View' => 'Ticket-Anlagenansicht',
         'The %s skin' => 'Den %s-Skin',
 
@@ -1695,7 +1695,7 @@ sub Data {
         'Update repository information' => 'Verzeichnis aktualisieren',
         'Online Repository' => 'Online-Verzeichnis',
         'Module documentation' => 'Moduldokumentation',
-        'Upgrade' => 'Erneuern',
+        'Upgrade' => 'Upgrade',
         'Local Repository' => 'Lokales Verzeichnis',
         'This package is verified by OTRSverify (tm)' => 'Dieses Paket wurde von OTRSVerify (tm) geprüft',
         'Uninstall' => 'Deinstallieren',
@@ -1705,7 +1705,7 @@ sub Data {
             'Mit %s können Sie von den nachfolgenden optionalen Features profitieren. Bitte kontaktieren Sie %s, wenn Sie weitere Informationen benötigen.',
         'Download package' => 'Paket herunterladen',
         'Rebuild package' => 'Paket neu aufbauen (rebuild)',
-        'Metadata' => 'Meta-Daten',
+        'Metadata' => 'Metadaten',
         'Change Log' => 'Änderungsprotokoll',
         'Date' => 'Datum',
         'List of Files' => 'Dateiliste',
@@ -1721,7 +1721,7 @@ sub Data {
         # Template: AdminPerformanceLog
         'Performance Log' => 'Performance Log',
         'This feature is enabled!' => 'Dieses Feature ist aktiv!',
-        'Just use this feature if you want to log each request.' => 'Nur aktivieren wenn jede Anfrage protokolliert werden soll.',
+        'Just use this feature if you want to log each request.' => 'Nur aktivieren, wenn jede Anfrage protokolliert werden soll.',
         'Activating this feature might affect your system performance!' =>
             'Bitte beachten Sie, dass das Aktivieren dieser Funktion Performance-Einbußen zur Folge haben kann.',
         'Disable it here!' => 'Hier deaktivieren!',
@@ -1735,23 +1735,23 @@ sub Data {
         'Min Response' => 'Min. Antwortzeit',
         'Max Response' => 'Max. Antwortzeit',
         'Average Response' => 'Durchschnittliche Antwortzeit',
-        'Period' => 'Periode',
+        'Period' => 'Zeitraum',
         'Min' => 'Min',
         'Max' => 'Max',
         'Average' => 'Durchschnitt',
 
         # Template: AdminPostMasterFilter
-        'PostMaster Filter Management' => 'PostMaster Filter-Verwaltung',
+        'PostMaster Filter Management' => 'PostMaster-Filter-Verwaltung',
         'Add filter' => 'Filter hinzufügen',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Einkommende Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. Für die Suche können auch reguläre Ausdrücke benutzt werden.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
-            'Wenn nur eine E-Mail-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc.',
+            'Wenn nur eine E-Mail-Adresse gesucht wird, dann benutzen Sie EMAILADDRESS:info@example.com in From, To oder Cc.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Wenn Sie reguläre Ausdrücke verwenden, können Sie die gefundenen Werte in () auch als [***] in der Aktion "Setzen" verwenden.',
         'Delete this filter' => 'Diesen Filter löschen',
-        'Add PostMaster Filter' => 'PostMaster Filter hinzufügen',
-        'Edit PostMaster Filter' => 'PostMaster Filter bearbeiten',
+        'Add PostMaster Filter' => 'PostMaster-Filter hinzufügen',
+        'Edit PostMaster Filter' => 'PostMaster-Filter bearbeiten',
         'The name is required.' => 'Der Name ist erforderlich.',
         'Filter Condition' => 'Filterbedingung',
         'AND Condition' => 'UND-Bedingung',
@@ -1761,12 +1761,12 @@ sub Data {
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dieses Feld sollte einen gültigen regulären Ausdruck oder ein Wort enthalten.',
         'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
-        'Set email header' => 'Setze E-Mail Header',
+        'Set email header' => 'Setze E-Mai-Kopfzeile',
         'Set value' => 'Setze Wert',
         'The field needs to be a literal word.' => 'Dieses Feld sollte ein Wort enthalten.',
 
         # Template: AdminPriority
-        'Priority Management' => 'Priorität-Verwaltung',
+        'Priority Management' => 'Prioritäten-Verwaltung',
         'Add priority' => 'Priorität hinzufügen',
         'Add Priority' => 'Priorität hinzufügen',
         'Edit Priority' => 'Priorität bearbeiten',
@@ -1839,7 +1839,6 @@ sub Data {
         'Filter available fields' => 'Verfügbare Felder filtern',
         'Available Fields' => 'Verfügbare Felder',
         'Assigned Fields' => 'Zugewiesene Felder',
-        'Edit Details for Field' => 'Details bearbeiten für Feld',
         'ArticleType' => 'Artikeltyp',
         'Display' => 'Anzeige',
         'Edit Field Details' => 'Feld-Details bearbeiten',
@@ -1947,9 +1946,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Verknüpfung zwischen den Bedingungen',
         'Remove this Condition' => 'Bedingung entfernen',
         'Type of Linking' => 'Typ der Verknüpfung',
+        'Add a new Field' => 'Neues Feld hinzufügen',
         'Remove this Field' => 'Feld entfernen',
         'And can\'t be repeated on the same condition.' => 'Und können nicht innerhalb der selben Abfrage verwendet werden.',
-        'Add a new Field' => 'Neues Feld hinzufügen',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1959,8 +1958,8 @@ sub Data {
         'Transition Action Name' => 'Name der Übergangs-Aktion',
         'Transition Action Module' => 'Übergangs-Aktionsmodul',
         'Config Parameters' => 'Konfigurations-Parameter',
-        'Remove this Parameter' => 'Parameter entfernen',
         'Add a new Parameter' => 'Neuen Parameter hinzufügen',
+        'Remove this Parameter' => 'Parameter entfernen',
 
         # Template: AdminQueue
         'Manage Queues' => 'Queue-Verwaltung',
@@ -3124,6 +3123,12 @@ sub Data {
         'No user configurable notifications found.' => 'Keine vom Benutzer konfigurierbaren Benachrichtigungen gefunden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Nachrichten für Benachrichtigung \'%s\' mittels Transportmethode \'%s\' empfangen.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Prozess-Informationen',
@@ -3236,6 +3241,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Alle Agenten, die sowohl Queue als auch Service des Tickets abonniert haben',
         'Customer of the ticket' => 'Kunde des Tickets',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3304,6 +3310,9 @@ sub Data {
             'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
         ' You can take one of the next actions:' => 'Wählen Sie aus den folgenden Aktionen:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
 
@@ -3315,6 +3324,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(in Arbeit)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Bitte geben Sie ein Enddatum an, das nach dem Startdatum liegt.',
@@ -3350,6 +3363,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortieren nach',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Statustyp',
@@ -3688,7 +3707,17 @@ Please create a new ticket via the customer panel.
 Thanks for your help!
 
  Your Helpdesk Team
-' => '',
+' => '
+Sehr geehrter Kunde,
+
+Leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, so dass diese E-Mail nicht automatisch verarbeitet werden kann.
+
+Bitte erstellen Sie ein neues Ticket im Kundenbereich.
+
+Danke für Ihr Verständnis!
+
+Ihr Helpdesk-Team
+',
         ' (work units)' => ' (Arbeitseinheiten)',
         '"%s" notification was sent to "%s" by "%s".' => '"%s"-Benachrichtigung versandt an "%s" von "%s".',
         '%s' => '%s',
@@ -3835,7 +3864,7 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => 'Balanced White-Skin von Felix Niklas (slim)',
         'Balanced white skin by Felix Niklas.' => 'Balanced White Skin von Felix Niklas.',
         'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            '',
+            'Basis-Einstellungen für den Volltext-Index. Führen Sie "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" aus, um den Index neu zu erstellen.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blockiert alle eingehenden E-Mails, die keine gültige Ticketnummer im Betreff mit Absenderadresse: @ example.com besitzen.',
         'Bounced to "%s".' => 'Bounced an "%s".',
@@ -3866,7 +3895,7 @@ Thanks for your help!
             'Ändert den Besitzer der Tickets auf Alle (nützlich für ASP). In der Regel werden nur Agenten mit rw-Berechtigungen auf die Queue angezeigt.',
         'Checkbox' => 'Kontrollkästchen',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
-            '',
+            'Prüft, ob eine E-Mail ein Follow-Up zu einem bestehenden Ticket ist, indem der Betreff nach einer gültigen Ticketnummer durchsucht wird.',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Überprüft die System-ID in der Ticketnummer-Erkennung bei FolloUps (Wählen Sie "Nein" wenn die System-ID während der Nutzung geändert wurde).',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -3880,25 +3909,25 @@ Thanks for your help!
         'Closed tickets (customer)' => 'Geschlossene Tickets (Kunden)',
         'Cloud Services' => 'Cloud Service',
         'Cloud service admin module registration for the transport layer.' =>
-            '',
+            'CloudService-Adminmodulregistrierung für den Transport-Layer.',
         'Collect support data for asynchronous plug-in modules.' => 'Sammelt Support Daten für asynchrone Erweiterungen.',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Ticket-Filter-Spalte für Ticketübersichten vom Typ "Klein".',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Eskalations-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Gesperrt-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Queue-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Verantwortlicher-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Service-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Status-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Suchergebnis-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Spalten, auf die in der Beobachten-Ansicht des Agentenbereichs ein Filter angewandt werden kann. Mögliche Werte: 0 = Deaktiviert, 1 = als Filter verfügbar, 2 = standardmäßig als Filter aktiviert. Hinweis: Es sind nur Ticket-Attribute, dynamische Felder (DynamicField_NameX) und Kundenattribute (z.B. CustomerUserPhone, CustomerCompanyName) erlaubt.',
         'Comment for new history entries in the customer interface.' => 'Kommentar für neue Historieneinträge im Kunden-Interface.',
         'Comment2' => 'Kommentar2',
         'Communication' => 'Kommunikation',
@@ -3916,7 +3945,7 @@ Thanks for your help!
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            '',
+            'Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. "Name" beschreibt das dynamische Feld, das genutzt werden soll, "Value" die Daten, mit denen das Feld befüllt werden soll. "Event" enthält das auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch (http://otrs.github.io/doc/) im Kapitel "Ticket-Eventmodule".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird.',
         'Controls if customers have the ability to sort their tickets.' =>
@@ -3973,7 +4002,7 @@ Thanks for your help!
         'CustomerName' => 'Kundenname',
         'Customers <-> Groups' => 'Kunden <-> Gruppen',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Anpassbare Stopworte für den Volltext-Index. Diese Worte werden aus dem Suchindex entfernt.',
         'Czech' => 'Tschechisch',
         'Danish' => 'Dänisch',
         'Data used to export the search result in CSV format.' => 'Daten die verwendet werden um das Suchergebnis im CSV-Format zu exportieren.',
@@ -4041,7 +4070,7 @@ Thanks for your help!
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
             'Definiert einen regulären Ausdruck, der alle E-Mail-Adressen filtert, die in der Anwendung nicht verwendet werden sollen',
         'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
-            '',
+            'Definiert einen Zeitraum in Mikrosekunden, der zwischen der Verarbeitung von Tickets abgewartet werden soll.',
         'Defines a useful module to load specific user options or to display news.' =>
             'Definiert ein nützliches Modul um bestimmte User-Optionen zu laden oder um Neuigkeiten anzuzeigen.',
         'Defines all the X-headers that should be scanned.' => 'Definiert alle X-Headers, die überprüft werden sollen.',
@@ -4055,7 +4084,7 @@ Thanks for your help!
             'Definiert alle Parameter für das Objekt ShownTickets in den Kundeneinstellungen des Kunden-Interface.',
         'Defines all the parameters for this item in the customer preferences.' =>
             'Definiert alle Parameter für Kunden-Einstellungen.',
-        'Defines all the parameters for this notification transport.' => '',
+        'Defines all the parameters for this notification transport.' => 'Steuert alle Parameter für diesen Benachrichtigungs-Transport.',
         'Defines all the possible stats output formats.' => 'Definiert alle möglichen Statistikausgabeformate.',
         'Defines an alternate URL, where the login link refers to.' => 'Definiert eine alternative URL, auf die der Login-Link verweist.',
         'Defines an alternate URL, where the logout link refers to.' => 'Definiert eine alternative URL, auf die der Logout-Link verweist.',
@@ -4102,17 +4131,17 @@ Thanks for your help!
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Steuert, ob Agenten, die die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Bestimmt, ob im Agenten-Interface eine Rechtschreibprüfung für Nachrichten vorgenommen werden muss.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Steuert, ob Kunden, die die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Bestimmt, ob der erweiterte Modus genutzt werden soll (schaltet die Benutzung von Tabellen, Suchen & Ersetzen, Tiefstellen, Hochstellen, aus Word einfügen, etc. frei).',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
-            '',
+            'Steuert, ob das vorherige, gültige Token für die Authentifizierung akzeptiert werden soll. Dies ist etwas weniger sicher, gibt Nutzern aber 30 Sekunden mehr Zeit, Ihre Einmal-Passwort einzugeben.',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             'Definiert ob die Zeiterfassung verpflichtend in der Agenten-Oberfläche ist. Wenn diese Funktion aktiviert ist, muss eine Notiz für alle Ticketaktionen (egal ob die Notiz als aktiv konfiguriert ist oder ursprünglich zwingend für die individuellen Ticket-Aktionen konfiguert wurde).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
@@ -4129,7 +4158,7 @@ Thanks for your help!
         'Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
             'Definiert die Adresse eines dedizierten DNS-Server, wenn nötig, für "CheckMXRecord" Auflösungen.',
         'Defines the agent preferences key where the shared secret key is stored.' =>
-            '',
+            'Defininiert das Einstellungsfeld für Agenten, in dem der Share Secret-Key gespeichert wird.',
         'Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).' =>
             'Definiert den Text im Hauptteil für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Agenten geschickt werden (nachdem dieser Link benutzt wird, wird das neue Passwort gesendet).',
         'Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).' =>
@@ -4143,7 +4172,7 @@ Thanks for your help!
         'Defines the body text for rejected emails.' => 'Definiert den Body-Text für abgelehnte E-Mails.',
         'Defines the calendar width in percent. Default is 95%.' => 'Definiert die Kalenderbreite in Prozent. Standard ist 95%',
         'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
-            '',
+            'Definiert den Identifizierer für den Clusterknoten. Wird nur in Clusterkonfigurationen genutzt, in denen mehr als ein OTRS-Frontendsystem vorhanden ist. Hinweis: Es sind nur Werte von 1-99 erlaubt.',
         'Defines the column to store the keys for the preferences table.' =>
             'Definiert die Spalte um die Schlüssel in der Eigenschaften-Tabelle zu speichern',
         'Defines the config options for the autocompletion feature.' => 'Definiert die Konfigurationsoptionen für die Autovervollständigung.',
@@ -4153,7 +4182,7 @@ Thanks for your help!
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'Definiert Verbindungen für HTTP/FTP über einen Proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
-            '',
+            'Defininiert das Einstellungsfeld für Kunden, in dem der Share Secret-Key gespeichert wird.',
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder).',
         'Defines the default CSS used in rich text editors.' => 'Definiert die genutzte Standard-CSS in RichText-Editoren.',
@@ -4162,16 +4191,16 @@ Thanks for your help!
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Definiert den Standard-Inhalt einer Notiz in der TicketFreeText-Oberfläche im Agenten-Interface.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            '',
+            'Steuert das standardmäßig verwendete Theme (HTML) für das Frontend für Agenten und Kunden. Hinweis: Sie können Ihre eigenen Themes hinzufügen und verwenden (siehe http://otrs.github.io/doc/).',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Definiert die standardmäßig eingestellte maximale Anzahl von Attributen für die x-Achse für die Zeitachse.',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
-            '',
+            'Steuert die maximale Anzahl angezeigter Statistiken pro Seite in der Übersicht.',
         'Defines the default next state for a ticket after customer follow-up in the customer interface.' =>
-            '',
+            'Steuert den Folgestatus für Tickets, für die im Kundenbereich eine Kundennachfrage eingegangen ist.',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             'Bestimmt den Folgestatus für Tickets, für die im Schließen-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde.',
         'Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
@@ -4201,7 +4230,7 @@ Thanks for your help!
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             'Bestimmt die Vorbelegung des Textfeldes für Telefon-Tickets im Bildschirm für ausgehende Anrufe im Agenten-Interface.',
         'Defines the default priority of follow-up customer tickets in the ticket zoom screen in the customer interface.' =>
-            '',
+            'Steuert die Folgepriorität für Tickets, für die im Kundenbereich eine Kundennachfrage eingegangen ist.',
         'Defines the default priority of new customer tickets in the customer interface.' =>
             'Definiert die Standard-Prioriät von neuen Kundentickets in der Kundenoberfläche.',
         'Defines the default priority of new tickets.' => 'Definiert die Standard-Priorität von neuen Tickets.',
@@ -4242,7 +4271,7 @@ Thanks for your help!
         'Defines the default subject of a note in the ticket free text screen of the agent interface.' =>
             'Bestimmt den Standard-Betreff einer Notiz im Ticket-Freitext-Bildschirm des Agenten-Interfaces.',
         'Defines the default the number of seconds (from current time) to re-schedule a generic interface failed task.' =>
-            '',
+            'Definiert die Anzahl an Sekunden (ausgehend vom aktuellen Zeitpunkt), nach denen ein fehlgeschlagener Generic Interface-Task neu geplant werden soll.',
         'Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface.' =>
             'Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in einer Ticket-Suche im Kunden-Interface.',
         'Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface.' =>
@@ -4260,27 +4289,27 @@ Thanks for your help!
         'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
             'Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets im Ticket-Suchergebnis von dieser Operation.',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
-            '',
+            'Definiert die Standardbenachrichtigung für umgeleitete Tickets für Kunden/Absender im Umleiten-Bildschirm des Agentenbereichs.',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'Steuert den Ticketstatus, nachdem eine Notiz über den "Ausgehender Anruf"-Bildschirm im Agentenbereich hinzugefügt wurde.',
         'Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'Steuert den Ticketstatus, nachdem eine Notiz über den "Ausgehender Anruf"-Bildschirm im Agentenbereich hinzugefügt wurde.',
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung (nach der Sortierung nach Priorität) für die Eskalations-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung (nach der Sortierung nach Priorität) für die Status-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Verantwortlicher-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Gesperrt-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht dieser Operation. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Beobachten-Ansicht des Agentenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Steuert die Ticket-Sortierung für die Suchergebnis-Ansicht des Kundenbereichs. Auf: Älteste oben. Ab: Neuste oben.',
         'Defines the default ticket priority in the close ticket screen of the agent interface.' =>
             'Definiert die Standard-Ticketpriorität in der \'Schließen\'-Oberfläche im Agenten-Interface.',
         'Defines the default ticket priority in the ticket bulk screen of the agent interface.' =>
@@ -4302,7 +4331,7 @@ Thanks for your help!
         'Defines the default type for article in the customer interface.' =>
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
-            '',
+            'Steuert den Typ von weitergeleiteten Nachrichten im Weiterleiten-Bildschirm des Agentenbereichs.',
         'Defines the default type of the article for this operation.' => 'Definiert den Standard-Artikeltyp für diese Operation.',
         'Defines the default type of the message in the email outbound screen of the agent interface.' =>
             'Definiert den Standard-Typ der ausgehenden E-Mail.',
@@ -4339,29 +4368,29 @@ Thanks for your help!
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiert die dynamischen Felder, die benutzt werden um Kalender-Events anzuzeigen.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
-            '',
+            'Steuert den Fallback-Pfad zum Öffnen des fetchmail-Binaries. Hinweis: Der Name des Binaries muss "fetchmail" sein. Bitte nutzen Sie einen symbolischen Link, wenn der Name anders lautet.',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             'Definiert den Filter, der Text in Artikeln verarbeitet, um URLs zu highlighten.',
         'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
-            '',
+            'Steuert das Format von Antworten im Ticket erstellen-Bildschirm im Agentenbereich ([% Data.OrigFrom | html %] entspricht genau dem Absender, [% Data.OrigFromName | html %] enthält nur den realen Namen des Absenders).',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Definiert den Full Qualified Domain Name des OTRS Systems. Diese Einstellung wird als Variable OTRS_CONFIG_FQDN genutzt, welche in allen Nachrichten-Formularen zu finden ist oder um Links zu Tickets in Ihrem OTRS System zu generieren.',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
-            '',
+            'Steuert die Gruppen, in denen sich ein Kundenbenutzer standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Nutzer einzeln steuern möchten).',
         'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            '',
+            'Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Steuert den Historien-Kommentar für die Ticket schließen-Aktion im Agentenbereich.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Steuert den Historien-Kommentar für Emailtickets im Agentenbereich.',
         'Defines the history comment for the phone ticket screen action, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Steuert den Historien-Kommentar für Telefonticket im Agentenbereich.',
         'Defines the history comment for the ticket free text screen action, which gets used for ticket history.' =>
-            '',
+            'Steuert den Historien-Kommentar für die Freitext-Aktion im Agentenbereich.',
         'Defines the history comment for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Steuert den Historien-Kommentar für die Ticketnotiz-Aktion im Agentenbereich.',
         'Defines the history comment for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history comment for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
@@ -4548,6 +4577,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Definiert die Postmaster-Queue.',
         'Defines the priority in which the information is logged and presented.' =>
             'Definiert die Priorität in welcher die Information aufgezeichnet und präsentiert wird.',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5134,9 +5165,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Modul zum Überprüfen von Kundenberechtigungen.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Module zum überprüfen ob der Benutzer Mitglied einer speziellen Gruppe ist. Der Zugriff wird gestattet, wenn der Benutzer in der angegebenen Gruppe ist und ro und rw Berechtigungen hat.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => 'Modul zur Überprüfung des Ticketverantwortlichen.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Modul zur Überprüfung der Gruppenberechtigung um auf Kundentickets zuzugreifen.',
         'Module to check the owner of a ticket.' => 'Modul zur Überprüfung des Ticketbesitzers.',
@@ -5415,7 +5448,7 @@ Thanks for your help!
         'Sets the default error message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
             '',
         'Sets the default link type of splitted tickets in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Linktyp für geteilte Tickets im Agentenbereich.',
         'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
             'Setzt die Standard Nachricht für den Hinweis, der auf der Agenten- und Kunden-Oberfläche angezeigt wird, wenn sich das System im Wartungsmodus befindet. ',
         'Sets the default message for the notification is shown on a running system maintenance period.' =>
@@ -5431,138 +5464,138 @@ Thanks for your help!
         'Sets the default priority for new phone tickets in the agent interface.' =>
             'Setzt die Standard Priorität für neue Telefon-Tickets in der Agenten-Oberfläche.',
         'Sets the default sender type for new email tickets in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Sendertyp für neue E-Mail-Tickets im Agentenbereich.',
         'Sets the default sender type for new phone ticket in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Sendertyp für neue Telefon-Tickets im Agentenbereich.',
         'Sets the default subject for new email tickets (e.g. \'email Outbound\') in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für neue E-Mail-Tickets (z.B. "Ausgehende E-Mail") im Agentenbereich.',
         'Sets the default subject for new phone tickets (e.g. \'Phone call\') in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für neue Telefon-Tickets (z.B. "Telefonanruf") im Agentenbereich.',
         'Sets the default subject for notes added in the close ticket screen of the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticket schließen-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket move screen of the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticket verschieben-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket note screen of the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticketnotiz-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticketbesitzer-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Wartezeit für Ticket setzen-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticketprioriät-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default subject for notes added in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Bestimmt den Standard-Betreff für Notizen, die im Ticketverantwortlicher-Bildschirm im Agentenbereich hinzugefügt werden.',
         'Sets the default text for new email tickets in the agent interface.' =>
-            '',
+            'Bestimmt den Standardtext für neue E-Mail-Tickets im Agentenbereich.',
         'Sets the display order of the different items in the preferences view.' =>
-            '',
+            'Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Agenten.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            '',
+            'Steuert die Zeit (in Sekunden), die vergehen darf, bevor ein Benutzer automatisch abgemeldet und seine Sitzung gelöscht wird.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
-            '',
+            'Steuert die maximale Anzahl an gleichzeitig aktiven Agenten innerhalb der in SessionActiveTime definierten Zeitspanne.',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
-            '',
+            'Steuert die maximale Anzahl an gleichzeitig aktiven Kunden innerhalb der in SessionActiveTime definierten Zeitspanne.',
         'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
-            '',
+            'Steuert die maximale Anzahl an gleichzeitig aktiven Sitzungen pro Agent innerhalb der in SessionActiveTime definierten Zeitspanne.',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
-            '',
+            'Steuert die maximale Anzahl an gleichzeitig aktiven Sitzungen pro Kunde innerhalb der in SessionActiveTime definierten Zeitspanne.',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
-            '',
+            'Steuert die Minimallänge für den Ticketzähler (wenn "AutoIncrement " als TicketNumberGenerator konfiguriert wurde). Standardwert ist 5, was bedeutet, dass der Zähler bei 10000 startet.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
-            '',
+            'Steuert, wie lange (in Minuten) die Benachrichtigung über eine bevorstehende Wartungsphase angezeigt werden soll.',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' =>
             '',
         'Sets the options for PGP binary.' => 'Legt die Optionen für die PGP-Binärdatei fest.',
         'Sets the order of the different items in the customer preferences view.' =>
-            '',
+            'Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Kunden.',
         'Sets the password for private PGP key.' => 'Legt das Passwort für den privaten PGP-Schlüssel fest.',
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             'Legt die bevorzugten Zeiteinheiten fest (z.B. Arbeitseinheiten, Stunden, Minuten).',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
             '',
         'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Schließen-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Freitext-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Notiz-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Besitzer-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Wartezeit setzen-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Priorität-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt die Queue im Verantwortlicher-Bildschirm von Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Schließen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket free text screen of the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Freitext-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket note screen of the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Notiz-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Besitzer-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Priorität-Bildschirm für Tickets im Agentenbereich.',
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Setzt den verantwortlichen Agenten im Verantwortlicher-Bildschirm für Tickets im Agentenbereich.',
         'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Schließen-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Freitext-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Notiz-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Besitzer-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '',
+            'Setzt den Service im Priorität-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '',
-        'Sets the stats hook.' => '',
+            'Setzt den Service im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
+        'Sets the stats hook.' => 'Steuert den Hook für Statistiken.',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             '',
         'Sets the ticket owner in the close ticket screen of the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Schließen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket free text screen of the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Freitext-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket note screen of the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Notiz-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Besitzer-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Priorität-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket owner in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Setzt den Besitzer im Verantwortlicher-Bildschirm für Tickets im Agentenbereich.',
         'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Schließen-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Setzt den Ticket-Typ im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Freitext-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Notiz-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Besitzer-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '',
+            'Setzt den Ticket-Typ im Priorität-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
-        'Sets the time (in seconds) a user is marked as active.' => '',
-        'Sets the timeout (in seconds) for http/ftp downloads.' => '',
+            'Setzt den Ticket-Typ im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
+        'Sets the time (in seconds) a user is marked as active.' => 'Steuert die Zeit (in Sekunden), innerhalb derer ein Benutzer als aktiv gilt.',
+        'Sets the timeout (in seconds) for http/ftp downloads.' => 'Steuert den Timeout (in Sekunden) für HTTP/FTP-Downloads.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
-            '',
+            'Steuert den Timeout (in Sekunden) für Paket-Downloads. Überschreibt "WebUserAgent::Timeout".',
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' =>
             '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' =>
@@ -5570,72 +5603,72 @@ Thanks for your help!
         'Shared Secret' => 'Gemeinsames Geheimnis',
         'Should the cache data be help in memory?' => '',
         'Should the cache data be stored in the selected cache backend?' =>
-            '',
+            'Sollen Cache-Daten im ausgewählten Cache-Backend gespeichert werden?',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
-            '',
+            'Steuert, ob in Telefon- und E-Mail-Tickets eine Auswahl für den verantwortlichen Agenten angezeigt werden soll (Agentenbereich).',
         'Show article as rich text even if rich text writing is disabled.' =>
-            '',
-        'Show the current owner in the customer interface.' => '',
-        'Show the current queue in the customer interface.' => '',
-        'Show the history for this ticket' => '',
+            'Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn das Schreiben von Richtext abgeschaltet ist.',
+        'Show the current owner in the customer interface.' => 'Steuert, ob der aktuelle Besitzer im Kundenbereich angezeigt werden soll.',
+        'Show the current queue in the customer interface.' => 'Steuert, ob die aktuelle Queue im Kundenbereich angezeigt werden soll.',
+        'Show the history for this ticket' => 'Zeige die Historie für dieses Ticket an',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
-            '',
+            'Zeigt ein Symbol mit Zähler im Ticket-Zoom an, wenn der Artikel Anhänge besitzt.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum beobachten/nicht mehr beobachten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.  Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Verlinken eines Tickets mit einem anderen Objekt im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu that allows merging tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Zusammenführen von Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to access the history of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Betrachten der Historie eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Bearbeiten der Freitextfelder eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Hinzufügen einer Notiz zu einem Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Hinzufügen von Notizen zu Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Schließen von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Schließen eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to delete a ticket in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Zeigt einen Link zum Löschen von Tickets in den Ticketübersichten des Agentenbereichs an. Zusätzliche Zugriffskontrolle für diesen Link kann über den Schlüssel "Group" und dazugehörigen Inhalt wie "rw:group1;move_into:group2" als Wert erreicht werden.',
         'Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Löschen eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Umwandeln eines regulären Tickets in ein Prozessticket im Ticket-Zoom des Agentenbereichs an. ',
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum zurück Gehen im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Sperren/Entsperren eines Tickets im Ticket-Zoom des Agentenbereichs an.',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Sperren/Entsperren eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Verschieben von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Drucken eines Tickets oder Artikels im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Anzeigen des Kunden, der das Ticket eröffnet hat im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Anzeigen der Historie von Tickets in den Ticketübersichten im Agentenbereich an.',
         'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Anzeigen des Besitzers eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Anzeigen der Priorität eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Anzeigen des verantwortlichen Agenten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Senden einer ausgehenden E-Mail im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Setzen einer Wartezeit für ein Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Zeigt einen Link zum Klassifizieren von Tickets als Spam in den Ticketübersichten des Agentenbereichs an. Zusätzliche Zugriffskontrolle für diesen Link kann über den Schlüssel "Group" und dazugehörigen Inhalt wie "rw:group1;move_into:group2" als Wert erreicht werden.',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Verändern der Priorität von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Betrachten (Zoomen) von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
-            '',
+            'Zeigt einen Link zum Betrachten von Anhängen über eine Onlineansicht im Artikel-Zoom im Agentenbereich an.',
         'Shows a link to download article attachments in the zoom view of the article in the agent interface.' =>
             '',
         'Shows a link to see a zoomed email ticket in plain text.' => 'Zeigt einen Link um das geöffnete Ticket im Rohformat anzuzeigen.',

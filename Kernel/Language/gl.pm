@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.914610546686018;
+    $Self->{Completeness}        = 0.911502290812636;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1839,7 +1839,6 @@ sub Data {
         'Filter available fields' => 'Campos de filtro dispoñibles',
         'Available Fields' => 'Campos dispoñíbeis',
         'Assigned Fields' => 'Campos asignados',
-        'Edit Details for Field' => 'Edite Detalles para Campo',
         'ArticleType' => 'Tipo de Artigo',
         'Display' => 'Mostrar',
         'Edit Field Details' => 'Edite Detalles Campo',
@@ -1947,9 +1946,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Tipo de ligazón entre condicións',
         'Remove this Condition' => 'Elimine esta Condición',
         'Type of Linking' => 'Tipo de ligazón',
+        'Add a new Field' => 'Engadir un campo novo',
         'Remove this Field' => 'Elimine este Campo',
         'And can\'t be repeated on the same condition.' => 'E non pode repetirse na mesma condición.',
-        'Add a new Field' => 'Engadir un campo novo',
         'Add New Condition' => 'Engadir unha condición nova',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1959,8 +1958,8 @@ sub Data {
         'Transition Action Name' => 'Nome Acción Transición',
         'Transition Action Module' => 'Módulo Acción Transición',
         'Config Parameters' => 'Parámetros Configurables',
-        'Remove this Parameter' => 'Elimine este Parámetro',
         'Add a new Parameter' => 'Engada un novo Parámetro',
+        'Remove this Parameter' => 'Elimine este Parámetro',
 
         # Template: AdminQueue
         'Manage Queues' => 'Xestionar as filas',
@@ -3124,6 +3123,12 @@ sub Data {
         'No user configurable notifications found.' => 'Non se atoparon notificacións configurables de usuario.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Recibir mensaxes para notificación \'%s\' polo método de transporte \'%s\'.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Información do proceso',
@@ -3236,6 +3241,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Tódolos axentes suscritos aos dous cola e servizo de ticket',
         'Customer of the ticket' => 'Cliente do ticket',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3304,6 +3310,9 @@ sub Data {
             'Sentímolo, pero non ten permisos nunca mais para acceder a este ticket no seu estado actual.',
         ' You can take one of the next actions:' => 'Pode coller unha das seguintes accións:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Actualice a %s agora! %s',
 
@@ -3315,6 +3324,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(en proceso)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3350,6 +3363,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordene por',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4548,6 +4567,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Define a cola por defecto de postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
             'Define a prioridade na que á información é logeada e presentada. ',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Define ó receptor obxectivo do ticket telefónico e o remitente do ticket de correo electrónico ("Cola" mostra todas as colas, "Enderezo de sistema" mostra todos os enderezos de sistema) na interface de axente.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5134,9 +5155,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Módulo para comprobar os permisos do cliente.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Módulo para comprobar se un usuario pertence a algún grupo especial. Concédeselle acceso se o usuario está no grupo indicado e ten os permisos ro e rw.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Módulo para comprobar se hai que marcar o correo recibido como correo interno (por causa do correo interno encamiñado orixinal). ArticleType e SenderType definen os valores para as mensaxes/artigos recibidos.',
         'Module to check the agent responsible of a ticket.' => 'Módulo para comprobar o axente responsable dun ticket.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Módulo para comprobar permisos de grupo para ó acceso a tickets de cliente.',
         'Module to check the owner of a ticket.' => 'Módulo para comprobar o propietario dun ticket.',
