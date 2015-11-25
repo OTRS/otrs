@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Ticket::Permission::CreatureCheck;
+package Kernel::System::Ticket::Permission::CreatorCheck;
 
 use strict;
 use warnings;
@@ -51,7 +51,7 @@ sub Run {
     return if !$Ticket{CreateBy};
 
     # get queue config
-    my $Queues = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Permission::CreatureCheck::Queues');
+    my $Queues = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Permission::CreatorCheck::Queues');
 
     # check queues
     if ( $Queues && ref $Queues eq 'ARRAY' && @{$Queues} && $Ticket{Queue} ) {
