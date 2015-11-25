@@ -1,4 +1,6 @@
-#5.0.4 2015-??-??
+#5.0.5 2015-??-??
+
+#5.0.4 2015-12-01
  - 2015-11-24 Updated translations, thanks to all translators.
  - 2015-11-24 Fixed bug#[11654](http://bugs.otrs.org/show_bug.cgi?id=11654) - Internal server error with limit 0 in out-of-office-dashboard.
  - 2015-11-24 Fixed bug where some special unicode characters (line terminators) were not correctly encoded to JSON.
