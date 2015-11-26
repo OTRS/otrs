@@ -2125,6 +2125,7 @@ sub _SearchParamsGet {
 
     if ( defined $TicketSearch{QueueIDs} || defined $TicketSearch{Queues} ) {
         delete $TicketSearchSummary{MyQueues};
+        delete $TicketSearchSummary{MyServices}->{QueueIDs};
     }
 
     if ( !$Self->{UseTicketService} ) {
@@ -2134,7 +2135,6 @@ sub _SearchParamsGet {
     if ( defined $TicketSearch{LockIDs} || defined $TicketSearch{Locks} ) {
         delete $TicketSearchSummary{Locked};
     }
-
 
     return (
         Columns             => \@Columns,
