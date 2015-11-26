@@ -1,4 +1,5 @@
 #5.0.5 2015-??-??
+ - 2015-11-25 Fixed bug#[9152](http://bugs.otrs.org/show_bug.cgi?id=9152) - Event based notification with attachments does not quote article content.
 
 #5.0.4 2015-12-01
  - 2015-11-24 Updated translations, thanks to all translators.

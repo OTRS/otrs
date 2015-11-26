@@ -140,8 +140,18 @@ sub Run {
 
             # add attachments to notification
             if ( $Notification{Data}->{ArticleAttachmentInclude}->[0] ) {
+
+                # get article, it is needed for the correct behavior of the
+                # StripPlainBodyAsAttachment flag into the ArticleAttachmentIndex function
+                my %Article = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleGet(
+                    ArticleID     => $Param{Data}->{ArticleID},
+                    UserID        => $Param{UserID},
+                    DynamicFields => 0,
+                );
+
                 my %Index = $TicketObject->ArticleAttachmentIndex(
                     ArticleID                  => $Param{Data}->{ArticleID},
+                    Article                    => \%Article,
                     UserID                     => $Param{UserID},
                     StripPlainBodyAsAttachment => 3,
                 );
