@@ -144,6 +144,9 @@ sub Run {
     # remove CustomerTicketProcess from the TicketMenu
     delete $Return{$NavBarName}->{$Priority};
 
+    # remove CustomerTicketProcess from the Menu if set outside of the TicketMenu, see bug #11393
+    delete $Param{NavBarModule}->{$Priority};
+
     return ( Sub => \%Return );
 }
 
