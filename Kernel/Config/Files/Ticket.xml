@@ -6678,7 +6678,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the owner of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the owner of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6690,7 +6690,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the agent responsible of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the agent responsible of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6702,7 +6702,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###3-GroupCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
+        <Description Translatable="1">Module to check the group permissions for the access to tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6714,7 +6714,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###4-WatcherCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the watcher agents of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the watcher agents of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6726,7 +6726,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###5-CreatorCheck" Required="0" Valid="0">
-        <Description Translatable="1">Module to check the creator of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the creator of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6737,8 +6737,18 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Postmaster</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
-        <Description Translatable="1">Module to check if an agent is involved to a ticket.</Description>
+        <Description Translatable="1">Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6749,18 +6759,8 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
-        <Description Translatable="1">Defines the queues the creator check will be active.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Array>
-                <Item>Postmaster</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Permission::InvolvedCheck::Queues" Required="0" Valid="0">
-        <Description Translatable="1">Defines the queues the involved check will be active.</Description>
+        <Description Translatable="1">Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6770,7 +6770,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the group permissions for the access to customer tickets.</Description>
+        <Description Translatable="1">Module to check the group permissions for customer access to tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6782,7 +6782,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###2-CustomerUserIDCheck" Required="0" Valid="1">
-        <Description Translatable="1">Grants access, if the customer ID of the ticket matches the customer user's ID and the customer user has group permissions on the queue the ticket is in.</Description>
+        <Description Translatable="1">Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6794,7 +6794,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###3-CustomerIDCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check customer permissions.</Description>
+        <Description Translatable="1">Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
