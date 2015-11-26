@@ -1454,7 +1454,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">1</Data>
-        <Data Key="name" Type="Quote">Ticket create notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket create notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1505,7 +1505,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">Ticket follow-up notification (unlocked)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket follow-up notification (unlocked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1571,7 +1571,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">Ticket follow-up notification (locked)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket follow-up notification (locked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1637,7 +1637,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">4</Data>
-        <Data Key="name" Type="Quote">Ticket lock timeout notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket lock timeout notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1683,7 +1683,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">5</Data>
-        <Data Key="name" Type="Quote">Ticket owner update notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket owner update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1714,7 +1714,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">6</Data>
-        <Data Key="name" Type="Quote">Ticket responsible update notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket responsible update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1745,7 +1745,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">7</Data>
-        <Data Key="name" Type="Quote">Ticket new note notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket new note notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1786,7 +1786,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">8</Data>
-        <Data Key="name" Type="Quote">Ticket queue update notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket queue update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1832,7 +1832,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">9</Data>
-        <Data Key="name" Type="Quote">Ticket pending reminder notification (locked)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket pending reminder notification (locked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1883,7 +1883,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">10</Data>
-        <Data Key="name" Type="Quote">Ticket pending reminder notification (unlocked)</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket pending reminder notification (unlocked)</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1934,7 +1934,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">11</Data>
-        <Data Key="name" Type="Quote">Ticket escalation notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket escalation notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -1975,7 +1975,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">12</Data>
-        <Data Key="name" Type="Quote">Ticket escalation warning notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket escalation warning notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
@@ -2016,7 +2016,7 @@ Your OTRS Group
 
     <Insert Table="notification_event">
         <Data Key="id" Type="AutoIncrement">13</Data>
-        <Data Key="name" Type="Quote">Ticket service update notification</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Ticket service update notification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="create_by">1</Data>
