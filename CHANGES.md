@@ -1,4 +1,5 @@
 #5.0.5 2015-??-??
+ - 2015-11-26 Fixed bug#[11574](http://bugs.otrs.org/show_bug.cgi?id=11574) - Dashboard - Queue - Attributes of the Widget are not used in the  'Tickets in my Service' view.
  - 2015-11-26 Fixed bug#[11605](http://bugs.otrs.org/show_bug.cgi?id=11605) - New ticket notification names are not translated in agent preferences.
  - 2015-11-26 Fixed bug#[9061](http://bugs.otrs.org/show_bug.cgi?id=9061) - Initial queues are set to "Ticket lock after follow-up: yes".
  - 2015-11-26 Fixed bug#[11663](http://bugs.otrs.org/show_bug.cgi?id=11663) - View type not saved to UserPreferences in AgentTicketZoom.
