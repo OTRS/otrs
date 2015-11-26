@@ -1,4 +1,5 @@
 #5.0.5 2015-??-??
+ - 2015-11-26 Fixed bug#[11688](http://bugs.otrs.org/show_bug.cgi?id=11688) - otrs.Console.pl Maint::Session::ListExpired shows wrong message.
  - 2015-11-25 Fixed bug#[9152](http://bugs.otrs.org/show_bug.cgi?id=9152) - Event based notification with attachments does not quote article content.
 
 #5.0.4 2015-12-01
