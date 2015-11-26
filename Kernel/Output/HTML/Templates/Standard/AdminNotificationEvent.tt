@@ -749,13 +749,13 @@ Core.Agent.Admin.NotificationEvent.Init({
 
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_OWNER_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Attibutes of the current ticket owner's user data") | html %]
+                        [% Translate("Attributes of the current ticket owner user data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_OWNER_UserFirstname&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_OWNER_UserFirstname&gt;</code>).
                     </dd>
 
                     <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_RESPONSIBLE_*&gt;</code></dt>
                     <dd>
-                        [% Translate("Attibutes of the current ticket responsible's user data") | html %]
+                        [% Translate("Attributes of the current ticket responsible user data") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code> [% Translate("or") | html %] <code>&lt;OTRS_TICKET_RESPONSIBLE_UserFirstname&gt;</code>).
                     </dd>
 
