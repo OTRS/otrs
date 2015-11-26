@@ -232,7 +232,7 @@ sub Run {
 
                         # translate state and priority name
                         if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}->Get( $TicketDetail{$Key} );
+                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}->Translate( $TicketDetail{$Key} );
                         }
 
                         $LayoutObject->Block(

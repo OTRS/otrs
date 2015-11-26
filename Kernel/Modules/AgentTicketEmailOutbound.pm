@@ -423,8 +423,8 @@ sub Form {
                 );
                 $Output .= $LayoutObject->Warning(
                     Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                        ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',

@@ -365,7 +365,7 @@ sub Run {
                     @StateIDs = grep { exists $StateIDs{$_} } @{ $GetParam{StateIDs} };
                 }
 
-                if ( @StateIDs ) {
+                if (@StateIDs) {
                     $GetParam{StateIDs} = \@StateIDs;
                 }
             }
@@ -655,7 +655,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || 'Untitled';
-                    $Data{Body} = $LayoutObject->{LanguageObject}->Get(
+                    $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
                     $Data{From} = '--';

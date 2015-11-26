@@ -352,8 +352,8 @@ sub Run {
         }
         elsif ( $DBType eq 'mssql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
-                ? $LayoutObject->{LanguageObject}->Get('Enter the password for the administrative database user.')
-                : $LayoutObject->{LanguageObject}->Get('Enter the password for the database user.');
+                ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
+                : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
@@ -397,8 +397,8 @@ sub Run {
         }
         elsif ( $DBType eq 'postgresql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
-                ? $LayoutObject->{LanguageObject}->Get('Enter the password for the administrative database user.')
-                : $LayoutObject->{LanguageObject}->Get('Enter the password for the database user.');
+                ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
+                : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
@@ -1194,7 +1194,7 @@ sub ConnectToDB {
             return (
                 Successful => 0,
                 Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                    ->Get("Database already contains data - it should be empty!"),
+                    ->Translate("Database already contains data - it should be empty!"),
                 Comment => "",
                 DB      => undef,
                 DBH     => undef,

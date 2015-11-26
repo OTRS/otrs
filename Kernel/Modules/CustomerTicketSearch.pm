@@ -1290,7 +1290,7 @@ sub Run {
 
                     $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
                     $Value     = $GetParam{TicketCreateTimePoint} . ' '
-                        . $LayoutObject->{LanguageObject}->Get( $GetParam{TicketCreateTimePointFormat} . '(s)' );
+                        . $LayoutObject->{LanguageObject}->Translate( $GetParam{TicketCreateTimePointFormat} . '(s)' );
                 }
             }
 

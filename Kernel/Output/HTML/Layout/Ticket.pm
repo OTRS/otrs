@@ -315,7 +315,7 @@ sub AgentQueueListOption {
     # add suffix for correct sorting
     my $KeyNoQueue;
     my $ValueNoQueue;
-    my $MoveStr = $Self->{LanguageObject}->Get('Move');
+    my $MoveStr = $Self->{LanguageObject}->Translate('Move');
     my $ValueOfQueueNoKey .= "- " . $MoveStr . " -";
     DATA:
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
