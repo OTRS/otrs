@@ -2133,6 +2133,7 @@ sub _SearchParamsGet {
 
     if ( defined $TicketSearch{QueueIDs} || defined $TicketSearch{Queues} ) {
         delete $TicketSearchSummary{MyQueues};
+        delete $TicketSearchSummary{MyServices}->{QueueIDs};
     }
 
     if ( !$Self->{UseTicketService} ) {
