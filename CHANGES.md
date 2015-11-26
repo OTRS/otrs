@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-11-25 Fixed bug#[9152](http://bugs.otrs.org/show_bug.cgi?id=9152) - Event based notification with attachments does not quote article content.
  - 2015-11-24 Fixed bug where some special unicode characters (line terminators) were not correctly encoded to JSON.
  - 2015-11-17 Fixed bug#[7987](http://bugs.otrs.org/show_bug.cgi?id=7987) - Ticket dashboard modules not working with unlocked tickets attributes, thanks to S7.
  - 2015-11-16 Fixed bug#[11205](http://bugs.otrs.org/show_bug.cgi?id=11205) - Popup window height does not check for actual screen height.
