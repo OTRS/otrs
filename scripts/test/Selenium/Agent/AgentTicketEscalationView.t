@@ -180,13 +180,13 @@ $Selenium->RunTest(
             }
 
             # Switch to "Tomorrow" if it is already past 22:00 to avoid day switch errors.
-            if ($Filter eq 'Today') {
+            if ( $Filter eq 'Today' ) {
                 my $CurrentTimestamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
                     SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
                 );
 
                 my ($Hour) = $CurrentTimestamp =~ m{(\d{2}):\d{2}:\d{2}};
-                if ( $Hour >= 22) {
+                if ( $Hour >= 22 ) {
                     $Filter = 'Tomorrow';
                 }
             }

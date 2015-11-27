@@ -256,8 +256,8 @@ sub Run {
     # now check if there are notifications for which no transport has been selected
     for my $NotificationID (@MandatoryNotificationIDs) {
         if ( $MandatoryFulfilled{$NotificationID} != 1 ) {
-            $Self->{Error}
-                = $LayoutObject->{LanguageObject}->Translate("Please make sure you've chosen at least one transport method for mandatory notifications.");
+            $Self->{Error} = $LayoutObject->{LanguageObject}->Translate(
+                "Please make sure you've chosen at least one transport method for mandatory notifications.");
             return;
         }
     }

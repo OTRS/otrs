@@ -51,7 +51,7 @@ $Selenium->RunTest(
 
         # create service for test
         my $ServiceName = 'Service' . $Helper->GetRandomID();
-        my $ServiceID  = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(
+        my $ServiceID   = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(
             Name    => $ServiceName,
             ValidID => 1,
             Comment => 'Selenium Test',

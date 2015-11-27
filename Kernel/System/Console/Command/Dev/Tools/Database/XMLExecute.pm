@@ -85,7 +85,7 @@ sub Run {
         push @SQLCollection, @SQLPost;
     }
 
-    for my $SQL ( @SQLCollection ) {
+    for my $SQL (@SQLCollection) {
         $Self->Print("$SQL\n");
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL );
         if ( !$Success ) {

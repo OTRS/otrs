@@ -40,7 +40,7 @@ $Selenium->RunTest(
         my $Language = "en";
 
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups   => ['users', 'admin'],
+            Groups   => [ 'users', 'admin' ],
             Language => $Language,
         ) || die "Did not get test user";
 
@@ -51,14 +51,14 @@ $Selenium->RunTest(
         );
 
         # add a test notification
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID                = $Helper->GetRandomID();
         my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
-        my $NotificationID = $NotificationEventObject->NotificationAdd(
-            Name    => 'NotificationTest' . $RandomID,
-            Data    => {
+        my $NotificationID          = $NotificationEventObject->NotificationAdd(
+            Name => 'NotificationTest' . $RandomID,
+            Data => {
                 Events          => ['TicketQueueUpdate'],
-                VisibleForAgent => [ '2' ],
-                Transports      => [ 'Email' ],
+                VisibleForAgent => ['2'],
+                Transports      => ['Email'],
             },
             Message => {
                 en => {
@@ -68,7 +68,7 @@ $Selenium->RunTest(
                 },
             },
             ValidID => 1,
-            UserID => 1,
+            UserID  => 1,
         );
 
         $Self->True(
@@ -92,7 +92,8 @@ $Selenium->RunTest(
         }
 
         $Self->True(
-            index( $Selenium->get_page_source(), '<span class="Mandatory">* NotificationTest' . $RandomID . '</span>' ) > -1,
+            index( $Selenium->get_page_source(), '<span class="Mandatory">* NotificationTest' . $RandomID . '</span>' )
+                > -1,
             "Notification correctly marked as mandatory in preferences."
         );
 
@@ -121,18 +122,19 @@ JAVASCRIPT
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
-            $LanguageObject->Translate("Sorry, but you can't disable all methods for notifications marked as mandatory."),
+            $LanguageObject->Translate(
+                "Sorry, but you can't disable all methods for notifications marked as mandatory."),
             'Alert message shows up correctly',
         );
 
         # now enable the checkbox and try to submit again, it should work this time
-        $Selenium->find_element("//input[\@id='Notification-" . $NotificationID  . "-Email-checkbox']")->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
         $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
 
         $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
-        $Selenium->find_element("//input[\@id='Notification-" . $NotificationID  . "-Email-checkbox']")->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),

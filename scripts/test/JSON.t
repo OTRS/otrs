@@ -82,9 +82,9 @@ my @Tests = (
         Name => 'JSON - complex structure'
     },
     {
-        Input => "Some Text with Unicode Characters that  are not allowed\x{2029} in JavaScript",
+        Input  => "Some Text with Unicode Characters that  are not allowed\x{2029} in JavaScript",
         Result => '"Some Text with Unicode Characters that\u2028 are not allowed\u2029 in JavaScript"',
-        Name => 'JSON - Unicode Line Terminators are not allowed in JavaScript',
+        Name   => 'JSON - Unicode Line Terminators are not allowed in JavaScript',
     }
 );
 

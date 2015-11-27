@@ -3024,7 +3024,6 @@ o serviço do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi 
     return %NotificationLanguages;
 }
 
-
 =item _FixNotificationTags()
 
 Fix some wrong notification tags which have been introduced while upgrading to OTRS 5.0.1.
@@ -3069,7 +3068,7 @@ sub _FixNotificationTags {
         my $NeedToReplace;
 
         # get old notification tag
-        for my $OldTag (sort keys %NotificationTagsOld2New) {
+        for my $OldTag ( sort keys %NotificationTagsOld2New ) {
 
             # get new notification tag
             my $NewTag = $NotificationTagsOld2New{$OldTag};
@@ -3094,7 +3093,7 @@ sub _FixNotificationTags {
 
         # update the database
         $DBObject->Do(
-            SQL  => 'UPDATE notification_event_message
+            SQL => 'UPDATE notification_event_message
                 SET subject = ?, text = ?
                 WHERE id = ?',
             Bind => [
