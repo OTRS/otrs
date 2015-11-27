@@ -43,7 +43,7 @@ sub new {
     );
 
     # save last used view type in preferences
-    if (!$Self->{Subaction}) {
+    if ( !$Self->{Subaction} ) {
 
         if ( !defined $Self->{ZoomExpand} && !defined $Self->{ZoomTimeline} ) {
             $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');

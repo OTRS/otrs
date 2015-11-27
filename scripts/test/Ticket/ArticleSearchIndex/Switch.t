@@ -27,7 +27,7 @@ $ConfigObject->Set(
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 $Self->True(
-    $TicketObject->isa( 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ),
+    $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::StaticDB'),
     "TicketObject loaded the correct backend",
 );
 
@@ -70,7 +70,7 @@ $Self->True(
 
 my $IndexBuilt = $TicketObject->ArticleIndexBuild(
     ArticleID => $ArticleID,
-    UserID => 1,
+    UserID    => 1,
 );
 $Self->True(
     $ArticleID,
@@ -95,6 +95,5 @@ $Self->True(
     $Delete,
     'TicketDelete()',
 );
-
 
 1;

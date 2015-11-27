@@ -83,9 +83,10 @@ sub new {
             Description => 'Do not perform ANSI terminal output coloring.',
         },
         {
-            Name        => 'allow-root',
-            Description => 'Allow root user to execute the command. This might damage your system; use at your own risk.',
-            Invisible   => 1,   # hide from usage screen
+            Name => 'allow-root',
+            Description =>
+                'Allow root user to execute the command. This might damage your system; use at your own risk.',
+            Invisible => 1,    # hide from usage screen
         },
     ];
 

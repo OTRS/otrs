@@ -40,8 +40,8 @@ my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # create test user
 my $UserLogin = $HelperObject->TestUserCreate();
-my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
-my $RandomID = $HelperObject->GetRandomID();
+my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
+my $RandomID  = $HelperObject->GetRandomID();
 
 # create test group
 my $GroupName = 'test-permission-group-' . $RandomID;
@@ -84,25 +84,25 @@ $Self->True(
 );
 
 my %Data = $GroupObject->_DBGroupUserGet(
-     Type => 'UserGroupPerm',
+    Type => 'UserGroupPerm',
 );
 
 $Self->IsDeeply(
     $Data{$UserID},
     {
-        $GroupID => [ 'ro' ],
+        $GroupID => ['ro'],
     },
     "User-Group connection found",
 );
 
 %Data = $GroupObject->_DBGroupRoleGet(
-     Type => 'RoleGroupPerm',
+    Type => 'RoleGroupPerm',
 );
 
 $Self->IsDeeply(
     $Data{$RoleID},
     {
-        $GroupID => [ 'ro' ],
+        $GroupID => ['ro'],
     },
     "Role-Group connection found",
 );
@@ -130,7 +130,7 @@ $Kernel::OM->Get('Kernel::System::DB')->Do(
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 %Data = $GroupObject->_DBGroupUserGet(
-     Type => 'UserGroupPerm',
+    Type => 'UserGroupPerm',
 );
 
 $Self->Is(
@@ -140,7 +140,7 @@ $Self->Is(
 );
 
 %Data = $GroupObject->_DBGroupRoleGet(
-     Type => 'RoleGroupPerm',
+    Type => 'RoleGroupPerm',
 );
 
 $Self->Is(
