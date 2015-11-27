@@ -234,6 +234,7 @@ sub _Fetch {
                                 . "$File, report it on http://bugs.otrs.org/)!",
                         );
                     }
+
                     # mark email to delete once it was processed
                     $IMAPObject->delete_message($Messageno);
                     undef $PostMasterObject;
