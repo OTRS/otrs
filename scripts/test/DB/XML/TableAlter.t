@@ -17,6 +17,8 @@ use Kernel::System::XML;
 my $XMLObject = Kernel::System::XML->new( %{$Self} );
 my $DBObject  = Kernel::System::DB->new( %{$Self} );
 
+my $UID;
+
 # ------------------------------------------------------------ #
 # XML test 7 - default value test (alter table)
 # ------------------------------------------------------------ #
@@ -107,7 +109,7 @@ my $Counter3 = 1;
 for my $Test ( @{$DefaultTest2Insert} ) {
 
     # create unique id
-    my $ID = int rand 30_000;
+    my $ID = $UID++;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
     my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
@@ -285,7 +287,7 @@ my $Counter4 = 1;
 for my $Test ( @{$DefaultTest2Alter1} ) {
 
     # create unique id
-    my $ID = int rand 30_000;
+    my $ID = $UID++;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
     my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
@@ -445,7 +447,7 @@ my $Counter5 = 1;
 for my $Test ( @{$DefaultTest2Alter2} ) {
 
     # create unique id
-    my $ID = int rand 30_000;
+    my $ID = $UID++;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
     my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;

@@ -130,10 +130,22 @@ creates a random ID that can be used in tests as a unique identifier.
 
 =cut
 
+# Make sure that every RandomID is only generated once in a process to
+#   ensure predictability for unit test runs.
+my %SeenRandomIDs;
+
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    return 'test' . int( rand(1000000) )
+    LOOP:
+    for ( 1 .. 1_000 ) {
+        my $RandomID = 'test' . time() . int( rand(1_000_000_000) );
+        if ( !$SeenRandomIDs{$RandomID}++ ) {
+            return $RandomID;
+        }
+    }
+
+    die "Could not generate RandomID!\n";
 }
 
 =item TestUserCreate()
