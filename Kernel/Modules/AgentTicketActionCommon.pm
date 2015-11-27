@@ -1643,6 +1643,7 @@ sub _Mask {
 
         my $ACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'NewOwner',
             Data          => \%ShownUsers,
@@ -1687,6 +1688,7 @@ sub _Mask {
 
         my $OldOwnerACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'OldOwner',
             Data          => \%OldOwnersShown,
@@ -1745,6 +1747,7 @@ sub _Mask {
 
         my $ACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'Responsible',
             Data          => \%ShownUsers,
@@ -2376,6 +2379,7 @@ sub _GetResponsible {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Responsible',
         Data          => \%ShownUsers,
@@ -2420,6 +2424,7 @@ sub _GetOwners {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'NewOwner',
         Data          => \%ShownUsers,
@@ -2454,6 +2459,7 @@ sub _GetOldOwners {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'OldOwner',
         Data          => \%UserHash,
