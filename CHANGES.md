@@ -1,3 +1,6 @@
+#6.0.0.beta1 2016-??-??
+ - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
+
 #5.0.5 2015-??-??
  - 2015-11-26 Fixed bug#[11692](http://bugs.otrs.org/show_bug.cgi?id=11692) - Typo in AdminNotificationEvent.tt (Attibutes).
  - 2015-11-26 Fixed bug#[11393](http://bugs.otrs.org/show_bug.cgi?id=11393) - ACL not hiding Process NavBar link when Type is Menu.
