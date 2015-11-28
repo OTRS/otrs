@@ -58,6 +58,30 @@ sub Run {
         return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
+    # get ACL restrictions
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
+    my $ACL = $TicketObject->TicketAcl(
+        Data           => \%PossibleActions,
+        Action         => $Self->{Action},
+        TicketID       => $Self->{TicketID},
+        ReturnType     => 'Action',
+        ReturnSubType  => '-',
+        CustomerUserID => $Self->{UserID},
+    );
+    my %AclAction = $TicketObject->TicketAclActionData();
+
+    # check if ACL restrictions exist
+    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+        my %AclActionLookup = reverse %AclAction;
+
+        # show error screen if ACL prohibits this action
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
+        }
+    }
+
     # get content
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
@@ -426,7 +450,7 @@ sub _PDFOutputTicketDynamicFields {
 
         my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-        # skip dynamic field if is not desinged for customer interface
+        # skip dynamic field if is not designed for customer interface
         my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsCustomerInterfaceCapable',
@@ -724,7 +748,7 @@ sub _PDFOutputArticles {
 
             my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-            # skip the dynamic field if is not desinged for customer interface
+            # skip the dynamic field if is not designed for customer interface
             my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsCustomerInterfaceCapable',
