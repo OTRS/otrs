@@ -36,6 +36,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check AgentPreferences screen
         for my $ID (
@@ -67,9 +68,11 @@ $Selenium->RunTest(
         # edit checked stored values
         $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserRefreshTime", 'css' )->submit();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserShowTickets", 'css' )->submit();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check edited values
         $Self->Is(
@@ -93,6 +96,7 @@ $Selenium->RunTest(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
             $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->submit();
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
             # check edited language value
             $Self->Is(
