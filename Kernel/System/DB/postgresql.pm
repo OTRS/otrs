@@ -55,6 +55,17 @@ sub LoadPreferences {
     # our results: "PostgreSQL 9.2.4", "PostgreSQL 9.1.9".
     $Self->{'DB::Version'} = "SELECT SUBSTRING(VERSION(), 'PostgreSQL [0-9\.]*')";
 
+    $Self->{'DB::ListTables'} = <<'EOF',
+SELECT
+    table_name
+FROM
+    information_schema.tables
+WHERE
+    table_type = 'BASE TABLE'
+    AND table_schema NOT IN ('pg_catalog', 'information_schema')
+ORDER BY table_name
+EOF
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
 

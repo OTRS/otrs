@@ -55,6 +55,8 @@ sub LoadPreferences {
     $Self->{'DB::Version'}
         = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
 
+    $Self->{'DB::ListTables'} = 'SHOW TABLES',
+
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
     # cause charset problems

@@ -758,6 +758,45 @@ sub FetchrowArray {
     return @Row;
 }
 
+=item ListTables()
+
+list all tables in the OTRS database.
+
+    my @Tables = $DBObject->ListTables();
+
+On databases like Oracle it could happen that too many tables are listed (all belonging
+to the current user), if the user also has permissions for other databases. So this list
+should only be used for verification of the presence of expected OTRS tables.
+
+=cut
+
+sub ListTables {
+    my $Self = shift;
+
+    my $SQL = $Self->GetDatabaseFunction('ListTables');
+
+    if (!$SQL) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'Error',
+            Message  => "Database driver $Self->{'DB::Type'} does not support ListTables.",
+        );
+        return;
+    }
+
+    my $Success = $Self->Prepare(
+        SQL => $SQL,
+    );
+
+    return if !$Success;
+
+    my @Tables;
+    while ( my @Row = $Self->FetchrowArray() ) {
+        push @Tables, lc $Row[0];
+    }
+
+    return @Tables;
+}
+
 =item GetColumnNames()
 
 to retrieve the column names of a database statement
