@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -256,7 +257,7 @@ sub Run {
     # now check if there are notifications for which no transport has been selected
     for my $NotificationID (@MandatoryNotificationIDs) {
         if ( $MandatoryFulfilled{$NotificationID} != 1 ) {
-            $Self->{Error} = $LayoutObject->{LanguageObject}->Translate(
+            $Self->{Error} = Translatable(
                 "Please make sure you've chosen at least one transport method for mandatory notifications.");
             return;
         }
@@ -275,7 +276,7 @@ sub Run {
         );
     }
 
-    $Self->{Message} = $LayoutObject->{LanguageObject}->Translate('Preferences updated successfully!');
+    $Self->{Message} = Translatable('Preferences updated successfully!');
 
     return 1;
 }

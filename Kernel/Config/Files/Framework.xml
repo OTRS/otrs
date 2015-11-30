@@ -3569,9 +3569,9 @@ You can log in via the following URL:
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Notification Settings</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Notification Settings</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4377,8 +4377,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>

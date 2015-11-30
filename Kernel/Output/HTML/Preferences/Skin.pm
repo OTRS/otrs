@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Preferences::Skin;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::Config',
@@ -99,7 +101,7 @@ sub Run {
             }
         }
     }
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 
