@@ -89,10 +89,10 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple.Collapsed").length;'
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # open collapsed widgets
+        # open collapsed widgets, if necessary
         $Selenium->execute_script(
             "\$('.WidgetSimple.Collapsed .WidgetAction > a').trigger('click');"
         );
@@ -170,7 +170,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple.Expanded").length;'
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
         # check for subject pre-loaded value
@@ -207,7 +207,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple.Collapsed").length;'
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
         my $PopupWindowHeight = $Selenium->execute_script(
@@ -245,7 +245,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple.Collapsed").length;'
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
         $PopupWindowHeight = $Selenium->execute_script(
