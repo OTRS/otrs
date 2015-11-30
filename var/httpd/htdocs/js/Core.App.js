@@ -85,7 +85,8 @@ Core.App = (function (TargetNS) {
      *      Unbinds a crossbrowser compatible unload event to the window object
      */
     TargetNS.UnbindWindowUnloadEvent = function (Namespace) {
-        $(window).off('unload.' + Namespace + ', pagehide.' + Namespace);
+        $(window).off('unload.' + Namespace);
+        $(window).off('pagehide.' + Namespace);
     };
 
     /**

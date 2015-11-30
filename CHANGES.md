@@ -1,4 +1,5 @@
 #5.0.5 2015-??-??
+ - 2015-11-30 Fixed bug#[11700](http://bugs.otrs.org/show_bug.cgi?id=11700) - IE is closing popup directly after opening it.
  - 2015-11-30 Fixed bug#[11686](http://bugs.otrs.org/show_bug.cgi?id=11686) - Signature Management does not keep an inserted image when editing the source HTML.
  - 2015-11-27 Fixed bug#[9074](http://bugs.otrs.org/show_bug.cgi?id=9074) - No owner restriction via ACL using Frontend -> Action.
  - 2015-11-27 Fixed bug#[11694](http://bugs.otrs.org/show_bug.cgi?id=11694) - Various errors in GenericTicketConnectorSOAP.wsdl file, thanks to Cyrille Bollu.
