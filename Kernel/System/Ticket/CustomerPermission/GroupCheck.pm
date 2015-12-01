@@ -36,7 +36,7 @@ sub Run {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -48,8 +48,13 @@ sub Run {
         DynamicFields => 0,
     );
 
+    return if !%Ticket;
+    return if !$Ticket{QueueID};
+
     # get ticket group
-    my $GroupID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+    my $GroupID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID(
+        QueueID => $Ticket{QueueID},
+    );
 
     # get user groups
     my %GroupIDs = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(

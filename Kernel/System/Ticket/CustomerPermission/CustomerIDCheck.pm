@@ -36,7 +36,7 @@ sub Run {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -52,14 +52,21 @@ sub Run {
         DynamicFields => 0,
     );
 
+    return if !%Ticket;
+    return if !$Ticket{CustomerID};
+
     # get customer user object
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # check customer id
-    my %CustomerData = $CustomerUserObject->CustomerUserDataGet( User => $Param{UserID} );
+    my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
+        User => $Param{UserID},
+    );
 
     # get customer ids
-    my @CustomerIDs = $CustomerUserObject->CustomerIDs( User => $Param{UserID} );
+    my @CustomerIDs = $CustomerUserObject->CustomerIDs(
+        User => $Param{UserID},
+    );
 
     # add own customer id
     if ( $CustomerData{UserCustomerID} ) {
@@ -69,8 +76,10 @@ sub Run {
     # check customer ids, return access if customer id is the same
     CUSTOMERID:
     for my $CustomerID (@CustomerIDs) {
-        next CUSTOMERID if !$Ticket{CustomerID};
-        return 1 if ( lc $Ticket{CustomerID} eq lc $CustomerID );
+
+        next CUSTOMERID if !$CustomerID;
+
+        return 1 if lc $Ticket{CustomerID} eq lc $CustomerID;
     }
 
     # return no access
