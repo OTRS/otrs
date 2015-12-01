@@ -6700,6 +6700,18 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::OwnerCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the agent responsible of a ticket.</Description>
         <Group>Ticket</Group>
@@ -6709,6 +6721,18 @@
                 <Item Key="Module">Kernel::System::Ticket::Permission::ResponsibleCheck</Item>
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::ResponsibleCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6753,9 +6777,11 @@
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <Array>
-                <Item>Postmaster</Item>
-            </Array>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
@@ -6775,9 +6801,11 @@
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <Array>
-                <Item>Postmaster</Item>
-            </Array>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
