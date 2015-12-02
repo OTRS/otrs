@@ -2463,6 +2463,9 @@ sub _RenderArticle {
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ArticleBody'} ) {
         $Data{BodyServerError} = 'ServerError';
     }
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
+        $Data{TimeUnitsServerError} = 'ServerError';
+    }
 
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Article',
@@ -2567,7 +2570,7 @@ sub _RenderArticle {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsInvalid} = 'ServerError';
+        $Data{TimeUnitsServerError} = 'ServerError';
     }
 
     # show time units
@@ -4119,6 +4122,7 @@ sub _StoreActivityDialog {
         my %CheckedFields;
         CURRENTFIELD:
         for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
+
             if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
                 my $DynamicFieldName = $1;
 
@@ -4275,6 +4279,19 @@ sub _StoreActivityDialog {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
+
+                if (
+                    $CurrentField eq 'Article'
+                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits} == 2
+                    )
+                {
+                    if ( !$Param{GetParam}->{TimeUnits} ) {
+
+                        # set error for the timeunits (if any)
+                        $Error{'TimeUnits'} = 1;
+                    }
+                }
+
                 elsif ($Result) {
                     $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
                 }
