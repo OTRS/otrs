@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-12-02 Fixed bug#[11709](http://bugs.otrs.org/show_bug.cgi?id=11709) - In move notification <OTRS_CUSTOMER_BODY> is replaced with ticket comment, not last customer body, thanks to S7.
  - 2015-11-30 Fixed bug#[11700](http://bugs.otrs.org/show_bug.cgi?id=11700) - IE is closing popup directly after opening it.
  - 2015-11-30 Fixed bug#[11659](http://bugs.otrs.org/show_bug.cgi?id=11659) - Links in admin interface are clickable through overlays.
  - 2015-11-27 Fixed bug#[9074](http://bugs.otrs.org/show_bug.cgi?id=9074) - No owner restriction via ACL using Frontend -> Action.
