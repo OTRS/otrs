@@ -182,7 +182,7 @@ $('.NotificationDelete').bind('click', function (Event) {
 
                         <label for="VisibleForAgent">[% Translate("Show in agent preferences") | html %]: </label>
                         <div class="Field">
-                            <input type="checkbox" name="VisibleForAgent" id="VisibleForAgent" value="1" [% Data.VisibleForAgentChecked %] />
+                            [% Data.VisibleForAgentStrg %]
                         </div>
                         <div class="Clear"></div>
 

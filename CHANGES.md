@@ -1,17 +1,23 @@
 #5.0.4 2015-??-??
- - 2015-11-23 Fixed bug#[11678](http://bugs.otrs.org/show_bug.cgi?id=11678) - Upgrading script dies for RPM upgrades with modules installed.
+ - 2015-11-24 Fixed bug#[11654](http://bugs.otrs.org/show_bug.cgi?id=11654) - Internal server error with limit 0 in out-of-office-dashboard.
+ - 2015-11-24 Fixed bug where some special unicode characters (line terminators) were not correctly encoded to JSON.
+ - 2015-11-24 Fixed bug#[11472](http://bugs.otrs.org/show_bug.cgi?id=11472) - Process Management: Activity Dialog configuration for Article field is default set to "Do not show field".
+ - 2015-11-24 Fixed bug#[10931](http://bugs.otrs.org/show_bug.cgi?id=10931) - Reply to note does not use the origin note subject, thanks to S7.
+ - 2015-11-23 Added the possibility to set notifications as mandatory. Agents will be forced to chose at least one method for such notifications on their preferences.
  - 2015-11-23 Fixed bug#[11677](http://bugs.otrs.org/show_bug.cgi?id=11677) - Stale entries in article_search table prevent ticket from being deleted.
  - 2015-11-20 Fixed bug#[11675](http://bugs.otrs.org/show_bug.cgi?id=11675) - A wrong cron schedule such as 2 2 31 2 * (Feb 31th) causes daemon to hang.
  - 2015-11-20 Fixed bug#[11647](http://bugs.otrs.org/show_bug.cgi?id=11647) - Ticket Notifications Broke when RichText is turned off.
  - 2015-11-20 Fixed bug#[10938](http://bugs.otrs.org/show_bug.cgi?id=10938) - Missing translation 'Linked As' in OTRS Interface.
  - 2015-11-20 Fixed bug#[11607](http://bugs.otrs.org/show_bug.cgi?id=11607) - charset string in body gets replaced.
  - 2015-11-20 Add possibility to XMLExecute command to only run pre or post SQL, thanks to Elias Probst.
+ - 2015-11-19 Fixed bug#[8055](http://bugs.otrs.org/show_bug.cgi?id=8055) - Disable Add/Edit customers when usign LDAP.
  - 2015-11-19 Fixed bug#[11168](http://bugs.otrs.org/show_bug.cgi?id=11168) - Lost condition in AgentTicketSearch, thanks to Norihiro Tanaka.
  - 2015-11-18 Don't show warning about running otrs.Console.pl --allow-root as root as this changes the output stream.
  - 2015-11-17 Fixed bug#[7987](http://bugs.otrs.org/show_bug.cgi?id=7987) - Ticket dashboard modules not working with unlocked tickets attributes, thanks to S7.
  - 2015-11-16 Fixed bug#[11205](http://bugs.otrs.org/show_bug.cgi?id=11205) - Popup window height does not check for actual screen height.
  - 2015-11-16 Fixed bug#[11651](http://bugs.otrs.org/show_bug.cgi?id=11651) - All customers shown as invalid if using an LDAP backend.
  - 2015-11-13 Fixed bug#[11351](http://bugs.otrs.org/show_bug.cgi?id=11351) - S/Mime signed mails always show "Signature verified before!".
+ - 2015-11-06 Fixed bug#[11348](http://bugs.otrs.org/show_bug.cgi?id=11348) - Error handling in AgentTicketForward.
  - 2015-11-12 Fixed bug#[11304](http://bugs.otrs.org/show_bug.cgi?id=11304) - <OTRS_CUSTOMER_Subject> in "move"-notification is replaced with ticket-subject, not with article-subject, thanks to S7.
  - 2015-11-12 Added dutch stopwords, thanks to Thomas Wouters.
  - 2015-11-11 Added translation strings form Kernel/Output/HTML/Templates/Standard sub-directories.

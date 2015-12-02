@@ -463,7 +463,7 @@ sub _ShowEdit {
         Name        => "ConditionLinking[_INDEX_]",
         Sort        => 'AlphanumericKey',
         Translation => 1,
-        Class       => 'W50pc',
+        Class       => 'W20pc Modernize',
     );
 
     $Param{FreshConditionFieldType} = $LayoutObject->BuildSelection(
@@ -481,7 +481,7 @@ sub _ShowEdit {
         Name         => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
         Sort         => 'AlphanumericKey',
         PossibleNone => 1,
-        Class        => 'Validate_Required',
+        Class        => 'Validate_Required Modernize',
         Translation  => 1,
     );
 
@@ -493,7 +493,7 @@ sub _ShowEdit {
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
             Translation => 1,
-            Class       => 'W50pc',
+            Class       => 'W20pc Modernize',
             SelectedID  => $TransitionData->{Config}->{ConditionLinking},
         );
 
@@ -508,7 +508,7 @@ sub _ShowEdit {
                 Name        => "ConditionLinking[$Condition]",
                 Sort        => 'AlphanumericKey',
                 Translation => 1,
-                Class       => 'W50pc',
+                Class       => 'W20pc Modernize',
                 SelectedID  => $ConditionData{Type},
             );
 
@@ -539,7 +539,7 @@ sub _ShowEdit {
                     Sort         => 'AlphanumericKey',
                     Translation  => 1,
                     PossibleNone => 1,
-                    Class        => 'Validate_Required',
+                    Class        => 'Validate_Required Modernize',
                     SelectedID   => $FieldData{Type},
                 );
 
@@ -579,7 +579,7 @@ sub _ShowEdit {
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
             Translation => 1,
-            Class       => 'W50pc',
+            Class       => 'W20pc Modernize',
         );
 
         $Param{ConditionLinking} = $LayoutObject->BuildSelection(
@@ -587,7 +587,7 @@ sub _ShowEdit {
             Name        => 'ConditionLinking[_INDEX_]',
             Sort        => 'AlphanumericKey',
             Translation => 1,
-            Class       => 'W50pc',
+            Class       => 'W20pc Modernize',
         );
 
         $Param{ConditionFieldType} = $LayoutObject->BuildSelection(
@@ -603,6 +603,7 @@ sub _ShowEdit {
             },
             Name        => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
             Sort        => 'AlphanumericKey',
+            Class       => 'Modernize',
             Translation => 1,
         );
 
