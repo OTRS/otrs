@@ -2625,7 +2625,7 @@ sub _RenderArticle {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsInvalid} = 'ServerError';
+        $Data{TimeUnitsServerError} = 'ServerError';
     }
 
     # get config object
@@ -4414,6 +4414,19 @@ sub _StoreActivityDialog {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
+
+                if (
+                    $CurrentField eq 'Article'
+                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits} == 2
+                    )
+                {
+                    if ( !$Param{GetParam}->{TimeUnits} ) {
+
+                        # set error for the timeunits (if any)
+                        $Error{'TimeUnits'} = 1;
+                    }
+                }
+
                 elsif ($Result) {
                     $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
                 }
