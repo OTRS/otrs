@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Checks if OTRS Business Solution™ is available for current system.');
+    $Self->Description('Checks if OTRS Business Solution™ is available for the current system.');
 
     return;
 }
