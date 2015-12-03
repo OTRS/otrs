@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::Email;
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -375,7 +376,7 @@ sub Run {
             SystemTime => ( $TimeObject->SystemTime() + 20 ),
         );
 
-        # add a asychronous executor scheduler task to count the concurrent user
+        # add a asynchronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
             ExecutionTime            => $ExecutionTime,
             Type                     => 'AsynchronousExecutor',
@@ -1071,52 +1072,67 @@ sub Run {
             return;
         }
 
-        # module permisson check
+        # module permission check for action
         if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
             $Param{AccessRo} = 1;
             $Param{AccessRw} = 1;
         }
         else {
-            PERMISSION:
-            for my $Permission (qw(GroupRo Group)) {
-                my $AccessOk = 0;
-                my $Group    = $ModuleReg->{$Permission};
-                my $Key      = "UserIs$Permission";
-                next PERMISSION if !$Group;
-                if ( ref $Group eq 'ARRAY' ) {
-                    GROUP:
-                    for ( @{$Group} ) {
-                        next GROUP if !$_;
-                        next GROUP if !$UserData{ $Key . "[$_]" };
-                        next GROUP if $UserData{ $Key . "[$_]" } ne 'Yes';
-                        $AccessOk = 1;
-                        last GROUP;
-                    }
-                }
-                else {
-                    if ( $UserData{ $Key . "[$Group]" } && $UserData{ $Key . "[$Group]" } eq 'Yes' )
-                    {
-                        $AccessOk = 1;
-                    }
-                }
-                if ( $Permission eq 'Group' && $AccessOk ) {
-                    $Param{AccessRo} = 1;
-                    $Param{AccessRw} = 1;
-                }
-                elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
-                    $Param{AccessRo} = 1;
-                }
-            }
+
+            ( $Param{AccessRo}, $Param{AccessRw} ) = $Self->_CheckModulePermission(
+                ModuleReg => $ModuleReg,
+                %UserData,
+            );
+
             if ( !$Param{AccessRo} ) {
 
                 # new layout object
                 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => 'No Permission to use this frontend module!'
+                    Message  => 'No Permission to use this frontend action module!'
                 );
                 $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
                 return;
+            }
+
+        }
+
+        # module permission check for submenu item
+        if ( IsArrayRefWithData( $ModuleReg->{NavBar} ) ) {
+            LINKCHECK:
+            for my $ModuleReg ( @{ $ModuleReg->{NavBar} } ) {
+                next LINKCHECK if $Param{RequestedURL} !~ m/Subaction/i;
+                if ( $ModuleReg->{Link} =~ m/Subaction=/i && $ModuleReg->{Link} !~ m/$Param{Subaction}/i ) {
+                    next LINKCHECK;
+                }
+                $Param{AccessRo} = 0;
+                $Param{AccessRw} = 0;
+
+                # module permission check for submenu item
+                if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
+                    $Param{AccessRo} = 1;
+                    $Param{AccessRw} = 1;
+                }
+                else {
+
+                    ( $Param{AccessRo}, $Param{AccessRw} ) = $Self->_CheckModulePermission(
+                        ModuleReg => $ModuleReg,
+                        %UserData,
+                    );
+
+                    if ( !$Param{AccessRo} ) {
+
+                        # new layout object
+                        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  => 'No Permission to use this frontend subaction module!'
+                        );
+                        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+                        return;
+                    }
+                }
             }
         }
 
@@ -1252,6 +1268,64 @@ sub Run {
     );
     return;
 }
+
+=begin Internal:
+
+=item _CheckModulePermission()
+
+module permission check
+
+    ($AccessRo, $AccessRw = $AutoResponseObject->_CheckModulePermission(
+        ModuleReg => $ModuleReg,
+        %UserData,
+    );
+
+=cut
+
+sub _CheckModulePermission {
+    my ( $Self, %Param ) = @_;
+
+    my $AccessRo = 0;
+    my $AccessRw = 0;
+
+    PERMISSION:
+    for my $Permission (qw(GroupRo Group)) {
+        my $AccessOk = 0;
+        my $Group    = $Param{ModuleReg}->{$Permission};
+
+        my $Key = "UserIs$Permission";
+        next PERMISSION if !$Group;
+        if ( IsArrayRefWithData($Group) ) {
+            GROUP:
+            for my $Item ( @{$Group} ) {
+                next GROUP if !$Item;
+                next GROUP if !$Param{ $Key . "[$Item]" };
+                next GROUP if $Param{ $Key . "[$Item]" } ne 'Yes';
+                $AccessOk = 1;
+                last GROUP;
+            }
+        }
+        else {
+            if ( $Param{ $Key . "[$Group]" } && $Param{ $Key . "[$Group]" } eq 'Yes' )
+            {
+                $AccessOk = 1;
+            }
+        }
+        if ( $Permission eq 'Group' && $AccessOk ) {
+            $AccessRo = 1;
+            $AccessRw = 1;
+        }
+        elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
+            $AccessRo = 1;
+        }
+    }
+
+    return ( $AccessRo, $AccessRw );
+}
+
+=end Internal:
+
+=cut
 
 sub DESTROY {
     my $Self = shift;
