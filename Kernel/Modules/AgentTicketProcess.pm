@@ -2463,9 +2463,6 @@ sub _RenderArticle {
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ArticleBody'} ) {
         $Data{BodyServerError} = 'ServerError';
     }
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsServerError} = 'ServerError';
-    }
 
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Article',
@@ -2570,7 +2567,7 @@ sub _RenderArticle {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsServerError} = 'ServerError';
+        $Param{TimeUnitsInvalid} = 'ServerError';
     }
 
     # show time units
