@@ -1101,7 +1101,7 @@ sub _Replace {
 
     # replace config options
     my $Tag = $Start . 'OTRS_CONFIG_';
-    $Param{Text} =~ s{$Tag(.+?)$End}{$ConfigObject->Get($1)}egx;
+    $Param{Text} =~ s{$Tag(.+?)$End}{$ConfigObject->Get($1) // ''}egx;
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
