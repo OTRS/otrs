@@ -9,10 +9,10 @@
 <div id="MainBox">
     <div class="Content">
         <h2>
-            [% Translate("Error") | html %]: [% Data.Message | html %]
+            [% Translate("Error") | html %]: [% Translate(Data.Message) | html %]
         </h2>
         <p>
-            [% Translate("Comment") | html %]: [% Data.Comment | html %]
+            [% Translate("Comment") | html %]: [% Translate(Data.Message) | html %]
         </p>
         <p>
             [% Translate("Traceback") | html %]:

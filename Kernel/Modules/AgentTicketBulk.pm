@@ -11,6 +11,8 @@ package Kernel::Modules::AgentTicketBulk;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -42,8 +44,8 @@ sub Run {
         # check needed stuff
         if ( !@TicketIDs ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Can\'t lock Tickets, no TicketIDs are given!',
-                Comment => 'Please contact the admin.',
+                Message => Translatable('Can\'t lock Tickets, no TicketIDs are given!'),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 
@@ -76,7 +78,7 @@ sub Run {
 
         if ( $Message ne '' ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Ticket ($Message) is not unlocked!",
+                Message => $LayoutObject->{LanguageObject}->Translate( "Ticket (%s) is not unlocked!", $Message ),
             );
         }
 
@@ -92,7 +94,7 @@ sub Run {
     # check if bulk feature is enabled
     if ( !$ConfigObject->Get('Ticket::Frontend::BulkFeature') ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Bulk feature is not enabled!',
+            Message => Translatable('Bulk feature is not enabled!'),
         );
     }
 
@@ -132,15 +134,15 @@ sub Run {
     if ( !@ValidTicketIDs ) {
         if ( $Config->{RequiredLock} ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'No selectable TicketID is given!',
+                Message => Translatable('No selectable TicketID is given!'),
                 Comment =>
-                    'You either selected no ticket or only tickets which are locked by other agents',
+                    Translatable('You either selected no ticket or only tickets which are locked by other agents'),
             );
         }
         else {
             return $LayoutObject->ErrorScreen(
-                Message => 'No TicketID is given!',
-                Comment => 'You need to select at least one ticket',
+                Message => Translatable('No TicketID is given!'),
+                Comment => Translatable('You need to select at least one ticket'),
             );
         }
     }
