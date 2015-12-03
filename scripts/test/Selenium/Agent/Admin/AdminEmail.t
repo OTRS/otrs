@@ -49,7 +49,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminEmail");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminEmail");
 
         # check page
         for my $ID (
@@ -98,7 +98,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#UserIDs').val('$UserID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
-        $Selenium->find_element( "#Subject",  'css' )->submit();
+        $Selenium->find_element( "#Subject",  'css' )->VerifiedSubmit();
 
         # check if test admin notification is success
         my $LanguageObject = Kernel::Language->new(
