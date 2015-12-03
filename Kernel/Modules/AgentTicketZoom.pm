@@ -16,6 +16,7 @@ our $ObjectManagerDisabled = 1;
 use POSIX qw/ceil/;
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,43 +131,43 @@ sub new {
     # this is a mapping of history types which is being used
     # for the timeline view and its event type filter
     $Self->{HistoryTypeMapping} = {
-        NewTicket                       => 'Ticket Created',
-        AddNote                         => 'Note Added',
-        AddNoteCustomer                 => 'Note Added (Customer)',
-        EmailAgent                      => 'Outgoing Email',
-        EmailAgentInternal              => 'Outgoing Email (internal)',
-        EmailCustomer                   => 'Incoming Customer Email',
-        TicketDynamicFieldUpdate        => 'Dynamic Field Updated',
-        PhoneCallAgent                  => 'Outgoing Phone Call',
-        PhoneCallCustomer               => 'Incoming Phone Call',
-        SendAnswer                      => 'Outgoing Answer',
-        ResponsibleUpdate               => 'New Responsible',
-        OwnerUpdate                     => 'New Owner',
-        SLAUpdate                       => 'SLA Updated',
-        ServiceUpdate                   => 'Service Updated',
-        CustomerUpdate                  => 'Customer Updated',
-        StateUpdate                     => 'State Updated',
-        FollowUp                        => 'Incoming Follow-Up',
-        EscalationUpdateTimeStop        => 'Escalation Update Time Stopped',
-        EscalationSolutionTimeStop      => 'Escalation Solution Time Stopped',
-        EscalationFirstResponseTimeStop => 'Escalation First Response Time Stopped',
-        EscalationResponseTimeStop      => 'Escalation Response Time Stopped',
-        TicketLinkAdd                   => 'Link Added',
-        TicketLinkDelete                => 'Link Deleted',
-        Merged                          => 'Ticket Merged',
-        SetPendingTime                  => 'Pending Time Set',
-        Lock                            => 'Ticket Locked',
-        Unlock                          => 'Ticket Unlocked',
-        Move                            => 'Queue Updated',
-        PriorityUpdate                  => 'Priority Updated',
-        TitleUpdate                     => 'Title Updated',
-        TypeUpdate                      => 'Type Updated',
-        WebRequestCustomer              => 'Incoming Web Request',
-        SendAutoFollowUp                => 'Automatic Follow-Up Sent',
-        SendAutoReply                   => 'Automatic Reply Sent',
-        TimeAccounting                  => 'Time Accounted',
-        ChatExternal                    => 'External Chat',
-        ChatInternal                    => 'Internal Chat',
+        NewTicket                       => Translatable('Ticket Created'),
+        AddNote                         => Translatable('Note Added'),
+        AddNoteCustomer                 => Translatable('Note Added (Customer)'),
+        EmailAgent                      => Translatable('Outgoing Email'),
+        EmailAgentInternal              => Translatable('Outgoing Email (internal)'),
+        EmailCustomer                   => Translatable('Incoming Customer Email'),
+        TicketDynamicFieldUpdate        => Translatable('Dynamic Field Updated'),
+        PhoneCallAgent                  => Translatable('Outgoing Phone Call'),
+        PhoneCallCustomer               => Translatable('Incoming Phone Call'),
+        SendAnswer                      => Translatable('Outgoing Answer'),
+        ResponsibleUpdate               => Translatable('New Responsible'),
+        OwnerUpdate                     => Translatable('New Owner'),
+        SLAUpdate                       => Translatable('SLA Updated'),
+        ServiceUpdate                   => Translatable('Service Updated'),
+        CustomerUpdate                  => Translatable('Customer Updated'),
+        StateUpdate                     => Translatable('State Updated'),
+        FollowUp                        => Translatable('Incoming Follow-Up'),
+        EscalationUpdateTimeStop        => Translatable('Escalation Update Time Stopped'),
+        EscalationSolutionTimeStop      => Translatable('Escalation Solution Time Stopped'),
+        EscalationFirstResponseTimeStop => Translatable('Escalation First Response Time Stopped'),
+        EscalationResponseTimeStop      => Translatable('Escalation Response Time Stopped'),
+        TicketLinkAdd                   => Translatable('Link Added'),
+        TicketLinkDelete                => Translatable('Link Deleted'),
+        Merged                          => Translatable('Ticket Merged'),
+        SetPendingTime                  => Translatable('Pending Time Set'),
+        Lock                            => Translatable('Ticket Locked'),
+        Unlock                          => Translatable('Ticket Unlocked'),
+        Move                            => Translatable('Queue Updated'),
+        PriorityUpdate                  => Translatable('Priority Updated'),
+        TitleUpdate                     => Translatable('Title Updated'),
+        TypeUpdate                      => Translatable('Type Updated'),
+        WebRequestCustomer              => Translatable('Incoming Web Request'),
+        SendAutoFollowUp                => Translatable('Automatic Follow-Up Sent'),
+        SendAutoReply                   => Translatable('Automatic Reply Sent'),
+        TimeAccounting                  => Translatable('Time Accounted'),
+        ChatExternal                    => Translatable('External Chat'),
+        ChatInternal                    => Translatable('Internal Chat'),
     };
 
     # Add custom files to the zoom's frontend module registration on the fly
@@ -3267,7 +3268,7 @@ sub _ArticleMenu {
 
                     push @MenuItems, {
                         ItemType    => 'Link',
-                        Description => 'Forward article via mail',
+                        Description => Translatable('Forward article via mail'),
                         Name        => 'Forward',
                         Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
@@ -3314,7 +3315,7 @@ sub _ArticleMenu {
 
                 push @MenuItems, {
                     ItemType    => 'Link',
-                    Description => 'Bounce Article to a different mail address',
+                    Description => Translatable('Bounce Article to a different mail address'),
                     Name        => 'Bounce',
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
@@ -3334,7 +3335,7 @@ sub _ArticleMenu {
 
         push @MenuItems, {
             ItemType    => 'Link',
-            Description => 'Split this article',
+            Description => Translatable('Split this article'),
             Name        => 'Split',
             Link =>
                 "Action=AgentTicketPhone;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};LinkTicketID=$Ticket{TicketID}"
@@ -3357,7 +3358,7 @@ sub _ArticleMenu {
 
             push @MenuItems, {
                 ItemType    => 'Link',
-                Description => 'Print this article',
+                Description => Translatable('Print this article'),
                 Name        => 'Print',
                 Class       => 'AsPopup PopupType_TicketAction',
                 Link =>
@@ -3384,7 +3385,7 @@ sub _ArticleMenu {
 
             push @MenuItems, {
                 ItemType    => 'Link',
-                Description => 'View the source for this Article',
+                Description => Translatable('View the source for this Article'),
                 Name        => 'Plain Format',
                 Class       => 'AsPopup PopupType_TicketAction',
                 Link =>
@@ -3413,7 +3414,7 @@ sub _ArticleMenu {
 
         my $Link
             = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}";
-        my $Description = 'Mark';
+        my $Description = Translatable('Mark');
         if ($ArticleIsImportant) {
             $Description = 'Unmark';
         }
@@ -3436,7 +3437,7 @@ sub _ArticleMenu {
     {
 
         my $Link        = "Action=AgentTicketNote;TicketID=$Ticket{TicketID};ReplyToArticle=$Article{ArticleID}";
-        my $Description = 'Reply to note';
+        my $Description = Translatable('Reply to note');
 
         # set important menu item
         push @MenuItems, {

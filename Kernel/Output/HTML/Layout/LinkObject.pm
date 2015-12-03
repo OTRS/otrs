@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::LinkObject;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -337,7 +338,7 @@ sub LinkObjectTableCreateComplex {
             $LayoutObject->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
-                    Name        => 'Bulk',
+                    Name        => Translatable('Bulk'),
                     TableNumber => $BlockCounter,
                 },
             );
@@ -361,7 +362,7 @@ sub LinkObjectTableCreateComplex {
             $LayoutObject->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
-                    Name        => 'Bulk',
+                    Name        => Translatable('Bulk'),
                     TableNumber => $BlockCounter,
                 },
             );

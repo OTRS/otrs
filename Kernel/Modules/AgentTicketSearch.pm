@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -313,7 +314,7 @@ sub Run {
 
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
-            $Self->{Profile} = 'last-search';
+            $Self->{Profile} = Translatable('last-search');
         }
 
         # save search profile (under last-search or real profile name)

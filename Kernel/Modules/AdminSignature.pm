@@ -186,7 +186,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Signature added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Signature added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSignature',
                     Data         => \%Param,
@@ -199,7 +199,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

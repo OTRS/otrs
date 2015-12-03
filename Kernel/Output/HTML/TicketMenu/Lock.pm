@@ -11,6 +11,8 @@ package Kernel::Output::HTML::TicketMenu::Lock;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::Config',
@@ -126,8 +128,8 @@ sub Run {
             %{ $Param{Config} },
             %{ $Param{Ticket} },
             %Param,
-            Name        => 'Unlock',
-            Description => 'Unlock to give it back to the queue',
+            Name        => Translatable('Unlock'),
+            Description => Translatable('Unlock to give it back to the queue'),
             Link =>
                 'Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
         };
@@ -138,8 +140,8 @@ sub Run {
         %{ $Param{Config} },
         %{ $Param{Ticket} },
         %Param,
-        Name        => 'Lock',
-        Description => 'Lock it to work on it',
+        Name        => Translatable('Lock'),
+        Description => Translatable('Lock it to work on it'),
         Link =>
             'Action=AgentTicketLock;Subaction=Lock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
     };
