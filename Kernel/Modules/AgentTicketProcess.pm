@@ -2625,7 +2625,7 @@ sub _RenderArticle {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsServerError} = 'ServerError';
+        $Param{TimeUnitsInvalid} = 'ServerError';
     }
 
     # get config object
