@@ -2625,7 +2625,7 @@ sub _RenderArticle {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
-        $Data{TimeUnitsInvalid} = 'ServerError';
+        $Param{TimeUnitsInvalid} = 'ServerError';
     }
 
     # get config object
@@ -2637,7 +2637,6 @@ sub _RenderArticle {
         && $Param{ActivityDialogField}->{Config}->{TimeUnits}
         )
     {
-
         if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
 
             $LayoutObject->Block(
