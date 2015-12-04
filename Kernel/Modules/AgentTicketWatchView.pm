@@ -14,6 +14,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -459,7 +460,7 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName  => 'My Watched Tickets',
+        TitleName  => Translatable('My Watched Tickets'),
         TitleValue => $Filters{$Filter}->{Name},
         Bulk       => 1,
 

@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -45,8 +46,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -135,9 +136,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -694,7 +694,7 @@ sub Run {
                     return $LayoutObject->ErrorScreen(
                         Message =>
                             "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
@@ -831,7 +831,7 @@ sub Run {
         # error page
         if ( !$ArticleTypeID ) {
             return $LayoutObject->ErrorScreen(
-                Comment => 'Can not determine the ArticleType, Please contact the admin.',
+                Comment => Translatable('Can not determine the ArticleType, Please contact the admin.'),
             );
         }
 
@@ -1344,7 +1344,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $LayoutObject->Notify(
-                        Info => "Customer user automatically added in Cc.",
+                        Info => Translatable("Customer user automatically added in Cc."),
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};

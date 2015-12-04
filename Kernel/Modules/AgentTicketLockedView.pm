@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -170,7 +171,7 @@ sub Run {
 
     my %Filters = (
         All => {
-            Name   => 'All',
+            Name   => Translatable('All'),
             Prio   => 1000,
             Search => {
                 Locks      => [ 'lock', 'tmp_lock' ],
@@ -182,7 +183,7 @@ sub Run {
             },
         },
         New => {
-            Name   => 'New Article',
+            Name   => Translatable('New Article'),
             Prio   => 1001,
             Search => {
                 Locks         => [ 'lock', 'tmp_lock' ],
@@ -198,7 +199,7 @@ sub Run {
             },
         },
         Reminder => {
-            Name   => 'Pending',
+            Name   => Translatable('Pending'),
             Prio   => 1002,
             Search => {
                 Locks      => [ 'lock',             'tmp_lock' ],
@@ -211,7 +212,7 @@ sub Run {
             },
         },
         ReminderReached => {
-            Name   => 'Reminder Reached',
+            Name   => Translatable('Reminder Reached'),
             Prio   => 1003,
             Search => {
                 Locks                         => [ 'lock', 'tmp_lock' ],
@@ -385,7 +386,7 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName  => 'My Locked Tickets',
+        TitleName  => Translatable('My Locked Tickets'),
         TitleValue => $Filters{$Filter}->{Name},
         Bulk       => 1,
 

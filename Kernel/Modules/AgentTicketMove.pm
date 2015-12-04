@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -59,7 +60,7 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message    => "You need move permissions!",
+            Message    => Translatable("You need move permissions!"),
             WithHeader => 'yes',
         );
     }
@@ -100,10 +101,8 @@ sub Run {
                 BodyClass => 'Popup',
             );
             $Output .= $LayoutObject->Warning(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
-                Comment =>
-                    $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
+                Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                Comment => Translatable('Please change the owner first.'),
             );
 
             # show back link
@@ -699,7 +698,7 @@ sub Run {
                     return $LayoutObject->ErrorScreen(
                         Message =>
                             "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
@@ -777,11 +776,8 @@ sub Run {
                         BodyClass => 'Popup',
                     );
                     $Output .= $LayoutObject->Warning(
-                        Message => $LayoutObject->{LanguageObject}->Translate(
-                            'Sorry, you need to be the ticket owner to perform this action.'
-                        ),
-                        Comment =>
-                            $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
+                        Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                        Comment => Translatable('Please change the owner first.'),
                     );
 
                     # show back link

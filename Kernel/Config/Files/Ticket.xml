@@ -5340,8 +5340,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5471,8 +5471,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5531,8 +5531,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5626,10 +5626,10 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>
-                <Item>open</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">new</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5639,8 +5639,8 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>
-                <Item>open</Item>
+                <Item Translatable="1">new</Item>
+                <Item Translatable="1">open</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -10185,7 +10185,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10204,7 +10204,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10223,7 +10223,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10242,7 +10242,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>

@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -427,7 +428,7 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName  => 'My Responsible Tickets',
+        TitleName  => Translatable('My Responsible Tickets'),
         TitleValue => $Filters{$Filter}->{Name},
         Bulk       => 1,
 

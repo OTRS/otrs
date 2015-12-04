@@ -4880,7 +4880,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Users</Description>
+                <Description Translatable="1">Edit Customer Users.</Description>
                 <Title Translatable="1">Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4888,7 +4888,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4916,7 +4916,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Companies</Description>
+                <Description Translatable="1">Edit Customer Companies.</Description>
                 <Title Translatable="1">Customer Companies</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4924,7 +4924,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -5332,7 +5332,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Software Package Manager</Description>
+                <Description Translatable="1">Software Package Manager.</Description>
                 <Title Translatable="1">Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -5371,7 +5371,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Logout of customer panel</Description>
+                <Description Translatable="1">Logout of customer panel.</Description>
                 <Title></Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5383,7 +5383,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer preferences</Description>
+                <Description Translatable="1">Customer preferences.</Description>
                 <Title Translatable="1">Preferences</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5395,7 +5395,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To accept login information, such as an EULA or license.</Description>
+                <Description Translatable="1">To accept login information, such as an EULA or license.</Description>
                 <Title Translatable="1">Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5407,7 +5407,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Picture upload module</Description>
+                <Description Translatable="1">Picture upload module.</Description>
                 <Title Translatable="1">Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -5419,7 +5419,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title Translatable="1">Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
