@@ -4,6 +4,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.5 2015-??-??
+ - 2015-12-04 Fixed bug#[11680](http://bugs.otrs.org/show_bug.cgi?id=11680) - Error in support data collector.
  - 2015-12-03 Fixed bug#[11666](http://bugs.otrs.org/show_bug.cgi?id=11666) - Problem Creating DynamicField For Article and Including It on an Activity Window.
  - 2015-12-03 Fixed bug#[11712](http://bugs.otrs.org/show_bug.cgi?id=11712) - Sysconfig validation fills newly added field with default value.
  - 2015-12-03 Fixed bug#[8511](http://bugs.otrs.org/show_bug.cgi?id=8511) - TemplateGenerator.pm - Use of uninitialized value in substitution iterator at 1028.
