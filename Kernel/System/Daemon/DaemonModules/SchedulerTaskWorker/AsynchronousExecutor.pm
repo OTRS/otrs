@@ -74,48 +74,15 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed
-    for my $Needed (qw(TaskID Data)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed! - Task: $Param{TaskName}",
-            );
+    # check task params
+    my $CheckResult = $Self->_CheckTaskParams(
+        %Param,
+        NeededDataAttributes => [ 'Object', 'Function' ],
+        DataParamsRef        => 'HASH',
+    );
 
-            return;
-        }
-    }
-
-    # check data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Got no valid Data! - Task: $Param{TaskName}",
-        );
-
-        return;
-    }
-
-    for my $Needed (qw(Object Function)) {
-        if ( !$Param{Data}->{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need Data->$Needed! - Task: $Param{TaskName}",
-            );
-
-            return;
-        }
-
-    }
-
-    if ( $Param{Data}->{Params} && ref $Param{Data}->{Params} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Data->Params is invalid! - Task: $Param{TaskName}",
-        );
-
-        return;
-    }
+    # stop execution if an error in params is detected
+    return if !$CheckResult;
 
     # get module object
     my $LocalObject;
