@@ -78,7 +78,7 @@ sub new {
     }
 
     my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket'],
         ResultType => 'HASH',
     );
 

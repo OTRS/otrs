@@ -1908,6 +1908,7 @@ sub _GetUsers {
     # workflow
     my $ACL = $Self->{TicketObject}->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Owner',
         Data          => \%ShownUsers,
@@ -1968,6 +1969,7 @@ sub _GetResponsibles {
     # workflow
     my $ACL = $Self->{TicketObject}->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Responsible',
         Data          => \%ShownUsers,

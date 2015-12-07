@@ -1,11 +1,24 @@
 #4.0.15 2015-??-??
+ - 2015-12-07 Fixed bug#[10266](http://bugs.otrs.org/show_bug.cgi?id=10266) - Time Units can not be displayed and used in process Activity Dialogues.
+ - 2015-12-04 Fixed bug#[11652](http://bugs.otrs.org/show_bug.cgi?id=11652) - Jobs from the GenericAgent Config file use wrong ticket limit.
+ - 2015-12-04 Fixed bug#[11680](http://bugs.otrs.org/show_bug.cgi?id=11680) - Error in support data collector.
+ - 2015-12-03 Fixed bug#[11666](http://bugs.otrs.org/show_bug.cgi?id=11666) - Problem Creating DynamicField For Article and Including It on an Activity Window.
+ - 2015-12-03 Fixed bug#[8511](http://bugs.otrs.org/show_bug.cgi?id=8511) - TemplateGenerator.pm - Use of uninitialized value in substitution iterator at 1028.
+ - 2015-12-02 Fixed bug#[11096](http://bugs.otrs.org/show_bug.cgi?id=11096) - action URL overwrites permission settings, thanks to S7.
+ - 2015-12-02 Fixed bug#[11709](http://bugs.otrs.org/show_bug.cgi?id=11709) - In move notification <OTRS_CUSTOMER_BODY> is replaced with ticket comment, not last customer body, thanks to S7.
+ - 2015-11-30 Fixed bug#[11700](http://bugs.otrs.org/show_bug.cgi?id=11700) - IE is closing popup directly after opening it.
+ - 2015-11-30 Fixed bug#[11659](http://bugs.otrs.org/show_bug.cgi?id=11659) - Links in admin interface are clickable through overlays.
+ - 2015-11-27 Fixed bug#[9074](http://bugs.otrs.org/show_bug.cgi?id=9074) - No owner restriction via ACL using Frontend -> Action.
+ - 2015-11-27 Fixed bug#[11694](http://bugs.otrs.org/show_bug.cgi?id=11694) - Various errors in GenericTicketConnectorSOAP.wsdl file, thanks to Cyrille Bollu.
+ - 2015-11-26 Fixed bug#[11393](http://bugs.otrs.org/show_bug.cgi?id=11393) - ACL not hiding Process NavBar link when Type is Menu.
+ - 2015-11-26 Fixed bug#[11574](http://bugs.otrs.org/show_bug.cgi?id=11574) - Dashboard - Queue - Attributes of the Widget are not used in the  'Tickets in my Service' view.
+ - 2015-11-25 Fixed bug#[9152](http://bugs.otrs.org/show_bug.cgi?id=9152) - Event based notification with attachments does not quote article content.
  - 2015-11-24 Fixed bug where some special unicode characters (line terminators) were not correctly encoded to JSON.
  - 2015-11-17 Fixed bug#[7987](http://bugs.otrs.org/show_bug.cgi?id=7987) - Ticket dashboard modules not working with unlocked tickets attributes, thanks to S7.
  - 2015-11-16 Fixed bug#[11205](http://bugs.otrs.org/show_bug.cgi?id=11205) - Popup window height does not check for actual screen height.
  - 2015-11-13 Fixed bug#[11351](http://bugs.otrs.org/show_bug.cgi?id=11351) - S/Mime signed mails always show "Signature verified before!".
  - 2015-11-13 Fixed bug#[11612](http://bugs.otrs.org/show_bug.cgi?id=11612) - Wrong order in the notification procedure, thanks to S7.
  - 2015-11-06 Fixed bug#[11348](http://bugs.otrs.org/show_bug.cgi?id=11348) - Error handling in AgentTicketForward.
- - 2015-11-12 Fixed bug#[11304](http://bugs.otrs.org/show_bug.cgi?id=11304) - <OTRS_CUSTOMER_Subject> in "move"-notification is replaced with ticket-subject, not with article-subject, thanks to S7.
  - 2015-11-09 Fixed bug#[11320](http://bugs.otrs.org/show_bug.cgi?id=11320) - Invalid customer user can update password.
  - 2015-11-09 Fixed bug#[5509](http://bugs.otrs.org/show_bug.cgi?id=5509) - Wrong umlauts if bounce function is used.
  - 2015-11-09 Fixed bug#[11475](http://bugs.otrs.org/show_bug.cgi?id=11475) - Kernel::System::MailAccount::IMAP->Fetch() could delete unprocessed mails from server.

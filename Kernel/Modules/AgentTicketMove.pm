@@ -1572,6 +1572,7 @@ sub _GetUsers {
     # workflow
     my $ACL = $Self->{TicketObject}->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'NewOwner',
         Data          => \%ShownUsers,
@@ -1603,6 +1604,7 @@ sub _GetOldOwners {
     # workflow
     my $ACL = $Self->{TicketObject}->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'OldOwner',
         Data          => \%UserHash,

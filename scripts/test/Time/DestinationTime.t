@@ -23,7 +23,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-02-17 12:00:00',
         ServerTZ        => 'UTC',
-        Time            => 60 * 60 * 24 * 90,                                               # 90 days
+        Time            => 60 * 60 * 24 * 90,       # 90 days
         TimeDate        => '90 days',
         DestinationTime => '2015-05-19 12:00:00',
     },
@@ -32,14 +32,14 @@ my @Tests = (
         TimeStampStart  => '2015-02-17 12:00:00',
         ServerTZ        => 'Europe/Berlin',
         Time            => 60 * 60 * 24 * 90 + 60 * 60,
-        TimeDate        => '90 days and 1h',                                                   # 90 days and 1h
+        TimeDate        => '90 days and 1h',                                          # 90 days and 1h
         DestinationTime => '2015-05-19 13:00:00',
     },
     {
         Name            => 'UTC',
         TimeStampStart  => '2015-02-21 22:00:00',
         ServerTZ        => 'UTC',
-        Time            => 60 * 60 * 6,                                                        # 6h
+        Time            => 60 * 60 * 6,                                               # 6h
         TimeDate        => '6h',
         DestinationTime => '2015-02-22 04:00:00',
     },
@@ -47,7 +47,7 @@ my @Tests = (
         Name            => 'America/Sao_Paulo - end DST from 00 to 23  ( UTC-2 => UTC-3 )',
         TimeStampStart  => '2015-02-21 22:00:00',
         ServerTZ        => 'America/Sao_Paulo',
-        Time            => 60 * 60 * 5,                                                        # 5h
+        Time            => 60 * 60 * 5,                                                       # 5h
         TimeDate        => '5h',
         DestinationTime => '2015-02-22 02:00:00',
     },
@@ -55,15 +55,15 @@ my @Tests = (
         Name            => 'UTC with min and sec',
         TimeStampStart  => '2015-02-20 22:10:05',
         ServerTZ        => 'UTC',
-        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 6 + 60 * 20 + 15,                      # 4 days 06:20:15
+        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 6 + 60 * 20 + 15,                     # 4 days 06:20:15
         TimeDate        => '4 days 06:20:15',
         DestinationTime => '2015-02-25 04:30:20',
     },
     {
-        Name            => 'America/Sao_Paulo - end DST from 00 to 23 - with min and sec ( UTC-2 => UTC-3 )',
-        TimeStampStart  => '2015-02-21 22:10:05',
-        ServerTZ        => 'America/Sao_Paulo',
-        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 5 + 60 * 20 + 15,                      # 4 days 05:20:15
+        Name           => 'America/Sao_Paulo - end DST from 00 to 23 - with min and sec ( UTC-2 => UTC-3 )',
+        TimeStampStart => '2015-02-21 22:10:05',
+        ServerTZ       => 'America/Sao_Paulo',
+        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 5 + 60 * 20 + 15,                     # 4 days 05:20:15
         TimeDate        => '4 days 05:20:15',
         DestinationTime => '2015-02-26 02:30:20',
     },
@@ -71,7 +71,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-10-17 22:00:00',
         ServerTZ        => 'UTC',
-        Time            => 60 * 60 * 6,                                                        # 6h
+        Time            => 60 * 60 * 6,                                                       # 6h
         TimeDate        => '6h',
         DestinationTime => '2015-10-18 04:00:00',
     },

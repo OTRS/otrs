@@ -41,7 +41,7 @@
     width: 100%;
     text-indent: -9999px;
     position: absolute;
-    z-index: 9999;
+    z-index: 3000;
 }
 
 .RTL .Admin .Size1of2 .AsBlock {
