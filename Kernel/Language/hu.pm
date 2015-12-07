@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99225931301403;
+    $Self->{Completeness}        = 0.996624065589583;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -895,7 +895,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'A rendszer regisztráció az OTRS csoport szolgáltatása, amely számos előnyt biztosít!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Ne feledje, hogy az OTRS felhőszolgáltatások használatához a rendszer regisztrációja szükséges.',
         'Register this system' => 'A rendszer regisztrálása',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Itt tudja beállítani azokat az elérhető felhőszolgáltatásokat, amelyek biztonságosan kommunikálnak a következővel: %s.',
@@ -1661,7 +1661,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
         'Chat' => 'Csevegés',
-        'Report Generator' => '',
+        'Report Generator' => 'Jelentés előállító',
         'Timeline view in ticket zoom' => 'Idővonal nézet a jegynagyításban',
         'DynamicField ContactWithData' => 'Dinamikus mező ContactWithData',
         'DynamicField Database' => 'Dinamikus mező adatbázis',
@@ -1844,7 +1844,6 @@ sub Data {
         'Filter available fields' => 'Elérhető mezők szűrése',
         'Available Fields' => 'Elérhető mezők',
         'Assigned Fields' => 'Hozzárendelt mezők',
-        'Edit Details for Field' => 'Mezőrészletek szerkesztése',
         'ArticleType' => 'Bejegyzéstípus',
         'Display' => 'Megjelenítés',
         'Edit Field Details' => 'Mezőrészletek szerkesztése',
@@ -1952,9 +1951,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Kapcsolat típusa a feltételek között',
         'Remove this Condition' => 'Feltétel eltávolítása',
         'Type of Linking' => 'Kapcsolat típusa',
+        'Add a new Field' => 'Új mező hozzáadása',
         'Remove this Field' => 'Mező eltávolítása',
         'And can\'t be repeated on the same condition.' => 'Én nem lehet ismételni ugyanazon a feltételen.',
-        'Add a new Field' => 'Új mező hozzáadása',
         'Add New Condition' => 'Új feltétel hozzáadása',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1964,8 +1963,8 @@ sub Data {
         'Transition Action Name' => 'Átmenet művelet neve',
         'Transition Action Module' => 'Átmenet művelet modul',
         'Config Parameters' => 'Beállítási paraméterek',
-        'Remove this Parameter' => 'Paraméter eltávolítása',
         'Add a new Parameter' => 'Új paraméter hozzáadása',
+        'Remove this Parameter' => 'Paraméter eltávolítása',
 
         # Template: AdminQueue
         'Manage Queues' => 'Várólisták kezelése',
@@ -2640,7 +2639,7 @@ sub Data {
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Válasz írása ehhez: %s%s',
         'This address is registered as system address and cannot be used: %s' =>
-            '',
+            'Ez a cím rendszercímként van regisztrálva és nem használható: %s',
         'Please include at least one recipient' => 'Vegyen fel legalább egy címzettet',
         'Remove Ticket Customer' => 'Jegy ügyfél eltávolítása',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -3129,10 +3128,16 @@ sub Data {
         'No user configurable notifications found.' => 'Nem találhatók felhasználó által beállítható értesítések.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Folyamat-információk',
-        'Dialog' => '',
+        'Dialog' => 'Párbeszéd',
 
         # Template: Article
         'Inform Agent' => 'Ügyintéző értesítése',
@@ -3144,68 +3149,68 @@ sub Data {
         'Permissions' => 'Jogosultságok',
         'You can select one or more groups to define access for different agents.' =>
             'Kiválaszthat egy vagy több csoportot a hozzáférés meghatározásához a különböző ügyintézőknél.',
-        'Result formats' => '',
+        'Result formats' => 'Eredmény formátumok',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'A kiválasztott időszakok a statisztikában időzóna semlegesek.',
+        'Create summation row' => 'Összegző sor létrehozása',
         'Generate an additional row containing sums for all data columns.' =>
-            '',
-        'Create summation column' => '',
+            'Egy további sort állít elő, amely az összes adatoszlop összegeit tartalmazza.',
+        'Create summation column' => 'Összegző oszlop létrehozása',
         'Generate an additional column containing sums for all data rows.' =>
-            '',
-        'Cache results' => '',
+            'Egy további oszlopot állít elő, amely az összes adatsor összegeit tartalmazza.',
+        'Cache results' => 'Eredmények gyorstárazása',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            '',
+            'Eltárolja a statisztikák eredményadatait egy gyorsítótárban az azonos beállítással rendelkező későbbi nézetek használatához.',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'A statisztika biztosítása felületi elemként, amelyet az ügyintézők aktiválhatnak a vezérlőpultjukon.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            'Ne feledje, hogy a vezérlőpult felületi elem engedélyezése aktiválni fogja a statisztika gyorsítótárának használatát a vezérlőpulton.',
         'If set to invalid end users can not generate the stat.' => 'Ha érvénytelenre állítja, a végfelhasználók nem tudják a statisztikát előállítani.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
+        'There are problems in the configuration of this statistic:' => 'Problémák vannak ennek a statisztikának a beállításaiban:',
+        'You may now configure the X-axis of your statistic.' => 'Most beállíthatja a statisztika X-tengelyét.',
+        'This statistic does not provide preview data.' => 'Ez a statisztika nem szolgáltat előnézeti adatokat.',
+        'Preview format:' => 'Előnézeti formátum:',
         'Please note that the preview uses random data and does not consider data filters.' =>
-            '',
-        'Configure X-Axis' => '',
+            'Ne feledje, hogy az előnézet véletlenszerű adatokat használ, és nincs tekintettel az adatszűrőkre.',
+        'Configure X-Axis' => 'X-tengely beállítása',
         'X-axis' => 'X-tengely',
-        'Configure Y-Axis' => '',
+        'Configure Y-Axis' => 'Y-tengely beállítása',
         'Y-axis' => 'Y-tengely',
-        'Configure Filter' => '',
+        'Configure Filter' => 'Szűrő beállítása',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
             'Csak egyetlen elemet válasszon, vagy kapcsolja ki a „Rögzített” gombot.',
-        'Absolute period' => '',
+        'Absolute period' => 'Abszolút időszak',
         'Between' => 'Között',
-        'Relative period' => '',
+        'Relative period' => 'Relatív időszak',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            'A már teljes %s és a jelenlegi+közelgő teljes %s %s',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Ne tegyen lehetővé változtatásokat ezen az elemen, amikor a statisztikát előállítják.',
 
         # Template: StatsParamsWidget
         'Format' => 'Formátum',
         'Exchange Axis' => 'Tengelyek felcserélése',
-        'Configurable params of static stat' => 'Állandó statisztika beállítható paraméterei',
+        'Configurable params of static stat' => 'Statikus statisztika beállítható paraméterei',
         'No element selected.' => 'Nincs elem kiválasztva.',
         'Scale' => 'Skála',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'SVG letöltése',
+        'Download PNG' => 'PNG letöltése',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'A kijelölt időszak határozza meg azt az alapértelmezett időkeretet ennél a statisztikánál, amelyből az adatokat begyűjti.',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Azt az időegységet határozza meg, amely a kijelölt időszaknak jelentési adatpontokba történő felosztásához lesz használva.',
 
         # Template: YAxisWidget
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
-            '',
+            'Ne feledje, hogy az Y-tengely méretezésének nagyobbnak kell lennie az X-tengely méretezésénél (például X-tengely => Hónap, Y-tengely => Év).',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS tesztoldal',
@@ -3241,6 +3246,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'A jegy várólistájára és szolgáltatására is feliratkozott összes ügyintéző',
         'Customer of the ticket' => 'A jegy ügyfele',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3309,6 +3315,9 @@ sub Data {
             'Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában.',
         ' You can take one of the next actions:' => ' A következő műveletek egyikét választhatja:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Frissítés erre most: %s! %s',
 
@@ -3320,6 +3329,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(folyamatban)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Olyan befejezési dátumot adjon meg, amely a kezdődátum után van.',
@@ -3355,6 +3368,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Rendezés',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Állapot típusa',
@@ -4564,6 +4583,8 @@ Az Ön segélyszolgálat csapata
         'Defines the postmaster default queue.' => 'Meghatározza az alapértelmezett levelezési várólistát.',
         'Defines the priority in which the information is logged and presented.' =>
             'Meghatározza azt a prioritást, amelyben az információk naplózva lesznek és bemutatásra kerülnek.',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Meghatározza a telefonos jegy címzett célját és az e-mail jegy küldőjét (a „Várólista” minden várólistát megjelenít, a „Rendszercím” minden rendszercímet megjelenít) az ügyintézői felületen.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4685,7 +4706,7 @@ Az Ön segélyszolgálat csapata
             'Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten.',
         'Dropdown' => 'Legördülő',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Holland kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
         'Dynamic Fields Checkbox Backend GUI' => 'Dinamikus mezők jelölőnégyzet háttérprogram grafikus felület',
         'Dynamic Fields Date Time Backend GUI' => 'Dinamikus mezők dátum idő háttérprogram grafikus felület',
         'Dynamic Fields Drop-down Backend GUI' => 'Dinamikus mezők legördülő háttérprogram grafikus felület',
@@ -5125,7 +5146,7 @@ Az Ön segélyszolgálat csapata
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'A részt vevő ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
-            '',
+            'A tárgyak legnagyobb mérete egy e-mail válasznál és néhány áttekintő képernyőnél.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Automatikus válaszok maximalizálása a saját e-mail címre naponta (hurok védelem).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
@@ -5150,9 +5171,11 @@ Az Ön segélyszolgálat csapata
         'Module to check customer permissions.' => 'Egy modul az ügyfél-jogosultságok ellenőrzéséhez.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Egy modul annak ellenőrzéséhez, hogy a felhasználó egy speciális csoportban van-e. A hozzáférés meg van adva, ha a felhasználó a megadott csoportban van, és csak olvasható és írható, olvasható jogosultságai vannak.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Egy modul annak ellenőrzéséhez, hogy a beérkező e-maileket meg kell-e jelölni belső e-mailként (az eredeti továbbított belső e-mail miatt). Az ArticleType és a SenderType határozza meg az értékeket a beérkező e-mailhez vagy bejegyzéshez.',
         'Module to check the agent responsible of a ticket.' => 'Egy modul egy jegy felelős ügyintézőjének ellenőrzéséhez.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Egy modul a csoportjogosultságok ellenőrzéséhez az ügyféljegyekhez való hozzáférésénél.',
         'Module to check the owner of a ticket.' => 'Egy modul egy jegy tulajdonosának ellenőrzéséhez.',

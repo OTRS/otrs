@@ -41,7 +41,7 @@
         <Setting>
             <Hash>
                 <Item Key="Name" Translatable="1">SMS</Item>
-                <Item Key="Description" Translatable="1">This will allow the system to send SMS messages.</Item>
+                <Item Key="Description" Translatable="1">This will allow the system to send text messages via SMS.</Item>
                 <Item Key="ConfigDialog">AdminCloudServiceSMS</Item>
                 <Item Key="IsOTRSBusiness">1</Item>
                 <Item Key="Icon">fa fa-mobile</Item>

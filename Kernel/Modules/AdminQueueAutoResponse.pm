@@ -166,8 +166,8 @@ sub Run {
         my %AutoResponseList = $AutoResponseObject->AutoResponseList();
 
         # if there are any auto responses, they are shown
-        if (keys %AutoResponseList) {
-            for my $AutoResponseID (sort keys %AutoResponseList) {
+        if ( keys %AutoResponseList ) {
+            for my $AutoResponseID ( sort keys %AutoResponseList ) {
 
                 my %Data = $AutoResponseObject->AutoResponseGet(
                     ID => $AutoResponseID,

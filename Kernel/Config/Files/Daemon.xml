@@ -250,6 +250,24 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###EscalationCheck" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Triggers ticket escalation events and notification events for escalation.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">EscalationCheck</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::EscalationCheck</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketPendingCheck" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Process pending tickets.</Description>
         <Group>Daemon</Group>

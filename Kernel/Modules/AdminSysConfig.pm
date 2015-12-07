@@ -312,9 +312,14 @@ sub Run {
                 my $New = $ParamObject->GetParam(
                     Param => $ItemHash{Name} . '#NewHashElement'
                 );
+
+                # do not validate if the new button was clicked
+                my %NoValidationOption;
+
                 if ($New) {
                     $Anker = $ItemHash{Name};
                     $Content{''} = '';
+                    $NoValidationOption{NoValidation} = 1;
                 }
 
                 # write ConfigItem
@@ -322,6 +327,7 @@ sub Run {
                     Key   => $_,
                     Value => \%Content,
                     Valid => $Active,
+                    %NoValidationOption,
                 );
                 if ( !$Update ) {
                     $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
@@ -336,9 +342,14 @@ sub Run {
                 my $New = $ParamObject->GetParam(
                     Param => $ItemHash{Name} . '#NewArrayElement'
                 );
+
+                # do not validate if the new button was clicked
+                my %NoValidationOption;
+
                 if ($New) {
                     push @Content, '';
                     $Anker = $ItemHash{Name};
+                    $NoValidationOption{NoValidation} = 1;
                 }
 
                 # Delete Array Element
@@ -357,6 +368,7 @@ sub Run {
                     Key   => $_,
                     Value => \@Content,
                     Valid => $Active,
+                    %NoValidationOption,
                 );
                 if ( !$Update ) {
                     $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );

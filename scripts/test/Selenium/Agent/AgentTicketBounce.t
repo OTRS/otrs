@@ -66,6 +66,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEmail");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -126,8 +127,10 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->click();
 
         # switch to bounce window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check agent ticket bounce screen
         for my $ID (
@@ -151,6 +154,8 @@ $Selenium->RunTest(
         # return back to zoom view
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # verify that bounce worked as expected
         my $BounceText = 'Bounced to "test@localhost.com".';

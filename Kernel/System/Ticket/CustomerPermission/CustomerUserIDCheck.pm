@@ -35,7 +35,7 @@ sub Run {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -47,13 +47,18 @@ sub Run {
         DynamicFields => 0,
     );
 
+    return if !%Ticket;
+    return if !$Ticket{CustomerUserID};
+
     # get user data
     my %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
         User => $Param{UserID},
     );
 
+    return if !%CustomerData;
+    return if !$CustomerData{UserLogin};
+
     # check user login, return access if customer user id is the same
-    return   if !$Ticket{CustomerUserID};
     return 1 if lc $Ticket{CustomerUserID} eq lc $CustomerData{UserLogin};
 
     # return no access

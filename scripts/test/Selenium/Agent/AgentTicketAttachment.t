@@ -142,7 +142,12 @@ $Selenium->RunTest(
         );
 
         # check ticket attachment
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketAttachment;ArticleID=$ArticleIDs[0];FileID=1");
+        $Selenium->get(
+            "${ScriptAlias}index.pl?Action=AgentTicketAttachment;ArticleID=$ArticleIDs[0];FileID=1",
+            {
+                NoVerify => 1,
+            }
+        );
 
         # check if attachment is genuine
         my $ExpectedAttachmentContent = "Some German Text with Umlaut: ÄÖÜß";

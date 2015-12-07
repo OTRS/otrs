@@ -11,6 +11,8 @@ package Kernel::Modules::AdminPriority;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -90,7 +92,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Priority updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Priority updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminPriority',
                     Data         => \%Param,
@@ -103,7 +105,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -171,7 +173,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Priority added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Priority added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminPriority',
                     Data         => \%Param,
@@ -184,7 +186,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

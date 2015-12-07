@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -193,9 +194,8 @@ sub Form {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',

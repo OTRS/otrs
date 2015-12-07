@@ -252,6 +252,9 @@ sub CollectByWebRequest {
         Timeout => $Param{WebTimeout} || 20,
     );
 
+    # disable webuseragent proxy since the call is sent to self server, see bug#11680
+    $WebUserAgentObject->{Proxy} = '';
+
     # define result
     my %Result = (
         Success => 0,

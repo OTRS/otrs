@@ -614,7 +614,7 @@ sub _Edit {
     $Param{FollowUpLockYesNoOption} = $LayoutObject->BuildSelection(
         Data       => $ConfigObject->Get('YesNoOptions'),
         Name       => 'FollowUpLock',
-        SelectedID => $Param{FollowUpLock} || 0,
+        SelectedID => $Param{FollowUpLock} // 1,
         Class      => 'Modernize',
     );
 

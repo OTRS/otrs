@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4666,7 +4666,7 @@ msgstr "Hos"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL hos jauh untuk permintaan REST."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
@@ -4681,7 +4681,7 @@ msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr ""
+msgstr "Pengawal yang invoker perlu hantar permintaan untuk. Pembolehubah ditandai dengan ':' akan dapat digantikan dengan nilai data dan diluluskan bersama-sama dengan permintaan itu. (contoh/Tiket/:TicketID Userlogin=:Userlogin&Kata Laluan=:Kata laluan)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
@@ -4954,7 +4954,7 @@ msgstr "Tambah baru unsur peringkat pertama"
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr ""
+msgstr "Perintah jenis Outbound untuk bidang xml (struktur permulaan di bawah nama tugas pembungkus) - lihat dokumentasi untuk pengangkutan SOAP."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
@@ -6367,10 +6367,6 @@ msgid "Assigned Fields"
 msgstr "Medan yang ditetapkan"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Edit perincian medan"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "JenisArtikel"
 
@@ -6488,7 +6484,7 @@ msgstr "Anda boleh meletakkan Aktiviti pada kawasan kanvas untuk menetapkan akti
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element"
 " from this sidebar over the Activity placed in the canvas area."
-msgstr ""
+msgstr "Untuk memperuntukkan satu Dialog Aktiviti untuk aktiviti yang menggugurkan elemen Aktiviti Dialog daripada bar sisi ini ke atas aktiviti yang diletakkan di kawasan kanvas."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6715,16 +6711,16 @@ msgid "Type of Linking"
 msgstr "Jenis Pemautan"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Tambah Medan baru"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Buang medan ini"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr "Dan tidak boleh berulang pada keadaan yang sama."
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Tambah Medan baru"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6753,12 +6749,12 @@ msgid "Config Parameters"
 msgstr "Config Parameter"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Buang Parameter ini"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Tambah Parameter baru"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Buang Parameter ini"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -10276,6 +10272,22 @@ msgstr "Tiada pemberitahuan boleh dikonfigurasi pengguna dijumpai."
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Terima mesej pemberitahuan '%s' dengan kaedah pengangkutan '%s'."
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "Proses maklumat "
@@ -10371,7 +10383,7 @@ msgstr "Format pratonton:"
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
-msgstr ""
+msgstr "Sila ambil perhatian bahawa pratonton menggunakan data rawak dan tidak mengambil kira penapis data."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
@@ -10461,7 +10473,7 @@ msgstr "Mentakrifkan unit masa yang akan digunakan untuk memisahkan tempoh masa 
 msgid ""
 "Please remember that the scale for the Y-axis has to be larger than the "
 "scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
-msgstr ""
+msgstr "Sila ingat bahawa skala bagi paksi-Y telah menjadi lebih besar daripada skala untuk paksi-X (contoh: paksi-X => Bulan, paksi-Y => Tahun)."
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10540,6 +10552,10 @@ msgstr "Semua agen yang melanggan perkhidmatan dan barisan tiket"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer of the ticket"
 msgstr "Pelanggan tiket."
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -10670,6 +10686,10 @@ msgstr "Harap maaf, anda tidak mempunyai keizinan lagi untuk mengakses tiket ini
 msgid " You can take one of the next actions:"
 msgstr "Anda boleh mengambil salah satu tindakan berikut:"
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Naik taraf ke %s sekarang! %s"
@@ -10686,6 +10706,12 @@ msgstr "Sila hubungi pentadbir anda!"
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
 msgstr "(dalam proses)"
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10773,6 +10799,22 @@ msgstr "Sila keluarkan perkataan yang berikut kerana mereka tidak boleh digunaka
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Disusun mengikut"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -14472,6 +14514,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Mentakrifkan keutamaan di mana maklumat direkod dan dibentangkan."
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15708,7 +15758,7 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16400,6 +16450,10 @@ msgid ""
 msgstr "Modul untuk menyemak jika suatu pengguna ada di dalam kumpulan yang istimewa. Akses diberikan, jika pengguna ada di dalam kumpulan yang ditentukan dan ada kebenaran ro dan rw."
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16409,6 +16463,10 @@ msgstr ""
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
 msgstr "Modul untuk menyemak tanggungjawab ejen pada tiket."
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -368,7 +368,7 @@ sub AutoResponseList {
 
     # create sql
     my $SQL = "SELECT ar.id, ar.name FROM auto_response ar";
-    my (@SQLWhere, @Bind);
+    my ( @SQLWhere, @Bind );
 
     if ($Valid) {
         push @SQLWhere, "ar.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
@@ -377,11 +377,11 @@ sub AutoResponseList {
     # if there is TypeID, select only AutoResponses by that AutoResponse type
     if ( defined $Param{TypeID} ) {
         push @SQLWhere, "ar.type_id = ?";
-        push @Bind, \$Param{TypeID};
+        push @Bind,     \$Param{TypeID};
     }
 
     if (@SQLWhere) {
-        $SQL .= " WHERE " . join(' AND ', @SQLWhere);
+        $SQL .= " WHERE " . join( ' AND ', @SQLWhere );
     }
 
     # select

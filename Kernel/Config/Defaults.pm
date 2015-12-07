@@ -1714,7 +1714,7 @@ via the Preferences button after logging in.
         },
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
-        'Description' => 'Software Package Manager',
+        'Description' => 'Software Package Manager.',
         'Group' => [
             'admin'
         ],

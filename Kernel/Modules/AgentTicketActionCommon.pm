@@ -13,6 +13,7 @@ use warnings;
 
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -186,9 +187,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -1643,6 +1643,7 @@ sub _Mask {
 
         my $ACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'NewOwner',
             Data          => \%ShownUsers,
@@ -1687,6 +1688,7 @@ sub _Mask {
 
         my $OldOwnerACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'OldOwner',
             Data          => \%OldOwnersShown,
@@ -1745,6 +1747,7 @@ sub _Mask {
 
         my $ACL = $TicketObject->TicketAcl(
             %Ticket,
+            Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'Responsible',
             Data          => \%ShownUsers,
@@ -2376,6 +2379,7 @@ sub _GetResponsible {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Responsible',
         Data          => \%ShownUsers,
@@ -2420,6 +2424,7 @@ sub _GetOwners {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'NewOwner',
         Data          => \%ShownUsers,
@@ -2454,6 +2459,7 @@ sub _GetOldOwners {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'OldOwner',
         Data          => \%UserHash,

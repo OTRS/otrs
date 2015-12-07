@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -315,7 +316,7 @@ sub AgentQueueListOption {
     # add suffix for correct sorting
     my $KeyNoQueue;
     my $ValueNoQueue;
-    my $MoveStr = $Self->{LanguageObject}->Get('Move');
+    my $MoveStr = $Self->{LanguageObject}->Translate('Move');
     my $ValueOfQueueNoKey .= "- " . $MoveStr . " -";
     DATA:
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
@@ -1205,7 +1206,7 @@ sub TicketMetaItems {
             $Image = 'meta-new.png';
             push @Result, {
                 Image      => $Image,
-                Title      => 'Unread article(s) available',
+                Title      => Translatable('Unread article(s) available'),
                 Class      => 'UnreadArticles',
                 ClassSpan  => 'UnreadArticles Remarkable',
                 ClassTable => 'UnreadArticles',
@@ -1214,7 +1215,7 @@ sub TicketMetaItems {
         else {
             push @Result, {
                 Image      => $Image,
-                Title      => 'Unread article(s) available',
+                Title      => Translatable('Unread article(s) available'),
                 Class      => 'UnreadArticles',
                 ClassSpan  => 'UnreadArticles Ordinary',
                 ClassTable => 'UnreadArticles',

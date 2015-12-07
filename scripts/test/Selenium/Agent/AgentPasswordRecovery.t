@@ -74,7 +74,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LostPassword", 'css' )->click();
 
         # request new password
-        $Selenium->find_element( "#PasswordUser", 'css' )->send_keys($TestUser);
+        $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
         $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->click();
 
         # check for password recovery message
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LostPassword", 'css' )->click();
 
         # request new password
-        $Selenium->find_element( "#PasswordUser", 'css' )->send_keys($TestUser);
+        $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
         $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->click();
 
         # check for password recovery message for invalid user, for security meassures it

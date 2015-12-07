@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -378,7 +379,7 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName  => 'Ticket Escalation View',
+        TitleName  => Translatable('Ticket Escalation View'),
         TitleValue => $Filters{$Filter}->{Name},
         Bulk       => 1,
 

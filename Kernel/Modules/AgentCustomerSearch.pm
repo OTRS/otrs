@@ -12,6 +12,8 @@ package Kernel::Modules::AgentCustomerSearch;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -180,7 +182,7 @@ sub Run {
                 Total      => scalar @ViewableTickets,
                 Env        => $Self,
                 View       => $View,
-                TitleName  => 'Customer History',
+                TitleName  => Translatable('Customer History'),
                 LinkPage   => $LinkPage,
                 LinkSort   => $LinkSort,
                 LinkFilter => $LinkFilter,

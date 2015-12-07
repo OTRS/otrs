@@ -35,7 +35,7 @@ sub Run {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -44,13 +44,16 @@ sub Run {
     # return if no watcher feature is active
     return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Watcher');
 
-    # return no acces if it's wrong permission type
+    # return no access if it's wrong permission type
     return if $Param{Type} ne 'ro';
 
     # get ticket data, return access if current user is watcher
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketWatchGet(
         TicketID => $Param{TicketID},
     );
+
+    return if !%Ticket;
+
     return 1 if $Ticket{ $Param{UserID} };
 
     # return no access

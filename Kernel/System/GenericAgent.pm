@@ -330,7 +330,7 @@ sub JobRun {
         my @Tickets = $TicketObject->TicketSearch(
             %Job,
             Result                           => 'ARRAY',
-            Limit                            => $Job{Limit} || 100,
+            Limit                            => $Job{Limit} || $Param{Limit} || 100,
             TicketEscalationTimeOlderMinutes => $Job{TicketEscalationTimeOlderMinutes}
                 || -( 5 * 24 * 60 ),
             Permission => 'rw',
@@ -1433,21 +1433,11 @@ sub _JobUpdateRunTime {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # check if job name already exists
-    return if !$DBObject->Prepare(
-        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
-        Bind => [ \$Param{Name} ],
+    # delete old run times
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM generic_agent_jobs WHERE job_name = ? AND job_key IN (?, ?)',
+        Bind => [ \$Param{Name}, \'ScheduleLastRun', \'ScheduleLastRunUnixTime' ],
     );
-    my @Data;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
-            push @Data,
-                {
-                Key   => $Row[0],
-                Value => $Row[1]
-                };
-        }
-    }
 
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -1464,15 +1454,6 @@ sub _JobUpdateRunTime {
         $DBObject->Do(
             SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
-        );
-    }
-
-    # remove old times
-    for my $Time (@Data) {
-        $DBObject->Do(
-            SQL => 'DELETE FROM generic_agent_jobs WHERE '
-                . 'job_name = ? AND job_key = ? AND job_value = ?',
-            Bind => [ \$Param{Name}, \$Time->{Key}, \$Time->{Value} ],
         );
     }
 

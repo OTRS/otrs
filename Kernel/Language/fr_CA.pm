@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.62070633768747;
+    $Self->{Completeness}        = 0.618760549795033;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1846,7 +1846,6 @@ sub Data {
         'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
-        'Edit Details for Field' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
@@ -1954,9 +1953,9 @@ sub Data {
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
+        'Add a new Field' => '',
         'Remove this Field' => '',
         'And can\'t be repeated on the same condition.' => '',
-        'Add a new Field' => '',
         'Add New Condition' => '',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1966,8 +1965,8 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Remove this Parameter' => '',
         'Add a new Parameter' => '',
+        'Remove this Parameter' => '',
 
         # Template: AdminQueue
         'Manage Queues' => 'Gestion des files',
@@ -3131,6 +3130,12 @@ sub Data {
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => '',
@@ -3243,6 +3248,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3311,6 +3317,9 @@ sub Data {
             '',
         ' You can take one of the next actions:' => '',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
 
@@ -3322,6 +3331,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3357,6 +3370,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Trier par',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4555,6 +4574,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Détermine la file par défaut du maître de poste.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5141,9 +5162,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Module de vérification des permissions du client.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Module de vérification de l\'appartenance d\'un utilisateur à un groupe. L\'accès est permis si l\'utilisateur appartient au groupe spécifié et qu\'il possède une permission de lecture seule ou de lecture et écriture.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => 'Module de vérification de l\'agent responsable de la demande.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Module de vérification des permissions des groupes pour les accès aux demandes des clients.',
         'Module to check the owner of a ticket.' => 'Module de vérification du propriétaire d\'une demande.',

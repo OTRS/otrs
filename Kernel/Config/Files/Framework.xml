@@ -1309,12 +1309,12 @@
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1480,12 +1480,12 @@
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1651,12 +1651,12 @@
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1822,12 +1822,12 @@
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1993,12 +1993,12 @@
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2164,12 +2164,12 @@
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2335,12 +2335,12 @@
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2506,12 +2506,12 @@
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2677,12 +2677,12 @@
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -3569,9 +3569,9 @@ You can log in via the following URL:
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Notification Settings</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Notification Settings</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4377,8 +4377,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4880,7 +4880,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Users</Description>
+                <Description Translatable="1">Edit Customer Users.</Description>
                 <Title Translatable="1">Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4888,7 +4888,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4916,7 +4916,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Companies</Description>
+                <Description Translatable="1">Edit Customer Companies.</Description>
                 <Title Translatable="1">Customer Companies</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4924,7 +4924,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -5332,7 +5332,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Software Package Manager</Description>
+                <Description Translatable="1">Software Package Manager.</Description>
                 <Title Translatable="1">Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -5371,7 +5371,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Logout of customer panel</Description>
+                <Description Translatable="1">Logout of customer panel.</Description>
                 <Title></Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5383,7 +5383,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer preferences</Description>
+                <Description Translatable="1">Customer preferences.</Description>
                 <Title Translatable="1">Preferences</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5395,7 +5395,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To accept login information, such as an EULA or license.</Description>
+                <Description Translatable="1">To accept login information, such as an EULA or license.</Description>
                 <Title Translatable="1">Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5407,7 +5407,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Picture upload module</Description>
+                <Description Translatable="1">Picture upload module.</Description>
                 <Title Translatable="1">Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -5419,7 +5419,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title Translatable="1">Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -6770,7 +6770,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginMessage" Required="0" Valid="1">
@@ -6778,7 +6778,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance. We should be back online shortly.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance. We should be back online shortly.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginErrorMessage" Required="0" Valid="1">
@@ -6786,7 +6786,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance. Login is temporarily not available.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance. Login is temporarily not available.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">

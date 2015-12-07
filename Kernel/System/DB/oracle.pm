@@ -46,6 +46,8 @@ sub LoadPreferences {
     $Self->{'DB::Version'}
         = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
 
+    $Self->{'DB::ListTables'} = 'SELECT table_name FROM user_tables ORDER BY table_name';
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,

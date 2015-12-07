@@ -78,9 +78,9 @@ sub Run {
                 # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
-                my $Description = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Description} );
+                my $Description = $LayoutObject->{LanguageObject}->Translate( $StatsHash->{$StatID}->{Description} );
 
-                my $Title = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
+                my $Title = $LayoutObject->{LanguageObject}->Translate( $StatsHash->{$StatID}->{Title} );
                 $Title = $LayoutObject->{LanguageObject}->Translate('Statistic') . ': '
                     . $Title . ' ('
                     . $ConfigObject->Get('Stats::StatsHook')

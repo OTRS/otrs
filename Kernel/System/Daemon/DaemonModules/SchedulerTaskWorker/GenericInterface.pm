@@ -81,42 +81,17 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed
-    for my $Needed (qw(TaskID Data)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed! - Task: $Param{TaskName}",
-            );
+    # check task params
+    my $CheckResult = $Self->_CheckTaskParams(
+        NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
+        %Param,
+    );
 
-            return;
-        }
-    }
-
-    # check data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Got no valid Data! - Task: $Param{TaskName}",
-        );
-
-        return;
-    }
+    # stop execution if an error in params is detected
+    return if !$CheckResult;
 
     # to store task data locally
     my %TaskData = %{ $Param{Data} };
-
-    # check needed parameters inside task data
-    for my $Needed (qw(WebserviceID Invoker Data)) {
-        if ( !$TaskData{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Got no $Needed! - Task: $Param{TaskName}",
-            );
-
-            return;
-        }
-    }
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";

@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -160,7 +161,7 @@ sub Run {
     # define filter
     my %Filters = (
         Open => {
-            Name   => 'Open tickets',
+            Name   => Translatable('Open tickets'),
             Prio   => 1000,
             Search => {
                 StateType  => 'Open',
@@ -171,7 +172,7 @@ sub Run {
             },
         },
         Closed => {
-            Name   => 'Closed tickets',
+            Name   => Translatable('Closed tickets'),
             Prio   => 1001,
             Search => {
                 StateType  => 'Closed',
@@ -353,7 +354,7 @@ sub Run {
         View       => $View,
         Bulk       => 1,
         Limit      => $Limit,
-        TitleName  => 'Status View',
+        TitleName  => Translatable('Status View'),
         TitleValue => $Filters{$Filter}->{Name},
 
         Filter     => $Filter,

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.985244315432995;
+    $Self->{Completeness}        = 0.982155775259223;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1369,7 +1369,7 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'например, urn:otrs-com:soap:functions или http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => '',
+        'Request name scheme' => 'Схема именования запросов',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
@@ -1850,7 +1850,6 @@ sub Data {
         'Filter available fields' => 'Фильтр для доступных полей',
         'Available Fields' => 'Доступные поля',
         'Assigned Fields' => 'Назначенные поля',
-        'Edit Details for Field' => 'Редактировать атрибуты поля',
         'ArticleType' => 'Тип сообщения',
         'Display' => 'Отобразить',
         'Edit Field Details' => 'Редактировать атрибуты поля',
@@ -1958,9 +1957,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Тип связи между Условиями',
         'Remove this Condition' => 'Удалить это Условие',
         'Type of Linking' => 'Тип связи',
+        'Add a new Field' => 'Добавить новое поле',
         'Remove this Field' => 'Удалить это поле',
         'And can\'t be repeated on the same condition.' => 'Оператор AND/И не может повторно использоваться в одном и том же условии.',
-        'Add a new Field' => 'Добавить новое поле',
         'Add New Condition' => 'Добавить новое Условие',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1970,8 +1969,8 @@ sub Data {
         'Transition Action Name' => 'Имя Действия Перехода',
         'Transition Action Module' => 'Модуль Действия Перехода',
         'Config Parameters' => 'Параметры конфигурации',
-        'Remove this Parameter' => 'Удалить этот параметр',
         'Add a new Parameter' => 'Добавить новый параметр',
+        'Remove this Parameter' => 'Удалить этот параметр',
 
         # Template: AdminQueue
         'Manage Queues' => 'Управление очередями',
@@ -3135,6 +3134,12 @@ sub Data {
         'No user configurable notifications found.' => 'Отсутствуют уведомления, настраиваемые пользователем.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Получить сообщения для уведомления \'%s\'  с помощью метода доставки \'%s\'.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Информация о процессе',
@@ -3247,6 +3252,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Все агенты подписанные на этот сервис и эту очередь',
         'Customer of the ticket' => 'Клиент заявки',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3315,6 +3321,9 @@ sub Data {
             'Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии.',
         ' You can take one of the next actions:' => 'Вы можете выполнить одно из следующих действий:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Обновление до %s сейчас! %s',
 
@@ -3326,6 +3335,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(выполняется)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Пожалуйста, укажите Дату окончания раньше даты начала.',
@@ -3361,6 +3374,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортировка по',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Тип состояния',
@@ -4570,6 +4589,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Задает очередь по умолчанию для postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
             'Задает приоритет с которым информация журналируется и отображается.',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Задает Получателя телефонной заявки и Отправителя почтовой заявки ("Queue" показывает все очереди, "System address" отображает все системные адреса) в интерфейсе агента.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5156,9 +5177,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Модуль для проверки прав клиента.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Модуль проверки принадлежности пользователя к определенной группе. Доступ разрешается, если он принадлежит указанной группе и имеет в ней ro или rw права.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Модуль для проверки, должно ли  поступившее почтовое сообщение помечено как email-internal (т.к. исходное переслано как internal email). ArticleType и SenderType задают значения для поступивших email/сообщений.',
         'Module to check the agent responsible of a ticket.' => 'Модуль для проверки агента ответственного за заявку.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Модуль проверки прав в группах для доступа к заявкам клиента.',
         'Module to check the owner of a ticket.' => 'Модуль для проверки владельца заявки.',
@@ -5435,11 +5458,11 @@ Thanks for your help!
         'Sets the default body text for notes added in the ticket responsible screen of the agent interface.' =>
             'Устанавливает текст сообщения по умолчанию при назначении Ответственного заявки в интерфейсе агента.',
         'Sets the default error message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
-            'Задает сообщение об ошибке по умолчаню для экрана ввода логина в интерфейсах агента и клиента, оно выдается когда период обслуживания системы не истек.',
+            'Задает сообщение об ошибке по умолчанию для экрана ввода логина в интерфейсах агента и клиента, оно выдается когда период обслуживания системы не истек.',
         'Sets the default link type of splitted tickets in the agent interface.' =>
             'Задает тип связи по умолчанию при разделения заявки в интерфейсе агента.',
         'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
-            'Задает сообщение по умолчаню для экрана ввода логина в интерфейсах агента и клиента, оно выдается когда период обслуживания системы не истек.',
+            'Задает сообщение по умолчанию для экрана ввода логина в интерфейсах агента и клиента, оно выдается когда период обслуживания системы не истек.',
         'Sets the default message for the notification is shown on a running system maintenance period.' =>
             'Задает сообщение по умолчанию для уведомления, отображаемого в период обслуживания системы',
         'Sets the default next state for new phone tickets in the agent interface.' =>

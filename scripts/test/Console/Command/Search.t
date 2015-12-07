@@ -22,7 +22,6 @@ $Self->Is(
     "Search exit code without arguments",
 );
 
-
 # Check command search
 my $Result;
 
@@ -39,12 +38,12 @@ $Self->Is(
 );
 
 $Self->False(
-    index($Result, 'otrs.Console.pl Help command') > -1,
+    index( $Result, 'otrs.Console.pl Help command' ) > -1,
     "Help for 'Help' command not found",
 );
 
 $Self->True(
-    index($Result, 'List all installed OTRS packages') > -1,
+    index( $Result, 'List all installed OTRS packages' ) > -1,
     "Found Admin::Package::List command entry",
 );
 
@@ -63,14 +62,13 @@ $Self->Is(
 );
 
 $Self->False(
-    index($Result, 'otrs.Console.pl Help command') > -1,
+    index( $Result, 'otrs.Console.pl Help command' ) > -1,
     "Help for 'Help' command not found",
 );
 
 $Self->True(
-    index($Result, 'No commands found.') > -1,
+    index( $Result, 'No commands found.' ) > -1,
     "No commands found.",
 );
-
 
 1;

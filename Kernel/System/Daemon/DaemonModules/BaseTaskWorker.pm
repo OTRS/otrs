@@ -78,6 +78,75 @@ sub _HandleError {
     return;
 }
 
+=item _CheckTaskParams()
+
+performs basic checks for common task parameters
+
+    my $Success = $TaskWorkerObject->_CheckTaskParams(
+        TaskID               => 123,
+        TaskName             => 'some name',                # optional
+        Data                 => $TaskDataHasRef,
+        NeededDataAttributes => ['Object', 'Function'],     # optional, list of attributes that task needs in Data hash
+        DataParamsRef        => 'HASH',                     # optional, 'HASH' or 'ARRAY', kind of reference of Data->Params
+    );
+
+=cut
+
+sub _CheckTaskParams {
+    my ( $Self, %Param ) = @_;
+
+    # check needed
+    for my $Needed (qw(TaskID Data)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed! - Task: $Param{TaskName}",
+            );
+
+            return;
+        }
+    }
+
+    # check data
+    if ( ref $Param{Data} ne 'HASH' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Got no valid Data! - Task: $Param{TaskName}",
+        );
+
+        return;
+    }
+
+    # check mandatory attributes in Data
+    if ( $Param{NeededDataAttributes} && ref $Param{NeededDataAttributes} eq 'ARRAY' ) {
+
+        for my $Needed ( @{ $Param{NeededDataAttributes} } ) {
+            if ( !$Param{Data}->{$Needed} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need Data->$Needed! - Task: $Param{TaskName}",
+                );
+
+                return;
+            }
+        }
+    }
+
+    # check the structure of Data params
+    if ( $Param{DataParamsRef} ) {
+
+        if ( $Param{Data}->{Params} && ref $Param{Data}->{Params} ne uc $Param{DataParamsRef} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Data->Params is invalid, reference is not $Param{DataParamsRef}! - Task: $Param{TaskName}",
+            );
+
+            return;
+        }
+    }
+
+    return 1;
+}
 1;
 
 =back

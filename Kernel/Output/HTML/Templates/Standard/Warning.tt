@@ -15,11 +15,11 @@
             </div>
             <div class="Content">
                 <h4>
-                    [% Translate("Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                    [% Translate("Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
                 </h4>
 
                 <p class="SpacingTop">
-                    [% Data.Comment | html %]
+                    [% Translate(Data.Comment) | html %]
                 </p>
 
                 <p class="SpacingTop">
