@@ -36,9 +36,8 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    return $Self->HandleSearch(SearchCommand => $Self->GetArgument('searchterm'));
+    return $Self->HandleSearch( SearchCommand => $Self->GetArgument('searchterm') );
 }
-
 
 # Also used from "Help" command.
 
@@ -56,12 +55,15 @@ sub HandleSearch {
     for my $Command ( $Self->ListAllCommands() ) {
         my $CommandObject = $Kernel::OM->Get($Command);
 
-        if ( $Command !~ m{\Q$SearchCommand\E}smxi &&
+        if (
+            $Command !~ m{\Q$SearchCommand\E}smxi
+            &&
             $CommandObject->Description() !~ m{\Q$SearchCommand\E}smxi
-        ) {
+            )
+        {
             next COMMAND;
         }
-        my $CommandName   = $CommandObject->Name();
+        my $CommandName = $CommandObject->Name();
 
         # Group by toplevel namespace
         my ($CommandNamespace) = $CommandName =~ m/^([^:]+)::/smx;
@@ -73,7 +75,7 @@ sub HandleSearch {
         $UsageText .= sprintf( " <green>%-40s</green> - %s\n", $CommandName, $CommandObject->Description() );
     }
 
-    if (!$UsageText) {
+    if ( !$UsageText ) {
         $Self->Print("<yellow>No commands found.</yellow>\n");
         return $Self->ExitCodeOk();
     }

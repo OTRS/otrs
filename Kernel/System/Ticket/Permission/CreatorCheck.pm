@@ -13,6 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CheckItem',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -31,7 +32,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID)) {
+    for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -54,21 +55,36 @@ sub Run {
     my $Queues = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Permission::CreatorCheck::Queues');
 
     # check queues
-    if ( $Queues && ref $Queues eq 'ARRAY' && @{$Queues} && $Ticket{Queue} ) {
+    if ( $Queues && ref $Queues eq 'HASH' && %{$Queues} && $Ticket{Queue} ) {
 
-        my $QueueCheck;
-        QUEUE:
-        for my $Queue ( @{$Queues} ) {
+        return if !$Queues->{ $Ticket{Queue} };
 
-            next QUEUE if !$Queue;
-            next QUEUE if $Ticket{Queue} ne $Queue;
+        # get check item object
+        my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-            $QueueCheck = 1;
+        # extract permission list
+        my @PermissionList = split ',', $Queues->{ $Ticket{Queue} };
 
-            last QUEUE;
+        my %PermissionList;
+        STRING:
+        for my $String (@PermissionList) {
+
+            next STRING if !$String;
+
+            # trim the string
+            $CheckItemObject->StringClean(
+                StringRef => \$String,
+            );
+
+            next STRING if !$String;
+
+            $PermissionList{$String} = 1;
         }
 
-        return if !$QueueCheck;
+        # if a permission like 'note' is given, the 'ro' permission is required to calculate the right permission
+        $PermissionList{ro} = 1;
+
+        return if !$PermissionList{rw} && !$PermissionList{ $Param{Type} };
     }
 
     return 1 if $Ticket{CreateBy} eq $Param{UserID};

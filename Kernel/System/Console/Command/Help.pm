@@ -26,29 +26,30 @@ sub Configure {
 
     $Self->Description('Displays help for an existing command or search for commands.');
     $Self->AddArgument(
-        Name        => 'command',
-        Description => "Print usage information for this command (if command is available) or search for commands with similar names.",
-        ValueRegex  => qr/[a-zA-Z0-9:_]+/,
-        Required    => 1,
+        Name => 'command',
+        Description =>
+            "Print usage information for this command (if command is available) or search for commands with similar names.",
+        ValueRegex => qr/[a-zA-Z0-9:_]+/,
+        Required   => 1,
     );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $SearchCommand =  $Self->GetArgument('command');
+    my $SearchCommand = $Self->GetArgument('command');
     my $CommandModule = "Kernel::System::Console::Command::$SearchCommand";
 
     # Is it an existing command? Then show help for it.
-    if ($Kernel::OM->Get('Kernel::System::Main')->Require( $CommandModule, Silent => 1 )) {
-        my $Command = $Kernel::OM->Get( $CommandModule );
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( $CommandModule, Silent => 1 ) ) {
+        my $Command = $Kernel::OM->Get($CommandModule);
         $Command->ANSI( $Self->ANSI() );
         print $Command->GetUsageHelp();
         return $Self->ExitCodeOk();
     }
 
     # Otherwise, search for commands with a similar name
-    return $Self->HandleSearch(SearchCommand => $SearchCommand); # From "Search" command
+    return $Self->HandleSearch( SearchCommand => $SearchCommand );    # From "Search" command
 }
 
 1;

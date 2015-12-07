@@ -365,7 +365,7 @@ sub Run {
                     @StateIDs = grep { exists $StateIDs{$_} } @{ $GetParam{StateIDs} };
                 }
 
-                if ( @StateIDs ) {
+                if (@StateIDs) {
                     $GetParam{StateIDs} = \@StateIDs;
                 }
             }

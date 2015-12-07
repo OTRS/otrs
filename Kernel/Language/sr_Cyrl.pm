@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.9644412191582;
+    $Self->{Completeness}        = 0.963829274174102;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1839,7 +1839,6 @@ sub Data {
         'Filter available fields' => 'Филтрирај расположива поља',
         'Available Fields' => 'Расположива поља',
         'Assigned Fields' => 'Додељена поља',
-        'Edit Details for Field' => 'Уреди детаље за поље',
         'ArticleType' => 'ТипЧланка',
         'Display' => 'Прикажи',
         'Edit Field Details' => 'Уреди детаље поља',
@@ -1947,9 +1946,9 @@ sub Data {
         'Type of Linking between Conditions' => 'Тип везе између услова',
         'Remove this Condition' => 'Уклони овај услов',
         'Type of Linking' => 'Тип везе',
+        'Add a new Field' => 'Додај ново поље',
         'Remove this Field' => 'Уклони ово поље',
         'And can\'t be repeated on the same condition.' => 'И се не може поновити у истом услову.',
-        'Add a new Field' => 'Додај ново поље',
         'Add New Condition' => 'Додај нови услов',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1959,8 +1958,8 @@ sub Data {
         'Transition Action Name' => 'Назив транзиционе активности',
         'Transition Action Module' => 'Модул транзиционе активности',
         'Config Parameters' => 'Конфигурациони параметри',
-        'Remove this Parameter' => 'Уклони овај параметар',
         'Add a new Parameter' => 'Додај нови параметар',
+        'Remove this Parameter' => 'Уклони овај параметар',
 
         # Template: AdminQueue
         'Manage Queues' => 'Управљање редовима',
@@ -3124,6 +3123,12 @@ sub Data {
         'No user configurable notifications found.' => 'Нису пронађена обавештења која корисник може да подеси.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Примите поруке за обавештавање „%s” пренете путем „%s”.',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Информације о процесу',
@@ -3163,7 +3168,7 @@ sub Data {
         'This statistic does not provide preview data.' => 'Ова статистика не омогућава привремени приказ.',
         'Preview format:' => 'Формат приказа:',
         'Please note that the preview uses random data and does not consider data filters.' =>
-            '',
+            'Напомињемо да приказ користи насумично изабране податке и не узима у обзир филтере података.',
         'Configure X-Axis' => 'Подеси X осу',
         'X-axis' => 'Х-оса',
         'Configure Y-Axis' => 'Подеси Y осу',
@@ -3200,7 +3205,7 @@ sub Data {
 
         # Template: YAxisWidget
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
-            '',
+            'Молимо запамтите, да скала за Y-осу треба да буде већа од скале за Х-осу (нпр. Х-Оса => месец; Y-оса => година).',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS тест страна',
@@ -3236,6 +3241,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Сви оператери претплаћени и на ред и на сервис тикета',
         'Customer of the ticket' => 'Клијент за тикет',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3304,6 +3310,9 @@ sub Data {
             'Жао нам је, ви више немате дозволу за приступ овом тикету у његовом садашњем стању.',
         ' You can take one of the next actions:' => 'Можете предузети једну од следећих акција:',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
 
@@ -3315,6 +3324,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(у току)',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Молимо да одредите датум завршетка који је после датума почетка.',
@@ -3350,6 +3363,12 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортирај по',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Тип статуса',
@@ -4559,6 +4578,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Дефинише подразумевани ред постмастера.',
         'Defines the priority in which the information is logged and presented.' =>
             'Дефинише приоритет по ком се информације бележе и приказују.',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Дефинише примаоца телефонског тикета и пошиљаоца имејл тикета ("Ред" приказује све редове, "Системска адреса" приказује све системске адресе) у интерфејсу оператера.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4680,7 +4701,7 @@ Thanks for your help!
             'Приказује обрачунато време за један чланак у приказу увећаног тикета.',
         'Dropdown' => 'Падајући',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Холандске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Dynamic Fields Checkbox Backend GUI' => 'Позадински приказ динамичког поља за потврду',
         'Dynamic Fields Date Time Backend GUI' => 'Позадински приказ динамичког поља за датум и време',
         'Dynamic Fields Drop-down Backend GUI' => 'Позадински приказ падајућег динамичког поља',
@@ -5145,9 +5166,11 @@ Thanks for your help!
         'Module to check customer permissions.' => 'Модул за проверу клијентских дозвола.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Модул за проверу да ли је корисник у специјалној групи. Приступ је дозвољен ако је корисник у специјалној групи и има „ro” и „rw” дозволе.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Модул за проверу да ли пристигли имејлови треба да буду изначени као интерни (на основу оргиналног имејла прослеђивања). Тип чланка и тип пошиљаоца дефинишу вредности за примљени имејл/чланак.',
         'Module to check the agent responsible of a ticket.' => 'Модул за проверу оператера одговорног за тикет.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Модул за проверу групних дозвола за приступ клијентским тикетима.',
         'Module to check the owner of a ticket.' => 'Модул за проверу власника тикета.',
@@ -5269,11 +5292,11 @@ Thanks for your help!
         'Portuguese (Brasil)' => 'Португалски (Бразил)',
         'PostMaster Filters' => 'PostMaster филтери',
         'PostMaster Mail Accounts' => 'PostMaster мејл налози',
-        'Process Management Activity Dialog GUI' => '',
-        'Process Management Activity GUI' => '',
-        'Process Management Path GUI' => '',
-        'Process Management Transition Action GUI' => '',
-        'Process Management Transition GUI' => '',
+        'Process Management Activity Dialog GUI' => 'ГКИ дијалога активности управљања процесом',
+        'Process Management Activity GUI' => 'ГКИ активности управљања процесом',
+        'Process Management Path GUI' => 'ГКИ путање управљања процесом',
+        'Process Management Transition Action GUI' => 'ГКИ транзиционе акције управљања процесом',
+        'Process Management Transition GUI' => 'ГКИ транзиције управљања процесом',
         'Process pending tickets.' => '',
         'ProcessID' => 'ИД процеса',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
@@ -5579,7 +5602,7 @@ Thanks for your help!
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' =>
             '',
         'Shared Secret' => '',
-        'Should the cache data be help in memory?' => '',
+        'Should the cache data be help in memory?' => 'Да ли кеширани подаци треба да се чувају у меморији?',
         'Should the cache data be stored in the selected cache backend?' =>
             'Да ли кеширани подаци треба да се чувају у одабраном кешу система у позадини?',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -5759,8 +5782,8 @@ Thanks for your help!
         'Slovenian' => 'Словеначки',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
-        'Some description!' => '',
-        'Some picture description!' => '',
+        'Some description!' => 'Неки опис!',
+        'Some picture description!' => 'Неки опис слике!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Сортирање тикета (узлазно или силазно) када се изабере један ред из прегледа редова после сортирања тикета по приоритету. Вредности: 0 = узлазно (најстарије на врху, подразумевано), 1 = силазно (најновије на врху). Користи ИД реда за кључ и 0 или 1 за вредност.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>

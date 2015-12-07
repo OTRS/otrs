@@ -8,13 +8,14 @@
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
 # Galo Izquierdo <gizquier@hotmail.com>, 2015
 # juanman <juanma@gnutn.org.ar>, 2015
+# Nuño López Ansótegui <nuno.lopez@exevi.com>, 2015
 # Pablo Ascencio <pabloascencio77@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-16 14:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-11-25 17:57+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5572,13 +5573,13 @@ msgstr "Atributos de los datos del ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Valores de las claves internas de los campos dinámicos de los tickets"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr ""
+msgstr "Valores mostrados de los campos  dinámicos de los tickets, útil para los campos desplegables y de selección múltiple"
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
@@ -6375,10 +6376,6 @@ msgid "Assigned Fields"
 msgstr "Campos Asignados"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Edite Detalles para Campo"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "TipoArticulo"
 
@@ -6723,16 +6720,16 @@ msgid "Type of Linking"
 msgstr "Tipo de Vinculación"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Añadir nuevo Campo"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Eliminar este Campo"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr "Y no puede ser repetida en la misma condición."
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Añadir nuevo Campo"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6761,12 +6758,12 @@ msgid "Config Parameters"
 msgstr "Parámetros de Configuración"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Elimine este Parámetro"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Añada un nuevo Parámetro"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Elimine este Parámetro"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -10284,6 +10281,22 @@ msgstr "No encontrada ninguna notificación de usuario configurable."
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr "Recibir mensajes para notificación '%s' por el método de transporte '%s'."
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
 #. Template: ActivityDialogHeader
 msgid "Process Information"
 msgstr "Información de Proceso"
@@ -10353,7 +10366,7 @@ msgstr "Proporcionar la estadística como un elemento gráfico que los agentes p
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "Por favor, ten en cuenta que habilitar el elemento gráfico en el panel principal activará el cacheo para esta estadística en el panel principal."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -10361,11 +10374,11 @@ msgstr "Si se establece a un valor no válido los usuarios finales no pueden gen
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "Hay problemas en la configuración de esta estadística:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "Ahora tienes que configurar el eje-X de tu estadística."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
@@ -10549,6 +10562,10 @@ msgstr "Todos los agentes suscritos a ambos cola y servicio del ticket"
 msgid "Customer of the ticket"
 msgstr "Cliente del ticket"
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10678,6 +10695,10 @@ msgstr "Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su
 msgid " You can take one of the next actions:"
 msgstr "Puede tomar una de las siguientes decisiones:"
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s ¡Actualizar ahora a %s! %s"
@@ -10694,6 +10715,12 @@ msgstr "¡Por favor contacte a su administrador!"
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
 msgstr "(en proceso)"
+
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10781,6 +10808,22 @@ msgstr "Por favor quite las siguientes palabras debido a que no pueden ser utili
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Ordenar por"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -14480,6 +14523,14 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the queues the creator check will be active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the queues the involved check will be active."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15716,7 +15767,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16408,6 +16459,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Module to check if an agent is involved to a ticket."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16416,6 +16471,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to check the creator of a ticket."
 msgstr ""
 
 #. SysConfig

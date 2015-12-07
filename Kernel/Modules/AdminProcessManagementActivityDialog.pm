@@ -80,7 +80,7 @@ sub Run {
     }
 
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket'],
         ResultType => 'HASH',
     );
 
@@ -672,7 +672,7 @@ sub _ShowEdit {
     }
 
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket'],
         ResultType => 'HASH',
     );
 

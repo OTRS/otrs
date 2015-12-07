@@ -48,6 +48,9 @@ sub Run {
         DynamicFields => 0,
     );
 
+    return if !%Ticket;
+    return if !$Ticket{QueueID};
+
     # get ticket group
     my $QueueGroupID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID(
         QueueID => $Ticket{QueueID},

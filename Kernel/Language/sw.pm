@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.84978229317852;
+    $Self->{Completeness}        = 0.846877260670364;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1843,7 +1843,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Filter available fields' => 'Chuja Uga zinazopatika',
         'Available Fields' => 'Uga uliopo',
         'Assigned Fields' => 'Uga zilizogaiwa',
-        'Edit Details for Field' => 'Hariri maelezo ya uga',
         'ArticleType' => 'Aina ya makala',
         'Display' => 'Onyesha',
         'Edit Field Details' => 'Hariri maelezo ya uga',
@@ -1951,9 +1950,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Type of Linking between Conditions' => 'Aina ya kunganisha kati ya masharti',
         'Remove this Condition' => 'Ondoa sharti hili',
         'Type of Linking' => 'Aina ya kiunganishi',
+        'Add a new Field' => 'Ongeza uga mpya',
         'Remove this Field' => 'Ondoa uga huu',
         'And can\'t be repeated on the same condition.' => '',
-        'Add a new Field' => 'Ongeza uga mpya',
         'Add New Condition' => 'Ongeza sharti jipya',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1963,8 +1962,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Transition Action Name' => 'Jina la kitendo cha mpito',
         'Transition Action Module' => 'Moduli ya kitendo cha mpito',
         'Config Parameters' => 'Vigezo vya usanidi',
-        'Remove this Parameter' => 'Ondoa hiki kigezo',
         'Add a new Parameter' => 'Ongeza kigezo kipya',
+        'Remove this Parameter' => 'Ondoa hiki kigezo',
 
         # Template: AdminQueue
         'Manage Queues' => 'Simamia foleni',
@@ -3128,6 +3127,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'No user configurable notifications found.' => '',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
+        'Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Taarifa za mchakato',
@@ -3240,6 +3245,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
+        'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3308,6 +3314,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             '',
         ' You can take one of the next actions:' => '',
 
+        # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+        'Linked as' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
 
@@ -3319,6 +3328,10 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+        'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => '',
@@ -3354,6 +3367,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Panga kwa',
+
+        # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+        'Configuration Options Reference' => '',
+        'This setting can not be changed.' => '',
+        'This setting is not active by default.' => '',
+        'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4555,6 +4574,8 @@ Mfano:
         'Defines the postmaster default queue.' => 'Inafafanua foleni chaguo msingi ya mkuu wa posta.',
         'Defines the priority in which the information is logged and presented.' =>
             'Inafafanua kipaumbele ambacho taarifa zinawekwa batli na kuwasilishwa.',
+        'Defines the queues the creator check will be active.' => '',
+        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -5141,9 +5162,11 @@ Mfano:
         'Module to check customer permissions.' => 'Moduli ya kuangalia ruhusa za mteja.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Moduli ya kuangalia kama mtumiaji yupo katika kundi maalum. Ruhusa itagaiwa, kama mtumiaji yupo katika kundi maalum na ana ruhusa za ro na rw.',
+        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Moduli za kuangalia barua pepe zilizofika  ziwekwe alama kama barua pepe za ndani (kwasababu ya barua pepe za ndani zilizotumwa mbele awali). Aina ya Makala na aina ya mtumaji wanafafanua thamani ya barua pepe/makala zilizofika.',
         'Module to check the agent responsible of a ticket.' => 'Moduli ya kuangalia wakala anayehusika na tiketi.',
+        'Module to check the creator of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Moduli ya kuangalia ruhusa za kundi kuweza kufikia tiketi za mteja.',
         'Module to check the owner of a ticket.' => 'Moduli ya kukagua mmiliki wa tiketi',

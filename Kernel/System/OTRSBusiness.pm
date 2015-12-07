@@ -33,7 +33,7 @@ my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;    # 5 days
 my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;     # 15 days
 
 # If the contract is about to expire in less than this time, show a hint
-my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 30;
+my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 28;     # 28 days
 
 =head1 NAME
 

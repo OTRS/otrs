@@ -87,6 +87,21 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # open collapsed widgets, if necessary
+        $Selenium->execute_script(
+            "\$('.WidgetSimple.Collapsed .WidgetAction > a').trigger('click');"
+        );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple.Expanded").length;'
+        );
+
         # check page
         for my $ID (
             qw(Subject RichText FileUpload ArticleTypeID submitRichText)
@@ -128,6 +143,11 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
         # confirm note action
         my $NoteMsg = "Added note (Note)";
         $Self->True(
@@ -148,6 +168,11 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
         # check for subject pre-loaded value
         my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
 
@@ -155,6 +180,81 @@ $Selenium->RunTest(
             $Selenium->find_element( '#Subject', 'css' )->get_value(),
             $NoteSubjectRe . ': ' . $NoteSubject,
             "Reply-To note #Subject pre-loaded value",
+        );
+
+        # close note window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # test for bug#11205 (http://bugs.otrs.org/show_bug.cgi?id=11205)
+        # check screen size to open popup accoring to available screen height
+        # open popup with default height
+        # after that open popup with adjusted height
+        my $ParentWindowHeight = $Selenium->get_window_size()->{"height"};
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # click on 'Note' and switch window
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        my $PopupWindowHeight = $Selenium->execute_script(
+            "return \$(window).height();"
+        );
+
+        $Self->Is(
+            $PopupWindowHeight,
+            700,
+            "Default popup window height"
+        );
+
+        # close note window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # now try to open a popup with a height largr than the screen height (1000)
+        # adjust PopupProfile for that
+        $Selenium->execute_script(
+            "Core.UI.Popup.ProfileAdd('Default', { WindowURLParams: 'dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no', Left: 100, Top: 100, Width: 1040, Height: 1700 });"
+        );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # click on 'Note' and switch window
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        $PopupWindowHeight = $Selenium->execute_script(
+            "return \$(window).height();"
+        );
+
+        $Self->True(
+            $ParentWindowHeight - $PopupWindowHeight,
+            "Popup window height (" . $PopupWindowHeight . "px) fits into screen height (" . $ParentWindowHeight . "px), even if defined larger"
         );
 
         # delete created test tickets

@@ -124,6 +124,7 @@ $Selenium->RunTest(
 
         # check AdminQueueAutoResponse screen
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueueAutoResponse");
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
 
         for my $ID (
             qw(Queues AutoResponses FilterQueues FilterAutoResponses)
@@ -184,6 +185,8 @@ $Selenium->RunTest(
 
         # check auto response relation for queue screen
         $Selenium->find_element( $QueueRandomID, 'link_text' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         my $Index = 0;
         for my $Test (@Tests)
         {
@@ -206,9 +209,12 @@ $Selenium->RunTest(
         }
 
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
 
         # check new QueueAutoResponse relations
         $Selenium->find_element( $QueueRandomID, 'link_text' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+
         $Index = 0;
         for my $Test (@Tests)
         {

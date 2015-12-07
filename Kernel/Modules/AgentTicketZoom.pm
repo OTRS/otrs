@@ -36,52 +36,54 @@ sub new {
     $Self->{ArticleID}      = $ParamObject->GetParam( Param => 'ArticleID' );
     $Self->{ZoomExpand}     = $ParamObject->GetParam( Param => 'ZoomExpand' );
     $Self->{ZoomExpandSort} = $ParamObject->GetParam( Param => 'ZoomExpandSort' );
-
-    # Please note: ZoomTimeline is an OTRSBusiness feature
-    $Self->{ZoomTimeline} = $ParamObject->GetParam( Param => 'ZoomTimeline' );
-    if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
-        $Self->{ZoomTimeline} = 0;
-    }
+    $Self->{ZoomTimeline}   = $ParamObject->GetParam( Param => 'ZoomTimeline' );
 
     my %UserPreferences = $UserObject->GetPreferences(
         UserID => $Self->{UserID},
     );
 
-    if ( !defined $Self->{ZoomExpand} && !defined $Self->{ZoomTimeline} ) {
-        $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');
-        if ( $UserPreferences{UserLastUsedZoomViewType} ) {
-            if ( $UserPreferences{UserLastUsedZoomViewType} eq 'Expand' ) {
-                $Self->{ZoomExpand} = 1;
-            }
-            elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Collapse' ) {
-                $Self->{ZoomExpand} = 0;
-            }
-            elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Timeline' ) {
-                $Self->{ZoomTimeline} = 1;
-            }
-        }
-    }
-
     # save last used view type in preferences
-    if ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
+    if ( !$Self->{Subaction} ) {
 
-        my $LastUsedZoomViewType = '';
-        if ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
-            $LastUsedZoomViewType = 'Expand';
+        if ( !defined $Self->{ZoomExpand} && !defined $Self->{ZoomTimeline} ) {
+            $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');
+            if ( $UserPreferences{UserLastUsedZoomViewType} ) {
+                if ( $UserPreferences{UserLastUsedZoomViewType} eq 'Expand' ) {
+                    $Self->{ZoomExpand} = 1;
+                }
+                elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Collapse' ) {
+                    $Self->{ZoomExpand} = 0;
+                }
+                elsif ( $UserPreferences{UserLastUsedZoomViewType} eq 'Timeline' ) {
+                    $Self->{ZoomTimeline} = 1;
+                }
+            }
         }
-        elsif ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 0 ) {
-            $LastUsedZoomViewType = 'Collapse';
+
+        if ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
+
+            my $LastUsedZoomViewType = '';
+            if ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
+                $LastUsedZoomViewType = 'Expand';
+            }
+            elsif ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 0 ) {
+                $LastUsedZoomViewType = 'Collapse';
+            }
+            elsif ( defined $Self->{ZoomTimeline} && $Self->{ZoomTimeline} == 1 ) {
+                $LastUsedZoomViewType = 'Timeline';
+            }
+            $UserObject->SetPreferences(
+                UserID => $Self->{UserID},
+                Key    => 'UserLastUsedZoomViewType',
+                Value  => $LastUsedZoomViewType,
+            );
         }
-        elsif ( defined $Self->{ZoomTimeline} && $Self->{ZoomTimeline} == 1 ) {
-            $LastUsedZoomViewType = 'Timeline';
-        }
-        $UserObject->SetPreferences(
-            UserID => $Self->{UserID},
-            Key    => 'UserLastUsedZoomViewType',
-            Value  => $LastUsedZoomViewType,
-        );
     }
 
+    # Please note: ZoomTimeline is an OTRSBusiness feature
+    if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
+        $Self->{ZoomTimeline} = 0;
+    }
 
     if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
         if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {

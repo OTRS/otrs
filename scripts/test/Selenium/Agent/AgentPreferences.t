@@ -40,7 +40,7 @@ $Selenium->RunTest(
         my $Language = "en";
 
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups   => ['users', 'admin'],
+            Groups   => [ 'users', 'admin' ],
             Language => $Language,
         ) || die "Did not get test user";
 
@@ -48,6 +48,32 @@ $Selenium->RunTest(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
+        );
+
+        # add a test notification
+        my $RandomID                = $Helper->GetRandomID();
+        my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+        my $NotificationID          = $NotificationEventObject->NotificationAdd(
+            Name => 'NotificationTest' . $RandomID,
+            Data => {
+                Events          => ['TicketQueueUpdate'],
+                VisibleForAgent => ['2'],
+                Transports      => ['Email'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Subject',
+                    Body        => 'Body',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        $Self->True(
+            $NotificationID,
+            "Created test notification",
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
@@ -65,20 +91,9 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # set one notification to mandatory and check if it's validated correctly
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Change;ID=1");
-        $Selenium->execute_script("\$('#VisibleForAgent').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element("//input[\@id='AgentEnabledByDefaultEmail']")->click();
-
-        # get notification name & save the form
-        my $NotificationName = $Selenium->find_element( '#Name', 'css' )->get_value();
-        $Selenium->find_element("#NotificationEvent button[type='submit']", 'css')->submit();
-
-        # get back to prefs and check if the notification is marked and validated correctly
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
-
         $Self->True(
-            index( $Selenium->get_page_source(), '<span class="Mandatory">* Ticket create notification</span>' ) > -1,
+            index( $Selenium->get_page_source(), '<span class="Mandatory">* NotificationTest' . $RandomID . '</span>' )
+                > -1,
             "Notification correctly marked as mandatory in preferences."
         );
 
@@ -107,23 +122,35 @@ JAVASCRIPT
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
-            $LanguageObject->Translate("Sorry, but you can't disable all methods for notifications marked as mandatory."),
+            $LanguageObject->Translate(
+                "Sorry, but you can't disable all methods for notifications marked as mandatory."),
             'Alert message shows up correctly',
         );
 
         # now enable the checkbox and try to submit again, it should work this time
-        $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
         $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
 
         $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
-        $Selenium->find_element("//input[\@id='Notification-1-Email-checkbox']")->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
             $LanguageObject->Translate("Sorry, but you can't disable all methods for this notification."),
             'Alert message shows up correctly',
+        );
+
+        # delete notificatio entry again
+        my $SuccesDelete = $NotificationEventObject->NotificationDelete(
+            ID     => $NotificationID,
+            UserID => 1,
+        );
+
+        $Self->True(
+            $SuccesDelete,
+            "Delete test notification - $NotificationID",
         );
 
         # check some of AgentPreferences default values

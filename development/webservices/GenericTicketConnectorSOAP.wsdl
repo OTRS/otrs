@@ -1058,29 +1058,29 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             <xsd:element
                 name="SLA"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="SLAID"
                 type="xsd:positiveInteger"
-                minOccurs="1"
+                minOccurs="0"
                 maxOccurs="1">
             </xsd:element>
             <xsd:element
                 name="Service"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="ServiceID"
                 type="xsd:positiveInteger"
-                minOccurs="1"
+                minOccurs="0"
                 maxOccurs="1">
             </xsd:element>
             <xsd:element
                 name="SolutionTime"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="SolutionTimeEscalation"
@@ -1175,7 +1175,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             </xsd:element>
             <xsd:element
                 name="UntilTime"
-                type="xsd:positiveInteger"
+                type="xsd:nonNegativeInteger"
                 minOccurs="1"
                 maxOccurs="1">
             </xsd:element>
@@ -1440,13 +1440,13 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             <xsd:element
                 name="SLA"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="SLAID"
                 type="xsd:positiveInteger"
                 minOccurs="1"
-                maxOccurs="1">
+                maxOccurs="0">
             </xsd:element>
             <xsd:element
                 name="SenderType"
@@ -1462,18 +1462,18 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             <xsd:element
                 name="Service"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="ServiceID"
                 type="xsd:positiveInteger"
-                minOccurs="1"
+                minOccurs="0"
                 maxOccurs="1">
             </xsd:element>
             <xsd:element
                 name="SolutionTime"
                 type="xsd:string"
-                minOccurs="1">
+                minOccurs="0">
             </xsd:element>
             <xsd:element
                 name="SolutionTimeDestinationDate"
@@ -1569,7 +1569,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             </xsd:element>
             <xsd:element
                 name="UntilTime"
-                type="xsd:positiveInteger"
+                type="xsd:nonNegativeInteger"
                 minOccurs="1"
                 maxOccurs="1">
             </xsd:element>
