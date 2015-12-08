@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.498679471788715;
+    $Self->{Completeness}        = 0.49807969275084;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4581,10 +4581,10 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'डाकपाल तयशुदा श्रेणी को परिभाषित करता है।',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => 'आँकड़े के लिए खोज सीमा को परिभाषित करता है।',
@@ -4679,9 +4679,9 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'विचाराधीन टिकट जो समय सीमा तक पहुँचने के बाद स्थिति बदल लेते हैं उनकी संभावित स्थिति को निर्धारित करता है।',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'ग्राहक अंतरफलक में स्ट्रिंग जो टिकट के प्राप्तकर्ता(के लिए:) दिखाई जाएगी को निर्धारित करता है। श्रेणी के लिए ग्राहक फलक चयन प्रकार "< श्रेणी>" श्रेणीयों के नाम दर्शाता है और प्रणाली के पते के लिए "<Realname> <<Email>>" प्राप्तकर्ता का नाम और ईमेल दर्शाता है।',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'लिंक वस्तुऐं हर ज़ूम नकाब में जिस तरह से प्रदर्शित  की जाती हैं उसे निर्धारित करता है।',
@@ -4807,6 +4807,8 @@ Thanks for your help!
         'English (Canada)' => '',
         'English (United Kingdom)' => '',
         'English (United States)' => '',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.532773109243697;
+    $Self->{Completeness}        = 0.532165146423428;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4579,10 +4579,10 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Define la fila por defecto del administrador de correos.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            'Define el destinatario objetivo de los tickets telefónicos y el remitente de los tickets de correo electrónico ("Queue" muestra todas las filas, "SystemAddress" despliega todas las direcciones del sistema), en la interfaz del cliente.',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Define los permisos requeridos para mostrar un ticket en la vista de escaladas de la interfaz del agente.',
         'Defines the search limit for the stats.' => 'Define el límite de búsqueda para las estadísticas.',
@@ -4677,9 +4677,9 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Determina los estados posibles para tickets pendientes que cambiaron de estado al alcanzar el tiempo límite.',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Determina las cadena que se mostrarán como remitente (De:) de los tickets, en la interfaz del cliente. Para Queue como NewQueueSelectionType, "<Queue>" muestra los nombres de las filas; y para SystemAddress, "<Realname> <<Email>>" muestra el nombre y el correo electrónico del remitente.',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Determina la forma en la que los objetos vinculados se despliegan en cada vista detallada.',
@@ -4805,6 +4805,8 @@ Thanks for your help!
         'English (Canada)' => '',
         'English (United Kingdom)' => '',
         'English (United States)' => '',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',

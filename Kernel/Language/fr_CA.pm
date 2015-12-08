@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.614405762304922;
+    $Self->{Completeness}        = 0.613778204512722;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4586,10 +4586,10 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Détermine la file par défaut du maître de poste.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            'Détermine le destinataire cible des demandes dans l\'interface client (l\'option « File » (Queue) affiche l\'ensemble des files, l\'option « Adresses du système » (SystemAddress) affiche l\'ensemble des adresses du système).',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Détermine la permission requise pour afficher une demande dans la vue de l\'escalade de l\'interface agent.',
         'Defines the search limit for the stats.' => 'Détermine la limite de recherche pour les statistiques.',
@@ -4684,9 +4684,9 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Détermine les états possibles pour les demandes en attente qui ont changé d\'état après avoir atteint leur délai d\'attente.',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Détermine les textes du champ « destinataire » (À : ) de la demande dans l\'interface client. En ce qui concerne les files « CustomerPanelSelectionType », le champ « <Queue> » affiche le nom des files et le nom et le courriel du destinaire apparaîtront dans les champs « <Realname> <<Email>> » de l\'adresse système (SystemAddress).',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Détermine la manière dont les objets liés sont affichés dans chaque masque.',
@@ -4812,6 +4812,8 @@ Thanks for your help!
         'English (Canada)' => '',
         'English (United Kingdom)' => '',
         'English (United States)' => '',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',

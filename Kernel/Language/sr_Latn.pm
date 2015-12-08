@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.957262905162065;
+    $Self->{Completeness}        = 0.958233317330773;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3130,11 +3130,11 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Primite poruke za obaveštavanje „%s” prenete putem „%s”.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Molimo da zapamtite da ne možete potpuno da isključite obaveštenja označena kao obavezna.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'Izvinite ali ne možete isključiti sve metode za obaveštenja označena kao obavezna.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'Izvinite ali ne možete isključiti sve metode za ovo obaveštenje.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Informacije o procesu',
@@ -3247,7 +3247,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Svi operateri pretplaćeni i na red i na servis tiketa',
         'Customer of the ticket' => 'Klijent za tiket',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method' => 'Da, ali je neophodan bar jedan aktivni metod obaveštavanja.',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3317,7 +3317,7 @@ sub Data {
         ' You can take one of the next actions:' => 'Možete preduzeti jednu od sledećih akcija:',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
+        'Linked as' => 'Povezano kao',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ažurirajte na %s sada! %s',
@@ -3371,10 +3371,10 @@ sub Data {
         'Order by' => 'Sortiraj po',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'Configuration Options Reference' => 'Referentni spisak konfiguracionih opcija',
+        'This setting can not be changed.' => 'Ovo podešavanje se ne može menjati.',
+        'This setting is not active by default.' => 'Ovo podešavanje nije podrazumevano aktivno.',
+        'This setting can not be deactivated.' => 'Ovo podešavanje se ne može deaktivirati.',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Tip statusa',
@@ -4596,10 +4596,10 @@ Vaša tehnička podrška
         'Defines the postmaster default queue.' => 'Definiše podrazumevani red postmastera.',
         'Defines the priority in which the information is logged and presented.' =>
             'Definiše prioritet po kom se informacije beleže i prikazuju.',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
-            'Definiše primaoca telefonskog tiketa i pošiljaoca imejl tiketa ("Red" prikazuje sve redove, "Sistemska adresa" prikazuje sve sistemske adrese) u interfejsu operatera.',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            'Određuje ciljnog primaoca tiketa („Red” prikazuje sve redove, „Sistemska Adresa” prikazuje sve sistemske adrese) u interfejsu klijenta.',
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Definiše zahtevanu dozvolu za prikaz tiketa u eskalacionom pregledu interfejsa operatera.',
         'Defines the search limit for the stats.' => 'Definiše granicu pretrage za statistike.',
@@ -4694,10 +4694,10 @@ Vaša tehnička podrška
             'Određuje sledeći prikaz ekrana, nakon premeštanja tiketa. LastScreenOverview će vratiti poslednji pregled ekrana (npr. rezultati pretrage, pregled redova, kontrolna tabla). TicketZoom će vratiti na uvećanje tiketa.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Određuje mogući status za tikete na čekanju koji menjaju status nakon dostizanja vremenskog limita.',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Određuje niz znakova koji će biti prikazani kao primaoc (Za:) u tiketu u interfejsu klijenta. Za red kao CustomerPanelSelectionType "<Queue>" prikazuje imena redova i za sistemsku adresu "<Realname> <<Email>>" prikazuje ime i imejl primaoca.**',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Određuje nizove znakova koji će biti prikazani kao primalac (Za:) telefonskog tiketa i kao pošiljalac (Od:) imejl tiketa u interfejsu operatera. Za red "<Queue>" prikazuje nazive redova, a za sistemsku adresu "<Realname> <<Email>>" prikazuje ime i imejl primaoca.',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Određuje način na koji se povezani objekti prikazuju u svakoj uvećanoj maski.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
@@ -4822,6 +4822,8 @@ Vaša tehnička podrška
         'English (Canada)' => 'Engleski (Kanada)',
         'English (United Kingdom)' => 'Engleski (Ujedinjeno Kraljevstvo)',
         'English (United States)' => 'Engleski (Sjedinjene Države)',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => 'Upiši proces za ovaj tiket',
         'Enter your shared secret to enable two factor authentication.' =>
             'Unesite svoj deljeni tajni ključ za dvofaktorski modul za identifikaciju.',

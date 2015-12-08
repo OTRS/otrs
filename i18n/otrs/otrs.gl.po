@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14564,16 +14564,16 @@ msgstr "Define a prioridade na que á información é logeada e presentada. "
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr "Define ó receptor obxectivo do ticket telefónico e o remitente do ticket de correo electrónico (\"Cola\" mostra todas as colas, \"Enderezo de sistema\" mostra todos os enderezos de sistema) na interface de axente."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr "Define ó receptor obxectivo dos tickets (\"Cola\" mostra todas as colas, \"Enderezo de sistema\" mostra todos os enderezos de sistema) na interface de cliente."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14881,19 +14881,19 @@ msgstr "Determina os posibles estados para tickets pendentes que cambiaban de es
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr "Determina os strings que serán mostrados como receptor (A:) do ticket na interface de cliente. Para Cola como CustomerPanelSelectionType, \"<Cola>\" ensina os nomes das colas, e para SystemAddress \"<nomeReal> <<Email>>\" ensina o nome e correo electrónico do receptor."
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -15303,6 +15303,12 @@ msgstr ""
 
 #. SysConfig
 msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
 msgstr ""
 
 #. SysConfig
@@ -15792,7 +15798,7 @@ msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode es
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

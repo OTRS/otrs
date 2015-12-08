@@ -13194,11 +13194,11 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the receipent target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"System address\" displays all system addresses) in the agent interface."
+msgid "Defines the recipient target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"System address\" displays all system addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the receipent target of the tickets (\"Queue\" shows all queues, \"SystemAddress\" displays all system addresses) in the customer interface."
+msgid "Defines the recipient target of the tickets (\"Queue\" shows all queues, \"SystemAddress\" displays all system addresses) in the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -13422,11 +13422,11 @@ msgid "Determines the possible states for pending tickets that changed state aft
 msgstr ""
 
 #. SysConfig
-msgid "Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, \"<Queue>\" shows the names of the queues, and for SystemAddress, \"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgid "Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
-msgid "Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the receipent."
+msgid "Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, \"<Queue>\" shows the names of the queues, and for SystemAddress, \"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -13731,6 +13731,10 @@ msgstr ""
 
 #. SysConfig
 msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
+msgid "English stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -14138,7 +14142,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

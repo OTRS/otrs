@@ -22,12 +22,13 @@
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
 # Stefan Simmerstatter <stefan.simmerstatter@gmx.net>, 2015
+# Tobias Krumholz <krumholt@fh-trier.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14228,7 +14229,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
-msgstr ""
+msgstr "Definiert die maximale Anzahl gleichzeitig ausgeführter Tasks."
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
@@ -14449,7 +14450,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
-msgstr ""
+msgstr "Definiert die Aufbewahrungszeit für die Daemon Log-Dateien in Tagen."
 
 #. SysConfig
 msgid ""
@@ -14584,14 +14585,14 @@ msgstr "Definiert die Priorität in welcher die Information aufgezeichnet und pr
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
 msgstr ""
 
@@ -14901,19 +14902,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -15324,6 +15325,12 @@ msgstr "Englisch (Vereinigtes Königreich)"
 #. SysConfig
 msgid "English (United States)"
 msgstr "Englisch (Vereinigte Staaten)"
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15812,7 +15819,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16042,13 +16049,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
-msgstr ""
+msgstr "Aktivieren um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
-msgstr ""
+msgstr "Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzuleiten."
 
 #. SysConfig
 msgid ""
@@ -18726,7 +18733,7 @@ msgstr ""
 msgid ""
 "Specifies the email addresses to get notification messages from scheduler "
 "tasks."
-msgstr ""
+msgstr "Legt die Email-Adresse für Benachrichtigungen von Scheduler Tasks fest."
 
 #. SysConfig
 msgid ""

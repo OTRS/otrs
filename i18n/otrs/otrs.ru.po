@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14576,16 +14576,16 @@ msgstr "Задает приоритет с которым информация �
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr "Задает Получателя телефонной заявки и Отправителя почтовой заявки (\"Queue\" показывает все очереди, \"System address\" отображает все системные адреса) в интерфейсе агента."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr "Задает получателя заявки (\"Queue\" показывает все очереди, \"SystemAddress\" показывает все системные адреса) в интерфейсе клиента"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14893,20 +14893,20 @@ msgstr "Задает возможные состояния для заявок �
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr "Задает строку, которая будет отображаться в поле получатель (To:) заявки в интерфейсе клиента. Для очереди, если CustomerPanelSelectionType, \"<Queue>\" отображается список имен очередей. Для SystemAddress \"<Realname> <<Email>>\" показывается имя и email получателя."
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "Задает строку, которая будет отображаться в поле получатель (To:) телефонной заявки или отправитель (From:) почтовой заявки в интерфейсе агента. Для очереди, если NewQueueSelectionType \"<Queue>\"/\"Очередь\" отображается список имен очередей. Для SystemAddress \"<Realname> <<Email>>\" показывается имя и email получателя."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
+msgstr ""
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -15316,6 +15316,12 @@ msgstr "Английский (Великобритания)"
 #. SysConfig
 msgid "English (United States)"
 msgstr "Английский (США)"
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15804,7 +15810,7 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

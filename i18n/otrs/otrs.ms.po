@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14563,16 +14563,16 @@ msgstr "Mentakrifkan keutamaan di mana maklumat direkod dan dibentangkan."
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr "Mentakrifkan sasaran penerima tiket telefon dan penghantar tiket e-mel (\"Giliran\" menunjukkan semua barisan, \"Alamat sistem\" memaparkan semua alamat sistem) dalam antara muka ejen."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr "Mentakrifkan sasaran penerima dari tiket (\"Queue\" menunjukkan kesemua aturan, \"SystemAddress\" memaparkan kesemua alamat sistem) dalam paparan pelanggan."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14880,20 +14880,20 @@ msgstr "Menentukan status kemungkinan untuk tiket tertangguh yang mengubah statu
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr "Menentukan rangkaian yang akan dipamerkan sebagai penerima (Kepada:) tiket dalam paparan pelanggan. Untuk Queue sebagai NewQeueuSelectionType \"<Queue>\" menunjukkan nama aturan dan untuk SystemAddress \"<RealName> <<Email>>\" menunjukkan nama dan emel penerima."
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "Menentukan string yang akan ditunjukkan sebagai penerima (Untuk:) tiket telefon dan sebagai penghantar (Dari:) tiket emel dalam antara muka ejen. Untuk Giliran sebagai NewQueueSelectionType \"<Giliran>\" menunjukkan nama-nama barisan dan untuk SystemAddress \"<Realname> <<E-mel>>\" menunjukkan nama dan emel penerima itu."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
+msgstr ""
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -15303,6 +15303,12 @@ msgstr "English (United Kingdom)"
 #. SysConfig
 msgid "English (United States)"
 msgstr "English (Amerika Syarikat)"
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15791,7 +15797,7 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

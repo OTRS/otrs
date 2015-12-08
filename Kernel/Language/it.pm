@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.665066026410564;
+    $Self->{Completeness}        = 0.665386461833893;
 
     # csv separator
     $Self->{Separator} = '';
@@ -450,8 +450,8 @@ sub Data {
         # Template: AAAGenericInterface
         'OTRS as requester' => 'OTRS come richiedente',
         'OTRS as provider' => 'OTRS come fornitore',
-        'Webservice "%s" created!' => 'Webservice "%s" creato!',
-        'Webservice "%s" updated!' => 'Webservice "%s" aggiornato!',
+        'Webservice "%s" created!' => 'Web service "%s" creato!',
+        'Webservice "%s" updated!' => 'Web service "%s" aggiornato!',
 
         # Template: AAAMonth
         'Jan' => 'Gen',
@@ -1202,11 +1202,11 @@ sub Data {
         'Affected Tickets' => 'Ticket corrispondenti',
 
         # Template: AdminGenericInterfaceDebugger
-        'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger per il Web Service %s',
+        'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger per il web service %s',
         'You are here' => 'Sei qui',
-        'Web Services' => 'Web Service',
+        'Web Services' => 'Web service',
         'Debugger' => 'Debugger',
-        'Go back to web service' => 'Ritorna al Web Service',
+        'Go back to web service' => 'Ritorna al web service',
         'Clear' => 'Cancella',
         'Do you really want to clear the debug log of this web service?' =>
             'Vuoi davvero cancellare il log di debug per questo web service?',
@@ -1227,8 +1227,8 @@ sub Data {
         'Clear debug log' => 'Cancella il debug log',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add new Invoker to Web Service %s' => 'Aggiungi nuovo Invoker al Web Service %s',
-        'Change Invoker %s of Web Service %s' => 'Cambia l\'Invoker %s del Web Service %s',
+        'Add new Invoker to Web Service %s' => 'Aggiungi nuovo invoker al web service %s',
+        'Change Invoker %s of Web Service %s' => 'Cambia l\'invoker %s del web service %s',
         'Add new invoker' => 'Aggiungi nuovo Invoker',
         'Change invoker %s' => 'Cambia Invoker %s',
         'Do you really want to delete this invoker?' => 'Vuoi davvero eliminare questo invoker?',
@@ -1236,7 +1236,7 @@ sub Data {
         'Invoker Details' => 'Dettagli dell\'Invoker',
         'The name is typically used to call up an operation of a remote web service.' =>
             'Questo nome è normalmente usato per innescare l\'operazione di un web service remoto.',
-        'Please provide a unique name for this web service invoker.' => 'Impostare un nome univoco per questo web service Invoker',
+        'Please provide a unique name for this web service invoker.' => 'Impostare un nome univoco per questo invoker di web service.',
         'Invoker backend' => 'Invoker backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Questo modulo di Invoker di backend viene utilizzato per preparare i dati da inviare al sistema remoto e per processare le risposte.',
@@ -1257,7 +1257,7 @@ sub Data {
         'Delete this Invoker' => 'Elimina questo invoker',
 
         # Template: AdminGenericInterfaceMappingSimple
-        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Mapping semplice per Web il Service %s',
+        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Mapping semplice per il web service %s',
         'Go back to' => 'Torna indietro a',
         'Mapping Simple' => 'Mapping Semplice',
         'Default rule for unmapped keys' => 'Regole di default per chiavi non mappate',
@@ -1289,8 +1289,8 @@ sub Data {
         'Insert XSLT stylesheet.' => 'Inserisci foglio di stile XSLT.',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => 'Aggiungi una nuova operazione al Web Service %s',
-        'Change Operation %s of Web Service %s' => 'Modifica l\'operazione %s del Web Service %s',
+        'Add new Operation to Web Service %s' => 'Aggiungi una nuova operazione al web service %s',
+        'Change Operation %s of Web Service %s' => 'Modifica l\'operazione %s del web service %s',
         'Add new operation' => 'Aggiungi nuova operazione',
         'Change operation %s' => 'Modifica operazione %s',
         'Do you really want to delete this operation?' => 'Vuoi davvero eliminare questa operazione?',
@@ -1310,7 +1310,7 @@ sub Data {
         'Delete this Operation' => 'Elimina questa operazione',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'GenericInterface Transport HTTP::REST for Web Service %s' => 'GenericInterface Transport HTTP::REST for Web Service %s',
+        'GenericInterface Transport HTTP::REST for Web Service %s' => 'GenericInterface Transport HTTP::REST per il web service %s',
         'Network transport' => 'Network transport',
         'Properties' => 'Proprietà',
         'Route mapping for Operation' => 'Mappatura di instradamento per l\'Operazione',
@@ -1361,7 +1361,7 @@ sub Data {
         'Endpoint' => 'Terminatore',
         'URI to indicate a specific location for accessing a service.' =>
             'URI per indicare una specifica locazione per accedere al servizio',
-        'e.g. http://local.otrs.com:8000/Webservice/Example' => 'es. http://local.otrs.com:8000/Webservice/Example',
+        'e.g. http://local.otrs.com:8000/Webservice/Example' => 'es. http://local.otrs.com:8000/Webservice/Esempio',
         'Namespace' => 'Spazio dei nomi',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI per indicare ai metodi SOAP il contesto, per ridurre le ambiguità',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
@@ -1417,16 +1417,16 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => 'GenericInterface Gestione Web Service',
-        'Add web service' => 'Aggiungi Web Service',
-        'Clone web service' => 'Copia Web Service',
+        'GenericInterface Web Service Management' => 'GenericInterface gestione web service',
+        'Add web service' => 'Aggiungi web service',
+        'Clone web service' => 'Copia web service',
         'The name must be unique.' => 'Il nome deve essere univoco.',
         'Clone' => 'Copia',
-        'Export web service' => 'Esporta il Web Service',
-        'Import web service' => 'Importa il Web Service',
+        'Export web service' => 'Esporta web service',
+        'Import web service' => 'Importa web service',
         'Configuration File' => 'File di Configurazione',
         'The file must be a valid web service configuration YAML file.' =>
-            'Il file deve essere un file di configurazione di Web Service in formato YAML.',
+            'Il file deve essere un file di configurazione di web service in formato YAML.',
         'Import' => 'Importa',
         'Configuration history' => 'Storico della configurazione',
         'Delete web service' => 'Elimina il web service',
@@ -1435,19 +1435,19 @@ sub Data {
             'Dopo aver salvato, sarai rediretto alla schermata di modifica.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Se vuoi ritornare alla vista globale, utilizza il pulsante "Vai alla vista globale".',
-        'Web Service List' => 'Elenco Web Service',
+        'Web Service List' => 'Elenco web service',
         'Remote system' => 'Sistema Remoto',
         'Provider transport' => 'Trasporto del Provider',
         'Requester transport' => 'Trasporto del Richiedente',
         'Debug threshold' => 'Soglia di debug',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            'In modalità Provider, OTRS espone Web Service utilizzati dai sistemi remoti.',
+            'In modalità fornitore, OTRS espone web service utilizzati dai sistemi remoti.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            'In modalità Requester, OTRS sfrutta i Web Service del sistema remoto',
+            'In modalità richiedente, OTRS sfrutta i web service del sistema remoto',
         'Operations are individual system functions which remote systems can request.' =>
             'Operazioni sono funzionalità singole che i sistemi remoti possono richiedere',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
-            'Gli Invoker preparano i dati per una richiesta al web service di un sistema remoto, e processano i dati ricevuti in risposta',
+            'Gli invoker preparano i dati per una richiesta al web service di un sistema remoto, e processano i dati ricevuti in risposta',
         'Controller' => 'Controller',
         'Inbound mapping' => 'Mappatura in ingresso',
         'Outbound mapping' => 'Mappatura in uscita',
@@ -1457,23 +1457,23 @@ sub Data {
         'Delete webservice' => 'Elimina web service',
         'Delete operation' => 'Elimina operazione',
         'Delete invoker' => 'Elimina invoker',
-        'Clone webservice' => 'Copia Web Service',
-        'Import webservice' => 'Importa Web Service',
+        'Clone webservice' => 'Copia web service',
+        'Import webservice' => 'Importa web service',
 
         # Template: AdminGenericInterfaceWebserviceHistory
-        'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Storico delle configurazioni per il Web Service %s',
-        'Go back to Web Service' => 'Ritorna al Web Service',
+        'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Storico delle configurazioni per il web service %s',
+        'Go back to Web Service' => 'Ritorna al web service',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            'Qui potete vedere le versioni precedenti della configurazione del Web Service, potete esportarle o ripristinale.',
+            'Qui potete vedere le versioni precedenti della configurazione del web service, potete esportarle o ripristinale.',
         'Configuration History List' => 'Elenco storico configurazioni',
         'Version' => 'Versione',
         'Create time' => 'Data di Creazione',
         'Select a single configuration version to see its details.' => 'Selezionate una sola versione per vederne i dettagli.',
-        'Export web service configuration' => 'Esporta la configurazione del Web Service',
-        'Restore web service configuration' => 'Ripristina la configurazione del Web Service',
+        'Export web service configuration' => 'Esporta la configurazione del web service',
+        'Restore web service configuration' => 'Ripristina la configurazione del web service',
         'Do you really want to restore this version of the web service configuration?' =>
             'Vuoi davvero ripristinare questa versione della configurazione del web service?',
-        'Your current web service configuration will be overwritten.' => 'La configurazione corrente del Web Service sarà sovrascritta.',
+        'Your current web service configuration will be overwritten.' => 'La configurazione attuale del web service sarà sovrascritta.',
         'Restore' => 'Ripristina',
 
         # Template: AdminGroup
@@ -1548,7 +1548,7 @@ sub Data {
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '',
         'Article sender type' => 'Tipologia del mittente dell\'articolo',
-        'Subject match' => 'Match nell\' oggetto mail',
+        'Subject match' => 'Corrispondenza dell\'oggetto',
         'Body match' => 'Match nel corpo mail ',
         'Include attachments to notification' => 'Includi allegati nella notifica',
         'Recipients' => 'Destinatari',
@@ -2350,7 +2350,7 @@ sub Data {
         'Stop date' => 'Data di fine',
         'Delete System Maintenance' => 'Elimina manutenzione di sistema',
         'Do you really want to delete this scheduled system maintenance?' =>
-            '',
+            'Vuoi davvero eliminare questa manutenzione di sistema pianificata?',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Modifica manutenzione di sistema %s',
@@ -2587,7 +2587,7 @@ sub Data {
         'Statistic Information' => 'Informazioni statistica',
         'Sum rows' => 'Somma le righe',
         'Sum columns' => 'somma le colonne',
-        'Show as dashboard widget' => '',
+        'Show as dashboard widget' => 'Mostra come oggetto del cruscotto',
         'Cache' => 'Cache',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
@@ -3527,7 +3527,7 @@ sub Data {
         'Dynamic Field Values' => 'Valori dei Campi Dinamici',
         'Invalid Dynamic Fields' => 'Campi Dinamici non validi',
         'Invalid Dynamic Field Values' => 'Valori dei Campi Dinamici non validi',
-        'GenericInterface Webservices' => 'Webservice di GenericInterface',
+        'GenericInterface Webservices' => 'GenericInterface Webservice',
         'Months Between First And Last Ticket' => 'Numero mesi fra primo e ultimo Ticket',
         'Tickets Per Month (avg)' => 'Ticket per mese (media)',
 
@@ -3817,7 +3817,7 @@ Thanks for your help!
             'Permette agli agenti di scambiare gli assi di una statistica che generano.',
         'Allows agents to generate individual-related stats.' => 'Permette agli agenti di generare statistiche individuali.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
-            'Permette di scegliere tra mostrare gli allegati di un ticlet nel browser (in linea) o renderli scaricabili (allegato).',
+            'Permette di scegliere tra mostrare gli allegati di un ticket nel browser (in linea) o renderli scaricabili (allegato).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
             'Permette di scegliere lo stato di composizione successivo nella schermata dei ticket dei clienti.',
         'Allows customers to change the ticket priority in the customer interface.' =>
@@ -4587,9 +4587,9 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
@@ -4685,9 +4685,9 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             '',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             '',
@@ -4813,6 +4813,8 @@ Thanks for your help!
         'English (Canada)' => 'Inglese (Canada)',
         'English (United Kingdom)' => 'Inglese (Regno Unito)',
         'English (United States)' => 'Inglese (Stati Uniti)',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',

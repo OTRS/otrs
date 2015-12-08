@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1349,7 +1349,7 @@ msgstr "Pokazane"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr "Widoczni użytkownicy Klienta"
+msgstr "Widoczni użytkownicy"
 
 #. Template: AAABase
 msgid "News"
@@ -2378,7 +2378,7 @@ msgstr "Historia Klienta"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
-msgstr "Edycja użytkowników klienta"
+msgstr "Edycja Użytkowników"
 
 #. Template: AAATicket
 msgid "Edit Customer"
@@ -2410,7 +2410,7 @@ msgstr "Adres %s zastąpiony zarejestrowanym adresem klienta."
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr "Użykownik klienta automatycznie dodany jako CC."
+msgstr "Użytkownik automatycznie dodany jako DW (Cc)."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
@@ -3114,7 +3114,7 @@ msgstr "np."
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Opcje danych obecnego użytkownika klienta"
+msgstr "Opcje danych obecnego użytkownika"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -3156,11 +3156,11 @@ msgstr "Zarządzanie usługami w chmurze"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Kolekcjoner Danych Wsparcia"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Kolekcjoner danych wsparcia"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3267,7 +3267,7 @@ msgstr "Dodaj Klienta"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Zarządzanie użytkownikami klienta"
+msgstr "Zarządzanie Użytkownikami"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3275,13 +3275,13 @@ msgstr "Wstecz do wyników wyszukiwania"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr "Dodaj użytkownika klienta"
+msgstr "Dodaj użytkownika"
 
 #. Template: AdminCustomerUser
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia konta użytkownika klienta."
+msgstr "W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia użytkownika."
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -4756,7 +4756,7 @@ msgstr "Plik z hasłem certyfikatu"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Pełna ścieżka i nazwa pliku z kluczem SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
@@ -5354,11 +5354,11 @@ msgstr "Edytuj Powiadomienie"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Pokaż w preferencjach agenta"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Podpowiedź (etykieta) w preferencjach agenta"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6306,7 +6306,7 @@ msgstr "Zwróć uwagę, że zmiany tego okna wpłyną na następnujące działan
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr "Proszę zanotuj, że klienci nie będą widzieć następujących pól: Właściciel, Odpowiedzialny, Blokada, Oczekujące i ID Klienta."
+msgstr "Miej na uwadze, że użytkownicy nie będą widzieć pól: Właściciel, Odpowiedzialny, Blokada, CzasOczekiwania i IDużytkownika."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -8223,7 +8223,7 @@ msgstr "Centrum informacji o kliencie"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Użytkownik Klienta"
+msgstr "Użytkownik"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8851,7 +8851,7 @@ msgstr ""
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
-msgstr "Użytkownik klienta"
+msgstr "Użytkownik"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -8867,11 +8867,11 @@ msgstr "Do kolejki"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr "Do użytkownika klienta"
+msgstr "Do użytkownika"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr "Proszę wybierz przynajmniej jednego konta klienta dla zgłoszenia."
+msgstr "Proszę dodaj przynajmniej jednego użytkownika do zgłoszenia."
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
@@ -8879,7 +8879,7 @@ msgstr "Wybierz tego klienta jako podstawowego"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr "Usuń zgłoszenie klienta"
+msgstr "Usuń Zgłoszenie Użytkownika"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
@@ -9117,7 +9117,7 @@ msgstr "Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne k
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
-msgstr "Login Użytkownika Klienta"
+msgstr "Login Użytkownika"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -10839,7 +10839,7 @@ msgstr "Utworzony status"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "CustomerUserLogin"
-msgstr "LoginUżytkownikaKlienta"
+msgstr "LoginUżytkownika"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -12024,7 +12024,7 @@ msgstr "Agenci <-> Role"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr "wszyscy użytkownicy klienta z ID"
+msgstr "Wszyscy użytkownicy  z IDklienta"
 
 #. SysConfig
 msgid ""
@@ -12168,7 +12168,7 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
-msgstr "Pozwala administratorom na logowanie się jako inni klienci poprzez panel administracyjny konta klienta."
+msgstr "Pozwala administratorom na logowanie się jako inni użytkownicy, przez panel administracyjny użytkowników"
 
 #. SysConfig
 msgid ""
@@ -12388,7 +12388,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr "Zamknięte zgłoszenia (użytkownik klienta)"
+msgstr "Zamknięte zgłoszenia (użytkownik)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
@@ -12594,7 +12594,7 @@ msgstr "Ustawienia standardowych załączników."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Zarządzanie kontami klienta."
+msgstr "Tworzenie i modyfikacja użytkowników."
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -12688,19 +12688,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User <-> Groups"
-msgstr "Użytkownik Klienta <-> Grupy"
+msgstr "Użytkownik <-> Grupy"
 
 #. SysConfig
 msgid "Customer User <-> Services"
-msgstr "Użytkownicy Klienta <-> Serwisy"
+msgstr "Użytkownicy <-> Serwisy"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Zarządzanie Użytkownikiem Klienta"
+msgstr "Zarządzanie Użytkownikami"
 
 #. SysConfig
 msgid "Customer Users"
-msgstr "Użytkownicy Klienta"
+msgstr "Użytkownicy"
 
 #. SysConfig
 msgid "Customer called us."
@@ -12726,7 +12726,7 @@ msgstr "Żądanie klienta przez www."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr "Szkukaj użytkownika klienta"
+msgstr "Wyszukiwanie uzytkowników"
 
 #. SysConfig
 msgid "CustomerID search"
@@ -14572,14 +14572,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
 msgstr ""
 
@@ -14732,7 +14732,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
-msgstr "Definiuje identyfikator użytkownika w panelu klienta."
+msgstr "Określa identyfikator użytkownika w panelu klienta."
 
 #. SysConfig
 msgid "Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl)."
@@ -14889,19 +14889,19 @@ msgstr "Determinuje możliwe stany dla oczekujących zgłoszeń po osiągnięciu
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -15311,6 +15311,12 @@ msgstr ""
 
 #. SysConfig
 msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
 msgstr ""
 
 #. SysConfig
@@ -15800,7 +15806,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16224,11 +16230,11 @@ msgstr "Połącz załączniki z szablonami."
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr "Połącz konto klienta do grup."
+msgstr "Połącz użytkownika z grupą."
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr "Połącz konto klienta do serwisów."
+msgstr "Połącz użytkownika z usługami."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -16272,7 +16278,7 @@ msgstr "Lista wszystkich wydarzeń związanych z CustomerCompany do wyświetleni
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
-msgstr "Lista wszystkich wydarzeń związanych z CustomerUser do wyświetlenia w interfejsie uźytkownika."
+msgstr "Lista wszystkich wydarzeń związanych z Użytkownikiem do wyświetlenia w interfejsie."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
@@ -16701,7 +16707,7 @@ msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr "Otwarte zgłoszenia (użytkownik klienta)"
+msgstr "Otwarte zgłoszenia (użytkownik)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
@@ -18461,11 +18467,11 @@ msgstr "Pokazuje artykuły posortowane w zwykły lub odwrócony sposób pod przy
 #. SysConfig
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
-msgstr "Pokazuje informację o kontach klienta (telefon i e-mail) w oknie przyjmowania zgłoszenia"
+msgstr "Pokazuje informację o użytkowniku (telefon i e-mail) w oknie rejestracji zgłoszenia."
 
 #. SysConfig
 msgid "Shows the customer user's info in the ticket zoom view."
-msgstr "Pokaż informację o kontach klienta w przybliżonym podglądzie zgłoszeń."
+msgstr "Pokaż informację o użytkowniku w podglądzie szczegółów zgłoszenia."
 
 #. SysConfig
 msgid ""

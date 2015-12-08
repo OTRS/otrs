@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992316926770708;
+    $Self->{Completeness}        = 0.991118578972636;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4592,10 +4592,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Defines the postmaster default queue.' => 'Mentakrifkan aturan postmaster default.',
         'Defines the priority in which the information is logged and presented.' =>
             'Mentakrifkan keutamaan di mana maklumat direkod dan dibentangkan.',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
-            'Mentakrifkan sasaran penerima tiket telefon dan penghantar tiket e-mel ("Giliran" menunjukkan semua barisan, "Alamat sistem" memaparkan semua alamat sistem) dalam antara muka ejen.',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            'Mentakrifkan sasaran penerima dari tiket ("Queue" menunjukkan kesemua aturan, "SystemAddress" memaparkan kesemua alamat sistem) dalam paparan pelanggan.',
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Mentakrifkan kebenaran yang diperlukan untuk menunjukkan paparan lambungan tiket dari paparan ejen.',
         'Defines the search limit for the stats.' => 'Mentakrifkan had carian untuk status.',
@@ -4690,10 +4690,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Menentukan skrin seterusnya selepas tiket yang digerakkan. LastScreenOverview akan kembalikan skrin gambaran yang terakhir (contohnya hasil carian, queueview, papan pemuka). TicketZoom akan kembali ke TicketZoom itu.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Menentukan status kemungkinan untuk tiket tertangguh yang mengubah status selepas mencapai had masa.',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Menentukan rangkaian yang akan dipamerkan sebagai penerima (Kepada:) tiket dalam paparan pelanggan. Untuk Queue sebagai NewQeueuSelectionType "<Queue>" menunjukkan nama aturan dan untuk SystemAddress "<RealName> <<Email>>" menunjukkan nama dan emel penerima.',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
-            'Menentukan string yang akan ditunjukkan sebagai penerima (Untuk:) tiket telefon dan sebagai penghantar (Dari:) tiket emel dalam antara muka ejen. Untuk Giliran sebagai NewQueueSelectionType "<Giliran>" menunjukkan nama-nama barisan dan untuk SystemAddress "<Realname> <<E-mel>>" menunjukkan nama dan emel penerima itu.',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Menentukan cara objek yang dipaut dipamerkan di dalam setiap zoom mask.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
@@ -4818,6 +4818,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'English (Canada)' => 'English (Kanada)',
         'English (United Kingdom)' => 'English (United Kingdom)',
         'English (United States)' => 'English (Amerika Syarikat)',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => 'Mendaftar proses untuk tiket ini',
         'Enter your shared secret to enable two factor authentication.' =>
             'Masukkan rahsia perkongsian anda untuk membolehkan dua faktor pengesahan.',
