@@ -3161,7 +3161,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.</Description>
+        <Description Translatable="1">Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3172,7 +3172,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionString" Required="1" Valid="1">
-        <Description Translatable="1">Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "&lt;Queue&gt;" shows the names of the queues and for SystemAddress "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.</Description>
+        <Description Translatable="1">Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "&lt;Queue&gt;" shows the names of the queues and for SystemAddress "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the recipient.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -7832,7 +7832,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.</Description>
+        <Description Translatable="1">Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -7843,7 +7843,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionString" Required="0" Valid="1">
-        <Description Translatable="1">Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.</Description>
+        <Description Translatable="1">Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the recipient.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
