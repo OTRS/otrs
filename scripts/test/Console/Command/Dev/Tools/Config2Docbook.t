@@ -37,7 +37,8 @@ $Self->Is(
 );
 
 my $Test
-    = '<section id="ConfigReference_Ticket:Frontend::SLA::Preferences" role="NotInToc"><title>Ticket → Frontend::SLA::Preferences</title>';
+    = '<variablelist id="ConfigReference_Ticket:Frontend::SLA::Preferences">
+    <title>Ticket → Frontend::SLA::Preferences</title>';
 
 $Self->True(
     index( $Result, $Test ) > -1,
