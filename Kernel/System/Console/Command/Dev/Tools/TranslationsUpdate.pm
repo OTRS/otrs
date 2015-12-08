@@ -14,6 +14,7 @@ use warnings;
 use base qw(Kernel::System::Console::BaseCommand);
 
 use File::Basename;
+use File::Copy;
 use Lingua::Translit;
 use Pod::Strip;
 use Storable ();
