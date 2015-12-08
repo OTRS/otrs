@@ -64,8 +64,10 @@ EOF
         my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
         print "<section id=\"ConfigReference_$Group\"><title>$Group</title>\n";
         for my $SubGroup ( sort keys %SubList ) {
-            print
-                "<section id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$Group → $SubGroup</title>\n";
+            print <<EOF;
+<variablelist id="ConfigReference_$Group:$SubGroup">
+    <title>$Group → $SubGroup</title>
+EOF
             my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
                 Group    => $Group,
                 SubGroup => $SubGroup
@@ -78,8 +80,9 @@ EOF
                 $Link =~ s/\///g;
 
                 print <<EOF;
-<section id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc">
-<title>$Name</title>
+<varlistentry id="ConfigReference_$Group:$SubGroup:$Link">
+    <term>$Name</term>
+    <listitem>
 EOF
 
                 #Description
@@ -126,9 +129,9 @@ EOF
 
                 my $DefaultValueText = $LanguageObject->Translate('Default value');
                 print "<para>$DefaultValueText:<programlisting><![CDATA[$Config]]></programlisting></para>\n";
-                print "</section>\n";
+                print "</listitem></varlistentry>\n";
             }
-            print "</section>\n";
+            print "</variablelist>\n";
         }
         print "</section>\n";
     }
