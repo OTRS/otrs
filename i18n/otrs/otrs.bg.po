@@ -1,12 +1,13 @@
 # 
 # Translators:
 # Milko Milkov <engineer@abv.bg>, 2015
+# Yanush Ivanov <forceda@rqms.eu>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/otrs/OTRS/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,19 +181,19 @@ msgstr "седмица(и)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "тримесечие"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "тримесечие(я)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "полугодие"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "полугодие (я)"
 
 #. Template: AAABase
 msgid "year"
@@ -260,7 +261,7 @@ msgstr "Файл-модул"
 
 #. Template: AAABase
 msgid "Subfunction"
-msgstr "Подфункция"
+msgstr "Под-функция"
 
 #. Template: AAABase
 msgid "Line"
@@ -364,7 +365,7 @@ msgstr "няма!"
 
 #. Template: AAABase
 msgid "none - answered"
-msgstr "няма - отговорен"
+msgstr "липсва отговор"
 
 #. Template: AAABase
 msgid "please do not edit!"
@@ -372,7 +373,7 @@ msgstr "моля, не редактирайте!"
 
 #. Template: AAABase
 msgid "Need Action"
-msgstr ""
+msgstr "Нужно е действие"
 
 #. Template: AAABase
 msgid "AddLink"
@@ -384,7 +385,7 @@ msgstr "Връзка"
 
 #. Template: AAABase
 msgid "Unlink"
-msgstr ""
+msgstr "Премахни връзка"
 
 #. Template: AAABase
 msgid "Linked"
@@ -428,7 +429,7 @@ msgstr "Текст"
 
 #. Template: AAABase
 msgid "Standard"
-msgstr ""
+msgstr "Стандартно"
 
 #. Template: AAABase
 msgid "Lite"
@@ -504,11 +505,11 @@ msgstr "Потребителски данни"
 
 #. Template: AAABase
 msgid "Customer Information"
-msgstr ""
+msgstr "Информация за потребител"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr ""
+msgstr "Клиентски компании"
 
 #. Template: AAABase
 msgid "Company"
@@ -548,7 +549,7 @@ msgstr "Обновяване"
 
 #. Template: AAABase
 msgid "Updated!"
-msgstr ""
+msgstr "Обновен!"
 
 #. Template: AAABase
 msgid "submit!"
@@ -712,7 +713,7 @@ msgstr "Добавяне"
 
 #. Template: AAABase
 msgid "Added!"
-msgstr ""
+msgstr "Добавен!"
 
 #. Template: AAABase
 msgid "Category"
@@ -724,19 +725,19 @@ msgstr "Viewer"
 
 #. Template: AAABase
 msgid "Expand"
-msgstr ""
+msgstr "Разгърнат"
 
 #. Template: AAABase
 msgid "Small"
-msgstr ""
+msgstr "Икономичен"
 
 #. Template: AAABase
 msgid "Medium"
-msgstr ""
+msgstr "Среден / нормален"
 
 #. Template: AAABase
 msgid "Large"
-msgstr ""
+msgstr "Подробен"
 
 #. Template: AAABase
 msgid "Date picker"
@@ -744,11 +745,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Покажи дървовиден изглед за избор"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Твърде дълго съдържание на полето!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
@@ -784,7 +785,7 @@ msgstr "Препоръчителният символен набор за Ваш
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr ""
+msgstr "Подновете паролата си."
 
 #. Template: AAABase
 msgid "Please activate %s first!"
@@ -851,7 +852,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Избор на база данни"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -871,11 +872,11 @@ msgstr "Приключено"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "Инсталирай OTRS"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "Въведение"
 
 #. Template: AAABase
 msgid "License"
@@ -950,7 +951,7 @@ msgstr "Приспособление"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr ""
+msgstr "Времева зона"
 
 #. Template: AAABase
 msgid "Pending till"
@@ -1216,7 +1217,7 @@ msgstr "Град"
 
 #. Template: AAABase
 msgid "Street"
-msgstr ""
+msgstr "Улица"
 
 #. Template: AAABase
 msgid "Country"
@@ -1224,7 +1225,7 @@ msgstr "Държава"
 
 #. Template: AAABase
 msgid "Location"
-msgstr ""
+msgstr "Местоположение"
 
 #. Template: AAABase
 msgid "installed"
@@ -5543,11 +5544,11 @@ msgid "Attributes of the current customer user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
+msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
+msgid "Attributes of the current ticket responsible user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -11723,6 +11724,54 @@ msgstr ""
 msgid "fax"
 msgstr ""
 
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
+
 #. SysConfig
 msgid ""
 "\n"
@@ -14514,14 +14563,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15655,13 +15696,6 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr ""
-
-#. SysConfig
 msgid "Greek"
 msgstr ""
 
@@ -15758,7 +15792,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16440,20 +16474,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16461,24 +16481,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the creator of a ticket."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
+msgid "Module to check the group permissions for the access to tickets."
 msgstr ""
 
 #. SysConfig
@@ -16524,6 +16531,40 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
 msgstr ""
 
 #. SysConfig
@@ -16656,6 +16697,30 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer)"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
 msgstr ""
 
 #. SysConfig
@@ -18985,7 +19050,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
+msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
@@ -19040,6 +19105,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
 msgstr ""
 
 #. SysConfig
@@ -19175,6 +19245,20 @@ msgstr ""
 
 #. SysConfig
 msgid "Watch this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
 
 #. SysConfig

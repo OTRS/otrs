@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.552447552447552;
+    $Self->{Completeness}        = 0.557983193277311;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -390,7 +390,7 @@ sub Data {
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'Pakket niet geverifieerd door de OTRS Groep! We raden aan dit pakket niet te gebruiken.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
+            '<br>Wanneer u doorgaat met installatie kunnen de volgende fouten verschijnen!<br><br>&nbsp;-Beveiligingsproblemen<br>&nbsp;-Stabiliteitsproblemen<br>&nbsp;-Performance problemen<br><br>Noteer a.u.b. dat deze fouten gebeuren door deze package en niet door de OTRS service contracts!<br><br>',
         'Mark' => 'Markeer',
         'Unmark' => 'Verwijder markering',
         'Bold' => 'Vet',
@@ -425,7 +425,7 @@ sub Data {
         'Upgrade to %s now!' => 'Upgrade nu naar %s!',
         '%s Go to the upgrade center %s' => '%s Ga naar het upgrade center %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'De licentie voor uw %s verloopt binnenkort. Contacteer %s om deze te hernieuwen!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             'Er is een update beschikbaar voor uw %s, maar er is een probleem met de versie van uw framework! Gelieve eerst uw framework te updaten!',
         'Your system was successfully upgraded to %s.' => 'Het systeem is succesvol geupgraded naar %s.',
@@ -509,7 +509,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Statusoverzicht',
-        'Service View' => '',
+        'Service View' => 'Service View',
         'Bulk' => 'Bulk',
         'Lock' => 'Vergrendel',
         'Unlock' => 'Ontgrendel',
@@ -896,7 +896,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Houd er rekening mee dat wanneer u gebruik wilt maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn.',
         'Register this system' => 'Registreer dit systeem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Hier kan u beschikbare Cloud diensten configureren die beveiligd communiceren met %s.',
@@ -1280,7 +1280,7 @@ sub Data {
         'Delete this Key Mapping' => 'Verwijder sleutelkoppeling',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'GenericInterface Mapping XSLT for Web Service %s' => '',
+        'GenericInterface Mapping XSLT for Web Service %s' => 'GenericInterface Mapping XSLT voor Web Service %s',
         'Mapping XML' => 'Mapping XML',
         'Template' => 'Sjabloon',
         'The entered data is not a valid XSLT stylesheet.' => 'De ingevoerde data is geen geldig XSLT stylesheet.',
@@ -1308,7 +1308,7 @@ sub Data {
         'Delete this Operation' => 'Verwijder deze operatie',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'GenericInterface Transport HTTP::REST for Web Service %s' => '',
+        'GenericInterface Transport HTTP::REST for Web Service %s' => 'Generieke Interface Transport HTTP::REST voor Web Service %s',
         'Network transport' => 'Netwerk-transport',
         'Properties' => 'Eigenschappen',
         'Route mapping for Operation' => '',
@@ -1327,7 +1327,7 @@ sub Data {
         'Host' => 'Server',
         'Remote host URL for the REST requests.' => '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'e.g https://www.otrs.com:10745/api/v1.0 (zonder trailing backslash)',
         'Controller mapping for Invoker' => '',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -1541,7 +1541,7 @@ sub Data {
             '',
         'Ticket Filter' => 'Ticket filter',
         'Article Filter' => 'Filter interacties',
-        'Only for ArticleCreate and ArticleSend event' => '',
+        'Only for ArticleCreate and ArticleSend event' => 'Alleen voor ArticleCreate en ArticleSend event',
         'Article type' => 'Soort interactie',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '',
@@ -1550,31 +1550,31 @@ sub Data {
         'Body match' => 'Bericht tekst',
         'Include attachments to notification' => 'Voeg bijlagen toe aan melding',
         'Recipients' => '',
-        'Send to' => '',
+        'Send to' => 'Versturen naar',
         'Send to these agents' => '',
         'Send to all group members' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Eén keer per dag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => '',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
-        'Send by default' => '',
+        'Send by default' => 'Standaard versturen',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
+        'This feature is currently not available.' => 'Deze feature is niet beschikbaar op het moment.',
+        'No data found' => 'Geen data gevonden',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Notificatie Tekst',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Notification Language' => '',
+            'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is.',
+        'Remove Notification Language' => 'Verwijder Notificatie Taal',
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
@@ -1588,9 +1588,9 @@ sub Data {
             'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen.',
-        'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current customer user data' => 'Attributen van de huidige klantengegevens',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
@@ -1598,10 +1598,10 @@ sub Data {
         'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Example notification' => '',
+        'Example notification' => 'Voorbeeld notificatie',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Aanvullende ontvanger e-mailadres',
         'Notification article type' => 'Interactiesoort voor melding',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
@@ -2464,12 +2464,12 @@ sub Data {
         'Customer information' => 'Klantinformatie',
         'Phone ticket' => 'Telefoon-ticket',
         'Email ticket' => 'E-mail-ticket',
-        'Start Chat' => '',
+        'Start Chat' => 'Start Chat',
         '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
         '%s closed ticket(s) of %s' => '%s gesloten ticket(s) van %s',
         'New phone ticket from %s' => 'Nieuw telefoonticket van %s',
         'New email ticket to %s' => 'Nieuw emailticket aan %s',
-        'Start chat' => '',
+        'Start chat' => 'Start chat',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s is beschikbaar.',
@@ -2483,21 +2483,21 @@ sub Data {
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
             '',
-        'Download as SVG file' => '',
-        'Download as PNG file' => '',
-        'Download as CSV file' => '',
-        'Download as Excel file' => '',
-        'Download as PDF file' => '',
-        'Grouped' => '',
-        'Stacked' => '',
-        'Expanded' => '',
-        'Stream' => '',
+        'Download as SVG file' => 'Download als SVG file',
+        'Download as PNG file' => 'Download als PNG file',
+        'Download as CSV file' => 'Download als CSV file',
+        'Download as Excel file' => 'Download als Excel file',
+        'Download as PDF file' => 'Download als PDF file',
+        'Grouped' => 'Gegroepeerd',
+        'Stacked' => 'Gestapeld',
+        'Expanded' => 'Uitgebreid',
+        'Stream' => 'Stream',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '',
         'The content of this statistic is being prepared for you, please be patient.' =>
             'De inhoud van deze rapportage wordt voor u aangemaakt, even geduld.',
         'This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.' =>
-            '',
+            'Deze statistiek kan op dit moment niet worden gebruikt omdat de configuratie gecorrigeerd moet worden door de statistieken administrator. ',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mijn vergrendelde tickets',
@@ -2520,7 +2520,7 @@ sub Data {
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Het ticket is vergrendeld',
-        'Undo & close' => '',
+        'Undo & close' => 'Ongedaan maken & sluiten',
 
         # Template: AgentInfo
         'Info' => 'Informatie',
@@ -3700,6 +3700,18 @@ sub Data {
         'email-notification-ext' => '',
         'email-notification-int' => '',
         'fax' => '',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4573,8 +4585,6 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4918,8 +4928,6 @@ Thanks for your help!
             '',
         'Go back' => 'Ga terug',
         'Google Authenticator' => '',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            '',
         'Greek' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5158,18 +5166,12 @@ Thanks for your help!
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
-        'Module to check customer permissions.' => '',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            '',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
-        'Module to check the agent responsible of a ticket.' => '',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
+        'Module to check the group permissions for customer access to tickets.' =>
             '',
-        'Module to check the owner of a ticket.' => '',
-        'Module to check the watcher agents of a ticket.' => '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5184,6 +5186,17 @@ Thanks for your help!
         'Module to generate ticket solution and response time statistics.' =>
             '',
         'Module to generate ticket statistics.' => '',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => '',
@@ -5221,6 +5234,14 @@ Thanks for your help!
         'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
@@ -5919,7 +5940,7 @@ Thanks for your help!
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send SMS messages.' => '',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => '',
         'Ticket Queue Overview' => 'Ticketwachtrij overzicht',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5936,6 +5957,8 @@ Thanks for your help!
         'Toolbar Item for a shortcut.' => '',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => '',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5975,6 +5998,11 @@ Thanks for your help!
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'View system log messages.' => 'Bekijk het OTRS logboek.',
         'Watch this ticket' => '',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

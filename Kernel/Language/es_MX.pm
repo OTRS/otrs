@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.535326742223294;
+    $Self->{Completeness}        = 0.532773109243697;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -73,10 +73,10 @@ sub Data {
         'month(s)' => 'mes(es)',
         'week' => 'semana',
         'week(s)' => 'semana(s)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'trimestre',
+        'quarter(s)' => 'trimestre(s)',
+        'half-year' => 'semestre',
+        'half-year(s)' => 'semestre(s)',
         'year' => 'año',
         'years' => 'años',
         'year(s)' => 'año(s)',
@@ -1214,8 +1214,8 @@ sub Data {
         'Limit' => 'Límite',
         'Refresh' => 'Refrescar',
         'Request Details' => 'Detalles de la petición',
-        'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'An error occurred during communication.' => 'Sucedió un error durante la comunicación',
+        'Show or hide the content.' => 'muestra u oculta el contenido',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1583,8 +1583,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
         'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
@@ -3694,6 +3694,18 @@ sub Data {
         'email-notification-ext' => '',
         'email-notification-int' => '',
         'fax' => '',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4567,8 +4579,6 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Define la fila por defecto del administrador de correos.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4912,8 +4922,6 @@ Thanks for your help!
             'Proporciona a los usuarios finales la posibilidad de sobrescribir el caracter de separación de los archivos CSV, definido en los archivos de traducción.',
         'Go back' => 'Regresar',
         'Google Authenticator' => '',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            'Permite el acceso, si el ID del cliente del ticket coincide con el ID del cliente y, además, dicho cliente tiene permisos de grupo en la fila en la que está el ticket.',
         'Greek' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5152,18 +5160,12 @@ Thanks for your help!
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Módulo para la selección del destinatario en la ventana de ticket nuevo, en la interfaz del cliente.',
-        'Module to check customer permissions.' => 'Módulo para verificar los permisos del cliente.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Módulo para verificar si un usuario se encuentra en un grupo específico. Se permite el acceso si el usuario está en cierto grupo y tiene permisos ro y rw.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
-        'Module to check the agent responsible of a ticket.' => 'Módulo para verificar el agente responsable de un ticket.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Módulo para verificar los permisos de grupo para el acceso a los tickets de los clientes.',
-        'Module to check the owner of a ticket.' => 'Módulo para verificar el propietario de un ticket.',
-        'Module to check the watcher agents of a ticket.' => 'Módulo para verificar los agentes que monitorean un ticket.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Módulo para redactar mensajes firmados (PGP o S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Módulo para encriptar mensajes firmados (PGP o S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5178,6 +5180,17 @@ Thanks for your help!
         'Module to generate ticket solution and response time statistics.' =>
             'Módulo para generar estadísticas del tiempo de solución y respuesta de los tickets.',
         'Module to generate ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             'Módulo para mostrar notificaciones y escaladas (ShownMax: Número máximo de escaladas que se muestran, EscalationInMinutes: Muestra el ticket que escalará en estos minutos, CacheTime: Caché de las escaladas calculadas, en segundos).',
         'Module to use database filter storage.' => 'Módulo para utilizar el almacenamiento de base de datos del filtro.',
@@ -5215,6 +5228,14 @@ Thanks for your help!
         'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Sobrecarga (redefine) funciones existentes en Kernel::System::Ticket. Útil para añadir personalizaciones fácilmente.',
@@ -5913,7 +5934,7 @@ Thanks for your help!
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send SMS messages.' => '',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => '',
         'Ticket Queue Overview' => 'Vista general por fila',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5930,6 +5951,8 @@ Thanks for your help!
         'Toolbar Item for a shortcut.' => 'Elemento de la barra de herramientas para un atajo (shortcut).',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => '',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5969,6 +5992,11 @@ Thanks for your help!
         'View performance benchmark results.' => 'Ver los resultados de rendimiento.',
         'View system log messages.' => 'Ver los mensajes del log del sistema.',
         'Watch this ticket' => '',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

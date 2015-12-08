@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2309,7 +2309,7 @@ msgstr "Nincs írási joga ehhez a jegyhez."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Sajnálom, a jegy tulajdonosának kell lennie a művelet végrehajtásához."
+msgstr "Sajnáljuk, a jegy tulajdonosának kell lennie a művelet végrehajtásához."
 
 #. Template: AAATicket
 msgid "Please change the owner first."
@@ -5551,12 +5551,12 @@ msgid "Attributes of the current customer user data"
 msgstr "A jelenlegi ügyfél-felhasználó adatainak jellemzői"
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
-msgstr "A jelenlegi jegytulajdonos felhasználóadatainak jellemzői"
+msgid "Attributes of the current ticket owner user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
-msgstr "A jelenlegi jegyfelelős felhasználóadatainak jellemzői"
+msgid "Attributes of the current ticket responsible user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -5735,7 +5735,7 @@ msgstr "Ugrás az OTRS csomagkezelőhöz"
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
-msgstr "Elnézést, de jelenleg nem válthat vissza a következő csomagok miatt, amelyek ettől függnek: %s:"
+msgstr "Sajnáljuk, de jelenleg nem válthat vissza a következő csomagok miatt, amelyek ettől függnek: %s:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
@@ -6786,7 +6786,7 @@ msgstr "Már létezik ilyen nevű várólista!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
-msgstr "Részvárólistája ennek"
+msgstr "Alvárólistája ennek"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
@@ -8704,7 +8704,7 @@ msgstr "Következő állapot"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr "Minden várakozó* állapotnál."
+msgstr "Minden függőben* állapotnál."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -10284,17 +10284,17 @@ msgstr "Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átvitel
 msgid ""
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Ne feledje, hogy nem tudja teljesen letiltani a kötelezőként megjelölt értesítéseket."
 
 #. Template: PreferencesNotificationEvent
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Sajnáljuk, de nem tud minden módszert letiltani a kötelezőként megjelölt értesítéseknél."
 
 #. Template: PreferencesNotificationEvent
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr ""
+msgstr "Sajnáljuk, de nem tud minden módszert letiltani ennél az értesítésnél."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -10563,7 +10563,7 @@ msgstr "A jegy ügyfele"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Yes, but require at least one active notification method"
-msgstr ""
+msgstr "Igen, de legalább egy aktív értesítési módszert igényel"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -10628,7 +10628,7 @@ msgstr "Várakozás dátuma"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
-msgstr "várakozó* állapotokhoz"
+msgstr "függőben* állapotokhoz"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -10696,7 +10696,7 @@ msgstr " A következő műveletek egyikét választhatja:"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
-msgstr ""
+msgstr "Összekapcsolva mint"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -10719,7 +10719,7 @@ msgstr "(folyamatban)"
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
-msgstr ""
+msgstr "Győződjön meg arról, hogy kiválasztott-e legalább egy átviteli módszert a kötelező értesítésekhez."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -10810,19 +10810,19 @@ msgstr "Rendezés"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
-msgstr ""
+msgstr "Beállítási lehetőségek hivatkozása"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
-msgstr ""
+msgstr "Ez a beállítás nem változtatható meg."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not active by default."
-msgstr ""
+msgstr "Ez a beállítás alapértelmezetten nincs bekapcsolva."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "Ez a beállítás nem kapcsolható ki."
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11730,6 +11730,54 @@ msgstr "belső e-mail értesítés"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
 msgstr "fax"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14522,14 +14570,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Meghatározza azt a prioritást, amelyben az információk naplózva lesznek és bemutatásra kerülnek."
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15663,13 +15703,6 @@ msgid "Google Authenticator"
 msgstr "Google hitelesítő"
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "Hozzáférést ad, ha a jegy ügyfél-azonosítója egyezik az ügyfél felhasználó-azonosítójával, és az ügyfél-felhasználónak csoportjogosultságai vannak arra a várólistára, amelyben a jegy van."
-
-#. SysConfig
 msgid "Greek"
 msgstr "Görög"
 
@@ -15766,7 +15799,7 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16448,20 +16481,6 @@ msgid ""
 msgstr "Egy modul az új jegy képernyőn lévő címzett kijelöléshez az ügyfélfelületen."
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr "Egy modul az ügyfél-jogosultságok ellenőrzéséhez."
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "Egy modul annak ellenőrzéséhez, hogy a felhasználó egy speciális csoportban van-e. A hozzáférés meg van adva, ha a felhasználó a megadott csoportban van, és csak olvasható és írható, olvasható jogosultságai vannak."
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16469,25 +16488,12 @@ msgid ""
 msgstr "Egy modul annak ellenőrzéséhez, hogy a beérkező e-maileket meg kell-e jelölni belső e-mailként (az eredeti továbbított belső e-mail miatt). Az ArticleType és a SenderType határozza meg az értékeket a beérkező e-mailhez vagy bejegyzéshez."
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "Egy modul egy jegy felelős ügyintézőjének ellenőrzéséhez."
-
-#. SysConfig
-msgid "Module to check the creator of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "Egy modul a csoportjogosultságok ellenőrzéséhez az ügyféljegyekhez való hozzáférésénél."
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "Egy modul egy jegy tulajdonosának ellenőrzéséhez."
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "Egy modul egy jegy megfigyelő ügyintézőinek ellenőrzéséhez."
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16533,6 +16539,40 @@ msgstr "Egy modul a jegy megoldás és válaszidő statisztikák előállítás�
 #. SysConfig
 msgid "Module to generate ticket statistics."
 msgstr "Egy modul a jegystatisztikák előállításához."
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16665,6 +16705,30 @@ msgstr "Nyitott jegyek (ügyfél-felhasználó)"
 #. SysConfig
 msgid "Open tickets (customer)"
 msgstr "Nyitott jegyek (ügyfél)"
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
@@ -18993,8 +19057,8 @@ msgid ""
 msgstr "Ez a beállítás lehetővé teszi a beépített országlista felülbírálását a saját országlistájával. Ez különösen hasznos, ha az országoknak csak egy kiválasztott kis csoportját szeretné használni."
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
-msgstr "Ez lehetővé fogja tenni a rendszernek az SMS-üzenetek küldését."
+msgid "This will allow the system to send text messages via SMS."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -19049,6 +19113,11 @@ msgstr "Átvitelkiválasztás a jegyértesítésekhez."
 #. SysConfig
 msgid "Tree view"
 msgstr "Fa nézet"
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
 
 #. SysConfig
 msgid "Turkish"
@@ -19184,6 +19253,20 @@ msgstr "Rendszernapló üzenetek megtekintése."
 #. SysConfig
 msgid "Watch this ticket"
 msgstr "Jegy megfigyelése"
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
 
 #. SysConfig
 msgid ""

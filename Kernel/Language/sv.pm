@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.382204002893658;
+    $Self->{Completeness}        = 0.382472989195678;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -431,7 +431,7 @@ sub Data {
         'Your %s was successfully updated.' => '',
         'There was a problem during the upgrade of %s.' => '',
         '%s was correctly uninstalled.' => '%s blev avinstallerat korrekt.',
-        'There was a problem uninstalling %s.' => '',
+        'There was a problem uninstalling %s.' => 'Det blev ett problem med att avinstallera %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nyårsdagen',
@@ -574,8 +574,8 @@ sub Data {
         'Responsible Tickets Total' => '',
         'Responsible Tickets New' => '',
         'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
+        'Watched Tickets Total' => 'Totalt antal bevakade ärenden',
+        'Watched Tickets New' => 'Nya bevakande ärenden',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Alla ärenden',
         'Available tickets' => 'Tillgängliga ärenden',
@@ -816,7 +816,7 @@ sub Data {
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'dokumentation',
         'Show or hide the content' => 'Visa eller dölj innehållet',
         'Edit ACL information' => 'Redigera behörighetsinformation',
         'Stop after match' => 'Avsluta efter träff',
@@ -828,7 +828,7 @@ sub Data {
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
-        'Add all' => '',
+        'Add all' => 'Lägg till alla',
         'There was an error reading the ACL data.' => '',
 
         # Template: AdminACLNew
@@ -881,7 +881,7 @@ sub Data {
         'Send support data' => '',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
-        'System Registration' => '',
+        'System Registration' => 'Systemregistrering',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
         'Register this System' => 'Registrera detta system',
@@ -893,7 +893,7 @@ sub Data {
             '',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
-        'Register this system' => '',
+        'Register this system' => 'Registrera detta system',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => '',
@@ -1033,7 +1033,7 @@ sub Data {
         'Value' => 'Innehåll',
         'Remove value' => 'Ta bort värde',
         'Add value' => 'Lägg till värde',
-        'Add Value' => '',
+        'Add Value' => 'Lägg till värde',
         'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Tree View' => 'Träd-vy',
@@ -1585,8 +1585,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'För att få de fem första raderna i kroppen (på senaste kundartikeln).',
         'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
@@ -3696,6 +3696,18 @@ sub Data {
         'email-notification-ext' => '',
         'email-notification-int' => '',
         'fax' => '',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4569,8 +4581,6 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4914,8 +4924,6 @@ Thanks for your help!
             '',
         'Go back' => '',
         'Google Authenticator' => '',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            '',
         'Greek' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5154,18 +5162,12 @@ Thanks for your help!
         'Miscellaneous' => 'Övrigt',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
-        'Module to check customer permissions.' => '',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            '',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
-        'Module to check the agent responsible of a ticket.' => '',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
+        'Module to check the group permissions for customer access to tickets.' =>
             '',
-        'Module to check the owner of a ticket.' => '',
-        'Module to check the watcher agents of a ticket.' => '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5180,6 +5182,17 @@ Thanks for your help!
         'Module to generate ticket solution and response time statistics.' =>
             '',
         'Module to generate ticket statistics.' => '',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => '',
@@ -5217,6 +5230,14 @@ Thanks for your help!
         'Online' => '',
         'Open tickets (customer user)' => 'Öppna ärenden (kundanvändare)',
         'Open tickets (customer)' => 'Öppna ärenden (kund)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Frånvarande',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
@@ -5915,7 +5936,7 @@ Thanks for your help!
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send SMS messages.' => '',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => '',
         'Ticket Queue Overview' => 'Kö-översikt',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5932,6 +5953,8 @@ Thanks for your help!
         'Toolbar Item for a shortcut.' => '',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => 'Träd-vy',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5971,6 +5994,11 @@ Thanks for your help!
         'View performance benchmark results.' => '',
         'View system log messages.' => 'Visa systemlogg-meddelanden.',
         'Watch this ticket' => 'Bevaka detta ärende',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

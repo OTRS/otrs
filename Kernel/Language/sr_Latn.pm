@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.963829274174102;
+    $Self->{Completeness}        = 0.957262905162065;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1589,8 +1589,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Da vidite prvih 5 linija poruke (poslednjeg članka klijenta).',
         'Attributes of the current customer user data' => 'Atributi podataka aktuelnog klijenta korisnika',
-        'Attibutes of the current ticket owner\'s user data' => 'Atributi podataka aktuelnog vlasnika tiketa',
-        'Attibutes of the current ticket responsible\'s user data' => 'Atributi podataka aktuelnog odgovornog za tiket',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'Atributi aktuelnog korisnika operatera koji je tražio ovu akciju',
         'Attributes of the recipient user for the notification' => 'Atributi korisnika primaoca za obaveštenje',
@@ -3700,6 +3700,18 @@ sub Data {
         'email-notification-ext' => 'email-notification-ext',
         'email-notification-int' => 'email-notification-int',
         'fax' => 'faks',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4584,8 +4596,6 @@ Vaša tehnička podrška
         'Defines the postmaster default queue.' => 'Definiše podrazumevani red postmastera.',
         'Defines the priority in which the information is logged and presented.' =>
             'Definiše prioritet po kom se informacije beleže i prikazuju.',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Definiše primaoca telefonskog tiketa i pošiljaoca imejl tiketa ("Red" prikazuje sve redove, "Sistemska adresa" prikazuje sve sistemske adrese) u interfejsu operatera.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4929,8 +4939,6 @@ Vaša tehnička podrška
             'Omogućava krajnjim korisnicima da zamene separator za CSV datoteke, definisan u datotekama prevoda.',
         'Go back' => 'Idi nazad',
         'Google Authenticator' => 'Gugl autentifikacija',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            'Dozvoljava pristup, ako se ID klijenta na tiketu poklapa sa ID klijenta korisnika i klijent korisnik  ima grupne dozvole za red u kom je tiket.',
         'Greek' => 'Grčki',
         'Hebrew' => 'Hebrejski',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5169,18 +5177,12 @@ Vaša tehnička podrška
         'Miscellaneous' => 'Razno',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Modul za izbor primaoca (Za:) u prikazu novog tiketa u interfejsu klijenta.',
-        'Module to check customer permissions.' => 'Modul za proveru klijentskih dozvola.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Modul za proveru da li je korisnik u specijalnoj grupi. Pristup je dozvoljen ako je korisnik u specijalnoj grupi i ima „ro” i „rw” dozvole.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Modul za proveru da li pristigli imejlovi treba da budu iznačeni kao interni (na osnovu orginalnog imejla prosleđivanja). Tip članka i tip pošiljaoca definišu vrednosti za primljeni imejl/članak.',
-        'Module to check the agent responsible of a ticket.' => 'Modul za proveru operatera odgovornog za tiket.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Modul za proveru grupnih dozvola za pristup klijentskim tiketima.',
-        'Module to check the owner of a ticket.' => 'Modul za proveru vlasnika tiketa.',
-        'Module to check the watcher agents of a ticket.' => 'Modul za proveru nadzornog operatera za tiket.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul za izradu potpisane poruke („PGP” ili „S/MIME”).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul za šifriranje napisane poruke („PGP” ili „S/MIME”).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5195,6 +5197,17 @@ Vaša tehnička podrška
         'Module to generate ticket solution and response time statistics.' =>
             'Modul za generisanje statistike rešavanja tiketa i vremena odgovora.',
         'Module to generate ticket statistics.' => 'Modul za generisanje statistike tiketa.',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => 'Modul za smeštaj filtera u bazu podataka.',
@@ -5232,6 +5245,14 @@ Vaša tehnička podrška
         'Online' => 'Na mreži',
         'Open tickets (customer user)' => 'Otvoreni tiketi (klijent korisnik)',
         'Open tickets (customer)' => 'Otvoreni tiketi (klijent)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Van kancelarije',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Preopterećuje (redefinisano) postojeće fuckcije u Kernel::System::Ticket. Koristi se za lako dodavanje prilagođavanja.',
@@ -5930,7 +5951,7 @@ Vaša tehnička podrška
             'Ova opcija će odbiti pristup tiketima klijentove firme, ako ih  nije  kreirao klijent korisnik .',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ova opcija vam dozvoljava da ugrađenu listu država zamenite svojom. Ovo je posbno korisno ako u selekciji želite da koristite samo mali broj država.',
-        'This will allow the system to send SMS messages.' => 'Ovo će omogućiti sistemu da šalje SMS poruke.',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => 'Obaveštenja o tiketu',
         'Ticket Queue Overview' => 'Pregled reda tiketa',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5947,6 +5968,8 @@ Vaša tehnička podrška
         'Toolbar Item for a shortcut.' => 'Stavka alatne linije za skraćenicu.',
         'Transport selection for ticket notifications.' => 'Izbor transporta za obaveštenja o tiketima.',
         'Tree view' => 'Prikaz u obliku stabla',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => 'Turski',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5986,6 +6009,11 @@ Vaša tehnička podrška
         'View performance benchmark results.' => 'Pregled rezultata provere performansi.',
         'View system log messages.' => 'Pregled poruka sistemskog dnevnika.',
         'Watch this ticket' => 'Nadgledaj ovaj tiket',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Kada su tiketi spojeni, napomena će biti automatski dodata tiketu koji nije više aktivan. Ovde možete definisati telo ove napomene (ovaj tekst se ne može promeniti od strane operatera).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
