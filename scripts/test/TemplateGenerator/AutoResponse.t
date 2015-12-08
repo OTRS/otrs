@@ -35,6 +35,16 @@ $Self->True(
     "Set NoSendMail backend with true",
 );
 
+# set Default Language
+$Success = $ConfigObject->Set(
+    Key   => 'DefaultLanguage',
+    Value => 'en',
+);
+$Self->True(
+    $Success,
+    "Set default language to English",
+);
+
 # get helper object
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID     = $HelperObject->GetRandomID();
