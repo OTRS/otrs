@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 09:31+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 20:37+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1591,11 +1591,11 @@ msgstr "OTRS come fornitore"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr "Webservice \"%s\" creato!"
+msgstr "Web service \"%s\" creato!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr "Webservice \"%s\" aggiornato!"
+msgstr "Web service \"%s\" aggiornato!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -4244,7 +4244,7 @@ msgstr "Ticket corrispondenti"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Debugger for Web Service %s"
-msgstr "GenericInterface Debugger per il Web Service %s"
+msgstr "GenericInterface Debugger per il web service %s"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
@@ -4252,7 +4252,7 @@ msgstr "Sei qui"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
-msgstr "Web Service"
+msgstr "Web service"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -4260,7 +4260,7 @@ msgstr "Debugger"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr "Ritorna al Web Service"
+msgstr "Ritorna al web service"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
@@ -4332,11 +4332,11 @@ msgstr "Cancella il debug log"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
-msgstr "Aggiungi nuovo Invoker al Web Service %s"
+msgstr "Aggiungi nuovo invoker al web service %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
-msgstr "Cambia l'Invoker %s del Web Service %s"
+msgstr "Cambia l'invoker %s del web service %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new invoker"
@@ -4365,7 +4365,7 @@ msgstr "Questo nome è normalmente usato per innescare l'operazione di un web se
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Please provide a unique name for this web service invoker."
-msgstr "Impostare un nome univoco per questo web service Invoker"
+msgstr "Impostare un nome univoco per questo invoker di web service."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -4431,7 +4431,7 @@ msgstr "Elimina questo invoker"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
-msgstr "GenericInterface Mapping semplice per Web il Service %s"
+msgstr "GenericInterface Mapping semplice per il web service %s"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
@@ -4543,11 +4543,11 @@ msgstr "Inserisci foglio di stile XSLT."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
-msgstr "Aggiungi una nuova operazione al Web Service %s"
+msgstr "Aggiungi una nuova operazione al web service %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change Operation %s of Web Service %s"
-msgstr "Modifica l'operazione %s del Web Service %s"
+msgstr "Modifica l'operazione %s del web service %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
@@ -4611,7 +4611,7 @@ msgstr "Elimina questa operazione"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr "GenericInterface Transport HTTP::REST for Web Service %s"
+msgstr "GenericInterface Transport HTTP::REST per il web service %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
@@ -4787,7 +4787,7 @@ msgstr "URI per indicare una specifica locazione per accedere al servizio"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://local.otrs.com:8000/Webservice/Example"
-msgstr "es. http://local.otrs.com:8000/Webservice/Example"
+msgstr "es. http://local.otrs.com:8000/Webservice/Esempio"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
@@ -4964,15 +4964,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
-msgstr "GenericInterface Gestione Web Service"
+msgstr "GenericInterface gestione web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
-msgstr "Aggiungi Web Service"
+msgstr "Aggiungi web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone web service"
-msgstr "Copia Web Service"
+msgstr "Copia web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -4984,11 +4984,11 @@ msgstr "Copia"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export web service"
-msgstr "Esporta il Web Service"
+msgstr "Esporta web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr "Importa il Web Service"
+msgstr "Importa web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
@@ -4996,7 +4996,7 @@ msgstr "File di Configurazione"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr "Il file deve essere un file di configurazione di Web Service in formato YAML."
+msgstr "Il file deve essere un file di configurazione di web service in formato YAML."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -5028,7 +5028,7 @@ msgstr "Se vuoi ritornare alla vista globale, utilizza il pulsante \"Vai alla vi
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
-msgstr "Elenco Web Service"
+msgstr "Elenco web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -5049,11 +5049,11 @@ msgstr "Soglia di debug"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "In provider mode, OTRS offers web services which are used by remote systems."
-msgstr "In modalità Provider, OTRS espone Web Service utilizzati dai sistemi remoti."
+msgstr "In modalità fornitore, OTRS espone web service utilizzati dai sistemi remoti."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr "In modalità Requester, OTRS sfrutta i Web Service del sistema remoto"
+msgstr "In modalità richiedente, OTRS sfrutta i web service del sistema remoto"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5064,7 +5064,7 @@ msgstr "Operazioni sono funzionalità singole che i sistemi remoti possono richi
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its"
 " response data."
-msgstr "Gli Invoker preparano i dati per una richiesta al web service di un sistema remoto, e processano i dati ricevuti in risposta"
+msgstr "Gli invoker preparano i dati per una richiesta al web service di un sistema remoto, e processano i dati ricevuti in risposta"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -5102,25 +5102,25 @@ msgstr "Elimina invoker"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
-msgstr "Copia Web Service"
+msgstr "Copia web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import webservice"
-msgstr "Importa Web Service"
+msgstr "Importa web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
-msgstr "GenericInterface Storico delle configurazioni per il Web Service %s"
+msgstr "GenericInterface Storico delle configurazioni per il web service %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr "Ritorna al Web Service"
+msgstr "Ritorna al web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Here you can view older versions of the current web service's configuration,"
 " export or even restore them."
-msgstr "Qui potete vedere le versioni precedenti della configurazione del Web Service, potete esportarle o ripristinale."
+msgstr "Qui potete vedere le versioni precedenti della configurazione del web service, potete esportarle o ripristinale."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -5140,11 +5140,11 @@ msgstr "Selezionate una sola versione per vederne i dettagli."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr "Esporta la configurazione del Web Service"
+msgstr "Esporta la configurazione del web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr "Ripristina la configurazione del Web Service"
+msgstr "Ripristina la configurazione del web service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
@@ -5153,7 +5153,7 @@ msgstr "Vuoi davvero ripristinare questa versione della configurazione del web s
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr "La configurazione corrente del Web Service sarà sovrascritta."
+msgstr "La configurazione attuale del web service sarà sovrascritta."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
@@ -5399,7 +5399,7 @@ msgstr "Tipologia del mittente dell'articolo"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
-msgstr "Match nell' oggetto mail"
+msgstr "Corrispondenza dell'oggetto"
 
 #. Template: AdminNotificationEvent
 msgid "Body match"
@@ -7990,7 +7990,7 @@ msgstr "Elimina manutenzione di sistema"
 
 #. Template: AdminSystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "Vuoi davvero eliminare questa manutenzione di sistema pianificata?"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
@@ -8637,7 +8637,7 @@ msgstr "somma le colonne"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
-msgstr ""
+msgstr "Mostra come oggetto del cruscotto"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
@@ -11233,7 +11233,7 @@ msgstr "Valori dei Campi Dinamici non validi"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr "Webservice di GenericInterface"
+msgstr "GenericInterface Webservice"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -12077,7 +12077,7 @@ msgstr "Permette agli agenti di generare statistiche individuali."
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
-msgstr "Permette di scegliere tra mostrare gli allegati di un ticlet nel browser (in linea) o renderli scaricabili (allegato)."
+msgstr "Permette di scegliere tra mostrare gli allegati di un ticket nel browser (in linea) o renderli scaricabili (allegato)."
 
 #. SysConfig
 msgid ""
@@ -14569,14 +14569,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
 msgstr ""
 
@@ -14886,19 +14886,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
-"in the customer interface. For Queue as CustomerPanelSelectionType, "
-"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
+"the recipient."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the strings that will be shown as recipient (To:) of the ticket "
+"in the customer interface. For Queue as CustomerPanelSelectionType, "
+"\"<Queue>\" shows the names of the queues, and for SystemAddress, "
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -15309,6 +15309,12 @@ msgstr "Inglese (Regno Unito)"
 #. SysConfig
 msgid "English (United States)"
 msgstr "Inglese (Stati Uniti)"
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15797,7 +15803,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

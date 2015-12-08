@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.764945978391357;
+    $Self->{Completeness}        = 0.765962554008641;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -377,7 +377,7 @@ sub Data {
         'more' => 'więcej',
         'Collapse' => 'Zwiń',
         'Shown' => 'Pokazane',
-        'Shown customer users' => 'Widoczni użytkownicy Klienta',
+        'Shown customer users' => 'Widoczni użytkownicy',
         'News' => 'Wiadomości ',
         'Product News' => 'Wiadomości o produkcie',
         'OTRS News' => 'Wiadomości OTRS',
@@ -653,7 +653,7 @@ sub Data {
         'Search Tickets' => 'Szukaj zgłoszeń',
         'Customer Realname' => 'Prawdziwe nazwisko klienta',
         'Customer History' => 'Historia Klienta',
-        'Edit Customer Users' => 'Edycja użytkowników klienta',
+        'Edit Customer Users' => 'Edycja Użytkowników',
         'Edit Customer' => 'Edytuj Klienta',
         'Bulk Action' => 'Zbiorcze działanie',
         'Bulk Actions on Tickets' => 'Zbiorcze działania na zgłoszeniach',
@@ -661,7 +661,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Utwórz nowe zgłoszenie e-mail i wyślij (wychodzące)',
         'Create new Phone Ticket (Inbound)' => 'Utwórz zgłoszenie telefoniczne (przychodzące)',
         'Address %s replaced with registered customer address.' => 'Adres %s zastąpiony zarejestrowanym adresem klienta.',
-        'Customer user automatically added in Cc.' => 'Użykownik klienta automatycznie dodany jako CC.',
+        'Customer user automatically added in Cc.' => 'Użytkownik automatycznie dodany jako DW (Cc).',
         'Overview of all open Tickets' => 'Przegląd otwartych zgłoszeń',
         'Locked Tickets' => 'Zablokowane zgłoszenia',
         'My Locked Tickets' => 'Moje zablokowane zgłoszenia',
@@ -859,7 +859,7 @@ sub Data {
         'To get the realname of the sender (if given).' => 'Pokaż imię i nazwisko nadawcy (jeżeli podał).',
         'To get the article attribute' => 'Pokaż właściwości wiadomości',
         ' e. g.' => 'np.',
-        'Options of the current customer user data' => 'Opcje danych obecnego użytkownika klienta',
+        'Options of the current customer user data' => 'Opcje danych obecnego użytkownika',
         'Ticket owner options' => 'Opcje właściciela zgłoszenia',
         'Ticket responsible options' => 'Opcje odpowiedzialego za zgłoszenie',
         'Options of the current user who requested this action' => 'Opcje bieżącego użytkownika, który żądał akcji',
@@ -872,8 +872,8 @@ sub Data {
 
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => 'Zarządzanie usługami w chmurze',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Support Data Collector' => 'Kolekcjoner Danych Wsparcia',
+        'Support data collector' => 'Kolekcjoner danych wsparcia',
         'Hint' => 'Podpowiedź',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
@@ -909,11 +909,11 @@ sub Data {
         'Add Customer' => 'Dodaj Klienta',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Zarządzanie użytkownikami klienta',
+        'Customer User Management' => 'Zarządzanie Użytkownikami',
         'Back to search results' => 'Wstecz do wyników wyszukiwania',
-        'Add customer user' => 'Dodaj użytkownika klienta',
+        'Add customer user' => 'Dodaj użytkownika',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            'W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia konta użytkownika klienta.',
+            'W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia użytkownika.',
         'Last Login' => 'Ostatnie logowanie',
         'Login as' => 'Zaloguj jako',
         'Switch to customer' => 'Zmień klienta',
@@ -1344,7 +1344,7 @@ sub Data {
         'The full path and name of the SSL certificate file.' => '',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => 'Plik z hasłem certyfikatu',
-        'The full path and name of the SSL key file.' => '',
+        'The full path and name of the SSL key file.' => 'Pełna ścieżka i nazwa pliku z kluczem SSL.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'np. /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => 'Plik Certification Authority (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
@@ -1530,8 +1530,8 @@ sub Data {
         'Do you really want to delete this notification?' => 'Czy na pewno chcesz usunąć to powiadomienie?',
         'Add Notification' => 'Dodaj powiadomienie',
         'Edit Notification' => 'Edytuj Powiadomienie',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Pokaż w preferencjach agenta',
+        'Agent preferences tooltip' => 'Podpowiedź (etykieta) w preferencjach agenta',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1823,7 +1823,7 @@ sub Data {
         'Please note that changing this activity dialog will affect the following activities' =>
             'Zwróć uwagę, że zmiany tego okna wpłyną na następnujące działania',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
-            'Proszę zanotuj, że klienci nie będą widzieć następujących pól: Właściciel, Odpowiedzialny, Blokada, Oczekujące i ID Klienta.',
+            'Miej na uwadze, że użytkownicy nie będą widzieć pól: Właściciel, Odpowiedzialny, Blokada, CzasOczekiwania i IDużytkownika.',
         'The Queue field can only be used by customers when creating a new ticket.' =>
             '',
         'Activity Dialog' => 'Okna działania',
@@ -2421,7 +2421,7 @@ sub Data {
         'Customer Information Center' => 'Centrum informacji o kliencie',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Użytkownik Klienta',
+        'Customer User' => 'Użytkownik',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Zduplikowana pozycja',
@@ -2649,16 +2649,16 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change Customer of %s%s' => '',
-        'Customer user' => 'Użytkownik klienta',
+        'Customer user' => 'Użytkownik',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Utwórz nowe zgłoszenie e-mail',
         'Example Template' => 'Przykładowy szablon',
         'From queue' => 'Do kolejki',
-        'To customer user' => 'Do użytkownika klienta',
-        'Please include at least one customer user for the ticket.' => 'Proszę wybierz przynajmniej jednego konta klienta dla zgłoszenia.',
+        'To customer user' => 'Do użytkownika',
+        'Please include at least one customer user for the ticket.' => 'Proszę dodaj przynajmniej jednego użytkownika do zgłoszenia.',
         'Select this customer as the main customer.' => 'Wybierz tego klienta jako podstawowego',
-        'Remove Ticket Customer User' => 'Usuń zgłoszenie klienta',
+        'Remove Ticket Customer User' => 'Usuń Zgłoszenie Użytkownika',
         'Get all' => 'Pobierz wszystkich',
 
         # Template: AgentTicketEmailOutbound
@@ -2748,7 +2748,7 @@ sub Data {
         'Remove' => 'Usuń',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne kryteria o tej samej nazwie.',
-        'Customer User Login' => 'Login Użytkownika Klienta',
+        'Customer User Login' => 'Login Użytkownika',
         'Attachment Name' => 'Nazwa załącznika',
         '(e. g. m*file or myfi*)' => '(np. m*jplik lub mójpl*)',
         'Created in Queue' => 'Utworzono w kolejce',
@@ -3377,7 +3377,7 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'Utworzony priorytet',
         'Created State' => 'Utworzony status',
-        'CustomerUserLogin' => 'LoginUżytkownikaKlienta',
+        'CustomerUserLogin' => 'LoginUżytkownika',
         'Create Time' => 'Czas utworzenia',
         'Close Time' => 'Data zamknięcia',
         'Escalation - First Response Time' => '',
@@ -3793,7 +3793,7 @@ Thanks for your help!
             '',
         'Agents <-> Groups' => 'Agenci <-> Grupy',
         'Agents <-> Roles' => 'Agenci <-> Role',
-        'All customer users of a CustomerID' => 'wszyscy użytkownicy klienta z ID',
+        'All customer users of a CustomerID' => 'Wszyscy użytkownicy  z IDklienta',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Pozwala na dodawanie notatek w oknie zamknięcia zgłoszenia interfejsu agenta. Może być nadpisane przez Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -3843,7 +3843,7 @@ Thanks for your help!
             '',
         'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
-            'Pozwala administratorom na logowanie się jako inni klienci poprzez panel administracyjny konta klienta.',
+            'Pozwala administratorom na logowanie się jako inni użytkownicy, przez panel administracyjny użytkowników',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Pozwala administratorom na logowanie się jako inni użytkownicy poprzez panel administracyjny użytkowników.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
@@ -3910,7 +3910,7 @@ Thanks for your help!
         'Chinese (Traditional)' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
             '',
-        'Closed tickets (customer user)' => 'Zamknięte zgłoszenia (użytkownik klienta)',
+        'Closed tickets (customer user)' => 'Zamknięte zgłoszenia (użytkownik)',
         'Closed tickets (customer)' => 'Zamknięte zgłoszenia (klient)',
         'Cloud Services' => 'Usługi w chmurze',
         'Cloud service admin module registration for the transport layer.' =>
@@ -3968,7 +3968,7 @@ Thanks for your help!
         'Create and manage Service Level Agreements (SLAs).' => 'Ustawienia poziomów SLA.',
         'Create and manage agents.' => 'Zarządzanie listą agentów.',
         'Create and manage attachments.' => 'Ustawienia standardowych załączników.',
-        'Create and manage customer users.' => 'Zarządzanie kontami klienta.',
+        'Create and manage customer users.' => 'Tworzenie i modyfikacja użytkowników.',
         'Create and manage customers.' => 'Zarządzanie listą klientów.',
         'Create and manage dynamic fields.' => 'Zarządzanie polami dynamicznymi.',
         'Create and manage groups.' => 'Ustawienia grup agentów.',
@@ -3992,17 +3992,17 @@ Thanks for your help!
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
-        'Customer User <-> Groups' => 'Użytkownik Klienta <-> Grupy',
-        'Customer User <-> Services' => 'Użytkownicy Klienta <-> Serwisy',
-        'Customer User Administration' => 'Zarządzanie Użytkownikiem Klienta',
-        'Customer Users' => 'Użytkownicy Klienta',
+        'Customer User <-> Groups' => 'Użytkownik <-> Grupy',
+        'Customer User <-> Services' => 'Użytkownicy <-> Serwisy',
+        'Customer User Administration' => 'Zarządzanie Użytkownikami',
+        'Customer Users' => 'Użytkownicy',
         'Customer called us.' => 'Klient zadzwonił do nas.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Żądanie klienta przez www.',
-        'Customer user search' => 'Szkukaj użytkownika klienta',
+        'Customer user search' => 'Wyszukiwanie uzytkowników',
         'CustomerID search' => '',
         'CustomerName' => 'Nazwa klienta',
         'Customers <-> Groups' => 'Klienci <-> Grupy',
@@ -4582,9 +4582,9 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Definiuje domyślną ścieźkę postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Definiuje wymagane prawa do ukazania zgłoszenia w widoku eskalacji interfejsu agenta.',
@@ -4628,7 +4628,7 @@ Thanks for your help!
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
-        'Defines the user identifier for the customer panel.' => 'Definiuje identyfikator użytkownika w panelu klienta.',
+        'Defines the user identifier for the customer panel.' => 'Określa identyfikator użytkownika w panelu klienta.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Definiuje uzytkownika do wykorzystania SOAP (bin/cgi-bin/rpc.pl).',
         'Defines the valid state types for a ticket.' => 'Definiuje aktualne typu stanów dla zgłoszenia.',
@@ -4680,9 +4680,9 @@ Thanks for your help!
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Determinuje możliwe stany dla oczekujących zgłoszeń po osiągnięciu limitu czasu.',
-        'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
-        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
             '',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Determinuje sposób wyświetlania zlinkowanych objektów w każdej masce przybliżenia.',
@@ -4808,6 +4808,8 @@ Thanks for your help!
         'English (Canada)' => '',
         'English (United Kingdom)' => '',
         'English (United States)' => '',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',
@@ -5082,8 +5084,8 @@ Thanks for your help!
         'Link agents to groups.' => 'Zarządzanie relacjami Agenci <-> Grupy',
         'Link agents to roles.' => 'Zarządzanie relacjami Agenci <-> Role',
         'Link attachments to templates.' => 'Połącz załączniki z szablonami.',
-        'Link customer user to groups.' => 'Połącz konto klienta do grup.',
-        'Link customer user to services.' => 'Połącz konto klienta do serwisów.',
+        'Link customer user to groups.' => 'Połącz użytkownika z grupą.',
+        'Link customer user to services.' => 'Połącz użytkownika z usługami.',
         'Link queues to auto responses.' => 'Połącz kolejki z autoodpowiedziami.',
         'Link roles to groups.' => 'Połącz role z grupami.',
         'Link templates to queues.' => 'Połącz szablony do kolejek.',
@@ -5099,7 +5101,7 @@ Thanks for your help!
             'Lista plików JS która zawsze zostanie wczytana do interfejsu klienta.',
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             'Lista wszystkich wydarzeń związanych z CustomerCompany do wyświetlenia w interfejsie uźytkownika.',
-        'List of all CustomerUser events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z CustomerUser do wyświetlenia w interfejsie uźytkownika.',
+        'List of all CustomerUser events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z Użytkownikiem do wyświetlenia w interfejsie.',
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z artykułami do wyświetlenia w interfejsie uźytkownika.',
@@ -5229,7 +5231,7 @@ Thanks for your help!
             '',
         'Old: "%s" New: "%s"' => 'Aktualizacja statusu. Stary: "%s" nowy: "%s"',
         'Online' => 'Online',
-        'Open tickets (customer user)' => 'Otwarte zgłoszenia (użytkownik klienta)',
+        'Open tickets (customer user)' => 'Otwarte zgłoszenia (użytkownik)',
         'Open tickets (customer)' => 'Otwarte zgłoszenia (klient)',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
@@ -5746,8 +5748,8 @@ Thanks for your help!
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'Pokazuje artykuły posortowane w zwykły lub odwrócony sposób pod przybliżeniem zgłoszenia w interfejsie agenta.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
-            'Pokazuje informację o kontach klienta (telefon i e-mail) w oknie przyjmowania zgłoszenia',
-        'Shows the customer user\'s info in the ticket zoom view.' => 'Pokaż informację o kontach klienta w przybliżonym podglądzie zgłoszeń.',
+            'Pokazuje informację o użytkowniku (telefon i e-mail) w oknie rejestracji zgłoszenia.',
+        'Shows the customer user\'s info in the ticket zoom view.' => 'Pokaż informację o użytkowniku w podglądzie szczegółów zgłoszenia.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
