@@ -1,4 +1,6 @@
-#5.0.5 2015-??-??
+#5.0.6 2016-??-??
+
+#5.0.5 2015-12-15
  - 2015-12-08 Updated translations, thanks to all translators.
  - 2015-12-08 Fixed bug#[11721](http://bugs.otrs.org/show_bug.cgi?id=11721) - $Self->{Debug} is not passed to frontend modules.
  - 2015-12-07 Fixed bug#[10266](http://bugs.otrs.org/show_bug.cgi?id=10266) - Time Units can not be displayed and used in process Activity Dialogues.
