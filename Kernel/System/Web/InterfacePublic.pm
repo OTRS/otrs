@@ -197,6 +197,7 @@ sub Run {
     my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
         UserID => 1,
         %Param,
+        Debug => $Self->{Debug},
     );
 
     # debug info
