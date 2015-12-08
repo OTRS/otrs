@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5546,12 +5546,12 @@ msgid "Attributes of the current customer user data"
 msgstr "Атрибути података актуелног клијента корисника"
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
-msgstr "Атрибути података актуелног власника тикета"
+msgid "Attributes of the current ticket owner user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
-msgstr "Атрибути података актуелног одговорног за тикет"
+msgid "Attributes of the current ticket responsible user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -10279,17 +10279,17 @@ msgstr "Примите поруке за обавештавање „%s” пр�
 msgid ""
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Молимо да запамтите да не можете потпуно да искључите обавештења означена као обавезна."
 
 #. Template: PreferencesNotificationEvent
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Извините али не можете искључити све методе за обавештења означена као обавезна."
 
 #. Template: PreferencesNotificationEvent
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr ""
+msgstr "Извините али не можете искључити све методе за ово обавештење."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -10558,7 +10558,7 @@ msgstr "Клијент за тикет"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Yes, but require at least one active notification method"
-msgstr ""
+msgstr "Да, али је неопходан бар један активни метод обавештавања."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -10691,7 +10691,7 @@ msgstr "Можете предузети једну од следећих акц�
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
-msgstr ""
+msgstr "Повезано као"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -10805,19 +10805,19 @@ msgstr "Сортирај по"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
-msgstr ""
+msgstr "Референтни списак конфигурационих опција"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
-msgstr ""
+msgstr "Ово подешавање се не може мењати."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not active by default."
-msgstr ""
+msgstr "Ово подешавање није подразумевано активно."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "Ово подешавање се не може деактивирати."
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11725,6 +11725,54 @@ msgstr "email-notification-int"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
 msgstr "факс"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14517,14 +14565,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Дефинише приоритет по ком се информације бележе и приказују."
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15658,13 +15698,6 @@ msgid "Google Authenticator"
 msgstr "Гугл аутентификација"
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "Дозвољава приступ, ако се ИД клијента на тикету поклапа са ИД клијента корисника и клијент корисник  има групне дозволе за ред у ком је тикет."
-
-#. SysConfig
 msgid "Greek"
 msgstr "Грчки"
 
@@ -15761,7 +15794,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16443,20 +16476,6 @@ msgid ""
 msgstr "Модул за избор примаоца (За:) у приказу новог тикета у интерфејсу клијента."
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr "Модул за проверу клијентских дозвола."
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "Модул за проверу да ли је корисник у специјалној групи. Приступ је дозвољен ако је корисник у специјалној групи и има „ro” и „rw” дозволе."
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16464,25 +16483,12 @@ msgid ""
 msgstr "Модул за проверу да ли пристигли имејлови треба да буду изначени као интерни (на основу оргиналног имејла прослеђивања). Тип чланка и тип пошиљаоца дефинишу вредности за примљени имејл/чланак."
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "Модул за проверу оператера одговорног за тикет."
-
-#. SysConfig
-msgid "Module to check the creator of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "Модул за проверу групних дозвола за приступ клијентским тикетима."
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "Модул за проверу власника тикета."
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "Модул за проверу надзорног оператера за тикет."
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16528,6 +16534,40 @@ msgstr "Модул за генерисање статистике решавањ
 #. SysConfig
 msgid "Module to generate ticket statistics."
 msgstr "Модул за генерисање статистике тикета."
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16660,6 +16700,30 @@ msgstr "Отворени тикети (клијент корисник)"
 #. SysConfig
 msgid "Open tickets (customer)"
 msgstr "Отворени тикети (клијент)"
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
@@ -18988,8 +19052,8 @@ msgid ""
 msgstr "Ова опција вам дозвољава да уграђену листу држава замените својом. Ово је посбно корисно ако у селекцији желите да користите само мали број држава."
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
-msgstr "Ово ће омогућити систему да шаље СМС поруке."
+msgid "This will allow the system to send text messages via SMS."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -19044,6 +19108,11 @@ msgstr "Избор транспорта за обавештења о тикет�
 #. SysConfig
 msgid "Tree view"
 msgstr "Приказ у облику стабла"
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
 
 #. SysConfig
 msgid "Turkish"
@@ -19179,6 +19248,20 @@ msgstr "Преглед порука системског дневника."
 #. SysConfig
 msgid "Watch this ticket"
 msgstr "Надгледај овај тикет"
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
 
 #. SysConfig
 msgid ""

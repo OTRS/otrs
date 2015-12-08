@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.963829274174102;
+    $Self->{Completeness}        = 0.959423769507803;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1583,8 +1583,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Да видите првих 5 линија поруке (последњег чланка клијента).',
         'Attributes of the current customer user data' => 'Атрибути података актуелног клијента корисника',
-        'Attibutes of the current ticket owner\'s user data' => 'Атрибути података актуелног власника тикета',
-        'Attibutes of the current ticket responsible\'s user data' => 'Атрибути података актуелног одговорног за тикет',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'Атрибути актуелног корисника оператера који је тражио ову акцију',
         'Attributes of the recipient user for the notification' => 'Атрибути корисника примаоца за обавештење',
@@ -3124,11 +3124,11 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Примите поруке за обавештавање „%s” пренете путем „%s”.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Молимо да запамтите да не можете потпуно да искључите обавештења означена као обавезна.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'Извините али не можете искључити све методе за обавештења означена као обавезна.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'Извините али не можете искључити све методе за ово обавештење.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Информације о процесу',
@@ -3241,7 +3241,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Сви оператери претплаћени и на ред и на сервис тикета',
         'Customer of the ticket' => 'Клијент за тикет',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method' => 'Да, али је неопходан бар један активни метод обавештавања.',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3311,7 +3311,7 @@ sub Data {
         ' You can take one of the next actions:' => 'Можете предузети једну од следећих акција:',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
+        'Linked as' => 'Повезано као',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
@@ -3365,10 +3365,10 @@ sub Data {
         'Order by' => 'Сортирај по',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'Configuration Options Reference' => 'Референтни списак конфигурационих опција',
+        'This setting can not be changed.' => 'Ово подешавање се не може мењати.',
+        'This setting is not active by default.' => 'Ово подешавање није подразумевано активно.',
+        'This setting can not be deactivated.' => 'Ово подешавање се не може деактивирати.',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Тип статуса',
@@ -3694,6 +3694,18 @@ sub Data {
         'email-notification-ext' => 'email-notification-ext',
         'email-notification-int' => 'email-notification-int',
         'fax' => 'факс',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4578,8 +4590,6 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Дефинише подразумевани ред постмастера.',
         'Defines the priority in which the information is logged and presented.' =>
             'Дефинише приоритет по ком се информације бележе и приказују.',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Дефинише примаоца телефонског тикета и пошиљаоца имејл тикета ("Ред" приказује све редове, "Системска адреса" приказује све системске адресе) у интерфејсу оператера.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4923,8 +4933,6 @@ Thanks for your help!
             'Омогућава крајњим корисницима да замене сепаратор за CSV датотеке, дефинисан у датотекама превода.',
         'Go back' => 'Иди назад',
         'Google Authenticator' => 'Гугл аутентификација',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            'Дозвољава приступ, ако се ИД клијента на тикету поклапа са ИД клијента корисника и клијент корисник  има групне дозволе за ред у ком је тикет.',
         'Greek' => 'Грчки',
         'Hebrew' => 'Хебрејски',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5163,18 +5171,12 @@ Thanks for your help!
         'Miscellaneous' => 'Разно',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Модул за избор примаоца (За:) у приказу новог тикета у интерфејсу клијента.',
-        'Module to check customer permissions.' => 'Модул за проверу клијентских дозвола.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Модул за проверу да ли је корисник у специјалној групи. Приступ је дозвољен ако је корисник у специјалној групи и има „ro” и „rw” дозволе.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Модул за проверу да ли пристигли имејлови треба да буду изначени као интерни (на основу оргиналног имејла прослеђивања). Тип чланка и тип пошиљаоца дефинишу вредности за примљени имејл/чланак.',
-        'Module to check the agent responsible of a ticket.' => 'Модул за проверу оператера одговорног за тикет.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Модул за проверу групних дозвола за приступ клијентским тикетима.',
-        'Module to check the owner of a ticket.' => 'Модул за проверу власника тикета.',
-        'Module to check the watcher agents of a ticket.' => 'Модул за проверу надзорног оператера за тикет.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Модул за израду потписане поруке („PGP” или „S/MIME”).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Модул за шифрирање написане поруке („PGP” или „S/MIME”).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5189,6 +5191,17 @@ Thanks for your help!
         'Module to generate ticket solution and response time statistics.' =>
             'Модул за генерисање статистике решавања тикета и времена одговора.',
         'Module to generate ticket statistics.' => 'Модул за генерисање статистике тикета.',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => 'Модул за смештај филтера у базу података.',
@@ -5226,6 +5239,14 @@ Thanks for your help!
         'Online' => 'На мрежи',
         'Open tickets (customer user)' => 'Отворени тикети (клијент корисник)',
         'Open tickets (customer)' => 'Отворени тикети (клијент)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Ван канцеларије',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Преоптерећује (редефинисано) постојеће фуцкције у Kernel::System::Ticket. Користи се за лако додавање прилагођавања.',
@@ -5924,7 +5945,7 @@ Thanks for your help!
             'Ова опција ће одбити приступ тикетима клијентове фирме, ако их  није  креирао клијент корисник .',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ова опција вам дозвољава да уграђену листу држава замените својом. Ово је посбно корисно ако у селекцији желите да користите само мали број држава.',
-        'This will allow the system to send SMS messages.' => 'Ово ће омогућити систему да шаље СМС поруке.',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => 'Обавештења о тикету',
         'Ticket Queue Overview' => 'Преглед реда тикета',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5941,6 +5962,8 @@ Thanks for your help!
         'Toolbar Item for a shortcut.' => 'Ставка алатне линије за скраћеницу.',
         'Transport selection for ticket notifications.' => 'Избор транспорта за обавештења о тикетима.',
         'Tree view' => 'Приказ у облику стабла',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => 'Турски',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5980,6 +6003,11 @@ Thanks for your help!
         'View performance benchmark results.' => 'Преглед резултата провере перформанси.',
         'View system log messages.' => 'Преглед порука системског дневника.',
         'Watch this ticket' => 'Надгледај овај тикет',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Када су тикети спојени, напомена ће бити аутоматски додата тикету који није више активан. Овде можете дефинисати тело ове напомене (овај текст се не може променити од стране оператера).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

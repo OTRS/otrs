@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.846877260670364;
+    $Self->{Completeness}        = 0.841536614645858;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1587,8 +1587,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Kupata mistari 5 ya kwanza ya kiini (kutoka kwa makala ya mteja wa karibuni)',
         'Attributes of the current customer user data' => '',
-        'Attibutes of the current ticket owner\'s user data' => '',
-        'Attibutes of the current ticket responsible\'s user data' => '',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
@@ -3698,6 +3698,18 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'email-notification-ext' => '',
         'email-notification-int' => '',
         'fax' => '',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4574,8 +4586,6 @@ Mfano:
         'Defines the postmaster default queue.' => 'Inafafanua foleni chaguo msingi ya mkuu wa posta.',
         'Defines the priority in which the information is logged and presented.' =>
             'Inafafanua kipaumbele ambacho taarifa zinawekwa batli na kuwasilishwa.',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4919,8 +4929,6 @@ Mfano:
             'Inampa mtumiaji wa mwisho uwezekano wa kubatilisha herufi ya kutenganisha kwa ajili ya mafaili ya CSV, yaliyofafanuliwa katika mafaili ya tasfiri.',
         'Go back' => 'Rudi nyuma',
         'Google Authenticator' => '',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            'Inatoa ruhusa, kama kitambulisho cha mteja wa tiketi kinalandana na kitambulisho cha mteja mtumiaji na mteja mtumiaji ana ruhusa za kikundi katika foleni, tiketi ipo ndani.',
         'Greek' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5159,18 +5167,12 @@ Mfano:
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Moduli kwa ajili ya uchaguzi katika skrini ya tiketi katika kioleusura cha mteja.',
-        'Module to check customer permissions.' => 'Moduli ya kuangalia ruhusa za mteja.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Moduli ya kuangalia kama mtumiaji yupo katika kundi maalum. Ruhusa itagaiwa, kama mtumiaji yupo katika kundi maalum na ana ruhusa za ro na rw.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Moduli za kuangalia barua pepe zilizofika  ziwekwe alama kama barua pepe za ndani (kwasababu ya barua pepe za ndani zilizotumwa mbele awali). Aina ya Makala na aina ya mtumaji wanafafanua thamani ya barua pepe/makala zilizofika.',
-        'Module to check the agent responsible of a ticket.' => 'Moduli ya kuangalia wakala anayehusika na tiketi.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Moduli ya kuangalia ruhusa za kundi kuweza kufikia tiketi za mteja.',
-        'Module to check the owner of a ticket.' => 'Moduli ya kukagua mmiliki wa tiketi',
-        'Module to check the watcher agents of a ticket.' => 'Moduli ya kukagua waangaliaji wa mawakala wa tiketi.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Moduli ya kutunga ujumbe uliosainiwa (PGP au S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Moduli ya ujumbe uliotungwa wa ufichami (PGP au S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5185,6 +5187,17 @@ Mfano:
         'Module to generate ticket solution and response time statistics.' =>
             'Moduli kutengeneza ufumbuzi wa tiketi na takwimu za muda za majibu.',
         'Module to generate ticket statistics.' => 'Moduli ya kutengeneza takwimu za tiketi.',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             'Moduli ya kuonyesha taarifa na upandaji (Upeo wa juu ulioonyeshwa: upeo wa juu wa upandaji ulioonyeshwa, Upandaji katika dakika: Onyesha tiketi itakayopanda ndani, hifadhi muda ya muda: Hifadhi muda ya upandaji uliohesabiwa katika sekunde).',
         'Module to use database filter storage.' => 'Moduli ya kutumia hifadhi ya kichujua cha hifadhi data.',
@@ -5222,6 +5235,14 @@ Mfano:
         'Online' => 'Mtandaoni',
         'Open tickets (customer user)' => 'Fungua tiketi (Mtumiaji wa mteja)',
         'Open tickets (customer)' => 'Fungua tiketi (Mteja)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Nje ya ofisi',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Pakia (Inafafanua tena) fomula saidizi katika kiini::Mfumo::Tiketi. Inatumika kuongeza kirahisi hali hukidhi haja binafsi.',
@@ -5921,7 +5942,7 @@ Mfano:
             'Chaguo hili litakuzuia kufikia tiketi za kampuni za mteja, ambazo hazikujatengenezwa na mtumiaji wa mteja.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Mpangalio huu unakuruhusu kutendua orodha ya nchi ilijengewa ndani  kwa orodha yako ya nchi. Inatumika hasa kama unataka kutumia nchi chache usichaguazo.',
-        'This will allow the system to send SMS messages.' => '',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => '',
         'Ticket Queue Overview' => 'Mapitio ya foleni ya tiketi',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5938,6 +5959,8 @@ Mfano:
         'Toolbar Item for a shortcut.' => 'Kipengele cha mwambaa zana kwa ajili ya mkato.',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => '',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             'Zima uhalalishaji wa cheti wa SSL, kwa mfano kama ukitumia seva mbadala ya HTTPS iliyowazi. Tumia kwa tahadhari yako mwenyewe!',
@@ -5977,6 +6000,11 @@ Mfano:
         'View performance benchmark results.' => 'Angalia matokeo ya utendaji wa kuigwa.',
         'View system log messages.' => 'Angalia ujumbe wa batli ya mfumo.',
         'Watch this ticket' => '',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Wakati tiketi zinaungwanishwa, kidokezo kitaongezwa otomatiki kwenye tiketi ambayo sio amililifu. Hapa unaweza kufafanua kiini cha kidokezo hiki (Matini haya hayawezi kubadilishwa na wakala).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

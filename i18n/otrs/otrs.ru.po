@@ -6,18 +6,20 @@
 # Antonio Kless, 2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
+# SLRover <ilya.sapunov@gmail.com>, 2015
 # Makdorf <makdorf@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # Nadezhda Zavyalova <nadelorama@gmail.com>, 2015
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2015
+# SLRover <ilya.sapunov@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4374,7 +4376,7 @@ msgstr "Укажите уникальное имя для этого invoker в�
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "Бэкэнд запрашивающей стороны"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4444,7 +4446,7 @@ msgstr "Вернуться к"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "Простое сопоставление"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
@@ -4476,7 +4478,7 @@ msgstr "Мапинг для ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Удалить сопоставление ключей"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
@@ -4484,7 +4486,7 @@ msgstr "Мапинг ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Карта ключей"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
@@ -4508,19 +4510,19 @@ msgstr "в новое значение"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "Удалить сопоставление значений"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "Новая карта значений"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "Добавить сопоставление значений"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "Вы действительно хотите удалить это сопоставление ключей?"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
@@ -4528,11 +4530,11 @@ msgstr "Удалить этот мапинг ключа"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
-msgstr ""
+msgstr "Сопоставление XSLT GenericInterface для веб-службы %s"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Mapping XML"
-msgstr ""
+msgstr "Сопоставление XML"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Template"
@@ -4582,7 +4584,7 @@ msgstr "Укажите уникальное имя для этого веб-се
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "Сопоставление для входящего запроса данных"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -4602,7 +4604,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "Сопоставление данных для исходящего ответа"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -4628,7 +4630,7 @@ msgstr "Свойства"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "Карта маршрута для выполнения операции"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4784,7 +4786,7 @@ msgstr "GenericInterface Transport HTTP::SOAP для веб-сервиса %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Endpoint"
-msgstr ""
+msgstr "Конечная точка"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to indicate a specific location for accessing a service."
@@ -4840,7 +4842,7 @@ msgstr "Пожалуйста, обратите внимание на огран�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "Схема именования ответов"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
@@ -5554,12 +5556,12 @@ msgid "Attributes of the current customer user data"
 msgstr "Атрибуты данных текущего клиента"
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
-msgstr "Атрибуты данных текущего владельца заявки"
+msgid "Attributes of the current ticket owner user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
-msgstr "Атрибуты данных текущего ответственного за заявку"
+msgid "Attributes of the current ticket responsible user data"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -8630,7 +8632,7 @@ msgstr "Отчеты » Просмотр %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
-msgstr ""
+msgstr "Статистическая информация"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
@@ -9832,7 +9834,7 @@ msgstr "Выполните сначала проверку правописан�
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "Прокрутите панель навигации"
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
@@ -10699,7 +10701,7 @@ msgstr "Вы можете выполнить одно из следующих д
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
-msgstr ""
+msgstr "Связан как"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -10813,19 +10815,19 @@ msgstr "Сортировка по"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
-msgstr ""
+msgstr "Справочник опций конфигурации  "
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
-msgstr ""
+msgstr "Этот параметр не может быть изменен."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not active by default."
-msgstr ""
+msgstr "Этот параметр по-умолчанию не активен."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "Этот параметр не может быть отключен."
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11733,6 +11735,54 @@ msgstr "почтовое уведомление внутреннее"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
 msgstr "факс"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14525,14 +14575,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr "Задает приоритет с которым информация журналируется и отображается."
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15666,13 +15708,6 @@ msgid "Google Authenticator"
 msgstr "Аутентификатор Google "
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "Разрешает доступ, если customer ID заявки совпадает с customer user's ID и клент имеет групповые права на доступ к очереди в которой находится заявка."
-
-#. SysConfig
 msgid "Greek"
 msgstr "Греческий"
 
@@ -15769,7 +15804,7 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16451,20 +16486,6 @@ msgid ""
 msgstr "Модуль для выбора значения поля To в новой заявке в интерфейсе клиента."
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr "Модуль для проверки прав клиента."
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "Модуль проверки принадлежности пользователя к определенной группе. Доступ разрешается, если он принадлежит указанной группе и имеет в ней ro или rw права."
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16472,25 +16493,12 @@ msgid ""
 msgstr "Модуль для проверки, должно ли  поступившее почтовое сообщение помечено как email-internal (т.к. исходное переслано как internal email). ArticleType и SenderType задают значения для поступивших email/сообщений."
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "Модуль для проверки агента ответственного за заявку."
-
-#. SysConfig
-msgid "Module to check the creator of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "Модуль проверки прав в группах для доступа к заявкам клиента."
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "Модуль для проверки владельца заявки."
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "Модуль проверки прав наблюдения за заявкой для агента"
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16536,6 +16544,40 @@ msgstr "Модуль для формирования статистки по в�
 #. SysConfig
 msgid "Module to generate ticket statistics."
 msgstr "Модуль для формирования статистки по заявкам."
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16668,6 +16710,30 @@ msgstr "Открытые заявки (клиента)"
 #. SysConfig
 msgid "Open tickets (customer)"
 msgstr "Открытые заявки (клиента)"
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
@@ -18996,8 +19062,8 @@ msgid ""
 msgstr "Позволяет переопределить встроенный список стран своим списком. Это позволит сократить отображаемый список до необходимого минимума."
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
-msgstr "Это позволяет системе отправлять SMS."
+msgid "This will allow the system to send text messages via SMS."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -19052,6 +19118,11 @@ msgstr "Выбор способа отправки для уведомлений
 #. SysConfig
 msgid "Tree view"
 msgstr "Иерархический вид"
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
 
 #. SysConfig
 msgid "Turkish"
@@ -19187,6 +19258,20 @@ msgstr "Просмотр системных сообщений."
 #. SysConfig
 msgid "Watch this ticket"
 msgstr "Наблюдать за этой заявкой"
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
 
 #. SysConfig
 msgid ""

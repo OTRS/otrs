@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.996624065589583;
+    $Self->{Completeness}        = 0.992316926770708;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -638,7 +638,7 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Nincs „%s” számú jegy! Nem lehet összekapcsolni!',
         'You don\'t have write access to this ticket.' => 'Nincs írási joga ehhez a jegyhez.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            'Sajnálom, a jegy tulajdonosának kell lennie a művelet végrehajtásához.',
+            'Sajnáljuk, a jegy tulajdonosának kell lennie a művelet végrehajtásához.',
         'Please change the owner first.' => 'Először változtassa meg a tulajdonost.',
         'Ticket selected.' => 'Kijelölt jegy.',
         'Ticket is locked by another agent.' => 'A jegyet egy másik ügyintéző zárolta.',
@@ -1588,8 +1588,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez.',
         'Attributes of the current customer user data' => 'A jelenlegi ügyfél-felhasználó adatainak jellemzői',
-        'Attibutes of the current ticket owner\'s user data' => 'A jelenlegi jegytulajdonos felhasználóadatainak jellemzői',
-        'Attibutes of the current ticket responsible\'s user data' => 'A jelenlegi jegyfelelős felhasználóadatainak jellemzői',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'A jelenlegi ügyintéző-felhasználó jellemzői, aki ezt a műveletet kérte',
         'Attributes of the recipient user for the notification' => 'A címzett felhasználó jellemzői az értesítésnél',
@@ -1654,7 +1654,7 @@ sub Data {
         'Cancel downgrade and go back' => 'Visszaváltás megszakítása és visszalépés',
         'Go to OTRS Package Manager' => 'Ugrás az OTRS csomagkezelőhöz',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'Elnézést, de jelenleg nem válthat vissza a következő csomagok miatt, amelyek ettől függnek: %s:',
+            'Sajnáljuk, de jelenleg nem válthat vissza a következő csomagok miatt, amelyek ettől függnek: %s:',
         'Vendor' => 'Gyártó',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Először távolítsa el a csomagokat a csomagkezelő használatával, majd próbálja újra.',
@@ -1972,7 +1972,7 @@ sub Data {
         'Add Queue' => 'Várólista hozzáadása',
         'Edit Queue' => 'Várólista szerkesztése',
         'A queue with this name already exists!' => 'Már létezik ilyen nevű várólista!',
-        'Sub-queue of' => 'Részvárólistája ennek',
+        'Sub-queue of' => 'Alvárólistája ennek',
         'Unlock timeout' => 'Feloldási időkorlát',
         '0 = no unlock' => '0 = nincs feloldás',
         'Only business hours are counted.' => 'Csak a nyitva tartás számít.',
@@ -2603,7 +2603,7 @@ sub Data {
         'Please set a new owner!' => 'Állítson be új tulajdonost!',
         'New Responsible' => 'Új felelős',
         'Next state' => 'Következő állapot',
-        'For all pending* states.' => 'Minden várakozó* állapotnál.',
+        'For all pending* states.' => 'Minden függőben* állapotnál.',
         'Add Article' => 'Bejegyzés hozzáadása',
         'Create an Article' => 'Egy bejegyzés létrehozása',
         'Inform agents' => 'Ügyintézők értesítése',
@@ -3129,11 +3129,11 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Ne feledje, hogy nem tudja teljesen letiltani a kötelezőként megjelölt értesítéseket.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'Sajnáljuk, de nem tud minden módszert letiltani a kötelezőként megjelölt értesítéseknél.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'Sajnáljuk, de nem tud minden módszert letiltani ennél az értesítésnél.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Folyamat-információk',
@@ -3246,7 +3246,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'A jegy várólistájára és szolgáltatására is feliratkozott összes ügyintéző',
         'Customer of the ticket' => 'A jegy ügyfele',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method' => 'Igen, de legalább egy aktív értesítési módszert igényel',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3281,7 +3281,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Pending Date' => 'Várakozás dátuma',
-        'for pending* states' => 'várakozó* állapotokhoz',
+        'for pending* states' => 'függőben* állapotokhoz',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Invalid Users' => 'Érvénytelen felhasználók',
@@ -3316,7 +3316,7 @@ sub Data {
         ' You can take one of the next actions:' => ' A következő műveletek egyikét választhatja:',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
+        'Linked as' => 'Összekapcsolva mint',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Frissítés erre most: %s! %s',
@@ -3332,7 +3332,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            '',
+            'Győződjön meg arról, hogy kiválasztott-e legalább egy átviteli módszert a kötelező értesítésekhez.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Olyan befejezési dátumot adjon meg, amely a kezdődátum után van.',
@@ -3370,10 +3370,10 @@ sub Data {
         'Order by' => 'Rendezés',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'Configuration Options Reference' => 'Beállítási lehetőségek hivatkozása',
+        'This setting can not be changed.' => 'Ez a beállítás nem változtatható meg.',
+        'This setting is not active by default.' => 'Ez a beállítás alapértelmezetten nincs bekapcsolva.',
+        'This setting can not be deactivated.' => 'Ez a beállítás nem kapcsolható ki.',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Állapot típusa',
@@ -3699,6 +3699,18 @@ sub Data {
         'email-notification-ext' => 'külső e-mail értesítés',
         'email-notification-int' => 'belső e-mail értesítés',
         'fax' => 'fax',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4583,8 +4595,6 @@ Az Ön segélyszolgálat csapata
         'Defines the postmaster default queue.' => 'Meghatározza az alapértelmezett levelezési várólistát.',
         'Defines the priority in which the information is logged and presented.' =>
             'Meghatározza azt a prioritást, amelyben az információk naplózva lesznek és bemutatásra kerülnek.',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Meghatározza a telefonos jegy címzett célját és az e-mail jegy küldőjét (a „Várólista” minden várólistát megjelenít, a „Rendszercím” minden rendszercímet megjelenít) az ügyintézői felületen.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4928,8 +4938,6 @@ Az Ön segélyszolgálat csapata
             'Megadja a végfelhasználóknak azt a lehetőséget, hogy felülírják a CSV fájloknál a fordítási fájlokban meghatározott elválasztó karaktert.',
         'Go back' => 'Vissza',
         'Google Authenticator' => 'Google hitelesítő',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            'Hozzáférést ad, ha a jegy ügyfél-azonosítója egyezik az ügyfél felhasználó-azonosítójával, és az ügyfél-felhasználónak csoportjogosultságai vannak arra a várólistára, amelyben a jegy van.',
         'Greek' => 'Görög',
         'Hebrew' => 'Héber',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5168,18 +5176,12 @@ Az Ön segélyszolgálat csapata
         'Miscellaneous' => 'Egyebek',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Egy modul az új jegy képernyőn lévő címzett kijelöléshez az ügyfélfelületen.',
-        'Module to check customer permissions.' => 'Egy modul az ügyfél-jogosultságok ellenőrzéséhez.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Egy modul annak ellenőrzéséhez, hogy a felhasználó egy speciális csoportban van-e. A hozzáférés meg van adva, ha a felhasználó a megadott csoportban van, és csak olvasható és írható, olvasható jogosultságai vannak.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             'Egy modul annak ellenőrzéséhez, hogy a beérkező e-maileket meg kell-e jelölni belső e-mailként (az eredeti továbbított belső e-mail miatt). Az ArticleType és a SenderType határozza meg az értékeket a beérkező e-mailhez vagy bejegyzéshez.',
-        'Module to check the agent responsible of a ticket.' => 'Egy modul egy jegy felelős ügyintézőjének ellenőrzéséhez.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Egy modul a csoportjogosultságok ellenőrzéséhez az ügyféljegyekhez való hozzáférésénél.',
-        'Module to check the owner of a ticket.' => 'Egy modul egy jegy tulajdonosának ellenőrzéséhez.',
-        'Module to check the watcher agents of a ticket.' => 'Egy modul egy jegy megfigyelő ügyintézőinek ellenőrzéséhez.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Egy modul aláírt üzenetek írásához (PGP vagy S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Egy modul a megírt üzenetek titkosításához (PGP vagy S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5194,6 +5196,17 @@ Az Ön segélyszolgálat csapata
         'Module to generate ticket solution and response time statistics.' =>
             'Egy modul a jegy megoldás és válaszidő statisztikák előállításához.',
         'Module to generate ticket statistics.' => 'Egy modul a jegystatisztikák előállításához.',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             'Egy modul az értesítések és eszkalációk megjelenítéséhez (ShownMax: legtöbb megjelenített eszkaláció, EscalationInMinutes: jegyek megjelenítése, amelyek eszkalálva lesznek, CacheTime: a számított eszkalációk gyorsítótára másodpercben).',
         'Module to use database filter storage.' => 'Egy modul az adatbázis-szűrő tároló használatához.',
@@ -5231,6 +5244,14 @@ Az Ön segélyszolgálat csapata
         'Online' => 'Elérhető',
         'Open tickets (customer user)' => 'Nyitott jegyek (ügyfél-felhasználó)',
         'Open tickets (customer)' => 'Nyitott jegyek (ügyfél)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Irodán kívül',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Túlterheli (újra meghatározza) a Kernel::System::Ticket helyen meglévő függvényeket. Személyre szabások könnyű hozzáadásához használható.',
@@ -5929,7 +5950,7 @@ Az Ön segélyszolgálat csapata
             'Ez a beállítás meg fogja tagadni azon ügyfél cégjegyekhez való hozzáférést, amelyeket nem az ügyfél-felhasználó hozott létre.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ez a beállítás lehetővé teszi a beépített országlista felülbírálását a saját országlistájával. Ez különösen hasznos, ha az országoknak csak egy kiválasztott kis csoportját szeretné használni.',
-        'This will allow the system to send SMS messages.' => 'Ez lehetővé fogja tenni a rendszernek az SMS-üzenetek küldését.',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => 'Jegyértesítések',
         'Ticket Queue Overview' => 'Jegyvárólista áttekintő',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5946,6 +5967,8 @@ Az Ön segélyszolgálat csapata
         'Toolbar Item for a shortcut.' => 'Eszköztárelem egy gyorsbillentyűhöz.',
         'Transport selection for ticket notifications.' => 'Átvitelkiválasztás a jegyértesítésekhez.',
         'Tree view' => 'Fa nézet',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => 'Török',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             'Kikapcsolja az SSL tanúsítvány ellenőrzést, ha például átlátszó HTTPS proxyt használ. Csak saját felelősségre használja!',
@@ -5985,6 +6008,11 @@ Az Ön segélyszolgálat csapata
         'View performance benchmark results.' => 'Teljesítményteszt eredményeinek megtekintése.',
         'View system log messages.' => 'Rendszernapló üzenetek megtekintése.',
         'Watch this ticket' => 'Jegy megfigyelése',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Amikor jegyeket egyesítenek, egy jegyzet lesz automatikusan hozzáadva ahhoz a jegyhez, amely többé már nem aktív. Itt határozhatja meg ennek a jegyzetnek a törzsét (ezt a szöveget nem tudja megváltoztatni az ügyintéző).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

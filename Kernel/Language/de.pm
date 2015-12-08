@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.889558717144924;
+    $Self->{Completeness}        = 0.886194477791116;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1583,8 +1583,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels).',
         'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
-        'Attibutes of the current ticket owner\'s user data' => 'Attribute der Benutzerdaten des Ticketbesitzers',
-        'Attibutes of the current ticket responsible\'s user data' => 'Attribute der Benutzerdaten des Ticket-Verantwortlichen',
+        'Attributes of the current ticket owner user data' => '',
+        'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'Attribute der Benutzerdaten des Agenten, der die Aktion ausgelöst hat',
         'Attributes of the recipient user for the notification' => 'Attribute der Benutzerdaten des Empfängers der Benachrichtigung',
@@ -3124,11 +3124,11 @@ sub Data {
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             'Nachrichten für Benachrichtigung \'%s\' mittels Transportmethode \'%s\' empfangen.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Bitte beachten Sie, dass sie als erforderlich markierte Benachrichtigungen nicht vollständig deaktivieren können.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'Entschuldigung, Sie können für eine erforderliche Benachrichtigungen nicht alle Benachrichtigungsmethoden abschalten.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'Entschuldigung, Sie können für diese Benachrichtigung nicht alle Benachrichtigungsmethoden abschalten.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Prozess-Informationen',
@@ -3241,7 +3241,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Alle Agenten, die sowohl Queue als auch Service des Tickets abonniert haben',
         'Customer of the ticket' => 'Kunde des Tickets',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method' => 'Ja, aber mindestens eine Benachrichtigungsmethode muss aktiviert sein',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Package not verified due a communication issue with verification server!' =>
@@ -3311,7 +3311,7 @@ sub Data {
         ' You can take one of the next actions:' => 'Wählen Sie aus den folgenden Aktionen:',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
+        'Linked as' => 'Verknüpft als',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
@@ -3327,7 +3327,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            '',
+            'Bitte stellen Sie sicher, dass sie für erforderliche Benachrichtigungen mindestens eine Benachrichtigungsmethode ausgewählt haben.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Bitte geben Sie ein Enddatum an, das nach dem Startdatum liegt.',
@@ -3365,10 +3365,10 @@ sub Data {
         'Order by' => 'Sortieren nach',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'Configuration Options Reference' => 'Referenz der Konfigurationseinstellungen',
+        'This setting can not be changed.' => 'Diese Einstellung kann nicht geändert werden.',
+        'This setting is not active by default.' => 'Diese Einstellung ist standardmäßig nicht aktiv.',
+        'This setting can not be deactivated.' => 'Diese Einstellung kann nicht deaktiviert werden.',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Statustyp',
@@ -3694,6 +3694,18 @@ sub Data {
         'email-notification-ext' => 'Email-Notification-extern',
         'email-notification-int' => 'Email-Notification-intern',
         'fax' => 'Fax',
+        'Ticket create notification' => '',
+        'Ticket follow-up notification (unlocked)' => '',
+        'Ticket follow-up notification (locked)' => '',
+        'Ticket owner update notification' => '',
+        'Ticket responsible update notification' => '',
+        'Ticket new note notification' => '',
+        'Ticket queue update notification' => '',
+        'Ticket pending reminder notification (locked)' => '',
+        'Ticket pending reminder notification (unlocked)' => '',
+        'Ticket escalation notification' => '',
+        'Ticket escalation warning notification' => '',
+        'Ticket service update notification' => '',
 
         # SysConfig
         '
@@ -4459,7 +4471,7 @@ Ihr Helpdesk-Team
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Definiert die maximale Gültigkeitsdauer (in Sekunden) für eine Session-ID.',
-        'Defines the maximum number of affected tickets per job.' => '',
+        'Defines the maximum number of affected tickets per job.' => 'Definiert the maximale Anzahl der betroffenen Tickets pro Job',
         'Defines the maximum number of pages per PDF file.' => 'Bestimmt die maximale Anzahl an Seiten pro PDF-Datei.',
         'Defines the maximum number of quoted lines to be added to responses.' =>
             '',
@@ -4577,8 +4589,6 @@ Ihr Helpdesk-Team
         'Defines the postmaster default queue.' => 'Definiert die Postmaster-Queue.',
         'Defines the priority in which the information is logged and presented.' =>
             'Definiert die Priorität in welcher die Information aufgezeichnet und präsentiert wird.',
-        'Defines the queues the creator check will be active.' => '',
-        'Defines the queues the involved check will be active.' => '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4922,8 +4932,6 @@ Ihr Helpdesk-Team
             '',
         'Go back' => 'Zurück',
         'Google Authenticator' => '',
-        'Grants access, if the customer ID of the ticket matches the customer user\'s ID and the customer user has group permissions on the queue the ticket is in.' =>
-            '',
         'Greek' => 'Griechisch',
         'Hebrew' => 'Hebräisch',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
@@ -5162,18 +5170,12 @@ Ihr Helpdesk-Team
         'Miscellaneous' => 'Verschiedenes',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
-        'Module to check customer permissions.' => 'Modul zum Überprüfen von Kundenberechtigungen.',
-        'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
-            'Module zum überprüfen ob der Benutzer Mitglied einer speziellen Gruppe ist. Der Zugriff wird gestattet, wenn der Benutzer in der angegebenen Gruppe ist und ro und rw Berechtigungen hat.',
-        'Module to check if an agent is involved to a ticket.' => '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
-        'Module to check the agent responsible of a ticket.' => 'Modul zur Überprüfung des Ticketverantwortlichen.',
-        'Module to check the creator of a ticket.' => '',
-        'Module to check the group permissions for the access to customer tickets.' =>
-            'Modul zur Überprüfung der Gruppenberechtigung um auf Kundentickets zuzugreifen.',
-        'Module to check the owner of a ticket.' => 'Modul zur Überprüfung des Ticketbesitzers.',
-        'Module to check the watcher agents of a ticket.' => 'Modul zur Überprüfung des Ticketbeobachter.',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul um signierte Nachrichten zu verfassen (PGP oder S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul um verschlüsselte Nachrichten zu verassen (PGP oder S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
@@ -5188,6 +5190,17 @@ Ihr Helpdesk-Team
         'Module to generate ticket solution and response time statistics.' =>
             'Modul zur Generierung von Lösungs- und Antwortzeitstatistiken.',
         'Module to generate ticket statistics.' => 'Modul zur Generierung von Ticket-Statistiken',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the owner of a ticket.' => '',
+        'Module to grant access to the watcher agents of a ticket.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => '',
@@ -5225,6 +5238,14 @@ Ihr Helpdesk-Team
         'Online' => 'Online',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
         'Out Of Office' => 'Derzeit nicht im Büro',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
@@ -5923,7 +5944,7 @@ Ihr Helpdesk-Team
             'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send SMS messages.' => 'Dies erlaubt dem System das Senden von SMS-Nachrichten.',
+        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Notifications' => 'Ticket-Benachrichtigungen',
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5940,6 +5961,8 @@ Ihr Helpdesk-Team
         'Toolbar Item for a shortcut.' => 'Werkzeugleisteneintrag für den Schnellzugriff.',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => 'Baumansicht',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
         'Turkish' => 'Türkisch',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
@@ -5979,6 +6002,11 @@ Ihr Helpdesk-Team
         'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
         'View system log messages.' => 'Systemprotokollnachrichten ansehen.',
         'Watch this ticket' => 'Dieses Ticket beobachten',
+        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            '',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

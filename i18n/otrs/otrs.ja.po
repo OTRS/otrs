@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5549,11 +5549,11 @@ msgid "Attributes of the current customer user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
+msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
+msgid "Attributes of the current ticket responsible user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -11729,6 +11729,54 @@ msgstr ""
 msgid "fax"
 msgstr "fax"
 
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
+
 #. SysConfig
 msgid ""
 "\n"
@@ -14520,14 +14568,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15661,13 +15701,6 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "チケットの顧客IDが顧客ユーザIDと合致していた、および顧客がそのチケットが入っているキューに対するグループ許可を持っていた場合に、顧客に対してアクセスを付与します。"
-
-#. SysConfig
 msgid "Greek"
 msgstr "ギリシャ語"
 
@@ -15764,7 +15797,7 @@ msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されてい�
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16446,20 +16479,6 @@ msgid ""
 msgstr "顧客インタフェースで、新規チケット画面におけるTo-selectionのモジュールです。"
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr "顧客の許可をチェックするためのモジュールです。"
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "あるユーザが、特別なグループに加入しているか確認するためのモジュールです。ユーザが特別なグループに入っておりro権限とrw権限を持っていれば、アクセスが付与されます。"
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16467,25 +16486,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "チケットの責任者となる担当者を確認するモジュールです。"
-
-#. SysConfig
-msgid "Module to check the creator of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "顧客チケットへのアクセスに関して、グループ許可を確認します。"
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "チケットの所有者を確認するモジュールです。"
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "チケットの監視人担当者をチェックするためのモジュールです。"
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16531,6 +16537,40 @@ msgstr "チケット・ソリューションおよびレスポンス・タイム
 #. SysConfig
 msgid "Module to generate ticket statistics."
 msgstr "チケット統計を作成するためのモジュールです。"
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16663,6 +16703,30 @@ msgstr "オープンチケット(顧客ユーザー)"
 #. SysConfig
 msgid "Open tickets (customer)"
 msgstr "オープンチケット(顧客)"
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
@@ -18991,7 +19055,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
+msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
@@ -19047,6 +19111,11 @@ msgstr ""
 #. SysConfig
 msgid "Tree view"
 msgstr "ツリー表示"
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
 
 #. SysConfig
 msgid "Turkish"
@@ -19182,6 +19251,20 @@ msgstr "システムログメッセージを見る。"
 #. SysConfig
 msgid "Watch this ticket"
 msgstr "このチケットを見る。"
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
 
 #. SysConfig
 msgid ""

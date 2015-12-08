@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-11-25 17:57+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-12-08 09:31+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1380,7 +1380,7 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Wanneer u doorgaat met installatie kunnen de volgende fouten verschijnen!<br><br>&nbsp;-Beveiligingsproblemen<br>&nbsp;-Stabiliteitsproblemen<br>&nbsp;-Performance problemen<br><br>Noteer a.u.b. dat deze fouten gebeuren door deze package en niet door de OTRS service contracts!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
@@ -1514,7 +1514,7 @@ msgstr "%s Ga naar het upgrade center %s"
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "De licentie voor uw %s verloopt binnenkort. Contacteer %s om deze te hernieuwen!"
 
 #. Template: AAABase
 msgid ""
@@ -1792,7 +1792,7 @@ msgstr "Statusoverzicht"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Service View"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -3215,7 +3215,7 @@ msgstr "Systeemregistratie is een service van de OTRS Groep, die een aantal voor
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Houd er rekening mee dat wanneer u gebruik wilt maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -4520,7 +4520,7 @@ msgstr "Verwijder sleutelkoppeling"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
-msgstr ""
+msgstr "GenericInterface Mapping XSLT voor Web Service %s"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Mapping XML"
@@ -4608,7 +4608,7 @@ msgstr "Verwijder deze operatie"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr ""
+msgstr "Generieke Interface Transport HTTP::REST voor Web Service %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
@@ -4673,7 +4673,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "e.g https://www.otrs.com:10745/api/v1.0 (zonder trailing backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -5377,7 +5377,7 @@ msgstr "Filter interacties"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Alleen voor ArticleCreate en ArticleSend event"
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
@@ -5412,7 +5412,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Versturen naar"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
@@ -5436,7 +5436,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Eén keer per dag"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5460,7 +5460,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
@@ -5468,7 +5468,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send by default"
-msgstr ""
+msgstr "Standaard versturen"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5478,11 +5478,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Deze feature is niet beschikbaar op het moment."
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Geen data gevonden"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5490,17 +5490,17 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Notificatie Tekst"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Verwijder Notificatie Taal"
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
@@ -5543,14 +5543,14 @@ msgstr "Om de eerste vijf regels van de tekst van de nieuwste klant-interactie t
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
+msgstr "Attributen van de huidige klantengegevens"
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket owner's user data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attibutes of the current ticket responsible's user data"
+msgid "Attributes of the current ticket responsible user data"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5577,11 +5577,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Voorbeeld notificatie"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Aanvullende ontvanger e-mailadres"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -8301,7 +8301,7 @@ msgstr "E-mail-ticket"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Start Chat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8321,7 +8321,7 @@ msgstr "Nieuw emailticket aan %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Start chat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8351,39 +8351,39 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Download als SVG file"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Download als PNG file"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Download als CSV file"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Download als Excel file"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Download als PDF file"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
-msgstr ""
+msgstr "Gegroepeerd"
 
 #. Template: AgentDashboardStats
 msgid "Stacked"
-msgstr ""
+msgstr "Gestapeld"
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "Uitgebreid"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Stream"
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -8400,7 +8400,7 @@ msgstr "De inhoud van deze rapportage wordt voor u aangemaakt, even geduld."
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
-msgstr ""
+msgstr "Deze statistiek kan op dit moment niet worden gebruikt omdat de configuratie gecorrigeerd moet worden door de statistieken administrator. "
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8452,7 +8452,7 @@ msgstr "Het ticket is vergrendeld"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Ongedaan maken & sluiten"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -11726,6 +11726,54 @@ msgstr ""
 msgid "fax"
 msgstr ""
 
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
+
 #. SysConfig
 msgid ""
 "\n"
@@ -14517,14 +14565,6 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the queues the creator check will be active."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the queues the involved check will be active."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
@@ -15658,13 +15698,6 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr ""
-
-#. SysConfig
 msgid "Greek"
 msgstr ""
 
@@ -15761,7 +15794,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16443,20 +16476,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check if an agent is involved to a ticket."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16464,24 +16483,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
+msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the creator of a ticket."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr ""
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
+msgid "Module to check the group permissions for the access to tickets."
 msgstr ""
 
 #. SysConfig
@@ -16527,6 +16533,40 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
 msgstr ""
 
 #. SysConfig
@@ -16659,6 +16699,30 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer)"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
 msgstr ""
 
 #. SysConfig
@@ -18988,7 +19052,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
+msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
@@ -19043,6 +19107,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Triggers ticket escalation events and notification events for escalation."
 msgstr ""
 
 #. SysConfig
@@ -19178,6 +19247,20 @@ msgstr "Bekijk het OTRS logboek."
 
 #. SysConfig
 msgid "Watch this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
 
 #. SysConfig
