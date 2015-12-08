@@ -123,6 +123,7 @@ sub Run {
         # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
+            Debug => $Self->{Debug},
         );
 
         print $GenericObject->Run();

@@ -1027,6 +1027,7 @@ sub Run {
             %Param,
             %UserData,
             ModuleReg => $ModuleReg,
+            Debug     => $Self->{Debug},
         );
 
         # debug info
