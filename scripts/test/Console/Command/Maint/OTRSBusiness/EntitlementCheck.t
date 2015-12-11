@@ -121,7 +121,6 @@ $Self->False(
 
 $ResetTestCloudServiceCall->();
 
-# TODO test with argument "force"
 $ExitCode = $CommandObject->Execute('--force');
 
 $Self->Is(
