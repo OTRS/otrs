@@ -701,7 +701,7 @@
         <Setting>
             <Hash>
                 <Item Key="TaskName">OTRSBusinessEntitlementCheck</Item>
-                <Item Key="Schedule">40 0 * * *</Item> <!-- default: every day at 12:40 AM -->
+                <Item Key="Schedule">25,45 */1 * * *</Item> <!-- default: each hour in the minute 15 and 45 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::EntitlementCheck</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
@@ -719,7 +719,7 @@
         <Setting>
             <Hash>
                 <Item Key="TaskName">OTRSBusinessAvailabilityCheck</Item>
-                <Item Key="Schedule">20 */1 * * *</Item> <!-- default: each hour in the minute 20 -->
+                <Item Key="Schedule">15,35,55 */1 * * *</Item> <!-- default: each hour in the minute 15,35 and 55 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::AvailabilityCheck</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="MaximumParallelInstances">1</Item>

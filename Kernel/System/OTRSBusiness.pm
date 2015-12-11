@@ -811,6 +811,70 @@ sub OTRSBusinessUninstall {
     return $Uninstall;
 }
 
+=item OTRSBusinessCommandNextUpdateTimeSet()
+
+Set the next update time for the given command in the system data table storage.
+
+    my $Success = $OTRSBusinessObject->OTRSBusinessCommandNextUpdateTimeSet(
+        Command => 'AvailabilityCheck',
+    );
+
+Returns 1 if the next update time was set successfully.
+
+=cut
+
+sub OTRSBusinessCommandNextUpdateTimeSet {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{Command};
+
+    my $Key = "OTRSBusiness::$Param{Command}::NextUpdateTime";
+
+    my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
+
+    my $NextUpdateTime = $SystemDataObject->SystemDataGet(
+        Key => $Key,
+    );
+
+    # set the default next update seconds offset
+    my $NextUpdateSecondsOffset = 60 * 60 * 24;
+
+    # generate a random seconds offset, if no next update time exists
+    if (!$NextUpdateTime) {
+
+        # create the random numbers
+        my $RandomHour   = int 20 + rand 23 - 20;
+        my $RandomMinute = int rand 60;
+
+        # create the random seconds offset
+        $NextUpdateSecondsOffset = 60 * 60 * $RandomHour + ( 60 * $RandomMinute );
+    }
+
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my $CalculatedNextUpdateTime = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime() + $NextUpdateSecondsOffset,
+    );
+
+    if ( defined $NextUpdateTime ) {
+        $SystemDataObject->SystemDataUpdate(
+            Key    => $Key,
+            Value  => $CalculatedNextUpdateTime,
+            UserID => 1,
+        );
+    }
+    else {
+        $SystemDataObject->SystemDataAdd(
+            Key    => $Key,
+            Value  => $CalculatedNextUpdateTime,
+            UserID => 1,
+        );
+    }
+
+    return 1;
+}
+
 sub _GetOTRSBusinessPackageFromRepository {
     my ( $Self, %Param ) = @_;
 
