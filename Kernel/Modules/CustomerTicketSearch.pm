@@ -1285,8 +1285,8 @@ sub Run {
                 else {
 
                     my $Mapping = {
-                        'Last'   => 'Created within the last',
-                        'Before' => 'Created more than ... ago',
+                        'Last'   => Translatable('Created within the last'),
+                        'Before' => Translatable('Created more than ... ago'),
                     };
 
                     $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
@@ -1708,12 +1708,12 @@ sub MaskForm {
     );
     $Param{TicketCreateTimePointFormat} = $LayoutObject->BuildSelection(
         Data => {
-            minute => 'minute(s)',
-            hour   => 'hour(s)',
-            day    => 'day(s)',
-            week   => 'week(s)',
-            month  => 'month(s)',
-            year   => 'year(s)',
+            minute => Translatable('minute(s)'),
+            hour   => Translatable('hour(s)'),
+            day    => Translatable('day(s)'),
+            week   => Translatable('week(s)'),
+            month  => Translatable('month(s)'),
+            year   => Translatable('year(s)'),
         },
         Translation => 1,
         Name        => 'TicketCreateTimePointFormat',

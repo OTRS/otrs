@@ -16,6 +16,7 @@ use URI::Escape qw();
 
 use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -1911,11 +1912,11 @@ sub CustomerAgeInHours {
     my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
-    my $HourDsc   = 'h';
-    my $MinuteDsc = 'm';
+    my $HourDsc   = Translatable('h');
+    my $MinuteDsc = Translatable('m');
     if ( $Kernel::OM->Get('Kernel::Config')->Get('TimeShowCompleteDescription') ) {
-        $HourDsc   = 'hour';
-        $MinuteDsc = 'minute';
+        $HourDsc   = Translatable('hour');
+        $MinuteDsc = Translatable('minute');
     }
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -1945,13 +1946,13 @@ sub CustomerAge {
     my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
-    my $DayDsc    = 'd';
-    my $HourDsc   = 'h';
-    my $MinuteDsc = 'm';
+    my $DayDsc    = Translatable('d');
+    my $HourDsc   = Translatable('h');
+    my $MinuteDsc = Translatable('m');
     if ( $ConfigObject->Get('TimeShowCompleteDescription') ) {
-        $DayDsc    = 'day';
-        $HourDsc   = 'hour';
-        $MinuteDsc = 'minute';
+        $DayDsc    = Translatable('day');
+        $HourDsc   = Translatable('hour');
+        $MinuteDsc = Translatable('minute');
     }
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;

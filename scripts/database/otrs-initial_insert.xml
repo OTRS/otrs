@@ -121,7 +121,7 @@
     </Insert>
 
     <Insert Table="link_state">
-        <Data Key="name" Type="Quote">Valid</Data>
+        <Data Key="name" Type="Quote" Translatable="1">Valid</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
