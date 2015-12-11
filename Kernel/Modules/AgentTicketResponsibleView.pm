@@ -166,7 +166,7 @@ sub Run {
     # define filter
     my %Filters = (
         All => {
-            Name   => 'All',
+            Name   => Translatable('All'),
             Prio   => 1000,
             Search => {
                 StateType      => 'Open',
@@ -178,7 +178,7 @@ sub Run {
             },
         },
         New => {
-            Name   => 'New Article',
+            Name   => Translatable('New Article'),
             Prio   => 1001,
             Search => {
                 StateType      => 'Open',
@@ -194,7 +194,7 @@ sub Run {
             },
         },
         Reminder => {
-            Name   => 'Pending',
+            Name   => Translatable('Pending'),
             Prio   => 1002,
             Search => {
                 StateType      => [ 'pending reminder', 'pending auto' ],
@@ -206,7 +206,7 @@ sub Run {
             },
         },
         ReminderReached => {
-            Name   => 'Reminder Reached',
+            Name   => Translatable('Reminder Reached'),
             Prio   => 1003,
             Search => {
                 StateType                     => ['pending reminder'],

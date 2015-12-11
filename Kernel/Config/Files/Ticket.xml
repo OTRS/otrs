@@ -7429,7 +7429,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomQueue</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Queues</Item>
                 <Item Key="Desc" Translatable="1">Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7446,7 +7446,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomService</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Services</Item>
                 <Item Key="Desc" Translatable="1">Your service selection of your favorite services. You also get notified about those services via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7462,7 +7462,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Overview Refresh Time</Item>
                 <Item Key="Desc" Translatable="1">If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.</Item>
                 <Item Key="Key" Translatable="1">After</Item>
@@ -7490,7 +7490,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Small" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Small"</Item>
                 <Item Key="Data">
@@ -7517,7 +7517,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::ColumnFilters</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Enabled filters.</Item>
                 <Item Key="Key" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
                 <Item Key="PrefKey">UserFilterColumnsEnabled</Item>
@@ -7533,7 +7533,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Medium" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Medium"</Item>
                 <Item Key="Data">
@@ -7560,7 +7560,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Preview" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Preview"</Item>
                 <Item Key="Data">
@@ -7587,7 +7587,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Screen after new ticket</Item>
                 <Item Key="Desc" Translatable="1">Configure which screen should be shown after a new ticket has been created.</Item>
                 <Item Key="Key" Translatable="1">Screen</Item>
@@ -8510,7 +8510,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Zoom</Description>
+                <Description>Ticket Zoom.</Description>
                 <Title>Zoom</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8625,7 +8625,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Lock</Description>
+                <Description Translatable="1">Ticket Lock.</Description>
                 <Title>Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -9473,7 +9473,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of customer tickets</Description>
+                <Description Translatable="1">Overview of customer tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Overview</Title>
                 <NavBar>
@@ -9518,9 +9518,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create tickets</Description>
+                <Description Translatable="1">Create tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>New Ticket</Title>
+                <Title Translatable="1">New Ticket</Title>
                 <NavBar>
                     <Description Translatable="1">Create new Ticket</Description>
                     <Name Translatable="1">New Ticket</Name>
@@ -9541,7 +9541,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket zoom view</Description>
+                <Description Translatable="1">Ticket zoom view.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Zoom</Title>
                 <Loader>
@@ -9557,7 +9557,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Ticket Print Module</Description>
+                <Description Translatable="1">Customer Ticket Print Module.</Description>
                 <NavBarName></NavBarName>
                 <Title>Print</Title>
             </FrontendModuleReg>
@@ -9569,7 +9569,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To download attachments</Description>
+                <Description Translatable="1">To download attachments.</Description>
                 <NavBarName></NavBarName>
                 <Title></Title>
             </FrontendModuleReg>
@@ -9581,7 +9581,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer ticket search</Description>
+                <Description Translatable="1">Customer ticket search.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Search</Title>
                 <NavBar>

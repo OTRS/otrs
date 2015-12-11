@@ -106,10 +106,10 @@ sub new {
         || $LayoutObject->{BrowserRichText}
         || 0;
 
-    # strip html and ascii attachments of content
+    # strip HTML and ASCII attachments of content
     $Self->{StripPlainBodyAsAttachment} = 1;
 
-    # check if rich text is enabled, if not only strip ascii attachments
+    # check if rich text is enabled, if not only strip ASCII attachments
     if ( !$Self->{RichText} ) {
         $Self->{StripPlainBodyAsAttachment} = 2;
     }
@@ -196,8 +196,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -212,16 +212,12 @@ sub Run {
     );
 
     # error screen, don't show ticket
-    if ( !$Access ) {
-        my $TranslatableMessage = $LayoutObject->{LanguageObject}->Translate(
-            "We are sorry, you do not have permissions anymore to access this ticket in its current state. "
-        );
-
-        return $LayoutObject->NoPermission(
-            Message    => $TranslatableMessage,
-            WithHeader => 'yes',
-        );
-    }
+    return $LayoutObject->NoPermission(
+        Message => Translatable(
+            "We are sorry, you do not have permissions anymore to access this ticket in its current state."
+        ),
+        WithHeader => 'yes',
+    ) if !$Access;
 
     # get ticket attributes
     my %Ticket = $TicketObject->TicketGet(
@@ -603,7 +599,7 @@ sub Run {
 
         # check needed ArticleID
         if ( !$Self->{ArticleID} ) {
-            return $LayoutObject->ErrorScreen( Message => 'Need ArticleID!' );
+            return $LayoutObject->ErrorScreen( Message => Translatable('Need ArticleID!') );
         }
 
         # get article data
@@ -614,10 +610,10 @@ sub Run {
 
         # check if article data exists
         if ( !%Article ) {
-            return $LayoutObject->ErrorScreen( Message => 'Invalid ArticleID!' );
+            return $LayoutObject->ErrorScreen( Message => Translatable('Invalid ArticleID!') );
         }
 
-        # if it is a html email, return here
+        # if it is a HTML email, return here
         return $LayoutObject->Attachment(
             Filename => $ConfigObject->Get('Ticket::Hook')
                 . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
@@ -874,7 +870,7 @@ sub MaskAgentZoom {
     }
 
     # set display options
-    $Param{WidgetTitle} = 'Ticket Information';
+    $Param{WidgetTitle} = Translatable('Ticket Information');
     $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
 
     # check if ticket is normal or process ticket
@@ -2284,7 +2280,7 @@ sub _ArticleTree {
                         Class               => 'NewTicket',
                         Name                => '',
                         ArticleID           => '',
-                        HistoryTypeReadable => 'Ticket Created',
+                        HistoryTypeReadable => Translatable('Ticket Created'),
                         Orientation         => 'Right',
                     };
                 }
@@ -2469,7 +2465,7 @@ sub _ArticleTree {
             );
 
             # if we have two events that happened 'nearly' the same time, treat
-            # them as if they happened exactly on the same time (treshold 5 seconds)
+            # them as if they happened exactly on the same time (threshold 5 seconds)
             if (
                 $LastCreateSystemTime
                 && $Item->{CreateSystemTime} <= $LastCreateSystemTime
@@ -2966,10 +2962,10 @@ sub _ArticleItem {
         return 1;
     }
 
-    # show body as html or plain text
+    # show body as HTML or plain text
     my $ViewMode = 'BodyHTML';
 
-    # in case show plain article body (if no html body as attachment exists of if rich
+    # in case show plain article body (if no HTML body as attachment exists of if rich
     # text is not enabled)
     if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
         $ViewMode = 'BodyPlain';
@@ -2977,7 +2973,7 @@ sub _ArticleItem {
         # remember plain body for further processing by ArticleViewModules
         $Article{BodyPlain} = $Article{Body};
 
-        # html quoting
+        # HTML quoting
         $Article{Body} = $LayoutObject->Ascii2Html(
             NewLine        => $ConfigObject->Get('DefaultViewNewLine'),
             Text           => $Article{Body},
@@ -3102,7 +3098,7 @@ sub _ArticleMenu {
                     }
                 );
 
-                # build html string
+                # build HTML string
                 my $StandardResponsesStrg = $LayoutObject->BuildSelection(
                     Name => 'ResponseID',
                     ID   => 'ResponseID',
@@ -3113,7 +3109,7 @@ sub _ArticleMenu {
                     ItemType              => 'Dropdown',
                     DropdownType          => 'Reply',
                     StandardResponsesStrg => $StandardResponsesStrg,
-                    Name                  => 'Reply',
+                    Name                  => Translatable('Reply'),
                     Class                 => 'AsPopup PopupType_TicketAction',
                     Action                => 'AgentTicketCompose',
                     FormID                => 'Reply' . $Article{ArticleID},
@@ -3170,7 +3166,7 @@ sub _ArticleMenu {
                         ItemType              => 'Dropdown',
                         DropdownType          => 'Reply',
                         StandardResponsesStrg => $StandardResponsesStrg,
-                        Name                  => 'Reply All',
+                        Name                  => Translatable('Reply All'),
                         Class                 => 'AsPopup PopupType_TicketAction',
                         Action                => 'AgentTicketCompose',
                         FormID                => 'ReplyAll' . $Article{ArticleID},
@@ -3244,7 +3240,7 @@ sub _ArticleMenu {
                         }
                     );
 
-                    # build html string
+                    # build HTML string
                     my $StandardForwardsStrg = $LayoutObject->BuildSelection(
                         Name => 'ForwardTemplateID',
                         ID   => 'ForwardTemplateID',
@@ -3269,7 +3265,7 @@ sub _ArticleMenu {
                     push @MenuItems, {
                         ItemType    => 'Link',
                         Description => Translatable('Forward article via mail'),
-                        Name        => 'Forward',
+                        Name        => Translatable('Forward'),
                         Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
                             "Action=AgentTicketForward;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
@@ -3316,7 +3312,7 @@ sub _ArticleMenu {
                 push @MenuItems, {
                     ItemType    => 'Link',
                     Description => Translatable('Bounce Article to a different mail address'),
-                    Name        => 'Bounce',
+                    Name        => Translatable('Bounce'),
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
                         "Action=AgentTicketBounce;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
@@ -3336,7 +3332,7 @@ sub _ArticleMenu {
         push @MenuItems, {
             ItemType    => 'Link',
             Description => Translatable('Split this article'),
-            Name        => 'Split',
+            Name        => Translatable('Split'),
             Link =>
                 "Action=AgentTicketPhone;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};LinkTicketID=$Ticket{TicketID}"
         };
@@ -3359,7 +3355,7 @@ sub _ArticleMenu {
             push @MenuItems, {
                 ItemType    => 'Link',
                 Description => Translatable('Print this article'),
-                Name        => 'Print',
+                Name        => Translatable('Print'),
                 Class       => 'AsPopup PopupType_TicketAction',
                 Link =>
                     "Action=AgentTicketPrint;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};ArticleNumber=$Article{Count}"
@@ -3386,7 +3382,7 @@ sub _ArticleMenu {
             push @MenuItems, {
                 ItemType    => 'Link',
                 Description => Translatable('View the source for this Article'),
-                Name        => 'Plain Format',
+                Name        => Translatable('Plain Format'),
                 Class       => 'AsPopup PopupType_TicketAction',
                 Link =>
                     "Action=AgentTicketPlain;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}",
@@ -3416,7 +3412,7 @@ sub _ArticleMenu {
             = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}";
         my $Description = Translatable('Mark');
         if ($ArticleIsImportant) {
-            $Description = 'Unmark';
+            $Description = Translatable('Unmark');
         }
 
         # set important menu item

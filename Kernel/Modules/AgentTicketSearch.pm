@@ -1752,9 +1752,9 @@ sub Run {
 
             $Param{SearchInArchiveStrg} = $LayoutObject->BuildSelection(
                 Data => {
-                    ArchivedTickets    => 'Archived tickets',
-                    NotArchivedTickets => 'Unarchived tickets',
-                    AllTickets         => 'All tickets',
+                    ArchivedTickets    => Translatable('Archived tickets'),
+                    NotArchivedTickets => Translatable('Unarchived tickets'),
+                    AllTickets         => Translatable('All tickets'),
                 },
                 Name       => 'SearchInArchive',
                 SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',

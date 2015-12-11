@@ -1075,7 +1075,7 @@ sub TicketListShow {
                         ColumnsEnabled   => $JSONObject->Encode( Data => \@ColumnsEnabled ),
                         ColumnsAvailable => $JSONObject->Encode( Data => \@ColumnsAvailable ),
                         NamePref         => $PrefKeyColumns,
-                        Desc             => 'Shown Columns',
+                        Desc             => Translatable('Shown Columns'),
                         Name             => $Env->{Action},
                         View             => $View,
                         GroupName        => 'TicketOverviewFilterSettings',

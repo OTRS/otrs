@@ -1153,7 +1153,7 @@ sub _Show {
                         Data => {
                             %{$ArticleItem},
                             StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => 'Reply',
+                            Name                  => Translatable('Reply'),
                             Class                 => 'AsPopup',
                             Action                => 'AgentTicketCompose',
                             FormID                => 'Reply' . $ArticleItem->{ArticleID},
@@ -1214,7 +1214,7 @@ sub _Show {
                             Data => {
                                 %{$ArticleItem},
                                 StandardResponsesStrg => $StandardResponsesStrg,
-                                Name                  => 'Reply All',
+                                Name                  => Translatable('Reply All'),
                                 Class                 => 'AsPopup',
                                 Action                => 'AgentTicketCompose',
                                 FormID                => 'ReplyAll' . $ArticleItem->{ArticleID},

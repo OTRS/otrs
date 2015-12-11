@@ -4561,7 +4561,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Information Center</Description>
+                <Description Translatable="1">Customer Information Center.</Description>
                 <Title></Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4601,7 +4601,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Information Center Search</Description>
+                <Description Translatable="1">Customer Information Center Search.</Description>
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
@@ -4659,7 +4659,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Agent Preferences</Description>
+                <Description Translatable="1">Agent Preferences.</Description>
                 <Title></Title>
                 <NavBarName>Preferences</NavBarName>
                 <Loader>
@@ -4674,7 +4674,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Picture upload module</Description>
+                <Description Translatable="1">Picture upload module.</Description>
                 <Title>Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -4686,7 +4686,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
                 <Loader>
@@ -4701,7 +4701,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4713,7 +4713,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Address book of CustomerUser sources</Description>
+                <Description Translatable="1">Address book of CustomerUser sources.</Description>
                 <Title>Address Book</Title>
                 <NavBarName></NavBarName>
                 <Loader>
@@ -4729,7 +4729,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Link Object</Description>
+                <Description Translatable="1">Link Object.</Description>
                 <Title>Link Object</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4741,7 +4741,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Generic Info module</Description>
+                <Description Translatable="1">Generic Info module.</Description>
                 <Title>Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4753,7 +4753,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Global Search Module</Description>
+                <Description Translatable="1">Global Search Module.</Description>
                 <Title Translatable="1">Search</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4818,7 +4818,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Create and manage agents.</Description>
+                <Description Translatable="1">Create and manage agents.</Description>
                 <Title Translatable="1">Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -6450,7 +6450,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin.</Item>
+                <Item Key="Description" Translatable="1">This is the default orange - black skin.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6463,7 +6463,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">slim</Item>
                 <Item Key="VisibleName">Default (Slim)</Item>
-                <Item Key="Description">"Slim" skin which tries to save screen space for power users.</Item>
+                <Item Key="Description" Translatable="1">"Slim" skin which tries to save screen space for power users.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6476,7 +6476,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">ivory</Item>
                 <Item Key="VisibleName">Ivory</Item>
-                <Item Key="Description">Balanced white skin by Felix Niklas.</Item>
+                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas.</Item>
                 <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Setting>
@@ -6489,7 +6489,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">ivory-slim</Item>
                 <Item Key="VisibleName">Ivory (Slim)</Item>
-                <Item Key="Description">Balanced white skin by Felix Niklas (slim version).</Item>
+                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas (slim version).</Item>
                 <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Setting>
@@ -6521,7 +6521,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin for the customer interface.</Item>
+                <Item Key="Description" Translatable="1">This is the default orange - black skin for the customer interface.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
