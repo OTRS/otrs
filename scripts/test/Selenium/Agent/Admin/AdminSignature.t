@@ -46,7 +46,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSignature");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -85,7 +85,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",     'css' )->send_keys($SignatureRandomID);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($SignatureRichText);
         $Selenium->find_element( "#Comment",  'css' )->send_keys($SignatureComment);
-        $Selenium->find_element( "#Name",     'css' )->submit();
+        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
 
         # check if test Signature show on AdminSignature screen
         $Self->True(
@@ -125,9 +125,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSignatureRichText);
         $Selenium->find_element( "#Comment",  'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-        # chack class of invalid Signature in the overview table
+        # check class of invalid Signature in the overview table
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($SignatureRandomID)').length"
