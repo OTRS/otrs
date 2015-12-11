@@ -11,6 +11,8 @@ package Kernel::Modules::AdminUser;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -256,7 +258,7 @@ sub Run {
                     $Self->_Overview( Search => $Search );
                     my $Output = $LayoutObject->Header();
                     $Output .= $LayoutObject->NavigationBar();
-                    $Output .= $LayoutObject->Notify( Info => 'Agent updated!' );
+                    $Output .= $LayoutObject->Notify( Info => Translatable('Agent updated!') );
                     $Output .= $LayoutObject->Output(
                         TemplateFile => 'AdminUser',
                         Data         => \%Param,

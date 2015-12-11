@@ -11,6 +11,8 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -96,7 +98,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Salutation updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSalutation',
                     Data         => \%Param,
@@ -188,7 +190,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Salutation added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSalutation',
                     Data         => \%Param,

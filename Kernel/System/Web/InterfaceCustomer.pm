@@ -13,6 +13,7 @@ use warnings;
 
 use Kernel::System::Email;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -166,14 +167,14 @@ sub Run {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {
             $LayoutObject->CustomerFatalError(
-                Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator'),
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
         if ( $ParamObject->Error() ) {
             $LayoutObject->CustomerFatalError(
                 Message => $ParamObject->Error(),
-                Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator'),
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
@@ -272,8 +273,7 @@ sub Run {
                         What => 'Message',
                         )
                         || $AuthObject->GetLastErrorMessage()
-                        || $LayoutObject->{LanguageObject}
-                        ->Translate('Login failed! Your user name or password was entered incorrectly.'),
+                        || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                     User        => $PostUser,
                     LoginFailed => 1,
                     %Param,
@@ -314,11 +314,10 @@ sub Run {
             # show need user data error message
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Panic!',
-                    Message =>
-                        $LayoutObject->{LanguageObject}->Translate(
+                    Title   => 'Panic!',
+                    Message => Translatable(
                         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.'
-                        ),
+                    ),
                     %Param,
                 ),
             );
@@ -475,7 +474,7 @@ sub Run {
             # show login screen
             print $LayoutObject->CustomerLogin(
                 Title   => 'Logout',
-                Message => $LayoutObject->{LanguageObject}->Translate('Session invalid. Please log in again.'),
+                Message => Translatable('Session invalid. Please log in again.'),
                 %Param,
             );
             return;
@@ -510,7 +509,7 @@ sub Run {
         # remove session id
         if ( !$SessionObject->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
             $LayoutObject->CustomerFatalError(
-                Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator')
+                Comment => Translatable('Please contact your administrator')
             );
             return;
         }
@@ -553,7 +552,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}->Translate('Feature not active!'),
+                    Message => Translatable('Feature not active!'),
                 ),
             );
             return;
@@ -595,9 +594,8 @@ sub Run {
             #   just trying and checking the result message.
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate('Sent password reset instructions. Please check your email.'),
+                    Title       => 'Login',
+                    Message     => Translatable('Sent password reset instructions. Please check your email.'),
                     MessageType => 'Success',
                 ),
             );
@@ -632,15 +630,14 @@ sub Run {
             );
             if ( !$Sent ) {
                 $LayoutObject->FatalError(
-                    Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator'),
+                    Comment => Translatable('Please contact your administrator'),
                 );
                 return;
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate('Sent password reset instructions. Please check your email.'),
+                    Message => Translatable('Sent password reset instructions. Please check your email.'),
                     %Param,
                     MessageType => 'Success',
                 ),
@@ -659,7 +656,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => 'Invalid Token!',
+                    Message => Translatable('Invalid Token!'),
                     %Param,
                 ),
             );
@@ -678,11 +675,9 @@ sub Run {
         if ( !$Success ) {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Login',
-                    Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate('Reset password unsuccessful. Please contact your administrator'),
-                    User => $User,
+                    Title   => 'Login',
+                    Message => Translatable('Reset password unsuccessful. Please contact your administrator'),
+                    User    => $User,
                 ),
             );
             return;
@@ -705,7 +700,7 @@ sub Run {
         );
         if ( !$Sent ) {
             $LayoutObject->CustomerFatalError(
-                Comment => 'Please contact your administrator'
+                Comment => Translatable('Please contact your administrator')
             );
             return;
         }
@@ -737,7 +732,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}->Translate('Feature not active!'),
+                    Message => Translatable('Feature not active!'),
                 ),
             );
             return;
@@ -770,8 +765,7 @@ sub Run {
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
                     Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate('This e-mail address already exists. Please log in or reset your password.'),
+                        Translatable('This e-mail address already exists. Please log in or reset your password.'),
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
@@ -828,8 +822,7 @@ sub Run {
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
                     Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate('This email address is not allowed to register. Please contact support staff.'),
+                        Translatable('This email address is not allowed to register. Please contact support staff.'),
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
@@ -846,7 +839,7 @@ sub Run {
         );
         my $Add = $UserObject->CustomerUserAdd(
             %GetParams,
-            Comment => "Added via Customer Panel ($Now)",
+            Comment => $LayoutObject->{LayoutObject}->Translate( 'Added via Customer Panel (%s)', $Now ),
             ValidID => 1,
             UserID  => $ConfigObject->Get('CustomerPanelUserID'),
         );
@@ -855,7 +848,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title         => 'Login',
-                    Message       => 'Customer user can\'t be added!',
+                    Message       => Translatable('Customer user can\'t be added!'),
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
@@ -889,7 +882,7 @@ sub Run {
                 Title => 'Error'
             );
             $Output .= $LayoutObject->CustomerWarning(
-                Comment => 'Can\'t send account info!'
+                Comment => Translatable('Can\'t send account info!')
             );
             $Output .= $LayoutObject->CustomerFooter();
             $LayoutObject->Print( Output => \$Output );
@@ -1048,7 +1041,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Panic!',
-                    Message => $LayoutObject->{LanguageObject}->Translate('Panic! Invalid Session!!!'),
+                    Message => Translatable('Panic! Invalid Session!!!'),
                     %Param,
                 ),
             );
@@ -1067,7 +1060,7 @@ sub Run {
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
             $LayoutObject->CustomerFatalError(
-                Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator'),
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
@@ -1092,7 +1085,7 @@ sub Run {
                     Priority => 'error',
                     Message  => 'No Permission to use this frontend action module!'
                 );
-                $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+                $LayoutObject->CustomerFatalError( Comment => Translatable('Please contact your administrator') );
                 return;
             }
 
@@ -1129,7 +1122,9 @@ sub Run {
                             Priority => 'error',
                             Message  => 'No Permission to use this frontend subaction module!'
                         );
-                        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+                        $LayoutObject->CustomerFatalError(
+                            Comment => Translatable('Please contact your administrator')
+                        );
                         return;
                     }
                 }
@@ -1265,7 +1260,7 @@ sub Run {
     );
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     $LayoutObject->CustomerFatalError(
-        Comment => $LayoutObject->{LanguageObject}->Translate('Please contact your administrator'),
+        Comment => Translatable('Please contact your administrator'),
     );
     return;
 }

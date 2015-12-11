@@ -913,7 +913,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'ConfigureMail',
             Data => {
-                Item             => 'Mail Configuration',
+                Item             => $LayoutObject->{LanguageObject}->Translate('Mail Configuration'),
                 Step             => $StepCounter,
                 InboundMailType  => $InboundMailTypeSelection,
                 OutboundMailType => $OutboundMailTypeSelection,

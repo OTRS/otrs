@@ -11,6 +11,8 @@ package Kernel::Modules::AdminSignature;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -95,7 +97,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Signature updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSignature',
                     Data         => \%Param,
@@ -199,7 +201,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

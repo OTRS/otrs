@@ -11,6 +11,8 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -165,14 +167,14 @@ sub Run {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {
             $LayoutObject->FatalError(
-                Comment => 'Please contact your administrator',
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
         if ( $ParamObject->Error() ) {
             $LayoutObject->FatalError(
                 Message => $ParamObject->Error(),
-                Comment => 'Please contact your administrator',
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
@@ -272,8 +274,7 @@ sub Run {
                         What => 'Message',
                         )
                         || $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
-                        || $LayoutObject->{LanguageObject}
-                        ->Translate('Login failed! Your user name or password was entered incorrectly.'),
+                        || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                     LoginFailed => 1,
                     User        => $User,
                     %Param,
@@ -316,7 +317,9 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title => 'Panic!',
                     Message =>
-                        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.',
+                        Translatable(
+                        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.'
+                        ),
                     %Param,
                 ),
             );
@@ -523,7 +526,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Logout',
-                    Message => $LayoutObject->{LanguageObject}->Translate('Session invalid. Please log in again.'),
+                    Message => Translatable('Session invalid. Please log in again.'),
                     %Param,
                 ),
             );
@@ -560,8 +563,8 @@ sub Run {
         # remove session id
         if ( !$SessionObject->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
             $LayoutObject->FatalError(
-                Message => 'Can`t remove SessionID',
-                Comment => 'Please contact your administrator',
+                Message => Translatable('Can`t remove SessionID'),
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
@@ -603,7 +606,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}->Translate('Feature not active!'),
+                    Message => Translatable('Feature not active!'),
                 ),
             );
             return;
@@ -649,7 +652,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => 'Sent password reset instructions. Please check your email.',
+                    Message => Translatable('Sent password reset instructions. Please check your email.'),
                     %Param,
                 ),
             );
@@ -684,14 +687,14 @@ sub Run {
             );
             if ( !$Sent ) {
                 $LayoutObject->FatalError(
-                    Comment => 'Please contact your administrator',
+                    Comment => Translatable('Please contact your administrator'),
                 );
                 return;
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => 'Sent password reset instructions. Please check your email.',
+                    Message => Translatable('Sent password reset instructions. Please check your email.'),
                     %Param,
                 ),
             );
@@ -708,7 +711,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => 'Invalid Token!',
+                    Message => Translatable('Invalid Token!'),
                     %Param,
                 ),
             );
@@ -742,7 +745,7 @@ sub Run {
 
         if ( !$Sent ) {
             $LayoutObject->FatalError(
-                Comment => 'Please contact your administrator',
+                Comment => Translatable('Please contact your administrator'),
             );
             return;
         }
@@ -879,7 +882,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Panic!',
-                    Message => 'Panic! Invalid Session!!!',
+                    Message => Translatable('Panic! Invalid Session!!!'),
                     %Param,
                 ),
             );
@@ -939,7 +942,7 @@ sub Run {
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
                 print $Kernel::OM->Get('Kernel::Output::HTML::Layout')->NoPermission(
-                    Message => 'No Permission to use this frontend module!'
+                    Message => Translatable('No Permission to use this frontend module!')
                 );
                 return;
             }

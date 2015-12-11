@@ -226,7 +226,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
-            $Output .= $LayoutObject->Notify( Info => 'Updated!' );
+            $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') );
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
@@ -438,7 +438,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
-            $Output .= $LayoutObject->Notify( Info => 'Added!' );
+            $Output .= $LayoutObject->Notify( Info => Translatable('Notification added!') );
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
@@ -530,7 +530,8 @@ sub Run {
 
             if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "There was an error getting data for Notification with ID " . $NotificationID,
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
             }
 
@@ -584,7 +585,7 @@ sub Run {
         );
         if ( !IsHashRefWithData( \%NotificationData ) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Unknown Notification $NotificationID!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Notification %s!', $NotificationID ),
             );
         }
 
@@ -605,7 +606,7 @@ sub Run {
         # show error if can't create
         if ( !$NewNotificationID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the Notification",
+                Message => Translatable("There was an error creating the Notification"),
             );
         }
 
@@ -637,8 +638,9 @@ sub Run {
 
         if ( !$NotificationImport->{Success} ) {
             my $Message = $NotificationImport->{Message}
-                || 'Notifications could not be Imported due to a unknown error,'
-                . ' please check OTRS logs for more information';
+                || Translatable(
+                'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information'
+                );
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );
@@ -646,22 +648,22 @@ sub Run {
 
         if ( $NotificationImport->{AddedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following Notifications have been added successfully: '
+                Info => Translatable('The following Notifications have been added successfully: ')
                     . $NotificationImport->{AddedNotifications},
             };
         }
         if ( $NotificationImport->{UpdatedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following Notifications have been updated successfully: '
+                Info => Translatable('The following Notifications have been updated successfully: ')
                     . $NotificationImport->{UpdatedNotifications},
             };
         }
         if ( $NotificationImport->{NotificationErrors} ) {
             push @{ $Param{NotifyData} }, {
                 Priority => 'Error',
-                Info     => 'There where errors adding/updating the following Notifications: '
+                Info     => Translatable('There where errors adding/updating the following Notifications: ')
                     . $NotificationImport->{NotificationErrors}
-                    . '. Please check the log file for more information.',
+                    . Translatable('. Please check the log file for more information.'),
             };
         }
 

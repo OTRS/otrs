@@ -6920,7 +6920,7 @@
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">EscalationTime</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -6966,7 +6966,7 @@
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -7012,7 +7012,7 @@
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -7276,7 +7276,7 @@
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">EscalationTime</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
@@ -7322,7 +7322,7 @@
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
@@ -7368,7 +7368,7 @@
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
