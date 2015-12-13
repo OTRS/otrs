@@ -1124,7 +1124,7 @@ sub Run {
 
                         # new layout object
                         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-                $Self->{LogObject}->Log(
+                        $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => 'No Permission to use this frontend subaction module!'
                         );
@@ -1211,7 +1211,7 @@ sub Run {
             %Param,
             %UserData,
             LayoutObject => $LayoutObject,
-            ModuleReg => $ModuleReg,
+            ModuleReg    => $ModuleReg,
         );
 
         # debug info
