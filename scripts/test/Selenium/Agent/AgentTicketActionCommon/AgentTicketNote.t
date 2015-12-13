@@ -254,7 +254,11 @@ $Selenium->RunTest(
 
         $Self->True(
             $ParentWindowHeight - $PopupWindowHeight,
-            "Popup window height (" . $PopupWindowHeight . "px) fits into screen height (" . $ParentWindowHeight . "px), even if defined larger"
+            "Popup window height ("
+                . $PopupWindowHeight
+                . "px) fits into screen height ("
+                . $ParentWindowHeight
+                . "px), even if defined larger"
         );
 
         # delete created test tickets

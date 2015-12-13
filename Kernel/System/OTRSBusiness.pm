@@ -33,7 +33,7 @@ my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;    # 5 days
 my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;     # 15 days
 
 # If the contract is about to expire in less than this time, show a hint
-my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 28;     # 28 days
+my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 28;    # 28 days
 
 =head1 NAME
 
@@ -840,7 +840,7 @@ sub OTRSBusinessCommandNextUpdateTimeSet {
     my $NextUpdateSecondsOffset = 60 * 60 * 24;
 
     # generate a random seconds offset, if no next update time exists
-    if (!$NextUpdateTime) {
+    if ( !$NextUpdateTime ) {
 
         # create the random numbers
         my $RandomHour   = int 20 + rand 23 - 20;

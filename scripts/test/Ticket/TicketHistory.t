@@ -284,7 +284,6 @@ for my $Test (@Tests) {
                 );
             }
         }
-
     }
 
     if ( $Test->{ReferenceData} ) {

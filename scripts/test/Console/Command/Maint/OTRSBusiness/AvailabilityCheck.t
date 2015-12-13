@@ -17,34 +17,34 @@ use Kernel::System::OTRSBusiness;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
 # disable redefine warnings in this scope
 {
-no warnings 'redefine';
+    no warnings 'redefine';
 
-sub Kernel::System::OTRSBusiness::OTRSBusinessIsAvailable {
-    my ( $Self, %Param ) = @_;
+    sub Kernel::System::OTRSBusiness::OTRSBusinessIsAvailable {
+        my ( $Self, %Param ) = @_;
 
-    my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
+        my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
-    my $TestCloudServiceCallKey = 'OTRSBusiness::AvailabilityCheck::TestCloudServiceCall';
+        my $TestCloudServiceCallKey = 'OTRSBusiness::AvailabilityCheck::TestCloudServiceCall';
 
-    if ( defined $SystemDataObject->SystemDataGet( Key => $TestCloudServiceCallKey ) ) {
-        $SystemDataObject->SystemDataUpdate(
-            Key    => $TestCloudServiceCallKey,
-            Value  => 1,
-            UserID => 1,
-        );
+        if ( defined $SystemDataObject->SystemDataGet( Key => $TestCloudServiceCallKey ) ) {
+            $SystemDataObject->SystemDataUpdate(
+                Key    => $TestCloudServiceCallKey,
+                Value  => 1,
+                UserID => 1,
+            );
+        }
+        else {
+            $SystemDataObject->SystemDataAdd(
+                Key    => $TestCloudServiceCallKey,
+                Value  => 1,
+                UserID => 1,
+            );
+        }
+
+        return 1;
     }
-    else {
-        $SystemDataObject->SystemDataAdd(
-            Key    => $TestCloudServiceCallKey,
-            Value  => 1,
-            UserID => 1,
-        );
-    }
 
-    return 1;
-}
-
-# reset all warnings
+    # reset all warnings
 }
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::OTRSBusiness::AvailabilityCheck');
