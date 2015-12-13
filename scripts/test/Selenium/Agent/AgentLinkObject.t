@@ -87,7 +87,6 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-
         # hover on menu bar on the misc cluster
         $Selenium->WaitFor(
             JavaScript =>
@@ -96,7 +95,6 @@ $Selenium->RunTest(
 
         # click on 'Link'
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
-
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );

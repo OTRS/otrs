@@ -172,7 +172,7 @@ for my $Test (@Tests) {
         UserID           => 1,
         UnlockOnAway     => 1,
         AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader => {
+        OrigHeader       => {
             From    => '"test" <test@localunittest.com>',
             To      => $QueueName,
             Subject => 'UnitTest article one',
@@ -259,7 +259,7 @@ for my $Test (@Tests) {
         UserID           => 1,
         UnlockOnAway     => 1,
         AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader => {
+        OrigHeader       => {
             From    => '"test" <test@localunittest.com>',
             To      => $QueueName,
             Subject => 'UnitTest article two',

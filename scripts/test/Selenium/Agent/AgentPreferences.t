@@ -123,7 +123,8 @@ JAVASCRIPT
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
             $LanguageObject->Translate(
-                "Sorry, but you can't disable all methods for notifications marked as mandatory."),
+                "Sorry, but you can't disable all methods for notifications marked as mandatory."
+            ),
             'Alert message shows up correctly',
         );
 

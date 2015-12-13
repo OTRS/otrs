@@ -317,8 +317,8 @@ sub Run {
                 my %NoValidationOption;
 
                 if ($New) {
-                    $Anker = $ItemHash{Name};
-                    $Content{''} = '';
+                    $Anker                            = $ItemHash{Name};
+                    $Content{''}                      = '';
                     $NoValidationOption{NoValidation} = 1;
                 }
 

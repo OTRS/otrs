@@ -775,7 +775,7 @@ sub ListTables {
 
     my $SQL = $Self->GetDatabaseFunction('ListTables');
 
-    if (!$SQL) {
+    if ( !$SQL ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'Error',
             Message  => "Database driver $Self->{'DB::Type'} does not support ListTables.",

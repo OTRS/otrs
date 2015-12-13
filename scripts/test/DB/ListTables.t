@@ -15,7 +15,7 @@ use vars (qw($Self));
 my @Tables = $Kernel::OM->Get('Kernel::System::DB')->ListTables();
 
 $Self->True(
-    scalar (grep {$_ eq 'valid'} @Tables),
+    scalar( grep { $_ eq 'valid' } @Tables ),
     "Valid table found.",
 );
 

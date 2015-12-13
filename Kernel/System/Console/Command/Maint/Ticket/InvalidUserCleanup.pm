@@ -141,9 +141,11 @@ sub _CleanupLocks {
         }
         Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
     }
-    $Self->Print( "  <green>Done</green> (unlocked <yellow>"
+    $Self->Print(
+        "  <green>Done</green> (unlocked <yellow>"
             . @TicketIDs
-            . "</yellow> and changed state of <yellow>$StateCount</yellow> tickets).\n" );
+            . "</yellow> and changed state of <yellow>$StateCount</yellow> tickets).\n"
+    );
 }
 
 sub _CleanupFlags {

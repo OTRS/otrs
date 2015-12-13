@@ -695,9 +695,9 @@ EOF
                 'Next'   => Translatable('within the next ...'),
                 'After'  => Translatable('in more than ...'),
             },
-            Sort => 'IndividualKey',
+            Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
-            Name       => $FieldName . 'Start',
+            Name           => $FieldName . 'Start',
             SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
         );
         $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(

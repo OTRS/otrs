@@ -36,8 +36,7 @@ $Self->Is(
     "Dev::Tools::Config2Docbook exit code",
 );
 
-my $Test
-    = '<variablelist id="ConfigReference_Ticket:Frontend::SLA::Preferences">
+my $Test = '<variablelist id="ConfigReference_Ticket:Frontend::SLA::Preferences">
     <title>Ticket → Frontend::SLA::Preferences</title>';
 
 $Self->True(
