@@ -4,6 +4,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.6 2016-??-??
+ - 2015-12-14 Fixed bug#[11722](http://bugs.otrs.org/show_bug.cgi?id=11722) - Undefined for undefined variable at requesting LostPasswordToken, thanks to Norihiro Tanaka.
  - 2015-12-14 Fixed bug#[11733](http://bugs.otrs.org/show_bug.cgi?id=11733) - Field details in activity dialogs are not correctly loaded if they contain single quotes.
  - 2015-12-11 Fixed bug#[11667](http://bugs.otrs.org/show_bug.cgi?id=11667) - Can't perform POST on https://cloud.otrs.com/otrs/public.pl: 500 read timeout.
 

@@ -586,7 +586,7 @@ sub Run {
 
         # verify customer user is valid when requesting password reset
         my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
-        my $UserIsValid = grep { $UserData{ValidID} == $_ } @ValidIDs;
+        my $UserIsValid = grep { $UserData{ValidID} && $UserData{ValidID} == $_ } @ValidIDs;
         if ( !$UserData{UserID} || !$UserIsValid ) {
 
             # Security: pretend that password reset instructions were actually sent to
