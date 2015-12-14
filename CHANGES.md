@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-14 Fixed bug#[11286](http://bugs.otrs.org/show_bug.cgi?id=11286) - Default-Value "X-Envelope-To" instead of "Envelope-To" in PostmasterX-Header.
  - 2015-12-14 Fixed bug#[11738](http://bugs.otrs.org/show_bug.cgi?id=11738) - Generate Support Bundle throws errors when HTTPS is used as HTTPTYPE.
  - 2015-12-14 Fixed bug#[10510](http://bugs.otrs.org/show_bug.cgi?id=10510) - Problem sending attachments with wrong mime type.
  - 2015-12-14 Fixed bug#[11722](http://bugs.otrs.org/show_bug.cgi?id=11722) - Undefined for undefined variable at requesting LostPasswordToken, thanks to Norihiro Tanaka.

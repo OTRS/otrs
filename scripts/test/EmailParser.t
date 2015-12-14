@@ -879,14 +879,15 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
     'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'To' Multiline encode)",
+    "#22 GetParam(WHAT => 'To' Multiline encode)",
 );
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'Subject' ),
     'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'Subject' Multiline encode)",
+    "#22 GetParam(WHAT => 'Subject' Multiline encode)",
 );
 
+# test #23
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
 while (<$IN>) {
@@ -901,7 +902,25 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
     'wop+autoreply=no@ticket.noris.net',
-    "#22 GetParam(WHAT => 'To') UTF-7 not decoded",
+    "#23 GetParam(WHAT => 'To') UTF-7 not decoded",
+);
+
+# test #24
+@Array = ();
+open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
+while (<$IN>) {
+    push( @Array, $_ );
+}
+close($IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    Email => \@Array,
+);
+
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
+    'wop+autoreply=no@ticket.noris.net',
+    "#24 GetParam(WHAT => 'Envelope-To') UTF-7 not decoded",
 );
 
 1;
