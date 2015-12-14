@@ -221,10 +221,12 @@ Core.App = (function (TargetNS) {
      * @description
      *      Escapes the special characters (. :) in the given jQuery Selector
      *      jQ does not allow the usage of dot or colon in ID or class names
+     *      An overview of special characters that should be quoted can be found here:
+     *      https://api.jquery.com/category/selectors/
      */
     TargetNS.EscapeSelector = function (Selector) {
         if (Selector && Selector.length) {
-            return Selector.replace(/(#|:|\.|\[|\])/g, '\\$1');
+            return Selector.replace(/(#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|\;|\\|\^|{|}|`|\||~)/g, '\\$1');
         }
         return '';
     };
