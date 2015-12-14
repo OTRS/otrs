@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-14 Fixed bug#[11733](http://bugs.otrs.org/show_bug.cgi?id=11733) - Field details in activity dialogs are not correctly loaded if they contain single quotes.
  - 2015-12-11 Fixed bug#[11667](http://bugs.otrs.org/show_bug.cgi?id=11667) - Can't perform POST on https://cloud.otrs.com/otrs/public.pl: 500 read timeout.
 
 #5.0.5 2015-12-15
