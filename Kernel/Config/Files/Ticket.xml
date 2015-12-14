@@ -9972,6 +9972,7 @@
                 <Item>X-Original-To</Item>
                 <Item>Delivered-To</Item>
                 <Item>Envelope-To</Item>
+                <Item>X-Envelope-To</Item>
                 <Item>Return-Path</Item>
                 <Item>X-OTRS-Owner</Item>
                 <Item>X-OTRS-OwnerID</Item>

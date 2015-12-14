@@ -40,6 +40,8 @@ my %NeededDynamicfields = (
     TicketFreeText5 => 1,
     TicketFreeKey5  => 1,
     TicketFreeText5 => 1,
+    TicketFreeKey6  => 1,
+    TicketFreeText6 => 1,
     TicketFreeTime1 => 1,
     TicketFreeTime2 => 1,
     TicketFreeTime3 => 1,
@@ -916,6 +918,143 @@ Some Content in Body
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => undef,
             );
+        }
+    }
+}
+
+# filter test Envelope-To and X-Envelope-To
+@Tests = (
+    {
+        Name  => '#1 - Envelope-To Test',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Envelope-To: Some EnvelopeTo Name <envelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Match => {
+            'Envelope-To' => 'envelopeto@example.com',
+        },
+        Set => {
+            'X-OTRS-Queue'        => 'Junk',
+            'X-OTRS-TicketKey5'   => 'Key5#1',
+            'X-OTRS-TicketValue5' => 'Text5#1',
+        },
+        Check => {
+            Queue                        => 'Junk',
+            DynamicField_TicketFreeKey5  => 'Key5#1',
+            DynamicField_TicketFreeText5 => 'Text5#1',
+        },
+    },
+    {
+        Name  => '#2 - X-Envelope-To Test',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Match => {
+            'X-Envelope-To' => 'xenvelopeto@example.com',
+        },
+        Set => {
+            'X-OTRS-Queue'        => 'Misc',
+            'X-OTRS-TicketKey6'   => 'Key6#1',
+            'X-OTRS-TicketValue6' => 'Text6#1',
+        },
+        Check => {
+            Queue                        => 'Misc',
+            DynamicField_TicketFreeKey6  => 'Key6#1',
+            DynamicField_TicketFreeText6 => 'Text6#1',
+        },
+    },
+);
+
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
+$PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+
+for my $Test (@Tests) {
+    for my $Type (qw(Config DB)) {
+
+        if ( $Type eq 'DB' ) {
+            $PostMasterFilter->FilterAdd(
+                Name           => $Test->{Name},
+                StopAfterMatch => 0,
+                %{$Test},
+            );
+        }
+        else {
+            $ConfigObject->Set(
+                Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
+                Value => {
+                    %{$Test},
+                    Module => 'Kernel::System::PostMaster::Filter::Match',
+                },
+            );
+        }
+
+        my @Return;
+        {
+            my $PostMasterObject = Kernel::System::PostMaster->new(
+                Email => \$Test->{Email},
+            );
+
+            @Return = $PostMasterObject->Run();
+        }
+        $Self->Is(
+            $Return[0] || 0,
+            1,
+            "#Filter $Type Run() - NewTicket",
+        );
+        $Self->True(
+            $Return[1] || 0,
+            "#Filter $Type Run() - NewTicket/TicketID",
+        );
+
+        # new/clear ticket object
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID      => $Return[1],
+            DynamicFields => 1,
+        );
+
+        TEST:
+        for my $TestCheck ($Test) {
+            next TEST if !$TestCheck->{Check};
+            for my $Key ( sort keys %{ $TestCheck->{Check} } ) {
+                $Self->Is(
+                    $Ticket{$Key},
+                    $TestCheck->{Check}->{$Key},
+                    "#Filter $Type Run('$TestCheck->{Name}') - $Key",
+                );
+            }
+        }
+
+        # delete ticket
+        my $Delete = $TicketObject->TicketDelete(
+            TicketID => $Return[1],
+            UserID   => 1,
+        );
+        $Self->True(
+            $Delete || 0,
+            "#Filter $Type TicketDelete()",
+        );
+
+        # remove filter
+        for my $Test (@Tests) {
+            if ( $Type eq 'DB' ) {
+                $PostMasterFilter->FilterDelete( Name => $Test->{Name} );
+            }
+            else {
+                $ConfigObject->Set(
+                    Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
+                    Value => undef,
+                );
+            }
         }
     }
 }
