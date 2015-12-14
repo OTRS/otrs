@@ -208,6 +208,9 @@ sub Run {
                     Data => \%Data,
                 );
 
+                # define container for dynamic fields
+                my @EventTicketDynamicFields;
+
                 # add ticket field for the event
                 if ( IsHashRefWithData($EventTicketFields) ) {
 
@@ -223,6 +226,14 @@ sub Run {
 
                         next TICKETFIELD if !$Key;
                         next TICKETFIELD if !$EventTicketFields->{$Key};
+
+                        # skip dynamic fields, will them added later
+                        if ( $Key =~ m{\A DynamicField_(.*) \z}msx ) {
+                            my $DynamicFieldName = $Key;
+                            $DynamicFieldName =~ s{\A DynamicField_ }{}msxg;
+                            push @EventTicketDynamicFields, $DynamicFieldName;
+                            next TICKETFIELD;
+                        }
 
                         if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
                             $TicketDetail{$Key} = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
@@ -245,8 +256,11 @@ sub Run {
                     }
                 }
 
+                # merge event ticket dynamic fields
+                my $DynamicFieldsForEvent = [ @{$EventDynamicFields}, @EventTicketDynamicFields ];
+
                 # add dynamic field for the event
-                if ( IsArrayRefWithData($EventDynamicFields) ) {
+                if ( IsArrayRefWithData($DynamicFieldsForEvent) ) {
 
                     # include dynamic fields container
                     $LayoutObject->Block(
@@ -256,7 +270,7 @@ sub Run {
 
                     # include dynamic fields
                     DYNAMICFIELD:
-                    for my $Item ( @{$EventDynamicFields} ) {
+                    for my $Item ( @{$DynamicFieldsForEvent} ) {
 
                         next DYNAMICFIELD if !$Item;
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
@@ -269,6 +283,19 @@ sub Run {
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
                             $InfoValue
                                 = $LayoutObject->{LanguageObject}->FormatTimeString( $InfoValue, 'DateFormatShort' );
+                        }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Multiselect' ) {
+                            if ( IsArrayRefWithData($InfoValue) ) {
+                                $InfoValue = join ', ', @{$InfoValue};
+                            }
+                        }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Checkbox' ) {
+                            if ($InfoValue) {
+                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Selected');
+                            }
+                            if ( defined $InfoValue && $InfoValue eq '0' ) {
+                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Not selected');
+                            }
                         }
 
                         $LayoutObject->Block(
