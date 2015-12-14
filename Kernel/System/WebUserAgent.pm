@@ -75,23 +75,26 @@ return the content of requested URL.
 Simple GET request:
 
     my %Response = $WebUserAgentObject->Request(
-        URL => 'http://example.com/somedata.xml',
+        URL                 => 'http://example.com/somedata.xml',
+        SkipSSLVerification => 1, # (optional)
     );
 
 Or a POST request; attributes can be a hashref like this:
 
     my %Response = $WebUserAgentObject->Request(
-        URL  => 'http://example.com/someurl',
-        Type => 'POST',
-        Data => { Attribute1 => 'Value', Attribute2 => 'Value2' },
+        URL                 => 'http://example.com/someurl',
+        Type                => 'POST',
+        Data                => { Attribute1 => 'Value', Attribute2 => 'Value2' },
+        SkipSSLVerification => 1, # (optional)
     );
 
 alternatively, you can use an arrayref like this:
 
     my %Response = $WebUserAgentObject->Request(
-        URL  => 'http://example.com/someurl',
-        Type => 'POST',
-        Data => [ Attribute => 'Value', Attribute => 'OtherValue' ],
+        URL                 => 'http://example.com/someurl',
+        Type                => 'POST',
+        Data                => [ Attribute => 'Value', Attribute => 'OtherValue' ],
+        SkipSSLVerification => 1, # (optional)
     );
 
 returns
@@ -111,6 +114,7 @@ You can even pass some headers
             Authorization => 'Basic xxxx',
             Content_Type  => 'text/json',
         },
+        SkipSSLVerification => 1, # (optional)
     );
 
 If you need to set credentials
@@ -125,6 +129,7 @@ If you need to set credentials
             Realm    => 'OTRS Unittests',
             Location => 'ftp.otrs.org:80',
         },
+        SkipSSLVerification => 1, # (optional)
     );
 
 =cut
@@ -166,7 +171,9 @@ sub Request {
 
         # In some scenarios like transparent HTTPS proxies, it can be neccessary to turn off
         #   SSL certificate validation.
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') ) {
+        if (   $Param{SkipSSLVerification}
+            || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') )
+        {
             my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
                 'Net::SSLeay',
                 Silent => 1,

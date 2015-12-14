@@ -257,6 +257,7 @@ sub CollectByWebRequest {
             Action         => 'PublicSupportDataCollector',
             ChallengeToken => $ChallengeToken,
         },
+        SkipSSLVerification => 1,
     );
 
     # test if the web response was successful
