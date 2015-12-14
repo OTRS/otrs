@@ -204,14 +204,22 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name EscapeSelector
+     * @memberof Core.App
      * @function
-     *  Escapes the special characters (. :) in the given jQuery Selector
-     *  jQ does not allow the usage of dot or colon in ID or class names
-     * @param {String} Selector The original selector (e.g. ID, class, etc.)
-     * @return {String} The escaped selector
+     * @returns {String} The escaped selector.
+     * @param {String} Selector - The original selector (e.g. ID, class, etc.).
+     * @description
+     *      Escapes the special characters (. :) in the given jQuery Selector
+     *      jQ does not allow the usage of dot or colon in ID or class names
+     *      An overview of special characters that should be quoted can be found here:
+     *      https://api.jquery.com/category/selectors/
      */
     TargetNS.EscapeSelector = function (Selector) {
-        return Selector.replace(/(#|:|\.|\[|\])/g,'\\$1');
+        if (Selector && Selector.length) {
+            return Selector.replace(/(#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|\;|\\|\^|{|}|`|\||~)/g, '\\$1');
+        }
+        return '';
     };
 
     /**

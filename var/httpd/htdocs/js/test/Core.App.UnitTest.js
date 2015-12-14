@@ -37,13 +37,24 @@ Core.App = (function (Namespace) {
         });
 
         test('Core.App.EscapeSelector()', function () {
-            expect(3);
+
             var Selector = 'ConfigItemClass::Config::Hardware::MapTypeAdd::Attribute###SubItem',
                 Id,
                 Value;
 
+            expect(13);
             equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
-            equal(Core.App.EscapeSelector('ID-mit_anderen+Sonderzeichen'), 'ID-mit_anderen+Sonderzeichen');
+            equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
+            equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
+            equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
+            equal(Core.App.EscapeSelector("'"), "\\'");
+            equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');
+            equal(Core.App.EscapeSelector('\\'), '\\\\');
+            equal(Core.App.EscapeSelector('^'), '\\^');
+            equal(Core.App.EscapeSelector('{}'), '\\{\\}');
+            equal(Core.App.EscapeSelector('`'), '\\`');
+            equal(Core.App.EscapeSelector('|'), '\\|');
+            equal(Core.App.EscapeSelector('~'), '\\~');
 
             $('<div id="testcase"><label for="Testcase::Element###SubItem">Elementlabeltext</label><input type="text" id="Testcase::Element###SubItem" value="5"/></div>').appendTo('body');
             Id = $('#testcase').find('input').attr('id');
