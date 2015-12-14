@@ -453,13 +453,32 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
+            my $Encoding = $Upload->{Encoding};
+            if ( !$Encoding ) {
+
+                # attachments of unknown text/* content types might be displayed directly in mail clients
+                # because MIME::Entity detects them as 'quoted printable'
+                # this causes problems e.g. for pdf files with broken text/pdf content type
+                # therefore we fall back to 'base64' in these cases
+                if (
+                    $Upload->{ContentType} =~ m{ \A text/  }xmsi
+                    && $Upload->{ContentType} !~ m{ \A text/ (?: plain | html ) ; }xmsi
+                    )
+                {
+                    $Encoding = 'base64';
+                }
+                else {
+                    $Encoding = '-SUGGEST';
+                }
+            }
+
             # attach file to email (no content id needed)
             $Entity->attach(
                 Filename    => $Filename,
                 Data        => $Upload->{Content},
                 Type        => $Upload->{ContentType},
                 Disposition => $Upload->{Disposition} || 'inline',
-                Encoding    => $Upload->{Encoding} || '-SUGGEST',
+                Encoding    => $Encoding,
             );
         }
     }
