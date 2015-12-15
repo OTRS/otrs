@@ -33,7 +33,7 @@
     [% Data.LabelCustomerID | html %]:
 </label>
 <div class="Field">
-    <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" class="W50pc [% Data.CustomerIDServerError | html %]"/>
+    <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" [% IF Config( "Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly") %] readonly [% END %] class="W50pc [% Data.CustomerIDServerError | html %]"/>
     <div id="CustomerIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("rw:Customer:DescriptionShort") %]
