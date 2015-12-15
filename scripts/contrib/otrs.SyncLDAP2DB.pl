@@ -122,21 +122,21 @@ for my $Prefix ( "0" .. "9", "a" .. "z" ) {
             else {
                 $Type = 'UPDATE';
             }
-            for ( sort keys %Map ) {
+            for my $Key ( sort keys %Map ) {
                 my $Value = $DBObject->Quote(
-                    _ConvertTo( $Entry->get_value( $Map{$Prefix} ) )
+                    _ConvertTo( $Entry->get_value( $Map{$Key} ) )
                 );
                 if ( $Type eq 'UPDATE' ) {
                     if ($SQLPre) {
                         $SQLPre .= ", ";
                     }
-                    $SQLPre .= " $Prefix = '$Value'";
+                    $SQLPre .= " $Key = '$Value'";
                 }
                 else {
                     if ($SQLPre) {
                         $SQLPre .= ", ";
                     }
-                    $SQLPre .= "$Prefix";
+                    $SQLPre .= "$Key";
                     if ($SQLPost) {
                         $SQLPost .= ", ";
                     }
