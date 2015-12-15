@@ -609,7 +609,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} ) eq 'HASH'
+                            ref( $ParamItem->{Data} )   eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {
@@ -660,10 +660,39 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionSearch' );
     $LayoutObject->Block( Name => 'ActionAdd' );
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+    # ShownUsers limitation in AdminUser
+    my $Limit = 400;
+
+    my %List = $UserObject->UserSearch(
+        Search => $Param{Search} . '*',
+        Limit  => $Limit,
+        Valid  => 0,
     );
+    my %ListAll = $UserObject->UserSearch(
+        Search => '*',
+        Valid  => 0,
+    );
+
+    if ( keys %ListAll <= $Limit ) {
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
+    }
+    else {
+        my $ListAll        = keys %ListAll;
+        my $SearchListSize = keys %List;
+
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {
+                ShownItemsAllItems => "( $SearchListSize / $ListAll )"
+            },
+        );
+    }
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
@@ -679,15 +708,6 @@ sub _Overview {
             Name => 'OverviewResultSwitchToUser',
         );
     }
-
-    # get user object
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-    my %List = $UserObject->UserSearch(
-        Search => $Param{Search} . '*',
-        Limit  => 400,
-        Valid  => 0,
-    );
 
     # get valid list
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();

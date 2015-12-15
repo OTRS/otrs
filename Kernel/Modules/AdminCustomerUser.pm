@@ -666,10 +666,21 @@ sub _Overview {
         );
     }
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
+    my %AllUsers = $CustomerUserObject->CustomerSearch(
+        Search => '*',
+        Limit  => 999999,
+        Valid  => 0,
     );
+
+    # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
+    my $Limit = 250;
+
+    if ( keys %AllUsers <= $Limit ) {
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
+    }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -677,10 +688,24 @@ sub _Overview {
     my $ColSpan = 6;
 
     if ( $Param{Search} ) {
+
         my %List = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
             Valid  => 0,
         );
+
+        if ( keys %AllUsers > $Limit ) {
+            my $AllUsers = keys %AllUsers;
+            my $ListSize = keys %List;
+
+            $LayoutObject->Block(
+                Name => 'OverviewHeader',
+                Data => {
+                    ShownUsersAllUsers => "( $ListSize / $AllUsers )"
+                },
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => \%Param,
@@ -1073,7 +1098,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data} eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

@@ -510,10 +510,21 @@ sub _Overview {
         );
     }
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
+    my %ListAll = $CustomerCompanyObject->CustomerCompanyList(
+        Search => '*',
+        Limit  => 99999,
+        Valid  => 0,
     );
+
+    # same Limit as $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'}
+    my $Limit = 250;
+
+    if ( keys %ListAll <= $Limit ) {
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
+    }
 
     my %List = ();
 
@@ -523,6 +534,19 @@ sub _Overview {
             Search => $Param{Search},
             Valid  => 0,
         );
+
+        if ( keys %ListAll > $Limit ) {
+            my $ListAll        = keys %ListAll;
+            my $SearchListSize = keys %List;
+
+            $LayoutObject->Block(
+                Name => 'OverviewHeader',
+                Data => {
+                    ShownItemsAllItems => "( $SearchListSize / $ListAll )"
+                },
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => \%Param,
