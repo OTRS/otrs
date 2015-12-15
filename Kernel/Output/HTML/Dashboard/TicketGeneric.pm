@@ -731,7 +731,7 @@ sub Run {
     # show only locked if we have the filter
     if ( $TicketSearchSummary{Locked} ) {
         $LayoutObject->Block(
-            Name => 'ContentLargeTicketGenericFilterMyServices',
+            Name => 'ContentLargeTicketGenericFilterLocked',
             Data => {
                 %Param,
                 %{ $Self->{Config} },
