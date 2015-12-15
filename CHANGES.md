@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-15 Fixed bug#[7730](http://bugs.otrs.org/show_bug.cgi?id=7730) - Security: Notification Tags can be used to display critical data in Answers.
  - 2015-12-15 Fixed bug#[11373](http://bugs.otrs.org/show_bug.cgi?id=11373) - CustomerID in AgentTicketPhone accepts any value, thanks to S7.
  - 2015-12-15 Fixed bug#[10883](http://bugs.otrs.org/show_bug.cgi?id=10883) - Do not hardcode X-Frame-Options: SAMEORIGIN.
  - 2015-12-15 Fixed bug#[11182](http://bugs.otrs.org/show_bug.cgi?id=11182) - otrs.SyncLDAP2DB.pl produces invalid SQL statements.

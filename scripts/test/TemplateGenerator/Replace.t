@@ -346,6 +346,24 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
+        Name => 'OTRS secret config value',                              # <OTRS_CONFIG_DatabasePw>
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CONFIG_DatabasePw>',
+        Result   => 'Test xxx',
+    },
+    {
+        Name => 'OTRS secret config value and normal config value',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CONFIG_DatabasePw> and <OTRS_CONFIG_DefaultTheme>',
+        Result   => 'Test xxx and Standard',
+    },
+    {
         Name => 'mailto-Links',
         Data => {
             From => 'test@home.com',
