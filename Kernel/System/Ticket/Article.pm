@@ -2200,10 +2200,16 @@ sub ArticleSend {
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
 
+    # initialize parameter for attachments, so that the content pushed into that ref from
+    # EmbeddedImagesExtract will stay available
+    if ( !$Param{Attachment} ) {
+        $Param{Attachment} = [];
+    }
+
     # check for base64 images in body and process them
     $Kernel::OM->Get('Kernel::System::HTMLUtils')->EmbeddedImagesExtract(
         DocumentRef    => \$Param{Body},
-        AttachmentsRef => $Param{Attachment} || [],
+        AttachmentsRef => $Param{Attachment},
     );
 
     # create article
