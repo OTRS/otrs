@@ -286,7 +286,23 @@ sub Run {
                         }
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Multiselect' ) {
                             if ( IsArrayRefWithData($InfoValue) ) {
-                                $InfoValue = join ', ', @{$InfoValue};
+
+                                my $DynamicFieldConfig
+                                    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                                    Name => $Item,
+                                    );
+
+                                # get possible values
+                                my $PossibleValues
+                                    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
+                                    DynamicFieldConfig => $DynamicFieldConfig,
+                                    );
+
+                                # include values for the selected keys
+                                my $DynamicFieldValues = [ map { $PossibleValues->{$_} } @{$InfoValue} ];
+
+                                # put all together in a single string
+                                $InfoValue = join ', ', @{$DynamicFieldValues};
                             }
                         }
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Checkbox' ) {
