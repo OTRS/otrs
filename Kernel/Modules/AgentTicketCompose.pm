@@ -1263,11 +1263,6 @@ sub Run {
             }
         }
 
-        # check if Cc recipients should be used
-        if ( $ConfigObject->Get('Ticket::Frontend::ComposeExcludeCcRecipients') ) {
-            $Data{Cc} = '';
-        }
-
         # get system address object
         my $SystemAddress = $Kernel::OM->Get('Kernel::System::SystemAddress');
 

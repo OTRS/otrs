@@ -5427,17 +5427,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ComposeExcludeCcRecipients" Required="1" Valid="1">
-        <Description Translatable="1">Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket forward screen in the agent interface.</Description>
         <Group>Ticket</Group>
