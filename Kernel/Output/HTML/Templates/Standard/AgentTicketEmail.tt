@@ -321,8 +321,9 @@ $('#Dest').bind('change', function (Event) {
 
                     <label for="CustomerID">[% Translate("CustomerID") | html %]:</label>
                     <div class="Field">
-                        <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" class="W75pc"/>
+                        <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" [% IF Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %] readonly [% END %] class="W75pc"/>
                     </div>
+
                     <div class="Clear"></div>
 
 [% RenderBlockStart("TicketService") %]
