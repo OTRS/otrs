@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-15 Fixed bug#[3785](http://bugs.otrs.org/show_bug.cgi?id=3785) - issuing cron jobs include backup files from them.
  - 2015-12-15 Fixed bug#[8828](http://bugs.otrs.org/show_bug.cgi?id=8828) - No embedded images in autoresponses.
  - 2015-12-15 Fixed bug#[7730](http://bugs.otrs.org/show_bug.cgi?id=7730) - Security: Notification Tags can be used to display critical data in Answers.
  - 2015-12-15 Fixed bug#[11373](http://bugs.otrs.org/show_bug.cgi?id=11373) - CustomerID in AgentTicketPhone accepts any value, thanks to S7.
