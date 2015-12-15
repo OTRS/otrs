@@ -303,12 +303,15 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
 
+    my %List = $GroupObject->GroupList(
+        ValidID => 0,
+    );
+    my $ListSize = keys %List;
+    $Param{AllItemsCount} = '( ' . $ListSize . ' )';
+
     $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
-    );
-    my %List = $GroupObject->GroupList(
-        ValidID => 0,
     );
 
     # get valid list

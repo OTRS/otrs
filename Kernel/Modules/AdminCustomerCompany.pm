@@ -510,12 +510,21 @@ sub _Overview {
         );
     }
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
+    my %ListAllItems = $CustomerCompanyObject->CustomerCompanyList(
+        Search => '*',
+        Limit  => 99999,
+        Valid  => 0,
     );
 
-    my %List = ();
+    # same Limit as $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'}
+    my $Limit = 250;
+
+    if ( keys %ListAllItems <= $Limit ) {
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {},
+        );
+    }
 
     # if there are any registries to search, the table is filled and shown
     if ( $Param{Search} ) {
@@ -523,6 +532,19 @@ sub _Overview {
             Search => $Param{Search},
             Valid  => 0,
         );
+
+        if ( keys %ListAllItems > $Limit ) {
+            my $ListAllItems   = keys %ListAllItems;
+            my $SearchListSize = keys %List;
+
+            $LayoutObject->Block(
+                Name => 'OverviewHeader',
+                Data => {
+                    ShownItemsAllItems => "( $SearchListSize / $ListAllItems )"
+                },
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => \%Param,

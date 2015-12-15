@@ -284,13 +284,16 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
-    );
-
     my %List = $GroupObject->RoleList(
         ValidID => 0,
+    );
+    my $ListSize = keys %List;
+
+    $LayoutObject->Block(
+        Name => 'OverviewHeader',
+        Data => {
+            AllItemsCount => '( ' . $ListSize . ' )',
+        },
     );
 
     # if there is data available, it is shown
