@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-12-15 Fixed bug#[11373](http://bugs.otrs.org/show_bug.cgi?id=11373) - CustomerID in AgentTicketPhone accepts any value, thanks to S7.
  - 2015-12-15 Fixed bug#[11182](http://bugs.otrs.org/show_bug.cgi?id=11182) - otrs.SyncLDAP2DB.pl produces invalid SQL statements.
  - 2015-12-15 Fixed bug#[11705](http://bugs.otrs.org/show_bug.cgi?id=11705) - Ticket filters are displayed incorrectly.
  - 2015-12-14 Fixed bug#[11286](http://bugs.otrs.org/show_bug.cgi?id=11286) - Default-Value "X-Envelope-To" instead of "Envelope-To" in PostmasterX-Header.
