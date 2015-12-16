@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2015-12-16 Fixed bug#[6333](http://bugs.otrs.org/show_bug.cgi?id=6333) - Ticket merging does not work with customized state name.
  - 2015-12-15 Fixed bug#[8653](http://bugs.otrs.org/show_bug.cgi?id=8653) - Sysconfig option ComposeExcludeCCRecipients for AgentTicketCompose is obsolete.
  - 2015-11-27 Added possibility to restrict Zoom and Print screens in the customer interface by using ACLs. Thanks to Sanjin Vik @ s7design.
  - 2015-11-27 Improved Generic Agent performance at deleting old execution times. Thanks to Moritz Lenz @ noris networks.
