@@ -47,7 +47,7 @@
         <div class="WidgetSimple">
 [% RenderBlockStart("OverviewHeader") %]
             <div class="Header">
-                <h2>[% Translate("List") | html %] ([% Data.AllItemsCount | html %] [% Translate("available") | html %])</h2>
+                <h2>[% Translate("List") | html %] ([% Data.AllItemsCount | html %] [% Translate("total") | html %])</h2>
             </div>
 [% RenderBlockEnd("OverviewHeader") %]
 [% RenderBlockStart("NoRolesDefined") %]
