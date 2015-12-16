@@ -498,9 +498,21 @@ sub Send {
 
         if ( $Param{Sign}->{Type} eq 'PGP' ) {
 
+            # determine used digest for proper micalg declaration
+            my $ClearSign = $CryptObject->Sign(
+                Message => 'dummy',
+                Key     => $Param{Sign}->{Key},
+                Type    => 'Clearsign',
+                Charset => $Param{Charset},
+            );
+            my $DigestAlgorithm = 'sha1';
+            if ($ClearSign) {
+                $DigestAlgorithm = lc $1 if $ClearSign =~ m{ \n Hash: [ ] ([^\n]+) \n }xms;
+            }
+
             # make_multipart -=> one attachment for sign
             $Entity->make_multipart(
-                "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
+                "signed; micalg=pgp-$DigestAlgorithm; protocol=\"application/pgp-signature\";",
                 Force => 1,
             );
 
@@ -517,13 +529,13 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
-            # it sign failed, remove singned multi part
+            # it sign failed, remove multi part
             if ( !$Sign ) {
                 $Entity->make_singlepart();
             }
             else {
 
-                # addach sign to email
+                # attach signature to email
                 $Entity->attach(
                     Filename => 'pgp_sign.asc',
                     Data     => $Sign,

@@ -219,6 +219,10 @@ sub Sign {
     my $SigType      = $Param{Type} && $Param{Type} eq 'Detached'
         ? '--detach-sign --armor'
         : '--clearsign';
+    my $DigestAlgorithm = $Kernel::OM->Get('Kernel::Config')->Get('PGP::Options::DigestPreference') || '';
+    if ($DigestAlgorithm) {
+        $DigestAlgorithm = '--personal-digest-preferences ' . uc $DigestAlgorithm;
+    }
 
     # get temp file object
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
@@ -241,7 +245,7 @@ sub Sign {
     my ( $FHPhrase, $FilePhrase ) = $FileTempObject->TempFile();
     print $FHPhrase $Pw;
     close $FHPhrase;
-    my $GPGOptions = qq{--passphrase-fd 0 --default-key $Param{Key} -o $FileSign $SigType $Filename};
+    my $GPGOptions = qq{--passphrase-fd 0 --default-key $Param{Key} -o $FileSign $SigType $DigestAlgorithm $Filename};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
 
     # error
