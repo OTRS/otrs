@@ -676,9 +676,13 @@ sub _Overview {
     my $Limit = 250;
 
     if ( keys %AllUsers <= $Limit ) {
+        my $ListAll = keys %AllUsers;
         $LayoutObject->Block(
             Name => 'OverviewHeader',
-            Data => {},
+            Data => {
+                ListAll => $ListAll,
+                Limit   => $Limit,
+            },
         );
     }
 
