@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2015-12-16 Fixed bug#[8760](http://bugs.otrs.org/show_bug.cgi?id=8760) - digest algorithm SHA1 is hardcoded in PGP/MIME signed messages.
  - 2015-12-15 Fixed bug#[3785](http://bugs.otrs.org/show_bug.cgi?id=3785) - issuing cron jobs include backup files from them.
  - 2015-12-15 Fixed bug#[10883](http://bugs.otrs.org/show_bug.cgi?id=10883) - Do not hardcode X-Frame-Options: SAMEORIGIN.
  - 2015-12-15 Fixed bug#[8828](http://bugs.otrs.org/show_bug.cgi?id=8828) - No embedded images in autoresponses.
