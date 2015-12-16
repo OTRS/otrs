@@ -13,11 +13,8 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-my @Config;
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @TicketIDs;
 
@@ -28,7 +25,7 @@ my $TicketCount = 0;
 for my $IDCount ( 0 .. $Limit ) {
 
     # create the ticket
-    $TicketIDs[$IDCount] = $TicketObject->TicketCreate(
+    my $TicketID = $TicketObject->TicketCreate(
         Title        => 'Ticket_' . $IDCount,
         Queue        => 'Raw',
         Lock         => 'unlock',
@@ -39,6 +36,7 @@ for my $IDCount ( 0 .. $Limit ) {
         OwnerID      => 1,
         UserID       => 1,
     );
+    push @TicketIDs, $TicketID;
 
     if ( $TicketIDs[$IDCount] ) {
         $TicketCount++;
@@ -65,11 +63,6 @@ $Self->Is(
     $TicketCount,
     $Limit + 1,
     'Created ' . $TicketCount . ' Tickets',
-);
-
-my %MainTicket = $TicketObject->TicketGet(
-    TicketID => $TicketIDs[0],
-    UserID   => 1,
 );
 
 # merge the tickets
@@ -115,12 +108,13 @@ for my $IDCount ( 0 .. $Limit - 1 ) {
 }
 
 # Check merge depth
-for my $IDCount ( 0 .. $Limit ) {
+my $Count = 0;
+for my $TicketID (@TicketIDs) {
 
     # Get TN from Ticket were MailAnsweres will be added
     # deep merge
     my $TN = $TicketObject->TicketNumberLookup(
-        TicketID => $TicketIDs[$IDCount],
+        TicketID => $TicketID,
         UserID   => 1,
     );
     my $MergedTicketID = $TicketObject->TicketCheckNumber(
@@ -131,31 +125,31 @@ for my $IDCount ( 0 .. $Limit ) {
     # $Limit-10 - because LoopLimit 10
     my $IDLimit = $Limit + 1 - 10;
 
-    if ( $IDCount < $IDLimit ) {
-        $Self->Is(
+    if ( $Count < $IDLimit ) {
+        $Self->False(
             $MergedTicketID,
-            $TicketIDs[$Limit] - ( $IDLimit - $IDCount ),
-            'Limited depth merge target Ticket for ID ' . $TicketIDs[$IDCount] . ' is OK',
+            'Limited depth merge target Ticket for ID ' . $TicketID . ' is UNDEF',
         );
     }
     else {
         $Self->Is(
             $MergedTicketID,
             $TicketIDs[$Limit],
-            'Unlimited depth merge target Ticket for ID ' . $TicketIDs[$IDCount] . ' is OK',
+            'Unlimited depth merge target Ticket for ID ' . $TicketID . ' is OK',
         );
     }
+    $Count++;
 }
 
 # delete all test tickets
 my $DeleteCount = 0;
-for my $IDCount ( 0 .. $Limit ) {
+for my $TicketID (@TicketIDs) {
     $TicketObject->TicketDelete(
-        TicketID => $TicketIDs[$IDCount],
+        TicketID => $TicketID,
         UserID   => 1,
     );
     my $DeleteID = $TicketObject->TicketNumberLookup(
-        TicketID => $TicketIDs[0],
+        TicketID => $TicketID,
         UserID   => 1,
     ) || 0;
     $DeleteCount += $DeleteID;

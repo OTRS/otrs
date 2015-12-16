@@ -594,7 +594,7 @@ sub Send {
     if (
         $Param{Crypt}
         && $Param{Crypt}->{Type}
-        && $Param{Crypt}->{Type} eq 'PGP'
+        && $Param{Crypt}->{Type}    eq 'PGP'
         && $Param{Crypt}->{SubType} eq 'Detached'
         )
     {

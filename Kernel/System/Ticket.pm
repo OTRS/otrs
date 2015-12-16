@@ -242,6 +242,9 @@ sub TicketCheckNumber {
                 $TicketID = $1;
                 $Count++;
                 next MERGELOOP if ( $Count <= $Limit );
+
+                # returns no found Ticket after 10 deep-merges, so it should create a new one
+                return;
             }
         }
 
