@@ -12,6 +12,8 @@ package Kernel::Modules::AdminQueue;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -636,7 +638,7 @@ sub _Edit {
     }
     $Param{DefaultSignKeyOption} = $LayoutObject->BuildSelection(
         Data => {
-            '' => '-none-',
+            '' => Translatable('-none-'),
             %DefaultSignKeyList
         },
         Name       => 'DefaultSignKey',

@@ -63,7 +63,7 @@ sub AgentCustomerViewTable {
     }
 
     my $ShownType = 1;
-    if ( $Param{Type} && $Param{Type} eq 'Lite' ) {
+    if ( $Param{Type} && $Param{Type} eq Translatable('Lite') ) {
         $ShownType = 2;
 
         # check if min one lite view item is configured, if not, use

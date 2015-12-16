@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Mail::Address;
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -121,7 +122,7 @@ sub Data {
     my %KeyList;
 
     # add non crypt option
-    $KeyList{''} = '-none-';
+    $KeyList{''} = Translatable('-none-');
 
     # backend currently only supports one recipient
     if ( $#SearchAddress > 0 ) {

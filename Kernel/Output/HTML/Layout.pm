@@ -390,7 +390,7 @@ EOF
     }
 
     # load theme
-    my $Theme = $Self->{UserTheme} || $ConfigObject->Get('DefaultTheme') || 'Standard';
+    my $Theme = $Self->{UserTheme} || $ConfigObject->Get('DefaultTheme') || Translatable('Standard');
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');

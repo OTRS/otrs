@@ -2992,7 +2992,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">agent</String>
+            <String Regex="" Translatable="1">agent</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Subject" Required="1" Valid="1">
@@ -3371,7 +3371,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
-            <String Regex="">agent</String>
+            <String Regex="" Translatable="1">agent</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly" Required="1" Valid="1">
@@ -9713,20 +9713,20 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="User">User</Item>
-                <Item Key="CustomerUser">CustomerUser</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Service">Service</Item>
-                <Item Key="Type">Type</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="SLA">SLA</Item>
-                <Item Key="State">State</Item>
-                <Item Key="Owner">Owner</Item>
-                <Item Key="Process">Process</Item>
-                <Item Key="Responsible">Responsible</Item>
-                <Item Key="DynamicField">DynamicField</Item>
-                <Item Key="Frontend">Frontend</Item>
-                <Item Key="Ticket">Ticket</Item>
+                <Item Key="User" Translatable="1">User</Item>
+                <Item Key="CustomerUser" Translatable="1">CustomerUser</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Service" Translatable="1">Service</Item>
+                <Item Key="Type" Translatable="1">Type</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="SLA" Translatable="1">SLA</Item>
+                <Item Key="State" Translatable="1">State</Item>
+                <Item Key="Owner" Translatable="1">Owner</Item>
+                <Item Key="Process" Translatable="1">Process</Item>
+                <Item Key="Responsible" Translatable="1">Responsible</Item>
+                <Item Key="DynamicField" Translatable="1">DynamicField</Item>
+                <Item Key="Frontend" Translatable="1">Frontend</Item>
+                <Item Key="Ticket" Translatable="1">Ticket</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9736,19 +9736,19 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="User">User</Item>
-                <Item Key="CustomerUser">CustomerUser</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Service">Service</Item>
-                <Item Key="Type">Type</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="SLA">SLA</Item>
-                <Item Key="State">State</Item>
-                <Item Key="Owner">Owner</Item>
-                <Item Key="Process">Process</Item>
-                <Item Key="Responsible">Responsible</Item>
-                <Item Key="DynamicField">DynamicField</Item>
-                <Item Key="Ticket">Ticket</Item>
+                <Item Key="User" Translatable="1">User</Item>
+                <Item Key="CustomerUser" Translatable="1">CustomerUser</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Service" Translatable="1">Service</Item>
+                <Item Key="Type" Translatable="1">Type</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="SLA" Translatable="1">SLA</Item>
+                <Item Key="State" Translatable="1">State</Item>
+                <Item Key="Owner" Translatable="1">Owner</Item>
+                <Item Key="Process" Translatable="1">Process</Item>
+                <Item Key="Responsible" Translatable="1">Responsible</Item>
+                <Item Key="DynamicField" Translatable="1">DynamicField</Item>
+                <Item Key="Ticket" Translatable="1">Ticket</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10188,8 +10188,8 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
-                <Item Key="ArticleType">email-internal</Item>
-                <Item Key="SenderType">customer</Item>
+                <Item Key="ArticleType" Translatable="1">email-internal</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10207,7 +10207,7 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
                 <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
@@ -10226,7 +10226,7 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
                 <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
@@ -10245,7 +10245,7 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
                 <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
@@ -10264,7 +10264,7 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
                 <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>

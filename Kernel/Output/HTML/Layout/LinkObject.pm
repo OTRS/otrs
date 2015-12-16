@@ -270,7 +270,7 @@ sub LinkObjectTableCreateComplex {
     );
 
     # set block description
-    my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? 'Search Result' : 'Linked';
+    my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? Translatable('Search Result') : Translatable('Linked');
 
     my $BlockCounter = 0;
 

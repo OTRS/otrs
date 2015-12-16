@@ -603,8 +603,8 @@
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SourceName">Normal</Item>
-                <Item Key="TargetName">Normal</Item>
+                <Item Key="SourceName" Translatable="1">Normal</Item>
+                <Item Key="TargetName" Translatable="1">Normal</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -614,8 +614,8 @@
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SourceName">Parent</Item>
-                <Item Key="TargetName">Child</Item>
+                <Item Key="SourceName" Translatable="1">Parent</Item>
+                <Item Key="TargetName" Translatable="1">Child</Item>
             </Hash>
         </Setting>
     </ConfigItem>
