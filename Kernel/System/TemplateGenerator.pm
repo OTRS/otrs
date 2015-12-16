@@ -809,7 +809,7 @@ sub NotificationEvent {
 
                     # replace charset in content
                     $Data{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-                    $Data{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+                    $Data{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
                 }
 
                 $Data{Content} =~ s/&amp;/&/g;
@@ -944,7 +944,7 @@ sub NotificationEvent {
 
         next KEY if !$Param{CustomerMessageParams}->{$Key};
 
-        $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_$Key${End}/$Param{CustomerMessageParams}->{$Key}/gi;
+        $Notification{Body}    =~ s/${Start}OTRS_CUSTOMER_DATA_$Key${End}/$Param{CustomerMessageParams}->{$Key}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$Key>/$Param{CustomerMessageParams}->{$Key}{$_}/gi;
     }
 

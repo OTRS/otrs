@@ -346,7 +346,7 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
-        Name => 'OTRS secret config value',                              # <OTRS_CONFIG_DatabasePw>
+        Name => 'OTRS secret config value',                       # <OTRS_CONFIG_DatabasePw>
         Data => {
             From => 'test@home.com',
         },
