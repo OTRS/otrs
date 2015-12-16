@@ -281,6 +281,10 @@ div.Clear {
     display: none;
 }
 
+.ErrorNote {
+    color: #FF505E;
+}
+
 /**
  * @subsection  Datepicker
  */

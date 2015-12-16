@@ -1665,10 +1665,29 @@ sub ArticleGet {
         return;
     }
 
+    # get type object
+    my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
+    # get default ticket type
+    my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
+
+    # check if default ticket type exists
+    my $DefaultTicketTypeID = $TypeObject->TypeLookup( Type => $DefaultTicketType );
+
     # get type
-    $Ticket{Type} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
-        TypeID => $Ticket{TypeID} || 1,
-    );
+    if ( defined $Ticket{TypeID} ) {
+        $Ticket{Type} = $TypeObject->TypeLookup(
+            TypeID => $Ticket{TypeID}
+        );
+    }
+    elsif ( defined $DefaultTicketTypeID ) {
+        $Ticket{Type} = $DefaultTicketType;
+    }
+    else {
+        $Ticket{Type} = $TypeObject->TypeLookup(
+            TypeID => 1
+        );
+    }
 
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
