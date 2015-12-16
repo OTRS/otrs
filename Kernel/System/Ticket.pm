@@ -242,6 +242,9 @@ sub TicketCheckNumber {
                 $TicketID = $1;
                 $Count++;
                 next MERGELOOP if ( $Count <= $Limit );
+
+                # returns no found Ticket after 10 deep-merges, so it should create a new one
+                return;
             }
         }
 
@@ -5318,7 +5321,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1] eq 'StateUpdate'
+            $Row[1]    eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -5326,7 +5329,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
