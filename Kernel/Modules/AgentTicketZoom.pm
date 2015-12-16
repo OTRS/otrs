@@ -1105,9 +1105,18 @@ sub MaskAgentZoom {
 
     # ticket type
     if ( $ConfigObject->Get('Ticket::Type') ) {
+
+        my %Type = $Kernel::OM->Get('Kernel::System::Type')->TypeGet(
+            ID => $Ticket{TypeID},
+        );
+
         $LayoutObject->Block(
             Name => 'Type',
-            Data => { %Ticket, %AclAction },
+            Data => {
+                Valid => $Type{ValidID},
+                %Ticket,
+                %AclAction
+            },
         );
     }
 

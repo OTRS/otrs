@@ -19,6 +19,12 @@ my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+                }
+        );
+
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -88,7 +94,37 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
+        # get current value of Ticket::Type::Default
+        my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
+
+        # set test Type as a default ticket type
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Type::Default',
+            Value => $RandomID
+        );
+
+        # try to set test type to invalid
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name", 'css' )->submit();
+
+        # default ticket type cannot be set to invalid
+        $Self->True(
+            index( $Selenium->get_page_source(),
+                "The ticket type is set as a default ticket type, so it cannot be set to invalid!" ) > -1,
+            "$RandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
+        );
+
+        # reset default ticket type
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Type::Default',
+            Value => $DefaultTicketType
+        );
+
         # set test type to invalid
+        $Selenium->find_element( "#Name", 'css' )->clear();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->submit();
 

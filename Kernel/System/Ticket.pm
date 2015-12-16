@@ -277,7 +277,7 @@ or
         Lock          => 'unlock',
         Priority      => '3 normal',         # or PriorityID => 2,
         State         => 'new',              # or StateID => 5,
-        Type          => 'Incident',         # or TypeID => 1, not required
+        Type          => 'Incident',         # or TypeID = 1 or Ticket type default (Ticket::Type::Default), not required
         Service       => 'Service A',        # or ServiceID => 1, not required
         SLA           => 'SLA A',            # or SLAID => 1, not required
         CustomerID    => '123465',
@@ -317,12 +317,24 @@ sub TicketCreate {
 
     $Param{ResponsibleID} ||= 1;
 
-    if ( !$Param{TypeID} && !$Param{Type} ) {
-        $Param{TypeID} = 1;
-    }
-
     # get type object
     my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
+    if ( !$Param{TypeID} && !$Param{Type} ) {
+
+        # get default ticket type
+        my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
+
+        # check if default ticket type exists
+        my $DefaultTicketTypeID = $TypeObject->TypeLookup( Type => $DefaultTicketType );
+
+        if ( defined $DefaultTicketTypeID ) {
+            $Param{Type} = $DefaultTicketType;
+        }
+        else {
+            $Param{TypeID} = 1;
+        }
+    }
 
     # TypeID/Type lookup!
     if ( !$Param{TypeID} && $Param{Type} ) {

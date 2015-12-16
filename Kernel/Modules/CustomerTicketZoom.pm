@@ -1004,9 +1004,17 @@ sub _Mask {
 
     # ticket type
     if ( $ConfigObject->Get('Ticket::Type') && $Config->{AttributesView}->{Type} ) {
+
+        my %Type = $Kernel::OM->Get('Kernel::System::Type')->TypeGet(
+            Name => $Param{Type},
+        );
+
         $LayoutObject->Block(
             Name => 'Type',
-            Data => \%Param,
+            Data => {
+                Valid => $Type{ValidID},
+                %Param,
+                }
         );
     }
 
