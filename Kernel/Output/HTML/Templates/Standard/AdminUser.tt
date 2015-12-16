@@ -71,7 +71,7 @@
             <div class="Header">
                 <h2>[% Translate("List") | html %]
                     [% IF Data.ListAll && Data.Limit && Data.ListAll > Data.Limit %]
-                        ([% Data.SearchListSize | html %] [% Translate("shown") | html %] / [% Data.ListAll | html %] [% Translate("available") | html %])
+                        ([% Data.SearchListSize | html %] [% Translate("shown") | html %] / [% Data.ListAll | html %] [% Translate("total") | html %])
                     [% END %]
                 </h2>
             </div>

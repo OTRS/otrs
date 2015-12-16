@@ -2400,7 +2400,7 @@ sub Data {
         'Will be auto-generated if left empty.' => 'Wird für ein leeres Feld automatisch generiert.',
         'Start' => 'Start',
         'End' => 'Ende',
-        'available' => 'verfügbar',
+        'total' => 'insgesamt',
         'shown' => 'angezeigt',
 
         # Template: AdminUserGroup
