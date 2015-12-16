@@ -695,13 +695,15 @@ sub _Overview {
         );
 
         if ( keys %AllUsers > $Limit ) {
-            my $AllUsers = keys %AllUsers;
-            my $ListSize = keys %List;
+            my $ListAll        = keys %AllUsers;
+            my $SearchListSize = keys %List;
 
             $LayoutObject->Block(
                 Name => 'OverviewHeader',
                 Data => {
-                    ShownUsersAllUsers => "( $ListSize / $AllUsers )"
+                    SearchListSize => $SearchListSize,
+                    ListAll        => $ListAll,
+                    Limit          => $Limit,
                 },
             );
         }
