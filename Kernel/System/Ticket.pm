@@ -6018,9 +6018,24 @@ sub TicketMerge {
         UserID       => $Param{UserID},
     );
 
+    # get the list of all merged states
+    my @MergeStateList = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+        StateType => ['merged'],
+        Result    => 'Name',
+    );
+
+    # error handling
+    if ( !@MergeStateList ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No merge state found! Please add a valid merge state.",
+        );
+        return;
+    }
+
     # set new state of merge ticket
-    $Self->StateSet(
-        State    => 'merged',
+    $Self->TicketStateSet(
+        State    => $MergeStateList[0],
         TicketID => $Param{MergeTicketID},
         UserID   => $Param{UserID},
     );
