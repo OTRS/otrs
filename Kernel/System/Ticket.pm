@@ -176,7 +176,10 @@ creates a new ticket number
 
 =item TicketCheckNumber()
 
-checks if ticket number exists, returns ticket id if number exists
+checks if ticket number exists, returns ticket id if number exists.
+
+returns the merged ticket id if ticket was merged.
+only into a depth of maximum 10 merges
 
     my $TicketID = $TicketObject->TicketCheckNumber(
         Tn => '200404051004575',
@@ -214,28 +217,36 @@ sub TicketCheckNumber {
     # get main ticket id if ticket has been merged
     return if !$TicketID;
 
-    my %Ticket = $Self->TicketGet(
-        TicketID      => $TicketID,
-        DynamicFields => 0,
-    );
+    # do not check deeper than 10 merges
+    my $Limit = 10;
+    my $Count = 1;
+    MERGELOOP:
+    for ( 1 .. $Limit ) {
+        my %Ticket = $Self->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 0,
+        );
 
-    return $TicketID if $Ticket{StateType} ne 'merged';
+        return $TicketID if $Ticket{StateType} ne 'merged';
 
-    # get ticket history
-    my @Lines = $Self->HistoryGet(
-        TicketID => $Ticket{TicketID},
-        UserID   => 1,
-    );
+        # get ticket history
+        my @Lines = $Self->HistoryGet(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
 
-    HISTORYLINE:
-    for my $Data ( reverse @Lines ) {
-        next HISTORYLINE if $Data->{HistoryType} ne 'Merged';
-        if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
-            return $1;
+        HISTORYLINE:
+        for my $Data ( reverse @Lines ) {
+            next HISTORYLINE if $Data->{HistoryType} ne 'Merged';
+            if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
+                $TicketID = $1;
+                $Count++;
+                next MERGELOOP if ( $Count <= $Limit );
+            }
         }
-    }
 
-    return $TicketID;
+        return $TicketID;
+    }
 }
 
 =item TicketCreate()
