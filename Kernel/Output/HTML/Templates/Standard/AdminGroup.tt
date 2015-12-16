@@ -105,7 +105,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
         <div class="WidgetSimple">
 [% RenderBlockStart("OverviewResult") %]
             <div class="Header">
-                <h2>[% Translate("List") | html %] ( [% Data.AllItemsCount | html %] )</h2>
+                <h2>[% Translate("List") | html %] ([% Data.AllItemsCount | html %] [% Translate("available") | html %])</h2>
             </div>
             <div class="Content">
 

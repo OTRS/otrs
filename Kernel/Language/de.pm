@@ -2400,6 +2400,8 @@ sub Data {
         'Will be auto-generated if left empty.' => 'Wird für ein leeres Feld automatisch generiert.',
         'Start' => 'Start',
         'End' => 'Ende',
+        'available' => 'verfügbar',
+        'shown' => 'angezeigt',
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Zuordnungen von Agent und Gruppe verwalten',
