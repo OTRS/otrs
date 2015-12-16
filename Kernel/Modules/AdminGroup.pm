@@ -307,7 +307,7 @@ sub _Overview {
         ValidID => 0,
     );
     my $ListSize = keys %List;
-    $Param{AllItemsCount} = '( ' . $ListSize . ' )';
+    $Param{AllItemsCount} = $ListSize;
 
     $LayoutObject->Block(
         Name => 'OverviewResult',

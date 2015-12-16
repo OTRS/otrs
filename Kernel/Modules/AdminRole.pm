@@ -292,7 +292,7 @@ sub _Overview {
     $LayoutObject->Block(
         Name => 'OverviewHeader',
         Data => {
-            AllItemsCount => '( ' . $ListSize . ' )',
+            AllItemsCount => $ListSize,
         },
     );
 

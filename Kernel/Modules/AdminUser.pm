@@ -692,7 +692,9 @@ sub _Overview {
         $LayoutObject->Block(
             Name => 'OverviewHeader',
             Data => {
-                ShownItemsAllItems => "( $SearchListSize / $ListAllSize )",
+                SearchListSize => $SearchListSize,
+                ListAll        => $ListAllSize,
+                Limit          => $Limit,
             },
         );
 
