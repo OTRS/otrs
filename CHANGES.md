@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-16 Fixed bug#[11695](http://bugs.otrs.org/show_bug.cgi?id=11695) - Inconsistency with the sorting icon.
  - 2015-12-16 Fixed bug#[8760](http://bugs.otrs.org/show_bug.cgi?id=8760) - digest algorithm SHA1 is hardcoded in PGP/MIME signed messages.
  - 2015-12-16 Fixed bug#[3688](http://bugs.otrs.org/show_bug.cgi?id=3688) - Emails to a "deeply merged" ticket are added to the wrong ticket.
  - 2015-12-16 Fixed bug#[6333](http://bugs.otrs.org/show_bug.cgi?id=6333) - Ticket merging does not work with customized state name.
