@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2015-12-16 Fixed bug#[11628](http://bugs.otrs.org/show_bug.cgi?id=11628) - DynamicField - BaseSelect.pm - missing check of DF in parameter Template in method "EditFieldValueGet".
  - 2015-12-16 Fixed bug#[11696](http://bugs.otrs.org/show_bug.cgi?id=11696) - Queue overview displays Queues with no avaible tickets.
  - 2015-12-16 Fixed bug#[9038](http://bugs.otrs.org/show_bug.cgi?id=9038) - Default Ticket Type in Emails.....
  - 2015-12-16 Fixed bug#[11695](http://bugs.otrs.org/show_bug.cgi?id=11695) - Inconsistency with the sorting icon.

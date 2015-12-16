@@ -258,7 +258,7 @@ sub EditFieldValueGet {
     my $Value;
 
     # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) ) {
+    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
         $Value = $Param{Template}->{$FieldName};
     }
 
