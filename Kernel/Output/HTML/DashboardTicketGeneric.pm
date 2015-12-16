@@ -804,15 +804,15 @@ sub Run {
         if ( $Self->{SortBy} && ( $Self->{SortBy} eq $Item ) ) {
             if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
                 $OrderBy = 'Down';
-                $CSS .= ' SortDescendingLarge';
+                $CSS .= ' SortAscendingLarge';
             }
             else {
                 $OrderBy = 'Up';
-                $CSS .= ' SortAscendingLarge';
+                $CSS .= ' SortDescendingLarge';
             }
 
             # set title description
-            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
             $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
             $Title .= ', ' . $TitleDesc;
         }
@@ -872,15 +872,15 @@ sub Run {
             if ( $Self->{SortBy} && ( $Self->{SortBy} eq $HeaderColumn ) ) {
                 if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
-                    $CSS .= ' SortDescendingLarge';
+                    $CSS .= ' SortAscendingLarge';
                 }
                 else {
                     $OrderBy = 'Up';
-                    $CSS .= ' SortAscendingLarge';
+                    $CSS .= ' SortDescendingLarge';
                 }
 
                 # add title description
-                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
                 $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                 $Title .= ', ' . $TitleDesc;
             }
@@ -1145,15 +1145,15 @@ sub Run {
                 {
                     if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
                         $OrderBy = 'Down';
-                        $CSS .= ' SortDescendingLarge';
+                        $CSS .= ' SortAscendingLarge';
                     }
                     else {
                         $OrderBy = 'Up';
-                        $CSS .= ' SortAscendingLarge';
+                        $CSS .= ' SortDescendingLarge';
                     }
 
                     # add title description
-                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
                     $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
