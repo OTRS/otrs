@@ -11,6 +11,8 @@ package Kernel::Modules::AdminType;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -106,7 +108,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Type updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Type updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminType',
                     Data         => \%Param,
@@ -193,7 +195,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Type added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Type added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminType',
                     Data         => \%Param,

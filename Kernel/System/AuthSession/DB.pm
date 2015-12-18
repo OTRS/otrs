@@ -13,6 +13,7 @@ use warnings;
 
 use Storable qw();
 use MIME::Base64 qw();
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -63,13 +64,13 @@ sub CheckSessionID {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
-    $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
+    $Self->{SessionIDErrorMessage} = Translatable('Session invalid. Please log in again.');
 
     # get session data
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
+        $Self->{SessionIDErrorMessage} = Translatable('Session invalid. Please log in again.');
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -107,7 +108,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
 
-        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = Translatable('Session has timed out. Please log in again.');
 
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
 
@@ -130,7 +131,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
 
-        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = Translatable('Session has timed out. Please log in again.');
 
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
 
@@ -307,7 +308,7 @@ sub CreateSessionID {
 
             next SESSIONID if $ActiveSessionCount < $SessionLimit;
 
-            $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
+            $Self->{SessionIDErrorMessage} = Translatable('Session limit reached! Please try again later.');
 
             return;
         }
@@ -321,7 +322,7 @@ sub CreateSessionID {
             )
         {
 
-            $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
+            $Self->{SessionIDErrorMessage} = Translatable('Session per user limit reached!');
 
             return;
         }

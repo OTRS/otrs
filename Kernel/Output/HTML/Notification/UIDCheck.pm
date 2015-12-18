@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Notification::UIDCheck;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout'
 );
@@ -42,7 +44,7 @@ sub Run {
         Priority => 'Error',
         Link     => $LayoutObject->{Baselink} . 'Action=AdminUser',
         Data =>
-            $LayoutObject->{LanguageObject}->Translate(
+            Translatable(
             "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
             ),
     );

@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -88,7 +89,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Group updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Group updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminGroup',
                     Data         => \%Param,

@@ -224,7 +224,7 @@ sub Run {
 
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Queue updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Queue updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminQueue',
                     Data         => \%Param,

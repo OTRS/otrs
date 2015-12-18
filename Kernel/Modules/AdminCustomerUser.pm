@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -339,7 +340,7 @@ sub Run {
                         Search => $Search,
                     );
                     my $Output = $NavBar . $Note;
-                    $Output .= $LayoutObject->Notify( Info => 'Customer updated!' );
+                    $Output .= $LayoutObject->Notify( Info => Translatable('Customer updated!') );
                     $Output .= $LayoutObject->Output(
                         TemplateFile => 'AdminCustomerUser',
                         Data         => \%Param,
@@ -676,7 +677,7 @@ sub _Overview {
     my $Limit = 250;
 
     if ( keys %ListAllItems <= $Limit ) {
-        my $ListAllItems   = keys %ListAllItems;
+        my $ListAllItems = keys %ListAllItems;
         $LayoutObject->Block(
             Name => 'OverviewHeader',
             Data => {
@@ -1103,7 +1104,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data}   eq 'HASH'
+                                ref $ParamItem->{Data} eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

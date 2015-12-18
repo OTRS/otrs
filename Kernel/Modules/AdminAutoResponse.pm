@@ -11,6 +11,8 @@ package Kernel::Modules::AdminAutoResponse;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -95,7 +97,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Response updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Response updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAutoResponse',
                     Data         => \%Param,
@@ -183,7 +185,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Response added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Response added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAutoResponse',
                     Data         => \%Param,
