@@ -6464,6 +6464,11 @@ via the Preferences button after logging in.
                 <Item Key="3" Translatable="1">Lastname, Firstname (UserLogin)</Item>
                 <Item Key="4" Translatable="1">(UserLogin) Firstname Lastname</Item>
                 <Item Key="5" Translatable="1">(UserLogin) Lastname, Firstname</Item>
+                <!-- Hungarian -->
+                <Item Key="6" Translatable="1">Lastname Firstname</Item>
+                <Item Key="7" Translatable="1">Lastname Firstname (UserLogin)</Item>
+                <Item Key="8" Translatable="1">(UserLogin) Lastname Firstname</Item>
+                <!-- End Hungarian -->
             </Option>
         </Setting>
     </ConfigItem>
