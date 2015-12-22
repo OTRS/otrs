@@ -11687,7 +11687,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::Frontend::AgentTicketService###DefaultColumns" Required="0" Valid="1">
         <Description Translatable="1">Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
