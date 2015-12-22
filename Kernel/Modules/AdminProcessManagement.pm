@@ -14,6 +14,7 @@ use warnings;
 use Data::Dumper;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -44,8 +45,9 @@ sub Run {
         UserID => $Self->{UserID}
     );
 
-    my $SynchronizeMessage
-        = 'Process Management information from database is not in sync with the system configuration, please synchronize all processes.';
+    my $SynchronizeMessage = Translatable(
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.'
+    );
 
     if ( IsArrayRefWithData($EntitySyncStateList) ) {
 

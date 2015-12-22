@@ -14,6 +14,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +35,9 @@ sub Run {
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
-    my $SynchronizeMessage
-        = 'ACL information from database is not in sync with the system configuration, please deploy all ACLs.';
+    my $SynchronizeMessage = Translatable(
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+    );
 
     my $SynchronizedMessageVisible = 0;
 

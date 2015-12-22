@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -498,8 +499,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version - "
-                    . $LayoutObject->{LanguageObject}
-                    ->Translate("Package not correctly deployed! Please reinstall the package."),
+                    . Translatable("Package not correctly deployed! Please reinstall the package."),
                 Link => $LayoutObject->{Baselink}
                     . 'Action=AdminPackageManager;Subaction=View;Name='
                     . $Name
@@ -513,7 +513,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version - "
-                    . $LayoutObject->{LanguageObject}->Translate(
+                    . Translatable(
                     "Package not verified by the OTRS Group! It is recommended not to use this package."
                     ),
             );
@@ -1329,7 +1329,7 @@ sub Run {
             if ( !$OutputNotify ) {
                 $OutputNotify .= $LayoutObject->Notify(
                     Priority => 'Info',
-                    Info     => 'No packages, or no new packages, found in selected repository.',
+                    Info     => Translatable('No packages, or no new packages, found in selected repository.'),
                 );
             }
             $LayoutObject->Block(
@@ -1595,8 +1595,7 @@ sub Run {
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
             Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey} - "
-                . $LayoutObject->{LanguageObject}
-                ->Translate("Package not correctly deployed! Please reinstall the package."),
+                . Translatable("Package not correctly deployed! Please reinstall the package."),
             Link => $LayoutObject->{Baselink}
                 . 'Action=AdminPackageManager;Subaction=View;Name='
                 . $ReinstallKey
@@ -1614,9 +1613,7 @@ sub Run {
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
             Data     => "$Package $NotVerifiedPackages{$Package} - "
-                . $LayoutObject->{LanguageObject}->Translate(
-                "Package not verified by the OTRS Group! It is recommended not to use this package."
-                ),
+                . Translatable("Package not verified by the OTRS Group! It is recommended not to use this package."),
         );
     }
 
@@ -1629,9 +1626,7 @@ sub Run {
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
             Data     => "$Package $UnknownVerficationPackages{$Package} - "
-                . $LayoutObject->{LanguageObject}->Translate(
-                "Package not verified due a communication issue with verification server!"
-                ),
+                . Translatable("Package not verified due a communication issue with verification server!"),
         );
     }
 

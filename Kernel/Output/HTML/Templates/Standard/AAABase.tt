@@ -7,30 +7,10 @@
 # --
 
 # misc
-
-[% Translate("Contract") | html %]
-[% Translate("Online Customer: %s") | html %]
-[% Translate("Online Agent: %s") | html %]
-
-[% Translate("Calendar") | html %]
-[% Translate("File") | html %]
-[% Translate("Filename") | html %]
-[% Translate("Type") | html %]
-[% Translate("Size") | html %]
-[% Translate("Upload") | html %]
-[% Translate("Directory") | html %]
-
 [% Translate("Signed") | html %]
 [% Translate("Sign") | html %]
 [% Translate("Crypted") | html %]
 [% Translate("Crypt") | html %]
-
-[% Translate("PGP") | html %]
-[% Translate("PGP Key") | html %]
-[% Translate("PGP Keys") | html %]
-[% Translate("S/MIME") | html %]
-[% Translate("S/MIME Certificate") | html %]
-[% Translate("S/MIME Certificates") | html %]
 
 [% Translate("Office") | html %]
 [% Translate("Phone") | html %]
@@ -42,47 +22,7 @@
 [% Translate("Country") | html %]
 [% Translate("Location") | html %]
 
-[% Translate("installed") | html %]
-[% Translate("uninstalled") | html %]
-
-[% Translate("Security Note: You should activate %s because application is already running!") | html %]
-
-[% Translate("Unable to parse repository index document.") | html %]
-[% Translate("No packages for your framework version found in this repository, it only contains packages for other framework versions.") | html %]
-[% Translate("No packages, or no new packages, found in selected repository.") | html %]
 [% Translate("Edit the system configuration settings.") | html %]
-
-[% Translate("ACL information from database is not in sync with the system configuration, please deploy all ACLs.") | html %]
-
-[% Translate("printed at") | html %]
-[% Translate("Loading...") | html %]
-
-[% Translate("Dear Mr. %s,") | html %]
-[% Translate("Dear Mrs. %s,") | html %]
-[% Translate("Dear %s,") | html %]
-[% Translate("Hello %s,") | html %]
-[% Translate("This email address is not allowed to register. Please contact support staff.") | html %]
-[% Translate("New account created. Sent login information to %s. Please check your email.") | html %]
-[% Translate("Please press Back and try again.") | html %]
-[% Translate("Sent password reset instructions. Please check your email.") | html %]
-[% Translate("Sent new password to %s. Please check your email.") | html %]
-[% Translate("Upcoming Events") | html %]
-[% Translate("Event") | html %]
-[% Translate("Events") | html %]
-[% Translate("Invalid Token!") | html %]
-[% Translate("more") | html %]
-[% Translate("Collapse") | html %]
-[% Translate("Shown") | html %]
-[% Translate("Shown customer users") | html %]
-[% Translate("News") | html %]
-[% Translate("Product News") | html %]
-[% Translate("OTRS News") | html %]
-[% Translate("7 Day Stats") | html %]
-[% Translate("Process Management information from database is not in sync with the system configuration, please synchronize all processes.") | html %]
-[% Translate("Package not verified by the OTRS Group! It is recommended not to use this package.") | html %]
-[% Translate("<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>") | html %]
-[% Translate("Mark") | html %]
-[% Translate("Unmark") | html %]
 
 # richtext editor
 [% Translate("Bold") | html %]
@@ -107,29 +47,3 @@
 [% Translate("SHIFT") | html %]
 [% Translate("Undo") | html %]
 [% Translate("Redo") | html %]
-
-# daemon
-[% Translate("OTRS Daemon is not running.") | html %]
-
-# system registration
-[% Translate("Can't contact registration server. Please try again later.") | html %]
-[% Translate("No content received from registration server. Please try again later.") | html %]
-[% Translate("Problems processing server result. Please try again later.") | html %]
-[% Translate("Username and password do not match. Please try again.") | html %]
-
-# process management
-[% Translate("The selected process is invalid!") | html %]
-
-# OTRS Business Solution™
-[% Translate("Upgrade to %s now!") | html %]
-[% Translate("%s Go to the upgrade center %s") | html %]
-[% Translate("The license for your %s is about to expire. Please make contact with %s to renew your contract!") | html %]
-[% Translate("An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!") | html %]
-[% Translate('Your system was successfully upgraded to %s.') | html %]
-[% Translate('There was a problem during the upgrade to %s.') | html %]
-[% Translate('%s was correctly reinstalled.') | html %]
-[% Translate('There was a problem reinstalling %s.') | html %]
-[% Translate('Your %s was successfully updated.') | html %]
-[% Translate('There was a problem during the upgrade of %s.') | html %]
-[% Translate('%s was correctly uninstalled.') | html %]
-[% Translate('There was a problem uninstalling %s.') | html %]

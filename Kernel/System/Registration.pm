@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -166,7 +167,7 @@ sub TokenGet {
             Priority => 'notice',
             Message  => "Registration - Can't contact server",
         );
-        $Result{Reason} = "Can't contact registration server. Please try again later.";
+        $Result{Reason} = Translatable("Can't contact registration server. Please try again later.");
 
         return %Result;
     }
@@ -175,7 +176,7 @@ sub TokenGet {
             Priority => 'notice',
             Message  => "Registration - Request Failed ($RequestResult->{ErrorMessage})",
         );
-        $Result{Reason} = "Can't contact registration server. Please try again later.";
+        $Result{Reason} = Translatable("Can't contact registration server. Please try again later.");
 
         return %Result;
     }
@@ -191,12 +192,12 @@ sub TokenGet {
             Priority => 'notice',
             Message  => "Registration - No content received from server",
         );
-        $Result{Reason} = "No content received from registration server. Please try again later.";
+        $Result{Reason} = Translatable("No content received from registration server. Please try again later.");
 
         return %Result;
     }
     elsif ( !$OperationResult->{Success} ) {
-        $Result{Reason} = $OperationResult->{ErrorMessage} || "Can't get Token from sever";
+        $Result{Reason} = $OperationResult->{ErrorMessage} || Translatable("Can't get Token from sever");
 
         return %Result;
     }
@@ -205,7 +206,7 @@ sub TokenGet {
 
     # if auth is incorrect
     if ( !defined $ResponseData->{Auth} || $ResponseData->{Auth} ne 'ok' ) {
-        $Result{Reason} = 'Username and password do not match. Please try again.';
+        $Result{Reason} = Translatable('Username and password do not match. Please try again.');
         return %Result;
     }
 
@@ -215,7 +216,7 @@ sub TokenGet {
             Priority => 'error',
             Message  => "Registration - received no Token!",
         );
-        $Result{Reason} = 'Problems processing server result. Please try again later.';
+        $Result{Reason} = Translatable('Problems processing server result. Please try again later.');
         return %Result;
     }
 

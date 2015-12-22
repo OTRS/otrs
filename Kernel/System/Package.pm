@@ -19,6 +19,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use base qw(Kernel::System::EventHandler);
 
@@ -373,7 +374,8 @@ sub RepositoryAdd {
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_type, content, install_status, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES  (?, ?, ?, ?, \'text/xml\', ?, \'not installed\', '
+            . ' VALUES  (?, ?, ?, ?, \'text/xml\', ?, \''
+            . Translatable('not installed') . '\', '
             . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
@@ -572,7 +574,8 @@ sub PackageInstall {
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'UPDATE package_repository SET install_status = \'installed\''
+        SQL => 'UPDATE package_repository SET install_status = \''
+            . Translatable('installed') . '\''
             . ' WHERE name = ? AND version = ?',
         Bind => [
             \$Structure{Name}->{Content},
@@ -835,7 +838,8 @@ sub PackageUpgrade {
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'UPDATE package_repository SET install_status = \'installed\''
+        SQL => 'UPDATE package_repository SET install_status = \''
+            . Translatable('installed') . '\''
             . ' WHERE name = ? AND version = ?',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
@@ -1324,7 +1328,7 @@ sub PackageOnlineList {
         if ( !@XMLARRAY ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Unable to parse repository index document.',
+                Message  => Translatable('Unable to parse repository index document.'),
             );
             return;
         }
@@ -1432,7 +1436,9 @@ sub PackageOnlineList {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
-                'No packages for your framework version found in this repository, it only contains packages for other framework versions.',
+                Translatable(
+                'No packages for your framework version found in this repository, it only contains packages for other framework versions.'
+                ),
         );
     }
     @Packages = @NewPackages;
@@ -1740,9 +1746,11 @@ sub PackageVerify {
     # define package verification info
     my $PackageVerifyInfo = {
         Description =>
-            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+            Translatable(
+            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
+            ),
         Title =>
-            'Package not verified by the OTRS Group! It is recommended not to use this package.',
+            Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
     };
 
     # investigate name
