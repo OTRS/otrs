@@ -1457,24 +1457,24 @@ via the Preferences button after logging in.
 
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-            [ 'UserTitle',      'Title',      'title',      1, 0, 'var', '', 0 ],
-            [ 'UserFirstname',  'Firstname',  'first_name', 1, 1, 'var', '', 0 ],
-            [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
-            [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
-            [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
-            [ 'UserEmail',      'Email',      'email',      1, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
-            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-#            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
-            [ 'UserPhone',        'Phone',       'phone',        1, 0, 'var', '', 0 ],
-            [ 'UserFax',          'Fax',         'fax',          1, 0, 'var', '', 0 ],
-            [ 'UserMobile',       'Mobile',      'mobile',       1, 0, 'var', '', 0 ],
-            [ 'UserStreet',       'Street',      'street',       1, 0, 'var', '', 0 ],
-            [ 'UserZip',          'Zip',         'zip',          1, 0, 'var', '', 0 ],
-            [ 'UserCity',         'City',        'city',         1, 0, 'var', '', 0 ],
-            [ 'UserCountry',      'Country',     'country',      1, 0, 'var', '', 0 ],
-            [ 'UserComment',      'Comment',     'comments',     1, 0, 'var', '', 0 ],
-            [ 'ValidID',          'Valid',       'valid_id',     0, 1, 'int', '', 0 ],
+            [ 'UserTitle',      Translatable('Title'),      'title',      1, 0, 'var', '', 0 ],
+            [ 'UserFirstname',  Translatable('Firstname'),  'first_name', 1, 1, 'var', '', 0 ],
+            [ 'UserLastname',   Translatable('Lastname'),   'last_name',  1, 1, 'var', '', 0 ],
+            [ 'UserLogin',      Translatable('Username'),   'login',      1, 1, 'var', '', 0 ],
+            [ 'UserPassword',   Translatable('Password'),   'pw',         0, 0, 'var', '', 0 ],
+            [ 'UserEmail',      Translatable('Email'),      'email',      1, 1, 'var', '', 0 ],
+#            [ 'UserEmail',      Translatable('Email'), 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
+            [ 'UserCustomerID', Translatable('CustomerID'), 'customer_id', 0, 1, 'var', '', 0 ],
+#            [ 'UserCustomerIDs', Translatable('CustomerIDs'), 'customer_ids', 1, 0, 'var', '', 0 ],
+            [ 'UserPhone',        Translatable('Phone'),       'phone',        1, 0, 'var', '', 0 ],
+            [ 'UserFax',          Translatable('Fax'),         'fax',          1, 0, 'var', '', 0 ],
+            [ 'UserMobile',       Translatable('Mobile'),      'mobile',       1, 0, 'var', '', 0 ],
+            [ 'UserStreet',       Translatable('Street'),      'street',       1, 0, 'var', '', 0 ],
+            [ 'UserZip',          Translatable('Zip'),         'zip',          1, 0, 'var', '', 0 ],
+            [ 'UserCity',         Translatable('City'),        'city',         1, 0, 'var', '', 0 ],
+            [ 'UserCountry',      Translatable('Country'),     'country',      1, 0, 'var', '', 0 ],
+            [ 'UserComment',      Translatable('Comment'),     'comments',     1, 0, 'var', '', 0 ],
+            [ 'ValidID',          Translatable('Valid'),       'valid_id',     0, 1, 'int', '', 0 ],
         ],
 
         # default selections
@@ -1804,6 +1804,17 @@ sub Set {
         }
     }
     return 1;
+}
+
+=item Translatable()
+
+this is a no-op to mark a text as translatable in the Perl code.
+We use our own version here instead of importing Language::Translatable to not add a dependency.
+
+=cut
+
+sub Translatable {
+    return shift;
 }
 
 #

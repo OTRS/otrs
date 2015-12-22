@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::EmailParser;
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -78,8 +79,8 @@ sub Check {
             push(
                 @Return,
                 {
-                    Key   => 'Signed',
-                    Value => '"S/MIME SIGNED MESSAGE" header found, but invalid!',
+                    Key   => Translatable('Signed'),
+                    Value => Translatable('"S/MIME SIGNED MESSAGE" header found, but invalid!'),
                 }
             );
         }
@@ -128,8 +129,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key        => 'Crypted',
-                        Value      => 'Ticket decrypted before',
+                        Key        => Translatable('Crypted'),
+                        Value      => Translatable('Ticket decrypted before'),
                         Successful => 1,
                     }
                 );
@@ -141,8 +142,8 @@ sub Check {
                 # return info
                 return (
                     {
-                        Key        => 'Crypted',
-                        Value      => 'Sent message crypted to recipient!',
+                        Key        => Translatable('Crypted'),
+                        Value      => Translatable('Sent message crypted to recipient!'),
                         Successful => 1,
                     }
                 );
@@ -182,8 +183,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
-                        Value => 'Impossible to decrypt: private key for email was not found!',
+                        Key   => Translatable('Crypted'),
+                        Value => Translatable('Impossible to decrypt: private key for email was not found!'),
                     }
                 );
                 return @Return;
@@ -208,8 +209,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
-                        Value => $Decrypt{Message} || 'Successful decryption',
+                        Key   => Translatable('Crypted'),
+                        Value => $Decrypt{Message} || Translatable('Successful decryption'),
                         %Decrypt,
                     }
                 );
@@ -231,7 +232,7 @@ sub Check {
                     push(
                         @Return,
                         {
-                            Key   => 'Signed',
+                            Key   => Translatable('Signed'),
                             Value => $SignCheck{Message},
                             %SignCheck,
                         }
@@ -326,7 +327,7 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
+                        Key   => Translatable('Crypted'),
                         Value => "$Decrypt{Message}",
                         %Decrypt,
                     }
@@ -449,7 +450,7 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Signed',
+                        Key   => Translatable('Signed'),
                         Value => $SignCheck{Message},
                         %SignCheck,
                     }
@@ -464,7 +465,7 @@ sub Check {
         push(
             @Return,
             {
-                Key   => 'Signed',
+                Key   => Translatable('Signed'),
                 Value => $SignCheck{Message},
                 %SignCheck,
             }

@@ -961,7 +961,7 @@ Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects, ArticleID);
 # show article options like signed, crypted, ...
 [% RenderBlockStart("ArticleOption") %]
                     <label>[% Translate(Data.Key) | html %]:</label>
-                    <div title="[% Data.Value | html %]" class="[% Data.Result | html %] Value">[% Data.Value | html %]</div>
+                    <div title="[% Data.Value | html %]" class="[% Data.Result | html %] Value">[% Translate(Data.Value) | html %]</div>
                     <div class="Clear"></div>
 [% RenderBlockEnd("ArticleOption") %]
 

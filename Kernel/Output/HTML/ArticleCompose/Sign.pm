@@ -83,7 +83,7 @@ sub Run {
         Name => 'Option',
         Data => {
             Name  => 'SignKeyID',
-            Key   => 'Sign',
+            Key   => Translatable('Sign'),
             Value => $List,
         },
     );

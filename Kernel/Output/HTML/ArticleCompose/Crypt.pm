@@ -89,7 +89,7 @@ sub Run {
         Name => 'Option',
         Data => {
             Name    => 'CryptKeyID',
-            Key     => 'Crypt',
+            Key     => Translatable('Crypt'),
             Value   => $List,
             Invalid => 'Just one recipient for crypt is possible!',
         },
