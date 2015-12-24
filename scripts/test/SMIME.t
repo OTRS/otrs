@@ -126,7 +126,7 @@ my %Search = (
 # 0.9.x hashes
 my $CheckHash1 = '980a83c7';
 my $CheckHash2 = '999bcb2f';
-my $CheckHash3 = '';
+my $CheckHash3 = 'c3857c0d';
 
 # 1.0.0 hashes
 if ($UseNewHashes) {
