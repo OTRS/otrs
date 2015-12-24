@@ -50,12 +50,12 @@ sub LoadDefaults {
 
     # SystemID
     # (The identify of the system. Each ticket number and
-    # each http session id starts with this number)
+    # each HTTP session id starts with this number)
     $Self->{SystemID} = 10;
 
     # NodeID
     # (The identify of the node. In a clustered environment
-    # each node needs a seperate NodeID. On a setup with just
+    # each node needs a separate NodeID. On a setup with just
     # one frontend server, it is not needed to change this setting)
     $Self->{NodeID} = 1;
 
@@ -64,7 +64,7 @@ sub LoadDefaults {
     $Self->{FQDN} = 'yourhost.example.com';
 
     # HttpType
-    # In case you use https instead of plain http specify it here
+    # In case you use HTTPS instead of plain HTTP specify it here
     $Self->{HttpType} = 'http';
 
     # ScriptAlias
@@ -248,7 +248,7 @@ sub LoadDefaults {
     };
 
     # default theme
-    # (the default html theme) [default: Standard]
+    # (the default HTML theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
 
     # DefaultTheme::HostBased
@@ -375,7 +375,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # authentication settings                             #
     # (enable what you need, auth against otrs db,        #
-    # against LDAP directory, agains HTTP basic auth      #
+    # against LDAP directory, against HTTP basic auth      #
     # or against Radius server)                           #
     # --------------------------------------------------- #
     # This is the auth. module against the otrs db
@@ -421,7 +421,7 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # In case you want to convert all given usernames to lower letters you
-    # should activate this option. It might be helpfull if databases are
+    # should activate this option. It might be helpful if databases are
     # in use that do not distinguish selects for upper and lower case letters
     # (Oracle, postgresql). User might be synched twice, if this option
     # is not in use.
@@ -482,7 +482,7 @@ sub LoadDefaults {
 #    $Self->{'AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
-    # helpful to account for timimg issues (server and entry based)
+    # helpful to account for timing issues (server and entry based)
 #    $Self->{'AuthTwoFactorModule::AllowPreviousToken'} = '1';
 
     # --------------------------------------------------- #
@@ -1387,7 +1387,7 @@ via the Preferences button after logging in.
 #    $Self->{'Customer::AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
-    # helpful to account for timimg issues (server and entry based)
+    # helpful to account for timing issues (server and entry based)
 #    $Self->{'Customer::AuthTwoFactorModule::AllowPreviousToken'} = '1';
 
     # --------------------------------------------------- #
@@ -1481,8 +1481,8 @@ via the Preferences button after logging in.
         Selections => {
 
 #            UserTitle => {
-#                'Mr.' => 'Mr.',
-#                'Mrs.' => 'Mrs.',
+#                'Mr.' => Translatable('Mr.'),
+#                'Mrs.' => Translatable('Mrs.'),
 #            },
         },
     };
@@ -1625,9 +1625,9 @@ via the Preferences button after logging in.
 #        SomeParam => 'DefaultValue',
     };
 
-    # If the public interface is proteceted with .htaccess
+    # If the public interface is protected with .htaccess
     # we can specify the htaccess login data here,
-    # this is neccessary for the support data collector
+    # this is necessary for the support data collector
     # $Self->{'PublicFrontend::AuthUser'} = '';
     # $Self->{'PublicFrontend::AuthPassword'} = '';
 
@@ -1684,9 +1684,9 @@ via the Preferences button after logging in.
         ],
         'NavBarModule' => {
             'Block' => 'System',
-            'Description' => 'View system log messages.',
+            'Description' => Translatable('View system log messages.'),
             'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => 'System Log',
+            'Name' => Translatable('System Log'),
             'Prio' => '600'
         },
         'NavBarName' => 'Admin',
@@ -1699,8 +1699,8 @@ via the Preferences button after logging in.
         NavBarName   => 'Admin',
         NavBarModule => {
             Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            Name        => 'SysConfig',
-            Description => 'Edit the system configuration settings.',
+            Name        => Translatable('SysConfig'),
+            Description => Translatable('Edit the system configuration settings.'),
             Block       => 'System',
             Prio        => 800,
         },
@@ -1720,9 +1720,9 @@ via the Preferences button after logging in.
         ],
         'NavBarModule' => {
             'Block' => 'System',
-            'Description' => 'Update and extend your system with software packages.',
+            'Description' => Translatable('Update and extend your system with software packages.'),
             'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => 'Package Manager',
+            'Name' => Translatable('Package Manager'),
             'Prio' => '1000'
         },
         'NavBarName' => 'Admin',
