@@ -46,7 +46,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSalutation");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add salutation'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSalutation;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSalutation;Subaction=Add' )]")->VerifiedClick();
         for my $ID (
             qw(Name RichText ValidID Comment)
             )
@@ -67,7 +67,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -85,7 +85,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",     'css' )->send_keys($SalutationRandomID);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($SalutationRichText);
         $Selenium->find_element( "#Comment",  'css' )->send_keys($SalutationComment);
-        $Selenium->find_element( "#Name",     'css' )->submit();
+        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
 
         # check if test Salutation show on AdminSalutation screen
         $Self->True(
@@ -94,7 +94,7 @@ $Selenium->RunTest(
         );
 
         # check test Salutation values
-        $Selenium->find_element( $SalutationRandomID, 'link_text' )->click();
+        $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -124,10 +124,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSalutationRichText);
         $Selenium->find_element( "#Comment",  'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check edited Salutation
-        $Selenium->find_element( $SalutationRandomID, 'link_text' )->click();
+        $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#RichText', 'css' )->get_value(),
@@ -146,7 +146,7 @@ $Selenium->RunTest(
         );
 
         # go back to AdminSalutation overview screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSalutation");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
 
         # chack class of invalid Salutation in the overview table
         $Self->True(
