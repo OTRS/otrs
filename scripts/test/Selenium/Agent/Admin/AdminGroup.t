@@ -36,7 +36,7 @@ $Selenium->RunTest(
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # check overview AdminGroup
         $Selenium->find_element( "table",             'css' );
@@ -44,7 +44,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add group' linK
-        $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->VerifiedClick();
 
         # check add page
         my $Element = $Selenium->find_element( "#GroupName", 'css' );
@@ -87,7 +87,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check if test group is present in AdminUserGroup
         $Self->True(
@@ -100,18 +100,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "div.Size1of2 #Groups", 'css' );
 
         # edit test group permissions
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-        # wait until overview screen has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Groups").length' );
+
 
         # check edited test group permissions
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$UserID'][\@name='move_into']")->is_selected(),
@@ -130,7 +129,7 @@ $Selenium->RunTest(
         );
 
         # check link to AdminGroup from AdminUserGroup
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # check test group values
         $Self->Is(
@@ -152,7 +151,7 @@ $Selenium->RunTest(
         # set test group to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",   'css' )->clear();
-        $Selenium->find_element( "#GroupName", 'css' )->submit();
+        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
 
         # chack class of invalid Group in the overview table
         $Self->True(

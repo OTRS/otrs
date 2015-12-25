@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add signature'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSignature;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSignature;Subaction=Add' )]")->VerifiedClick();
         for my $ID (
             qw(Name RichText ValidID Comment)
             )
@@ -67,7 +67,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -94,7 +94,7 @@ $Selenium->RunTest(
         );
 
         # check test Signature values
-        $Selenium->find_element( $SignatureRandomID, 'link_text' )->click();
+        $Selenium->find_element( $SignatureRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -136,7 +136,7 @@ $Selenium->RunTest(
         );
 
         # check edited Signature
-        $Selenium->find_element( $SignatureRandomID, 'link_text' )->click();
+        $Selenium->find_element( $SignatureRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#RichText', 'css' )->get_value(),
