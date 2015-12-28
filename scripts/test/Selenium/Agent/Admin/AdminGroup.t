@@ -55,7 +55,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#GroupName", 'css' )->clear();
-        $Selenium->find_element( "#GroupName", 'css' )->submit();
+        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#GroupName').hasClass('Error')"
@@ -69,7 +69,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#GroupName", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",   'css' )->send_keys('Selenium test group');
-        $Selenium->find_element( "#GroupName", 'css' )->submit();
+        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
 
         # after add group followed screen is AddUserGroup(Subaction=Group),
         # there is posible to set permission for added group
