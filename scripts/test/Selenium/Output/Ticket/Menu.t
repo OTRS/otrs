@@ -13,11 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -108,7 +103,7 @@ $Selenium->RunTest(
             );
         }
 
-        # create and log in test user
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -134,16 +129,21 @@ $Selenium->RunTest(
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
-            CustomerID   => '123465',
+            CustomerID   => 'TestCustomer',
             CustomerUser => 'customer@example.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
 
+        $Self->True(
+            $TicketID,
+            "TicketID $TicketID - created"
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to raw queue view with focus on created test ticket
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketQueue;Filter=Unlocked;OrderBy=Down;QueueID=2;SortBy=Age;View=Preview;"
         );
 
@@ -192,7 +192,7 @@ $Selenium->RunTest(
         }
 
         # go to test created ticket zoom
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # create menu module test params
         my @MenuModule = (
