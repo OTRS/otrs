@@ -14,31 +14,32 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        my $TestUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
+        # create test customer user and login
+        my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+        ) || die "Did not get test customer user";
 
         $Selenium->Login(
             Type     => 'Customer',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
+            User     => $TestCustomerUserLogin,
+            Password => $TestCustomerUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        # navigate to CustomerPreference screen
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
-        # check AgentPreferences screen
+        # check CustomerPreferences screen
         for my $ID (
             qw(UserLanguage UserShowTickets UserRefreshTime CurPw NewPw NewPw1)
             )
@@ -67,12 +68,10 @@ $Selenium->RunTest(
 
         # edit checked stored values
         $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserRefreshTime", 'css' )->submit();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserRefreshTime", 'css' )->VerifiedSubmit();
 
         $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserShowTickets", 'css' )->submit();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserShowTickets", 'css' )->VerifiedSubmit();
 
         # check edited values
         $Self->Is(
@@ -95,8 +94,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->submit();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->VerifiedSubmit();
 
             # check edited language value
             $Self->Is(
@@ -124,7 +122,6 @@ $Selenium->RunTest(
                 "Test widget 'Ticket overview' found on screen"
             );
         }
-
     }
 
 );

@@ -18,7 +18,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
@@ -35,18 +35,18 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # create test user and login
+        # create test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        # create and login test customer
+        # create test customer
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
 
+        # create test tickets
         my @TicketIDs;
         my @TicketNumbers;
-
         for my $TestTickets ( 1 .. 5 ) {
             my $TicketNumber = $TicketObject->TicketCreateNumber();
             my $TicketID     = $TicketObject->TicketCreate(
@@ -63,12 +63,13 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $TicketID,
-                "Ticket is created - $TicketID, $TicketNumber ",
+                "Ticket is created - ID $TicketID, TN $TicketNumber ",
             );
             push @TicketIDs,     $TicketID;
             push @TicketNumbers, $TicketNumber;
         }
 
+        # login test user
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
@@ -87,41 +88,41 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
+        $Self->True(
+            $GroupID,
+            "Group is created - $GroupName",
+        );
 
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to sysconfig CustomerFrontend::Module###CustomerTicketOverview screen
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminSysConfig;Subaction=Edit;SysConfigSubGroup=Frontend%3A%3ACustomer%3A%3AModuleRegistration;SysConfigGroup=Ticket"
         );
 
         # add test group as group restriction for company ticket subaction screen
         $Selenium->find_element(
             "//button[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#NewGroupElement'][\@type='submit']"
-        )->click();
+        )->VerifiedClick();
 
         my $ConfigGroupElement = $Selenium->find_element(
             "//input[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#Group[]']"
         );
         $ConfigGroupElement->send_keys($GroupName);
-        $ConfigGroupElement->submit();
+        $ConfigGroupElement->VerifiedSubmit();
 
+        # login test customer user
         $Selenium->Login(
             Type     => 'Customer',
             User     => $TestCustomerUserLogin,
             Password => $TestCustomerUserLogin,
         );
 
-        # get customer user ID
-        my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
-            User => $TestCustomerUserLogin,
-        );
-
         # navigate to CompanyTickets subaction screen
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
-        # check for customer fatal error
+        # check for customer user fatal error
         my $ExpectedMsg = 'Please contact your administrator';
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedMsg ) > -1,
@@ -131,7 +132,7 @@ $Selenium->RunTest(
         # set customer user in test group with rw and ro permissions
         my $Success = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberAdd(
             GID        => $GroupID,
-            UID        => $CustomerIDs[0],
+            UID        => $TestCustomerUserLogin,
             Permission => {
                 ro => 1,
                 rw => 1,
@@ -151,7 +152,7 @@ $Selenium->RunTest(
         );
 
         # navigate to CompanyTickets subaction screen again
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # verify there is no more customer fatal message
         $Self->True(
@@ -186,7 +187,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "$GroupName - deleted",
+            "Delete group - $GroupName",
         );
 
         # delete created test tickets
@@ -196,7 +197,6 @@ $Selenium->RunTest(
                 TicketID => $TicketID,
                 UserID   => 1,
             );
-
             $Self->True(
                 $Success,
                 "Delete ticket - $TicketID"

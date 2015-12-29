@@ -15,6 +15,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
+
         # get helper object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
@@ -53,29 +54,17 @@ $Selenium->RunTest(
         );
 
         # create test customer user and login
-        my $TestUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
+        my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+        ) || die "Did not get test customer user";
 
         $Selenium->Login(
             Type     => 'Customer',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get customer user object
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
-        # get customer user ID
-        my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
-            User => $TestUserLogin,
+            User     => $TestCustomerUserLogin,
+            Password => $TestCustomerUserLogin,
         );
 
         # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
 
         # create needed variables
         my $SubjectRandom  = "Subject" . $Helper->GetRandomID();
@@ -90,25 +79,18 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",   'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#Attachment", 'css' )->send_keys($Location);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Attachment").length' );
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-        # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length' );
-
-        # obtain ticket number
-        my @User = $CustomerUserObject->CustomerIDs(
-            User => $TestUserLogin,
-        );
-        my $UserID = $User[0];
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+        # get test created ticket ID and number
         my %TicketIDs = $TicketObject->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
-            CustomerUserID => $UserID,
+            CustomerUserID => $TestCustomerUserLogin,
         );
+        my $TicketID     = (%TicketIDs)[0];
         my $TicketNumber = (%TicketIDs)[1];
 
         $Self->True(
@@ -116,26 +98,16 @@ $Selenium->RunTest(
             "Ticket was created and found",
         );
 
-        # get article id
-        my @ArticleIDs = $TicketObject->ArticleIndex(
-            TicketID => (%TicketIDs)[0],
-        );
-
         # click on test created ticket on CustomerTicketOverview screen
-        $Selenium->find_element( $TicketNumber, 'link_text' )->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( $TicketNumber, 'link_text' )->VerifiedClick();
 
         # click on attachment to open it
         $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
 
         # switch to another window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait for page load, no JS available.
-        sleep 3;
 
         # check if attachment is genuine
         my $ExpectedAttachmentContent = "Some German Text with Umlaut: ÄÖÜß";
@@ -145,17 +117,16 @@ $Selenium->RunTest(
         );
 
         # clean up test data from the DB
-        my $TicketID = (%TicketIDs)[0];
-        my $Success  = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $UserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
             "Ticket with ticket number $TicketNumber is deleted"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
