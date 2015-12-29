@@ -10,13 +10,7 @@ use strict;
 use warnings;
 use utf8;
 
-use Data::Dumper;
-
 use vars (qw($Self));
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -24,32 +18,32 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check Service
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
 
         # do not check Type
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 1,
         );
 
-        # create and login test customer
+        # create test customer user and login
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
+        ) || die "Did not get test customer user";
 
         $Selenium->Login(
             Type     => 'Customer',
@@ -57,12 +51,11 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to customer ticket search
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
+        # navigate to CustomerTicketSearch screen
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
 
         # check overview screen
         for my $ID (
@@ -78,6 +71,9 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         # create ticket for test scenario
         my $TitleRandom = 'Title' . $Helper->GetRandomID();
         my $TicketID    = $TicketObject->TicketCreate(
@@ -92,7 +88,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $TicketID,
-            "Created $TitleRandom ticket",
+            "Ticket ID $TicketID - created",
         );
 
         # get test ticket number
@@ -100,9 +96,9 @@ $Selenium->RunTest(
             TicketID => $TicketID,
         );
 
-        # input ticket number as search parametar
+        # input ticket number as search parameter
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
-        $Selenium->find_element( "#TicketNumber", 'css' )->submit();
+        $Selenium->find_element( "#TicketNumber", 'css' )->VerifiedSubmit();
 
         # check for expected result
         $Self->True(
@@ -110,14 +106,15 @@ $Selenium->RunTest(
             "Ticket $TitleRandom found on page",
         );
 
-        $Selenium->find_element( "← Change search options", 'link_text' )->click();
+        # click on '← Change search options'
+        $Selenium->find_element( "← Change search options", 'link_text' )->VerifiedClick();
 
         # input more search filters, result should be 'No data found'
         $Selenium->find_element( "#TicketNumber", 'css' )->clear();
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys("123456789012345");
         $Selenium->execute_script("\$('#StateIDs').val([1, 4]).trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#PriorityIDs').val([2, 3]).trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#TicketNumber", 'css' )->submit();
+        $Selenium->find_element( "#TicketNumber", 'css' )->VerifiedSubmit();
 
         # check for expected result
         $Self->True(
@@ -146,6 +143,18 @@ $Selenium->RunTest(
             "Filter data is found - Priority: 2 low+3 normal",
         );
 
+        # clean up test data from the DB
+        my $Success = $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Ticket is deleted - $TicketID"
+        );
+
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 

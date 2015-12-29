@@ -27,24 +27,21 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create and login test customer
-        my $TestUserLogin = $Helper->TestCustomerUserCreate(
-        ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Customer',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        # meke sure that CustomerGroupSupport is disabled
-        $SysConfigObject->ConfigItemUpdate(
+        # make sure that CustomerGroupSupport is disabled
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'CustomerGroupSupport',
             Value => 0
+        );
+
+        # create test customer user and login
+        my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+        ) || die "Did not get test customer user";
+
+        $Selenium->Login(
+            Type     => 'Customer',
+            User     => $TestCustomerUserLogin,
+            Password => $TestCustomerUserLogin,
         );
 
         # add test queue in group users
@@ -60,24 +57,18 @@ $Selenium->RunTest(
             UserID          => 1,
             Comment         => 'Selenium test queue',
         );
-
         $Self->True(
             $QueueID,
             "Queue is created - $QueueName"
         );
 
-        # get test queue ID
-        my %Queue = $QueueObject->QueueGet(
-            Name => $QueueName,
-        );
-
         # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
+        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
 
         # verify that test queue is available for users group
         $Self->True(
             $Selenium->find_element( "#Dest option[value='$QueueID||$QueueName']", 'css' ),
-            "$Queue{Name} is available to select"
+            "$QueueName is available to select"
         );
 
         # create test group
@@ -87,6 +78,10 @@ $Selenium->RunTest(
             Name    => $GroupName,
             ValidID => 1,
             UserID  => 1,
+        );
+        $Self->True(
+            $GroupID,
+            "Group is created - $GroupName"
         );
 
         # add test queue to test group
@@ -101,6 +96,10 @@ $Selenium->RunTest(
             UserID          => 1,
             ValidID         => 1,
         );
+        $Self->True(
+            $QueueUpdateID,
+            "Queue is updated - $QueueName"
+        );
 
         # refresh page
         $Selenium->refresh();
@@ -111,14 +110,13 @@ $Selenium->RunTest(
             "$QueueName is available to select with new group $GroupName",
         );
 
-        # update group
+        # update group to invalid
         my $GroupUpdate = $GroupObject->GroupUpdate(
             ID      => $GroupID,
             Name    => $GroupName,
             ValidID => 2,
             UserID  => 1,
         );
-
         $Self->True(
             $GroupUpdate,
             "$GroupName is updated to invalid status",
@@ -135,9 +133,9 @@ $Selenium->RunTest(
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        my $Success;
 
         # clean up test data
+        my $Success;
         if ($QueueID) {
             $Success = $DBObject->Do(
                 SQL => "DELETE FROM queue WHERE id = $QueueID",
@@ -158,7 +156,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         for my $Cache (
             qw (Queue Group)
             )
