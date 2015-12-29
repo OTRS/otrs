@@ -12,15 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -31,9 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
+        # navigate to AdminDynamicField screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
         # create and edit Ticket and Article DynamicFieldText
         for my $Type (qw(Ticket Article)) {
@@ -56,10 +59,7 @@ $Selenium->RunTest(
             # check client side validation
             my $Element = $Selenium->find_element( "#Name", 'css' );
             $Element->send_keys("");
-            $Element->submit();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Element->VerifiedSubmit();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -79,12 +79,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#AddRegEx",                    'css' )->click();
             $Selenium->find_element( "#RegEx_1",                     'css' )->send_keys($RegEx);
             $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
-            $Selenium->find_element( "#Name",                        'css' )->submit();
-
-            # wait to load overview screen
-            $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
-            );
+            $Selenium->find_element( "#Name",                        'css' )->VerifiedSubmit();
 
             # check for test DynamicFieldText on AdminDynamicField screen
             $Self->True(
@@ -93,20 +88,14 @@ $Selenium->RunTest(
             ) || die;
 
             # edit test DynamicFieldText default value and set it to invalid
-            $Selenium->find_element( $RandomID, 'link_text' )->click();
+            $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
             $Selenium->find_element( "#DefaultValue", 'css' )->send_keys("Default");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name", 'css' )->submit();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
             # check new and edited DynamicFieldText values
-            $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+            $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -140,10 +129,7 @@ $Selenium->RunTest(
             );
 
             # go back to AdminDynamicField screen
-            $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
             # delete DynamicFields
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
