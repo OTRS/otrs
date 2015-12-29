@@ -12,10 +12,18 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
+    },
+);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
@@ -80,7 +88,7 @@ my $CheckNumEvents = sub {
     return;
 };
 
-# One time with the business hours changed to 24x7, and
+# one time with the business hours changed to 24x7, and
 # one time with no business hours at all
 my %WorkingHours = (
     0 => '',
@@ -97,7 +105,11 @@ for my $Hours ( sort keys %WorkingHours ) {
     my $StartingSystemTime = $TimeObject->SystemTime();
     my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
-    # set schedule on each day
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # use a calendar with the same business hours for every day so that the UT runs correctly
+    # on every day of the week and outside usual business hours.
     my %Week;
     my @WindowTime = split( ',', $WorkingHours{$Hours} );
     my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
@@ -109,6 +121,12 @@ for my $Hours ( sort keys %WorkingHours ) {
     $ConfigObject->Set(
         Key   => 'TimeWorkingHours',
         Value => \%Week,
+    );
+
+    # disable default Vacation days
+    $ConfigObject->Set(
+        Key   => 'TimeVacationDays',
+        Value => {},
     );
 
     # create a test queue with immediate escalation
@@ -430,19 +448,8 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
     }
 
-    # clean up
-    {
-
-        # clean up ticket
-        my $TicketDelete = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
-        $Self->True( $TicketDelete || '', "TicketDelete() $TicketID" );
-
-        # queues can't be deleted
-        # no need to clean up generic agent job, as it wasn't entered in the database
-    }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

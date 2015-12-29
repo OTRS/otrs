@@ -30,7 +30,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
-        # Use a calendar with the same business hours for every day so that the UT runs correctly
+        # use a calendar with the same business hours for every day so that the UT runs correctly
         # on every day of the week and outside usual business hours.
         my %Week;
         my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
@@ -45,6 +45,17 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'TimeWorkingHours',
             Value => \%Week,
+        );
+
+        # disable default Vacation days
+        $ConfigObject->Set(
+            Key   => 'TimeVacationDays',
+            Value => {},
+        );
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'TimeVacationDays',
+            Value => {},
         );
 
         # disable other dashboard modules
@@ -106,7 +117,7 @@ $Selenium->RunTest(
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'open',
-            CustomerID   => '123465',
+            CustomerID   => 'TestCustomers',
             CustomerUser => 'customer@example.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
@@ -121,7 +132,7 @@ $Selenium->RunTest(
 
         # go to dashboard screen
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
         # check for created test ticket on dashboard screen
         $Self->True(

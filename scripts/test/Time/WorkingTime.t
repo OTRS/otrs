@@ -15,14 +15,19 @@ use Time::Local;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my @Tests = (
     {
         Name              => 'UTC',
         TimeStampUTCStart => '2015-02-17 12:00:00',
-        TimeStampUTCStop  => '2015-05-19 12:00:00',
+        TimeStampUTCStop  => '2015-05-18 12:00:00',
         ServerTZ          => 'UTC',
         Result            => '7776000',               # 90 days
         ResultTime        => '90 days',
@@ -30,7 +35,7 @@ my @Tests = (
     {
         Name              => 'Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
         TimeStampUTCStart => '2015-02-17 12:00:00',
-        TimeStampUTCStop  => '2015-05-19 12:00:00',
+        TimeStampUTCStop  => '2015-05-18 12:00:00',
         ServerTZ          => 'Europe/Berlin',
         Result            => '7779600',                                                 # 90 days and 1h
         ResultTime        => '90 days and 1h',
@@ -141,16 +146,25 @@ my @Tests = (
     },
 );
 
-# Use a calendar with the same business hours for every day so that the UT runs correctly
-#   on every day of the week and outside usual business hours.
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# use a calendar with the same business hours for every day so that the UT runs correctly
+# on every day of the week and outside usual business hours.
 my %Week;
 my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
 for my $Day (@Days) {
     $Week{$Day} = [ 0 .. 23 ];
 }
-$Kernel::OM->Get('Kernel::Config')->Set(
+$ConfigObject->Set(
     Key   => 'TimeWorkingHours',
     Value => \%Week,
+);
+
+# disable default Vacation days
+$ConfigObject->Set(
+    Key   => 'TimeVacationDays',
+    Value => {},
 );
 
 for my $Test (@Tests) {
