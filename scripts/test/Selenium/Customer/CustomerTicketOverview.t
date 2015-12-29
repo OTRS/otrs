@@ -19,70 +19,40 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check RichText
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Frontend::RichText',
-            Value => 0
+        # create test customer user
+        my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+        ) || die "Did not get test customer user";
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # create test ticket
+        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TicketID     = $TicketObject->TicketCreate(
+            TN           => $TicketNumber,
+            Title        => 'Some Ticket Title',
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => $TestCustomerUserLogin,
+            CustomerUser => $TestCustomerUserLogin,
+            OwnerID      => 1,
+            UserID       => 1,
+        );
+        $Self->True(
+            $TicketID,
+            "Ticket is created - $TicketID",
         );
 
-        # do not check Type
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Type',
-            Value => 0
-        );
-
-        # do not check Service
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Service',
-            Value => 0
-        );
-
-        # create test customer user and login
-        my $TestUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
-
+        # login test customer user
         $Selenium->Login(
             Type     => 'Customer',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
+            User     => $TestCustomerUserLogin,
+            Password => $TestCustomerUserLogin,
         );
-
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
-
-        # input fields and create ticket
-        my $SubjectRandom = "Subject" . $Helper->GetRandomID();
-        my $TextRandom    = "Text" . $Helper->GetRandomID();
-        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($TextRandom);
-        $Selenium->find_element( "#Subject",  'css' )->submit();
-
-        # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table.Overview').length" );
-
-        # get needed data
-        my @User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
-            User => $TestUserLogin,
-        );
-        my $UserID    = $User[0];
-        my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-            Result         => 'HASH',
-            Limit          => 1,
-            CustomerUserID => $UserID,
-        );
-        my $TicketNumber = (%TicketIDs)[1];
 
         # search for new created ticket on CustomerTicketOverview screen (default filter is Open)
         $Self->True(
@@ -93,7 +63,7 @@ $Selenium->RunTest(
         # check All filter on CustomerTicketOverview screen
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
-        )->click();
+        )->VerifiedClick();
 
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
@@ -104,31 +74,24 @@ $Selenium->RunTest(
         # there is only one created ticket, and it should not be on screen with Close filter
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=Close' )]"
-        )->click();
+        )->VerifiedClick();
 
-        my $Success;
-        eval {
-            $Success = $Selenium->find_element(
-                "//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"
-                )
-        };
-        $Self->False(
-            $Success,
+        $Self->True(
+            index( $Selenium->get_page_source(), "Action=CustomerTicketZoom;TicketNumber=$TicketNumber" ) == -1,
             "Ticket with ticket number $TicketNumber is not found on screen with Close filter"
         );
 
         # clean up test data from the DB
-        my $TicketID = (%TicketIDs)[0];
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $UserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
             "Ticket with ticket number $TicketNumber is deleted"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }

@@ -26,11 +26,10 @@ $Selenium->RunTest(
         );
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
         # use test email backend
-        $SysConfigObject->ConfigItemUpdate(
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'SendmailModule',
             Value => 'Kernel::System::Email::Test',
@@ -54,20 +53,22 @@ $Selenium->RunTest(
             'Test email empty after initial cleanup',
         );
 
-        # create test customer user and login
+        # create test customer user
         my $TestCustomerUser = $Helper->TestCustomerUserCreate(
-        ) || die "Did not get test user";
+        ) || die "Did not get test customer user";
+
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to customer login screen
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}customer.pl?");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?");
 
         # click on 'Forgot password?'
-        $Selenium->find_element( "#ForgotPassword", 'css' )->click();
+        $Selenium->find_element( "#ForgotPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#ResetUser",                   'css' )->send_keys($TestCustomerUser);
-        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
         # check for password recovery message
         $Self->True(
@@ -115,13 +116,13 @@ $Selenium->RunTest(
         );
 
         # click on 'Forgot password?' again
-        $Selenium->find_element( "#ForgotPassword", 'css' )->click();
+        $Selenium->find_element( "#ForgotPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#ResetUser",                   'css' )->send_keys($TestCustomerUser);
-        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
-        # check for password recovery message for invalid customer user, for security meassures it
+        # check for password recovery message for invalid customer user, for security measures it
         # should be visible
         $Self->True(
             $Selenium->find_element( ".SuccessBox span", 'css' ),
