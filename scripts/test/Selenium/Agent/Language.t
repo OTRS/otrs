@@ -1,6 +1,6 @@
 # --
 # Language.t - frontend tests for admin area
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@ $Selenium->RunTest(
                 "Success notification in $Language",
             );
         }
-    }
+        }
 );
 
 1;
