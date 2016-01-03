@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,8 +146,10 @@ sub Request {
 
     # In some scenarios like transparent HTTPS proxies, it can be neccessary to turn off
     #   SSL certificate validation.
-    if (   $Param{SkipSSLVerification}
-        || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') )
+    if (
+        $Param{SkipSSLVerification}
+        || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification')
+        )
     {
         $UserAgent->ssl_opts(
             verify_hostname => 0,

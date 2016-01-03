@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,8 +110,10 @@ $Selenium->RunTest(
 
         # default ticket type cannot be set to invalid
         $Self->True(
-            index( $Selenium->get_page_source(),
-                "The ticket type is set as a default ticket type, so it cannot be set to invalid!" ) > -1,
+            index(
+                $Selenium->get_page_source(),
+                "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
+                ) > -1,
             "$RandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
         );
 
@@ -180,7 +182,7 @@ $Selenium->RunTest(
             Type => 'Type',
         );
 
-    }
+        }
 );
 
 1;

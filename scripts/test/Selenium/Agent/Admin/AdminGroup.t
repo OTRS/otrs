@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,8 +107,6 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-
-
         # check edited test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
@@ -193,7 +191,7 @@ $Selenium->RunTest(
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-    }
+        }
 
 );
 

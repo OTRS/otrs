@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@ $UserAgent->cookie_jar()->scan(
         if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
             $CustomerSessionValid = 1;
         }
-    }
+        }
 );
 
 if ( !$AgentSessionValid ) {

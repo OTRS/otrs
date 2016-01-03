@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -611,7 +611,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            ref( $ParamItem->{Data} ) eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {
@@ -680,7 +680,7 @@ sub _Overview {
     );
 
     if ( keys %ListAllItems <= $Limit ) {
-        my $ListAllItems   = keys %ListAllItems;
+        my $ListAllItems = keys %ListAllItems;
         $LayoutObject->Block(
             Name => 'OverviewHeader',
             Data => {

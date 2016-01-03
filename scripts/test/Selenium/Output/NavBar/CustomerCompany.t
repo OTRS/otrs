@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) > -1,
             "NavBar 'Customer Administration' button IS available when frontend AdminCustomerCompany module is enable",
         );
-    }
+        }
 );
 
 1;
