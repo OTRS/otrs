@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -152,9 +152,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
 
-
         # wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+
         # submit customer data, it causes close popup screen, wait will be done by WaitFor
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
@@ -206,7 +206,7 @@ $Selenium->RunTest(
             );
         }
 
-    }
+        }
 );
 
 1;

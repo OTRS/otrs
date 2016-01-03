@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -346,7 +346,7 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
-        Name => 'OTRS secret config value',                              # <OTRS_CONFIG_DatabasePw>
+        Name => 'OTRS secret config value',                       # <OTRS_CONFIG_DatabasePw>
         Data => {
             From => 'test@home.com',
         },
