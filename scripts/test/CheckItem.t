@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -300,6 +300,16 @@ for my $Test (@Tests) {
         String => 'aäöüß€z',
         Params => {},
         Result => 'aäöüß€z',
+    },
+    {
+        String => eval {'a�z'},    # iso-8859 string
+        Params => {},
+        Result => undef,
+    },
+    {
+        String => eval {'aúz'},    # utf-8 string
+        Params => {},
+        Result => 'aúz',
     },
 );
 
