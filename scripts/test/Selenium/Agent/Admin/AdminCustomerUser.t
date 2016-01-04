@@ -12,10 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -28,12 +26,14 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # disable check email address
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'CheckEmailAddresses',
             Value => 0
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -44,10 +44,12 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $RandomID = 'TestCustomer' . $Helper->GetRandomID();
+        # get customer company object
+        my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
-        # Also create a CustomerCompany so that it can be selected in the dropdown
-        $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+        # also create a CustomerCompany so that it can be selected in the dropdown
+        my $RandomID        = 'TestCustomer' . $Helper->GetRandomID();
+        my $CustomerCompany = $CustomerCompanyObject->CustomerCompanyAdd(
             CustomerID             => $RandomID,
             CustomerCompanyName    => $RandomID,
             CustomerCompanyStreet  => $RandomID,
@@ -58,12 +60,15 @@ $Selenium->RunTest(
             CustomerCompanyComment => $RandomID,
             ValidID                => 1,
             UserID                 => 1,
-        ) || die "Could not create test CustomerCompany";
-
-        my $RandomID2 = 'TestCustomer' . $Helper->GetRandomID();
+        );
+        $Self->True(
+            $CustomerCompany,
+            "CustomerCompanyAdd - $CustomerCompany",
+        );
 
         # Also create a CustomerCompany so that it can be selected in the dropdown
-        $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+        my $RandomID2        = 'TestCustomer' . $Helper->GetRandomID();
+        my $CustomerCompany2 = $CustomerCompanyObject->CustomerCompanyAdd(
             CustomerID             => $RandomID2,
             CustomerCompanyName    => $RandomID2,
             CustomerCompanyStreet  => $RandomID2,
@@ -74,27 +79,27 @@ $Selenium->RunTest(
             CustomerCompanyComment => $RandomID2,
             ValidID                => 1,
             UserID                 => 1,
-        ) || die "Could not create test CustomerCompany";
+        );
+        $Self->True(
+            $CustomerCompany2,
+            "CustomerCompanyAdd - $CustomerCompany2",
+        );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+        # navigate to AdminCustomerUser screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
-
-        # check AdminCustomerCompany screen
+        # check overview AdminCustomerCompany
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
         $Selenium->find_element( "#Source",           'css' );
         $Selenium->find_element( "#Search",           'css' );
 
-        # click 'Add customer user' link
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
+        # click 'Add customer'
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
 
         # check add customer user screen
         for my $ID (
@@ -108,7 +113,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#UserFirstname", 'css' )->clear();
-        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
+        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#UserFirstname').hasClass('Error')"
@@ -117,8 +122,11 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUser");
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
+        # navigate to AdminCustomerUser screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+
+        # click 'Add customer'
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
 
         # create a real test customer user
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID);
@@ -128,10 +136,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
+        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # check overview page
         $Self->True(
@@ -140,10 +145,7 @@ $Selenium->RunTest(
         );
 
         # create another test customer user for filter search test
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
 
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID2);
@@ -152,18 +154,12 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # test search filter only for test Customer users
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomer');
-        $Selenium->find_element( "#Search", 'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         # check for another customer user
         $Self->True(
@@ -174,10 +170,7 @@ $Selenium->RunTest(
         # test search filter by customer user $RandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -190,10 +183,7 @@ $Selenium->RunTest(
         );
 
         # check and edit new customer user
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#UserFirstname', 'css' )->get_value(),
@@ -223,24 +213,21 @@ $Selenium->RunTest(
 
         # set test customer user to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-        # chack class of invalid customer user in the overview table
+        # check class of invalid customer user in the overview table
         $Self->True(
             $Selenium->find_element( "tr.Invalid", 'css' ),
             "There is a class 'Invalid' for test Customer User",
         );
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # delete created test customer user and customer company
         for my $CustomerID ( $RandomID, $RandomID2 ) {
@@ -263,7 +250,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         for my $Cache (qw(CustomerCompany CustomerUser)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,

@@ -12,9 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -34,6 +33,7 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -44,8 +44,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminAutoResponse");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminAutoResponse screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse");
 
         # check overview AdminAutoResponse
         $Selenium->find_element( "table",             'css' );
@@ -53,7 +56,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add auto response'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->VerifiedClick();
 
         # check page
         for my $ID (
@@ -68,7 +71,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -80,7 +83,7 @@ $Selenium->RunTest(
 
         # create a real test Auto Response
         my $RandomID = 'AutoResponse' . $Helper->GetRandomID();
-        my $Text     = "Seleniumn auto response text";
+        my $Text     = "Selenium auto response text";
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
@@ -88,21 +91,21 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-        # check if test auto resposne show on AdminAutoResponse screen
+        # check if test auto response show on AdminAutoResponse screen
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID job found on page",
         );
 
         # edit test job and set it to invalid
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
         my $RandomID2 = 'AutoResponseUpdate' . $Helper->GetRandomID();
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID2);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check if edited auto response show on AdminAutoResponse
         $Self->True(
@@ -119,7 +122,7 @@ $Selenium->RunTest(
         );
 
         # since there are no tickets that rely on our test auto response, we can remove them
-        # again from the DB.
+        # again from the DB
         if ($RandomID2) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
             $RandomID2 = $DBObject->Quote($RandomID2);
