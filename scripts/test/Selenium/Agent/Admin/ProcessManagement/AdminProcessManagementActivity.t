@@ -18,8 +18,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -38,19 +40,18 @@ $Selenium->RunTest(
         # define needed variables
         my $ProcessRandom  = 'Process' . $Helper->GetRandomID();
         my $ActivityRandom = 'Activity' . $Helper->GetRandomID();
-        my $ScriptAlias    = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to AdminProcessManagement screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminProcessManagement screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # create new test Process
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->click();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->submit();
-
-        # wait for Process create
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ActivityFilter').length" );
+        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
         # create new test Activity
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->click();
@@ -74,7 +75,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -90,9 +91,6 @@ $Selenium->RunTest(
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait for parent window to reload
-        sleep 1;
 
         # check for created test activity using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
@@ -138,21 +136,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
         $Selenium->find_element( "#Name", 'css' )->submit();
 
-        # Return to main window after the popup closed, as the popup sends commands to the main window.
+        # return to main window after the popup is closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait for parent window to reload
-        sleep 1;
 
         # get process id
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
+        # navigate to AdminProcessManagement screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+
         # set process to inactive
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element( $ProcessRandom, 'link_text' )->click();
+        $Selenium->find_element( $ProcessRandom, 'link_text' )->VerifiedClick();
         $Selenium->execute_script("\$('#StateEntityID').val('S2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();
@@ -189,7 +186,7 @@ $Selenium->RunTest(
         );
 
         # synchronize process after deleting test process
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # make sure cache is correct
         for my $Cache (
