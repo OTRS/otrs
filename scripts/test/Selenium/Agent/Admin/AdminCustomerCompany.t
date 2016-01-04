@@ -12,16 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,11 +32,13 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerCompany");
+        # navigate to AdminCustomerCompany screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerCompany");
 
-        # check AdminCustomerCompany screen
+        # check overview AdminCustomerCompany
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
@@ -44,7 +46,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Search",           'css' );
 
         # click 'Add customer' link
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
 
         # check add customer screen
         for my $ID (
@@ -58,7 +60,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#CustomerID", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID", 'css' )->submit();
+        $Selenium->find_element( "#CustomerID", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#CustomerID').hasClass('Error')"
@@ -73,7 +75,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->send_keys('Selenium test customer company');
-        $Selenium->find_element( "#CustomerID",             'css' )->submit();
+        $Selenium->find_element( "#CustomerID",             'css' )->VerifiedSubmit();
 
         # check overview page
         $Self->True(
@@ -83,16 +85,16 @@ $Selenium->RunTest(
 
         # create another test customer company for filter search test
         my $RandomID2 = 'TestCustomerCompany' . $Helper->GetRandomID();
-        $Selenium->find_element("//button[\@type='submit']")->click();
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
         $Selenium->find_element( "#CustomerID",          'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#CustomerID",          'css' )->submit();
+        $Selenium->find_element( "#CustomerID",          'css' )->VerifiedSubmit();
 
         # test search filter only for test Customer companies
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomerCompany');
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         # check for another customer company
         $Self->True(
@@ -103,7 +105,7 @@ $Selenium->RunTest(
         # test search filter by test customers $RandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -116,7 +118,7 @@ $Selenium->RunTest(
 
         # check and edit new customer company
         my $LinkText = substr( $RandomID, 0, 17 ) . '...';
-        $Selenium->find_element( $LinkText, 'link_text' )->click();
+        $Selenium->find_element( $LinkText, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#CustomerID', 'css' )->get_value(),
@@ -142,14 +144,14 @@ $Selenium->RunTest(
         # set test customer company to invalid and clear comment
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID",             'css' )->submit();
+        $Selenium->find_element( "#CustomerID",             'css' )->VerifiedSubmit();
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
-        # chack class of invalid customer user in the overview table
+        # check class of invalid customer user in the overview table
         $Self->True(
             $Selenium->find_element( "tr.Invalid", 'css' ),
             "There is a class 'Invalid' for test Customer Company",
@@ -157,7 +159,7 @@ $Selenium->RunTest(
 
         # delete created test customer companies
         for my $CustomerID ( $RandomID, $RandomID2 ) {
-            my $Success = $DBObject->Do(
+            my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
                 Bind => [ \$CustomerID ],
             );
@@ -167,7 +169,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'CustomerCompany',
         );
