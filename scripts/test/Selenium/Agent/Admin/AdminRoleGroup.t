@@ -12,15 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -31,26 +32,35 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $RoleRandomID  = $Helper->GetRandomID();
-        my $GroupRandomID = $Helper->GetRandomID();
-
         #add test role
-        my $RoleID = $Kernel::OM->Get('Kernel::System::Group')->RoleAdd(
+        my $RoleRandomID = $Helper->GetRandomID();
+        my $RoleID       = $Kernel::OM->Get('Kernel::System::Group')->RoleAdd(
             Name    => $RoleRandomID,
             ValidID => 1,
             UserID  => 1,
         );
+        $Self->True(
+            $RoleID,
+            "Created Role - $RoleRandomID",
+        );
 
         # add test group
-        my $GroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
+        my $GroupRandomID = $Helper->GetRandomID();
+        my $GroupID       = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
             Name    => $GroupRandomID,
             ValidID => 1,
             UserID  => 1,
         );
+        $Self->True(
+            $GroupID,
+            "Created Group - $RoleRandomID",
+        );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminRoleGroup");
+        # navigate to AdminRoleGroup screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRoleGroup");
 
         # check overview AdminRoleGroup
         $Selenium->find_element( "#Roles",  'css' );
@@ -88,14 +98,14 @@ $Selenium->RunTest(
         sleep 1;
 
         # edit group relations for test role
-        $Selenium->find_element( $RoleRandomID, 'link_text' )->click();
+        $Selenium->find_element( $RoleRandomID, 'link_text' )->VerifiedClick();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='owner']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
-        $Selenium->find_element( $RoleRandomID, 'link_text' )->click();
+        $Selenium->find_element( $RoleRandomID, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->is_selected(),
             1,
@@ -123,18 +133,18 @@ $Selenium->RunTest(
             "priority permission for group $GroupRandomID is disabled",
         );
 
-        # go back to AdminRoleGroup screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminRoleGroup");
+        # navigate to AdminRoleGroup screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRoleGroup");
 
         # edit role relations for test group
-        $Selenium->find_element( $GroupRandomID, 'link_text' )->click();
+        $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='move_into']")->click();
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='priority']")->click();
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='create']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
-        $Selenium->find_element( $GroupRandomID, 'link_text' )->click();
+        $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element("//input[\@value='$RoleID'][\@name='ro']")->is_selected(),
             1,
@@ -168,8 +178,8 @@ $Selenium->RunTest(
             "create permission for role $RoleRandomID is enabled",
         );
 
-        # Since there are no tickets that rely on our test group and role, we can remove them again
-        # from the DB.
+        # since there are no tickets that rely on our test group and role, we can remove them again
+        # from the DB
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         if ($GroupID) {
             my $Success = $DBObject->Do(
@@ -205,11 +215,11 @@ $Selenium->RunTest(
             );
         }
 
-        # Make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Role' );
 
-        }
+    }
 );
 
 1;
