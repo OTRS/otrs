@@ -18,8 +18,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -38,24 +40,26 @@ $Selenium->RunTest(
         # define needed variables
         my $ProcessRandom          = 'Process' . $Helper->GetRandomID();
         my $TransitionActionRandom = 'TransitionAction' . $Helper->GetRandomID();
-        my $ScriptAlias            = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to AdminProcessManagement screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminProcessManagement screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # create new test Process
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->submit();
+        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
-        # click on Transition Actions dropdown and "Create New Transition Action"
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ActivityFilter").length' );
+        # click on Transition Actions dropdown
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
 
         # wait to toggle element
         sleep 1;
 
+        # click "Create New Transition Action"
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->click();
 
         # switch to pop up window
@@ -63,7 +67,7 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until form has loaded, if neccessary
+        # wait until form has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check AdminProcessManagementTransitionAction screen
@@ -93,19 +97,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait for parent window to reload
-        sleep 1;
-
         # check for created test TransitionAction using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
         );
-        $Selenium->find_element( "Transition Actions",      'link_text' )->click();
+        $Selenium->find_element( "Transition Actions",      'link_text' )->VerifiedClick();
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandom);
-
-        # wait for filter to kick in
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$TransitionActionRandom\"]")->is_displayed(),
@@ -132,7 +130,7 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until form has loaded, if neccessary
+        # wait until form has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check stored value
@@ -167,12 +165,9 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValueEdit);
         $Selenium->find_element( "#Name", 'css' )->submit();
 
-        # Return to main window after the popup closed, as the popup sends commands to the main window.
+        # return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait for parent window to reload
-        sleep 1;
 
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";
@@ -180,9 +175,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
 
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandomEdit);
-
-        # wait for filter to kick in
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$TransitionActionRandomEdit\"]")->is_displayed(),
@@ -197,7 +189,7 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until form has loaded, if neccessary
+        # wait until form has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
         # check edited values
@@ -247,9 +239,11 @@ $Selenium->RunTest(
             "Process is deleted - $ProcessID",
         );
 
+        # navigate to AdminProcessmanagement screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+
         # synchronize process after deleting test process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # make sure cache is correct
         for my $Cache (
