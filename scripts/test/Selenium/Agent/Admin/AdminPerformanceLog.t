@@ -12,11 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $Selenium        = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -30,12 +27,13 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable PerformanceLog
-        $SysConfigObject->ConfigItemUpdate(
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'PerformanceLog',
             Value => 1
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -46,11 +44,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminPerformanceLog");
-
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
+        # navigate to AdminPerformanceLog screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPerformanceLog");
 
         # check for Admin on different range time screens
         for my $Time (
@@ -58,9 +56,7 @@ $Selenium->RunTest(
             )
         {
             # click on Admin
-            $Selenium->find_element("//a[contains(\@href, \'Interface=Agent;Minute=$Time' )]")->click();
-
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('table').length" );
+            $Selenium->find_element("//a[contains(\@href, \'Interface=Agent;Minute=$Time' )]")->VerifiedClick();
 
             # check screen layout
             $Selenium->find_element( "table",             'css' );
@@ -69,12 +65,11 @@ $Selenium->RunTest(
             $Selenium->find_element( "div.Progressbar",   'css' )->is_displayed();
 
             # click on "Go to overview"
-            $Selenium->find_element("//a[contains(\@href, \'Action=AdminPerformanceLog' )]")->click();
-
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('body').length" );
-        }
+            $Selenium->find_element("//a[contains(\@href, \'Action=AdminPerformanceLog' )]")->VerifiedClick();
 
         }
+
+    }
 
 );
 
