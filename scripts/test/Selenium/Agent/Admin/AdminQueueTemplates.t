@@ -12,17 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $DBObject               = $Kernel::OM->Get('Kernel::System::DB');
-my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-my $Selenium               = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -33,17 +32,14 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get test user ID
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        my $QueueRandomID    = "queue" . $Helper->GetRandomID();
-        my $TemplateRandomID = "template" . $Helper->GetRandomID();
-
-        # add test queue
-        my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+        # create test queue
+        my $QueueRandomID = "queue" . $Helper->GetRandomID();
+        my $QueueID       = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueRandomID,
             ValidID         => 1,
             GroupID         => 1,
@@ -53,9 +49,17 @@ $Selenium->RunTest(
             UserID          => $UserID,
             Comment         => 'Selenium Test Queue',
         );
+        $Self->True(
+            $QueueID,
+            "Created Queue - $QueueRandomID",
+        );
+
+        # get standard template object
+        my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
         # create test template
-        my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+        my $TemplateRandomID = "template" . $Helper->GetRandomID();
+        my $TemplateID       = $StandardTemplateObject->StandardTemplateAdd(
             Name         => $TemplateRandomID,
             Template     => 'Thank you for your email.',
             ContentType  => 'text/plain; charset=utf-8',
@@ -63,10 +67,18 @@ $Selenium->RunTest(
             ValidID      => 1,
             UserID       => $UserID,
         );
+        $Self->True(
+            $QueueID,
+            "Created StandardTemplate - $TemplateRandomID",
+        );
 
-        # check overview AdminQueueTemplates screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueueTemplates");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
+        # navigate to AdminQueueTemplates screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueueTemplates");
+
+        # check overview AdminQueueTemplates
         for my $ID (
             qw(Templates Queues FilterTemplates FilterQueues)
             )
@@ -102,22 +114,22 @@ $Selenium->RunTest(
         );
 
         # change test Queue relation for test Queue
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check test Template relation for test Queue
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Queue;ID=$QueueID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Queue;ID=$QueueID' )]")->VerifiedClick();
 
         $Self->True(
             $Selenium->find_element("//input[\@value='$TemplateID'][\@type='checkbox']")->is_selected(),
             "$QueueRandomID is in a relation with $TemplateRandomID",
         );
 
-        # Since there are no tickets that rely on our test QueueTemplate,
+        # since there are no tickets that rely on our test QueueTemplate,
         # we can remove test template and  test queue from the DB
-
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success;
         if ($QueueID) {
             $Success = $DBObject->Do(
@@ -143,12 +155,12 @@ $Selenium->RunTest(
             );
         }
 
-        # Make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => "Queue",
         );
 
-        }
+    }
 
 );
 
