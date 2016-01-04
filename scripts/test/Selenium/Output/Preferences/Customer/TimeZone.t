@@ -57,17 +57,11 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to customer preferences
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change test customer user time zone preference to +6 hours
         $Selenium->execute_script("\$('#UserTimeZone').val('+6').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserTimeZone", 'css' )->submit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserTimeZone", 'css' )->VerifiedSubmit();
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";
