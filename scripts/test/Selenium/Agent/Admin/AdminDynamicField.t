@@ -23,7 +23,7 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create and login test user
+        # create test user and login
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => ['admin'],
@@ -36,23 +36,16 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminDynamiFied screen
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
         # check overview AdminDynamicField
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
-
-        # get which browser is used for testing
-        my $TestBrowser = $ConfigObject->Get('SeleniumTestsConfig')->{browser_name};
 
         # check page
         for my $Type (
@@ -79,29 +72,20 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name", 'css' )->submit();
+                $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
                 # check if test DynamicField show on AdminDynamicField screen
-                $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
-                );
                 $Self->True(
                     index( $Selenium->get_page_source(), $RandomID ) > -1,
                     "$RandomID $ID $Type DynamicField found on page",
                 );
 
                 # go to new DynamicField again
-                $Selenium->find_element( $RandomID, 'link_text' )->click();
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Label').length" );
-                $Selenium->find_element( "#Label", 'css' )->clear();
-                $Selenium->find_element( "#Label", 'css' )->send_keys( $RandomID . "-update" );
+                $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+                $Selenium->find_element( "#Label",  'css' )->clear();
+                $Selenium->find_element( "#Label",  'css' )->send_keys( $RandomID . "-update" );
                 $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name", 'css' )->submit();
-
-                # wait to load overview screen
-                $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('.DynamicFieldsContent').length"
-                );
+                $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
                 # check class of invalid DynamicField in the overview table
                 $Self->True(
@@ -112,8 +96,7 @@ $Selenium->RunTest(
                 );
 
                 # go to new DynamicField again after update and check values
-                $Selenium->find_element( $RandomID, 'link_text' )->click();
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+                $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
                 # check new DynamicField values
                 $Self->Is(
@@ -132,10 +115,7 @@ $Selenium->RunTest(
                     "#ValidID stored value",
                 );
 
-                $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
-
-                # wait until page has loaded, if neccessary
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 # delete DynamicFields, check button for deleting Dynamic Field
                 my $DynamicFieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -193,16 +173,17 @@ JAVASCRIPT
 
                 $Selenium->find_element(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
-                )->click();
+                )->VerifiedClick();
 
+                # Wait for delete dialog to disappear.
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
                 );
-                $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-                # wait until page has loaded, if neccessary
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                # navigate to AdminDynamicField screen
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
+                # check if dynamic filed is deleted
                 my $Success;
                 eval {
                     $Success = $Selenium->find_element( $RandomID, 'link_text' )->is_displayed();
@@ -215,10 +196,10 @@ JAVASCRIPT
 
             }
 
-            # make sure the cache is correct.
+            # make sure the cache is correct
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
-        }
+    }
 );
 
 1;

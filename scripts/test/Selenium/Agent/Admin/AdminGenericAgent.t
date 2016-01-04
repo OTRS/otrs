@@ -12,12 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-our $ObjectManagerDisabled = 1;
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -37,13 +33,10 @@ $Selenium->RunTest(
             Value => 10
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
-
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -51,10 +44,16 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get test user ID
+        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test tickets
-        my $TestTicketTitle = 'TestTicketGenericAgent';
+        my $TestTicketTitle = 'TicketGenericAgent' . $Helper->GetRandomID();
         my @TicketNumbers;
         for ( 1 .. 20 ) {
 
@@ -65,10 +64,14 @@ $Selenium->RunTest(
                 Lock         => 'unlock',
                 PriorityID   => 1,
                 StateID      => 1,
-                CustomerNo   => '123465',
+                CustomerNo   => 'SeleniumTestCustomer',
                 CustomerUser => 'customerUnitTest@example.com',
                 OwnerID      => $UserID,
                 UserID       => $UserID,
+            );
+            $Self->True(
+                $TicketID,
+                "Ticket is created - $TicketID",
             );
 
             my $TicketNumber = $TicketObject->TicketNumberLookup(
@@ -80,8 +83,11 @@ $Selenium->RunTest(
 
         }
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminGenericAgent");
-        my $RandomID = "GenericAgent" . $Helper->GetRandomID();
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminGenericAgent screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
 
         # check overview AdminGenericAgent
         $Selenium->find_element( "table",             'css' );
@@ -89,7 +95,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # check add job page
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Update' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Update' )]")->VerifiedClick();
 
         my $Element = $Selenium->find_element( "#Profile", 'css' );
         $Element->is_displayed();
@@ -99,11 +105,10 @@ $Selenium->RunTest(
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
 
         # create test job
+        my $RandomID = "GenericAgent" . $Helper->GetRandomID();
         $Selenium->find_element( "#Profile", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Title",   'css' )->send_keys($TestTicketTitle);
-        $Selenium->find_element( "#Profile", 'css' )->submit();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -112,22 +117,15 @@ $Selenium->RunTest(
         );
 
         # edit test job to delete test ticket
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # toggle Execute Ticket Commands widget
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple.Collapsed").length' );
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->submit();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # run test job
-        $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length'
-        );
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
 
         # check if test job show expected result
         for my $TicketNumber (@TicketNumbers) {
@@ -149,20 +147,12 @@ $Selenium->RunTest(
         );
 
         # execute test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->click();
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length'
-        );
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # run test job again
-        $Selenium->execute_script("\$('a[href*=\"Subaction=Run;Profile=$RandomID\"]')[0].click();");
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple .Content a.CallForAction[href*=Update]").length'
-        );
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
 
-        # check if there is not warning message:
+        # check if there is no warning message:
         # "Affected more tickets than how many will be executed on run job"
         $Self->False(
             $Selenium->execute_script(
@@ -172,17 +162,13 @@ $Selenium->RunTest(
         );
 
         # execute test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # set test job to invalid
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length' );
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         $Selenium->execute_script("\$('#Valid').val('0').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->submit();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("i.fa-trash-o").length' );
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check class of invalid generic job in the overview table
         $Self->True(
@@ -193,9 +179,9 @@ $Selenium->RunTest(
         );
 
         # delete test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->VerifiedClick();
 
-        }
+    }
 
 );
 
