@@ -33,20 +33,14 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to customer preferences
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change test user password preference, input incorrect current password
         my $NewPw = "new" . $TestUserLogin;
         $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->submit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
 
         # check for incorrect password update preferences message on screen
         my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
@@ -59,10 +53,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->submit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
 
         # check for correct password update preferences message on screen
         my $UpdateMessage = "Preferences updated successfully!";

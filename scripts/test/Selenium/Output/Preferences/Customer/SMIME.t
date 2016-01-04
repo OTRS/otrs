@@ -72,19 +72,13 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # go to customer preferences
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change customer SMIME certificate preference
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/SMIME/SMIMECertificate-1.asc";
         $Selenium->find_element( "#UserSMIMEKey", 'css' )->send_keys($Location);
-        $Selenium->find_element( "#UserSMIMEKey", 'css' )->submit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserSMIMEKey", 'css' )->VerifiedSubmit();
 
         # check for update SMIME certificate preference on screen
         $Self->True(

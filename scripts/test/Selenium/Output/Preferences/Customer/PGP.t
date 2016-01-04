@@ -64,19 +64,13 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # go to customer preferences
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change customer PGP key preference
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Crypt/PGPPrivateKey-1.asc";
         $Selenium->find_element( "#UserPGPKey", 'css' )->send_keys($Location);
-        $Selenium->find_element( "#UserPGPKey", 'css' )->submit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#UserPGPKey", 'css' )->VerifiedSubmit();
 
         # check for update PGP preference key on screen
         $Self->True(

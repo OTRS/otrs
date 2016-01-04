@@ -26,6 +26,7 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -39,10 +40,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to customer preferences
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # create test params
         my @Tests = (
@@ -66,10 +64,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->submit();
-
-            # wait until form has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->VerifiedSubmit();
 
             $Self->True(
                 index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
