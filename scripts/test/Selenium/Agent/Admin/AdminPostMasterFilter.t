@@ -12,15 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -31,12 +32,14 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        # navigate to AdminPostMasterFilter screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
         # check overview AdminPostMasterFilter
         $Selenium->find_element( "table",             'css' );
@@ -44,14 +47,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add filter'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPostMasterFilter;Subaction=AddAction' )]")->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length' );
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPostMasterFilter;Subaction=AddAction' )]")
+            ->VerifiedClick();
 
         # check client side validation
         $Selenium->find_element( "#EditName", 'css' )->clear();
-        $Selenium->find_element( "#EditName", 'css' )->submit();
+        $Selenium->find_element( "#EditName", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#EditName').hasClass('Error')"
@@ -99,10 +100,7 @@ $Selenium->RunTest(
             "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
-        $Selenium->find_element( "#EditName",  'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
 
         # check for created test PostMasterFilter on screen
         $Self->True(
@@ -111,10 +109,8 @@ $Selenium->RunTest(
         );
 
         # check new test PostMasterFilter values
-        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
+        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length' );
         $Self->Is(
             $Selenium->find_element( '#EditName', 'css' )->get_value(),
             $PostMasterRandomID,
@@ -153,16 +149,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MatchNot1", 'css' )->click();
         $Selenium->find_element( "#SetValue1", 'css' )->clear();
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($EditPostMasterPriority);
-        $Selenium->find_element( "#EditName",  'css' )->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
 
         # check edited test PostMasterFilter values
-        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->click();
+        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length' );
         $Self->Is(
             $Selenium->find_element( '#StopAfterMatch', 'css' )->get_value(),
             1,
@@ -180,18 +171,13 @@ $Selenium->RunTest(
         );
 
         # go back to AdminPostMasterFilter screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
         # delete test PostMasterFilter with delete button
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")
+            ->VerifiedClick();
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-        }
+    }
 
 );
 

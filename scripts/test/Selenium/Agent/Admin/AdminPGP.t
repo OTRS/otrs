@@ -28,7 +28,7 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create and login test user
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -62,32 +62,28 @@ $Selenium->RunTest(
             Value => "--homedir $PGPPath --batch --no-tty --yes",
         );
 
-        # navigate to AdminPGP screen
+        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminPGP");
+
+        # navigate to AdminPGP screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPGP");
 
         # add first test PGP key
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->VerifiedClick();
 
         my $Location1 = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Crypt/PGPPrivateKey-1.asc";
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location1);
-        $Selenium->find_element("//button[\@type='submit']")->click();
-
-        # wait for key to upload
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('td.Center').length" );
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # add second test PGP key
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->VerifiedClick();
         my $Location2 = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Crypt/PGPPrivateKey-2.asc";
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location2);
-        $Selenium->find_element("//button[\@type='submit']")->click();
-
-        # wait for key to upload
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('td.Center').length" );
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if test PGP keys show on AdminPGP screen
         my %PGPKey = (
@@ -106,7 +102,7 @@ $Selenium->RunTest(
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->send_keys( $PGPKey{1} );
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $PGPKey{1} ) > -1,
@@ -119,7 +115,7 @@ $Selenium->RunTest(
 
         #clear search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         # set test PGP in config so we can delete them
         $ConfigObject->Set(
@@ -143,7 +139,7 @@ $Selenium->RunTest(
                     # click on delete secure key
                     $Selenium->find_element(
                         "//a[contains(\@href, \'Subaction=Delete;Type=sec;Key=$Key->{FingerprintShort}' )]"
-                    )->click();
+                    )->VerifiedClick();
                     $Self->True(
                         $Key,
                         "PGPKey - $Key->{Identifier} deleted",
@@ -152,7 +148,7 @@ $Selenium->RunTest(
                     # click on delete public key
                     $Selenium->find_element(
                         "//a[contains(\@href, \'Subaction=Delete;Type=pub;Key=$Key->{FingerprintShort}' )]"
-                    )->click();
+                    )->VerifiedClick();
                     $Self->True(
                         $Key,
                         "PGPKey - $Key->{Identifier} deleted",
@@ -168,7 +164,7 @@ $Selenium->RunTest(
             "Directory deleted - '$PGPPath'",
         );
 
-        }
+    }
 
 );
 

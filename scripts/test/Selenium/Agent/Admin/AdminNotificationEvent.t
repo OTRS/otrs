@@ -12,10 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -35,6 +33,7 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -45,9 +44,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
+        # navigate to AdminNotificationEvent screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -55,7 +56,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click "Add notification"
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")
+            ->VerifiedClick();
 
         # check add NotificationEvent screen
         for my $ID (
@@ -82,7 +84,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ArticleSubjectMatch", 'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Subject",          'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Body",             'css' )->send_keys($NotifEventText);
-        $Selenium->find_element( "#Name",                'css' )->submit();
+        $Selenium->find_element( "#Name",                'css' )->VerifiedSubmit();
 
         # check if test NotificationEvent show on AdminNotificationEvent screen
         $Self->True(
@@ -91,7 +93,7 @@ $Selenium->RunTest(
         );
 
         # check test NotificationEvent values
-        $Selenium->find_element( $NotifEventRandomID, 'link_text' )->click();
+        $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -138,10 +140,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ArticleSubjectMatch", 'css' )->clear();
         $Selenium->find_element( "#ArticleBodyMatch",    'css' )->send_keys($EditNotifEventText);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check edited NotifcationEvent values
-        $Selenium->find_element( $NotifEventRandomID, 'link_text' )->click();
+        $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
@@ -170,7 +172,7 @@ $Selenium->RunTest(
         );
 
         # go back to AdminNotificationEvent overview screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
         # check class of invalid NotificationEvent in the overview table
         $Self->True(
@@ -196,7 +198,7 @@ JAVASCRIPT
         $Selenium->execute_script($CheckConfirmJS);
 
         # delete test SLA with delete button
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->VerifiedClick();
 
         # check if test NotificationEvent is deleted
         $Self->False(
@@ -206,7 +208,7 @@ JAVASCRIPT
             "Test NotificationEvent is deleted - $NotifEventRandomID",
         ) || die;
 
-        }
+    }
 
 );
 
