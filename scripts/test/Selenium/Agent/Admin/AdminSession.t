@@ -12,17 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -33,10 +32,12 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get authsession object
+        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+        # check current sessions
         my $CurrentSessionID;
-
         my @SessionIDs = $AuthSessionObject->GetAllSessionIDs();
-
         SESSION_ID:
         for my $SessionID (@SessionIDs) {
             my %SessionData = $AuthSessionObject->GetSessionIDData(
@@ -54,9 +55,11 @@ $Selenium->RunTest(
             "Current session ID found for user $TestUserLogin",
         ) || return;
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSession");
+        # navigate to AdminSession screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSession");
 
         $Self->True(
             index( $Selenium->get_page_source(), $CurrentSessionID ) > -1,
@@ -64,7 +67,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "table", 'css' );
 
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminSession;Subaction=Detail;WantSessionID=$CurrentSessionID"
         );
 
@@ -88,11 +91,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "table", 'css' );
 
         # kill current session, this means a logout effectively
-        $Selenium->find_element( "a#KillThisSession", 'css' )->click();
+        $Selenium->find_element( "a#KillThisSession", 'css' )->VerifiedClick();
 
         # make sure that we now see the login screen
         $Selenium->find_element( "#LoginBox", 'css' );
-        }
+    }
 );
 
 1;

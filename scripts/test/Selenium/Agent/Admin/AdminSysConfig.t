@@ -18,8 +18,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -30,9 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSysConfig");
+        # navigate to AdminSysConfig screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSysConfig");
 
         # check for AdminSysConfig groups
         for my $SysGroupValues (
@@ -50,7 +54,7 @@ $Selenium->RunTest(
         # test search AdminSysConfig and check for some of the results
         # e.g Core::PerformanceLog and Core::Ticket
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
-        $Selenium->find_element( "#SysConfigSearch", 'css' )->submit();
+        $Selenium->find_element( "#SysConfigSearch", 'css' )->VerifiedSubmit();
 
         for my $SysConfSearch (
             qw (PerformanceLog Ticket)
@@ -64,12 +68,7 @@ $Selenium->RunTest(
         }
 
         # check for some of Core::Ticket default values
-        $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length'
-        );
+        $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->get_value(),
@@ -93,12 +92,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->submit();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("input[name=\'Ticket::CustomQueue\']").length'
-        );
+        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->VerifiedSubmit();
 
         # check for edited values
         $Self->Is(
@@ -123,10 +117,10 @@ $Selenium->RunTest(
             )
         {
             $Selenium->find_element("//button[\@value='Reset this setting'][\@name='ResetTicket::$ResetDefault']")
-                ->click();
+                ->VerifiedClick();
         }
 
-        }
+    }
 
 );
 
