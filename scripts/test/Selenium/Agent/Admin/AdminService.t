@@ -12,17 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
-my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium      = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -33,8 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminService");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminService screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
 
         # check overview AdminService screen
         $Selenium->find_element( "table",             'css' );
@@ -42,11 +44,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add Service'
-        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -55,8 +57,11 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminService");
-        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->click();
+        # navigate to AdminService screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
+
+        # click 'Add new service'
+        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         # check add Service screen
         for my $ID (
@@ -74,26 +79,16 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($ServiceRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
-        $Selenium->find_element( "#Name",    'css' )->submit();
-
-        # wait to load overview screen
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.ActionList span:contains(Add service)').length"
-        );
+        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
 
         # create second test Service
-        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         my $ServiceRandomID2 = "service" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($ServiceRandomID2);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
-        $Selenium->find_element( "#Name",    'css' )->submit();
-
-        # wait to load overview screen
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($ServiceRandomID)').length"
-        );
+        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
 
         # check for created test Services on AdminService screen
         $Self->True(
@@ -106,7 +101,7 @@ $Selenium->RunTest(
         );
 
         # check new test Service values
-        $Selenium->find_element( $ServiceRandomID2, 'link_text' )->click();
+        $Selenium->find_element( $ServiceRandomID2, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
             $ServiceRandomID2,
@@ -122,6 +117,9 @@ $Selenium->RunTest(
             1,
             "#ValidID stored value",
         );
+
+        # get service object
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
         # get test Services IDs
         my @ServiceIDs;
@@ -139,7 +137,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check class of invalid Service in the overview table
         $Self->True(
@@ -152,7 +150,7 @@ $Selenium->RunTest(
         # check edited test Selenium values
         my $ServiceUpdatedRandomID2 = "$ServiceRandomID\::$ServiceRandomID2";
 
-        $Selenium->find_element( $ServiceUpdatedRandomID2, 'link_text' )->click();
+        $Selenium->find_element( $ServiceUpdatedRandomID2, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#ParentID', 'css' )->get_value(),
             $ServiceID,
@@ -169,10 +167,11 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
         $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-        # Since there are no tickets that rely on our test Services we can remove
+        # since there are no tickets that rely on our test Services we can remove
         # them from DB
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         for my $ServiceID (@ServiceIDs) {
             my $Success = $DBObject->Do(
                 SQL => "DELETE FROM service_preferences WHERE service_id = $ServiceID",
@@ -195,7 +194,7 @@ $Selenium->RunTest(
             Type => 'Service'
         );
 
-        }
+    }
 
 );
 
