@@ -12,18 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
-my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
-my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
-my $Selenium                = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -34,14 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+        # navigate to AdminSystemMaintenance screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -49,7 +44,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click "Schedule New System Maintenance"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=SystemMaintenanceNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=SystemMaintenanceNew' )]")->VerifiedClick();
 
         # check Schedule New System Maintenance screen
         for my $ID (
@@ -65,7 +60,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Comment", 'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Comment').hasClass('Error')"
@@ -74,15 +69,18 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        my $SysMainComment = "sysmaintenance" . $Helper->GetRandomID();
-        my $SysMainLogin   = "Selenium test SystemMaintance is progress, please log in later on";
-        my $SysMainNotify  = "Currently Selenium SystemMaintenance test is active";
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-        # create error test SystemMaintenance scenarion
+        # create error test SystemMaintenance scenario
         # get test end time - 1 hour of current time
         my ( $SecWrong, $MinWrong, $HourWrong, $DayWrong, $MonthWrong, $YearWrong, ) = $TimeObject->SystemTime2Date(
             SystemTime => $TimeObject->SystemTime() - 60 * 60,
         );
+
+        my $SysMainComment = "sysmaintenance" . $Helper->GetRandomID();
+        my $SysMainLogin   = "Selenium test SystemMaintance is progress, please log in later on";
+        my $SysMainNotify  = "Currently Selenium SystemMaintenance test is active";
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
@@ -94,7 +92,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->click();
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->click();
 
-        $Selenium->find_element( "#Comment", 'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
         $Self->True(
             index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
             "Error message correctly displayed",
@@ -127,16 +125,19 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->click();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
-        $Selenium->find_element( "#Comment",       'css' )->submit();
+        $Selenium->find_element( "#Comment",       'css' )->VerifiedSubmit();
 
         # return to overview AdminSystemMaintenance
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
 
         # check for created test SystemMaintenance
         $Self->True(
             index( $Selenium->get_page_source(), $SysMainComment ) > -1,
             "$SysMainComment found on page",
         );
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # get test SystemMaintenanceID
         my $SysMainCommentQuoted = $DBObject->Quote($SysMainComment);
@@ -152,7 +153,7 @@ $Selenium->RunTest(
         # go to new test SystemMaintenance and check values
         $Selenium->find_element(
             "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]"
-        )->click();
+        )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
             $SysMainComment,
@@ -178,9 +179,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys("-update");
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys("-update");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment", 'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
 
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
 
         # check class of invalid SystemMaintenance in the overview table
         $Self->True(
@@ -193,7 +194,7 @@ $Selenium->RunTest(
         # check updated test SystemMaintenance values
         $Selenium->find_element(
             "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]"
-        )->click();
+        )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#LoginMessage', 'css' )->get_value(),
             "$SysMainLogin-update",
@@ -211,16 +212,16 @@ $Selenium->RunTest(
         );
 
         # delete test SystemMaintenance
-        my $Success = $SystemMaintenanceObject->SystemMaintenanceDelete(
+        my $Success = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceDelete(
             ID     => $SysMainID,
-            UserID => $UserID,
+            UserID => 1,
         );
         $Self->True(
             $Success,
             "Deleted - $SysMainComment",
         );
 
-        }
+    }
 
 );
 

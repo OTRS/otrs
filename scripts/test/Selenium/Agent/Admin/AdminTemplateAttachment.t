@@ -12,19 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $DBObject               = $Kernel::OM->Get('Kernel::System::DB');
-my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
-my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
-my $Selenium               = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -35,14 +32,19 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get test user ID
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get needed objects
+        my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+        my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
+        my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+        my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
 
-        my $AttachmentRandomID = "attachment" . $Helper->GetRandomID();
-        my $TemplateRandomID   = "template" . $Helper->GetRandomID();
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # create test attachment
         my $Location = $ConfigObject->Get('Home')
@@ -54,10 +56,10 @@ $Selenium->RunTest(
         );
 
         my $Content = ${$ContentRef};
-
         my $MD5 = $MainObject->MD5sum( String => \$Content );
 
-        my $AttachmentID = $StdAttachmentObject->StdAttachmentAdd(
+        my $AttachmentRandomID = "attachment" . $Helper->GetRandomID();
+        my $AttachmentID       = $StdAttachmentObject->StdAttachmentAdd(
             Name        => $AttachmentRandomID,
             ValidID     => 1,
             Content     => $Content,
@@ -66,9 +68,14 @@ $Selenium->RunTest(
             Comment     => 'Some Comment',
             UserID      => $UserID,
         );
+        $Self->True(
+            $AttachmentID,
+            "Created StdAttachment - $AttachmentRandomID",
+        );
 
         # create test template
-        my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+        my $TemplateRandomID = "template" . $Helper->GetRandomID();
+        my $TemplateID       = $StandardTemplateObject->StandardTemplateAdd(
             Name         => $TemplateRandomID,
             Template     => 'Thank you for your email.',
             ContentType  => 'text/plain; charset=utf-8',
@@ -76,10 +83,15 @@ $Selenium->RunTest(
             ValidID      => 1,
             UserID       => $UserID,
         );
+        $Self->True(
+            $TemplateID,
+            "Created Template - $TemplateRandomID",
+        );
+
+        # navigate to AdminTemplateAttachment screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplateAttachment");
 
         # check overview AdminTemplateAttachment screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminTemplateAttachment");
-
         for my $ID (
             qw(Templates Attachments FilterTemplates FilterAttachments)
             )
@@ -115,13 +127,13 @@ $Selenium->RunTest(
         );
 
         # change test Attachment relation for test Template
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$AttachmentID'][\@type='checkbox']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check test Template relation for test Attachment
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Attachment;ID=$AttachmentID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Attachment;ID=$AttachmentID' )]")->VerifiedClick();
 
         $Self->True(
             $Selenium->find_element("//input[\@value='$TemplateID'][\@type='checkbox']")->is_selected(),
@@ -129,10 +141,10 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element("//input[\@value='$TemplateID'][\@type='checkbox']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-        # Since there are no tickets that rely on our test TemplateAttachment,
-        # we can remove test template and  test attchment from the DB
+        # since there are no tickets that rely on our test TemplateAttachment,
+        # we can remove test template and  test attachment from the DB
         my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
             AttachmentID       => $AttachmentID,
             StandardTemplateID => $TemplateID,
@@ -159,7 +171,7 @@ $Selenium->RunTest(
             "StandardTemplateDelete() for Attachment -> Template tests | with True",
         );
 
-        }
+    }
 
 );
 

@@ -21,7 +21,7 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create and log in test user
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,22 +32,20 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminTemplate screen
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminTemplate");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate");
 
-        # chech overview screen
+        # check overview screen
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
         $Selenium->find_element( "#Filter",           'css' );
 
         # click 'Add template'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminTemplate;Subaction=Add' )]")->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TemplateType').length" );
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminTemplate;Subaction=Add' )]")->VerifiedClick();
 
         for my $ID (
             qw(TemplateType Name IDs ValidID Comment)
@@ -60,7 +58,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -74,7 +72,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium template test");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check overview screen for test template
         $Self->True(
@@ -92,7 +90,7 @@ $Selenium->RunTest(
         );
 
         # check test template values
-        $Selenium->find_element( $TemplateRandomID, 'link_text' )->click();
+        $Selenium->find_element( $TemplateRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -119,7 +117,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#TemplateType').val('Create').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();
@@ -132,7 +130,7 @@ $Selenium->RunTest(
         );
 
         # check edited test template
-        $Selenium->find_element( $TemplateRandomID, 'link_text' )->click();
+        $Selenium->find_element( $TemplateRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#TemplateType', 'css' )->get_value(),
@@ -151,16 +149,16 @@ $Selenium->RunTest(
         );
 
         # go back to AdminTemplate overview screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminTemplate");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate");
 
         # test template delete button
         my $TemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
             StandardTemplate => $TemplateRandomID,
         );
 
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$TemplateID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$TemplateID' )]")->VerifiedClick();
 
-        }
+    }
 );
 
 1;
