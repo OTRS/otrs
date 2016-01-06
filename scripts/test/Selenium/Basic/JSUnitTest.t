@@ -77,7 +77,7 @@ $Selenium->RunTest(
         if ( $Failed || !$Passed || $Passed != $Total ) {
             die;
         }
-        }
+    }
 );
 
 1;
