@@ -178,7 +178,7 @@ $Selenium->RunTest(
             '',
             "#Comment updated value",
         );
-        }
+    }
 );
 
 1;

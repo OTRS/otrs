@@ -203,7 +203,7 @@ JAVASCRIPT
             '1',
             'Check for .AddAll element',
         );
-        }
+    }
 );
 
 1;

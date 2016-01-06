@@ -135,7 +135,7 @@ $Selenium->RunTest(
             0,
             "Password recovery email NOT sent for invalid customer user $TestCustomerUser",
         );
-        }
+    }
 );
 
 1;
