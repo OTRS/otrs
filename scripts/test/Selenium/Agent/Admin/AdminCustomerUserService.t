@@ -172,7 +172,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-        }
+    }
 
 );
 

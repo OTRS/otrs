@@ -70,7 +70,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $NewsLink ) > -1,
             "News dashboard plugin link - found",
         );
-        }
+    }
 );
 
 1;

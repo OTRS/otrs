@@ -268,7 +268,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

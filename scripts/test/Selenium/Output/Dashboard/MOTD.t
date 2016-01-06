@@ -63,7 +63,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $DefaultMOTD ) > -1,
             "MOTD dashboard plugin message - found",
         );
-        }
+    }
 );
 
 1;

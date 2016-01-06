@@ -62,7 +62,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $ImageLink ) > -1,
             "Image dashboard plugin link '$ImageLink' - found",
         );
-        }
+    }
 );
 
 1;

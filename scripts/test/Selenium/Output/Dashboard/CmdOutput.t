@@ -60,7 +60,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), "$CmdMessage" ) > -1,
             "$CmdMessage - found on screen"
         );
-        }
+    }
 );
 
 1;

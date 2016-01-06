@@ -51,7 +51,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference language - updated'
         );
-        }
+    }
 );
 
 1;

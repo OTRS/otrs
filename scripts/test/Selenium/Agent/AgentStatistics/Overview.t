@@ -136,7 +136,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "Cancel", 'link_text' )->click();
 
         }
-        }
+    }
 );
 
 1;

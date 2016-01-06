@@ -159,7 +159,7 @@ $Selenium->RunTest(
             "Delete queue - $QueueID",
         );
 
-        }
+    }
 );
 
 1;

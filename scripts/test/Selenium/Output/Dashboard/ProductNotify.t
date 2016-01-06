@@ -96,7 +96,7 @@ EOF
 
         die $EvalError if $EvalError;
 
-        }
+    }
 );
 
 1;
