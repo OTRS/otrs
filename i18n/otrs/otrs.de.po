@@ -11,7 +11,7 @@
 # Marc A. Bonsels, 2014-2015
 # Marc A. Bonsels, 2015
 # Marc A. Bonsels, 2014
-# Martin Gruner <martin.gruner@otrs.com>, 2014-2015
+# Martin Gruner <martin.gruner@otrs.com>, 2014-2016
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
 # Matze208, 2015
@@ -20,15 +20,16 @@
 # nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
+# Rudy R <rudy.rohde@googlemail.com>, 2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
 # Stefan Simmerstatter <stefan.simmerstatter@gmx.net>, 2015
-# Tobias Krumholz <krumholt@fh-trier.de>, 2015
+# Tobias Krumholz <krumholt@fh-trier.de>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:12+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3271,6 +3272,14 @@ msgid "Select"
 msgstr "Auswahl"
 
 #. Template: AdminCustomerCompany
+msgid "shown"
+msgstr "angezeigt"
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr "gesamt"
+
+#. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
 msgstr "Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen."
 
@@ -5566,11 +5575,11 @@ msgstr "Attribute des aktuellen Kundenbenutzer-Datensatzes"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "Attribute der Nutzerdaten des aktuellen Ticket Besitzers"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "Attribute der Nutzerdaten des aktuellen Ticket Verantwortlichem"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -9245,6 +9254,10 @@ msgid "This ticket is archived."
 msgstr "Dieses Ticket ist archiviert."
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr "Hinweis: Typ ist ungültig!"
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Sperre"
 
@@ -9804,8 +9817,8 @@ msgid "Open date selection"
 msgstr "Datumsauswahl öffnen"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Hoppla. Es ist ein Fehler aufgetreten."
+msgid "An error occurred."
+msgstr "Ein Fehler ist aufgetreten."
 
 #. Template: Error
 msgid "You can"
@@ -11747,51 +11760,51 @@ msgstr "Fax"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Benachrichtigung über neues Ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Benachrichtigung über Folgeaktionen (entsperrtes Ticket)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "Benachrichtigung über Folgeaktionen (gesperrtes Ticket)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "Benachrichtigung über Änderung des  Ticket Besitzers"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "Benachrichtigung über Änderung des  Ticket Verantwortlichen"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "Benachrichtigung über neue Notiz"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Benachrichtigung über Änderung der Queue"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Benachrichtigung über Erreichen der Erinnerungszeit (gesperrtes Ticket)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Benachrichtigung über Erreichen der Erinnerungszeit (entsperrtes Ticket)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Benachrichtigung über erfolgte Ticket Eskalataion"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Benachrichtigung über baldige Ticket Eskalataion"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Benachrichtigung über Änderung des Services"
 
 #. SysConfig
 msgid ""
@@ -11827,6 +11840,10 @@ msgstr "%s Zeiteinheit(en) gezählt. Insgesamt %s Zeiteinheit(en)."
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(BenutzerLogin) Vorname Nachname"
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr "(UserLogin) Lastname Firstname"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12556,6 +12573,10 @@ msgstr "Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. \
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird."
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13532,7 +13553,7 @@ msgstr "Definiert die Standardauswahl in der Einfachauswahl für dynamische Obje
 msgid ""
 "Defines the default selection at the drop down menu for permissions (Form: "
 "Common Specification)."
-msgstr ""
+msgstr "Definiert die Standardauswahl im Drop-down-Menü für Berechtigungen (Formular: Allgemeine Angaben)"
 
 #. SysConfig
 msgid ""
@@ -13816,6 +13837,10 @@ msgid ""
 msgstr "Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface."
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "Definiert den Standard-Typ für Artikel im Kunden-Interface."
 
@@ -14008,43 +14033,43 @@ msgstr "Steuert den Historien-Kommentar für die Ticketnotiz-Aktion im Agentenbe
 msgid ""
 "Defines the history comment for the ticket owner screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Ticket-Besitzer\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket pending screen action, which gets"
 " used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Warten auf Erinnerung\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone inbound screen action, "
 "which gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Eingehender Telefonanruf\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket phone outbound screen action, "
 "which gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Ausgehender Telefonanruf\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket priority screen action, which "
 "gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Ticket Priorität\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Ticket-Verantwortlicher\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history comment for the ticket zoom action, which gets used for "
 "ticket history in the customer interface."
-msgstr ""
+msgstr "Definiert den Historien-Kommentar für die Aktion \"Warten auf Erinnerung\" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
@@ -14056,67 +14081,67 @@ msgstr ""
 msgid ""
 "Defines the history type for the close ticket screen action, which gets used"
 " for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket Schließen\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the email ticket screen action, which gets used"
 " for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Neues Email Ticket\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the phone ticket screen action, which gets used"
 " for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Neues Telefon Ticket\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket free text screen action, which gets "
 "used for ticket history."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket FreiText\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket note screen action, which gets used "
 "for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket Notiz\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket owner screen action, which gets used"
 " for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket Besitzer\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket pending screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Warten auf Erinnerung\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Eingehender Telefonanruf\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket phone outbound screen action, which "
 "gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ausgehender Telefonanruf\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket priority screen action, which gets "
 "used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket Priorität\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
 "Defines the history type for the ticket responsible screen action, which "
 "gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "Definiert den Historien-Typ für die Aktion \"Ticket Verantwortlicher\" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird."
 
 #. SysConfig
 msgid ""
@@ -14138,7 +14163,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
-msgstr ""
+msgstr "Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen."
 
 #. SysConfig
 msgid ""
@@ -14194,14 +14219,14 @@ msgstr "Definiert die Typenliste für Templates."
 msgid ""
 "Defines the location to get online repository list for additional packages. "
 "The first available result will be used."
-msgstr ""
+msgstr "Definiert die Adresse der Online-Repository-Liste für zusätzliche Pakete. Das erste verfügbare Ergebnis wird genutzt."
 
 #. SysConfig
 msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr "Definiert das Log Module für das System. \"File\" schreibt alle Meldungen in das angegebene Logfile, \"SysLog\" nutzt den Syslog Deamon des Systems, z.B. syslogd."
+msgstr "Definiert das Log Module für das System. \"Datei\" schreibt alle Meldungen in das angegebene Logfile, \"SysLog\" nutzt den Syslog Deamon des Systems, z.B. syslogd."
 
 #. SysConfig
 msgid ""
@@ -14209,7 +14234,7 @@ msgid ""
 "Warning: Setting this option to a value which is too low could cause many "
 "masks in your OTRS instance to stop working (probably any mask which takes "
 "input from the user)."
-msgstr ""
+msgstr "Definiert die maximale Größe (in Bytes) für das Hochladen von Dateien mit dem Browser. Achtung: Wenn man die Größe zu klein wählt können viele Eingabemasken in ihrer OTRS-Instanz nicht mehr funktionieren (vermutlich jede Maske die Benutzereingaben erwartet)."
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -14308,7 +14333,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to generate code for periodic page reloads."
-msgstr ""
+msgstr "Definiert das Modul für die Code-Generierung beim periodischen Neuladen von Seiten."
 
 #. SysConfig
 msgid ""
@@ -14386,49 +14411,49 @@ msgstr "Definiert die nächsten möglichen Status für Tickets von Kunden in der
 msgid ""
 "Defines the next state of a ticket after adding a note, in the close ticket "
 "screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz im \"Ticket Schließen\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket bulk "
 "screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz in der \"Sammelaktion\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz im \"Ticket FreiText\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket note "
 "screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz im \"Ticket Notiz\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz im \"Ticket Besitzer\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz in der \"Warten auf Erinnerung\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz in der \"Ticket Priorität\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "responsible screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem hinzufügen einer Notiz in der \"Ticket Verantwortlicher\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
@@ -14440,7 +14465,7 @@ msgstr ""
 msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
-msgstr ""
+msgstr "Definiert den nächsten Ticket Status nach dem verschieben in eine andere Queue in der \"Ticket Queue\" Ansicht der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
@@ -14614,7 +14639,7 @@ msgstr "Definiert die Absendeadresse für abgelehnte E-Mails."
 msgid ""
 "Defines the separator between the agents real name and the given queue email"
 " address."
-msgstr ""
+msgstr "Definiert das Trennzeichen zwischen dem echten Namen des Agenten und der gegebenen E-Mailqueue Adresse. "
 
 #. SysConfig
 msgid ""
@@ -14935,6 +14960,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
 "work in IE8."
 msgstr ""
@@ -15035,7 +15067,7 @@ msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface. Possible settings: 0 = Disabled, 1 = "
 "Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Optionen zur Anzeige von dynamischen Felder in der \"Ticket Antwort\" Ansicht in der Agenten-Oberfläche. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
@@ -15047,163 +15079,163 @@ msgstr "Angezeigte DynamicFields in der Maske für ausgehende Emails. Mögliche 
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Zoom\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der Seitenleiste in der \"Ticket Zoom\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket close screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Schließen\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Erstellen\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket email screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Neues Email Ticket\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket forward screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Weiterleiten\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket free text screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket FreiText\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der mittleren Ansicht \"M\" in der Ticket Übersicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket move screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Verschieben\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket note screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Notiz\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket overview screen of the customer "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and "
 "required."
-msgstr ""
+msgstr "Dynamische Felder die in der Ticket Übersicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket owner screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Besitzer\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket pending screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Warten auf Erinnerung\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone inbound screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and "
 "required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Eingehender Telefonanruf\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone outbound screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and "
 "required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ausgehender Telefonanruf\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Neues Telefon Ticket\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket preview format overview screen of the "
 "agent interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket FreiText\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Drucken\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the customer interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Drucken\" Ansicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket priority screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Priorität\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket responsible screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and "
 "required."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Verantwortlicher\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und benötigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search overview results screen of the "
 "customer interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der Ergebnisanzeige der \"Ticket Suche\" in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and shown by "
 "default."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Suche\" Ansicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert, 2 = aktiviert und standardmäßig angezeigt."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the customer interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Suchen\" Ansicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent"
 " interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by "
 "default."
-msgstr ""
+msgstr "Dynamische Felder die in der kleinen Ansicht \"S\" in der Ticket Übersicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = verfügbar, 2 = standardmäßig aktiviert."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket zoom screen of the customer interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "Dynamische Felder die in der \"Ticket Zoom\" Ansicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert."
 
 #. SysConfig
 msgid "DynamicField backend registration."
@@ -15706,7 +15738,7 @@ msgstr "Deutsch"
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "Deutsche Stoppwörter für den Volltext-Index. Diese Wörter werden von Suchindex entfernt."
 
 #. SysConfig
 msgid ""
@@ -15819,7 +15851,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16211,6 +16243,14 @@ msgstr "Japanisch"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -16854,6 +16894,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16876,16 +16928,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16894,6 +16936,16 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
@@ -16911,22 +16963,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
+"Parameters for the dashboard backend of the ticket stats of the agent "
+"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
+" used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket stats of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
@@ -17340,13 +17389,13 @@ msgstr "Benachrichtigungen an Agenten verschicken."
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
-msgstr ""
+msgstr "Absender Typ für neue Tickets aus der Kunden-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sends agent follow-up notification only to the owner, if a ticket is "
 "unlocked (the default is to send the notification to all agents)."
-msgstr ""
+msgstr "Sendet Rückfrage Benachrichtigungen für Agenten nur an den Ticket Besitzer wenn das Ticket entsperrt ist (standardmäßig werden die Benachrichtigungen an alle Agenten gesendet)."
 
 #. SysConfig
 msgid ""
@@ -17402,7 +17451,7 @@ msgstr "Absendeadressen für dieses System verwalten."
 msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "Definiert Standardhöhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom."
 
 #. SysConfig
 msgid ""
@@ -17414,7 +17463,7 @@ msgstr ""
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "Definiert maximale Höhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom."
 
 #. SysConfig
 msgid ""
@@ -17458,13 +17507,13 @@ msgstr ""
 msgid ""
 "Sets the age in minutes (first level) for highlighting queues that contain "
 "untouched tickets."
-msgstr ""
+msgstr "Definiert das Ticket Alter in Minuten bevor die Queues mit unbearbeiteten Tickets hervorgehoben werden (erstes Level)."
 
 #. SysConfig
 msgid ""
 "Sets the age in minutes (second level) for highlighting queues that contain "
 "untouched tickets."
-msgstr ""
+msgstr "Definiert das Ticket Alter in Minuten bevor die Queues mit unbearbeiteten Tickets hervorgehoben werden (zweites Level)."
 
 #. SysConfig
 msgid ""
@@ -17494,43 +17543,43 @@ msgstr "Setzt den Standard Ticket-Typ für Neue Telefon-Tickets in der Agenten-O
 msgid ""
 "Sets the default body text for notes added in the close ticket screen of the"
 " agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Schließen\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket move screen of the "
 "agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Verschieben\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket note screen of the "
 "agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Notiz\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Besitzer\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket pending screen of a"
 " zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Warten auf Erinnerung\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket priority screen of "
 "a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Priorität\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
 "Sets the default body text for notes added in the ticket responsible screen "
 "of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard Body-Text für Notizen in der \"Ticket Verantwortlicher\" Ansicht in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid ""
@@ -18008,6 +18057,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn das Schreiben von Richtext abgeschaltet ist."
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr "Steuert, ob der aktuelle Besitzer im Kundenbereich angezeigt werden soll."
 
@@ -18303,92 +18356,92 @@ msgstr ""
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the close ticket "
 "screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Schließen\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket free "
 "text screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket FreiText\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket note "
 "screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Notiz\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Besitzer\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Warten auf Erinnerung\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Priorität\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "responsible screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Verantwortlicher\" Ansicht der Agenten-Oberfläche eine Liste aller am Ticket beteiligten Agenten."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Schließen\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket FreiText\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Notiz\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Besitzer\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Warten auf Erinnerung\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Priorität\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Verantwortlicher\" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen."
 
 #. SysConfig
 msgid ""
@@ -18406,27 +18459,27 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr ""
+msgstr "Zeigt sowohl rw als auch ro Queues in der Queue-Ansicht."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
-msgstr ""
+msgstr "Zeigt sowohl rw als auch ro Queues in der Service-Ansicht."
 
 #. SysConfig
 msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
-msgstr ""
+msgstr "Zeigt in der Eskalation-Ansicht im der Agenten-Oberfläche alle offenen Tickets (auch wenn diese gesperrt sind)."
 
 #. SysConfig
 msgid ""
 "Shows all open tickets (even if they are locked) in the status view of the "
 "agent interface."
-msgstr ""
+msgstr "Zeigt in der Status-Ansicht im der Agenten-Oberfläche alle offenen Tickets (auch wenn diese gesperrt sind)."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
-msgstr ""
+msgstr "Zeigt in der \"Ticket Zoom\" Ansicht alle Artikel (in der ausgeklappten Ansicht)."
 
 #. SysConfig
 msgid ""
@@ -18892,6 +18945,10 @@ msgstr "Vorlagen <-> Queues"
 #. SysConfig
 msgid "Textarea"
 msgstr "Textfeld"
+
+#. SysConfig
+msgid "Thai"
+msgstr ""
 
 #. SysConfig
 msgid ""
