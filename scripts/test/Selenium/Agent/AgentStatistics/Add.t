@@ -395,7 +395,7 @@ JAVASCRIPT
                 Type => $Cache,
             );
         }
-        }
+    }
 );
 
 1;

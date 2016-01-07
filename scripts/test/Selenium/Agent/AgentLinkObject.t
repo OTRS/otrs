@@ -222,7 +222,7 @@ $Selenium->RunTest(
                 "Delete ticket - $TicketID"
             );
         }
-        }
+    }
 );
 
 1;

@@ -214,7 +214,7 @@ JAVASCRIPT
                 "Test widget 'Other Settings' found on screen"
             );
         }
-        }
+    }
 
 );
 

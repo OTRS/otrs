@@ -100,7 +100,7 @@ $Selenium->RunTest(
             1,
             "$TestCustomerUserLogin - found on UserOnline plugin"
         ) || die;
-        }
+    }
 );
 
 1;

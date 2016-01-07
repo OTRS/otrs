@@ -71,7 +71,7 @@ $Selenium->RunTest(
                 "Customer preference $Test->{Name} - updated"
             );
         }
-        }
+    }
 );
 
 1;

@@ -69,7 +69,7 @@ $Selenium->RunTest(
                 "Success notification in $Language",
             );
         }
-        }
+    }
 );
 
 1;

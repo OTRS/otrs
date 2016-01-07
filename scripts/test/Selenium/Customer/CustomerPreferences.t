@@ -122,7 +122,7 @@ $Selenium->RunTest(
                 "Test widget 'Ticket overview' found on screen"
             );
         }
-        }
+    }
 
 );
 

@@ -84,7 +84,7 @@ $Selenium->RunTest(
             $Success,
             "Directory deleted - '$PGPPath'",
         );
-        }
+    }
 );
 
 1;

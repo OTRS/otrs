@@ -79,7 +79,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $ErrorMessage ) > -1,
             'Agent preference out of office time - not updated'
         );
-        }
+    }
 );
 
 1;

@@ -170,8 +170,10 @@ $Selenium->RunTest(
         );
 
         $Self->True(
-            index( $Selenium->get_page_source(),
-                'Action=AdminAutoResponse;Subaction=Change;ID=$AutoResponseIDs[2]->{ID}' ) == -1,
+            index(
+                $Selenium->get_page_source(),
+                'Action=AdminAutoResponse;Subaction=Change;ID=$AutoResponseIDs[2]->{ID}'
+                ) == -1,
             "$AutoResponseIDs[2]->{Name} is not found screen",
         );
 

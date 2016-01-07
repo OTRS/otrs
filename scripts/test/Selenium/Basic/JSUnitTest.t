@@ -69,7 +69,7 @@ $Selenium->RunTest(
             }
         }
 
-        }
+    }
 );
 
 1;

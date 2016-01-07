@@ -61,7 +61,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Customer preference password - updated'
         );
-        }
+    }
 );
 
 1;

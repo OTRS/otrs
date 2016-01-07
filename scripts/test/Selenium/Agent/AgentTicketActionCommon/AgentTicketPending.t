@@ -122,7 +122,7 @@ $Selenium->RunTest(
             Type => 'Ticket',
         );
 
-        }
+    }
 );
 
 1;
