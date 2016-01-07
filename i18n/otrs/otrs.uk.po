@@ -1,12 +1,14 @@
 # 
 # Translators:
+# Bohdan Melnychuk <base-w@yandex.ru>, 2015
 # Oleg Sydorenko <oleg.sidorenko@gmail.com>, 2015
+# Vira Motorko <ato4ka@i.ua>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,11 +50,11 @@ msgstr "ввімкнено"
 
 #. Template: AAABase
 msgid "top"
-msgstr "До початку"
+msgstr "до початку"
 
 #. Template: AAABase
 msgid "end"
-msgstr "В кінець"
+msgstr "у кінець"
 
 #. Template: AAABase
 msgid "Done"
@@ -60,7 +62,7 @@ msgstr "Готово"
 
 #. Template: AAABase
 msgid "Cancel"
-msgstr "Відмінити"
+msgstr "Скасувати"
 
 #. Template: AAABase
 msgid "Reset"
@@ -68,27 +70,27 @@ msgstr "Перезавантажити"
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "понад ... тому"
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr ""
+msgstr "у понад ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "за останні ..."
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "за наступні ..."
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr "Створений протягом останніх"
+msgstr "Створено протягом останніх "
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr "Створено понад ... назад"
+msgstr "Створено понад ... тому"
 
 #. Template: AAABase
 msgid "Today"
@@ -116,7 +118,7 @@ msgstr "днів"
 
 #. Template: AAABase
 msgid "d"
-msgstr ""
+msgstr "д."
 
 #. Template: AAABase
 msgid "hour"
@@ -132,11 +134,11 @@ msgstr "годин"
 
 #. Template: AAABase
 msgid "Hours"
-msgstr "Годинник"
+msgstr "Години"
 
 #. Template: AAABase
 msgid "h"
-msgstr ""
+msgstr "год."
 
 #. Template: AAABase
 msgid "minute"
@@ -156,7 +158,7 @@ msgstr "Хвилини"
 
 #. Template: AAABase
 msgid "m"
-msgstr ""
+msgstr "хв."
 
 #. Template: AAABase
 msgid "month"
@@ -180,19 +182,19 @@ msgstr "тижнів"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "квартал"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "квартал(ів)"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "півріччя"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "півріччя"
 
 #. Template: AAABase
 msgid "year"
@@ -220,15 +222,15 @@ msgstr "секунда"
 
 #. Template: AAABase
 msgid "s"
-msgstr ""
+msgstr "с."
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr "Часова одиниця"
+msgstr "Одиниця часу"
 
 #. Template: AAABase
 msgid "wrote"
-msgstr "написав(ла)"
+msgstr "написав(-ла)"
 
 #. Template: AAABase
 msgid "Message"
@@ -256,11 +258,11 @@ msgstr "Модуль"
 
 #. Template: AAABase
 msgid "Modulefile"
-msgstr "Фалйл подулю"
+msgstr "Файл модулю"
 
 #. Template: AAABase
 msgid "Subfunction"
-msgstr "Підфункця"
+msgstr "Підфункція"
 
 #. Template: AAABase
 msgid "Line"
@@ -296,7 +298,7 @@ msgstr "недійсний"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr "Не правильний"
+msgstr "Недійсний"
 
 #. Template: AAABase
 msgid "* invalid"
@@ -328,11 +330,11 @@ msgstr "15 хвилин"
 
 #. Template: AAABase
 msgid "Mr."
-msgstr "Добродій"
+msgstr "пан"
 
 #. Template: AAABase
 msgid "Mrs."
-msgstr "Пані"
+msgstr "пані"
 
 #. Template: AAABase
 msgid "Next"
@@ -344,11 +346,11 @@ msgstr "Назад"
 
 #. Template: AAABase
 msgid "Next..."
-msgstr "Далі..."
+msgstr "Далі…"
 
 #. Template: AAABase
 msgid "...Back"
-msgstr "...Назад"
+msgstr "…Назад"
 
 #. Template: AAABase
 msgid "-none-"
@@ -368,7 +370,7 @@ msgstr "немає - відповів"
 
 #. Template: AAABase
 msgid "please do not edit!"
-msgstr "Будьласка, не редагуйте!"
+msgstr "будь ласка, не редагуйте!"
 
 #. Template: AAABase
 msgid "Need Action"
@@ -380,7 +382,7 @@ msgstr "Додати посилання"
 
 #. Template: AAABase
 msgid "Link"
-msgstr "Посиланя"
+msgstr "Зв'язати"
 
 #. Template: AAABase
 msgid "Unlink"
@@ -392,15 +394,15 @@ msgstr "Пов'язаний"
 
 #. Template: AAABase
 msgid "Link (Normal)"
-msgstr "Посилання (звичайне)"
+msgstr "Зв'язок (звичайний)"
 
 #. Template: AAABase
 msgid "Link (Parent)"
-msgstr "Посилання (джерело)"
+msgstr "Зв'язок (батьківський)"
 
 #. Template: AAABase
 msgid "Link (Child)"
-msgstr "Посилання (нащадок)"
+msgstr "Зв'язок (дочірній)"
 
 #. Template: AAABase
 msgid "Normal"
@@ -408,11 +410,11 @@ msgstr "Звичайний"
 
 #. Template: AAABase
 msgid "Parent"
-msgstr "Джерело"
+msgstr "Батьківський"
 
 #. Template: AAABase
 msgid "Child"
-msgstr "Нащадок"
+msgstr "Дочірній"
 
 #. Template: AAABase
 msgid "Hit"
@@ -456,7 +458,7 @@ msgstr "Пароль"
 
 #. Template: AAABase
 msgid "Preferences"
-msgstr "Уподобання"
+msgstr "Налаштування"
 
 #. Template: AAABase
 msgid "Salutation"
@@ -464,7 +466,7 @@ msgstr "Привітання"
 
 #. Template: AAABase
 msgid "Salutations"
-msgstr "Вітаю"
+msgstr "Привітання"
 
 #. Template: AAABase
 msgid "Signature"
@@ -480,11 +482,11 @@ msgstr "Клієнт"
 
 #. Template: AAABase
 msgid "CustomerID"
-msgstr "ID користувача"
+msgstr "ID клієнта"
 
 #. Template: AAABase
 msgid "CustomerIDs"
-msgstr "ID користувача"
+msgstr "ID клієнта"
 
 #. Template: AAABase
 msgid "customer"
@@ -500,11 +502,11 @@ msgstr "система"
 
 #. Template: AAABase
 msgid "Customer Info"
-msgstr "Інформація про агента"
+msgstr "Інформація про клієнта"
 
 #. Template: AAABase
 msgid "Customer Information"
-msgstr "Інформація про агента"
+msgstr "Інформація про клієнта"
 
 #. Template: AAABase
 msgid "Customer Companies"
@@ -524,11 +526,11 @@ msgstr "розпочати"
 
 #. Template: AAABase
 msgid "All"
-msgstr "Всі"
+msgstr "Усі"
 
 #. Template: AAABase
 msgid "all"
-msgstr "всі"
+msgstr "усі"
 
 #. Template: AAABase
 msgid "Sorry"
@@ -568,7 +570,7 @@ msgstr "змінити!"
 
 #. Template: AAABase
 msgid "Change"
-msgstr "Смінити"
+msgstr "Змінити"
 
 #. Template: AAABase
 msgid "change"
@@ -584,15 +586,15 @@ msgstr "Коментар"
 
 #. Template: AAABase
 msgid "Invalid Option!"
-msgstr "Невірний параметр"
+msgstr "Недійсна опція!"
 
 #. Template: AAABase
 msgid "Invalid time!"
-msgstr "Невірний час"
+msgstr "Недійсний час!"
 
 #. Template: AAABase
 msgid "Invalid date!"
-msgstr "Невірна дата"
+msgstr "Недійсна дата!"
 
 #. Template: AAABase
 msgid "Name"
@@ -616,19 +618,19 @@ msgstr "Тема"
 
 #. Template: AAABase
 msgid "Created"
-msgstr "Створеий"
+msgstr "Створено"
 
 #. Template: AAABase
 msgid "Created by"
-msgstr "Створений"
+msgstr "Створено"
 
 #. Template: AAABase
 msgid "Changed"
-msgstr "Змінений"
+msgstr "Змінено"
 
 #. Template: AAABase
 msgid "Changed by"
-msgstr "Змінений"
+msgstr "Змінено"
 
 #. Template: AAABase
 msgid "Search"
@@ -664,11 +666,11 @@ msgstr "Заголовок"
 
 #. Template: AAABase
 msgid "Item"
-msgstr "пункт"
+msgstr "Елемент"
 
 #. Template: AAABase
 msgid "Delete"
-msgstr "Видалити"
+msgstr "Вилучити"
 
 #. Template: AAABase
 msgid "Edit"
@@ -712,7 +714,7 @@ msgstr "Додати"
 
 #. Template: AAABase
 msgid "Added!"
-msgstr "Додано"
+msgstr "Додано!"
 
 #. Template: AAABase
 msgid "Category"
@@ -720,15 +722,15 @@ msgstr "Категорія"
 
 #. Template: AAABase
 msgid "Viewer"
-msgstr "Переглянути"
+msgstr "Переглядач"
 
 #. Template: AAABase
 msgid "Expand"
-msgstr "РОзгорнути"
+msgstr "Розгорнути"
 
 #. Template: AAABase
 msgid "Small"
-msgstr "Маленький"
+msgstr "Малий"
 
 #. Template: AAABase
 msgid "Medium"
@@ -740,11 +742,11 @@ msgstr "Великий"
 
 #. Template: AAABase
 msgid "Date picker"
-msgstr "Видір дати"
+msgstr "Вибір дати"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr "Показати Дерево вибору"
+msgstr "Показати дерево вибору"
 
 #. Template: AAABase
 msgid "The field content is too long!"
@@ -752,7 +754,7 @@ msgstr "Значення поля занадто довге!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr "Максимальний розмір %s символів."
+msgstr "Максимальний розмір — %s символів."
 
 #. Template: AAABase
 msgid "This field is required or"
@@ -764,23 +766,23 @@ msgstr "Нове повідомлення"
 
 #. Template: AAABase
 msgid "New message!"
-msgstr "Нове повідомлення"
+msgstr "Нове повідомлення!"
 
 #. Template: AAABase
 msgid "Please answer this ticket(s) to get back to the normal queue view!"
-msgstr "Будьласка, відповідіть на ці заявки для повернення у звичайний режим перегляду черги"
+msgstr "Будь ласка, дайте відповідь на цю заявку(-и) для повернення у звичайний режим перегляду черги!"
 
 #. Template: AAABase
 msgid "You have %s new message(s)!"
-msgstr "Ви маєте %s нових повідомлень"
+msgstr "У Вас %s нових повідомлень!"
 
 #. Template: AAABase
 msgid "You have %s reminder ticket(s)!"
-msgstr "Ви маєте %s нагадувань"
+msgstr "У Вас %s нагадувань!"
 
 #. Template: AAABase
 msgid "The recommended charset for your language is %s!"
-msgstr "Рекомендована таблиця символів для вашої мови %s!"
+msgstr "Рекомендоване кодування для Вашої мови — %s!"
 
 #. Template: AAABase
 msgid "Change your password."
@@ -788,11 +790,11 @@ msgstr "Змінити пароль"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr "Будьласка, спочатку активуйте %s"
+msgstr "Будь ласка, спочатку активуйте %s!"
 
 #. Template: AAABase
 msgid "No suggestions"
-msgstr "Попередження відсутні"
+msgstr "Підказок немає"
 
 #. Template: AAABase
 msgid "Word"
@@ -804,19 +806,19 @@ msgstr "Ігнорувати"
 
 #. Template: AAABase
 msgid "replace with"
-msgstr "Замінити на"
+msgstr "замінити на"
 
 #. Template: AAABase
 msgid "There is no account with that login name."
-msgstr "Немає користувача за таким ім'ям"
+msgstr "Немає облікового запису з таким іменем."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Помилка входу! Ваше ім'я користувача або пароль введено не правильно."
+msgstr "Помилка входу! Ваше ім'я користувача або пароль уведено неправильно."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr "У цього користувача відсутній обліковий запис."
+msgstr "Відсутній обліковий запис з таким іменем користувача."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
@@ -826,12 +828,12 @@ msgstr "Будь ласка, зверніться до адміністрато�
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Автентифікація пройшла успішно, але у бек-енді клієнтів не знайдено запису клієнта. Будь ласка, зв'яжіться з адміністратором."
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Ця електронна адреса вже існує. Будь ласка, увійдіть або скиньте пароль."
 
 #. Template: AAABase
 msgid "Logout"
@@ -839,43 +841,43 @@ msgstr "Вийти"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr "Вихід виконано. Дякуемо Вам, за використання %s!"
+msgstr "Вихід виконано. Дякуємо Вам за використання %s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
-msgstr "Функція не активована!"
+msgstr "Функція неактивна!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr ""
+msgstr "Агент оновлений!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Вибір бази даних"
 
 #. Template: AAABase
 msgid "Create Database"
-msgstr "Створити базу"
+msgstr "Створити базу даних"
 
 #. Template: AAABase
 msgid "System Settings"
-msgstr "Системні параметри"
+msgstr "Системні налаштування"
 
 #. Template: AAABase
 msgid "Mail Configuration"
-msgstr ""
+msgstr "Налаштування пошти"
 
 #. Template: AAABase
 msgid "Finished"
-msgstr "Закінчене"
+msgstr "Закінчено"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "Встановити OTRS"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "Вступ"
 
 #. Template: AAABase
 msgid "License"
@@ -883,33 +885,33 @@ msgstr "Ліцензія"
 
 #. Template: AAABase
 msgid "Database"
-msgstr "Ім'я бази даних"
+msgstr "База даних"
 
 #. Template: AAABase
 msgid "Configure Mail"
-msgstr ""
+msgstr "Налаштувати пошту"
 
 #. Template: AAABase
 msgid "Database deleted."
-msgstr ""
+msgstr "Базу даних вилучено."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Уведіть пароль користувача-адміністратора бази даних."
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Уведіть пароль користувача бази даних."
 
 #. Template: AAABase
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr ""
+msgstr "Якщо Ви встановили кореневий пароль до своєї бази даних, його треба ввести тут. Якщо ні, залиште це поле пустим."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "База даних уже містить дані — вона має бути пуста!"
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -918,7 +920,7 @@ msgstr "Необхідно ввести ім'я користувача!"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Наразі неможливо увійти через заплановані технічні роботи в системі."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -938,7 +940,7 @@ msgstr "імовірно"
 
 #. Template: AAABase
 msgid "reject"
-msgstr "відвергнути"
+msgstr "відхилити"
 
 #. Template: AAABase
 msgid "reverse"
@@ -950,41 +952,41 @@ msgstr "Об'єкт"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr "Вартовий пояс"
+msgstr "Часовий пояс"
 
 #. Template: AAABase
 msgid "Pending till"
-msgstr "В очікування ще"
+msgstr "В очікуванні до"
 
 #. Template: AAABase
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr ""
+msgstr "Не використовуйте обліковий запис Superuser для роботи з OTRS! Створіть натомість нових агентів і працюйте під цими обліковками."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
-msgstr "Перенаправлення електронного листа по заголовку ТО:"
+msgstr "Перенаправлення за полем електронного листа Кому:"
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Перенаправлення по обраній черзі"
+msgstr "Перенаправлення за обраною чергою."
 
 #. Template: AAABase
 msgid "No entry found!"
-msgstr "Запис не знайдений"
+msgstr "Не знайдено жодного запису!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "Сесія недійсна. Будь ласка, увійдіть знову."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
-msgstr "Сеанс завершений. Будьласка, виконайте вхід повторно."
+msgstr "Сесія завершена. Будь ласка, увійдіть повторно."
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr ""
+msgstr "Перевищено ліміт сесій! Будь ласка, спробуйте пізніше."
 
 #. Template: AAABase
 msgid "No Permission!"
@@ -992,7 +994,7 @@ msgstr "Немає прав!"
 
 #. Template: AAABase
 msgid "(Click here to add)"
-msgstr "(Натисніть тут щоб додати)"
+msgstr "(Натисніть тут, щоб додати)"
 
 #. Template: AAABase
 msgid "Preview"
@@ -1000,31 +1002,31 @@ msgstr "Попередній перегляд"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr ""
+msgstr "Пакет розгорнуто некоректно! Будь ласка, перевстановіть пакет."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr "Не можу прочитати %s"
+msgstr "%s не є доступним для запису!"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
-msgstr "Не можу створити %s"
+msgstr "Не вдається створити %s!"
 
 #. Template: AAABase
 msgid "Check to activate this date"
-msgstr ""
+msgstr "Оберіть, щоб активувати цю дату"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
+msgstr "У Вас ввімкнено «Не при справах», хочете вимкнути?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Новини про релізи OTRS!"
 
 #. Template: AAABase
 msgid "Customer %s added"
-msgstr ""
+msgstr "Додано клієнта %s"
 
 #. Template: AAABase
 msgid "Role added!"
@@ -1032,83 +1034,83 @@ msgstr "Роль додана!"
 
 #. Template: AAABase
 msgid "Role updated!"
-msgstr ""
+msgstr "Роль оновлено!"
 
 #. Template: AAABase
 msgid "Attachment added!"
-msgstr ""
+msgstr "Прикріплення додано!"
 
 #. Template: AAABase
 msgid "Attachment updated!"
-msgstr ""
+msgstr "Прикріплення оновлено!"
 
 #. Template: AAABase
 msgid "Response added!"
-msgstr ""
+msgstr "Відповідь додано!"
 
 #. Template: AAABase
 msgid "Response updated!"
-msgstr ""
+msgstr "Відповідь оновлено!"
 
 #. Template: AAABase
 msgid "Group updated!"
-msgstr ""
+msgstr "Групу оновлено!"
 
 #. Template: AAABase
 msgid "Queue added!"
-msgstr ""
+msgstr "Чергу додано!"
 
 #. Template: AAABase
 msgid "Queue updated!"
-msgstr ""
+msgstr "Чергу оновлено!"
 
 #. Template: AAABase
 msgid "State added!"
-msgstr ""
+msgstr "Статус додано!"
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr ""
+msgstr "Статус оновлено!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr ""
+msgstr "Тип додано!"
 
 #. Template: AAABase
 msgid "Type updated!"
-msgstr ""
+msgstr "Тип оновлено!"
 
 #. Template: AAABase
 msgid "Customer updated!"
-msgstr ""
+msgstr "Клієнта оновлено!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "Компанію клієнта додано!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "Компанію клієнта оновлено!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Примітка: Компанія недійсна!"
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr ""
+msgstr "Електронну пошту додано!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr ""
+msgstr "Електронну пошту оновлено!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr ""
+msgstr "Системну електронну адресу додано!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr ""
+msgstr "Системну електронну адресу оновлено!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1152,7 +1154,7 @@ msgstr "Директорія"
 
 #. Template: AAABase
 msgid "Signed"
-msgstr "Підписане"
+msgstr "Підписано"
 
 #. Template: AAABase
 msgid "Sign"
@@ -1160,7 +1162,7 @@ msgstr "Підписати"
 
 #. Template: AAABase
 msgid "Crypted"
-msgstr "Зашифроване"
+msgstr "Зашифровано"
 
 #. Template: AAABase
 msgid "Crypt"
@@ -1168,7 +1170,7 @@ msgstr "Шифрування"
 
 #. Template: AAABase
 msgid "PGP"
-msgstr ""
+msgstr "PGP"
 
 #. Template: AAABase
 msgid "PGP Key"
@@ -1180,15 +1182,15 @@ msgstr "PGP ключі"
 
 #. Template: AAABase
 msgid "S/MIME"
-msgstr ""
+msgstr "S/MIME"
 
 #. Template: AAABase
 msgid "S/MIME Certificate"
-msgstr ""
+msgstr "S/MIME-сертифікат"
 
 #. Template: AAABase
 msgid "S/MIME Certificates"
-msgstr ""
+msgstr "S/MIME-сертифікати"
 
 #. Template: AAABase
 msgid "Office"
@@ -1228,11 +1230,11 @@ msgstr " Місце розташування"
 
 #. Template: AAABase
 msgid "installed"
-msgstr "Установлене"
+msgstr "встановлено"
 
 #. Template: AAABase
 msgid "uninstalled"
-msgstr "Деінстальовано"
+msgstr "деінстальовано"
 
 #. Template: AAABase
 msgid ""
@@ -1242,31 +1244,31 @@ msgstr "Попередження про безпеку: ви повинні ак
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
-msgstr ""
+msgstr "Не вдалося проаналізувати документ змісту репозиторію."
 
 #. Template: AAABase
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr ""
+msgstr "Не знайдено пакетів для Вашої версії фреймворку у цьому репозиторії, він містить лише пакети для інших версій фреймворку."
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
-msgstr ""
+msgstr "Не знайдено (нових) пакетів в обраному репозиторії."
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
-msgstr ""
+msgstr "Редагувати параметри налаштування системи."
 
 #. Template: AAABase
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "ACL-інформація з бази даних не синхронізована з конфігурацією системи, будь ласка, розгорніть усі ACL."
 
 #. Template: AAABase
 msgid "printed at"
-msgstr "надруковане в"
+msgstr "надруковано о"
 
 #. Template: AAABase
 msgid "Loading..."
@@ -1274,29 +1276,29 @@ msgstr "Завантаження..."
 
 #. Template: AAABase
 msgid "Dear Mr. %s,"
-msgstr ""
+msgstr "Шановний пане %s!"
 
 #. Template: AAABase
 msgid "Dear Mrs. %s,"
-msgstr ""
+msgstr "Шановна пані %s!"
 
 #. Template: AAABase
 msgid "Dear %s,"
-msgstr ""
+msgstr "Шановний(-а) %s!"
 
 #. Template: AAABase
 msgid "Hello %s,"
-msgstr " Здрастуйте, %s."
+msgstr " Доброго дня, %s!"
 
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Цю адреса електронної пошти не можна зареєструвати. Будь ласка, зв'яжіться з підтримкою."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr ""
+msgstr "Створено новий обліковий запис. Інформацію про вхід надіслано на %s. Будь ласка, перевірте свою електронну пошту."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
@@ -1304,11 +1306,11 @@ msgstr "Натисніть «Назад» і спробуйте ще раз"
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr ""
+msgstr "Надіслано інструкції зі скидання пароля. Будь ласка, перевірте електронну пошту."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr ""
+msgstr "Надіслано новий пароль на %s. Будь ласка, перевірте електронну пошту."
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1324,7 +1326,7 @@ msgstr "Події"
 
 #. Template: AAABase
 msgid "Invalid Token!"
-msgstr "Невірний токен !"
+msgstr "Недійсний токен!"
 
 #. Template: AAABase
 msgid "more"
@@ -1340,7 +1342,7 @@ msgstr "Показане"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr ""
+msgstr "Показані користувачі-клієнти"
 
 #. Template: AAABase
 msgid "News"
@@ -1362,13 +1364,13 @@ msgstr "Статистика за 7 днів"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr ""
+msgstr "Інформація керування процесами з бази даних не синхронізована з конфігурацією системи, будь ласка, синхронізуйте усі процеси."
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Пакет не верифіковано OTRS Group! Рекомендовано не використовувати цей пакет."
 
 #. Template: AAABase
 msgid ""
@@ -1377,15 +1379,15 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Якщо Ви продовжите встановлення цього пакета, можуть статися проблеми!<br><br>&nbsp;— Проблеми безпеки<br>&nbsp;— Проблеми стабільності<br>&nbsp;— Проблеми роботи<br><br>Будь ласка, зауважте, що ці проблеми, викликані роботою з цим пакетом, не покриваються котрактами обслуговування OTRS!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Позначити"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Зняти позначку"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1477,119 +1479,119 @@ msgstr "Повторити"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Daemon не працює."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером реєстрації. Будь ласка, спробуйте пізніше."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Не отримано вмісту від сервера реєстрації. Будь ласка, спробуйте пізніше."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Проблеми з обробкою результатів сервера. Будь ласка, спробуйте пізніше."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Ім'я користувача і пароль не співпадають. Будь ласка, спробуйте ще раз."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "Обраний процес недійсний!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Оновіть до %s зараз!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Перейти до центру оновлення %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "Ліцензія для Вашого %s скоро закінчиться. Будь ласка, зв'яжіться з %s, щоб поновити свій контракт!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Доступне оновлення для Вашого %s, але існує конфлікт з Вашою версією фреймворку Будь ласка, оновіть спершу свій фреймворк!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Вашу систему було успішно оновлено до %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Сталася проблема під час оновлення до %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s було коректно перевстановлено."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Сталася проблема з перевстановленням %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Ваш %s було успішно оновлено."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Сталася проблема під час оновлення %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s було коректно деінстальовано."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Сталася проблема з деінсталюванням %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "Новий рік"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "Міжнародний день трудящих"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
-msgstr ""
+msgstr "Переддень Різдва"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr ""
+msgstr "Різдво"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr ""
+msgstr "Другий день Різдва"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
-msgstr ""
+msgstr "Переддень Нового року"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr ""
+msgstr "OTRS як подавач запиту"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
-msgstr ""
+msgstr "OTRS як провайдер"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr ""
+msgstr "Веб-сервіс «%s» створено!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr ""
+msgstr "Веб-сервіс «%s» оновлено!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1689,7 +1691,7 @@ msgstr "Грудень"
 
 #. Template: AAAPreferences
 msgid "Preferences updated successfully!"
-msgstr "Настроювання успішно оновлені"
+msgstr "Налаштуваня успішно оновлені!"
 
 #. Template: AAAPreferences
 msgid "User Profile"
@@ -1697,19 +1699,19 @@ msgstr "Профіль користувача"
 
 #. Template: AAAPreferences
 msgid "Email Settings"
-msgstr "Настроювання пошти"
+msgstr "Налаштування пошти"
 
 #. Template: AAAPreferences
 msgid "Other Settings"
-msgstr "Інші настроювання"
+msgstr "Інші налаштування"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Налаштування сповіщень"
 
 #. Template: AAAPreferences
 msgid "Change Password"
-msgstr "Перемінити пароль"
+msgstr "Змінити пароль"
 
 #. Template: AAAPreferences
 msgid "Current password"
@@ -1725,11 +1727,11 @@ msgstr "Повторіть пароль"
 
 #. Template: AAAPreferences
 msgid "Spelling Dictionary"
-msgstr "Словник"
+msgstr "Орфографічний словник"
 
 #. Template: AAAPreferences
 msgid "Default spelling dictionary"
-msgstr ""
+msgstr "Орфографічний словник за замовчуванням"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
@@ -1737,47 +1739,47 @@ msgstr "Максимальна кількість заявок при показ
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
-msgstr "Пароль не вірний. Будь ласка, спробуйте знову!"
+msgstr "Пароль неправильний. Будь ласка, спробуйте знову!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Неможливо обновити пароль. Нові паролі не збігаються. Будь ласка, спробуйте знову!"
+msgstr "Неможливо оновити пароль. Нові паролі не збігаються. Будь ласка, спробуйте знову!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr "Неможливо обновити пароль, тому що він містить заборонені символи!"
+msgstr "Неможливо оновити пароль, тому що він містить заборонені символи!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Неможливо обновити пароль, тому що його довжина повинна бути не менш %s символів!"
+msgstr "Неможливо оновити пароль, тому що його довжина повинна бути не менше %s символів!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "characters!"
-msgstr "Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!"
+msgstr "Неможливо оновити пароль, тому що він повинен містити не менше 2-х символів нижнього і 2-х символів верхнього регістру!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "Неможливо обновити пароль, тому що він повинен містити не менш 1-й цифри!"
+msgstr "Неможливо оновити пароль, тому що він повинен містити не менше 1-ї цифри!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 characters!"
-msgstr "Неможливо обновити пароль, тому що він повинен містити не менш 2 букв!"
+msgstr "Неможливо оновити пароль, тому що він повинен містити не менше 2 символів!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, this password has already been used. Please choose a "
 "new one!"
-msgstr "Неможливо обновити пароль, тому що він уже використовувався. Будь ласка, виберіть іншої."
+msgstr "Неможливо оновити пароль, тому що він уже використовувався. Будь ласка, оберіть новий."
 
 #. Template: AAAPreferences
 msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr ""
+msgstr "Оберіть символ розділювача, що використовується у файлах CSV (статистика і пошук). Якщо не оберете розділювач тут, то використовуватиметься стандартний розділювач для Вашої мови."
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
@@ -1785,15 +1787,15 @@ msgstr "Роздільник CSV"
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr ""
+msgstr "Перегляд статусу"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Перегляд сервісу"
 
 #. Template: AAATicket
 msgid "Bulk"
-msgstr ""
+msgstr "Масово"
 
 #. Template: AAATicket
 msgid "Lock"
@@ -1825,11 +1827,11 @@ msgstr "Переслати"
 
 #. Template: AAATicket
 msgid "From"
-msgstr "Відправник"
+msgstr "Від кого"
 
 #. Template: AAATicket
 msgid "To"
-msgstr "Одержувач"
+msgstr "Кому"
 
 #. Template: AAATicket
 msgid "Cc"
@@ -1837,7 +1839,7 @@ msgstr "Копія"
 
 #. Template: AAATicket
 msgid "Bcc"
-msgstr "Схована копія"
+msgstr "Прихована копія"
 
 #. Template: AAATicket
 msgid "Subject"
@@ -1869,19 +1871,19 @@ msgstr "Зміна пріоритету"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr ""
+msgstr "Пріоритет додано!"
 
 #. Template: AAATicket
 msgid "Priority updated!"
-msgstr ""
+msgstr "Пріоритет оновлено!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr ""
+msgstr "Підпис додано!"
 
 #. Template: AAATicket
 msgid "Signature updated!"
-msgstr ""
+msgstr "Підпис оновлено!"
 
 #. Template: AAATicket
 msgid "SLA"
@@ -1889,11 +1891,11 @@ msgstr "Рівень обслуговування"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr "Угода про Рівень Сервісу"
+msgstr "Угода про рівень сервісу"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr "Угоди про Рівень Сервісу"
+msgstr "Угоди про рівень сервісу"
 
 #. Template: AAATicket
 msgid "Service"
@@ -1905,11 +1907,11 @@ msgstr "Сервіси"
 
 #. Template: AAATicket
 msgid "State"
-msgstr "Статус"
+msgstr "Стан"
 
 #. Template: AAATicket
 msgid "States"
-msgstr "Стану"
+msgstr "Стани"
 
 #. Template: AAATicket
 msgid "Status"
@@ -1925,7 +1927,7 @@ msgstr "Тип заявки"
 
 #. Template: AAATicket
 msgid "Ticket Types"
-msgstr "Типи заявки"
+msgstr "Типи заявок"
 
 #. Template: AAATicket
 msgid "Compose"
@@ -1969,7 +1971,7 @@ msgstr "Час створення"
 
 #. Template: AAATicket
 msgid "plain"
-msgstr "Звичайний"
+msgstr "звичайний"
 
 #. Template: AAATicket
 msgid "Email"
@@ -1977,7 +1979,7 @@ msgstr "Email"
 
 #. Template: AAATicket
 msgid "email"
-msgstr "Email"
+msgstr "email"
 
 #. Template: AAATicket
 msgid "Close"
@@ -1989,15 +1991,15 @@ msgstr "Дія"
 
 #. Template: AAATicket
 msgid "Attachment"
-msgstr "Прикріплений файл"
+msgstr "Прикріплення"
 
 #. Template: AAATicket
 msgid "Attachments"
-msgstr "Прикріплені файли"
+msgstr "Прикріплення"
 
 #. Template: AAATicket
 msgid "This message was written in a character set other than your own."
-msgstr "Це повідомлення написане в кодуванні. відмінної від вашої."
+msgstr "Це повідомлення написане в кодуванні, відмінному від Вашого."
 
 #. Template: AAATicket
 msgid "If it is not displayed correctly,"
@@ -2009,15 +2011,15 @@ msgstr "Це"
 
 #. Template: AAATicket
 msgid "to open it in a new window."
-msgstr "відкрити в новім вікні"
+msgstr "відкрити в новому вікні."
 
 #. Template: AAATicket
 msgid "This is a HTML email. Click here to show it."
-msgstr "Цей електронний лист у форматі HTML. Натисніть тут для перегляду"
+msgstr "Це електронний лист у форматі HTML. Натисніть тут для перегляду"
 
 #. Template: AAATicket
 msgid "Free Fields"
-msgstr "Вільне поле"
+msgstr "Вільні поля"
 
 #. Template: AAATicket
 msgid "Merge"
@@ -2025,51 +2027,51 @@ msgstr "Об'єднати"
 
 #. Template: AAATicket
 msgid "merged"
-msgstr "об'єднаний"
+msgstr "об'єднано"
 
 #. Template: AAATicket
 msgid "closed successful"
-msgstr "Закрита успішно"
+msgstr "закрито успішно"
 
 #. Template: AAATicket
 msgid "closed unsuccessful"
-msgstr "Закрита неуспішно"
+msgstr "закрито неуспішно"
 
 #. Template: AAATicket
 msgid "Locked Tickets Total"
-msgstr ""
+msgstr "Блоковані заявки всі"
 
 #. Template: AAATicket
 msgid "Locked Tickets Reminder Reached"
-msgstr ""
+msgstr "Блоковані заявки з нагадуванням"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr ""
+msgstr "Блоковані заявки нові"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
-msgstr ""
+msgstr "Відповідальні заявки всі"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr ""
+msgstr "Відповідальні заявки нові"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr ""
+msgstr "Відповідальні заявки з нагадуванням"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr ""
+msgstr "Спостережувані заявки всі"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr ""
+msgstr "Спостережувані заявки нові"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr ""
+msgstr "Спостережувані заявки з нагадуванням"
 
 #. Template: AAATicket
 msgid "All tickets"
@@ -2077,47 +2079,47 @@ msgstr "Усі заявки"
 
 #. Template: AAATicket
 msgid "Available tickets"
-msgstr ""
+msgstr "Доступні заявки"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr "Ескалація"
+msgstr "Розгортання"
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr ""
+msgstr "останній пошук"
 
 #. Template: AAATicket
 msgid "QueueView"
-msgstr ""
+msgstr "Перегляд черги"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Вид ескалації заявки"
+msgstr "Розгорнені заявки"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "Повідомлення від"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "Кінець повідомлення"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "Переслане повідомлення від"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr ""
+msgstr "Кінець пересланого повідомлення"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Переслати повідомлення на іншу електронну адресу"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Відповісти на нотатку"
 
 #. Template: AAATicket
 msgid "new"
@@ -2133,7 +2135,7 @@ msgstr "Відкриті"
 
 #. Template: AAATicket
 msgid "Open tickets"
-msgstr ""
+msgstr "Відкриті заявки"
 
 #. Template: AAATicket
 msgid "closed"
@@ -2145,7 +2147,7 @@ msgstr "Закриті"
 
 #. Template: AAATicket
 msgid "Closed tickets"
-msgstr ""
+msgstr "Закриті заявки"
 
 #. Template: AAATicket
 msgid "removed"
@@ -2157,15 +2159,15 @@ msgstr "відкладене нагадування"
 
 #. Template: AAATicket
 msgid "pending auto"
-msgstr "черга на автозакрытие"
+msgstr "чекає на авто"
 
 #. Template: AAATicket
 msgid "pending auto close+"
-msgstr "черга на автозакрытие+"
+msgstr "чекає на автозакриття+"
 
 #. Template: AAATicket
 msgid "pending auto close-"
-msgstr "черга на автозакрытие-"
+msgstr "чекає на автозакриття-"
 
 #. Template: AAATicket
 msgid "email-external"
@@ -2185,7 +2187,7 @@ msgstr "внутрішня замітка"
 
 #. Template: AAATicket
 msgid "note-report"
-msgstr " Замітка-Звіт"
+msgstr " замітка-звіт"
 
 #. Template: AAATicket
 msgid "phone"
@@ -2249,23 +2251,23 @@ msgstr "5 невідкладний"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr ""
+msgstr "автослідування"
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr ""
+msgstr "автовідхилення"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "автовилучення"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "автовідповідь"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "автовідповідь/нова заявка"
 
 #. Template: AAATicket
 msgid "Create"
@@ -2273,7 +2275,7 @@ msgstr "Створити"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "Відповісти"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -2297,27 +2299,27 @@ msgstr "Заявки з номером «%s» не існує, неможлив�
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr ""
+msgstr "У Вас немає доступу запису до цієї заявки."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "Вибачте, Ви маєте бути власником заявки, щоб виконати цю дію."
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr ""
+msgstr "Будь ласка, змініть спочатку власника."
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "Заявку обрано."
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr ""
+msgstr "Заявка заблокована іншим агентом."
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "Заявка заблокована."
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -2333,15 +2335,15 @@ msgstr "Нове повідомлення"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
-msgstr ""
+msgstr "Доступні непрочитані статті"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr ""
+msgstr "Вилучити зі списку спостережуваних заявок"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
-msgstr ""
+msgstr "Додати до списку спостережуваних заявок"
 
 #. Template: AAATicket
 msgid "Email-Ticket"
@@ -2353,7 +2355,7 @@ msgstr "Створити нову заявку"
 
 #. Template: AAATicket
 msgid "Phone-Ticket"
-msgstr "Заявка з телефонний дзвінок"
+msgstr "Заявка — телефонний дзвінок"
 
 #. Template: AAATicket
 msgid "Search Tickets"
@@ -2361,11 +2363,11 @@ msgstr "Пошук заявок"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Справжнє ім'я клієнта"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Історія клієнта"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -2373,7 +2375,7 @@ msgstr "Редагувати клієнтів"
 
 #. Template: AAATicket
 msgid "Edit Customer"
-msgstr "Редагувати Клієнта"
+msgstr "Редагувати клієнта"
 
 #. Template: AAATicket
 msgid "Bulk Action"
@@ -2397,15 +2399,15 @@ msgstr "Створити нову телефонну заявку"
 
 #. Template: AAATicket
 msgid "Address %s replaced with registered customer address."
-msgstr ""
+msgstr "Адресу %s замінено на зареєстровану адресу клієнта."
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "Користувача-клієнта автоматично додано на копію."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
-msgstr "Огляд усіх заявок"
+msgstr "Огляд усіх відкритих заявок"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
@@ -2417,63 +2419,63 @@ msgstr "Мої заблоковані заявки"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr ""
+msgstr "Мої спостережувані заявки"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
-msgstr ""
+msgstr "Мої відповідальні заявки"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
-msgstr " заявки, Що Відслідковуються, "
+msgstr "Спостережувані заявки"
 
 #. Template: AAATicket
 msgid "Watched"
-msgstr ", Що Відслідковуються"
+msgstr "Спостережувані"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr ""
+msgstr "Спостерігати"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr ""
+msgstr "Перестати спостерігати"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
-msgstr ""
+msgstr "Заблокувати, щоб працювати над цим"
 
 #. Template: AAATicket
 msgid "Unlock to give it back to the queue"
-msgstr ""
+msgstr "Розблокувати, щоб повернути у чергу"
 
 #. Template: AAATicket
 msgid "Show the ticket history"
-msgstr ""
+msgstr "Показати історію заявки"
 
 #. Template: AAATicket
 msgid "Print this ticket"
-msgstr ""
+msgstr "Роздрукувати цю заявку"
 
 #. Template: AAATicket
 msgid "Print this article"
-msgstr ""
+msgstr "Роздрукувати це повідомлення"
 
 #. Template: AAATicket
 msgid "Split"
-msgstr ""
+msgstr "Розділити"
 
 #. Template: AAATicket
 msgid "Split this article"
-msgstr ""
+msgstr "Розділити цю статтю"
 
 #. Template: AAATicket
 msgid "Forward article via mail"
-msgstr ""
+msgstr "Переслати повідомлення електронною поштою"
 
 #. Template: AAATicket
 msgid "Change the ticket priority"
-msgstr ""
+msgstr "Змінити пріоритет заявки"
 
 #. Template: AAATicket
 msgid "Change the ticket free fields!"
@@ -2481,31 +2483,31 @@ msgstr "Змінити вільні поля заявки!"
 
 #. Template: AAATicket
 msgid "Link this ticket to other objects"
-msgstr ""
+msgstr "Зв'язати заявку з іншими об'єктами"
 
 #. Template: AAATicket
 msgid "Change the owner for this ticket"
-msgstr ""
+msgstr "Змінити власника цієї заявки"
 
 #. Template: AAATicket
 msgid "Change the  customer for this ticket"
-msgstr ""
+msgstr "Змінити клієнта цієї заявки"
 
 #. Template: AAATicket
 msgid "Add a note to this ticket"
-msgstr ""
+msgstr "Додати нотатку до цієї заявки"
 
 #. Template: AAATicket
 msgid "Merge into a different ticket"
-msgstr ""
+msgstr "Об'єднати з іншою заявкою"
 
 #. Template: AAATicket
 msgid "Set this ticket to pending"
-msgstr ""
+msgstr "Позначити цю заявку як «в очікуванні»"
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr ""
+msgstr "Закрити цю заявку"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
@@ -2513,7 +2515,7 @@ msgstr "Переглянути заявку!"
 
 #. Template: AAATicket
 msgid "Delete this ticket"
-msgstr ""
+msgstr "Вилучити цю заявку"
 
 #. Template: AAATicket
 msgid "Mark as Spam!"
@@ -2529,7 +2531,7 @@ msgstr "Показувані заявки"
 
 #. Template: AAATicket
 msgid "Shown Columns"
-msgstr ""
+msgstr "Показані колонки"
 
 #. Template: AAATicket
 msgid ""
@@ -2563,15 +2565,15 @@ msgstr "Заявка %s: час розв'язку заявки мине чере
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
-msgstr "Ескальованих заявок більше немає!"
+msgstr "Розгорнених заявок більше немає!"
 
 #. Template: AAATicket
 msgid "Plain Format"
-msgstr ""
+msgstr "Простий формат"
 
 #. Template: AAATicket
 msgid "Reply All"
-msgstr ""
+msgstr "Відповісти всім"
 
 #. Template: AAATicket
 msgid "Direction"
@@ -2579,77 +2581,77 @@ msgstr "Напрямок"
 
 #. Template: AAATicket
 msgid "New ticket notification"
-msgstr "Повідомлення про нову заявку"
+msgstr "Сповіщення про нову заявку"
 
 #. Template: AAATicket
 msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr "Повідомлення про нові заявки"
+msgstr "Надсилати мені сповіщення, якщо у «Моїх чергах» є нова заявка."
 
 #. Template: AAATicket
 msgid "Send new ticket notifications"
-msgstr "Відправити повідомлення про нову заявку"
+msgstr "Надсилати сповіщення про нові заявки"
 
 #. Template: AAATicket
 msgid "Ticket follow up notification"
-msgstr ""
+msgstr "Сповіщення про слідкування за заявкою"
 
 #. Template: AAATicket
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr ""
+msgstr "Надсилати мені сповіщення, якщо клієнт додає інших отримувачів листів, і я є власником заявки або заявка розблокована і знаходиться в одній з моїх черг."
 
 #. Template: AAATicket
 msgid "Send ticket follow up notifications"
-msgstr ""
+msgstr "Надсилати сповіщення про нових адресатів"
 
 #. Template: AAATicket
 msgid "Ticket lock timeout notification"
-msgstr "Повідомлення про витікання строку блокування заявки системою"
+msgstr "Повідомлення про закічнення строку блокування заявки"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr "Надіслати мені повідомлення, якщо заявка звільнена системою."
+msgstr "Надслати мені сповіщення, якщо заявка розблокована системою."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
-msgstr ""
+msgstr "Надсилати сповіщення про розблокування заявки"
 
 #. Template: AAATicket
 msgid "Ticket move notification"
-msgstr "Повідомлення про переміщення заявки"
+msgstr "Сповіщення про переміщення заявки"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is moved into one of \"My Queues\"."
-msgstr "Надіслати мені повідомлення, якщо заявка переміщена в одну з моїх черг."
+msgstr "Надсилати мені сповіщення, якщо заявка переміщена в одну з моїх черг."
 
 #. Template: AAATicket
 msgid "Send ticket move notifications"
-msgstr "Відправити повідомлення про переміщення заявки"
+msgstr "Надсилати сповіщення про переміщення заявки"
 
 #. Template: AAATicket
 msgid ""
 "Your queue selection of your favourite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Вибір черг, які Вас цікавлять. Ви також отримуєте сповіщення про ці черги електронною поштою, якщо ця функція увімкнена."
 
 #. Template: AAATicket
 msgid "Custom Queue"
-msgstr "Резервна черга"
+msgstr "Власна черга"
 
 #. Template: AAATicket
 msgid "QueueView refresh time"
-msgstr ""
+msgstr "Час оновлення перегляду черги"
 
 #. Template: AAATicket
 msgid ""
 "If enabled, the QueueView will automatically refresh after the specified "
 "time."
-msgstr ""
+msgstr "Якщо увімкнено, перегляд черги автоматично оновлюватиметься через вказаний час."
 
 #. Template: AAATicket
 msgid "Refresh QueueView after"
-msgstr ""
+msgstr "Оновити перегляд черги через"
 
 #. Template: AAATicket
 msgid "Screen after new ticket"
@@ -2657,7 +2659,7 @@ msgstr "Розділ після створення нової заявки"
 
 #. Template: AAATicket
 msgid "Show this screen after I created a new ticket"
-msgstr ""
+msgstr "Показувати це після створення мною нової заявки"
 
 #. Template: AAATicket
 msgid "Closed Tickets"
@@ -2669,49 +2671,49 @@ msgstr "Показувати закриті заявки"
 
 #. Template: AAATicket
 msgid "Max. shown Tickets a page in QueueView."
-msgstr ""
+msgstr "Максимальна кількість заявок при перегляді черги."
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Small\" Limit"
-msgstr ""
+msgstr "Ліміт заявок при «Малому» перегляді"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr ""
+msgstr "Кількість заявок на сторінці при «Малому» режимі перегляду заявок"
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Medium\" Limit"
-msgstr ""
+msgstr "Ліміт заявок при «Середньому» перегляді"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr ""
+msgstr "Кількість заявок на сторінці при «Середньому» режимі перегляду заявок"
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr ""
+msgstr "Ліміт заявок при «Попередньому» перегляді"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr ""
+msgstr "Кількість заявок на сторінці при «Попередньому» режимі перегляду заявок"
 
 #. Template: AAATicket
 msgid "Ticket watch notification"
-msgstr ""
+msgstr "Сповіщення про спостережувані заявки"
 
 #. Template: AAATicket
 msgid ""
 "Send me the same notifications for my watched tickets that the ticket owners"
 " will get."
-msgstr ""
+msgstr "Надсилати мені такі ж сповіщення про мої спостережувані заявки, що й власнику заявки."
 
 #. Template: AAATicket
 msgid "Send ticket watch notifications"
-msgstr ""
+msgstr "Надсилати сповіщення про спостережувані заявки"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr "Час відсутності в офісі"
+msgstr "Час «Не при справах»"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -2731,11 +2733,11 @@ msgstr "телефонний дзвінок"
 
 #. Template: AAATicket
 msgid "Phone Call Outbound"
-msgstr "Телефонний дзвінок"
+msgstr "Вихідний телефонний дзвінок"
 
 #. Template: AAATicket
 msgid "Phone Call Inbound"
-msgstr ""
+msgstr "Вхідний телефонний дзвінок"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
@@ -2747,7 +2749,7 @@ msgstr "Заявки з нагадуванням"
 
 #. Template: AAATicket
 msgid "Escalated Tickets"
-msgstr "Ескальовані заявки"
+msgstr "Розгорнуті заявки"
 
 #. Template: AAATicket
 msgid "New Tickets"
@@ -2755,82 +2757,82 @@ msgstr "Нові заявки"
 
 #. Template: AAATicket
 msgid "Open Tickets / Need to be answered"
-msgstr "Відкриті заявки ( потрібно відповісти)"
+msgstr "Відкриті заявки / Потрібно відповісти"
 
 #. Template: AAATicket
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr ""
+msgstr "Усі відкриті заявки, над цими заявками уже працювали, але вони потребують відповіді"
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr ""
+msgstr "Усі відкриті заявки, над цими заявками ще не працювали"
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr ""
+msgstr "Усі розгорнуті заявки"
 
 #. Template: AAATicket
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr ""
+msgstr "Усі заявки з встановленим нагадуванням, що досягнуто дати нагадування"
 
 #. Template: AAATicket
 msgid "Archived tickets"
-msgstr ""
+msgstr "Архівовані заявки"
 
 #. Template: AAATicket
 msgid "Unarchived tickets"
-msgstr ""
+msgstr "Неархівовані заявки"
 
 #. Template: AAATicket
 msgid "Ticket Information"
-msgstr ""
+msgstr "Інформація про заявку"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "із підчергами"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "без підчерг"
 
 #. Template: AAAWeekDay
 msgid "Sun"
-msgstr "Нд."
+msgstr "Нд"
 
 #. Template: AAAWeekDay
 msgid "Mon"
-msgstr "Пн."
+msgstr "Пн"
 
 #. Template: AAAWeekDay
 msgid "Tue"
-msgstr "Вівт."
+msgstr "Вт"
 
 #. Template: AAAWeekDay
 msgid "Wed"
-msgstr "Сер."
+msgstr "Ср"
 
 #. Template: AAAWeekDay
 msgid "Thu"
-msgstr "Чт."
+msgstr "Чт"
 
 #. Template: AAAWeekDay
 msgid "Fri"
-msgstr "П'ят."
+msgstr "Пт"
 
 #. Template: AAAWeekDay
 msgid "Sat"
-msgstr "Сб."
+msgstr "Сб"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Керування ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Фільтри для ACL"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -2838,7 +2840,7 @@ msgstr "Фільтр"
 
 #. Template: AdminACL
 msgid "ACL Name"
-msgstr ""
+msgstr "Назва ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -2846,77 +2848,77 @@ msgstr "Дії"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Створити новий ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Розгорнути ACL-и"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Експортувати ACL-и"
 
 #. Template: AdminACL
 msgid "Configuration import"
-msgstr ""
+msgstr "Імпорт конфігурацій"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Тут Ви можете завантажити файл конфігурації для імпорту ACL-ів у свою ситстему. Файл має бути у форматі .yml, як його експортував модуль редагування ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr ""
+msgstr "Це обов'язкове поле."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Перезаписати наявні ACL-и?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Завантажити конфігурацію ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Імпортувати конфігурацію(-ї) ACL"
 
 #. Template: AdminACL
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr ""
+msgstr "Щоб створити новий ACL, Ви можете або імпортувати ACL-и, які було експортовано з іншої системи, або створити цілком новий."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr ""
+msgstr "Зміни до ACL-ів тут впливають на поведінку системи, лише якщо Ви зрешою розгортаєте дані ACL. При розгортанні даних ACL новозроблені зміни будуть записані у конфігурацію."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACL-и"
 
 #. Template: AdminACL
 msgid ""
 "Please note: This table represents the execution order of the ACLs. If you "
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
-msgstr ""
+msgstr "Будь ласка, зауважте: Ця таблиця відображає порядок виконання ACL-ів. Якщо Вам треба змінити порядок, у якому виконуються ACL-и, будь ласка, змініть назви відповідних ACL-ів."
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Назва ACL"
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "Дійсність"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Копіювати"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -2924,7 +2926,7 @@ msgstr "Дані не знайдені."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Редагувати ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -2932,40 +2934,40 @@ msgstr "Перейти до перегляду"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Вилучити ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Вилучити недійсний ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Налаштування співпадання"
 
 #. Template: AdminACLEdit
 msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr ""
+msgstr "Встановіть налаштування співпадання для цього ACL. Скористайтеся «Налаштуваннями», щоб поточний екран чи «PropertiesDatabase» співпадали з атрибутами поточної заявки, які є у базі даних."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Змінити налаштування"
 
 #. Template: AdminACLEdit
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr ""
+msgstr "Установіть що Ви хочете змінити, якщо є відповідність критеріям. Майте на увазі, що «Можливо» — білий список, «Не можливо» — чорний список."
 
 #. Template: AdminACLEdit
 msgid "Check the official"
-msgstr ""
+msgstr "Перевірте офіційну"
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "документацію"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2973,7 +2975,7 @@ msgstr "Відобразити або сховати вміст"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL information"
-msgstr ""
+msgstr "Редагувати інформацію ACL"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
@@ -2981,7 +2983,7 @@ msgstr "Припинити перевірку після збігу"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL structure"
-msgstr ""
+msgstr "Редагувати структуру ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -2993,35 +2995,35 @@ msgstr "або"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Зберегти та завершити"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Ви дійсно хочете вилучити цей ACL?"
 
 #. Template: AdminACLEdit
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
-msgstr ""
+msgstr "Цей елемент містить піделементи. Ви дійсно хочете вилучити цей елемент включно з його піделементами?"
 
 #. Template: AdminACLEdit
 msgid "An item with this name is already present."
-msgstr ""
+msgstr "Елемент з таким іменем вже існує."
 
 #. Template: AdminACLEdit
 msgid "Add all"
-msgstr ""
+msgstr "Додати всі"
 
 #. Template: AdminACLEdit
 msgid "There was an error reading the ACL data."
-msgstr ""
+msgstr "Сталась помилка під час зчитування даних ACL."
 
 #. Template: AdminACLNew
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Створити новий ACL шляхом надсилання даних формою. Після створення цього ACL, Ви зможете додати елементи налаштування у режимі редагування."
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -3029,7 +3031,7 @@ msgstr "Керування прикріпленими файлами"
 
 #. Template: AdminAttachment
 msgid "Add attachment"
-msgstr ""
+msgstr "Додати прикріплення"
 
 #. Template: AdminAttachment
 msgid "List"
@@ -3037,7 +3039,7 @@ msgstr "Список"
 
 #. Template: AdminAttachment
 msgid "Download file"
-msgstr "Скачати файл"
+msgstr "Завантажити файл"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
@@ -3125,13 +3127,13 @@ msgstr "Опції інформації заявки"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Опції значень внутрішніх ключів динамічних полів заявки"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
-msgstr ""
+msgstr "Опції значень динамічних полів заявки, корисні для полів-випадних меню та з підтримкою багатьох варіантів вибору."
 
 #. Template: AdminAutoResponse
 msgid "Config options"
@@ -3143,94 +3145,94 @@ msgstr "Приклад відповіді"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Керування хмарним сервісом"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Збір даних підтримки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Збір даних підтримки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
-msgstr ""
+msgstr "Підказка"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "Наразі дані підтримки показуються лише у цій системі"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr ""
+msgstr "Дуже рекомендується надіслати ці дані до групи OTRS з метою отримати кращу підтримку."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "Налаштування"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Надсилати дані підтримки"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr ""
+msgstr "Це дозволить системі надсилати додаткову інформацію даних підтримки до групи OTRS."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr ""
+msgstr "Реєстрація системи"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Щоб увімкнути надсилання, будь ласка, зареєструйте Вашу систему у групі OTRS, або оновіть Вашу інформацію реєстрації системи (переконайтесь, що опцію «надсилати дані підтримки» активовано)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "Зареєструвати цю систему"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "Реєстрація системи вимкнена у Вашій системі. Будь ласка, перевірте Ваші налаштування."
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTRS Group, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "Реєстрація системи — це сервіс групи OTRS, який надає багато переваг!"
 
 #. Template: AdminCloudServices
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "Будь ласка, зауважте, що використання хмарних сервісів OTRS вимагає, щоб систему було зареєстровано."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Зареєструвати цю систему."
 
 #. Template: AdminCloudServices
 msgid ""
 "Here you can configure available cloud services that communicate securely "
 "with %s."
-msgstr ""
+msgstr "Тут Ви можете налаштувати наявні хмарні сервіси, що захищено комунікують з "
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Доступні хмарні сервіси"
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Оновити до %s"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -3238,7 +3240,7 @@ msgstr "Керування клієнтами"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
-msgstr ""
+msgstr "Підстановочні символи як-то «*» є дозволеними."
 
 #. Template: AdminCustomerCompany
 msgid "Add customer"
@@ -3247,6 +3249,14 @@ msgstr "Додати клієнта"
 #. Template: AdminCustomerCompany
 msgid "Select"
 msgstr "Вибір"
+
+#. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3258,21 +3268,21 @@ msgstr "Додати Клієнта"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr ""
+msgstr "Керування користувачами-клієнтами"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
-msgstr ""
+msgstr "Повернутись до результатів пошуку"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr ""
+msgstr "Додати користувача-клієнта"
 
 #. Template: AdminCustomerUser
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr ""
+msgstr "Користувачі-клієнти необхідні для того, щоб мати історію клієнта, а також для входу через панель клієнта."
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -3280,82 +3290,82 @@ msgstr "Останній вхід"
 
 #. Template: AdminCustomerUser
 msgid "Login as"
-msgstr "Зайти даним користувачем"
+msgstr "Увійти як"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr ""
+msgstr "Перемкнутись на клієнта"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr ""
+msgstr "Додати користувача-клієнта"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr ""
+msgstr "Редагувати користувача-клієнта"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr ""
+msgstr "Це поле є обов'язковим і повинно бути дійсною адресою електронної пошти"
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
-msgstr ""
+msgstr "Ця адреса електронної пошти не дозволена через системні налаштування"
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
-msgstr ""
+msgstr "Ця адреса електронної пошти не змогла пройти перевірку MX."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
-msgstr ""
+msgstr "Проблема DNS, будь ласка, перевірте Ваші налаштування та журнал помилок."
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
-msgstr ""
+msgstr "Синтаксис цієї адреси електронної пошти є неправильним."
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer-Group Relations"
-msgstr ""
+msgstr "Керувати відносини клієнт—група"
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr "Оповіщення"
+msgstr "Сповіщення"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
-msgstr "Дана функція відключена!"
+msgstr "Цю функцію вимкнено!"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr ""
+msgstr "Використовуйте цю функцію лише якщо Ви хочете визначити групові права для клієнтів."
 
 #. Template: AdminCustomerUserGroup
 msgid "Enable it here!"
-msgstr "Включити функцію!"
+msgstr "Увімкніть це тут!"
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer Default Groups"
-msgstr "Редагувати групи по-умовчанню клієнта"
+msgstr "Редагувати групи клієнта за замовчуванням."
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customers."
-msgstr "Ці групи автоматично призначаються всім клієнтам."
+msgstr "Ці групи автоматично призначаються усім клієнтам."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr ""
+msgstr "Ви можете керувати цими групами за допомогою налаштування «CustomerGroupAlwaysGroups»."
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for Groups"
-msgstr "Фільтри для Груп"
+msgstr "Фільтри для груп"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Просто почніть друкувати для фільтрування…"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -3365,7 +3375,7 @@ msgstr "Выбериет клієнта:дозволу для групи"
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr ""
+msgstr "Якщо нічого не обрано, то у цієї групи немає прав (заявки не будуть доступними для клієнта)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Search Results"
@@ -3377,7 +3387,7 @@ msgstr "Клієнти"
 
 #. Template: AdminCustomerUserGroup
 msgid "No matches found."
-msgstr "Збігів не знайдене."
+msgstr "Збігів не знайдено."
 
 #. Template: AdminCustomerUserGroup
 msgid "Groups"
@@ -3652,41 +3662,41 @@ msgstr "Значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Remove value"
-msgstr ""
+msgstr "Вилучити значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add value"
-msgstr ""
+msgstr "Додати значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
-msgstr ""
+msgstr "Додати значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add empty value"
-msgstr ""
+msgstr "Додати порожнє значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr ""
+msgstr "Активувати цю опцію для створення порожнього значення, яке можна обрати"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
-msgstr ""
+msgstr "Перегляд дерева"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to display values as a tree."
-msgstr ""
+msgstr "Активувати цю опцію для відображення значень у вигляді дерева."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Translatable values"
-msgstr ""
+msgstr "Значення, що можна перекладати"
 
 #. Template: AdminDynamicFieldDropdown
 msgid ""
 "If you activate this option the values will be translated to the user "
 "defined language."
-msgstr ""
+msgstr "Якщо Ви активуєте цю опцію, значення буде перекладено на мову визначену користувачем."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Note"
@@ -3696,49 +3706,49 @@ msgstr "Замітка"
 msgid ""
 "You need to add the translations manually into the language translation "
 "files."
-msgstr ""
+msgstr "Вам потрібно додати переклади вручну до файлів перекладу мови."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr ""
+msgstr "Число рядків"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr ""
+msgstr "Вкажіть висоту (у рядках) цього поля у режимі редагування"
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
-msgstr ""
+msgstr "Число колонок"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
-msgstr ""
+msgstr "Вкажіть ширину (у символах) цього поля у режимі редагування."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Перевірити регулярним виразом"
 
 #. Template: AdminDynamicFieldText
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will"
 " be executed with the modifiers xms."
-msgstr ""
+msgstr "Тут Ви можете вказати регулярний вираз для перевірки значення. Регулярний вираз буде запущено з модифікаторами  xms."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "Регулярний вираз"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Неправильний регулярний вираз"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
-msgstr ""
+msgstr "Повідомлення про помилку"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Додати регулярний вираз"
 
 #. Template: AdminEmail
 msgid "Admin Notification"
@@ -3748,35 +3758,35 @@ msgstr "Повідомлення адміністратором"
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr ""
+msgstr "За допомогою цього модуля, адміністратори можуть надсилати повідомлення до агентів, груп, або ролей членів."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
-msgstr ""
+msgstr "Створити адміністративне повідомлення"
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
-msgstr "Ваше повідомлення було відправлено к"
+msgstr "Ваше повідомлення було надіслано до"
 
 #. Template: AdminEmail
 msgid "Send message to users"
-msgstr "Відправити повідомлення користувачам"
+msgstr "Надіслати повідомлення користувачам"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
-msgstr "Відправити сообщенеи членам групи"
+msgstr "Надіслати повідомлення групі користувачів"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
-msgstr "Члени групи повинні мати дозволу"
+msgstr "Члени групи повинні мати право"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
-msgstr "Відправити повідомлення членам ролі"
+msgstr "Надіслати повідомлення членам ролі"
 
 #. Template: AdminEmail
 msgid "Also send to customers in groups"
-msgstr "Також відправити клієнтам у групах"
+msgstr "Також надіслати клієнтам у групах"
 
 #. Template: AdminEmail
 msgid "Body"
@@ -3784,11 +3794,11 @@ msgstr "Тіло листа"
 
 #. Template: AdminEmail
 msgid "Send"
-msgstr "Відправити"
+msgstr "Надіслати"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Типовий агент"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -3820,31 +3830,31 @@ msgstr "Ім'я завдання"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr ""
+msgstr "Ім'я, що Ви ввели, вже існує."
 
 #. Template: AdminGenericAgent
 msgid "Toggle this widget"
-msgstr ""
+msgstr "Приховати цей віджет"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
-msgstr ""
+msgstr "Автоматичний запуск (декілька заявок)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Графік запуску"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
-msgstr ""
+msgstr "Хвилини графіку"
 
 #. Template: AdminGenericAgent
 msgid "Schedule hours"
-msgstr ""
+msgstr "Години графіку"
 
 #. Template: AdminGenericAgent
 msgid "Schedule days"
-msgstr ""
+msgstr "Дні графіку"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -3858,69 +3868,69 @@ msgstr " Для автоматичного запуску вкажіть як м
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
-msgstr ""
+msgstr "Запуск, що базується на події (для однієї заявки)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "Тригери події"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Список усіх налаштованих подій"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Вилучити цю подію"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket"
 " events that will trigger this job."
-msgstr ""
+msgstr "Додатково або альтернативно до періодичного запуску, Ви можете визначити події заявок, що будуть тригерами цього завдання."
 
 #. Template: AdminGenericAgent
 msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
-msgstr ""
+msgstr "Якщо сталась подія заявки, фільтр заявки буде застосовано для перевірки чи заявка співпадає. Лише тоді завдання буде запущено виконано для цієї заявки."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "Ви дійсно хочете вилучити цей тригер події?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr ""
+msgstr "Додати тригер події"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Додати подію"
 
 #. Template: AdminGenericAgent
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr ""
+msgstr "Щоб додати нову подію, вкажіть об'єкт події та назву події, після чого натисніть кнопку «+»"
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
-msgstr ""
+msgstr "Подія-дублікат."
 
 #. Template: AdminGenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "Ця подія вже прикріплена до цього завдання, будь ласка, використайте іншу."
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
-msgstr ""
+msgstr "Вилучити цей тригер події"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Вилучити обране"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Обрати заявки"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -3932,7 +3942,7 @@ msgstr "(наприклад, 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer login"
-msgstr ""
+msgstr "Логін клієнта"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -3940,7 +3950,7 @@ msgstr "(наприклад, U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr ""
+msgstr "Повнотекстовий пошук статтею (наприклад, «Mar*in» чи «Baue*»)."
 
 #. Template: AdminGenericAgent
 msgid "Agent"
@@ -3948,11 +3958,11 @@ msgstr "Агент"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr ""
+msgstr "Блокування заявки"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
-msgstr ""
+msgstr "Часи створення"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
@@ -4000,7 +4010,7 @@ msgstr "Заявка змінена в період"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
-msgstr ""
+msgstr "Часів закриття"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
@@ -4016,7 +4026,7 @@ msgstr "Заявка закрита між"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
-msgstr ""
+msgstr "Часів очікування"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
@@ -4084,11 +4094,11 @@ msgstr "Заявка була вирішена між"
 
 #. Template: AdminGenericAgent
 msgid "Archive search option"
-msgstr ""
+msgstr "Опція пошуку архівом"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Оновити/Додати атрибути заявки"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4096,7 +4106,7 @@ msgstr "Установити новий сервіс"
 
 #. Template: AdminGenericAgent
 msgid "Set new Service Level Agreement"
-msgstr ""
+msgstr "Установити нове погодження рівня сервісу"
 
 #. Template: AdminGenericAgent
 msgid "Set new priority"
@@ -4104,7 +4114,7 @@ msgstr "Установити новий пріоритет"
 
 #. Template: AdminGenericAgent
 msgid "Set new queue"
-msgstr ""
+msgstr "Установити нову чергу"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
@@ -4124,11 +4134,11 @@ msgstr "новий власник"
 
 #. Template: AdminGenericAgent
 msgid "new responsible"
-msgstr ""
+msgstr "нова відповідь"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
-msgstr ""
+msgstr "Встановити нове блокування заявки"
 
 #. Template: AdminGenericAgent
 msgid "New customer"
@@ -4148,11 +4158,11 @@ msgstr "Новий тип"
 
 #. Template: AdminGenericAgent
 msgid "New Dynamic Field Values"
-msgstr ""
+msgstr "Нові значення динамічного поля"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr ""
+msgstr "Заархівувати обрані заявки"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -4164,7 +4174,7 @@ msgstr "Одиниці часу"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Виконати команди заявки"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -4196,15 +4206,15 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr ""
+msgstr "Ключ параметра "
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr ""
+msgstr "Значення параметра "
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
-msgstr ""
+msgstr "Зберегти зміни"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -4274,7 +4284,7 @@ msgstr "Час"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
-msgstr ""
+msgstr "Віддалений IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
@@ -4282,27 +4292,27 @@ msgstr "Завантаження"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
-msgstr ""
+msgstr "Обрати один запит для перегляду його деталей"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by type"
-msgstr ""
+msgstr "Фільтрувати за типом"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter from"
-msgstr ""
+msgstr "Фільтрувати від"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter to"
-msgstr ""
+msgstr "Фільтрувати до"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by remote IP"
-msgstr ""
+msgstr "Фільтрувати за віддаленим IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Limit"
-msgstr "Ліміт"
+msgstr "Обмеження"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Refresh"
@@ -5425,11 +5435,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Надіслано з «Не при справах»"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Також надіслати, якщо користувач зараз не при справах."
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
@@ -8433,7 +8443,7 @@ msgstr ""
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "не при справах"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
@@ -9223,6 +9233,10 @@ msgid "This ticket is archived."
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Блокування"
 
@@ -9782,7 +9796,7 @@ msgid "Open date selection"
 msgstr ""
 
 #. Template: Error
-msgid "Oops! An Error occurred."
+msgid "An error occurred."
 msgstr ""
 
 #. Template: Error
@@ -11807,6 +11821,10 @@ msgid "(UserLogin) Firstname Lastname"
 msgstr ""
 
 #. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
+
+#. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
 msgstr ""
 
@@ -12533,6 +12551,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -13794,6 +13816,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr ""
 
@@ -14270,7 +14296,7 @@ msgstr ""
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
-msgstr ""
+msgstr "Визначає модуль, що показує сповіщення в інтерфейсі агента, якщо агент увійшов у систему при ввімкненому статусі «Не при справах»."
 
 #. SysConfig
 msgid ""
@@ -14909,6 +14935,13 @@ msgstr ""
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
 msgstr ""
 
 #. SysConfig
@@ -15797,7 +15830,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16189,6 +16222,14 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -16730,7 +16771,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Не при справах"
 
 #. SysConfig
 msgid ""
@@ -16832,6 +16873,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16854,16 +16907,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16872,6 +16915,16 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
@@ -16889,22 +16942,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
+"Parameters for the dashboard backend of the ticket stats of the agent "
+"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
+" used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket stats of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
@@ -17986,6 +18036,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr ""
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr ""
 
@@ -18872,6 +18926,10 @@ msgid "Textarea"
 msgstr ""
 
 #. SysConfig
+msgid "Thai"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -19155,7 +19213,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Розблоковує тікети, якщо додається нотатка і власник у статусі «не при справах»."
 
 #. SysConfig
 msgid "Unlocked ticket."

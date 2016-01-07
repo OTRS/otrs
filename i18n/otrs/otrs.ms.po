@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3249,6 +3249,14 @@ msgid "Select"
 msgstr "Pilih"
 
 #. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
 msgstr "Sila masukkan kata kunci untuk mencari pelanggan."
 
@@ -5544,11 +5552,11 @@ msgstr "Sifat-sifat data pengguna semasa pelanggan"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "Sifat-sifat data pengguna pemilik tiket semasa"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "Sifat-sifat data tiket semasa pengguna bertanggungjawab"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -9223,6 +9231,10 @@ msgid "This ticket is archived."
 msgstr "Sistem ini diarkibkan."
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Terkunci"
 
@@ -9782,8 +9794,8 @@ msgid "Open date selection"
 msgstr "Buka pilihan tarikh"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Oops! Ada kesilapan berlaku."
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -11725,51 +11737,51 @@ msgstr "faks"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Pemberitahuan ciptaan tiket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Pemberitahuan susulan tiket (buka kunci)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "Pemberitahuan susulan tiket (dikunci)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "Pemberitahuan kemaskini pemilik tiket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "Pemberitahuan kemaskini tanggungjawab tiket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "Pemberitahuan nota tiket baru"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Pemberitahuan kemas kini barisan tiket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Pemberitahuan peringatan tiket tertangguh (dikunci)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Pemberitahuan peringatan tiket tertangguh (buka kunci)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Pemberitahuan peningkatan tiket "
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Pemberitahuan amaran peningkatan tiket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Pemberitahuan kemas kini servis tiket"
 
 #. SysConfig
 msgid ""
@@ -11805,6 +11817,10 @@ msgstr "%s Unit masa (s) dikira. % Unit masa dijumpai(s)."
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(LogmasukPengguna) Namapertama Namaakhir"
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12534,6 +12550,10 @@ msgstr "Mengkonfigurasi tetapan TicketDynamicField default. \"Nama\" mentakrifka
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Mengawal bagaimana untuk memaparkan catatan sejarah tiket sebagai nilai-nilai yang boleh dibaca."
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13794,6 +13814,10 @@ msgid ""
 msgstr "Mentakrifkan jenis tiket lalai untuk tiket pelanggan baru dalam antara muka pelanggan."
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "Mentakrifkan jenis asal untuk artikel dari paparan pelanggan."
 
@@ -14566,13 +14590,13 @@ msgid ""
 "Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr ""
+msgstr "Mentakrifkan sasaran penerima tiket telefon dan penghantar tiket emel (\"Giliran\" menunjukkan semua barisan, \"Alamat sistem\" memaparkan semua alamat sistem) dalam antara muka ejen."
 
 #. SysConfig
 msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr ""
+msgstr "Mentakrifkan sasaran penerima dari tiket (\"Queue\" menunjukkan kesemua aturan, \"AlamatSistem\" memaparkan kesemua alamat sistem) dalam paparan pelanggan."
 
 #. SysConfig
 msgid ""
@@ -14885,7 +14909,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr ""
+msgstr "Menentukan string yang akan ditunjukkan sebagai penerima (Untuk:) tiket telefon dan sebagai penghantar (Dari:) tiket emel dalam antara muka ejen. Untuk Giliran sebagai NewQueueSelectionType \"<Barisan>\" menunjukkan nama-nama barisan dan untuk SystemAddress \"<Realname> <<Emel>>\" menunjukkan nama dan emel penerima."
 
 #. SysConfig
 msgid ""
@@ -14893,7 +14917,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr ""
+msgstr "Menentukan rangkaian yang akan dipamerkan sebagai penerima (Kepada:) tiket dalam paparan pelanggan. Untuk Barisan sebagai CustomerPanelSelectionType \"<Barisan>\" menunjukkan nama barisan dan untuk SystemAddress \"<RealName> <<Email>>\" menunjukkan nama dan emel penerima."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -14910,6 +14934,13 @@ msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr "Menentukan aturan mana akan sah untuk penerima tiket dalam paparan pelanggan."
+
+#. SysConfig
+msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15308,7 +15339,7 @@ msgstr "English (Amerika Syarikat)"
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "Perkataan berhenti Inggeris untuk indeks teks penuh. Perkataan ini akan dibuang dari indeks carian."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15797,7 +15828,7 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16192,6 +16223,14 @@ msgid "JavaScript function for the search frontend."
 msgstr "Fungsi JavaScript untuk muka hadapan carian."
 
 #. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
+msgstr ""
+
+#. SysConfig
 msgid "Lastname, Firstname"
 msgstr "Namaakhir, Namapertama"
 
@@ -16487,11 +16526,11 @@ msgstr "Modul untuk memeriksa jika emel yang tiba seharusnya ditanda sebagai eme
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
-msgstr ""
+msgstr "Modul untuk menyemak kebenaran kumpulan untuk akses pelanggan kepada tiket."
 
 #. SysConfig
 msgid "Module to check the group permissions for the access to tickets."
-msgstr ""
+msgstr "Modul untuk menyemak kebenaran kumpulan untuk akses kepada tiket."
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16542,35 +16581,35 @@ msgstr "Modul untuk menjana statistik tiket."
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
-msgstr ""
+msgstr "Modul untuk memberi akses jika IDPelanggan tiket serasi dengan IDPelanggan pelanggan."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
-msgstr ""
+msgstr "Modul untuk memberi akses jika IDPenggunaPelanggan tiket serasi dengan IDPenggunaPelanggan pelanggan."
 
 #. SysConfig
 msgid ""
 "Module to grant access to any agent that has been involved in a ticket in "
 "the past (based on ticket history entries)."
-msgstr ""
+msgstr "Modul untuk memberi akses ke mana-mana agen yang terlibat dengan tiket pasa masa lepas (berdasarkan kemasukan sejarah tiket)."
 
 #. SysConfig
 msgid "Module to grant access to the agent responsible of a ticket."
-msgstr ""
+msgstr "Modul untuk memberi akses kepada agen bertanggungjawab ke atas tiket."
 
 #. SysConfig
 msgid "Module to grant access to the creator of a ticket."
-msgstr ""
+msgstr "Modul untuk memberi akses kepada pencipta tiket."
 
 #. SysConfig
 msgid "Module to grant access to the owner of a ticket."
-msgstr ""
+msgstr "Modul untuk memberi akses kepada pemilik tiket."
 
 #. SysConfig
 msgid "Module to grant access to the watcher agents of a ticket."
-msgstr ""
+msgstr "Modul untuk memberi akses kepada agen pemerhati tiket."
 
 #. SysConfig
 msgid ""
@@ -16708,25 +16747,25 @@ msgstr "Buka tiket (pelanggan)"
 msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Had barisan pilihan untuk modul kebenaran CreatorChec . Jika ditetapkan, kebenaran itu hanya boleh diberi untuk tiket dalam barisan yang dinyatakan."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the InvolvedCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Had barisan pilihan untuk modul kebenaran InvolvedCheck. Jika ditetapkan, kebenaran itu hanya boleh diberi untuk tiket dalam barisan yang dinyatakan."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the OwnerCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Had barisan pilihan untuk modul kebenaran OwnerCheck. Jika ditetapkan, kebenaran itu hanya boleh diberi untuk tiket dalam barisan yang dinyatakan."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the ResponsibleCheck permission module. If "
 "set, permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Had barisan pilihan untuk modul kebenaran ResponsibleCheck. Jika ditetapkan, kebenaran itu hanya boleh diberi untuk tiket dalam barisan yang dinyatakan."
 
 #. SysConfig
 msgid "Out Of Office"
@@ -16832,6 +16871,18 @@ msgstr "Parameter untuk backend papan pemuka daripada gambaran keseluruhan tiket
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16854,16 +16905,6 @@ msgstr "Parameter untuk backend papan pemuka daripada gambaran keseluruhan tiket
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr "Parameter untuk dashboard backend kalendar tiket dari paparan ejen. \"Limit\" adalah jumlah kemasukan yang dipamerkan secara deault. \"Group\" digunakan untuk menyekat akses ke plugin (cth: Group: admin;group1;group2;). \"Deault\" menentukan jika plugin adalan diaktifkan secara default atau jika pengguna perlu untuk mengaktifkannya secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16876,21 +16917,18 @@ msgstr "Parameter untuk backend papan pemuka daripada gambaran keseluruhan penin
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
-msgstr "Parameter untuk backend papan pemuka daripada gambaran keseluruhan peringatan tiket ditangguh bagi antara muka ejen. \"Had\" adalah bilangan penyertaan ditunjukkan secara default. \"Kumpulan\" digunakan untuk menyekat akses kepada plugin (contoh: Kumpulan: admin; kumpulan1; kumpulan2;). \"Default\" menentukan jika plugin ini diaktifkan secara default atau jika pengguna perlu untuk membolehkan secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin. Nota: Hanya Tiket sifat dan Medan Dinamik (DynamicField_NameX ) dibenarkan DefaultColumns. Tetapan yang mungkin: 0 = Dilumpuhkan, 1 = Tersedia, 2 = Diaktifkan secara default."
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
+" of the agent interface . \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
@@ -16909,6 +16947,16 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
 msgstr "Parameter untuk dashboard backend status tiket dari paparan ejen. \"Limit\" adalah jumlah kemasukan yang dipamerkan secara deault. \"Group\" digunakan untuk menyekat akses ke plugin (cth: Group: admin;group1;group2;). \"Deault\" menentukan jika plugin adalan diaktifkan secara default atau jika pengguna perlu untuk mengaktifkannya secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin."
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17986,6 +18034,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Menunjukkan artikel sebagai teks walaupun penulisan teks aneka dimatikan."
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr "Tunjuk pemilik semasa dalam antara muka pelanggan."
 
@@ -18872,6 +18924,10 @@ msgid "Textarea"
 msgstr "Textarea"
 
 #. SysConfig
+msgid "Thai"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -19056,7 +19112,7 @@ msgstr "Tetapan ini membolehkan anda untuk mengatasi senarai negara yang dibina 
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
-msgstr ""
+msgstr "Ini akan membolehkan sistem untuk menghantar mesej teks melalui SMS."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -19115,7 +19171,7 @@ msgstr "Lihat Pokok"
 #. SysConfig
 msgid ""
 "Triggers ticket escalation events and notification events for escalation."
-msgstr ""
+msgstr "Mencetuskan peristiwa peningkatan tiket dan peristiwa pemberitahuan untuk peningkatan."
 
 #. SysConfig
 msgid "Turkish"
@@ -19254,17 +19310,17 @@ msgstr "Perhatikan tiket ini"
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Kami sedang menjalankan penyelenggaraan berjadual."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
-msgstr ""
+msgstr "Kami sedang menjalankan penyelenggaraan berjadual. Log masuk tidak tersedia buat sementara waktu."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
-msgstr ""
+msgstr "Kami sedang menjalankan penyelenggaraan berjadual. Kami akan kembali sebentar lagi."
 
 #. SysConfig
 msgid ""

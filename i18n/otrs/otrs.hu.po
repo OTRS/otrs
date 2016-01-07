@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -516,7 +516,7 @@ msgstr "Ügyfél információ"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr "Ügyfél cégek"
+msgstr "Ügyfél-vállalatok"
 
 #. Template: AAABase
 msgid "Company"
@@ -1092,15 +1092,15 @@ msgstr "Ügyfél frissítve!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr "Ügyfél cége hozzáadva!"
+msgstr "Ügyfél-vállalat hozzáadva!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr "Ügyfél cége frissítve!"
+msgstr "Ügyfél-vállalat frissítve!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr "Megjegyzés: a cég érvénytelen!"
+msgstr "Megjegyzés: a vállalat érvénytelen!"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1421,7 +1421,7 @@ msgstr "Formázás eltávolítása"
 
 #. Template: AAABase
 msgid "Show/Hide Hidden Elements"
-msgstr "Rejtett elemek megjelenítése/elrejtése "
+msgstr "Rejtett elemek megjelenítése/elrejtése"
 
 #. Template: AAABase
 msgid "Align Left"
@@ -3257,6 +3257,14 @@ msgid "Select"
 msgstr "Kiválasztás"
 
 #. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
 msgstr "Adjon meg egy keresési kifejezést az ügyfelek kereséséhez."
 
@@ -4469,7 +4477,7 @@ msgstr "Új kulcsleképezés"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr "Leképezés a kulcshoz"
+msgstr "Leképezés a kulcshoz: "
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
@@ -5191,7 +5199,7 @@ msgstr "Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhe
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
-msgstr "Ez ASP megoldásoknál hasznos."
+msgstr "Ez ASP megoldásoknál hasznos. "
 
 #. Template: AdminGroup
 msgid "Add Group"
@@ -5552,11 +5560,11 @@ msgstr "A jelenlegi ügyfél-felhasználó adatainak jellemzői"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "A jelenlegi jegytulajdonos felhasználóadatainak jellemzői"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "A jelenlegi jegyfelelős felhasználóadatainak jellemzői"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -7866,7 +7874,7 @@ msgstr "Betöltő"
 
 #. Template: AdminSysConfigEdit
 msgid "File to load for this frontend module"
-msgstr "Ehhez az előtét modulhoz betöltendő fájl"
+msgstr "Ehhez az előtétprogram-modulhoz betöltendő fájl"
 
 #. Template: AdminSysConfigEdit
 msgid "New Loader File"
@@ -9231,6 +9239,10 @@ msgid "This ticket is archived."
 msgstr "Ez a jegy archiválva van."
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Zárolt"
 
@@ -9503,11 +9515,11 @@ msgstr "Elfelejtette a jelszót?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr "2 tényezős token"
+msgstr "Kétfaktoros token"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr "Az Ön 2 tényezős tokenje"
+msgstr "Az Ön kétfaktoros tokenje"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -9790,8 +9802,8 @@ msgid "Open date selection"
 msgstr "Dátumkijelölés megnyitása"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Hoppá! Hiba történt."
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -11412,7 +11424,7 @@ msgstr "A TimeZoneUser csak olyan UTC-ben futó rendszereknél kapcsolható be, 
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
-msgstr "OTRS TimeZone beállítás a naptárhoz "
+msgstr "OTRS TimeZone beállítás a naptárhoz: "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -11733,51 +11745,51 @@ msgstr "fax"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Jegy létrehozási értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Jegy követési értesítés (feloldott)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "Jegy követési értesítés (zárolt)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "Jegytulajdonos frissítési értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "Jegyfelelős frissítési értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "Új jegyjegyzet értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Jegyvárólista frissítési értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Jegy emlékeztető függőben értesítés (zárolt)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Jegy emlékeztető függőben értesítés (feloldott)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Jegyeszkaláció értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Jegyeszkaláció figyelmeztetési értesítés"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Jegyszolgáltatás frissítési értesítés"
 
 #. SysConfig
 msgid ""
@@ -11813,6 +11825,10 @@ msgstr "%s időegység elszámolva. Most összesen %s időegység."
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(UserLogin) Keresztnév Vezetéknév"
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12495,15 +12511,15 @@ msgstr "Kommunikáció"
 
 #. SysConfig
 msgid "Company Status"
-msgstr "Cég állapot"
+msgstr "Vállalat állapot"
 
 #. SysConfig
 msgid "Company Tickets"
-msgstr "Cégjegyek"
+msgstr "Vállalati jegyek"
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
-msgstr "Cégnév, amely a kimenő e-mailekbe lesz felvéve X-Header bejegyzésként."
+msgstr "Vállalat neve, amely a kimenő e-mailekbe lesz felvéve X-Header bejegyzésként."
 
 #. SysConfig
 msgid "Configure Processes."
@@ -12542,6 +12558,10 @@ msgstr "Beállítja az alapértelmezett jegy dinamikus mező beállítást. A �
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Azt szabályozza, hogy hogyan jelenjenek meg a jegy előzmény bejegyzések olvasható értékként."
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13802,6 +13822,10 @@ msgid ""
 msgstr "Meghatározza az alapértelmezett jegytípust az új ügyféljegyekhez az ügyfélfelületen."
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "Meghatározza a bejegyzés alapértelmezett típusát az ügyfélfelületen."
 
@@ -14442,7 +14466,7 @@ msgstr "Meghatározza a napok számát a démon naplófájljainak megtartásáho
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
-msgstr "Meghatározza az előtétprogram modulokban lévő fejlécmezők számát a levelezési szűrők hozzáadásánál és frissítésénél. Akár 99 mező is lehet."
+msgstr "Meghatározza az előtétprogram-modulokban lévő fejlécmezők számát a levelezési szűrők hozzáadásánál és frissítésénél. Akár 99 mező is lehet."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
@@ -14574,13 +14598,13 @@ msgid ""
 "Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr ""
+msgstr "Meghatározza a telefonos jegy címzett célját és az e-mail jegy küldőjét (a „Várólista” minden várólistát megjelenít, a „Rendszercím” minden rendszercímet megjelenít) az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr ""
+msgstr "Meghatározza a jegyek címzett célját (a „Várólista” minden várólistát megjelenít, a „Rendszercím” minden rendszercímet megjelenít) az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
@@ -14893,7 +14917,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr ""
+msgstr "Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A várólistánál mint NewQueueSelectionType „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg."
 
 #. SysConfig
 msgid ""
@@ -14901,7 +14925,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr ""
+msgstr "Meghatározza azokat a szövegeket, amelyek a jegy címzettjeként (Címzett:) kerülnek megjelenítésre az ügyfélfelületen. A várólistánál mint CustomerPanelSelectionType, „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -14918,6 +14942,13 @@ msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr "Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címzettjeinél az ügyfélfelületen."
+
+#. SysConfig
+msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15205,7 +15236,7 @@ msgstr "Kimenő e-mail"
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr "Ügyfél cég szerkesztése"
+msgstr "Ügyfél-vállalat szerkesztése"
 
 #. SysConfig
 msgid "Email Addresses"
@@ -15316,7 +15347,7 @@ msgstr "Angol (Egyesült Államok)"
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "Angol kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15579,7 +15610,7 @@ msgstr "Előtétprogram-modul regisztráció (az AgentTicketService hivatkozás 
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
-msgstr "Előtétprogram-modul regisztráció (céghivatkozás letiltása, ha nincs cégszolgáltatás használatban)."
+msgstr "Előtétprogram-modul regisztráció (vállalat-hivatkozás letiltása, ha nincs vállalat-szolgáltatás használatban)."
 
 #. SysConfig
 msgid ""
@@ -15805,7 +15836,7 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16200,6 +16231,14 @@ msgid "JavaScript function for the search frontend."
 msgstr "JavaScript függvény a keresési előtétprogramhoz."
 
 #. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
+msgstr ""
+
+#. SysConfig
 msgid "Lastname, Firstname"
 msgstr "Vezetéknév, Keresztnév"
 
@@ -16495,11 +16534,11 @@ msgstr "Egy modul annak ellenőrzéséhez, hogy a beérkező e-maileket meg kell
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
-msgstr ""
+msgstr "Egy modul a csoportjogosultságok ellenőrzéséhez az ügyfélnél a jegyekhez való hozzáféréshez."
 
 #. SysConfig
 msgid "Module to check the group permissions for the access to tickets."
-msgstr ""
+msgstr "Egy modul a csoportjogosultságok ellenőrzéséhez a jegyekhez való hozzáférésénél."
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16550,35 +16589,35 @@ msgstr "Egy modul a jegystatisztikák előállításához."
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához, ha a jegy CustomerID mezője illeszkedik az ügyfél CustomerID mezőjére."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához, ha a jegy CustomerUserID mezője illeszkedik az ügyfél CustomerUserID mezőjére."
 
 #. SysConfig
 msgid ""
 "Module to grant access to any agent that has been involved in a ticket in "
 "the past (based on ticket history entries)."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához bármely ügyintézőnek, aki régebben részt vett a jegynél (a jegyelőzmény bejegyzéseken alapulva)."
 
 #. SysConfig
 msgid "Module to grant access to the agent responsible of a ticket."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához egy jegy felelős ügyintézőjének."
 
 #. SysConfig
 msgid "Module to grant access to the creator of a ticket."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához egy jegy létrehozójának."
 
 #. SysConfig
 msgid "Module to grant access to the owner of a ticket."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához egy jegy tulajdonosának."
 
 #. SysConfig
 msgid "Module to grant access to the watcher agents of a ticket."
-msgstr ""
+msgstr "Egy modul hozzáférés megadásához egy jegy megfigyelő ügyintézőinek."
 
 #. SysConfig
 msgid ""
@@ -16716,25 +16755,25 @@ msgstr "Nyitott jegyek (ügyfél)"
 msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the InvolvedCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the OwnerCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the ResponsibleCheck permission module. If "
 "set, permission is only granted for tickets in the specified queues."
-msgstr ""
+msgstr "Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
 
 #. SysConfig
 msgid "Out Of Office"
@@ -16805,7 +16844,7 @@ msgid ""
 " (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
 "is enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "Paraméterek az ügyintézői felület ügyfél cég információinak vezérlőpult háttérprogramjához. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
+msgstr "Paraméterek az ügyintézői felület ügyfél-vállalat információinak vezérlőpult háttérprogramjához. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
 #. SysConfig
 msgid ""
@@ -16840,6 +16879,18 @@ msgstr "Paraméterek az ügyintézői felület új jegyek áttekintésének vez�
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16862,16 +16913,6 @@ msgstr "Paraméterek az ügyintézői felület futó folyamat jegyek áttekinté
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr "Paraméterek az ügyintézői felület jegy naptárának vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16884,21 +16925,18 @@ msgstr "Paraméterek az ügyintézői felület jegyeszkaláció áttekintéséne
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
-msgstr "Paraméterek az ügyintézői felület jegy emlékeztető függőben áttekintésének vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és dinamikus mezők (DynamicField_NameX) engedélyezettek az alapértelmezett oszlopoknál. Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten engedélyezett."
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
+" of the agent interface . \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
@@ -16917,6 +16955,16 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
 msgstr "Paraméterek az ügyintézői felület jegy statisztikáinak vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17217,7 +17265,7 @@ msgstr "Futó folyamat jegyek"
 msgid ""
 "Runs an initial wildcard search of the existing customer company when "
 "accessing the AdminCustomerCompany module."
-msgstr "A meglévő ügyfélcég kezdeti helyettesítő karakter keresését futtatja az AdminCustomerCompany modulhoz való hozzáféréskor."
+msgstr "A meglévő ügyfél-vállalat kezdeti helyettesítő karakter keresését futtatja az AdminCustomerCompany modulhoz való hozzáféréskor."
 
 #. SysConfig
 msgid ""
@@ -17992,6 +18040,10 @@ msgstr "Egy felelős kiválasztás megjelenítése a telefon és e-mail jegyekbe
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Bejegyzés megjelenítése RichTextként még akkor is, ha a RichText írás le van tiltva."
+
+#. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
@@ -18880,6 +18932,10 @@ msgid "Textarea"
 msgstr "Szövegdoboz"
 
 #. SysConfig
+msgid "Thai"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -19053,7 +19109,7 @@ msgstr "Ez a beállítás határozza meg a folyamatjegyek alapértelmezett álla
 msgid ""
 "This option will deny the access to customer company tickets, which are not "
 "created by the customer user."
-msgstr "Ez a beállítás meg fogja tagadni azon ügyfél cégjegyekhez való hozzáférést, amelyeket nem az ügyfél-felhasználó hozott létre."
+msgstr "Ez a beállítás meg fogja tagadni azon ügyfél-vállalati jegyekhez való hozzáférést, amelyeket nem az ügyfél-felhasználó hozott létre."
 
 #. SysConfig
 msgid ""
@@ -19064,7 +19120,7 @@ msgstr "Ez a beállítás lehetővé teszi a beépített országlista felülbír
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
-msgstr ""
+msgstr "Ez lehetővé fogja tenni a rendszernek a szöveges üzenetek küldését SMS-ben."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -19123,7 +19179,7 @@ msgstr "Fa nézet"
 #. SysConfig
 msgid ""
 "Triggers ticket escalation events and notification events for escalation."
-msgstr ""
+msgstr "Aktiválja a jegyeszkalációs eseményeket és az értesítés eseményeket az eszkalációnál."
 
 #. SysConfig
 msgid "Turkish"
@@ -19262,17 +19318,17 @@ msgstr "Jegy megfigyelése"
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Ütemezett karbantartást végzünk."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
-msgstr ""
+msgstr "Ütemezett karbantartást végzünk. A bejelentkezés átmenetileg nem érhető el."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
-msgstr ""
+msgstr "Ütemezett karbantartást végzünk. Rövidesen ismét elérhetőnek kell lennünk."
 
 #. SysConfig
 msgid ""

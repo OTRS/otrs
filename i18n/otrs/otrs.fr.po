@@ -9,14 +9,15 @@
 # osallou <olivier.sallou@irisa.fr>, 2014
 # osallou <olivier.sallou@irisa.fr>, 2014
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
+# remidoc <Remi.seguy@gmail.com>, 2015
 # Thierry Larmier <tlarmier@free.fr>, 2015
 # Vincent SAOUT <v.saout@atool-dev.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1715,7 +1716,7 @@ msgstr "Autres paramétrages"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Paramètres des notifications"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -2371,7 +2372,7 @@ msgstr "Recherche de tickets"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Vrai nom du client"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -2411,7 +2412,7 @@ msgstr "Adresse %s remplacée par celle du client enregistré."
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "Client ajouté automatiquement en Cc."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
@@ -2800,11 +2801,11 @@ msgstr "Information Ticket"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "sous-files incluses"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "sous-files excluses"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -2868,7 +2869,7 @@ msgstr "Exporter ACLs"
 
 #. Template: AdminACL
 msgid "Configuration import"
-msgstr ""
+msgstr "Import de la configuration"
 
 #. Template: AdminACL
 msgid ""
@@ -2961,7 +2962,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Changer les paramètres"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -2975,7 +2976,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "documentation"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -3017,7 +3018,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "An item with this name is already present."
-msgstr ""
+msgstr "Un objet avec le même nom est déjà présent."
 
 #. Template: AdminACLEdit
 msgid "Add all"
@@ -3204,7 +3205,7 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "Enregistrer ce système"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3226,7 +3227,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Enregistrer ce système"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3257,6 +3258,14 @@ msgstr "Ajouter un client"
 #. Template: AdminCustomerCompany
 msgid "Select"
 msgstr "Sélectionner"
+
+#. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3726,7 +3735,7 @@ msgstr "Précisez la largeur de ce champ (en nombre de caractères), présent lo
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Vérifier la RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid ""
@@ -3740,7 +3749,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "RegEx non valide"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -3748,7 +3757,7 @@ msgstr "Message d'Erreur"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Ajouter une RegEx"
 
 #. Template: AdminEmail
 msgid "Admin Notification"
@@ -3876,7 +3885,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Liste de tous les événements configurés"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
@@ -3904,7 +3913,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Ajouter un événement"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3926,11 +3935,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Supprimer la sélection"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Sélectionner des tickets"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -4252,7 +4261,7 @@ msgstr "Débogueur de l'interface générique pour le service Web %s"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Vous êtes ici"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4705,11 +4714,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Commande par défaut"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "La commande HTTP par défaut à utiliser pour les requêtes."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -4757,7 +4766,7 @@ msgstr "Fichier du mot de passe du certificat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Le chemin complet et le nom du fichier de la clé SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
@@ -5312,7 +5321,7 @@ msgstr "Ajouter notification"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Exporter les notifications"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
@@ -5343,7 +5352,7 @@ msgstr "Supprimer cette notification"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Voulez-vous vraiment effacer cette notification?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5355,7 +5364,7 @@ msgstr "Editer Notification"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Montrer dans les préferences de l'opérateur"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
@@ -5427,15 +5436,15 @@ msgstr "Envoyer aux agents"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Envoyer à tous les membres du groupe"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Envoyer à tous les membres du rôle"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Envoyer une absence du bureau"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -5453,7 +5462,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Methodes de notification"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5475,7 +5484,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send by default"
-msgstr ""
+msgstr "Envoyer par défaut"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5485,7 +5494,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Cette fonctionalité n'est pas disponile pour l'instant."
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
@@ -6947,7 +6956,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Unique ID"
-msgstr ""
+msgstr "ID unique"
 
 #. Template: AdminRegistration
 msgid "Last communication with registration server"
@@ -9233,6 +9242,10 @@ msgid "This ticket is archived."
 msgstr "Ce ticket est archivé"
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Verrouillé"
 
@@ -9792,8 +9805,8 @@ msgid "Open date selection"
 msgstr "Sélection date d'ouverture"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Oups! Une erreur est survenue."
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -11817,6 +11830,10 @@ msgid "(UserLogin) Firstname Lastname"
 msgstr ""
 
 #. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
+
+#. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
 msgstr ""
 
@@ -12543,6 +12560,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -13804,6 +13825,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr ""
 
@@ -14923,6 +14948,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
 "work in IE8."
 msgstr ""
@@ -15807,7 +15839,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -15945,49 +15977,49 @@ msgstr ""
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the close "
 "ticket screen of the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran de fermeture du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "bulk screen of the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran de traitement groupé de ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "free text screen of the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran texte libre du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "note screen of the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran de note du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "responsible screen of the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran responsable du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran propriétaire du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran mise en attente du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Si une note est ajoutée par un opérateur, définit l'état d'un ticket dans l'écran priorité du ticket dans l'interface opérateur."
 
 #. SysConfig
 msgid ""
@@ -16199,6 +16231,14 @@ msgstr "Japonais"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -16842,6 +16882,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16864,16 +16916,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16882,6 +16924,16 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
@@ -16899,22 +16951,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
+"Parameters for the dashboard backend of the ticket stats of the agent "
+"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
+" used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket stats of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
@@ -17996,6 +18045,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr ""
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr ""
 
@@ -18880,6 +18933,10 @@ msgstr "Modèles <-> Files"
 #. SysConfig
 msgid "Textarea"
 msgstr "Zone de texte"
+
+#. SysConfig
+msgid "Thai"
+msgstr ""
 
 #. SysConfig
 msgid ""

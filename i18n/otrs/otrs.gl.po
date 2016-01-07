@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-12-08 20:37+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-01-07 13:10+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3248,6 +3248,14 @@ msgstr "Engadir un cliente"
 #. Template: AdminCustomerCompany
 msgid "Select"
 msgstr "Seleccionar"
+
+#. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -9224,6 +9232,10 @@ msgid "This ticket is archived."
 msgstr "Este tícket está arquivado."
 
 #. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Locked"
 msgstr "Bloqueado"
 
@@ -9783,8 +9795,8 @@ msgid "Open date selection"
 msgstr "Abra selección de data"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Oops! Un erro ocurriu."
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -11808,6 +11820,10 @@ msgid "(UserLogin) Firstname Lastname"
 msgstr "(Usuario) Nome Apelido"
 
 #. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
+
+#. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
 msgstr "(Usuario) Apelido, Nome"
 
@@ -12535,6 +12551,10 @@ msgstr ""
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Controla cómo mostrar o historial do ticket coma valores lexibles."
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13795,6 +13815,10 @@ msgid ""
 msgstr "Define o tipo de ticket por defecto para novos tickets de cliente na interface cliente."
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "Define o tipo de artigo por defecto na interface cliente."
 
@@ -14914,6 +14938,13 @@ msgstr "Determina cales colas van ser validas para receptores de tickets na inte
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
 "work in IE8."
 msgstr "Desactive seguridade restrinxida para IFrames dentro IE. Pode ser pedido para que SSO traballe en IE8."
@@ -15798,7 +15829,7 @@ msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode es
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16190,6 +16221,14 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -16833,6 +16872,18 @@ msgstr "Os parámetros para o cadro de mando do backend da vista xeral de novos 
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16855,16 +16906,6 @@ msgstr "Os parámetros para o cadro de mando do backend da vista xeral dos ticke
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr "Os parámetros para o cadro de mando do backend de calendario de ticket da interface de axente. \"Límite\" é a cantidade de entradas mostradas por defecto. \"Grupo\" é utilizado para restrinxir o acceso ao plugin (e. g. Grupo: admin;group1;group2;). \"Defecto\" determina se o plugin é habilitado por defecto ou se o usuario necesita activalo manualmente. \"CacheTTLLocal\" é o tempo de cache en minutos para o plugin."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16877,21 +16918,18 @@ msgstr "Os parámetros para o cadro de mando do backend de calendario de ticket 
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
-msgstr "Os parámetros para o cadro de mando do backend da vista xeral de recordatorio de ticket pendente da interface de axente. \"Límite\" é a cantidade de entradas mostradas por defecto. \"Grupo\" é utilizado para restrinxir o acceso ao plugin (e. g. Grupo: admin;group1;group2;). \"Defecto\" determina se o plugin é habilitado por defecto ou se o usuario necesita activalo manualmente. \"CacheTTLLocal\" é o tempo de cache en minutos para o plugin. Nota: Soamente atributos de Ticket e Campos Dinámicos (DynamicField_NameX) son permitidos para DefaultColumns. Posibles axustes: 0 = Deshabilitados, 1 = Dispoñible, 2 = Permitidos por defecto."
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
+" of the agent interface . \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
@@ -16910,6 +16948,16 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
 msgstr "Os parámetros para o cadro de mando das estatísticas de ticket da interface de axente. \"Límite\" é a cantidade de entradas mostradas por defecto. \"Grupo\" é utilizado para restrinxir o acceso ao plugin (e. g. Grupo: admin;group1;group2;). \"Defecto\" determina se o plugin é habilitado por defecto ou se o usuario necesita activalo manualmente. \"CacheTTLLocal\" é o tempo de cache en minutos para o plugin."
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17987,6 +18035,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Mostrar artigo coma texto rico inluso se a escritura en texto rico está deshabilitada."
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr "Mostrar o dono actual na interface do cliente."
 
@@ -18871,6 +18923,10 @@ msgstr "Modelos <-> Filas"
 #. SysConfig
 msgid "Textarea"
 msgstr "Área de texto"
+
+#. SysConfig
+msgid "Thai"
+msgstr ""
 
 #. SysConfig
 msgid ""

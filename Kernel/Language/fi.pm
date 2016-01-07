@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.320691310609698;
+    $Self->{Completeness}        = 0.328626136907611;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -194,7 +194,7 @@ sub Data {
         'before/after' => '',
         'Fulltext Search' => 'Kokosanahaku',
         'Data' => 'Tieto',
-        'Options' => 'Asetukset',
+        'Options' => 'Lisävalinnat',
         'Title' => 'Otsikko',
         'Item' => 'osio',
         'Delete' => 'Poista',
@@ -243,7 +243,7 @@ sub Data {
         'This e-mail address already exists. Please log in or reset your password.' =>
             '',
         'Logout' => 'Kirjaudu ulos',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout successful. Thank you for using %s!' => 'Uloskirjaus onnistui. Kiitos kun käytit %s järjestelmää!',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
         'Agent updated!' => 'Agentti päivitetty!',
         'Database Selection' => '',
@@ -387,8 +387,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Merkitse',
+        'Unmark' => 'Poista merkintä',
         'Bold' => 'Lihavoitu',
         'Italic' => 'Kursivoitu',
         'Underline' => 'Alleviivattu',
@@ -445,7 +445,7 @@ sub Data {
         'OTRS as requester' => 'OTRS pyytää tietoja',
         'OTRS as provider' => 'OTRS antaa tietoja',
         'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'Webservice "%s" updated!' => 'Webpalvelu "%s" päivitetty!',
 
         # Template: AAAMonth
         'Jan' => 'Tam',
@@ -587,7 +587,7 @@ sub Data {
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
-        'Bounce Article to a different mail address' => '',
+        'Bounce Article to a different mail address' => 'Välitä artikkeli toiseen sähköpostiosoitteeseen',
         'Reply to note' => '',
         'new' => 'Uusi',
         'open' => 'Avoin',
@@ -675,7 +675,7 @@ sub Data {
         'Show the ticket history' => 'Näytä tiketin tapahtumat',
         'Print this ticket' => 'Tulosta tiketti',
         'Print this article' => 'Tulosta artikkeli',
-        'Split' => '',
+        'Split' => 'Jaa',
         'Split this article' => 'Jaa artikkeli',
         'Forward article via mail' => 'Lähetä artikkeli sähköpostilla',
         'Change the ticket priority' => 'Muuta tiketin prioriteetti',
@@ -705,7 +705,7 @@ sub Data {
         'Plain Format' => 'Viestin lähde',
         'Reply All' => 'Vastaa kaikille',
         'Direction' => 'Suunta',
-        'New ticket notification' => 'Ilmoitus uusista viesteistä',
+        'New ticket notification' => 'Ilmoitus uusista tiketeistä',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Lähetä minulle ilmoitus jos minun jonoihini saapuu uusi tiketti',
         'Send new ticket notifications' => 'Lähetä uusi tikettihuomautus',
@@ -717,7 +717,7 @@ sub Data {
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
         'Send ticket lock timeout notifications' => 'Lähetä lukituksen vanhentumisesta ilmoitus',
-        'Ticket move notification' => 'Tiketin siirtoilmoitus',
+        'Ticket move notification' => 'Ilmoitus tiketin siirrosta',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
             'Lähetä minulle ilmoitus jos tiketti siirretään minun jonoihini',
         'Send ticket move notifications' => 'Lähetä tikettien siirroista ilmoitus',
@@ -904,6 +904,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Korvausmerkit kuten \'*\' ovat sallittuja.',
         'Add customer' => 'Lisää asiakas',
         'Select' => 'Valitse',
+        'shown' => '',
+        'total' => '',
         'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita',
         'Add Customer' => 'Lisää asiakas',
 
@@ -1841,7 +1843,7 @@ sub Data {
         'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
-        'ArticleType' => '',
+        'ArticleType' => 'Artikkelin tyyppi',
         'Display' => '',
         'Edit Field Details' => '',
         'Customer interface does not support internal article types.' => '',
@@ -2005,7 +2007,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
-        'Templates' => '',
+        'Templates' => 'Pohjat',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
@@ -2272,7 +2274,7 @@ sub Data {
         'Details' => '',
 
         # Template: AdminSysConfig
-        'SysConfig' => 'Hallinta',
+        'SysConfig' => 'Järjestelmäasetukset',
         'Navigate by searching in %s settings' => '',
         'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
@@ -2360,17 +2362,17 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Manage Templates' => 'Hallinnoi pohjia',
         'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
-        'Don\'t forget to add new templates to queues.' => '',
+        'Don\'t forget to add new templates to queues.' => 'Älä unohda lisätä uutta pohjaa jonoihin.',
         'Add Template' => '',
         'Edit Template' => '',
         'A standard template with this name already exists!' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
-        'The current ticket state is' => 'Tiketin status on',
+        'The current ticket state is' => 'Tiketin tila on',
         'Your email address is' => '',
 
         # Template: AdminTemplateAttachment
@@ -2401,7 +2403,7 @@ sub Data {
         'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'Aloita',
-        'End' => '',
+        'End' => 'Lopeta',
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '',
@@ -2594,15 +2596,15 @@ sub Data {
         'Set Pending Time for %s%s' => '',
         'Change Priority of %s%s' => '',
         'Change Responsible of %s%s' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Kaikki (*) merkityt kentät ovat pakollisia.',
         'Service invalid.' => '',
         'New Owner' => 'Uusi omistaja',
         'Please set a new owner!' => 'Valitse uusi omistaja!',
         'New Responsible' => '',
         'Next state' => 'Uusi tila',
-        'For all pending* states.' => '',
-        'Add Article' => '',
-        'Create an Article' => '',
+        'For all pending* states.' => '* kaikille odottaville tiloille',
+        'Add Article' => 'Lisää artikkeli',
+        'Create an Article' => 'Luo artikkeli',
         'Inform agents' => '',
         'Inform involved agents' => '',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
@@ -2619,7 +2621,7 @@ sub Data {
         'You need a email address.' => 'Tarvitset sähköpostiosoitteen.',
         'Need a valid email address or don\'t use a local email address.' =>
             '',
-        'Next ticket state' => 'Uusi tiketin status',
+        'Next ticket state' => 'Uusi tiketin tila',
         'Inform sender' => 'Informoi lähettäjää',
         'Send mail' => 'Lähetä sähköposti!',
 
@@ -2739,8 +2741,8 @@ sub Data {
         'Create New' => 'Luo uusi',
         'Profile link' => '',
         'Save changes in template' => 'Tallenna muutokset pohjaan',
-        'Filters in use' => '',
-        'Additional filters' => '',
+        'Filters in use' => 'Käytettävät suodattimet',
+        'Additional filters' => 'Lisäsuodattimet',
         'Add another attribute' => 'Lisää haku',
         'Output' => 'Vastausmuoto',
         'Fulltext' => 'Kokosana',
@@ -2778,6 +2780,7 @@ sub Data {
         'Save as default' => '',
         'Archive' => 'Arkisto',
         'This ticket is archived.' => 'Tämä tiketti on arkistoitu.',
+        'Note: Type is invalid!' => '',
         'Locked' => 'Lukitus',
         'Accounted time' => 'Käytetty aika',
         'Linked Objects' => 'Aiheeseen liittyvät',
@@ -2786,7 +2789,7 @@ sub Data {
             '',
         'This item has no articles yet.' => '',
         'Ticket Timeline View' => '',
-        'Article Overview' => '',
+        'Article Overview' => 'Artikkelien yleisnäkymä',
         'Article(s)' => 'Artikkelit',
         'Page' => 'Sivu',
         'Add Filter' => 'Lisää suodatin',
@@ -2797,13 +2800,13 @@ sub Data {
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Lukemattomat artikkelit',
         'No.' => 'Nro.',
-        'Important' => '',
+        'Important' => 'Tärkeä',
         'Unread Article!' => 'Aseta artikkeli lukemattomaksi!',
         'Incoming message' => 'Saapunut viesti',
         'Outgoing message' => 'Lähetetty viesti',
         'Internal message' => 'Sisäinen viesto',
         'Resize' => '',
-        'Mark this article as read' => '',
+        'Mark this article as read' => 'Merkitse artikkeli luetuksi',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2851,7 +2854,7 @@ sub Data {
         'Clear search' => '',
         '%s selection(s)...' => '',
         'and %s more...' => '',
-        'Filters' => '',
+        'Filters' => 'Suodattimet',
         'Confirm' => '',
 
         # Template: CustomerLogin
@@ -2883,7 +2886,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
-        'Logout %s %s' => '',
+        'Logout %s %s' => 'Uloskirjaus %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -2957,7 +2960,7 @@ sub Data {
         'Open date selection' => 'Avaa päivän valitsin',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'Hups! Tapahtui virhe.',
+        'An error occurred.' => '',
         'You can' => 'Voit',
         'Send a bugreport' => 'Lähetä bugiraportti',
         'go back to the previous page' => 'palata edelliselle sivulle',
@@ -2995,7 +2998,7 @@ sub Data {
         'Database Settings' => 'Tietokanta-asetukset',
         'General Specifications and Mail Settings' => 'Yleiset määritykset ja sähköpostiasetukset',
         'Finish' => 'Loppu',
-        'Welcome to %s' => '',
+        'Welcome to %s' => 'Tervetuloa %s järjestelmään',
         'Web site' => 'Kotisivu',
         'Mail check successful.' => 'Sähköpostin tarkastus onnistunut.',
         'Error in the mail settings. Please correct and try again.' => 'Virhe sähköpostiasetuksissa. Tarkista asetukset ja kokeile uudestaan.',
@@ -3140,7 +3143,7 @@ sub Data {
         'Inform Agent' => 'Ilmoita agentille',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Tervetuloa',
 
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Oikeudet',
@@ -3211,7 +3214,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS - Testisivu',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => 'Tervetuloa %s %s',
         'Counter' => 'Laskuri',
 
         # Template: Warning
@@ -3229,7 +3232,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'Web service "%s" updated!' => '',
+        'Web service "%s" updated!' => 'Web palvelu "%s" päivitetty!',
         'Web service "%s" created!' => '',
         'Web service "%s" deleted!' => '',
 
@@ -3515,7 +3518,7 @@ sub Data {
         'OTRS/Database Records' => '',
         'Tickets' => 'Tiketit',
         'Ticket History Entries' => '',
-        'Articles' => '',
+        'Articles' => 'Artikkelit',
         'Attachments (DB, Without HTML)' => '',
         'Customers With At Least One Ticket' => '',
         'Dynamic Field Values' => '',
@@ -3707,7 +3710,7 @@ sub Data {
         'Ticket pending reminder notification (unlocked)' => '',
         'Ticket escalation notification' => '',
         'Ticket escalation warning notification' => '',
-        'Ticket service update notification' => '',
+        'Ticket service update notification' => 'Ilmoitus palvelun muutoksesta',
 
         # SysConfig
         '
@@ -3727,6 +3730,7 @@ Thanks for your help!
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s aikayksikköä lisätty. Kokonaisaika on nyt %s aikayksikköä.',
         '(UserLogin) Firstname Lastname' => '',
+        '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
         'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -3850,7 +3854,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'Archive state changed: "%s"' => '',
         'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'Attachments <-> Templates' => 'Liitteet <-> Pohjat',
         'Auto Responses <-> Queues' => 'Autom. vastaukset <-> Jonot',
         'AutoFollowUp sent to "%s".' => 'AutoFollowUp lähetetty osoitteeseen "%s".',
         'AutoReject sent to "%s".' => 'AutoReject sent to "%s".',
@@ -3952,6 +3956,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3977,7 +3982,7 @@ Thanks for your help!
         'Create and manage salutations.' => 'Luo ja hallinnoi tervehdyksiä.',
         'Create and manage services.' => 'Luo ja hallinnoi palveluita.',
         'Create and manage signatures.' => 'Luo ja hallinnoi allekirjoituksia.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Luo ja hallinnoi pohjia',
         'Create and manage ticket notifications.' => '',
         'Create and manage ticket priorities.' => 'Luo ja hallinnoi tikettien prioriteetteja.',
         'Create and manage ticket states.' => 'Luo ja hallinnoi tikettien tiloja.',
@@ -3991,8 +3996,8 @@ Thanks for your help!
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
+        'Customer User <-> Groups' => 'Asiakas <-> Ryhmät',
+        'Customer User <-> Services' => 'Asiakas <-> Palvelut',
         'Customer User Administration' => '',
         'Customer Users' => 'Asiakaskäyttäjät',
         'Customer called us.' => 'Asiakas otti meihin yhteyttä.',
@@ -4091,7 +4096,7 @@ Thanks for your help!
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
         'Defines an alternate URL, where the login link refers to.' => '',
-        'Defines an alternate URL, where the logout link refers to.' => '',
+        'Defines an alternate URL, where the logout link refers to.' => 'Määrittele vaihtoehtoinen URL,  jonne uloskirjaus johtaa.',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
@@ -4332,6 +4337,7 @@ Thanks for your help!
             '',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
             '',
+        'Defines the default ticket type.' => '',
         'Defines the default type for article in the customer interface.' =>
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -4689,6 +4695,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
@@ -4775,7 +4783,7 @@ Thanks for your help!
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
-        'E-Mail Outbound' => '',
+        'E-Mail Outbound' => 'Lähtevä e-mail',
         'Edit customer company' => '',
         'Email Addresses' => 'Sähköpostiosoitteet',
         'Email sent to "%s".' => 'Sähköposti lähetetty "%s".',
@@ -5076,6 +5084,8 @@ Thanks for your help!
             '',
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
+        'Lastname Firstname' => '',
+        'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
@@ -5087,7 +5097,7 @@ Thanks for your help!
         'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Linkitä automaattiset vastaukset jonoihin.',
         'Link roles to groups.' => 'Linkitä roolit ryhmiin.',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Linkitä pohjat jonoihin.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -5240,7 +5250,7 @@ Thanks for your help!
             '',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Poissa toimistolta',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '',
@@ -5267,19 +5277,21 @@ Thanks for your help!
             '',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
+        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-            '',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
-            '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.' =>
             '',
@@ -5623,6 +5635,7 @@ Thanks for your help!
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
+        'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => '',
@@ -5791,7 +5804,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
-        'Skin' => '',
+        'Skin' => 'Ulkoasu',
         'Slovak' => '',
         'Slovenian' => '',
         'SolutionDiffInMin' => '',
@@ -5876,8 +5889,9 @@ Thanks for your help!
         'Swedish' => '',
         'System Maintenance' => '',
         'System Request (%s).' => '',
-        'Templates <-> Queues' => '',
+        'Templates <-> Queues' => 'Pohjat <-> Jonot',
         'Textarea' => '',
+        'Thai' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>

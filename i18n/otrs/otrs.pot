@@ -9359,7 +9359,7 @@ msgid "Open date selection"
 msgstr ""
 
 #. Template: Error
-msgid "Oops! An Error occurred."
+msgid "An error occurred."
 msgstr ""
 
 #. Template: Error

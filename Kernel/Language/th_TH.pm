@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.804930588798468;
+    $Self->{Completeness}        = 0.804691239827669;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2963,7 +2963,7 @@ sub Data {
         'Open date selection' => 'การเลือกวันที่เปิด',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'อ๊ะ! เกิดข้อผิดพลาด.',
+        'An error occurred.' => '',
         'You can' => 'คุณสามารถ',
         'Send a bugreport' => 'ส่งรายงานข้อบกพร่อง',
         'go back to the previous page' => 'กลับไปที่หน้าก่อนหน้านี้',

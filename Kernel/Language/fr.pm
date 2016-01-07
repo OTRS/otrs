@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.512001920307249;
+    $Self->{Completeness}        = 0.519865964576352;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -484,7 +484,7 @@ sub Data {
         'User Profile' => 'Profil utilisateur',
         'Email Settings' => 'Paramétrage e-mail',
         'Other Settings' => 'Autres paramétrages',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Paramètres des notifications',
         'Change Password' => 'Changer de mot de passe',
         'Current password' => 'Mot de passe actuel',
         'New password' => 'Nouveau mot de passe',
@@ -656,7 +656,7 @@ sub Data {
         'Create new Email Ticket' => 'Créer un nouveau ticket par e-mail',
         'Phone-Ticket' => 'Ticket Téléphone',
         'Search Tickets' => 'Recherche de tickets',
-        'Customer Realname' => '',
+        'Customer Realname' => 'Vrai nom du client',
         'Customer History' => 'Historique Client',
         'Edit Customer Users' => 'Editer clients',
         'Edit Customer' => 'Editer client',
@@ -666,7 +666,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Créer un nouveau Ticket E-mail et l\'envoyer (Sortant)',
         'Create new Phone Ticket (Inbound)' => 'Créer un ticket Téléphone (Entrant)',
         'Address %s replaced with registered customer address.' => 'Adresse %s remplacée par celle du client enregistré.',
-        'Customer user automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => 'Client ajouté automatiquement en Cc.',
         'Overview of all open Tickets' => 'Aperçu de tous les Tickets ouverts',
         'Locked Tickets' => 'Tickets verrouillés',
         'My Locked Tickets' => 'Mes tickets verrouillés',
@@ -770,8 +770,8 @@ sub Data {
         'Archived tickets' => 'Tickets archivés',
         'Unarchived tickets' => 'Tickets non archivés',
         'Ticket Information' => 'Information Ticket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'sous-files incluses',
+        'excluding subqueues' => 'sous-files excluses',
 
         # Template: AAAWeekDay
         'Sun' => 'Dim',
@@ -791,7 +791,7 @@ sub Data {
         'Create New ACL' => 'Créer une ACL',
         'Deploy ACLs' => 'Déployer ACLs',
         'Export ACLs' => 'Exporter ACLs',
-        'Configuration import' => '',
+        'Configuration import' => 'Import de la configuration',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Ce champ est requis',
@@ -818,11 +818,11 @@ sub Data {
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Changer les paramètres',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'documentation',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
         'Edit ACL information' => '',
         'Stop after match' => 'Stopper après correspondance',
@@ -833,7 +833,7 @@ sub Data {
         'Do you really want to delete this ACL?' => '',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
-        'An item with this name is already present.' => '',
+        'An item with this name is already present.' => 'Un objet avec le même nom est déjà présent.',
         'Add all' => 'Tout ajouter',
         'There was an error reading the ACL data.' => '',
 
@@ -890,7 +890,7 @@ sub Data {
         'System Registration' => 'Enregistrement du système',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Enregistrer ce système',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'L\'enregistrement est désactivé pour votre système. Veuillez vérifier votre configuration. ',
 
@@ -899,7 +899,7 @@ sub Data {
             '',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
             '',
-        'Register this system' => '',
+        'Register this system' => 'Enregistrer ce système',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => '',
@@ -910,6 +910,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Les caractères génériques tels que \'*\ sont autorisés',
         'Add customer' => 'Ajouter un client',
         'Select' => 'Sélectionner',
+        'shown' => '',
+        'total' => '',
         'Please enter a search term to look for customers.' => 'Merci d\'entrer un motif pour rechercher des clients',
         'Add Customer' => 'Ajouter un client',
 
@@ -1058,13 +1060,13 @@ sub Data {
         'Number of cols' => 'Nombre de colonnes',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Précisez la largeur de ce champ (en nombre de caractères), présent lors de l\'édition.',
-        'Check RegEx' => '',
+        'Check RegEx' => 'Vérifier la RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '',
         'RegEx' => '',
-        'Invalid RegEx' => '',
+        'Invalid RegEx' => 'RegEx non valide',
         'Error Message' => 'Message d\'Erreur',
-        'Add RegEx' => '',
+        'Add RegEx' => 'Ajouter une RegEx',
 
         # Template: AdminEmail
         'Admin Notification' => 'Notification des administrateurs',
@@ -1102,7 +1104,7 @@ sub Data {
             'Pour permettre l\'exécution automatique, sélectionnez au moins une valeur dans minutes, heures et jours !',
         'Event based execution (single ticket)' => '',
         'Event Triggers' => '',
-        'List of all configured events' => '',
+        'List of all configured events' => 'Liste de tous les événements configurés',
         'Delete this event' => 'Supprimer cet évenement',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
@@ -1110,15 +1112,15 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => '',
         'Add Event Trigger' => '',
-        'Add Event' => '',
+        'Add Event' => 'Ajouter un événement',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => 'Evenement double',
         'This event is already attached to the job, Please use a different one.' =>
             'Cet évenement est déjà attaché à un job, merci d\'en utiliser un autre.',
         'Delete this Event Trigger' => '',
-        'Remove selection' => '',
-        'Select Tickets' => '',
+        'Remove selection' => 'Supprimer la sélection',
+        'Select Tickets' => 'Sélectionner des tickets',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',
         'Customer login' => 'Login Client',
@@ -1203,7 +1205,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'Débogueur de l\'interface générique pour le service Web %s',
-        'You are here' => '',
+        'You are here' => 'Vous êtes ici',
         'Web Services' => 'Services Web',
         'Debugger' => 'Débogueur',
         'Go back to web service' => 'Retourner au service web',
@@ -1336,8 +1338,8 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
-        'The default HTTP command to use for the requests.' => '',
+        'Default command' => 'Commande par défaut',
+        'The default HTTP command to use for the requests.' => 'La commande HTTP par défaut à utiliser pour les requêtes.',
         'Authentication' => 'Authentification',
         'The authentication mechanism to access the remote system.' => 'Le mécanisme d\'authentification permettant d\'accéder au système distant.',
         'A "-" value means no authentication.' => 'La valeur « - » signifie que l\'authentification n\'a pas fonctionné.',
@@ -1349,7 +1351,7 @@ sub Data {
         'The full path and name of the SSL certificate file.' => '',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => 'Fichier du mot de passe du certificat',
-        'The full path and name of the SSL key file.' => '',
+        'The full path and name of the SSL key file.' => 'Le chemin complet et le nom du fichier de la clé SSL.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
         'Certification Authority (CA) File' => 'Fichier de l\'autorité de certification (AC)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
@@ -1524,7 +1526,7 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => 'Ajouter notification',
-        'Export Notifications' => '',
+        'Export Notifications' => 'Exporter les notifications',
         'Configuration Import' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
@@ -1532,10 +1534,10 @@ sub Data {
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Supprimer cette notification',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification?' => 'Voulez-vous vraiment effacer cette notification?',
         'Add Notification' => 'Ajouter Notification',
         'Edit Notification' => 'Editer Notification',
-        'Show in agent preferences' => '',
+        'Show in agent preferences' => 'Montrer dans les préferences de l\'opérateur',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -1554,23 +1556,23 @@ sub Data {
         'Recipients' => 'Destinataires',
         'Send to' => 'Envoyer à',
         'Send to these agents' => 'Envoyer aux agents',
-        'Send to all group members' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
+        'Send to all group members' => 'Envoyer à tous les membres du groupe',
+        'Send to all role members' => 'Envoyer à tous les membres du rôle',
+        'Send on out of office' => 'Envoyer une absence du bureau',
         'Also send if the user is currently out of office.' => '',
         'Once per day' => 'Un par jour',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Methodes de notification',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => '',
         'Transport' => '',
         'At least one method is needed per notification.' => '',
-        'Send by default' => '',
+        'Send by default' => 'Envoyer par défaut',
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Cette fonctionalité n\'est pas disponile pour l\'instant.',
         'No data found' => 'Aucune donnée trouvée',
         'No notification method found.' => '',
         'Notification Text' => '',
@@ -2023,7 +2025,7 @@ sub Data {
         'Overview of registered systems' => '',
         'This system is registered with OTRS Group.' => '',
         'System type' => '',
-        'Unique ID' => '',
+        'Unique ID' => 'ID unique',
         'Last communication with registration server' => '',
         'System registration not possible' => '',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
@@ -2784,6 +2786,7 @@ sub Data {
         'Save as default' => '',
         'Archive' => 'Archiver',
         'This ticket is archived.' => 'Ce ticket est archivé',
+        'Note: Type is invalid!' => '',
         'Locked' => 'Verrouillé',
         'Accounted time' => 'Temp passé',
         'Linked Objects' => 'Objets liés',
@@ -2963,7 +2966,7 @@ sub Data {
         'Open date selection' => 'Sélection date d\'ouverture',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'Oups! Une erreur est survenue.',
+        'An error occurred.' => '',
         'You can' => 'Vous pouvez',
         'Send a bugreport' => 'Envoyer un rapport de bug',
         'go back to the previous page' => 'Revenir à la page précédente',
@@ -3733,6 +3736,7 @@ Thanks for your help!
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => 'Temps passé sur l\'action: %s . Total du temps passé pour ce ticket: %s unité(s).',
         '(UserLogin) Firstname Lastname' => '',
+        '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
         'A Website' => 'Un site internet',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -3958,6 +3962,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Contrôle si les clients ont la possibilité de classer leurs tickets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -4338,6 +4343,7 @@ Thanks for your help!
             '',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
             '',
+        'Defines the default ticket type.' => '',
         'Defines the default type for article in the customer interface.' =>
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -4695,6 +4701,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
@@ -5003,21 +5011,21 @@ Thanks for your help!
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
         'If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran de fermeture du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran de traitement groupé de ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran texte libre du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran de note du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran responsable du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran propriétaire du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran mise en attente du ticket dans l\'interface opérateur.',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Si une note est ajoutée par un opérateur, définit l\'état d\'un ticket dans l\'écran priorité du ticket dans l\'interface opérateur.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -5082,6 +5090,8 @@ Thanks for your help!
             '',
         'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
+        'Lastname Firstname' => '',
+        'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
@@ -5273,19 +5283,21 @@ Thanks for your help!
             '',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
+        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-            '',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
-            '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.' =>
             '',
@@ -5629,6 +5641,7 @@ Thanks for your help!
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
+        'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => '',
@@ -5884,6 +5897,7 @@ Thanks for your help!
         'System Request (%s).' => 'Requête système',
         'Templates <-> Queues' => 'Modèles <-> Files',
         'Textarea' => 'Zone de texte',
+        'Thai' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
