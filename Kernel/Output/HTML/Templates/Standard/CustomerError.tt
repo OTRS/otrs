@@ -17,6 +17,6 @@
         <p>
             [% Translate("Traceback") | html %]:
         </p>
-        <pre>[% Data.BackendTraceback | html %]</pre>
+        <code><pre>[% Data.BackendTraceback | html %]</pre></code>
     </div>
 </div>
