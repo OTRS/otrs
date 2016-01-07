@@ -69,7 +69,7 @@ $Selenium->RunTest(
                 UserLastname   => $TestCustomerLogin,
                 UserCustomerID => $TestCustomerID,
                 UserLogin      => $TestCustomerLogin,
-                UserEmail      => $TestCustomerLogin . '@localhost.com',
+                UserEmail      => $TestCustomerLogin . '@localunittest.com',
                 ValidID        => 1,
                 UserID         => $TestUserID,
             );

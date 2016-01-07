@@ -106,13 +106,13 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
+            UserEmail      => "$TestCustomer\@localunittest.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
 
         # create test email ticket
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
+        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localunittest.com> ($TestCustomer)";
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");

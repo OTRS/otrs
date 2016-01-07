@@ -28,8 +28,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # disable check email address
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
+        $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0
         );
@@ -59,7 +58,7 @@ $Selenium->RunTest(
             UserLastname   => $UserRandomID,
             UserCustomerID => $UserRandomID,
             UserLogin      => $UserRandomID,
-            UserEmail      => $UserRandomID . '@localhost.com',
+            UserEmail      => $UserRandomID . '@localunittest.com',
             ValidID        => 1,
             UserID         => 1,
         );
@@ -147,7 +146,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check test Group relation for test CustomerUser
-        my $CustomerUserLink = "$UserRandomID $UserRandomID <$UserRandomID\@localhost.com> ($UserRandomID)";
+        my $CustomerUserLink = "$UserRandomID $UserRandomID <$UserRandomID\@localunittest.com> ($UserRandomID)";
         $Selenium->find_element( $CustomerUserLink, 'link_text' )->VerifiedClick();
 
         $Self->Is(

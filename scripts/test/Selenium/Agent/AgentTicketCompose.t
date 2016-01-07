@@ -77,7 +77,7 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
+            UserEmail      => "$TestCustomer\@localunittest.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
@@ -86,7 +86,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
+        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localunittest.com> ($TestCustomer)";
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
@@ -144,7 +144,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # verify that compose worked as expected
-        my $CustomerEmail = "\"$TestCustomer\@localhost.com\"";
+        my $CustomerEmail = "\"$TestCustomer\@localunittest.com\"";
         my $HistoryText   = "Email sent to $CustomerEmail.";
 
         $Self->True(

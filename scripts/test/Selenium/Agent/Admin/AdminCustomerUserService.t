@@ -27,8 +27,7 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable check email address
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
+        $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0
         );
@@ -54,7 +53,7 @@ $Selenium->RunTest(
             UserLastname   => $CustomerUserName,
             UserCustomerID => $CustomerUserName,
             UserLogin      => $CustomerUserName,
-            UserEmail      => $CustomerUserName . '@localhost.com',
+            UserEmail      => $CustomerUserName . '@localunittest.com',
             ValidID        => 1,
             UserID         => 1,
         );

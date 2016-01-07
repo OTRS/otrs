@@ -90,7 +90,7 @@ $Selenium->RunTest(
         );
 
         # create real test SystemAddress
-        my $SysAddRandom  = 'sysadd' . $Helper->GetRandomID() . '@localhost.com';
+        my $SysAddRandom  = 'sysadd' . $Helper->GetRandomID() . '@localunittest.com';
         my $SysAddComment = "Selenium test SystemAddress";
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);

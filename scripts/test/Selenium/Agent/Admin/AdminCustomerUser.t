@@ -132,7 +132,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localhost.com" );
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localunittest.com" );
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
@@ -150,7 +150,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID2 . "\@localhost.com" );
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID2 . "\@localunittest.com" );
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');"
         );
@@ -202,7 +202,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#UserEmail', 'css' )->get_value(),
-            "$RandomID\@localhost.com",
+            "$RandomID\@localunittest.com",
             "#UserLastname updated value",
         );
         $Self->Is(

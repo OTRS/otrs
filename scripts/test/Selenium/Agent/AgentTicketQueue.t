@@ -49,7 +49,7 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
+            UserEmail      => "$TestCustomer\@localunittest.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
@@ -113,7 +113,7 @@ $Selenium->RunTest(
                 Priority      => '3 normal',
                 State         => 'open',
                 CustomerID    => $TestCustomer,
-                CustomerUser  => "$TestCustomer\@localhost.com",
+                CustomerUser  => "$TestCustomer\@localunittest.com",
                 OwnerID       => $TestUserID,
                 UserID        => $TestUserID,
                 ResponsibleID => $TestUserID,
