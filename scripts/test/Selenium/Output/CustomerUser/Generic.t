@@ -85,7 +85,7 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomerName,
             UserCustomerID => 'A124',
             UserLogin      => $TestCustomerName,
-            UserEmail      => $TestCustomerName . '@localhost.com',
+            UserEmail      => $TestCustomerName . '@localunittest.com',
             UserStreet     => 'Test Street',
             UserCity       => 'Test City',
             UserCountry    => 'Test Country',

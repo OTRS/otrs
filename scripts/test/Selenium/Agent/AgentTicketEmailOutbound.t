@@ -86,7 +86,7 @@ $Selenium->RunTest(
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localhost.com",
+            CustomerUser => "SeleniumCustomer\@localunittest.com",
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
@@ -104,7 +104,7 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
+            UserEmail      => "$TestCustomer\@localunittest.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
@@ -124,7 +124,7 @@ $Selenium->RunTest(
         }
 
         # fill in customer
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
+        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localunittest.com> ($TestCustomer)";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );

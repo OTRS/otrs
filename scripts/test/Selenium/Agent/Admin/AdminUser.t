@@ -87,7 +87,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localhost.com' );
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localunittest.com' );
         $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # test search filter by agent $UserRandomID
@@ -129,7 +129,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#UserEmail', 'css' )->get_value(),
-            "$UserRandomID\@localhost.com",
+            "$UserRandomID\@localunittest.com",
             "#UserEmail stored value",
         );
 

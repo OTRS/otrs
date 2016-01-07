@@ -55,7 +55,7 @@ $Selenium->RunTest(
             Priority      => '3 normal',
             State         => 'open',
             CustomerID    => 'SeleniumCustomerID',
-            CustomerUser  => "test\@localhost.com",
+            CustomerUser  => "test\@localunittest.com",
             OwnerID       => 1,
             UserID        => 1,
             ResponsibleID => 1,
