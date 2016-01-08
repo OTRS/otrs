@@ -113,6 +113,8 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $TypeRandomID
         );
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
 
         # try to set test type to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
@@ -133,6 +135,8 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $DefaultTicketType
         );
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
 
         # set test type to invalid
         $Selenium->find_element( "#Name", 'css' )->clear();
