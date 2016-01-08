@@ -62,7 +62,7 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localunittest.com",
+            UserEmail      => "$TestCustomer\@localhost.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
@@ -94,7 +94,7 @@ $Selenium->RunTest(
                 State         => 'open',
                 ServiceID     => $ServiceID,
                 CustomerID    => $TestCustomer,
-                CustomerUser  => "$TestCustomer\@localunittest.com",
+                CustomerUser  => "$TestCustomer\@localhost.com",
                 OwnerID       => $TestUserID,
                 UserID        => $TestUserID,
                 ResponsibleID => $TestUserID,

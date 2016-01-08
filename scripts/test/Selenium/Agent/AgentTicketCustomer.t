@@ -80,7 +80,7 @@ $Selenium->RunTest(
                 UserLastname   => $TestCustomer,
                 UserCustomerID => $TestCustomer,
                 UserLogin      => $TestCustomer,
-                UserEmail      => "$TestCustomer\@localunittest.com",
+                UserEmail      => "$TestCustomer\@localhost.com",
                 ValidID        => 1,
                 UserID         => $TestUserID,
             );
@@ -146,7 +146,7 @@ $Selenium->RunTest(
         }
 
         my $AutoCompleteString
-            = "\"$TestCustomers[1] $TestCustomers[1]\" <$TestCustomers[1]\@localunittest.com> ($TestCustomers[1])";
+            = "\"$TestCustomers[1] $TestCustomers[1]\" <$TestCustomers[1]\@localhost.com> ($TestCustomers[1])";
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );

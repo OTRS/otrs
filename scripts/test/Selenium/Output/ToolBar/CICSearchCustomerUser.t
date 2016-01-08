@@ -87,7 +87,7 @@ $Selenium->RunTest(
 
         # create test customer
         my $TestCustomerLogin = "Customer" . $Helper->GetRandomID();
-        my $TestCustomerEmail = $TestCustomerLogin . "\@localunittest.com";
+        my $TestCustomerEmail = $TestCustomerLogin . "\@localhost.com";
         my $CustomerID        = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             Source         => 'CustomerUser',
             UserFirstname  => $TestCustomerLogin,
