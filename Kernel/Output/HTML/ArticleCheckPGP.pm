@@ -243,7 +243,10 @@ sub Check {
         $Parser->decode_headers(0);
         $Parser->extract_nested_messages(0);
         $Parser->output_to_core('ALL');
+        # prevent modification of body by parser - required for bug #11755
+        $Parser->decode_bodies(0);
         my $Entity = $Parser->parse_data($Message);
+        $Parser->decode_bodies(1);
         my $Head   = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
