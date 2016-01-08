@@ -48,7 +48,6 @@ sub new {
 
 sub Check {
     my ( $Self, %Param ) = @_;
-
     my %SignCheck;
     my @Return;
 
@@ -234,8 +233,12 @@ sub Check {
         $Parser->decode_headers(0);
         $Parser->extract_nested_messages(0);
         $Parser->output_to_core('ALL');
+
+        # prevent modification of body by parser - required for bug #11755
+        $Parser->decode_bodies(0);
         my $Entity = $Parser->parse_data($Message);
-        my $Head   = $Entity->head();
+        $Parser->decode_bodies(1);
+        my $Head = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
@@ -338,6 +341,7 @@ sub Check {
             && $ContentType =~ /application\/pgp/i
             )
         {
+
             my $SignedText    = $Entity->parts(0)->as_string();
             my $SignatureText = $Entity->parts(1)->body_as_string();
 
