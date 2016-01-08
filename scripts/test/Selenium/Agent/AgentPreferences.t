@@ -14,18 +14,17 @@ use vars (qw($Self));
 use Kernel::Language;
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get sysconfig object
@@ -37,8 +36,8 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        my $Language = "en";
-
+        # create test user and login
+        my $Language      = "en";
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'users', 'admin' ],
             Language => $Language,
@@ -76,11 +75,13 @@ $Selenium->RunTest(
             "Created test notification",
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+        # navigate to AgentPreferences screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
-        # check AgentPreferences screen
+        # check overview AgentPreferences screen
         for my $ID (
             qw(CurPw NewPw NewPw1 UserLanguage UserSkin OutOfOfficeOn OutOfOfficeOff
             QueueID ServiceID UserRefreshTime UserCreateNextMask)
@@ -114,7 +115,7 @@ JAVASCRIPT
         $Selenium->execute_script($CheckAlertJS);
 
         # we should not be able to submit the form without an alert
-        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->VerifiedClick();
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
@@ -130,7 +131,7 @@ JAVASCRIPT
 
         # now enable the checkbox and try to submit again, it should work this time
         $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
-        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->VerifiedClick();
 
         $Selenium->execute_script($CheckAlertJS);
 
@@ -168,7 +169,7 @@ JAVASCRIPT
 
         # edit some of checked stored values
         $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element("//button[\@id='UserSkinUpdate'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@id='UserSkinUpdate'][\@type='submit']")->VerifiedClick();
 
         # check edited values
         $Self->Is(
@@ -186,7 +187,7 @@ JAVASCRIPT
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->click();
+            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedClick();
 
             # check edited language value
             $Self->Is(
