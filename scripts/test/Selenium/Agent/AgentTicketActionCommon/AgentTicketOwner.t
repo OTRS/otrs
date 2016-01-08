@@ -92,7 +92,7 @@ $Selenium->RunTest(
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localunittest.com",
+            CustomerUser => "SeleniumCustomer\@localhost.com",
             OwnerID      => $UserID[0],
             UserID       => $UserID[0],
         );

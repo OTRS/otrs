@@ -81,13 +81,13 @@ $Selenium->RunTest(
             UserLastname   => $TestCustomer,
             UserCustomerID => $TestCustomer,
             UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localunittest.com",
+            UserEmail      => "$TestCustomer\@localhost.com",
             ValidID        => 1,
             UserID         => $TestUserID,
         );
 
         # create test email ticket
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localunittest.com> ($TestCustomer)";
+        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
@@ -143,7 +143,7 @@ $Selenium->RunTest(
         }
 
         # bounce ticket to another test email
-        $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localunittest.com");
+        $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
         $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
@@ -158,7 +158,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # verify that bounce worked as expected
-        my $BounceText = 'Bounced to "test@localunittest.com".';
+        my $BounceText = 'Bounced to "test@localhost.com".';
         $Self->True(
             index( $Selenium->get_page_source(), $BounceText ) > -1,
             "Bounce executed correctly",

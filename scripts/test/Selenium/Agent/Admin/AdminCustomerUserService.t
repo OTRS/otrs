@@ -53,7 +53,7 @@ $Selenium->RunTest(
             UserLastname   => $CustomerUserName,
             UserCustomerID => $CustomerUserName,
             UserLogin      => $CustomerUserName,
-            UserEmail      => $CustomerUserName . '@localunittest.com',
+            UserEmail      => $CustomerUserName . '@localhost.com',
             ValidID        => 1,
             UserID         => 1,
         );

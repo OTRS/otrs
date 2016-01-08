@@ -60,7 +60,7 @@ $Selenium->RunTest(
         }
 
         # create test system address
-        my $SystemAddressName = "SystemAddress" . $Helper->GetRandomID() . "\@localunittest.com";
+        my $SystemAddressName = "SystemAddress" . $Helper->GetRandomID() . "\@localhost.com";
         my $SystemAddressID   = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressAdd(
             Name     => $SystemAddressName,
             Realname => 'Selenium SystemAddress',
