@@ -1,0 +1,59 @@
+From: Unit Test <unittest@example.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_82F57994-9830-494D-B4F7-4B227232B401";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha1
+X-Smtp-Server: 97B3E88A-65E1-4E8F-B302-B4048C512E17
+X-Universally-Unique-Identifier: 6A026CAF-B610-446A-AD16-FC3111107964
+Subject: PGP Test 2013-07-02-1977-4
+Date: Thu, 7 Jan 2016 17:01:21 -0600
+Message-Id: <4BE5F4A2-154D-4252-85E6-018344308528@example.com>
+To: unittest2@example.com
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+
+
+--Apple-Mail=_82F57994-9830-494D-B4F7-4B227232B401
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
+
+Xxxx xx xxxxxx xxxx
+
+
+--
+
+Xxxxxx Xxxxx
+Xxxx Xxxxxxxxx Xxxxxx Xxxxxxxx Xxxxxxxxxxx
+
+
+XXXX XX
+Xxxxxxxxxxxx 0x
+X-00000 Xxxxxxxxx
+
+T: +00 (0) 0000 00000 0
+F: +00 (0) 0000 00000 00
+I: xxxx://xxx.xxxx.xxx/
+
+Xxxxxxxx xxxxxxxx: Xxx Xxxxxxx, Xxxxxxx Xxxxx: Xxx Xxxxxxx, XXX 00000, =
+VAT ID: XX000000000
+Xxxxxxxx: Xxxxxxxx Xxxxxxxxx, Xxxxxxxx Xxxxx: Xxxx=X0=X0 Xxxxxxxxxx =
+(XXX), Xxxxxxxxxxx Xxxx, Xxxxxx Xxxxxx
+
+--Apple-Mail=_82F57994-9830-494D-B4F7-4B227232B401
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iEYEARECAAYFAlaO7ooACgkQFAT7yzhnfDs/QgCcCmFvsumE9jB1C1m3xps7wJ4S
+8ncAn1Upcnijht2zQ0Y7Nf14bYP3unnG
+=O4WT
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_82F57994-9830-494D-B4F7-4B227232B401--
