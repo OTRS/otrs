@@ -2414,6 +2414,11 @@ sub _ArticleTree {
                         Data => $Item->{ArticleData}->{Body},
                     );
 
+                    for my $ChatMessage (@{ $ChatMessages // [] }) {
+                        $ChatMessage->{CreateTime} = $LayoutObject->{LanguageObject}->FormatTimeString( $ChatMessage->{CreateTime}, 'DateFormat' );
+                    }
+                    $Item->{ArticleData}->{ChatMessages} = $ChatMessages;
+
                     my $ItemCounter = 0;
 
                     CHATITEM:
