@@ -18,15 +18,17 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        # do not check email addresses
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
@@ -49,35 +51,17 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
-        );
-
         # create service for test
         my $ServiceName = 'Service' . $Helper->GetRandomID();
         my $ServiceID   = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(
             Name    => $ServiceName,
             ValidID => 1,
             Comment => 'Selenium Test',
-            UserID  => $TestUserID,
+            UserID  => 1,
         );
         $Self->True(
             $ServiceID,
-            "Service is created - $ServiceID",
+            "Service is created - ID $ServiceID",
         );
 
         # get ticket object
@@ -93,34 +77,29 @@ $Selenium->RunTest(
                 Priority      => '3 normal',
                 State         => 'open',
                 ServiceID     => $ServiceID,
-                CustomerID    => $TestCustomer,
-                CustomerUser  => "$TestCustomer\@localhost.com",
-                OwnerID       => $TestUserID,
-                UserID        => $TestUserID,
-                ResponsibleID => $TestUserID,
+                CustomerID    => 'SeleniumCustomer',
+                CustomerUser  => 'SeleniumCustomer@localhost.com',
+                OwnerID       => 1,
+                UserID        => 1,
+                ResponsibleID => 1,
             );
-
             $Self->True(
                 $TicketID,
-                "Ticket is created - $TicketID",
+                "Ticket is created - ID $TicketID",
             );
 
             push @TicketIDs, $TicketID;
 
         }
 
-        # go to AgentTicketService
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketService");
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        # navigate to AgentTicketService screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketService");
 
         # verify that there are no tickets with My Service filter
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=0;\' )]")->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=0;\' )]")->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
@@ -133,34 +112,25 @@ $Selenium->RunTest(
         );
         $Element->is_enabled();
         $Element->is_displayed();
-        $Element->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Element->VerifiedClick();
 
         # check different views for filters
         for my $View (qw(Small Medium Preview)) {
 
             # go to default small view
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketService;ServiceID=$ServiceID;View=Small");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketService;ServiceID=$ServiceID;View=Small");
 
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-            # click on viewer controler
+            # click on viewer controller
             $Selenium->find_element(
                 "//a[contains(\@href, \'Filter=Unlocked;View=$View;ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=Small;\' )]"
-            )->click();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            )->VerifiedClick();
 
             # verify that all expected tickets are present
             for my $TicketID (@TicketIDs) {
 
                 my %TicketData = $TicketObject->TicketGet(
                     TicketID => $TicketID,
-                    UserID   => $TestUserID,
+                    UserID   => 1,
                 );
 
                 # check for locked and unlocked tickets
@@ -169,10 +139,7 @@ $Selenium->RunTest(
                     # click on 'Available ticket' filter
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=Unlocked\' )]"
-                    )->click();
-
-                    # wait until page has loaded, if neccessary
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                    )->VerifiedClick();
 
                     # check for unlocked tickets with 'Available tickets' filter on
                     $Self->True(
@@ -183,10 +150,7 @@ $Selenium->RunTest(
                     # click on 'All ticket' filter
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=All\' )]"
-                    )->click();
-
-                    # wait until page has loaded, if neccessary
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                    )->VerifiedClick();
 
                     # check for unlocked tickets with 'All tickets' filter on
                     $Self->True(
@@ -199,10 +163,7 @@ $Selenium->RunTest(
                     # click on 'All ticket' filter
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=All\' )]"
-                    )->click();
-
-                    # wait until page has loaded, if neccessary
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                    )->VerifiedClick();
 
                     # check for locked tickets with  'All ticket' filter
                     $Self->True(
@@ -213,10 +174,7 @@ $Selenium->RunTest(
                     # click on 'Available ticket' filter
                     $Selenium->find_element(
                         "//a[contains(\@href, \'ServiceID=$ServiceID;SortBy=Age;OrderBy=Up;View=$View;Filter=Unlocked\' )]"
-                    )->click();
-
-                    # wait until page has loaded, if neccessary
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                    )->VerifiedClick();
 
                     # check for locked tickets with 'Available tickets' filter on
                     $Self->True(
@@ -232,11 +190,11 @@ $Selenium->RunTest(
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
-                UserID   => $TestUserID,
+                UserID   => 1,
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID"
+                "Delete ticket - ID $TicketID"
             );
         }
 
@@ -249,23 +207,12 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete service - $ServiceID",
+            "Delete service - ID $ServiceID",
         );
 
-        # delete created test customer user
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
+        # make sure the cache is correct
         for my $Cache (
-            qw (Ticket CustomerUser Service)
+            qw (Ticket Service)
             )
         {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(

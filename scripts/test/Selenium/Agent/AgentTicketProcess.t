@@ -10,37 +10,21 @@ use strict;
 use warnings;
 use utf8;
 
-use Data::Dumper;
-
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
-
-# get needed objects
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $ProcessObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
-my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 1,
+        # get needed objects
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
         );
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check RichText, service and type
@@ -60,6 +44,7 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -70,24 +55,30 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+
+        # navigate to AdminProcessManagement screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # import test selenium process scenario
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
-        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
+
+        # get process object
+        my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
         # get process list
         my $List = $ProcessObject->ProcessList(
@@ -97,7 +88,7 @@ $Selenium->RunTest(
 
         # get process entity
         my %ListReverse = reverse %{$List};
-        my $ProcessName = "TestProcess";
+        my $ProcessName = 'TestProcess';
 
         my $Process = $ProcessObject->ProcessGet(
             EntityID => $ListReverse{$ProcessName},
@@ -105,7 +96,7 @@ $Selenium->RunTest(
         );
 
         # navigate to agent ticket process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketProcess");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
 
         # create first scenario for test agent ticket process
         $Selenium->execute_script(
@@ -120,7 +111,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject", 'css' )->submit();
+        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
 
         # check for inputed values for first step in test process ticket
         $Self->True(
@@ -138,6 +129,7 @@ $Selenium->RunTest(
 
         # click on next step in process ticket
         $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
@@ -149,10 +141,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # return to main window
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # wait until main window has been reloaded
-        sleep 1;
 
         # check for inputed values as final step in first scenario
         $Self->True(
@@ -171,7 +161,7 @@ $Selenium->RunTest(
         );
 
         # create second scenarion for test agent ticket process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketProcess");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
         $Selenium->execute_script(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
         );
@@ -181,10 +171,7 @@ $Selenium->RunTest(
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject", 'css' )->submit();
-
-        # wait until return to AgentTicketZoom, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ArticleTree").length;' );
+        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
 
         # check if we are at the end of test process ticket
         $Self->True(
@@ -207,8 +194,12 @@ $Selenium->RunTest(
 
         $Self->True(
             $Success,
-            "Process ticket is deleted - $TicketID[1]",
+            "Process ticket is deleted - ID $TicketID[1]",
         );
+
+        # get needed objects
+        my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 
         # clean up activities
         for my $Item ( @{ $Process->{Activities} } ) {
@@ -248,6 +239,9 @@ $Selenium->RunTest(
             );
         }
 
+        # get transition actions object
+        my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+
         # clean up transition actions
         for my $Item ( @{ $Process->{TransitionActions} } ) {
             my $TransitionAction = $TransitionActionsObject->TransitionActionGet(
@@ -266,6 +260,9 @@ $Selenium->RunTest(
                 "TransitionAction deleted - $TransitionAction->{Name},",
             );
         }
+
+        # get transition object
+        my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
 
         # clean up transition
         for my $Item ( @{ $Process->{Transitions} } ) {
@@ -297,11 +294,13 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
-        # synchronize process after deleting test process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        # navigate to AdminProcessManagement screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # make sure the cache is correct.
+        # synchronize process after deleting test process
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+        # make sure the cache is correct
         for my $Cache (
             qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
             )

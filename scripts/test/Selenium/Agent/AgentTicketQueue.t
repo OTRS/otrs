@@ -18,9 +18,17 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        # get needed objects
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        # do not check email addresses
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
@@ -39,19 +47,6 @@ $Selenium->RunTest(
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
-        );
-
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
         );
 
         # create test queue
@@ -112,34 +107,29 @@ $Selenium->RunTest(
                 Lock          => $TicketCreate->{Lock},
                 Priority      => '3 normal',
                 State         => 'open',
-                CustomerID    => $TestCustomer,
-                CustomerUser  => "$TestCustomer\@localhost.com",
+                CustomerID    => 'SeleniumCustomer',
+                CustomerUser  => 'SeleniumCustomer@localhost.com',
                 OwnerID       => $TestUserID,
                 UserID        => $TestUserID,
                 ResponsibleID => $TestUserID,
             );
-
             $Self->True(
                 $TicketID,
-                "Ticket is create - $TicketID",
+                "Ticket is created - ID $TicketID",
             );
 
             push @TicketIDs, $TicketID;
 
         }
 
-        # go to AgentTicketQueue
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketQueue");
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        # navigate to AgentTicketQueue screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue");
 
         # verify that there is no tickets with My Queue filter
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketQueue;QueueID=0;\' )]")->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketQueue;QueueID=0;\' )]")->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
@@ -147,7 +137,7 @@ $Selenium->RunTest(
         );
 
         # return to default queue view
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketQueue;View=Small");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;View=Small");
 
         # test if tickets show with appropriate filters
         for my $Test (@Tests) {
@@ -158,29 +148,20 @@ $Selenium->RunTest(
             );
             $Element->is_enabled();
             $Element->is_displayed();
-            $Element->click();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Element->VerifiedClick();
 
             # check different views for filters
             for my $View (qw(Small Medium Preview)) {
 
                 # return to default small view
-                $Selenium->get(
+                $Selenium->VerifiedGet(
                     "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small"
                 );
 
-                # wait until page has loaded, if neccessary
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-                # click on viewer controler
+                # click on viewer controller
                 $Selenium->find_element(
                     "//a[contains(\@href, \'Action=AgentTicketQueue;Filter=Unlocked;View=$View;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small;\' )]"
-                )->click();
-
-                # wait until page has loaded, if neccessary
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+                )->VerifiedClick();
 
                 # verify that all expected tickets are present
                 for my $TicketID (@TicketIDs) {
@@ -222,36 +203,22 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID"
+                "Delete ticket - ID $TicketID"
             );
         }
 
-        # get DB object
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
         # delete created test queue
-        $Success = $DBObject->Do(
+        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
         $Self->True(
             $Success,
-            "Delete queue - $QueueID",
+            "Delete queue - ID $QueueID",
         );
 
-        # delete created test customer user
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
+        # make sure the cache is correct
         for my $Cache (
-            qw (Ticket CustomerUser Queue)
+            qw (Ticket Queue)
             )
         {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
