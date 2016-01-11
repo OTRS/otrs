@@ -19,39 +19,7 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key   => 'CheckEmailAddresses',
-            Value => 0,
-        );
-
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        # do not check RichText
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Frontend::RichText',
-            Value => 0
-        );
-
-        # do not check service and type
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Service',
-            Value => 0
-        );
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Type',
-            Value => 0
-        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -64,67 +32,43 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
-        );
-
-        # create test phone ticket
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
-
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
-        my $TicketSubject      = "Selenium Ticket";
-        my $TicketBody         = "Selenium body test";
-        $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",  'css' )->submit();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # get ticket ID
-        my %TicketIDs = $TicketObject->TicketSearch(
-            Result         => 'HASH',
-            Limit          => 1,
-            CustomerUserID => $TestCustomer,
+        # create test ticket
+        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TicketID     = $TicketObject->TicketCreate(
+            TN           => $TicketNumber,
+            Title        => 'Selenium ticket',
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'SeleniumCustomer',
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
         );
-        my $TicketNumber = (%TicketIDs)[1];
-        my $TicketID     = (%TicketIDs)[0];
+        $Self->True(
+            $TicketID,
+            "Ticket is created - ID $TicketID",
+        );
+
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to created test ticket in AgentTicketZoom page
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on lock
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Lock;TicketID=$TicketID;' )]")
-            ->click();
+            ->VerifiedClick();
 
         # verify that ticket is locked, navigate to AgentTicketLockedView
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketLockedView");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketLockedView");
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
@@ -132,7 +76,7 @@ $Selenium->RunTest(
         );
 
         # return back to AgentTicketZoom for created test ticket
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
@@ -140,23 +84,27 @@ $Selenium->RunTest(
         # unlock ticket
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Unlock;TicketID=$TicketID;' )]"
-        )->click();
+        )->VerifiedClick();
 
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        # go to history view to verifty results
+        # go to history view to verify results
         $Selenium->find_element("//*[text()='History']")->click();
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+
         $Self->True(
             index( $Selenium->get_page_source(), 'Locked ticket.' ) > -1,
-            "Ticket with ticket id $TicketID was successfully locked",
+            "Ticket with ticket ID $TicketID was successfully locked",
         );
         $Self->True(
             index( $Selenium->get_page_source(), 'Unlocked ticket.' ) > -1,
-            "Ticket with ticket id $TicketID was successfully unlocked",
+            "Ticket with ticket ID $TicketID was successfully unlocked",
         );
 
         # delete created test ticket
@@ -166,24 +114,11 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket id $TicketID is deleted"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # delete created test customer user
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
     }
 );
