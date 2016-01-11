@@ -85,7 +85,7 @@ $Selenium->RunTest(
                 "Service $ServiceID has been created."
             );
 
-            # add service as defalut service for all customers
+            # add service as default service for all customers
             $ServiceObject->CustomerUserServiceMemberAdd(
                 CustomerUserLogin => '<DEFAULT>',
                 ServiceID         => $ServiceID,
@@ -122,14 +122,14 @@ $Selenium->RunTest(
         }
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
         # import test selenium statistic
         my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
 
-        $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
 
         # create params for import test stats
         my %StatsValues = (
@@ -148,7 +148,7 @@ $Selenium->RunTest(
         }
 
         # navigate to AgentStatistics Overview screen
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1;"
         );
 
@@ -171,9 +171,7 @@ $Selenium->RunTest(
 
         # go to imported stat to run it
         $Selenium->find_element("//a[contains(\@href, \'AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\' )]")
-            ->click();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".EditXAxis").length' );
+            ->VerifiedClick();
 
         # change preview format to Print
         $Selenium->find_element("//button[contains(\@data-format, \'Print')]")->click();
@@ -209,7 +207,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # check Y-axis configuration dialog
         $Selenium->find_element( ".EditYAxis",                   'css' )->click();
@@ -217,7 +215,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # check Restrictions configuration dialog
         $Selenium->find_element( ".EditRestrictions", 'css' )->click();
@@ -232,10 +230,10 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # save and finish edit
-        $Selenium->find_element("//button[\@name='SaveAndFinish'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@name='SaveAndFinish'][\@type='submit']")->VerifiedClick();
 
         my $CheckConfirmJS = <<"JAVASCRIPT";
 (function () {
@@ -246,7 +244,7 @@ $Selenium->RunTest(
 JAVASCRIPT
 
         # sort decreasing by StatsID
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1"
         );
 
@@ -256,9 +254,7 @@ JAVASCRIPT
         # click on delete icon
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\')]"
-        )->click();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+        )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
