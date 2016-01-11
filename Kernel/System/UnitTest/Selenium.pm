@@ -229,6 +229,28 @@ sub VerifiedGet {
     return;
 }
 
+=item VerifiedRefresh()
+
+perform a refresh() call, but wait for the page to be fully loaded (works only within OTRS).
+Will die() if the verification fails.
+
+    $SeleniumObject->VerifiedRefresh();
+
+=cut
+
+sub VerifiedRefresh {
+    my ( $Self, $URL ) = @_;
+
+    $Self->refresh();
+
+    $Self->WaitFor(
+        JavaScript =>
+            'return typeof(Core) == "object" && typeof(Core.Config) == "object" && Core.Config.Get("Baselink")'
+    ) || die "OTRS API verification failed after page load.";
+
+    return;
+}
+
 =item Login()
 
 login to agent or customer interface
