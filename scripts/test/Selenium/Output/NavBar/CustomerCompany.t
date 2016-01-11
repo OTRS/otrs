@@ -52,13 +52,13 @@ $Selenium->RunTest(
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is disabled
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
         $Self->True(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) == -1,
             "NavBar 'Customer Administration' button NOT available when frontend AdminCustomerCompany module is disabled",
         );
 
-        # Sleep a little bit so that mod_perl can detect that the system configuration changed and reload it.
+        # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 1;
 
         # enable frontend AdminCustomerCompany module
