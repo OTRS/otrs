@@ -77,7 +77,7 @@ $Selenium->RunTest(
         my $ArticleID = $TicketObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
-            SenderType     => 'Customer',
+            SenderType     => 'customer',
             Subject        => 'some short description',
             Body           => 'the message text',
             Charset        => 'ISO-8859-15',
