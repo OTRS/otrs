@@ -18,43 +18,23 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        # do not check email addresses
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        # do not check RichText
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Frontend::RichText',
-            Value => 0
-        );
-
-        # do not check service and type
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Service',
-            Value => 0
-        );
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Type',
-            Value => 0
-        );
-
         # check to see tickets in plain view
-        $SysConfigObject->ConfigItemUpdate(
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::PlainView',
             Value => 1
@@ -71,63 +51,84 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # create test ticket
+        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TicketID     = $TicketObject->TicketCreate(
+            TN           => $TicketNumber,
+            Title        => 'Selenium ticket',
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'SeleniumCustomer',
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
+        );
+        $Self->True(
+            $TicketID,
+            "Ticket is created - ID $TicketID",
         );
 
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
+        # create test email article
+        my $TicketSubject = "test 1";
+        my $TicketBody    = "This is the first test.";
+        my $ArticleID     = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-external',
+            SenderType     => 'customer',
+            Subject        => $TicketSubject,
+            Body           => $TicketBody,
+            Charset        => 'ISO-8859-15',
+            MimeType       => 'text/plain',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - ID $ArticleID",
         );
 
-        # create test email ticket
+        # write test sample email as article plain
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/EmailParser/PostMaster-Test1.box";
+
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Location,
+            Mode     => 'utf8',
+            Result   => 'SCALAR',
+        );
+
+        my $Success = $TicketObject->ArticleWritePlain(
+            ArticleID => $ArticleID,
+            Email     => ${$ContentRef},
+            UserID    => 1,
+        );
+        $Self->True(
+            $Success,
+            "ArticleWritePlain for article ID $ArticleID - success",
+        );
+
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
-        my $TicketSubject      = "Selenium Ticket";
-        my $TicketBody         = "Selenium Body Test";
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",  'css' )->submit();
-
-        # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('form').length" );
-
-        # get ticket number and ID
-        my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-            Result         => 'HASH',
-            Limit          => 1,
-            CustomerUserID => $TestCustomer,
-        );
-
-        my $TicketNumber = (%TicketIDs)[1];
-        my $TicketID     = (%TicketIDs)[0];
-
-        # go to ticket zoom page of created test ticket
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->click();
-
-        # click to show ticket in  plain view
+        # click to show ticket in plain view
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->click();
 
         # switch to plain window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # check for values in AgentTicketPlain screen
         $Self->True(
@@ -145,41 +146,21 @@ $Selenium->RunTest(
 
         # close plain view window
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # delete created test tickets
-        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        # delete created test ticket
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $TestUserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # get DB object
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-        # delete created test customer user
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
-        for my $Cache (
-            qw (Ticket CustomerUser)
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
-        }
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 

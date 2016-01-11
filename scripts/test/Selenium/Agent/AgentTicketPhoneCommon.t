@@ -18,21 +18,21 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        # do not check email addresses
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
-
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check RichText
         $SysConfigObject->ConfigItemUpdate(
@@ -69,19 +69,6 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
-        );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         my $TicketID     = $TicketObject->TicketCreate(
@@ -90,16 +77,18 @@ $Selenium->RunTest(
             Lock          => 'lock',
             Priority      => '3 normal',
             State         => 'open',
-            CustomerID    => $TestCustomer,
-            CustomerUser  => "$TestCustomer\@localhost.com",
+            CustomerID    => 'SeleniumCustomer',
+            CustomerUser  => "SeleniumCustomer\@localhost.com",
             OwnerID       => $TestUserID,
             UserID        => $TestUserID,
             ResponsibleID => $TestUserID,
         );
+        $Self->True(
+            $TicketID,
+            "Ticket is created - ID $TicketID"
+        );
 
-        # navigate to created test ticket in AgentTicketZoom page
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
+        # get test data
         my @Test = (
             {
                 Name        => 'AgentTicketPhoneOutbound',
@@ -111,12 +100,15 @@ $Selenium->RunTest(
             },
         );
 
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
         # do tests for Outbound and Inbound
         for my $Action (@Test)
         {
 
-            # click on action
-            $Selenium->get("${ScriptAlias}index.pl?Action=$Action->{Name};TicketID=$TicketID");
+            # navigate to test action
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action->{Name};TicketID=$TicketID");
 
             # check page
             for my $ID (
@@ -133,9 +125,10 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Subject",  'css' )->send_keys($ActionText);
             $Selenium->find_element( "#RichText", 'css' )->send_keys($ActionText);
             $Selenium->execute_script("\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#submitRichText", 'css' )->click();
+            $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+            # navigate to AgentTicketHistory screen
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
             # verify for expected action
             $Self->True(
@@ -151,24 +144,11 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket id $TicketID is deleted"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # delete created test customer user
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
     }
 );
