@@ -1,4 +1,5 @@
 #5.0.6 2016-??-??
+ - 2016-01-11 Updated CKEditor to version 4.5.6.
  - 2016-01-10 Added Hungarian notification event messages, thanks to Balazs Ur.
  - 2016-01-08 Fixed a bug where chat message times would not include user time zone information.
  - 2016-01-07 Fixed bug#[11755](http://bugs.otrs.org/show_bug.cgi?id=11755) - PGP MIME signed email with long lines does not verify signature correctly.
