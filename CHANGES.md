@@ -6,6 +6,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.6 2016-??-??
+ - 2016-01-11 Updated CKEditor to version 4.5.6.
  - 2016-01-10 Added Hungarian notification event messages, thanks to Balazs Ur.
  - 2016-01-08 Fixed a bug where chat message times would not include user time zone information.
  - 2016-01-07 Fixed bug#[11755](http://bugs.otrs.org/show_bug.cgi?id=11755) - PGP MIME signed email with long lines does not verify signature correctly.
