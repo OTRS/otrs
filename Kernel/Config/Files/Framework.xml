@@ -3562,7 +3562,7 @@ You can log in via the following URL:
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
         <Description Translatable="1">Defines the name of the table, where the customer preferences are stored.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <String Regex="">user_preferences</String>
         </Setting>
@@ -3570,7 +3570,7 @@ You can log in via the following URL:
     <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
         <Description Translatable="1">Defines the column to store the keys for the preferences table.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <String Regex="">preferences_key</String>
         </Setting>
