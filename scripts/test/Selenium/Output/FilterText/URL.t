@@ -82,7 +82,7 @@ $Selenium->RunTest(
 
         # navigate to zoom view of created test ticket with attachment
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
 
         # check for link in article body
         my $ExpectedLink = 'href="http://www.seleniumtest.com"';
@@ -106,7 +106,7 @@ $Selenium->RunTest(
         );
 
         # refresh screen
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # link shouldn't be present anymore with OutputFilter turned off
         $Self->True(

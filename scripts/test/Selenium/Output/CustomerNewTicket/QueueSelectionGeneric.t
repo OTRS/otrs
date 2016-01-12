@@ -70,7 +70,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        # create and login test customer
+        # create test user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -83,7 +83,7 @@ $Selenium->RunTest(
 
         # navigate to create new ticket
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
 
         # check for test queue destination on customer new ticket
         my $ToQueueCheck
@@ -99,7 +99,7 @@ $Selenium->RunTest(
             Key   => 'CustomerPanelSelectionType',
             Value => 'SystemAddress'
         );
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # check for system address queue destination
         my $ToSystemAddressCheck
