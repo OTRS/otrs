@@ -53,29 +53,30 @@ $Selenium->RunTest(
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticcket
+        # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            TN           => $TicketObject->TicketCreateNumber(),
-            Title        => "Selenium Test Ticket",
+            Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localhost.com",
+            CustomerUser => 'SeleniumCustomer@localhost.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-
         $Self->True(
             $TicketID,
-            "Ticket is created - $TicketID",
+            "Ticket is created - ID $TicketID",
         );
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # force sub menus to be visible in order to be able to click one of the links
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
@@ -84,9 +85,11 @@ $Selenium->RunTest(
         # click on 'Note' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # wait until page has loaded, if necessary
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
@@ -129,6 +132,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # expand Miscellaneous dropdown menu
@@ -140,9 +144,11 @@ $Selenium->RunTest(
         # click on 'History' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # wait until page has loaded, if necessary
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
@@ -159,15 +165,18 @@ $Selenium->RunTest(
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
         # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
 
         # switch window
+        $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # wait until page has loaded, if necessary
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
@@ -186,6 +195,7 @@ $Selenium->RunTest(
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
         # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test tickets
@@ -195,10 +205,10 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
