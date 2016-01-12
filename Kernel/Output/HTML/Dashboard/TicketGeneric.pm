@@ -2107,7 +2107,7 @@ sub _SearchParamsGet {
             LockIDs => [ '2', '3' ],    # 'lock' and 'tmp_lock'
         },
         Watcher => {
-            WatchUserIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
+            WatchUserIDs => [ $Self->{UserID}, ],
             LockIDs      => $TicketSearch{LockIDs}  // undef,
         },
         Responsible => {
