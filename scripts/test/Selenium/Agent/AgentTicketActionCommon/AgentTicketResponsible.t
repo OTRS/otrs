@@ -87,33 +87,34 @@ $Selenium->RunTest(
             push @UserID, $TestUserID;
         }
 
-        # get needed objects
+        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticcket
+        # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            TN            => $TicketObject->TicketCreateNumber(),
-            Title         => "Selenium Test Ticket",
+            Title         => 'Selenium Test Ticket',
             Queue         => 'Raw',
             Lock          => 'unlock',
             Priority      => '3 normal',
             State         => 'new',
             CustomerID    => 'SeleniumCustomer',
-            CustomerUser  => "SeleniumCustomer\@localhost.com",
+            CustomerUser  => 'SeleniumCustomer@localhost.com',
             ResponsibleID => $UserID[0],
             OwnerID       => $UserID[0],
             UserID        => $UserID[0],
         );
-
         $Self->True(
             $TicketID,
-            "Ticket is created - $TicketID",
+            "Ticket is created - ID $TicketID",
         );
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # force sub menus to be visible in order to be able to click one of the links
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
@@ -122,8 +123,15 @@ $Selenium->RunTest(
         # click on 'Responsible' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
 
         # check page
         for my $ID (
@@ -143,8 +151,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # navigate to AgentTicketHistory of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm responsible action
         my $ResponsibleMsg = "New responsible is \"$TestUser[1]\" (ID=$UserID[1]).";
@@ -160,10 +171,10 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );

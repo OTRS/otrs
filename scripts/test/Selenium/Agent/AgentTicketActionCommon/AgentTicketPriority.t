@@ -52,28 +52,28 @@ $Selenium->RunTest(
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticcket
+        # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            TN           => $TicketObject->TicketCreateNumber(),
-            Title        => "Selenium Test Ticket",
+            Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localhost.com",
+            CustomerUser => 'SeleniumCustomer@localhost.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-
         $Self->True(
             $TicketID,
-            "Ticket is created - $TicketID",
+            "Ticket is created - ID $TicketID",
         );
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # check ticket priority
         $Self->True(
@@ -84,8 +84,15 @@ $Selenium->RunTest(
         # click on 'Priority' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
 
         # check page
         for my $ID (
@@ -103,7 +110,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # navigate to AgentTicketHistory of created test ticket
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm priority change action
@@ -113,17 +123,17 @@ $Selenium->RunTest(
             "Ticket priority change action completed",
         );
 
-        # delete created test tickets
+        # delete created test ticket
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
