@@ -2106,12 +2106,12 @@ sub _SearchParamsGet {
             LockIDs => [ '2', '3' ],    # 'lock' and 'tmp_lock'
         },
         Watcher => {
-            WatchUserIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
-            LockIDs      => $TicketSearch{LockIDs}  // undef,
+            WatchUserIDs => [ $Self->{UserID}, ],
+            LockIDs      => $TicketSearch{LockIDs} // undef,
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs        => $TicketSearch{LockIDs}  // undef,
+            LockIDs        => $TicketSearch{LockIDs}        // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
