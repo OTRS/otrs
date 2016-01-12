@@ -18,15 +18,17 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        # do not check email addresses
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
@@ -49,24 +51,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
-        );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -79,60 +63,49 @@ $Selenium->RunTest(
                 Lock          => 'unlock',
                 Priority      => '3 normal',
                 State         => 'open',
-                CustomerID    => $TestCustomer,
-                CustomerUser  => "$TestCustomer\@localhost.com",
-                OwnerID       => $TestUserID,
-                UserID        => $TestUserID,
-                ResponsibleID => $TestUserID,
+                CustomerID    => 'SeleniumCustomer',
+                CustomerUser  => 'SeleniumCustomer@localhost.com',
+                OwnerID       => 1,
+                UserID        => 1,
+                ResponsibleID => 1,
             );
-
             $Self->True(
                 $TicketID,
-                "Ticket is created - $TicketID",
+                "Ticket is created - ID $TicketID",
             );
 
             push @TicketIDs, $TicketID;
         }
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         for my $TicketID (@TicketIDs) {
 
             # go to AgentTicketZoom
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
             # check watcher feature - subscribe ticket to watch it
-            $Self->True(
-                $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatcher\' )]")->click(),
-                "$TestUserLogin is subscribed to ticket $TicketID  ",
-            );
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatcher\' )]")->VerifiedClick(),
+
         }
 
         # go to AgentTicketWatchView
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketWatchView");
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketWatchView");
 
         my $Element = $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]"
         );
         $Element->is_enabled();
         $Element->is_displayed();
-        $Element->click();
-
-        # wait until page has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Element->VerifiedClick();
 
         # check different views for filters
         for my $View (qw(Small Medium Preview)) {
 
-            # click on viewer controler
+            # click on viewer controller
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatchView;Filter=All;View=$View;\' )]")
-                ->click();
-
-            # wait until page has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("table").length' );
+                ->VerifiedClick();
 
             # check screen output
             $Selenium->find_element( "table",             'css' );
@@ -143,7 +116,7 @@ $Selenium->RunTest(
 
                 my $TicketNumber = $TicketObject->TicketNumberLookup(
                     TicketID => $TicketID,
-                    UserID   => $TestUserID,
+                    UserID   => 1,
                 );
 
                 $Self->True(
@@ -158,35 +131,16 @@ $Selenium->RunTest(
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
-                UserID   => $TestUserID,
+                UserID   => 1,
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID"
+                "Ticket is deleted - ID $TicketID"
             );
         }
 
-        # delete created test customer user
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $TestCustomer = $DBObject->Quote($TestCustomer);
-        $Success      = $DBObject->Do(
-            SQL  => "DELETE FROM customer_user WHERE login = ?",
-            Bind => [ \$TestCustomer ],
-        );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
-
-        # make sure the cache is correct.
-        for my $Cache (
-            qw (Ticket CustomerUser)
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
-        }
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
 );

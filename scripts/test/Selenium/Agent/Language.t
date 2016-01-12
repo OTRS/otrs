@@ -23,7 +23,9 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -34,9 +36,11 @@ $Selenium->RunTest(
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # navigate to AgentPReferences screen
+        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+
+        # navigate to AgentPReferences screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         my @Languages = sort keys %{ $ConfigObject->Get('DefaultUsedLanguages') };
 
@@ -47,7 +51,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "select#UserLanguage", 'css' )->submit();
+            $Selenium->find_element( "select#UserLanguage", 'css' )->VerifiedSubmit();
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(

@@ -12,25 +12,29 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
+        # create test user and login
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # First load the page so we can delete any pre-existing cookies
-        $Selenium->get("${ScriptAlias}index.pl");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl");
         $Selenium->delete_all_cookies();
 
         # Now load it again to login
-        $Selenium->get("${ScriptAlias}index.pl");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl");
 
         # prevent version information disclosure
         $Self->False(
@@ -49,13 +53,13 @@ $Selenium->RunTest(
         $Element->send_keys($TestUserLogin);
 
         # login
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
-        # login succressful?
+        # login successful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         # logout again
-        $Element->click();
+        $Element->VerifiedClick();
 
         # login page?
         $Element = $Selenium->find_element( 'input#User', 'css' );

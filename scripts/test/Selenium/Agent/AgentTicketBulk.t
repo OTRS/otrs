@@ -95,6 +95,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "Bulk", 'link_text' )->click();
 
         # switch to bulk window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
@@ -118,6 +119,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return to status view
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # select closed view to verify ticket bulk functionality
