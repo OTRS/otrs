@@ -105,7 +105,7 @@ $Selenium->RunTest(
         );
 
         # check if NavBarAgentTicketProcess button is available when process is available
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "NavBar 'New process ticket' button available",
@@ -206,7 +206,7 @@ $Selenium->RunTest(
         sleep 3;
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
@@ -227,7 +227,7 @@ $Selenium->RunTest(
         # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 3;
 
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active, but NavBarAgentTicketProcess is disabled",

@@ -124,8 +124,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # refresh agent ticket zoom
-        $Selenium->refresh();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedRefresh();
 
         # verify that parent test tickets is linked with child test ticket
         $Self->True(

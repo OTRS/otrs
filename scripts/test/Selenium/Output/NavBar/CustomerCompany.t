@@ -67,7 +67,7 @@ $Selenium->RunTest(
         );
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is enabled
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) > -1,
             "NavBar 'Customer Administration' button IS available when frontend AdminCustomerCompany module is enable",

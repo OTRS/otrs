@@ -102,7 +102,7 @@ $Selenium->RunTest(
         );
 
         # refresh page
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # check if test queue is available to select
         $Self->True(
@@ -123,7 +123,7 @@ $Selenium->RunTest(
         );
 
         # refresh page
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # check test queue with invalid test group
         $Self->False(
