@@ -61,7 +61,7 @@ $Selenium->RunTest(
             );
         }
 
-        # create and log in test user
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -93,6 +93,11 @@ $Selenium->RunTest(
             UserID         => $TestUserID,
         );
 
+        $Self->True(
+            $TestCustomerUser,
+            "Created customer user - $TestCustomerUser",
+        );
+
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -115,7 +120,7 @@ $Selenium->RunTest(
 
         # go to zoom view of created test ticket
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # check for CustomerUserGeneric link text
         for my $TestText (@CustomerUserGenericText) {
@@ -144,6 +149,11 @@ $Selenium->RunTest(
             $Success,
             "Deleted CustomerUser - $TestCustomerUser",
         );
+
+        # make sure the cache is correct
+        for my $Cache (qw(Ticket CustomerUser)) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+        }
     }
 );
 
