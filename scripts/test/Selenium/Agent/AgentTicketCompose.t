@@ -130,10 +130,11 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ResponseID').val('1').trigger('redraw.InputField').trigger('change');");
 
         # switch to compose window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait without jQuery because it might not be loaded yet.
+        # wait without jQuery because it might not be loaded yet
         $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
 
         # check AgentTicketCompose page
@@ -156,6 +157,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # navigate to AgentTicketHistory screen of created test ticket

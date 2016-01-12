@@ -18,6 +18,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create and login test user
@@ -31,15 +32,9 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
         # create test customer
         my $TestCustomerUser = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
+        ) || die "Did not get test customer user";
 
         # get test customer user ID
         my %TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
@@ -50,31 +45,29 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test ticket
-        my $TitleRandom    = "Title" . $Helper->GetRandomID();
-        my $CustomerRandom = "Customer" . $Helper->GetRandomID();
-        my $TicketID       = $TicketObject->TicketCreate(
+        my $TitleRandom  = "Title" . $Helper->GetRandomID();
+        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TicketID     = $TicketObject->TicketCreate(
+            TN         => $TicketNumber,
             Title      => $TitleRandom,
             Queue      => 'Raw',
             Lock       => 'unlock',
             Priority   => '3 normal',
             State      => 'open',
             CustomerID => $TestCustomerUserID{UserCustomerID},
-            OwnerID    => $TestUserID,
-            UserID     => $TestUserID,
+            OwnerID    => 1,
+            UserID     => 1,
         );
         $Self->True(
             $TicketID,
-            "Created $TitleRandom ticket",
+            "Ticket is created - ID $TicketID",
         );
 
-        # get test ticket number
-        my %Ticket = $TicketObject->TicketGet(
-            TicketID => $TicketID,
-        );
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AgentTicketZoom for test created ticket
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # verify its right screen
         $Self->True(
@@ -98,14 +91,14 @@ $Selenium->RunTest(
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $TestUserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
-            "Ticket with ticket number $Ticket{TicketNumber} is deleted"
+            "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
