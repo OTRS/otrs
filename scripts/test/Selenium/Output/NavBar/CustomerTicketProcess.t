@@ -255,7 +255,7 @@ $Selenium->RunTest(
         # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 3;
 
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",

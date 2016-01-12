@@ -76,7 +76,7 @@ $Selenium->RunTest(
 
         # check for NavBarAgentTicketService button
         # when frontend service module is enabled but service feature is disabled
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketService' ) == -1,
             "NavBar 'Service view' button NOT available when service feature is disabled",
@@ -93,7 +93,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # check for NavBarAgentTicketService button when frontend service module and service feature are enabled
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketService' ) > -1,
             "NavBar 'Service view' button IS available when frontend service module and service feature are enabled",
@@ -116,7 +116,7 @@ $Selenium->RunTest(
         # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 1;
 
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketService' ) > -1,
             "NavBar 'Service view' button IS available when frontend service module is enabled, while service feature and NavBarAgentTicketService are disabled",

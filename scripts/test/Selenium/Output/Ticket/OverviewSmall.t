@@ -133,7 +133,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
             "$SortTicketNumbers[14] - found on screen"
         );
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # test if filters are still stored
         $Self->True(
