@@ -1,4 +1,5 @@
 #4.0.15 2015-??-??
+ - 2016-01-12 Fixed bug#[11793](http://bugs.otrs.org/show_bug.cgi?id=11793) - Wrong subgroup for agent preference settings.
  - 2016-01-12 Fixed bug#[11728](http://bugs.otrs.org/show_bug.cgi?id=11728) - Dashboard Widget: Attributes OwnerIDs is not working.
  - 2016-01-07 Fixed bug#[11755](http://bugs.otrs.org/show_bug.cgi?id=11755) - PGP MIME signed email with long lines does not verify signature correctly.
  - 2015-12-22 Fixed bug#[10969](http://bugs.otrs.org/show_bug.cgi?id=10969) - Problem whith SMIME-Cert that is valid for more than one E-Mail-Address.
