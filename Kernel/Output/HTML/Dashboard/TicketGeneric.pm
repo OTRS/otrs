@@ -676,8 +676,8 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # show also watcher if feature is enabled
-    if ( $ConfigObject->Get('Ticket::Watcher') ) {
+    # show also watcher if feature is enabled and there is a watcher filter
+    if ( $ConfigObject->Get('Ticket::Watcher') && $TicketSearchSummary{Watcher} ) {
         $LayoutObject->Block(
             Name => 'ContentLargeTicketGenericFilterWatcher',
             Data => {
@@ -689,8 +689,8 @@ sub Run {
         );
     }
 
-    # show also responsible if feature is enabled
-    if ( $ConfigObject->Get('Ticket::Responsible') ) {
+    # show also responsible if feature is enabled and there is a responsible filter
+    if ( $ConfigObject->Get('Ticket::Responsible') && $TicketSearchSummary{Responsible} ) {
         $LayoutObject->Block(
             Name => 'ContentLargeTicketGenericFilterResponsible',
             Data => {
@@ -2103,16 +2103,16 @@ sub _SearchParamsGet {
 
     my %TicketSearchSummary = (
         Locked => {
-            OwnerIDs => [ $Self->{UserID}, ],
-            LockIDs  => [ '2', '3' ],           # 'lock' and 'tmp_lock'
+            OwnerIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
+            LockIDs => [ '2', '3' ],    # 'lock' and 'tmp_lock'
         },
         Watcher => {
-            WatchUserIDs => [ $Self->{UserID}, ],
-            LockIDs      => $TicketSearch{LockIDs} // undef,
+            WatchUserIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
+            LockIDs      => $TicketSearch{LockIDs}  // undef,
         },
         Responsible => {
-            ResponsibleIDs => [ $Self->{UserID}, ],
-            LockIDs        => $TicketSearch{LockIDs} // undef,
+            ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
+            LockIDs        => $TicketSearch{LockIDs}  // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
@@ -2124,13 +2124,21 @@ sub _SearchParamsGet {
             LockIDs    => $TicketSearch{LockIDs} // undef,
         },
         All => {
-            OwnerIDs => undef,
-            LockIDs  => $TicketSearch{LockIDs} // undef,
+            OwnerIDs => $TicketSearch{OwnerIDs} // undef,
+            LockIDs  => $TicketSearch{LockIDs}  // undef,
         },
     );
 
     if ( defined $TicketSearch{LockIDs} || defined $TicketSearch{Locks} ) {
         delete $TicketSearchSummary{Locked};
+    }
+
+    if ( defined $TicketSearch{WatchUserIDs} ) {
+        delete $TicketSearchSummary{Watcher};
+    }
+
+    if ( defined $TicketSearch{ResponsibleIDs} ) {
+        delete $TicketSearchSummary{Responsible};
     }
 
     if ( defined $TicketSearch{QueueIDs} || defined $TicketSearch{Queues} ) {
