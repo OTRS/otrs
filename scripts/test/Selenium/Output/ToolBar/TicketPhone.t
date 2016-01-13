@@ -26,6 +26,9 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar AgentTicketPhone
         my %AgentTicketPhone = (
             Action   => "AgentTicketPhone",
@@ -37,7 +40,7 @@ $Selenium->RunTest(
             Priority => "1020010",
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###4-Ticket::AgentTicketPhone',
             Value => \%AgentTicketPhone,
         );
@@ -60,10 +63,10 @@ $Selenium->RunTest(
         );
 
         # click on tool bar AgentTicketPhone
-        $Selenium->find_element("//a[contains(\@title, \'New phone ticket:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'New phone ticket:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketPhone";
 
         $Self->True(

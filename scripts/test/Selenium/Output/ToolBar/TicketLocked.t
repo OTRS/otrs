@@ -19,11 +19,6 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create test user and login
@@ -59,11 +54,16 @@ $Selenium->RunTest(
             ResponsibleID => $TestUserID,
         );
 
+        $Self->True(
+            $TicketID,
+            "Ticket is created - ID $TicketID"
+        );
+
         # refresh dashboard page
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # click on tool bar AgentTicketLockedView
-        $Selenium->find_element("//a[contains(\@title, \'Locked Tickets Total:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Locked Tickets Total:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -81,8 +81,14 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
+
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Ticket',
+        );
+
     }
 );
 

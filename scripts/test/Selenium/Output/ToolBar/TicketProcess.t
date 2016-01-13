@@ -26,6 +26,9 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar AgentTicketProcess
         my %AgentTicketProcess = (
             AccessKey => "p",
@@ -38,7 +41,7 @@ $Selenium->RunTest(
             Priority  => "1020030",
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###6-Ticket::AgentTicketProcess',
             Value => \%AgentTicketProcess,
         );
@@ -61,10 +64,10 @@ $Selenium->RunTest(
         );
 
         # click on tool bar AgentTicketProcess
-        $Selenium->find_element("//a[contains(\@title, \'New process ticket:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'New process ticket:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketProcess";
 
         $Self->True(
