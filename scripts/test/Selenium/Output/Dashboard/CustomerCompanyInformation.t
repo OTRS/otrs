@@ -54,10 +54,18 @@ $Selenium->RunTest(
             ValidID                => 1,
             UserID                 => $TestUserID,
         );
+        $Self->True(
+            $CustomerCompanyID,
+            "CustomerCompany is created - ID $CustomerCompanyID",
+        );
 
-        # go to customer information center screen
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID");
+
+        # navigate to AgentCustomerInformationCenter screen
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID"
+        );
 
         # test customer information widget
         for my $Test (@CustomerCompany) {
@@ -74,7 +82,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Deleted CustomerCompany - $CustomerCompanyID",
+            "CustomerCompany is deleted - ID $CustomerCompanyID",
         );
 
         # make sure the cache is correct

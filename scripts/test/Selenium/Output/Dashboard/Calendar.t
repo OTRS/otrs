@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get needed objects
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
@@ -37,7 +35,7 @@ $Selenium->RunTest(
         for my $Day (@Days) {
             $Week{$Day} = [ 0 .. 23 ];
         }
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
@@ -59,7 +57,7 @@ $Selenium->RunTest(
         );
 
         # disable other dashboard modules
-        my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
+        my $Config = $ConfigObject->Get('DashboardBackend');
         $SysConfigObject->ConfigItemUpdate(
             Valid => 0,
             Key   => 'DashboardBackend',
@@ -102,7 +100,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $QueueID,
-            "Queue add $QueueName - ID $QueueID",
+            "Queue is created - ID $QueueID",
         );
 
         # get ticket object
@@ -127,11 +125,16 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID",
         );
 
-        # clean up dashboard cache
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
+        # get cache object
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-        # go to dashboard screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # clean up dashboard cache
+        $CacheObject->CleanUp( Type => 'Dashboard' );
+
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # navigate to AgentDashboard screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
         # check for created test ticket on dashboard screen
@@ -147,7 +150,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
         # delete created test queue
@@ -156,8 +159,18 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete queue - $QueueID",
+            "Queue is deleted - ID $QueueID",
         );
+
+        # make sure the cache is correct
+        for my $Cache (
+            qw (Ticket Queue)
+            )
+        {
+            $CacheObject->CleanUp(
+                Type => $Cache,
+            );
+        }
 
     }
 );

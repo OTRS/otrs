@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # disable all dashboard plugins
@@ -56,7 +54,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $QueueID,
-            "Queue add $QueueName - ID $QueueID",
+            "Queue is created - ID $QueueID",
         );
 
         # get ticket object
@@ -78,7 +76,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $TicketID,
-                "Ticket is created - ID $TicketID",
+                "Ticket is created - ID $TicketID - state $TicketState",
             );
 
             push @TicketIDs, $TicketID;
@@ -113,7 +111,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Delete ticket - ID $TicketDelete"
+                "Ticket is deleted - ID $TicketDelete"
             );
         }
 
@@ -123,7 +121,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete queue - ID $QueueID",
+            "Queue is deleted - ID $QueueID",
         );
 
         # make sure cache is correct

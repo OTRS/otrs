@@ -26,12 +26,9 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         # set fixed time for test purposes
         $Helper->FixedTimeSet(
-            $TimeObject->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
+            $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
         );
 
         # create test user and login
@@ -45,11 +42,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get user object
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
         # get test user ID
-        my $TestUserID = $UserObject->UserLookup(
+        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
@@ -68,20 +62,24 @@ $Selenium->RunTest(
         );
         $Self->True(
             $QueueID,
-            "Queue add $QueueName - ID $QueueID",
+            "Queue is created - ID $QueueID",
         );
 
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
+
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # navigate to AgentPreferences screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # set MyQueue preferences
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#QueueIDUpdate", 'css' )->click();
+        $Selenium->find_element( "#QueueIDUpdate", 'css' )->VerifiedClick();
 
-        # go to dascboard
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        # navigate to AgentDashboard screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -157,12 +155,11 @@ $Selenium->RunTest(
                 Type => 'Dashboard',
             );
 
-            $Selenium->refresh();
+            $Selenium->VerifiedRefresh();
 
             # set filter by MyQueue
             my $Filter = "#Dashboard$DashboardName" . "MyQueues";
-            $Selenium->find_element( $Filter, 'css' )->click();
-            sleep 1;
+            $Selenium->find_element( $Filter, 'css' )->VerifiedClick();
 
             # check for test ticket on current dashboard plugin
             $Self->True(
@@ -179,7 +176,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - ID $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
         # get DB object
@@ -200,7 +197,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete queue - ID $QueueID",
+            "Queue is deleted - ID $QueueID",
         );
 
         # make sure cache is correct

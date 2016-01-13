@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get SysConfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # make sure that UserOutOfOffice is enabled
@@ -57,8 +55,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
         # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+        my $TestUserID = $UserObject->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
@@ -104,7 +105,7 @@ $Selenium->RunTest(
 
         # set OutOfOffice preference
         for my $OutOfOfficePreference (@OutOfOfficeTime) {
-            $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            $UserObject->SetPreferences(
                 UserID => $TestUserID,
                 Key    => $OutOfOfficePreference->{Key},
                 Value  => $OutOfOfficePreference->{Value},
@@ -113,7 +114,7 @@ $Selenium->RunTest(
 
         # clean up dashboard cache and refresh screen
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # test OutOfOffice plugin
         my $ExpectedResult = "$TestUserLogin until $Month/$Day/" . ( $Year + 1 );
