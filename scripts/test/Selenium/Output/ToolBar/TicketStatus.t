@@ -26,19 +26,22 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar AgentTicketStatus
         my %AgentTicketStatus = (
-            AccessKey => "S",
-            Action    => "AgentTicketStatusView",
-            CssClass  => "StatusView",
-            Icon      => "fa fa-list-ol",
-            Link      => "Action=AgentTicketStatusView",
-            Module    => "Kernel::Output::HTML::ToolBar::Link",
-            Name      => "Status view",
-            Priority  => "1010020",
+            AccessKey => 'S',
+            Action    => 'AgentTicketStatusView',
+            CssClass  => 'StatusView',
+            Icon      => 'fa fa-list-ol',
+            Link      => 'Action=AgentTicketStatusView',
+            Module    => 'Kernel::Output::HTML::ToolBar::Link',
+            Name      => 'Status view',
+            Priority  => '1010020',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###2-Ticket::AgentTicketStatus',
             Value => \%AgentTicketStatus,
         );
@@ -61,10 +64,10 @@ $Selenium->RunTest(
         );
 
         # click on tool bar AgentTicketStatus
-        $Selenium->find_element("//a[contains(\@title, \'Status view:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Status view:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketStatusView";
 
         $Self->True(

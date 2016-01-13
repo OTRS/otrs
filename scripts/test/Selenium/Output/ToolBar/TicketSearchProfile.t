@@ -26,17 +26,20 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar TicketSearchProfile
         my %TicketSearchProfile = (
-            Block       => "ToolBarSearchProfile",
-            Description => "Search template",
-            MaxWidth    => "40",
-            Module      => "Kernel::Output::HTML::ToolBar::TicketSearchProfile",
-            Name        => "Search template",
-            Priority    => "1990010",
+            Block       => 'ToolBarSearchProfile',
+            Description => 'Search template',
+            MaxWidth    => '40',
+            Module      => 'Kernel::Output::HTML::ToolBar::TicketSearchProfile',
+            Name        => 'Search template',
+            Priority    => '1990010',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###11-Ticket::TicketSearchProfile',
             Value => \%TicketSearchProfile,
         );
@@ -78,10 +81,15 @@ $Selenium->RunTest(
             Priority      => '3 normal',
             State         => 'open',
             CustomerID    => 'SeleniumCustomerID',
-            CustomerUser  => "test\@localhost.com",
+            CustomerUser  => 'test@localhost.com',
             OwnerID       => $TestUserID,
             UserID        => 1,
             ResponsibleID => $TestUserID,
+        );
+
+        $Self->True(
+            $TicketID,
+            "Ticket is created - $TicketID"
         );
 
         # click on search
@@ -100,7 +108,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( ".AddButton", 'css' )->click();
         $Selenium->find_element("//input[\@name='TicketNumber']")->send_keys("$TicketNumber");
-        $Selenium->find_element( "#SearchFormSubmit", 'css' )->click();
+        $Selenium->find_element( "#SearchFormSubmit", 'css' )->VerifiedClick();
 
         # verify search
         $Self->True(
@@ -109,15 +117,16 @@ $Selenium->RunTest(
         );
 
         # return to dashboard screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl");
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl");
 
         # click on test search profile
         $Selenium->execute_script(
             "\$('#ToolBarSearchProfile').val('SeleniumTest').trigger('redraw.InputField').trigger('change');"
         );
 
-        sleep 1;
+        # wait until search window is loading
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketSearch").length' );
 
         # verify search profile
         $Self->True(
@@ -125,11 +134,8 @@ $Selenium->RunTest(
             "Found on screen using search profile, Ticket Number - $TicketNumber",
         );
 
-        # get DB object
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
         # delete search profile from DB
-        my $Success = $DBObject->Do(
+        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => "DELETE FROM search_profile WHERE profile_name = ?",
             Bind => [ \$SearchProfileName ],
         );
@@ -145,7 +151,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - $TicketID"
         );
     }
 );
