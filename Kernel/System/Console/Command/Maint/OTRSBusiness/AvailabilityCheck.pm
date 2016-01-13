@@ -43,38 +43,47 @@ sub Run {
 
     $Self->Print("<yellow>Checking availability of $OTRSBusinessStr...</yellow>\n");
 
-    my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
-
-    my $AvailabilityCheckNextUpdateTime = $SystemDataObject->SystemDataGet(
-        Key => 'OTRSBusiness::AvailabilityCheck::NextUpdateTime',
-    );
-
-    my $NextUpdateSystemTime = 0;
-
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # if there is a defined NextUpdeTime convert it system time
-    if ($AvailabilityCheckNextUpdateTime) {
-        $NextUpdateSystemTime = $TimeObject->TimeStamp2SystemTime(
-            String => $AvailabilityCheckNextUpdateTime,
-        );
-    }
-
-    my $SystemTime = $TimeObject->SystemTime();
-
     my $Force = $Self->GetOption('force') || 0;
 
-    # do not update registration info before the next update (unless is forced)
-    if ( !$Force && $SystemTime < $NextUpdateSystemTime ) {
-        $Self->Print("No need to execute the availability check at this moment, skipping...\n");
-        $Self->Print("<green>Done.</green>\n");
-        return $Self->ExitCodeOk();
-    }
-
+    # get OTRS business object
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
-    # first call the cloud service
+    if ( !$Force ) {
+
+        # first check if OTRS Business Solution™ package is installed
+        my $IsInstalled = $OTRSBusinessObject->OTRSBusinessIsInstalled();
+
+        # skip if it is not installed
+        return $Self->SkippCheck() if !$IsInstalled;
+
+        # get system data object
+        my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
+
+        # get next update time
+        my $AvailabilityCheckNextUpdateTime = $SystemDataObject->SystemDataGet(
+            Key => 'OTRSBusiness::AvailabilityCheck::NextUpdateTime',
+        );
+
+        my $NextUpdateSystemTime = 0;
+
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+        # if there is a defined NextUpdeTime convert it system time
+        if ($AvailabilityCheckNextUpdateTime) {
+            $NextUpdateSystemTime = $TimeObject->TimeStamp2SystemTime(
+                String => $AvailabilityCheckNextUpdateTime,
+            );
+        }
+
+        # get current system time (to compare with next update time)
+        my $SystemTime = $TimeObject->SystemTime();
+
+        # skip if is not time yet to check again
+        return $Self->SkippCheck() if $SystemTime < $NextUpdateSystemTime
+    }
+
+    # call the OTRS Business Solution™ availability cloud service
     $OTRSBusinessObject->OTRSBusinessIsAvailable();
 
     # return the off-line status to be tolerant to network failures
@@ -89,6 +98,14 @@ sub Run {
         Command => 'AvailabilityCheck',
     );
 
+    $Self->Print("<green>Done.</green>\n");
+    return $Self->ExitCodeOk();
+}
+
+sub SkippCheck {
+    my ( $Self, %Param ) = @_;
+
+    $Self->Print("No need to execute the availability check at this moment, skipping...\n");
     $Self->Print("<green>Done.</green>\n");
     return $Self->ExitCodeOk();
 }
