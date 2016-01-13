@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4861,7 +4861,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "SOAPメッセージコンテントの文字エンコード"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
@@ -5493,7 +5493,7 @@ msgstr "この機能は現在利用できません。"
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "データがありません。"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5515,7 +5515,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "メッセージボディー"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -8236,7 +8236,7 @@ msgstr "重複した登録"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "この住所はすでにアドレスリストに存在します。"
 
 #. Template: AgentCustomerSearch
 msgid "It is going to be deleted from the field, please try again."
@@ -8258,7 +8258,7 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr ""
+msgstr "OTRS デーモンを起動しています。"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8312,7 +8312,7 @@ msgstr "メールチケット"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8332,7 +8332,7 @@ msgstr "%s宛の新規メールチケット"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8451,7 +8451,7 @@ msgstr "外出中"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "選択されたエージェントは現在チャットに参加できません。"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -9020,7 +9020,7 @@ msgstr "新規電話チケットに分割"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "チャットを新規チケットに保存する。"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -9036,11 +9036,11 @@ msgstr "キューへ"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "チャットプロトコル"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "チャットは新規記事として追加されます。"
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s"
@@ -9565,7 +9565,7 @@ msgstr "あなたの電子メールアドレス (ユーザー名になります)
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "受信チャット要求"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
@@ -9689,7 +9689,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "このチケットからチャットを開始する。"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
@@ -9709,7 +9709,7 @@ msgstr "返信"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "チャットプロトコル"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
@@ -9843,31 +9843,31 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "チャットに参加できません。"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
-msgstr ""
+msgstr "内部チャットのみ参加できます。"
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "チャット可能です。"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
-msgstr ""
+msgstr "チャットマネージャを確認してください。"
 
 #. Template: FooterJS
 msgid "New personal chat request"
-msgstr ""
+msgstr "新規の個人チャット要求"
 
 #. Template: FooterJS
 msgid "New customer chat request"
-msgstr ""
+msgstr "新規の顧客チャット要求"
 
 #. Template: FooterJS
 msgid "New public chat request"
-msgstr ""
+msgstr "新規のパブリックチャット要求"
 
 #. Template: FooterJS
 msgid "New activity"
@@ -9875,7 +9875,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
-msgstr ""
+msgstr "あなたがモニターしているチャットで、新しい動きがあります。"
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -10618,11 +10618,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
-msgstr ""
+msgstr "%s はチャットから退出しました。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
-msgstr ""
+msgstr "このチャットはすでに閉じられています、  %s 時間後に削除されます。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
@@ -15834,7 +15834,7 @@ msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されてい�
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

@@ -8,7 +8,7 @@
 # Felipe Braga <fbobraga@gmail.com>, 2015-2016
 # José Junior <joserribeiro26@gmail.com>, 2014-2015
 # Leandro Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
-# Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
+# Marcos Aurélio Silvério <marcos.aurelio@infracerta.com.br>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3263,11 +3263,11 @@ msgstr "Selecionar"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "mostrado"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "total"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -5679,7 +5679,7 @@ msgstr "Atualizar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "%s Não Disponível Ainda"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
@@ -8572,7 +8572,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "Criar Estatística"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
@@ -8823,7 +8823,7 @@ msgstr "Desbloquear chamados"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
-msgstr ""
+msgstr "Compor resposta para %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
@@ -9927,7 +9927,7 @@ msgstr "Finalizar"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Bem-vindo a %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10327,7 +10327,7 @@ msgstr "Informar Atendente"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Bem-vindo"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -10548,35 +10548,35 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
-msgstr ""
+msgstr "Atendente que possui o chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who is responsible for the ticket"
-msgstr ""
+msgstr "Atendente que é responsável pelo chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents watching the ticket"
-msgstr ""
+msgstr "Todos os atendentes monitorando o chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents with write permission for the ticket"
-msgstr ""
+msgstr "Todos os atendentes com permissão de escrita no chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr ""
+msgstr "Todos os atendentes assinantes da fila do chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
-msgstr ""
+msgstr "Todos os atendentes assinantes do serviço do chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr ""
+msgstr "Todos os atendentes assinantes da fila e serviço do chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer of the ticket"
-msgstr ""
+msgstr "Cliente do chamado"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Yes, but require at least one active notification method"
@@ -10589,7 +10589,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "Estatística"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10713,7 +10713,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
-msgstr ""
+msgstr "Associado como"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -10730,7 +10730,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(em progresso)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
 msgid ""
@@ -10843,7 +10843,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
-msgstr ""
+msgstr "Tipo de Estado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created Priority"
@@ -10867,15 +10867,15 @@ msgstr "Hora de Fechamento"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr ""
+msgstr "Escalação - Prazo de Resposta Inicial"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr ""
+msgstr "Escalação - Prazo de Atualização"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr ""
+msgstr "Escalação - Prazo de Solução"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -10915,11 +10915,11 @@ msgstr "Sequência de Ordenamento"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Historic"
-msgstr ""
+msgstr "Histórico de Estado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Type Historic"
-msgstr ""
+msgstr "Histórico de Tipo de Estado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
@@ -11608,7 +11608,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "Chamados abertos."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
@@ -11658,7 +11658,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "novo chamado"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -12292,7 +12292,7 @@ msgstr "Cria um índice de artigo logo após a criação do artigo."
 
 #. SysConfig
 msgid "Bulgarian"
-msgstr ""
+msgstr "Búlgaro"
 
 #. SysConfig
 msgid ""
@@ -15841,7 +15841,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

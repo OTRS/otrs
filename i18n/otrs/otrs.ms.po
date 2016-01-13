@@ -1,12 +1,12 @@
 # 
 # Translators:
-# KENNY CHEAH <otrssdnbhd@gmail.com>, 2015
+# KENNY CHEAH <otrssdnbhd@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3250,11 +3250,11 @@ msgstr "Pilih"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "ditunjukkan"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "jumlah"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -9232,7 +9232,7 @@ msgstr "Sistem ini diarkibkan."
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "Nota: Jenis tidak sah!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9795,7 +9795,7 @@ msgstr "Buka pilihan tarikh"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Kesilapan berlaku."
 
 #. Template: Error
 msgid "You can"
@@ -11820,7 +11820,7 @@ msgstr "(LogmasukPengguna) Namapertama Namaakhir"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(LogmasukPengguna) Namaakhir Namapertama"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12553,7 +12553,7 @@ msgstr "Mengawal bagaimana untuk memaparkan catatan sejarah tiket sebagai nilai-
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
-msgstr ""
+msgstr "Kawal sekiranya IDPelanggan boleh diedit dalam antaramuka ejen."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13815,7 +13815,7 @@ msgstr "Mentakrifkan jenis tiket lalai untuk tiket pelanggan baru dalam antara m
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "Mentakrifkan jenis tiket default."
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -14940,7 +14940,7 @@ msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr ""
+msgstr "Menyahaktif header HTTP \"Pilihan Bingkai-X: SAMEORIGIN\" untuk membenarkan OTRS untuk dimasukkan sebagai IFrame dalam laman web lain. Menyahaktifkan header HTTP ini boleh menjadi isu keselamatan! Hanya nyahaktifkannya, jika anda tahu apa yang anda lakukan!"
 
 #. SysConfig
 msgid ""
@@ -15828,7 +15828,7 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16224,11 +16224,11 @@ msgstr "Fungsi JavaScript untuk muka hadapan carian."
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Namaakhir Namapertama"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Namaakhir Namapertama (LogmasukPengguna)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
@@ -16879,7 +16879,7 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
-msgstr ""
+msgstr "Parameter untuk backend papan pemuka daripada gambaran keseluruhan tiket dibuka bagi antara muka ejen. \"Had\" adalah bilangan penyertaan ditunjukkan secara default. \"Kumpulan\" digunakan untuk menyekat akses kepada plugin (contoh: Kumpulan: admin; kumpulan1; kumpulan2;). \"Default\" menentukan jika plugin ini diaktifkan secara default atau jika pengguna perlu untuk membolehkan secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin. Nota: Hanya Tiket sifat dan Medan Dinamik (DynamicField_NameX ) dibenarkan untuk DefaultColumns. Tetapan yang mungkin: 0 = Dilumpuhkan, 1 = Tersedia, 2 = diaktifkan secara default."
 
 #. SysConfig
 msgid ""
@@ -16923,7 +16923,7 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr ""
+msgstr "Parameter untuk dashboard backend untuk kalendar acara tiket dari paparan ejen. \"Limit\" adalah jumlah kemasukan yang dipamerkan secara default. \"Group\" digunakan untuk menyekat akses ke plugin (cth: Group: admin;group1;group2;). \"Deault\" menentukan jika plugin adalan diaktifkan secara default atau jika pengguna perlu untuk mengaktifkannya secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin."
 
 #. SysConfig
 msgid ""
@@ -16956,7 +16956,7 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr ""
+msgstr "Parameter untuk dashboard backend untuk acara widget akan datang dari paparan ejen. \"Limit\" adalah jumlah kemasukan yang dipamerkan secara deault. \"Group\" digunakan untuk menyekat akses ke plugin (cth: Group: admin;group1;group2;). \"Deault\" menentukan jika plugin adalan diaktifkan secara default atau jika pengguna perlu untuk mengaktifkannya secara manual. \"CacheTTLLocal\" adalah masa cache dalam minit untuk plugin."
 
 #. SysConfig
 msgid ""
@@ -18035,7 +18035,7 @@ msgstr "Menunjukkan artikel sebagai teks walaupun penulisan teks aneka dimatikan
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Tunjukkan barisan walaupun apabila hanya ada tiket berkunci."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
@@ -18925,7 +18925,7 @@ msgstr "Textarea"
 
 #. SysConfig
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #. SysConfig
 msgid ""

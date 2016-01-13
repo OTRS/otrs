@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.678075634274773;
+    $Self->{Completeness}        = 0.684538056486357;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -907,8 +907,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Coringas como \'*\' são permitidos.',
         'Add customer' => 'Adicionar Cliente',
         'Select' => 'Selecionar',
-        'shown' => '',
-        'total' => '',
+        'shown' => 'mostrado',
+        'total' => 'total',
         'Please enter a search term to look for customers.' => 'Por favor, insira um termo de pesquisa para procurar clientes.',
         'Add Customer' => 'Adicionar Cliente',
 
@@ -1628,7 +1628,7 @@ sub Data {
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
         'Update %s' => 'Atualizar %s',
-        '%s Not Yet Available' => '',
+        '%s Not Yet Available' => '%s Não Disponível Ainda',
         '%s will be available soon.' => '%s estará disponível em breve.',
         '%s Update Available' => '%s Atualização Disponível',
         'An update for your %s is available! Please update at your earliest!' =>
@@ -2558,7 +2558,7 @@ sub Data {
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
             '',
         'General Specification' => '',
-        'Create Statistic' => '',
+        'Create Statistic' => 'Criar Estatística',
 
         # Template: AgentStatisticsEdit
         'Statistics » Edit %s%s — %s' => '',
@@ -2639,7 +2639,7 @@ sub Data {
         'Unlock tickets' => 'Desbloquear chamados',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s' => 'Compor resposta para %s%s',
         'This address is registered as system address and cannot be used: %s' =>
             '',
         'Please include at least one recipient' => 'Por favor, inclua pelo menos um destinatário',
@@ -3001,7 +3001,7 @@ sub Data {
         'Database Settings' => 'Configurações de Banco de Dados',
         'General Specifications and Mail Settings' => 'Especificações Gerais e Configurações de E-mail',
         'Finish' => 'Finalizar',
-        'Welcome to %s' => '',
+        'Welcome to %s' => 'Bem-vindo a %s',
         'Web site' => 'Website',
         'Mail check successful.' => 'Êxito na verificação de e-mail.',
         'Error in the mail settings. Please correct and try again.' => 'Erro nas configurações de e-mail. Por favor, corrija e tente novamente.',
@@ -3146,7 +3146,7 @@ sub Data {
         'Inform Agent' => 'Informar Atendente',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Bem-vindo',
 
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Permissões',
@@ -3240,15 +3240,15 @@ sub Data {
         'Web service "%s" deleted!' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
-        'All agents subscribed to the ticket\'s queue' => '',
-        'All agents subscribed to the ticket\'s service' => '',
+        'Agent who owns the ticket' => 'Atendente que possui o chamado',
+        'Agent who is responsible for the ticket' => 'Atendente que é responsável pelo chamado',
+        'All agents watching the ticket' => 'Todos os atendentes monitorando o chamado',
+        'All agents with write permission for the ticket' => 'Todos os atendentes com permissão de escrita no chamado',
+        'All agents subscribed to the ticket\'s queue' => 'Todos os atendentes assinantes da fila do chamado',
+        'All agents subscribed to the ticket\'s service' => 'Todos os atendentes assinantes do serviço do chamado',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            '',
-        'Customer of the ticket' => '',
+            'Todos os atendentes assinantes da fila e serviço do chamado',
+        'Customer of the ticket' => 'Cliente do chamado',
         'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -3256,7 +3256,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'Statistic' => '',
+        'Statistic' => 'Estatística',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Can not delete link with %s!' => '',
@@ -3319,7 +3319,7 @@ sub Data {
         ' You can take one of the next actions:' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
+        'Linked as' => 'Associado como',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
@@ -3331,7 +3331,7 @@ sub Data {
         'Please contact your administrator!' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(em progresso)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
@@ -3379,15 +3379,15 @@ sub Data {
         'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
+        'State Type' => 'Tipo de Estado',
         'Created Priority' => 'Prioridade',
         'Created State' => 'Criado com o Estado',
         'CustomerUserLogin' => 'Usuário do Cliente',
         'Create Time' => 'Hora de Criação',
         'Close Time' => 'Hora de Fechamento',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
+        'Escalation - First Response Time' => 'Escalação - Prazo de Resposta Inicial',
+        'Escalation - Update Time' => 'Escalação - Prazo de Atualização',
+        'Escalation - Solution Time' => 'Escalação - Prazo de Solução',
         'Agent/Owner' => 'Atendente/Proprietário',
         'Created by Agent/Owner' => 'Criado pelo Atendente/Proprietário',
 
@@ -3401,8 +3401,8 @@ sub Data {
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'Attributes to be printed' => 'Atributos a serem impressos',
         'Sort sequence' => 'Sequência de Ordenamento',
-        'State Historic' => '',
-        'State Type Historic' => '',
+        'State Historic' => 'Histórico de Estado',
+        'State Type Historic' => 'Histórico de Tipo de Estado',
         'Historic Time Range' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -3660,7 +3660,7 @@ sub Data {
         'New ticket created by customer.' => '',
         'Ticket is closed successful.' => '',
         'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
+        'Open tickets.' => 'Chamados abertos.',
         'Customer removed ticket.' => '',
         'Ticket is pending for agent reminder.' => '',
         'Ticket is pending for automatic close.' => '',
@@ -3674,7 +3674,7 @@ sub Data {
             '',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
-        'new ticket' => '',
+        'new ticket' => 'novo chamado',
         'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
             '',
         'Postmaster queue.' => '',
@@ -3881,7 +3881,7 @@ Thanks for your help!
         'Bounced to "%s".' => 'Devolvido a "%s".',
         'Builds an article index right after the article\'s creation.' =>
             'Cria um índice de artigo logo após a criação do artigo.',
-        'Bulgarian' => '',
+        'Bulgarian' => 'Búlgaro',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'Configuração de exemplo CMD. Ignora e-mails nos quais o CMD externo retorna alguma saída em STDOUT (e-mail será canalizado para STDIN de algum.bin).',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>

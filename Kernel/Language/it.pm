@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.702967927237913;
+    $Self->{Completeness}        = 0.705840114887506;
 
     # csv separator
     $Self->{Separator} = '';
@@ -717,7 +717,7 @@ sub Data {
         'Send new ticket notifications' => 'Inviare nuove notifiche ticket',
         'Ticket follow up notification' => 'Notifica di follow-up del ticket',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '',
+            'Inviami una notifica se il cliente manda una risposta e io sono il responsabile del ticket, o il ticket è rilasciato ed è in una coda a cui sono iscritto.',
         'Send ticket follow up notifications' => 'Invia le notifiche di follow-up',
         'Ticket lock timeout notification' => 'Notifica scadenza gestione richieste',
         'Send me a notification if a ticket is unlocked by the system.' =>
@@ -3376,7 +3376,7 @@ sub Data {
         'Order by' => 'Ordina per ',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
+        'Configuration Options Reference' => 'Riferimenti per Opzioni di Configurazione',
         'This setting can not be changed.' => 'Questa impostazione non può essere modificata.',
         'This setting is not active by default.' => 'Questa impostazione non è attiva in modo predefinito.',
         'This setting can not be deactivated.' => 'Questa impostazione non può essere disattivata.',
@@ -3968,19 +3968,19 @@ Thanks for your help!
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
-            '',
+            'Controlla se l\'amministratore è autorizzato ad importare in SysConfig una configurazione di sistema salvata.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Converte la posta in HTML in Interazioni di testo.',
-        'Create New process ticket' => '',
+        'Create New process ticket' => 'Crea nuovo ticket di processo',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea e gestisce gli SLA',
         'Create and manage agents.' => 'Crea e gestisce gli operatori.',
         'Create and manage attachments.' => 'Crea e gestisce gli allegati',
         'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Crea e gestisce i clienti',
-        'Create and manage dynamic fields.' => '',
+        'Create and manage dynamic fields.' => 'Crea e gestisci Campi Dinamici',
         'Create and manage groups.' => 'Crea e gestisce i gruppi',
         'Create and manage queues.' => 'Crea e gestisce le code.',
         'Create and manage responses that are automatically sent.' => 'Crea e gestisce le risposte che vengono inviate automaticamente.',
@@ -3989,14 +3989,14 @@ Thanks for your help!
         'Create and manage services.' => 'Crea e gestisce i servizi.',
         'Create and manage signatures.' => 'Crea e gestisce le firme.',
         'Create and manage templates.' => '',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => 'Crea e gestisci le notifiche dei ticket',
         'Create and manage ticket priorities.' => 'Crea e gestisce le priorità dei ticket.',
         'Create and manage ticket states.' => 'Crea e gestisce gli stati dei ticket.',
         'Create and manage ticket types.' => 'Crea e gestisce i tipi di ticket.',
         'Create and manage web services.' => 'Crea e gestisce i web service',
         'Create new email ticket and send this out (outbound)' => 'Crea un nuovo ticket email e invia questo (esternamente)',
         'Create new phone ticket (inbound)' => 'Crea un nuovo ticket telefonico (internamente)',
-        'Create new process ticket' => '',
+        'Create new process ticket' => 'Crea nuovo ticket di processo',
         'Croatian' => 'Croato',
         'Custom RSS Feed' => 'Fonte RSS personalizzata',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
@@ -4474,14 +4474,14 @@ Thanks for your help!
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
-            '',
+            'Definisce il massimo tempo di validità (in secondi) per un id di sessione.',
         'Defines the maximum number of affected tickets per job.' => '',
-        'Defines the maximum number of pages per PDF file.' => '',
+        'Defines the maximum number of pages per PDF file.' => 'Definisce il nomero massimo di pagine per file PDF.',
         'Defines the maximum number of quoted lines to be added to responses.' =>
             '',
         'Defines the maximum number of tasks to be executed as the same time.' =>
-            '',
-        'Defines the maximum size (in MB) of the log file.' => '',
+            'Definisce il nomero massimo di operazioni da eseguire allo stesso tempo.',
+        'Defines the maximum size (in MB) of the log file.' => 'Definisce la dimenzione massima (in MB) del file di log.',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -4494,7 +4494,7 @@ Thanks for your help!
             '',
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             '',
-        'Defines the module to authenticate customers.' => '',
+        'Defines the module to authenticate customers.' => 'Definisce il modulo per autenticare i clienti.',
         'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
             '',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.911201531833413;
+    $Self->{Completeness}        = 0.915270464337003;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3964,7 +3964,7 @@ Ihr Helpdesk-Team
             'Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. "Name" beschreibt das dynamische Feld, das genutzt werden soll, "Value" die Daten, mit denen das Feld befüllt werden soll. "Event" enthält das auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch (http://otrs.github.io/doc/) im Kapitel "Ticket-Eventmodule".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird.',
-        'Controls if CutomerID is editable in the agent interface.' => '',
+        'Controls if CutomerID is editable in the agent interface.' => 'Bestimmt, ob CustomerID im Agenten-Interface bearbeitet werden kann.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Legt fest, ob Kunden die Möglichkeit haben ihre Tickets zu sortieren.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -4034,7 +4034,7 @@ Ihr Helpdesk-Team
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
             'Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
-            '',
+            'Standard Anzeigetyp für Empfängernamen(To, Cc) in AgentTicketZoom und CustomerTicketZoom.',
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             '',
         'Default loop protection module.' => 'Standard "Loop Protection"-Modul',
@@ -4345,7 +4345,7 @@ Ihr Helpdesk-Team
             'Definiert die Standard-Ticketpriorität in der \'Verantwortlicher\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
             'Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface.',
-        'Defines the default ticket type.' => '',
+        'Defines the default ticket type.' => 'Definiert den Standardtyp für ein Ticket.',
         'Defines the default type for article in the customer interface.' =>
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -4635,8 +4635,8 @@ Ihr Helpdesk-Team
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the two-factor module to authenticate agents.' => '',
-        'Defines the two-factor module to authenticate customers.' => '',
+        'Defines the two-factor module to authenticate agents.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Agenten.',
+        'Defines the two-factor module to authenticate customers.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Kunden.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
@@ -4718,7 +4718,7 @@ Ihr Helpdesk-Team
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
         'Dropdown' => 'Einfachauswahl',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Niederländische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields-Oberfläche für Checkboxen',
         'Dynamic Fields Date Time Backend GUI' => 'Dynamic Fields-Oberfläche für DatumZeit-Felder',
         'Dynamic Fields Drop-down Backend GUI' => 'Dynamic Fields-Oberfläche für Auswahlboxen',
@@ -5824,9 +5824,9 @@ Ihr Helpdesk-Team
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
-            '',
+            'Spam Assassin Beispielsetup. Ignoriert E-Mail, die von Spam Assassin markiert wurden.',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
-            '',
+            'Spam Assassin Beispielsetup. Verschiebt markierte E-Mails in die Spam-Queue.',
         'Spanish' => 'Spanisch',
         'Spanish (Colombia)' => 'Spanisch (Kolumbien)',
         'Spanish (Mexico)' => 'Spanisch (Mexiko)',
@@ -5843,7 +5843,7 @@ Ihr Helpdesk-Team
         'Specifies the different note types that will be used in the system.' =>
             '',
         'Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.' =>
-            '',
+            'Bestimmt den Ordner, in welchem Daten gespeichert werden, wenn "FS" als TicketStorageModule ausgewählt wurde.',
         'Specifies the directory where SSL certificates are stored.' => 'Legt das Verzeichnis, wo SSL-Zertifikate gespeichert sind, fest.',
         'Specifies the directory where private SSL certificates are stored.' =>
             'Legt das Verzeichnis fest, in welchem die privaten SSL Zertifikate gespeichert sind. ',
@@ -5870,7 +5870,7 @@ Ihr Helpdesk-Team
             'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von XML Dateien in der Weboberfläche erlaubt. ',
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             '',
-        'Specifies user id of the postmaster data base.' => '',
+        'Specifies user id of the postmaster data base.' => 'Definiert die Benutzer-Id der Postmaster Datenbank.',
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
@@ -5899,7 +5899,7 @@ Ihr Helpdesk-Team
         'System Request (%s).' => 'Systemanfrage (%s).',
         'Templates <-> Queues' => 'Vorlagen <-> Queues',
         'Textarea' => 'Textfeld',
-        'Thai' => '',
+        'Thai' => 'Thai',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -5937,9 +5937,9 @@ Ihr Helpdesk-Team
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             '',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
-            '',
+            'Die maximale Anzahl von Artikeln, welche auf einer Seite im AgentTicketZoom angezeigt werden.',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
-            '',
+            'Die maximale Anzahl an Mails, die auf einmal abgerufen werden, bevor eine neue Verbindung zum Server aufgebaut wird.',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             'Der Text am Anfang des Betreffs einer E-Mail Antwort, z.B. RE, AW oder AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
@@ -5960,7 +5960,7 @@ Ihr Helpdesk-Team
             'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => '',
+        'This will allow the system to send text messages via SMS.' => 'Dies erlaubt dem System das Senden von SMS-Nachrichten.',
         'Ticket Notifications' => 'Ticket-Benachrichtigungen',
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -5982,7 +5982,7 @@ Ihr Helpdesk-Team
         'Turkish' => 'Türkisch',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
-        'Turns on drag and drop for the main navigation.' => '',
+        'Turns on drag and drop for the main navigation.' => 'Aktiviert Drag und Drop für die Hauptnavigation.',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -6020,9 +6020,9 @@ Ihr Helpdesk-Team
         'Watch this ticket' => 'Dieses Ticket beobachten',
         'We are performing scheduled maintenance.' => '',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
-            '',
+            'Wir führen eine geplante Wartung durch. Das Einlogen ist im Moment nicht möglich.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
-            '',
+            'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
