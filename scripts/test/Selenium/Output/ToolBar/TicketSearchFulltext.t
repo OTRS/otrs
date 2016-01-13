@@ -28,13 +28,13 @@ $Selenium->RunTest(
 
         # enable tool bar TicketSearchFulltext
         my %TicketSearchFulltext = (
-            Block       => "ToolBarSearchFulltext",
-            CSS         => "Core.Agent.Toolbar.FulltextSearch.css",
-            Description => "Fulltext search",
-            Module      => "Kernel::Output::HTML::ToolBar::Generic",
-            Name        => "Fulltext search",
-            Priority    => "1990020",
-            Size        => "10",
+            Block       => 'ToolBarSearchFulltext',
+            CSS         => 'Core.Agent.Toolbar.FulltextSearch.css',
+            Description => 'Fulltext search',
+            Module      => 'Kernel::Output::HTML::ToolBar::Generic',
+            Name        => 'Fulltext search',
+            Priority    => '1990020',
+            Size        => '10',
         );
 
         $Kernel::OM->Get('Kernel::Config')->Set(
@@ -75,15 +75,20 @@ $Selenium->RunTest(
             Priority      => '3 normal',
             State         => 'open',
             CustomerID    => 'SeleniumCustomerID',
-            CustomerUser  => "test\@localhost.com",
+            CustomerUser  => 'test@localhost.com',
             OwnerID       => $TestUserID,
             UserID        => 1,
             ResponsibleID => $TestUserID,
         );
 
+        $Self->True(
+            $TicketID,
+            "Ticket is created - $TicketID"
+        );
+
         # input test user in search fulltext
         $Selenium->find_element( "#Fulltext", 'css' )->send_keys("Selenium test ticket");
-        $Selenium->find_element( "#Fulltext", 'css' )->submit();
+        $Selenium->find_element( "#Fulltext", 'css' )->VerifiedSubmit();
 
         # verify search
         $Self->True(
@@ -98,7 +103,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - $TicketID"
         );
     }
 );
