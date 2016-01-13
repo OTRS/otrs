@@ -280,8 +280,6 @@ sub Login {
     $Self->{UnitTestObject}->True( 1, 'Initiating login...' );
 
     eval {
-        $Self->delete_all_cookies();
-
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         if ( $Param{Type} eq 'Agent' ) {
@@ -296,26 +294,16 @@ sub Login {
         $Self->delete_all_cookies();
 
         # Now load it again to login
-        $Self->get("${ScriptAlias}");
+        $Self->VerifiedGet("${ScriptAlias}");
 
-        my $Element = $Self->find_element( 'input#User', 'css' );
-        $Element->is_displayed();
-        $Element->is_enabled();
-        $Element->send_keys( $Param{User} );
-
-        $Element = $Self->find_element( 'input#Password', 'css' );
-        $Element->is_displayed();
-        $Element->is_enabled();
-        $Element->send_keys( $Param{Password} );
+        $Self->find_element( 'input#User', 'css' )->send_keys( $Param{User} );
+        $Self->find_element( 'input#Password', 'css' )->send_keys( $Param{Password} );
 
         # login
-        $Element->submit();
+        $Self->find_element( 'input#User', 'css' )->VerifiedSubmit();
 
-        # Wait until form has loaded, if neccessary
-        $Self->WaitFor( JavaScript => 'return typeof($) === "function" && $("a#LogoutButton").length' );
-
-        # login succressful?
-        $Element = $Self->find_element( 'a#LogoutButton', 'css' );
+        # login successful?
+        $Self->find_element( 'a#LogoutButton', 'css' ); # dies if not found
 
         $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
     };
