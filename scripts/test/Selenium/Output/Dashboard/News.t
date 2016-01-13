@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # disable all dashboard plugins

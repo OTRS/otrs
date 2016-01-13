@@ -18,26 +18,25 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
         # disable all dashboard plugins
-        my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
+        my $Config = $ConfigObject->Get('DashboardBackend');
         $SysConfigObject->ConfigItemUpdate(
             Valid => 0,
             Key   => 'DashboardBackend',
             Value => \%$Config,
         );
 
-        # Add at least one dashboard setting dashboard sysconfig so dashboard can be loaded
+        # add at least one dashboard setting dashboard sysconfig so dashboard can be loaded
         $SysConfigObject->ConfigItemReset(
             Name => 'DashboardBackend###0400-UserOnline',
         );
@@ -53,24 +52,22 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get user object
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
         # get test user ID
-        my $TestUserID = $UserObject->UserLookup(
+        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
+        # get stats object
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
         my $StatisticContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location => $Kernel::OM->Get('Kernel::Config')->Get('Home')
+            Location => $ConfigObject->Get('Home')
                 . '/scripts/test/Selenium/Output/Dashboard/Stats.xml',
         );
 
-        # import the exported stat
+        # import test stats
         my $TestStatID = $StatsObject->Import(
-            Content => $$StatisticContent,
+            Content => $StatisticContent,
             UserID  => $TestUserID,
         );
         $Self->True(
@@ -90,11 +87,11 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Update,
-            "Stats updated ID - $TestStatID",
+            "Stats is updated - ID $TestStatID",
         );
 
         # refresh dashboard screen
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # enable stats widget on dashboard
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
@@ -104,13 +101,11 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#$StatsInSettings",      'css' )->click();
-        $Selenium->find_element( ".SettingsWidget button", 'css' )->click();
+        $Selenium->find_element( ".SettingsWidget button", 'css' )->VerifiedClick();
 
         my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate');
         my $ExitCode      = $CommandObject->Execute();
-        $Selenium->refresh();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".nvd3-svg").length;' );
+        $Selenium->VerifiedRefresh();
 
         $Self->Is(
             $Selenium->execute_script('return $(".nv-legend-text:contains(Misc)").length'),
@@ -124,7 +119,7 @@ $Selenium->RunTest(
                 StatID => $TestStatID,
                 UserID => $TestUserID,
             ),
-            "Delete StatID - $TestStatID",
+            "Stats is deleted - ID $TestStatID",
         );
 
         # make sure cache is correct

@@ -24,9 +24,7 @@ $Selenium->RunTest(
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # get dashboard MOTD plugin default sysconfig
@@ -39,7 +37,7 @@ $Selenium->RunTest(
         my %MOTDConfigUpdate = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $MOTDConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'DashboardBackend###0210-MOTD',
             Value => \%MOTDConfigUpdate,

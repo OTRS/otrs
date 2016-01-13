@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # get dashboard IFrame plugin default sysconfig
@@ -39,13 +37,13 @@ $Selenium->RunTest(
         my %IFrameConfigUpdate = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $IFrameConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'DashboardBackend###0300-IFrame',
             Value => \%IFrameConfigUpdate,
         );
 
-        # # create test user and login
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
