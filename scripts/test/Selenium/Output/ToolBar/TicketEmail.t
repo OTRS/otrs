@@ -26,18 +26,21 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar AgentTicketEmail
         my %AgentTicketEmail = (
-            Action   => "AgentTicketEmail",
-            CssClass => "EmailTicket",
-            Icon     => "fa fa-envelope",
-            Link     => "Action=AgentTicketEmail",
-            Module   => "Kernel::Output::HTML::ToolBar::Link",
-            Name     => "New email ticket",
-            Priority => "1020020",
+            Action   => 'AgentTicketEmail',
+            CssClass => 'EmailTicket',
+            Icon     => 'fa fa-envelope',
+            Link     => 'Action=AgentTicketEmail',
+            Module   => 'Kernel::Output::HTML::ToolBar::Link',
+            Name     => 'New email ticket',
+            Priority => '1020020',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###5-Ticket::AgentTicketEmail',
             Value => \%AgentTicketEmail,
         );
@@ -60,10 +63,10 @@ $Selenium->RunTest(
         );
 
         # click on tool bar AgentTicketEmail
-        $Selenium->find_element("//a[contains(\@title, \'New email ticket:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'New email ticket:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketEmail";
 
         $Self->True(

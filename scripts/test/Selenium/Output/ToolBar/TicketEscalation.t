@@ -26,19 +26,22 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # enable tool bar AgentTicketEscalationView
         my %AgentTicketEscalationView = (
-            AccessKey => "w",
-            Action    => "AgentTicketEscalationView",
-            CssClass  => "EscalationView",
-            Icon      => "fa fa-exclamation",
-            Link      => "Action=AgentTicketEscalationView",
-            Module    => "Kernel::Output::HTML::ToolBar::Link",
-            Name      => "Escalation view",
-            Priority  => "1010030",
+            AccessKey => 'w',
+            Action    => 'AgentTicketEscalationView',
+            CssClass  => 'EscalationView',
+            Icon      => 'fa fa-exclamation',
+            Link      => 'Action=AgentTicketEscalationView',
+            Module    => 'Kernel::Output::HTML::ToolBar::Link',
+            Name      => 'Escalation view',
+            Priority  => '1010030',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'Frontend::ToolBarModule###3-Ticket::AgentTicketEscalationView',
             Value => \%AgentTicketEscalationView,
         );
@@ -61,10 +64,10 @@ $Selenium->RunTest(
         );
 
         # click on tool bar AgentTicketEscalationView
-        $Selenium->find_element("//a[contains(\@title, \'Escalation view:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Escalation view:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketEscalationView";
 
         $Self->True(
