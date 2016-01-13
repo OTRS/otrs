@@ -1,13 +1,14 @@
 # 
 # Translators:
 # Milko Milkov <engineer@abv.bg>, 2015
+# Tsvetan Nikolov <slakware@gmail.com>, 2016
 # Yanush Ivanov <forceda@rqms.eu>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/otrs/OTRS/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -789,7 +790,7 @@ msgstr "Подновете паролата си."
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr ""
+msgstr "Моля активирайте %s на първо място!"
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -817,7 +818,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr ""
+msgstr "Няма потребител с това име."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
@@ -15829,7 +15830,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

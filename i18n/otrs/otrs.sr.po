@@ -3,13 +3,13 @@
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Dusan Vuckovic, 2015
 # S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
-# Милорад Јовановић <j.milorad@gmail.com>, 2014-2015
+# Милорад Јовановић <j.milorad@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -371,7 +371,7 @@ msgstr "ни један - одговорен"
 
 #. Template: AAABase
 msgid "please do not edit!"
-msgstr "Молимо, не мењајте!"
+msgstr "молимо, не мењајте!"
 
 #. Template: AAABase
 msgid "Need Action"
@@ -1023,7 +1023,7 @@ msgstr "Активирана је опција \"Ван канцеларије\"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr "Вести о „OTRS”издањима!"
+msgstr "Вести о „OTRS” издањима!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1075,7 +1075,7 @@ msgstr "Ажуриран статус!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr "Додат тип"
+msgstr "Додат тип!"
 
 #. Template: AAABase
 msgid "Type updated!"
@@ -1732,7 +1732,7 @@ msgstr "Правописни речник"
 
 #. Template: AAAPreferences
 msgid "Default spelling dictionary"
-msgstr "Подразумевани правописни речни"
+msgstr "Подразумевани правописни речник"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
@@ -1856,7 +1856,7 @@ msgstr "Ред"
 
 #. Template: AAATicket
 msgid "Queues"
-msgstr "Родови"
+msgstr "Редови"
 
 #. Template: AAATicket
 msgid "Priority"
@@ -3253,11 +3253,11 @@ msgstr "Изабери"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "приказано"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "укупно"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -6731,7 +6731,7 @@ msgstr "Уклони ово поље"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr "И се не може поновити у истом услову."
+msgstr "„И” се не може поновити у истом услову."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6876,7 +6876,7 @@ msgstr "Поздрав за имејл одговоре."
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
-msgstr "Потпис за имејл одговоре.."
+msgstr "Потпис за имејл одговоре."
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
@@ -7036,11 +7036,11 @@ msgstr "Можете преузети OTRS и уколико нисте реги
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
-msgstr "Да ли је могућа ођава?"
+msgstr "Да ли је могућа одјава?"
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
-msgstr "Можете се ођавити у било које доба."
+msgstr "Можете се одјавити у било које доба."
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
@@ -7062,7 +7062,7 @@ msgstr "Зашто морам да проследим опис мог систе
 
 #. Template: AdminRegistration
 msgid "The description of the system is optional."
-msgstr "Опис система је опциони"
+msgstr "Опис система је опциони."
 
 #. Template: AdminRegistration
 msgid ""
@@ -7145,7 +7145,7 @@ msgstr "FQDN"
 
 #. Template: AdminRegistration
 msgid "OTRS Version"
-msgstr "OTRS верзија"
+msgstr "„OTRS” верзија"
 
 #. Template: AdminRegistration
 msgid "Operating System"
@@ -7157,7 +7157,7 @@ msgstr "Perl верзија"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
-msgstr "Опциони опис овог система"
+msgstr "Опциони опис овог система."
 
 #. Template: AdminRegistration
 msgid "Register"
@@ -7165,7 +7165,7 @@ msgstr "Региструј"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
-msgstr "Одјави систем"
+msgstr "Искључи систем из регистра"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTRS Group."
@@ -7173,11 +7173,11 @@ msgstr "Настављање овог корака ће ођавити сист�
 
 #. Template: AdminRegistration
 msgid "Deregister"
-msgstr "Одјави"
+msgstr "Искључи из регистра"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
-msgstr "Овде можете модификовати регистрациона подешавања."
+msgstr "Овде можете изменити регистрациона подешавања."
 
 #. Template: AdminRegistration
 msgid "Overview of transmitted data"
@@ -7484,7 +7484,7 @@ msgstr "Уколико сигуран мод није активиран, пок
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr "SQL Box"
+msgstr "SQL Бокс"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -7500,7 +7500,7 @@ msgstr "Овде можете унети SQL команде и послати и
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr "Дозвољени су само упити за селекцију"
+msgstr "Дозвољени су само „select” упити."
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
@@ -7521,7 +7521,7 @@ msgstr "Покрени упит"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr "Упит је извршен"
+msgstr "Упит је извршен."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -7561,7 +7561,7 @@ msgstr "Сесије клијената"
 
 #. Template: AdminSession
 msgid "Unique agents"
-msgstr "Јединствени оператер"
+msgstr "Јединствени оператери"
 
 #. Template: AdminSession
 msgid "Unique customers"
@@ -7983,11 +7983,11 @@ msgstr "Неко време пре него отпочне одржавање с
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr "Почетни датум"
+msgstr "Датум почетка"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr "Датум заустављања"
+msgstr "Датум завршетка"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
@@ -8089,7 +8089,7 @@ msgstr "Ваша имејл адреса је"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Templates <-> Attachments Relations"
-msgstr "Управљање шаблонима"
+msgstr "Управљање везама Шаблони <-> Прилози"
 
 #. Template: AdminTemplateAttachment
 msgid "Filter for Attachments"
@@ -8125,7 +8125,7 @@ msgstr "Додај Тип "
 
 #. Template: AdminType
 msgid "Edit Type"
-msgstr "У реди Тип"
+msgstr "Уреди Тип"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
@@ -8133,7 +8133,7 @@ msgstr "Тип са овим именом већ постоји!"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
-msgstr "Потребни су оператери за обраду тикета."
+msgstr "Биће потребни оператери за обраду тикета."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
@@ -8225,7 +8225,7 @@ msgstr "Клијентски информативни центар"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Клијент клијент"
+msgstr "Клијент корисник"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8444,7 +8444,7 @@ msgstr "Укупне вредности"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr "Ван канцеларије"
+msgstr "ван канцеларије"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
@@ -8687,7 +8687,7 @@ msgstr "Сва поља означена звездицом (*) су обаве�
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
-msgstr "Неисправна услуга"
+msgstr "Неисправна услуга."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -8695,7 +8695,7 @@ msgstr "Нови власник"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr "Молимо одредите новог власника"
+msgstr "Молимо да одредите новог власника!"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
@@ -9235,7 +9235,7 @@ msgstr "Овај тикет је архивиран"
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "Напомена: Тип је неисправан!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9798,7 +9798,7 @@ msgstr "Отвори избор датума"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Догодила се грешка."
 
 #. Template: Error
 msgid "You can"
@@ -11823,7 +11823,7 @@ msgstr "(Пријава корисника) Име Презиме"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(Пријава корисника) Презиме Име"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12556,7 +12556,7 @@ msgstr "Контролише начин приказа историјских у
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
-msgstr ""
+msgstr "Контролише да ли је ИД клијента у интерфејсу оператера изменљив."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13818,7 +13818,7 @@ msgstr "Одређује подразумевани тип тикета за т�
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "Одређује подразумевани тип тикета."
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -14593,13 +14593,13 @@ msgid ""
 "Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr ""
+msgstr "Одређује циљног примаоца телефонског тикета и пошиљаоца имејл тикета (\"Ред\" приказује све редове, \"Системска адреса\" приказује све системске адресе) у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr ""
+msgstr "Одређује циљног примаоца тикета („Ред” приказује све редове, „Системска Адреса” приказује све системске адресе) у интерфејсу клијента."
 
 #. SysConfig
 msgid ""
@@ -14912,7 +14912,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr ""
+msgstr "Одређује фразу које ће бити приказана као прималац (За:) телефонског тикета и као пошиљалац (Од:) имејл тикета у интерфејсу оператера. За Ред као „NewQueueSelectionType” „<Queue>” приказује називе редова, а за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца."
 
 #. SysConfig
 msgid ""
@@ -14920,7 +14920,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr ""
+msgstr "Одређује фразу која ће бити приказана као прималац (За:) тикет у интерфејсу клијента. За Ред као „CustomerPanelSelectionType” „<Queue>” приказује имена редова и за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -15342,7 +15342,7 @@ msgstr "Енглески (Сједињене Државе)"
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "Енглеске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -15831,7 +15831,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16227,11 +16227,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Презиме, Име"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Презиме, Име (Пријава корисника)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
@@ -16342,12 +16342,12 @@ msgstr "Листа подразумеваних стандардних шабл�
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
-msgstr ""
+msgstr "Листа прилагодљивих CSS датотека увек учитаних за интерфејс оператера."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
-msgstr ""
+msgstr "Листа прилагодљивих CSS датотека увек учитаних за интерфејс клијента."
 
 #. SysConfig
 msgid "List view"
@@ -16564,13 +16564,13 @@ msgstr "Модул за генерисање статистике обрачун
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "agent interface."
-msgstr ""
+msgstr "Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу оператера."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "customer interface."
-msgstr ""
+msgstr "Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу клијента."
 
 #. SysConfig
 msgid "Module to generate ticket solution and response time statistics."
@@ -16584,13 +16584,13 @@ msgstr "Модул за генерисање статистике тикета."
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
-msgstr ""
+msgstr "Модул за доделу приступа ако се ИД клијента тикета поклапа са ИД клијента."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
-msgstr ""
+msgstr "Модул за доделу приступа ако се ИД клијента корисика тикета поклапа са ИД кориника клијента за клијента. "
 
 #. SysConfig
 msgid ""
@@ -17431,19 +17431,19 @@ msgstr "Подеси системску адресу пошиљаоца."
 msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "Подеси подразумевану висину (у пикселима) инлине HTML чланака у AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "Set the limit of tickets that will be executed on a single genericagent job "
 "execution."
-msgstr ""
+msgstr "Поставља ограничење колико ће тикета бити извршено у једном извршавању посла општег оператера."
 
 #. SysConfig
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "Подеси максималну висину (у пикселима) инлине HTML чланака у AgentTicketZoom."
 
 #. SysConfig
 msgid ""
@@ -18038,7 +18038,7 @@ msgstr "Прикажи чланак као обогаћени текст чак 
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Прикажи редове чак и кад садрже само закључане тикете."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."

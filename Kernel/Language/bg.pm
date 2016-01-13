@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.171852561033988;
+    $Self->{Completeness}        = 0.172331258975586;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -227,7 +227,7 @@ sub Data {
         'You have %s reminder ticket(s)!' => 'Вие имате %s оставащ/оставащи билет/билети!',
         'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s!',
         'Change your password.' => 'Подновете паролата си.',
-        'Please activate %s first!' => '',
+        'Please activate %s first!' => 'Моля активирайте %s на първо място!',
         'No suggestions' => 'Няма предположения',
         'Word' => 'Дума',
         'Ignore' => 'Пренебрегване',
@@ -235,7 +235,7 @@ sub Data {
         'There is no account with that login name.' => 'Няма потребител с това име.',
         'Login failed! Your user name or password was entered incorrectly.' =>
             '',
-        'There is no acount with that user name.' => '',
+        'There is no acount with that user name.' => 'Няма потребител с това име.',
         'Please contact your administrator' => '',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '',

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.72929631402585;
+    $Self->{Completeness}        = 0.735040689325036;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1382,7 +1382,7 @@ sub Data {
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '',
         'Encoding' => '',
-        'The character encoding for the SOAP message contents.' => '',
+        'The character encoding for the SOAP message contents.' => 'SOAPメッセージコンテントの文字エンコード',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '例… utf-8, latin1, iso-8859-1, cp1250, Etc.',
         'SOAPAction' => 'SOAPアクション',
         'Set to "Yes" to send a filled SOAPAction header.' => '',
@@ -1569,13 +1569,13 @@ sub Data {
         'Should the notification be sent to agents who have not yet made a choice in their preferences?' =>
             '',
         'This feature is currently not available.' => 'この機能は現在利用できません。',
-        'No data found' => '',
+        'No data found' => 'データがありません。',
         'No notification method found.' => '',
         'Notification Text' => '通知文書',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'メッセージボディー',
         'Add new notification language' => '新規通知言語を追加',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => 'タグリファレンス',
@@ -2429,7 +2429,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => '重複した登録',
-        'This address already exists on the address list.' => '',
+        'This address already exists on the address list.' => 'この住所はすでにアドレスリストに存在します。',
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
@@ -2440,7 +2440,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
             '',
-        'Starting the OTRS Daemon' => '',
+        'Starting the OTRS Daemon' => 'OTRS デーモンを起動しています。',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
@@ -2465,12 +2465,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Customer information' => '顧客情報',
         'Phone ticket' => '電話チケット',
         'Email ticket' => 'メールチケット',
-        'Start Chat' => '',
+        'Start Chat' => 'チャットを開始する。',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '%sからの新規電話チケット',
         'New email ticket to %s' => '%s宛の新規メールチケット',
-        'Start chat' => '',
+        'Start chat' => 'チャットを開始する。',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s が利用できます。',
@@ -2514,7 +2514,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentDashboardUserOnline
         'out of office' => '外出中',
-        'Selected agent is not available for chat' => '',
+        'Selected agent is not available for chat' => '選択されたエージェントは現在チャットに参加できません。',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2716,12 +2716,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentTicketPhone
         'Split Into New Phone Ticket' => '新規電話チケットに分割',
-        'Save Chat Into New Phone Ticket' => '',
+        'Save Chat Into New Phone Ticket' => 'チャットを新規チケットに保存する。',
         'Create New Phone Ticket' => '新規電話チケットの作成',
         'Please include at least one customer for the ticket.' => '',
         'To queue' => 'キューへ',
-        'Chat protocol' => '',
-        'The chat will be appended as a separate article.' => '',
+        'Chat protocol' => 'チャットプロトコル',
+        'The chat will be appended as a separate article.' => 'チャットは新規記事として追加されます。',
 
         # Template: AgentTicketPhoneCommon
         'Phone Call for %s%s' => '',
@@ -2886,7 +2886,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Your email address (this will become your username)' => 'あなたの電子メールアドレス (ユーザー名になります)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '',
+        'Incoming Chat Requests' => '受信チャット要求',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '個人設定の編集',
         'Logout %s %s' => 'ログアウト %s %s',
@@ -2929,12 +2929,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'このチケットからチャットを開始する。',
         'Expand article' => '記事を展開',
         'Information' => '情報',
         'Next Steps' => '次のステップ',
         'Reply' => '返信',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'チャットプロトコル',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '終日',
@@ -2977,15 +2977,15 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
-        'Unavailable for chat' => '',
-        'Available for internal chats only' => '',
-        'Available for chats' => '',
-        'Please visit the chat manager' => '',
-        'New personal chat request' => '',
-        'New customer chat request' => '',
-        'New public chat request' => '',
+        'Unavailable for chat' => 'チャットに参加できません。',
+        'Available for internal chats only' => '内部チャットのみ参加できます。',
+        'Available for chats' => 'チャット可能です。',
+        'Please visit the chat manager' => 'チャットマネージャを確認してください。',
+        'New personal chat request' => '新規の個人チャット要求',
+        'New customer chat request' => '新規の顧客チャット要求',
+        'New public chat request' => '新規のパブリックチャット要求',
         'New activity' => '',
-        'New activity on one of your monitored chats.' => '',
+        'New activity on one of your monitored chats.' => 'あなたがモニターしているチャットで、新しい動きがあります。',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3275,8 +3275,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Ticket is locked by another agent and will be ignored!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        '%s has left the chat.' => '%s はチャットから退出しました。',
+        'This chat has been closed and will be removed in %s hours.' => 'このチャットはすでに閉じられています、  %s 時間後に削除されます。',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'printed by' => 'printed by',

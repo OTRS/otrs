@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.962182862613691;
+    $Self->{Completeness}        = 0.967927237912877;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -120,7 +120,7 @@ sub Data {
         'none' => 'ни један',
         'none!' => 'ни један!',
         'none - answered' => 'ни један - одговорен',
-        'please do not edit!' => 'Молимо, не мењајте!',
+        'please do not edit!' => 'молимо, не мењајте!',
         'Need Action' => 'Потребна акција',
         'AddLink' => 'Додај везу',
         'Link' => 'Повежи',
@@ -290,7 +290,7 @@ sub Data {
         'Check to activate this date' => 'Проверите за активирање овог датума',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Активирана је опција "Ван канцеларије", желите ли да је искључите?',
-        'News about OTRS releases!' => 'Вести о „OTRS”издањима!',
+        'News about OTRS releases!' => 'Вести о „OTRS” издањима!',
         'Customer %s added' => 'Додат клијент %s.',
         'Role added!' => 'Додата улога!',
         'Role updated!' => 'Ажурирана улога!',
@@ -303,7 +303,7 @@ sub Data {
         'Queue updated!' => 'Ажуриран ред!',
         'State added!' => 'Додат статус!',
         'State updated!' => 'Ажуриран статус!',
-        'Type added!' => 'Додат тип',
+        'Type added!' => 'Додат тип!',
         'Type updated!' => 'Ажуриран тип!',
         'Customer updated!' => 'Ажуриран клијент!',
         'Customer company added!' => 'Додата фирма клијента!',
@@ -482,7 +482,7 @@ sub Data {
         'New password' => 'Нова лозинка',
         'Verify password' => 'Потврди лозинку',
         'Spelling Dictionary' => 'Правописни речник',
-        'Default spelling dictionary' => 'Подразумевани правописни речни',
+        'Default spelling dictionary' => 'Подразумевани правописни речник',
         'Max. shown Tickets a page in Overview.' => 'Максимални број тикета по страници у прегледу.',
         'The current password is not correct. Please try again!' => 'Унета лозинка је нетачна. Молимо покушајте поново!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
@@ -519,7 +519,7 @@ sub Data {
         'Subject' => 'Предмет',
         'Move' => 'Премести',
         'Queue' => 'Ред',
-        'Queues' => 'Родови',
+        'Queues' => 'Редови',
         'Priority' => 'Приоритет',
         'Priorities' => 'Приоритети',
         'Priority Update' => 'Ажурирање приоритета',
@@ -902,8 +902,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Џокерски знаци као \'*\' су дозвољени',
         'Add customer' => 'Додај клијента',
         'Select' => 'Изабери',
-        'shown' => '',
-        'total' => '',
+        'shown' => 'приказано',
+        'total' => 'укупно',
         'Please enter a search term to look for customers.' => 'Молимо унесите појам претраге за проналажење клијената.',
         'Add Customer' => 'Додај клијента',
 
@@ -1950,7 +1950,7 @@ sub Data {
         'Type of Linking' => 'Тип везе',
         'Add a new Field' => 'Додај ново поље',
         'Remove this Field' => 'Уклони ово поље',
-        'And can\'t be repeated on the same condition.' => 'И се не може поновити у истом услову.',
+        'And can\'t be repeated on the same condition.' => '„И” се не може поновити у истом услову.',
         'Add New Condition' => 'Додај нови услов',
 
         # Template: AdminProcessManagementTransitionAction
@@ -1993,7 +1993,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Биће адреса пошиљаоца за имејл одговоре из овог реда.',
         'Default sign key' => 'Подразумевани кључ потписа',
         'The salutation for email answers.' => 'Поздрав за имејл одговоре.',
-        'The signature for email answers.' => 'Потпис за имејл одговоре..',
+        'The signature for email answers.' => 'Потпис за имејл одговоре.',
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Управљање односима Ред-Аутоматски одговор',
@@ -2043,14 +2043,14 @@ sub Data {
         'Can I use OTRS without being registered?' => 'Да ли могу да користим OTRS уколико нисам регистрован?',
         'System registration is optional.' => 'Регистрација система је опционална.',
         'You can download and use OTRS without being registered.' => 'Можете преузети OTRS и уколико нисте регистровани.',
-        'Is it possible to deregister?' => 'Да ли је могућа ођава?',
-        'You can deregister at any time.' => 'Можете се ођавити у било које доба.',
+        'Is it possible to deregister?' => 'Да ли је могућа одјава?',
+        'You can deregister at any time.' => 'Можете се одјавити у било које доба.',
         'Which data is transfered when registering?' => 'Који подаци се преносе приликом регистрације?',
         'A registered system sends the following data to OTRS Group:' => 'Регистровани систем шаље следеће податке OTRS Групи:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
             'Пуно квалификовано име домена (FQDN), OTRS верзија, база података, оперативни систем и верзија Перла',
         'Why do I have to provide a description for my system?' => 'Зашто морам да проследим опис мог система?',
-        'The description of the system is optional.' => 'Опис система је опциони',
+        'The description of the system is optional.' => 'Опис система је опциони.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
             'Наведени опис и тип система помажу вам да идентификујете и управљате детаљима регистрованог система.',
         'How often does my OTRS system send updates?' => 'Колико често ће мој OTRS систем слати ажурирања?',
@@ -2075,16 +2075,16 @@ sub Data {
             'Ови подаци ће бити пренети у OTRS Групу када региструјете овај систем.',
         'Attribute' => 'Атрибут',
         'FQDN' => 'FQDN',
-        'OTRS Version' => 'OTRS верзија',
+        'OTRS Version' => '„OTRS” верзија',
         'Operating System' => 'Оперативни систем',
         'Perl Version' => 'Perl верзија',
-        'Optional description of this system.' => 'Опциони опис овог система',
+        'Optional description of this system.' => 'Опциони опис овог система.',
         'Register' => 'Региструј',
-        'Deregister System' => 'Одјави систем',
+        'Deregister System' => 'Искључи систем из регистра',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Настављање овог корака ће ођавити систем из OTRS Групе.',
-        'Deregister' => 'Одјави',
-        'You can modify registration settings here.' => 'Овде можете модификовати регистрациона подешавања.',
+        'Deregister' => 'Искључи из регистра',
+        'You can modify registration settings here.' => 'Овде можете изменити регистрациона подешавања.',
         'Overview of transmitted data' => 'Преглед послатих података',
         'There is no data regularly sent from your system to %s.' => 'Нема података који су редовно слати са вашег система за %s.',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
@@ -2187,19 +2187,19 @@ sub Data {
             'Уколико сигуран мод није активиран, покрените га кроз системску конфигурацију јер је ваша апликација већ покренута.',
 
         # Template: AdminSelectBox
-        'SQL Box' => 'SQL Box',
+        'SQL Box' => 'SQL Бокс',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             'Овде можете унети SQL команде и послати их директно апликационој бази података. Није могуће мењати садржај табела, дозвољен је једино \'select\' упит.',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Овде можете унети SQL команде и послати их директно апликационој бази података.',
-        'Only select queries are allowed.' => 'Дозвољени су само упити за селекцију',
+        'Only select queries are allowed.' => 'Дозвољени су само „select” упити.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Постоји грешка у синтакси вашег SQL упита. Молимо проверите.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Најмање један параметар недостаје за повезивање. Молимо проверите.',
         'Result format' => 'Формат резултата',
         'Run Query' => 'Покрени упит',
-        'Query is executed.' => 'Упит је извршен',
+        'Query is executed.' => 'Упит је извршен.',
 
         # Template: AdminService
         'Service Management' => 'Управљање услугама',
@@ -2213,7 +2213,7 @@ sub Data {
         'All sessions' => 'Све сесије',
         'Agent sessions' => 'Сесије оператера',
         'Customer sessions' => 'Сесије клијената',
-        'Unique agents' => 'Јединствени оператер',
+        'Unique agents' => 'Јединствени оператери',
         'Unique customers' => 'Јединствени клијенти',
         'Kill all sessions' => 'Угаси све сесије',
         'Kill this session' => 'Угаси ову сесију',
@@ -2340,8 +2340,8 @@ sub Data {
             'Планирање периода одржавања система ради обавештавања оператера и клијената да је систем искључен у том периоду. ',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             'Неко време пре него отпочне одржавање система, корисници ће добити обавештење које најављује овај догађај на сваки екран.',
-        'Start date' => 'Почетни датум',
-        'Stop date' => 'Датум заустављања',
+        'Start date' => 'Датум почетка',
+        'Stop date' => 'Датум завршетка',
         'Delete System Maintenance' => 'Обриши одржавање система',
         'Do you really want to delete this scheduled system maintenance?' =>
             'Да ли стварно желите да обришете ово планирано оржавање система?',
@@ -2374,7 +2374,7 @@ sub Data {
         'Your email address is' => 'Ваша имејл адреса је',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => 'Управљање шаблонима',
+        'Manage Templates <-> Attachments Relations' => 'Управљање везама Шаблони <-> Прилози',
         'Filter for Attachments' => 'Филтер за прилоге',
         'Change Template Relations for Attachment' => 'Промени везе шаблона за прилог',
         'Change Attachment Relations for Template' => 'Промени везе прилога за шаблон',
@@ -2385,11 +2385,11 @@ sub Data {
         'Type Management' => 'Управљање типовима',
         'Add ticket type' => 'Додај тип тикета',
         'Add Type' => 'Додај Тип ',
-        'Edit Type' => 'У реди Тип',
+        'Edit Type' => 'Уреди Тип',
         'A type with this name already exists!' => 'Тип са овим именом већ постоји!',
 
         # Template: AdminUser
-        'Agents will be needed to handle tickets.' => 'Потребни су оператери за обраду тикета.',
+        'Agents will be needed to handle tickets.' => 'Биће потребни оператери за обраду тикета.',
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Не заборавите да додате новог оператера у групе и/или улоге!',
         'Please enter a search term to look for agents.' => 'Молимо унесите појам за претрагу ради налажења оператера.',
         'Last login' => 'Претходна пријава',
@@ -2420,7 +2420,7 @@ sub Data {
         'Customer Information Center' => 'Клијентски информативни центар',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Клијент клијент',
+        'Customer User' => 'Клијент корисник',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Двоструки унос',
@@ -2508,7 +2508,7 @@ sub Data {
         'Totals' => 'Укупне вредности',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => 'Ван канцеларије',
+        'out of office' => 'ван канцеларије',
         'Selected agent is not available for chat' => 'Изабрани оператер није доступан за ћаскање',
 
         # Template: AgentDashboardUserOutOfOffice
@@ -2595,9 +2595,9 @@ sub Data {
         'Change Priority of %s%s' => 'Промени приоритет за %s%s',
         'Change Responsible of %s%s' => 'Промени одговорног за %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Сва поља означена звездицом (*) су обавезна.',
-        'Service invalid.' => 'Неисправна услуга',
+        'Service invalid.' => 'Неисправна услуга.',
         'New Owner' => 'Нови власник',
-        'Please set a new owner!' => 'Молимо одредите новог власника',
+        'Please set a new owner!' => 'Молимо да одредите новог власника!',
         'New Responsible' => 'Нови одговорни',
         'Next state' => 'Следећи статус',
         'For all pending* states.' => 'За сва стања* чекања.',
@@ -2778,7 +2778,7 @@ sub Data {
         'Save as default' => 'Сачувај као подразумевано',
         'Archive' => 'Архивирај',
         'This ticket is archived.' => 'Овај тикет је архивиран',
-        'Note: Type is invalid!' => '',
+        'Note: Type is invalid!' => 'Напомена: Тип је неисправан!',
         'Locked' => 'Закључано',
         'Accounted time' => 'Обрачунато време',
         'Linked Objects' => 'Повезани објекти',
@@ -2958,7 +2958,7 @@ sub Data {
         'Open date selection' => 'Отвори избор датума',
 
         # Template: Error
-        'An error occurred.' => '',
+        'An error occurred.' => 'Догодила се грешка.',
         'You can' => 'Ви можете',
         'Send a bugreport' => 'Пошаљи извештај о грешци',
         'go back to the previous page' => 'иди на претходну страну',
@@ -3739,7 +3739,7 @@ Thanks for your help!
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s временских јединица пребројано. Укупно %s временских јединица.',
         '(UserLogin) Firstname Lastname' => '(Пријава корисника) Име Презиме',
-        '(UserLogin) Lastname Firstname' => '',
+        '(UserLogin) Lastname Firstname' => '(Пријава корисника) Презиме Име',
         '(UserLogin) Lastname, Firstname' => '(Пријава корисника) Презиме, Име',
         'A Website' => 'Вебсајт',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -3965,7 +3965,7 @@ Thanks for your help!
             'Конфигурише подразумевана подешавања динамичког поља тикета. "Име" дефинише динамичко поље које ће бити коришћено, "Вредност" је податак који ће бити подешен, а "Догађај" дефинише окидач догађаја. Молимо консултујте упутство за програмере (http://otrs.github.io/doc/), поглавље "Модул догађаја тикета".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Контролише начин приказа историјских уноса тикета као читљивих вредности. ',
-        'Controls if CutomerID is editable in the agent interface.' => '',
+        'Controls if CutomerID is editable in the agent interface.' => 'Контролише да ли је ИД клијента у интерфејсу оператера изменљив.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Контролише да ли клијенти имају могућност да сортирају своје тикете.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -4346,7 +4346,7 @@ Thanks for your help!
             'Одређује подразумевани приоритет тикета на приказу екрана одговорног тикета интерфејса оператера.',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
             'Одређује подразумевани тип тикета за тикете новог клијента у интерфејсу клијента.',
-        'Defines the default ticket type.' => '',
+        'Defines the default ticket type.' => 'Одређује подразумевани тип тикета.',
         'Defines the default type for article in the customer interface.' =>
             'Одређује подразумевани тип чланка у интерфејсу клијента.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -4597,9 +4597,9 @@ Thanks for your help!
         'Defines the priority in which the information is logged and presented.' =>
             'Дефинише приоритет по ком се информације бележе и приказују.',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
-            '',
+            'Одређује циљног примаоца телефонског тикета и пошиљаоца имејл тикета ("Ред" приказује све редове, "Системска адреса" приказује све системске адресе) у интерфејсу оператера.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
-            '',
+            'Одређује циљног примаоца тикета („Ред” приказује све редове, „Системска Адреса” приказује све системске адресе) у интерфејсу клијента.',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Дефинише захтевану дозволу за приказ тикета у ескалационом прегледу интерфејса оператера.',
         'Defines the search limit for the stats.' => 'Дефинише границу претраге за статистике.',
@@ -4695,9 +4695,9 @@ Thanks for your help!
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Одређује могући статус за тикете на чекању који мењају статус након достизања временског лимита.',
         'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            '',
+            'Одређује фразу које ће бити приказана као прималац (За:) телефонског тикета и као пошиљалац (Од:) имејл тикета у интерфејсу оператера. За Ред као „NewQueueSelectionType” „<Queue>” приказује називе редова, а за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца.',
         'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            '',
+            'Одређује фразу која ће бити приказана као прималац (За:) тикет у интерфејсу клијента. За Ред као „CustomerPanelSelectionType” „<Queue>” приказује имена редова и за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца.',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Одређује начин на који се повезани објекти приказују у свакој увећаној маски.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
@@ -4825,7 +4825,7 @@ Thanks for your help!
         'English (United Kingdom)' => 'Енглески (Уједињено Краљевство)',
         'English (United States)' => 'Енглески (Сједињене Државе)',
         'English stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Енглеске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Enroll process for this ticket' => 'Упиши процес за овај тикет',
         'Enter your shared secret to enable two factor authentication.' =>
             'Унесите свој дељени тајни кључ за двофакторски модул за идентификацију.',
@@ -5093,8 +5093,8 @@ Thanks for your help!
             'Италијанске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Japanese' => 'Јапански',
         'JavaScript function for the search frontend.' => '',
-        'Lastname Firstname' => '',
-        'Lastname Firstname (UserLogin)' => '',
+        'Lastname Firstname' => 'Презиме, Име',
+        'Lastname Firstname (UserLogin)' => 'Презиме, Име (Пријава корисника)',
         'Lastname, Firstname' => 'Презиме, Име',
         'Lastname, Firstname (UserLogin)' => 'Презиме, Име (Пријава корисника)',
         'Latvian' => 'Летонски',
@@ -5128,9 +5128,9 @@ Thanks for your help!
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Листа подразумеваних стандардних шаблона који се аутоматски додељију новом Реду након креирања.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
-            '',
+            'Листа прилагодљивих CSS датотека увек учитаних за интерфејс оператера.',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
-            '',
+            'Листа прилагодљивих CSS датотека увек учитаних за интерфејс клијента.',
         'List view' => 'Преглед листе',
         'Lithuanian' => 'Литвански',
         'Lock / unlock this ticket' => 'Закључај / откључај овај тикет',
@@ -5197,16 +5197,16 @@ Thanks for your help!
             'Модул за филтрирање и руковање долазним порукама. Узмите број са 4 цифре за слободни текст тикета, употребите регуларни израз за поклапање, нпр Од: => \'(.+?)@.+?\', и употребите () као [***] у Постави =>.',
         'Module to generate accounted time ticket statistics.' => 'Модул за генерисање статистике обрачунатог времена тикета.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
-            '',
+            'Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу оператера.',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' =>
-            '',
+            'Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу клијента.',
         'Module to generate ticket solution and response time statistics.' =>
             'Модул за генерисање статистике решавања тикета и времена одговора.',
         'Module to generate ticket statistics.' => 'Модул за генерисање статистике тикета.',
         'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
-            '',
+            'Модул за доделу приступа ако се ИД клијента тикета поклапа са ИД клијента.',
         'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
-            '',
+            'Модул за доделу приступа ако се ИД клијента корисика тикета поклапа са ИД кориника клијента за клијента. ',
         'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
             'Модул за доделу приступа било ком оператеру ангажованом на тикету у прошлости (базирано на ставкама историјата тикета).',
         'Module to grant access to the agent responsible of a ticket.' =>
@@ -5439,11 +5439,11 @@ Thanks for your help!
             '',
         'Set sender email addresses for this system.' => 'Подеси системску адресу пошиљаоца.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
-            '',
+            'Подеси подразумевану висину (у пикселима) инлине HTML чланака у AgentTicketZoom.',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
-            '',
+            'Поставља ограничење колико ће тикета бити извршено у једном извршавању посла општег оператера.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
-            '',
+            'Подеси максималну висину (у пикселима) инлине HTML чланака у AgentTicketZoom.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Постави ово на да ако верујете у све ваше јавне и приватне пгп кључеве, чак и ако нису потврђени поузданим потписом.',
         'Sets if SLA must be selected by the agent.' => 'Подешава ако SLA мора бити изабран од стране оператера.',
@@ -5644,7 +5644,7 @@ Thanks for your help!
             'Прикажи избор одговорног у телефонским и имејл тикетима у оператерском интерфејсу.',
         'Show article as rich text even if rich text writing is disabled.' =>
             'Прикажи чланак као обогаћени текст чак и кад је писање обогаћеног текста деактивирано.',
-        'Show queues even when only locked tickets are in.' => '',
+        'Show queues even when only locked tickets are in.' => 'Прикажи редове чак и кад садрже само закључане тикете.',
         'Show the current owner in the customer interface.' => 'Приказује актуелног власника у клијентском интерфејсу.',
         'Show the current queue in the customer interface.' => 'Приказује актуелни ред у клијентском интерфејсу.',
         'Show the history for this ticket' => 'Прикажи историјат за овај тикет',

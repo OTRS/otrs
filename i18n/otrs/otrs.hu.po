@@ -2,7 +2,7 @@
 # Translators:
 # Arnold Mátyási <arn@webma.hu>, 2009
 # Áron Ujvári <ujvari@hungary.com>, 2007
-# Balázs Úr <urbalazs@gmail.com>, 2014-2015
+# Balázs Úr <urbalazs@gmail.com>, 2014-2016
 # Csaba Németh <csaba@sopron.hu>, 2013
 # Flóra Szabó <szaboflora@magicnet.hu>, 2006
 # Gábor Gáncs <gg@magicnet.hu>, 2006
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-07 13:10+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3258,11 +3258,11 @@ msgstr "Kiválasztás"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "megjelenített"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "összesen"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -9240,7 +9240,7 @@ msgstr "Ez a jegy archiválva van."
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "Megjegyzés: a típus érvénytelen!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9803,7 +9803,7 @@ msgstr "Dátumkijelölés megnyitása"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Hiba történt."
 
 #. Template: Error
 msgid "You can"
@@ -11824,15 +11824,15 @@ msgstr "%s időegység elszámolva. Most összesen %s időegység."
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr "(UserLogin) Keresztnév Vezetéknév"
+msgstr "(Felhasználónév) Keresztnév Vezetéknév"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(Felhasználónév) Vezetéknév Keresztnév"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
-msgstr "(UserLogin) Vezetéknév, Keresztnév"
+msgstr "(Felhasználónév) Vezetéknév, Keresztnév"
 
 #. SysConfig
 msgid "A Website"
@@ -12561,7 +12561,7 @@ msgstr "Azt szabályozza, hogy hogyan jelenjenek meg a jegy előzmény bejegyzé
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
-msgstr ""
+msgstr "Azt szabályozza, hogy az ügyfél-azonosító szerkeszthető-e az ügyintézői felületen."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13823,7 +13823,7 @@ msgstr "Meghatározza az alapértelmezett jegytípust az új ügyféljegyekhez a
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "Meghatározza az alapértelmezett jegytípust."
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -14948,7 +14948,7 @@ msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr ""
+msgstr "Az „X-Frame-Options: SAMEORIGIN” HTTP-fejléc letiltása, hogy lehetővé tegye az OTRS beágyazását IFrame-ként más weboldalakba. Ennek a HTTP-fejlécnek a letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!"
 
 #. SysConfig
 msgid ""
@@ -15560,7 +15560,7 @@ msgstr "Keresztnév Vezetéknév"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr "Keresztnév Vezetéknév (Felhasználó belépés)"
+msgstr "Keresztnév Vezetéknév (Felhasználónév)"
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
@@ -15836,7 +15836,7 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16232,11 +16232,11 @@ msgstr "JavaScript függvény a keresési előtétprogramhoz."
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Vezetéknév Keresztnév"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Vezetéknév Keresztnév (Felhasználónév)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
@@ -16244,7 +16244,7 @@ msgstr "Vezetéknév, Keresztnév"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr "Vezetéknév, Keresztnév (Felhasználó belépés)"
+msgstr "Vezetéknév, Keresztnév (Felhasználónév)"
 
 #. SysConfig
 msgid "Latvian"
@@ -16887,7 +16887,7 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
-msgstr ""
+msgstr "Paraméterek az ügyintézői felület nyitott jegyek áttekintésének vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben. Megjegyzés: csak jegy attribútumok és dinamikus mezők (DynamicField_NameX) engedélyezettek az alapértelmezett oszlopoknál. Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten engedélyezett."
 
 #. SysConfig
 msgid ""
@@ -16931,7 +16931,7 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr ""
+msgstr "Paraméterek az ügyintézői felület jegy események naptárának vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
 #. SysConfig
 msgid ""
@@ -16964,7 +16964,7 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr ""
+msgstr "Paraméterek az ügyintézői felület közelgő események felületi elemének vezérlőpult háttérprogramjához. A „Korlát” az alapértelmezetten megjelenített bejegyzések száma. A „Csoport” használható a hozzáférés korlátozásához a bővítményre (például Csoport: admin;csoport1;csoport2;). Az „Alapértelmezett” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
 #. SysConfig
 msgid ""
@@ -18043,7 +18043,7 @@ msgstr "Bejegyzés megjelenítése RichTextként még akkor is, ha a RichText í
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Várólisták megjelenítése még akkor is, ha csak zárolt jegyek vannak bennük."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
@@ -18933,7 +18933,7 @@ msgstr "Szövegdoboz"
 
 #. SysConfig
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #. SysConfig
 msgid ""
