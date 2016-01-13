@@ -6,6 +6,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.6 2016-??-??
+ - 2016-01-12 Fixed bug#[11798](http://bugs.otrs.org/show_bug.cgi?id=11798) -  HTML preview on Ticket Notification is broken.
  - 2016-01-12 Improved OTRS Business Solution™ availability check to be performed only on already upgraded systems.
  - 2016-01-12 Fixed bug#[11793](http://bugs.otrs.org/show_bug.cgi?id=11793) - Wrong subgroup for agent preference settings.
  - 2016-01-12 Fixed bug#[11728](http://bugs.otrs.org/show_bug.cgi?id=11728) - Dashboard Widget: Attributes OwnerIDs is not working.
