@@ -1,4 +1,6 @@
-#5.0.6 2016-??-??
+#5.0.7 2016-??-??
+
+#5.0.6 2016-01-19
  - 2016-01-13 Updated translations, thanks to all translators.
  - 2016-01-12 Fixed bug#[11798](http://bugs.otrs.org/show_bug.cgi?id=11798) -  HTML preview on Ticket Notification is broken.
  - 2016-01-12 Improved OTRS Business Solution™ availability check to be performed only on already upgraded systems.
