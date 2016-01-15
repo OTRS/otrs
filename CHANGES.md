@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-01-15 Fixed bug#[11794](http://bugs.otrs.org/show_bug.cgi?id=11794) - Agent with quote in this name cannot list owner.
  - 2016-01-15 Fixed bug#[11801](http://bugs.otrs.org/show_bug.cgi?id=11801) - Default value "Lock after follow-up" changed in Queue Management.
 
 #5.0.6 2016-01-19
