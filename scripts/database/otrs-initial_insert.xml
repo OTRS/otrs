@@ -393,7 +393,7 @@ Your Ticket-Team
         <Data Key="salutation_id">1</Data>
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
-        <Data Key="follow_up_lock">1</Data>
+        <Data Key="follow_up_lock">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="comments" Type="Quote" Translatable="1">Postmaster queue.</Data>
         <Data Key="valid_id">1</Data>
@@ -410,7 +410,7 @@ Your Ticket-Team
         <Data Key="salutation_id">1</Data>
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
-        <Data Key="follow_up_lock">1</Data>
+        <Data Key="follow_up_lock">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="comments" Type="Quote" Translatable="1">All default incoming tickets.</Data>
         <Data Key="valid_id">1</Data>
@@ -427,7 +427,7 @@ Your Ticket-Team
         <Data Key="salutation_id">1</Data>
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
-        <Data Key="follow_up_lock">1</Data>
+        <Data Key="follow_up_lock">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="comments" Type="Quote" Translatable="1">All junk tickets.</Data>
         <Data Key="valid_id">1</Data>
@@ -444,7 +444,7 @@ Your Ticket-Team
         <Data Key="salutation_id">1</Data>
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
-        <Data Key="follow_up_lock">1</Data>
+        <Data Key="follow_up_lock">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="comments" Type="Quote" Translatable="1">All misc tickets.</Data>
         <Data Key="valid_id">1</Data>
