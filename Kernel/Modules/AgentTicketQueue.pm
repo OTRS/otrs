@@ -624,9 +624,14 @@ sub _MaskQueueView {
 
         # skip empty Queues (or only locked tickets)
         if (
-            $Counter{ $Queue{Queue} } < 1
-            && $Queue{Queue} ne $LayoutObject->{LanguageObject}->Translate('My Queues')
-            && $Config->{HideEmptyQueues}
+            # only check when setting is set
+            $Config->{HideEmptyQueues}
+
+            # empty or locked only
+            && $Counter{ $Queue{Queue} } < 1
+
+            # always show 'my queues'
+            && $Queue{QueueID} != 0
             )
         {
             next QUEUE;
