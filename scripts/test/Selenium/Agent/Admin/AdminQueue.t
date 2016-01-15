@@ -122,7 +122,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#FollowUpLock', 'css' )->get_value(),
-            1,
+            0,
             "#FollowUpLock stored value",
         );
         $Self->Is(
@@ -153,7 +153,7 @@ $Selenium->RunTest(
 
         # set test queue to invalid
         $Selenium->execute_script("\$('#GroupID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#FollowUpLock').val('0').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#FollowUpLock').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
@@ -195,7 +195,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#FollowUpLock', 'css' )->get_value(),
-            0,
+            1,
             "#FollowUpLock updated value",
         );
         $Self->Is(
