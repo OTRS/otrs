@@ -5108,7 +5108,10 @@ sub _BuildSelectionOutput {
                 },
                 NoQuotes => 1,
             );
-            $String .= " data-filters='$JSON'";
+            my $JSONEscaped = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
+                String => $JSON,
+            );
+            $String .= " data-filters=\"$JSONEscaped\"";
             if ( $Param{FilterActive} ) {
                 $String .= ' data-filtered="' . int( $Param{FilterActive} ) . '"';
             }
