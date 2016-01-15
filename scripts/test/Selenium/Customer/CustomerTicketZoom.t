@@ -85,6 +85,24 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=123123123");
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'No Permission' ) > -1,
+            "No permission message for tickets the user may not see, even if they don't exist.",
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=");
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Need TicketID' ) > -1,
+            "Error message for missing TicketID/TicketNumber.",
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview");
+
         # search for new created ticket on CustomerTicketOverview screen
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),

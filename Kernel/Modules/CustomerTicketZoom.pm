@@ -39,8 +39,10 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    my $TicketNumber = $ParamObject->GetParam( Param => 'TicketNumber' );
+
     # ticket id lookup
-    if ( !$Self->{TicketID} && $ParamObject->GetParam( Param => 'TicketNumber' ) ) {
+    if ( !$Self->{TicketID} && $TicketNumber ) {
         $Self->{TicketID} = $TicketObject->TicketIDLookup(
             TicketNumber => $ParamObject->GetParam( Param => 'TicketNumber' ),
             UserID       => $Self->{UserID},
@@ -48,6 +50,12 @@ sub Run {
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # customers should not get to know that whether an ticket exists or not
+    # if a ticket does not exist, show a "no permission" screen
+    if ( $TicketNumber && !$Self->{TicketID} ) {
+        return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
+    }
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
