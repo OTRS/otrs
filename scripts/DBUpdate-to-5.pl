@@ -1580,6 +1580,45 @@ sub _MigrateConfigs {
     }
 
     print "...done.\n";
+    print "--- Notify modules...";
+
+    # Notify modules
+    my @NotifyTypes = (
+        {
+            Path => 'Frontend::NotifyModule',
+        },
+        {
+            Path => 'CustomerFrontend::NotifyModule',
+        },
+    );
+
+    for my $Type (@NotifyTypes) {
+
+        $Setting = $ConfigObject->Get( $Type->{Path} );
+
+        NOTIFYMODULE:
+        for my $NotifyModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$NotifyModule}->{'Module'};
+
+            if ( $Module !~ m{Kernel::Output::HTML::Notification(\w+)} ) {
+                next NOTIFYMODULE;
+            }
+
+            $Module =~ s{Kernel::Output::HTML::Notification(\w+)}{Kernel::Output::HTML::Notification::$1}xmsg;
+            $Setting->{$NotifyModule}->{'Module'} = $Module;
+
+            # set new setting,
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type->{Path} . '###' . $NotifyModule,
+                Value => $Setting->{$NotifyModule},
+            );
+        }
+    }
+
+    print "...done.\n";
 
     return 1;
 }

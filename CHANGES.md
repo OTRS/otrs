@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-01-15 Improved DBUpdate-to-5.pl to migrate notification config entries as well (S7).
  - 2016-01-15 Follow-up fix for bug#[11696](http://bugs.otrs.org/show_bug.cgi?id=11696) - Queue overview displays Queues with no avaible tickets.
  - 2016-01-15 Do not let customers know if other tickets exist or not (thanks to Renée Bäcker).
  - 2016-01-15 Fixed bug#[11786](http://bugs.otrs.org/show_bug.cgi?id=11786) - Reference of undefined variable in AgentTicketSearch.
