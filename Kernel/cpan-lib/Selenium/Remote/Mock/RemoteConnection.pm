@@ -1,5 +1,5 @@
 package Selenium::Remote::Mock::RemoteConnection;
-$Selenium::Remote::Mock::RemoteConnection::VERSION = '0.26';
+$Selenium::Remote::Mock::RemoteConnection::VERSION = '0.2701';
 # ABSTRACT: utility class to mock the responses from Selenium server
 
 use Moo;
@@ -178,13 +178,12 @@ Selenium::Remote::Mock::RemoteConnection - utility class to mock the responses f
 
 =head1 VERSION
 
-version 0.26
+version 0.2701
 
 =head1 SYNOPSIS
 
 =head2 Record interactions
 
-    #!perl
     use strict;
     use warnings;
     use Selenium::Remote::Driver;
