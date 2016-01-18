@@ -1,38 +1,13 @@
-package Selenium::Remote::Mock::Commands;
-$Selenium::Remote::Mock::Commands::VERSION = '0.2701';
-# ABSTRACT: utility class to mock Selenium::Remote::Commands
-#
-use Moo;
-extends 'Selenium::Remote::Commands';
+package Selenium::Remote::Driver::CanSetWebdriverContext;
+$Selenium::Remote::Driver::CanSetWebdriverContext::VERSION = '0.2701';
+# ABSTRACT: Customize the webdriver context prefix for various drivers
+use Moo::Role;
 
 
-# override get_params so we do not rewrite the parameters
-
-sub get_params {
-    my $self = shift;
-    my $args = shift;
-    my $data = {};
-    my $command = delete $args->{command};
-    $data->{'url'} = $self->get_url($command);
-    $data->{'method'} = $self->get_method($command);
-    $data->{'no_content_success'} = $self->get_no_content_success($command);
-    $data->{'url_params'}  = $args;
-    return $data;
-}
-
-sub get_method_name_from_parameters {
-    my $self = shift;
-    my $params = shift;
-    my $method_name = '';
-    my $cmds = $self->get_cmds();
-    foreach my $cmd (keys %{$cmds}) {
-        if (($cmds->{$cmd}->{method} eq $params->{method}) && ($cmds->{$cmd}->{url} eq $params->{url})) {
-            $method_name = $cmd;
-            last;
-        }
-    }
-    return $method_name;
-}
+has 'wd_context_prefix' => (
+    is => 'lazy',
+    default => sub { '/wd/hub' }
+);
 
 1;
 
@@ -44,7 +19,7 @@ __END__
 
 =head1 NAME
 
-Selenium::Remote::Mock::Commands - utility class to mock Selenium::Remote::Commands
+Selenium::Remote::Driver::CanSetWebdriverContext - Customize the webdriver context prefix for various drivers
 
 =head1 VERSION
 
@@ -52,7 +27,16 @@ version 0.2701
 
 =head1 DESCRIPTION
 
-Utility class to be for testing purposes, with L<Selenium::Remote::Mock::RemoteConnection> only.
+Some drivers don't use the typical C</wd/hub> context prefix for the
+webdriver HTTP communication. For example, the newer versions of the
+Firefox driver extension use the context C</hub> instead. This role
+just has the one attribute with a default webdriver context prefix,
+and is consumed in L<Selenium::Remote::Driver> and
+L<Selenium::Remote::RemoteConnection>.
+
+If you're new to webdriver, you probably want to head over to
+L<Selenium::Remote::Driver>'s docs; this package is more of an
+internal-facing concern.
 
 =head1 SEE ALSO
 
