@@ -110,7 +110,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # check if attachment is genuine
-        my $ExpectedAttachmentContent = "Some German Text with Umlaut: ÄÖÜß";
+        my $ExpectedAttachmentContent = "Some German Text with Umlaut";
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedAttachmentContent ) > -1,
             "$AttachmentName opened successfully",
