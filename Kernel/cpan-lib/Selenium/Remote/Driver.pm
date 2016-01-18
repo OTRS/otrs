@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '0.27';
+$Selenium::Remote::Driver::VERSION = '0.2701';
 # ABSTRACT: Perl Client for Selenium Remote Driver
 
 use Moo;
@@ -104,12 +104,13 @@ has 'session_id' => (
 has 'remote_conn' => (
     is      => 'lazy',
     builder => sub {
-            my $self = shift;
-            return Selenium::Remote::RemoteConnection->new(
-                remote_server_addr => $self->remote_server_addr,
-                port               => $self->port,
-                ua                 => $self->ua
-            );
+        my $self = shift;
+        return Selenium::Remote::RemoteConnection->new(
+            remote_server_addr => $self->remote_server_addr,
+            port               => $self->port,
+            ua                 => $self->ua,
+            wd_context_prefix  => $self->wd_context_prefix
+        );
     },
 );
 
@@ -234,6 +235,7 @@ has 'inner_window_size' => (
 );
 
 with 'Selenium::Remote::Finders';
+with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub BUILD {
     my $self = shift;
@@ -1343,7 +1345,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 0.27
+version 0.2701
 
 =head1 SYNOPSIS
 
@@ -2387,7 +2389,8 @@ To conveniently write the screenshot to a file, see L<capture_screenshot()>.
 
  Usage:
     my $elem1 = $driver->find_element("//select[\@name='ned']");
-    my $child = $driver->find_child_elements($elem1, "//option");
+    # note the usage of ./ when searching for a child element instead of //
+    my $child = $driver->find_child_elements($elem1, "./option");
 
 =head2 find_element_by_class
 
