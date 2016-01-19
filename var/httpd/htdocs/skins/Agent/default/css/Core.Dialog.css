@@ -78,10 +78,10 @@
 }
 
 .Dialog > .Content > .InnerContent {
-    padding: 10px;
+    padding: 10px 25px 10px 10px;
     background: #FFF;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     max-height: 200px;
     position: relative;
 }
