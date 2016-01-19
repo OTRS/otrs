@@ -6,6 +6,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.7 2016-??-??
+ - 2016-01-19 Fixed bug#[11717](http://bugs.otrs.org/show_bug.cgi?id=11717) - Views with iFrames not scrollable on iOS.
  - 2016-01-15 Follow-up fix for bug#[11696](http://bugs.otrs.org/show_bug.cgi?id=11696) - Queue overview displays Queues with no avaible tickets.
  - 2016-01-15 Do not let customers know if other tickets exist or not (thanks to Renée Bäcker).
  - 2016-01-15 Fixed bug#[11786](http://bugs.otrs.org/show_bug.cgi?id=11786) - Reference of undefined variable in AgentTicketSearch.
