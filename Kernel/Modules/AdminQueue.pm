@@ -475,15 +475,11 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     $Param{GroupOption} = $LayoutObject->BuildSelection(
         Data => {
-            $DBObject->GetTableData(
-                What  => 'id, name',
-                Table => 'groups',
+            $Kernel::OM->Get('Kernel::System::Group')->GroupList(
                 Valid => 1,
-            ),
+                )
         },
         Translation => 0,
         Name        => 'GroupID',
@@ -653,12 +649,11 @@ sub _Edit {
         SelectedID  => $Param{SalutationID},
         Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
+
     $Param{FollowUpOption} = $LayoutObject->BuildSelection(
         Data => {
-            $DBObject->GetTableData(
-                What  => 'id, name',
-                Valid => 1,
-                Table => 'follow_up_possible',
+            $QueueObject->GetFollowUpOptionList(
+                Valid => 0,
             ),
         },
         Name       => 'FollowUpID',

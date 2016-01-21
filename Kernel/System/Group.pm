@@ -120,6 +120,15 @@ sub GroupAdd {
         }
     }
 
+    my %GroupList = reverse $Self->GroupList( Valid => 0 );
+    if ( $GroupList{ $Param{Name} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Group '$Param{Name}' already exists!",
+        );
+        return;
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 

@@ -636,6 +636,58 @@ sub GetFollowUpOption {
     return $Return;
 }
 
+=item GetFollowUpOptionList()
+
+get Follow-Up Option list
+
+    my %FollowUpOptionList = $QueueObject->GetFollowUpOptionList(
+        Valid => 0,             # (optional) default 1
+    );
+
+Return:
+
+    %FollowUpOptionList = (
+              '1' => 'possible',
+              '3' => 'new ticket',
+              '2' => 'reject'
+            )
+
+=cut
+
+sub GetFollowUpOptionList {
+    my ( $Self, %Param ) = @_;
+
+    # set default value
+    my $Valid = $Param{Valid} ? 1 : 0;
+
+    # create the valid list
+    my $ValidIDs = join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
+    # build SQL
+    my $SQL = 'SELECT id, name FROM follow_up_possible';
+
+    # add WHERE statement
+    if ($Valid) {
+        $SQL .= ' WHERE valid_id IN (' . $ValidIDs . ')';
+    }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # get data from database
+    return if !$DBObject->Prepare(
+        SQL => $SQL,
+    );
+
+    # fetch the result
+    my %FollowUpOptionList;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $FollowUpOptionList{ $Row[0] } = $Row[1];
+    }
+
+    return %FollowUpOptionList;
+}
+
 =item GetFollowUpLockOption()
 
 get FollowUpLockOption for the given QueueID

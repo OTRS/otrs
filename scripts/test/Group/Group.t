@@ -12,14 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-our @ObjectDependencies = (
-    'Kernel::System::Group',
-    'Kernel::System::Time',
-);
-
 # get needed objects
 my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 #
 # Group tests
@@ -181,5 +184,29 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
         'GroupUpdate() to set group ' . $GroupName . ' to invalid',
     );
 }
+
+# list valid groups
+%Groups = $GroupObject->GroupList( Valid => 1 );
+for my $GroupName ( sort keys %GroupIDByGroupName ) {
+    my $GroupID = $GroupIDByGroupName{$GroupName};
+
+    $Self->False(
+        exists $Groups{$GroupID},
+        'GroupList() does not contains group ' . $GroupName . ' with ID ' . $GroupID,
+    );
+}
+
+# list all groups
+%Groups = $GroupObject->GroupList( Valid => 0 );
+for my $GroupName ( sort keys %GroupIDByGroupName ) {
+    my $GroupID = $GroupIDByGroupName{$GroupName};
+
+    $Self->True(
+        exists $Groups{$GroupID} && $Groups{$GroupID} eq $GroupName,
+        'GroupList() contains group ' . $GroupName . ' with ID ' . $GroupID,
+    );
+}
+
+# Cleanup is done by RestoreDatabase.
 
 1;
