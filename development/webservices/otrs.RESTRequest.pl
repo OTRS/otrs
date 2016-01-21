@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use utf8;
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
 
@@ -163,7 +164,7 @@ my $CreateOrUpdateParams = {
     Article => {
         Subject     => 'some subject',
         Body        => 'some body',
-        ContentType => 'text/plain; charset=ISO-8859-15',
+        ContentType  => 'text/plain; charset=utf8',
     },
 };
 
