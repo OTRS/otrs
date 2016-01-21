@@ -1,4 +1,5 @@
 #3.3.16 ????-??-??
+ - 2016-01-21 Fixed bug#[11802](http://bugs.otrs.org/show_bug.cgi?id=11802) - Customer user can get access to all ticket data.
 
 #3.3.15 2015-09-29
  - 2015-09-23 Fixed bug#[10530](http://bugs.otrs.org/show_bug.cgi?id=10530) - HTML emails not properly displayed (parts missing).

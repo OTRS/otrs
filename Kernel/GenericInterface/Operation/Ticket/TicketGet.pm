@@ -333,9 +333,14 @@ sub Run {
             next TICKET;
         }
 
+        my $ArticleTypes;
+        if ( $UserType eq 'Customer' ) {
+            $ArticleTypes = [ $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' ) ];
+        }
         my @ArticleBox = $Self->{TicketObject}->ArticleGet(
             TicketID          => $TicketID,
             ArticleSenderType => $ArticleSenderType,
+            ArticleType       => $ArticleTypes,
             DynamicFields     => $DynamicFields,
             Extended          => $Extended,
             Order             => $ArticleOrder,
