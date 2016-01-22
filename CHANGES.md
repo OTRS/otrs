@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-01-22 Fixed bug#[11813](http://bugs.otrs.org/show_bug.cgi?id=11813) - Changing agent email address disables his notifications preferences.
  - 2016-01-21 Fixed bug#[11818](http://bugs.otrs.org/show_bug.cgi?id=11818) - Missing required settings in default TicketConnecor SOAP yaml web service.
  - 2016-01-21 Fixed bug#[11817](http://bugs.otrs.org/show_bug.cgi?id=11817) - SLAID from TicketGet response Article has wrong cardinality in WSDL.
  - 2016-01-21 Fixed bug#[11803](http://bugs.otrs.org/show_bug.cgi?id=11803) - Got no ProcessEntityID or TicketID and ActivityDialogEntityID!.
