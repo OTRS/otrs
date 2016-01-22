@@ -1,4 +1,5 @@
 #4.0.16 2016-??-??
+ - 2016-01-21 Fixed bug#[11817](http://bugs.otrs.org/show_bug.cgi?id=11817) - SLAID from TicketGet response Article has wrong cardinality in WSDL.
  - 2016-01-21 Fixed bug#[11803](http://bugs.otrs.org/show_bug.cgi?id=11803) - Got no ProcessEntityID or TicketID and ActivityDialogEntityID!.
  - 2016-01-21 Fixed bug#[11802](http://bugs.otrs.org/show_bug.cgi?id=11802) - Customer user can get access to all ticket data.
 
