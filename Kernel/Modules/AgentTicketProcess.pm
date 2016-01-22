@@ -4691,6 +4691,9 @@ sub _StoreActivityDialog {
             );
         }
 
+        # use ProcessEntityID from the web request
+        $ProcessEntityID = $Param{ProcessEntityID};
+
         # Check if we deal with a Ticket Update
         my $UpdateTicketID = $TicketID;
     }
