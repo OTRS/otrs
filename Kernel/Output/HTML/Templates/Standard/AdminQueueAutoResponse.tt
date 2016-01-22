@@ -24,6 +24,16 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("QueuesWithoutAutoResponses") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Filter=QueuesWithoutAutoResponses" title="[% Translate("This filter allow you to show queues without auto responses") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Queues without auto responses") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("QueuesWithoutAutoResponses") %]
+[% RenderBlockStart("ShowAllQueues") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse" title="[% Translate("This filter allow you to show all queues") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Show all queues") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ShowAllQueues") %]
                 </ul>
             </div>
         </div>
@@ -62,7 +72,7 @@
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of3">
                     <ul class="Tablelike" id="Queues">
-                        <li class="Header">[% Translate("Queues") | html %]</li>
+                        <li class="Header">[% Translate(Data.QueueHeader) %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
 [% RenderBlockStart("NoQueuesFoundMsg") %]
                         <li>[% Translate("No data found.") | html %]</li>

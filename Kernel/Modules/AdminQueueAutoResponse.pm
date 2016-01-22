@@ -11,6 +11,8 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -31,6 +33,7 @@ sub Run {
     $Param{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
     $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
+    $Param{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
@@ -128,7 +131,23 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
 
         # get queue data
-        my %QueueData = $QueueObject->QueueList( Valid => 1 );
+        my %QueueData;
+        my $QueueHeader;
+
+        # filter queues without auto responses
+        if ( $Param{Filter} eq 'QueuesWithoutAutoResponses' )
+        {
+
+            %QueueData = $AutoResponseObject->AutoResponseWithoutQueue();
+
+            # use appropriate header
+            $QueueHeader = Translatable('Queues ( without auto responses )');
+
+        }
+        else {
+            %QueueData = $QueueObject->QueueList( Valid => 1 );
+            $QueueHeader = Translatable('Queues');
+        }
 
         $LayoutObject->Block(
             Name => 'Overview',
@@ -137,7 +156,21 @@ sub Run {
 
         $LayoutObject->Block( Name => 'FilterQueues' );
         $LayoutObject->Block( Name => 'FilterAutoResponses' );
-        $LayoutObject->Block( Name => 'OverviewResult' );
+        $LayoutObject->Block( Name => 'ActionList' );
+
+        if ( $Param{Filter} eq 'QueuesWithoutAutoResponses' ) {
+            $LayoutObject->Block( Name => 'ShowAllQueues' );
+        }
+        else {
+            $LayoutObject->Block( Name => 'QueuesWithoutAutoResponses' );
+        }
+
+        $LayoutObject->Block(
+            Name => 'OverviewResult',
+            Data => {
+                QueueHeader => $QueueHeader,
+                }
+        );
 
         # if there are any queues, they are shown
         if (%QueueData) {
