@@ -6,6 +6,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.7 2016-??-??
+ - 2016-01-21 Fixed bug#[11818](http://bugs.otrs.org/show_bug.cgi?id=11818) - Missing required settings in default TicketConnecor SOAP yaml web service.
  - 2016-01-21 Fixed bug#[11817](http://bugs.otrs.org/show_bug.cgi?id=11817) - SLAID from TicketGet response Article has wrong cardinality in WSDL.
  - 2016-01-21 Fixed bug#[11803](http://bugs.otrs.org/show_bug.cgi?id=11803) - Got no ProcessEntityID or TicketID and ActivityDialogEntityID!.
  - 2016-01-21 Fixed bug#[6350](http://bugs.otrs.org/show_bug.cgi?id=6350) - Sort order in "Auto Responses <-> Queues", thanks to S7.
