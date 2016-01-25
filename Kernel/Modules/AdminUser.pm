@@ -216,7 +216,6 @@ sub Run {
                     # skip groups should be changed in
                     # AgentPreferences screen
                     next GROUP if $Group eq 'Password';
-                    next GROUP if $Group eq 'NotificationEvent';
 
                     # get user data
                     my %UserData = $UserObject->GetUserData(
