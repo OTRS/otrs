@@ -86,6 +86,10 @@
     position: relative;
 }
 
+.RTL .Dialog > .Content > .InnerContent {
+    padding: 10px 10px 10px 25px;
+}
+
 .Dialog > .Content > .ContentFooter {
     padding: 6px 0 5px;
     background: #e5e5e5;
