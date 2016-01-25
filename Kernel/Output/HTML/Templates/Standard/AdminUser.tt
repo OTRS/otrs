@@ -301,7 +301,7 @@
 [% RenderBlockEnd("OutOfOffice") %]
 [% RenderBlockStart("RawHTML") %]
                         <label>[% Translate(Data.Label) | html %]:</label>
-                        <div class="Field NoMargin">
+                        <div class="Field">
                             [% Data.HTML %]
                         </div>
                         <div class="Clear"></div>
