@@ -218,7 +218,11 @@ sub GetArray {
         # get check item object
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
+        VALUE:
         for my $Value (@Values) {
+            # don't validate CGI::File::Temp objects from file uploads
+            next VALUE if !$Value || ref \$Value ne 'SCALAR';
+
             $CheckItemObject->StringClean(
                 StringRef => \$Value,
                 TrimLeft  => 1,
