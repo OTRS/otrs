@@ -136,6 +136,8 @@
                     <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Cc) | html %]</p>
 [% RenderBlockEnd("CcIsLocalAddressServerErrorMsg") %]
                     </div>
+
+                </div>
                 <div class="Clear"></div>
 
                 <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
@@ -205,6 +207,8 @@
                     <p>[% Translate("This address is registered as system address and cannot be used: %s", Data.Bcc) | html %]</p>
 [% RenderBlockEnd("BccIsLocalAddressServerErrorMsg") %]
                     </div>
+
+                </div>
                 <div class="Clear"></div>
 
                 <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
