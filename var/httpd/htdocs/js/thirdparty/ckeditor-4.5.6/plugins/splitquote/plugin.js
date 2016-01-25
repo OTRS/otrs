@@ -1,6 +1,6 @@
 CKEDITOR.plugins.add('splitquote', {
     hidpi: true,
-    icons: 'splitquote',
+    icons: 'splitquote,removequote',
     init: function(editor) {
 
         editor.addCommand('splitQuote', {
@@ -59,9 +59,32 @@ CKEDITOR.plugins.add('splitquote', {
             }
         });
 
+        // remove the complete quote, but keep the inner content
+        editor.addCommand('removeQuote', {
+            exec: function(editor) {
+                var quote;
+
+                // is the cursor position within a quote (otrs-style)?
+                quote = editor.elementPath().contains('div', false, true);
+                if (quote !== null && quote.hasAttribute('type') && quote.getAttribute('type') === 'cite') {
+
+                    // add a br before, because we are using this in the br content mode
+                    quote.insertBeforeMe(new CKEDITOR.dom.element('br'));
+                    // remove element, but keep children
+                    quote.remove(true);
+                }
+            }
+        });
+
         editor.ui.addButton('SplitQuote', {
             label: Core.Config.Get('RichText.Lang.SplitQuote') || 'Split Quote',
             command: 'splitQuote',
+            toolbar: 'insert'
+        });
+
+        editor.ui.addButton('RemoveQuote', {
+            label: Core.Config.Get('RichText.Lang.RemoveQuote') || 'Remove Quote',
+            command: 'removeQuote',
             toolbar: 'insert'
         });
 
