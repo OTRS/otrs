@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table class="DataTable NotificationList">
+<table class="DataTable NotificationList" style="clear: none">
     <thead>
         <tr>
             <th class="Center">[% Translate("Notification") | html %]</th>
