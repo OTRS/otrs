@@ -35,11 +35,11 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # first load the page so we can delete any pre-existing cookies
-        $Selenium->get("${ScriptAlias}customer.pl");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
         $Selenium->delete_all_cookies();
 
         # now load it again to login
-        $Selenium->get("${ScriptAlias}customer.pl");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
 
         # prevent version information disclosure
         $Self->False(
@@ -58,22 +58,13 @@ $Selenium->RunTest(
         $Element->send_keys($TestUserLogin);
 
         # login
-        $Element->submit();
-
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script('return typeof($) === "function" && $("a#LogoutButton").length') ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Element->VerifiedSubmit();
 
         # login succressful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         # logout again
-        $Element->click();
+        $Element->VerifiedClick();
 
         # login page?
         $Element = $Selenium->find_element( 'input#User', 'css' );

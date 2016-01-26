@@ -41,7 +41,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         my @Languages = sort keys %{ $ConfigObject->Get('DefaultUsedLanguages') };
 
@@ -54,29 +54,12 @@ $Selenium->RunTest(
             # select the current language & submit
             $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
             $Element->click();
-            $Element->submit();
-
-            ACTIVESLEEP:
-            for my $Second ( 1 .. 20 ) {
-                if ( $Selenium->execute_script("return \$('.MainBox h1').length") ) {
-                    last ACTIVESLEEP;
-                }
-                sleep 1;
-            }
+            $Element->VerifiedSubmit();
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(
                 UserLanguage => $Language,
             );
-
-            # Wait until form has loaded, if neccessary
-            ACTIVESLEEP:
-            for my $Second ( 1 .. 20 ) {
-                if ( $Selenium->execute_script('return typeof($) === "function" && $(".MainBox h1").length') ) {
-                    last ACTIVESLEEP;
-                }
-                sleep 0.5;
-            }
 
             $Element = $Selenium->find_element( '.MainBox h1', 'css' );
             $Self->Is(

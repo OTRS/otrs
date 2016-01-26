@@ -68,14 +68,14 @@ $Selenium->RunTest(
 
         # navigate to agent login screen
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
 
         # click on 'Lost your password?'
-        $Selenium->find_element( "#LostPassword", 'css' )->click();
+        $Selenium->find_element( "#LostPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
-        $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->VerifiedClick();
 
         # check for password recovery message
         $Self->True(
@@ -129,11 +129,11 @@ $Selenium->RunTest(
         );
 
         # click on 'Lost your password?' again
-        $Selenium->find_element( "#LostPassword", 'css' )->click();
+        $Selenium->find_element( "#LostPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
-        $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->VerifiedClick();
 
         # check for password recovery message for invalid user, for security meassures it
         # should be visible

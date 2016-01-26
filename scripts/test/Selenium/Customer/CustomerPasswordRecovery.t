@@ -60,14 +60,14 @@ $Selenium->RunTest(
 
         # navigate to customer login screen
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}customer.pl?");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?");
 
         # click on 'Forgot password?'
-        $Selenium->find_element( "#ForgotPassword", 'css' )->click();
+        $Selenium->find_element( "#ForgotPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#ResetUser",                   'css' )->send_keys($TestCustomerUser);
-        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
         # check for password recovery message
         $Self->True(
@@ -115,11 +115,11 @@ $Selenium->RunTest(
         );
 
         # click on 'Forgot password?' again
-        $Selenium->find_element( "#ForgotPassword", 'css' )->click();
+        $Selenium->find_element( "#ForgotPassword", 'css' )->VerifiedClick();
 
         # request new password
         $Selenium->find_element( "#ResetUser",                   'css' )->send_keys($TestCustomerUser);
-        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->click();
+        $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
         # check for password recovery message for invalid customer user, for security meassures it
         # should be visible

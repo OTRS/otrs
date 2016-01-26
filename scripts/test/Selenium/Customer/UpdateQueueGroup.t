@@ -80,7 +80,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->click();
+        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
 
         # verify that test queue is available for users group
         $Self->True(
@@ -111,7 +111,7 @@ $Selenium->RunTest(
         );
 
         # refresh page
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # check if test queue is available to select
         $Self->True(
@@ -133,7 +133,7 @@ $Selenium->RunTest(
         );
 
         # refresh page
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
 
         # check test queue with invalid test group
         $Self->False(

@@ -32,17 +32,8 @@ $Selenium->RunTest(
         $Selenium->get("${WebPath}js/test/JSUnitTest.html");
 
         # wait for the javascript tests (including AJAX) to complete
-        ACTIVESLEEP:
-        for ( 1 .. 20 ) {
-
-            if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
-                last ACTIVESLEEP;
-            }
-
-            sleep 1;
-        }
-
-        sleep 1;
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.result span.failed").length' );
 
         $Selenium->find_element( "p.result span.failed", 'css' );
         $Selenium->find_element( "p.result span.passed", 'css' );

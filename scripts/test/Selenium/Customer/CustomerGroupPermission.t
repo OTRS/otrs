@@ -92,20 +92,20 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to sysconfig CustomerFrontend::Module###CustomerTicketOverview screen
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminSysConfig;Subaction=Edit;SysConfigSubGroup=Frontend%3A%3ACustomer%3A%3AModuleRegistration;SysConfigGroup=Ticket"
         );
 
         # add test group as group restriction for company ticket subaction screen
         $Selenium->find_element(
             "//button[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#NewGroupElement'][\@type='submit']"
-        )->click();
+        )->VerifiedClick();
 
         my $ConfigGroupElement = $Selenium->find_element(
             "//input[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#Group[]']"
         );
         $ConfigGroupElement->send_keys($GroupName);
-        $ConfigGroupElement->submit();
+        $ConfigGroupElement->VerifiedSubmit();
 
         $Selenium->Login(
             Type     => 'Customer',
@@ -119,7 +119,7 @@ $Selenium->RunTest(
         );
 
         # navigate to CompanyTickets subaction screen
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # check for customer fatal error
         my $ExpectedMsg = 'Please contact your administrator';
@@ -151,7 +151,7 @@ $Selenium->RunTest(
         );
 
         # navigate to CompanyTickets subaction screen again
-        $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # verify there is no more customer fatal message
         $Self->True(
