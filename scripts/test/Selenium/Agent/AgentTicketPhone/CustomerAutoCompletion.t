@@ -96,7 +96,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Normal autocomplete tests
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         my %AutoCompleteExpected = (
             "$RandomID"             => 2,
@@ -113,14 +113,15 @@ $Selenium->RunTest(
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
-            # wait for autocomplete to load
-            sleep 0.2;
-            WAIT:
-            for ( 1 .. 40 ) {
-                if ( eval { $Selenium->execute_script("return \$.active") == 0; } ) {
-                    last WAIT;
-                }
-                sleep 0.2;
+            if ( $AutocompleteInput eq "$RandomID-nonexisting" ) {
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && !$("li.ui-menu-item:visible").length'
+                );
+            }
+            else {
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                );
             }
 
             my $AutoCompleteEntries = $Selenium->execute_script(
@@ -132,6 +133,8 @@ $Selenium->RunTest(
                 $AutoCompleteExpected{$AutocompleteInput},
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
+
+            $Selenium->VerifiedRefresh();
         }
     }
 );

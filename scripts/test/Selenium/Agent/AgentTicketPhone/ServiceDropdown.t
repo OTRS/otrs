@@ -119,7 +119,7 @@ $Selenium->RunTest(
         # real selenium test start
         # open the page that clicking on Split link of the zoom view of the
         # just created ticket would open
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$ArticleID"
         );
 

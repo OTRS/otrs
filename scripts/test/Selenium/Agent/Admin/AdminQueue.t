@@ -42,18 +42,14 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
-
-        sleep 5;
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
 
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new queue' link
-        $Selenium->find_element( "a.Create", 'css' )->click();
-
-        sleep 5;
+        $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
 
         # check add page
         for my $ID (
@@ -68,9 +64,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
-
-        sleep 5;
+        $Element->VerifiedSubmit();
 
         #$Element->click("button#Submit");
         $Self->Is(
@@ -94,9 +88,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
         $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",                              'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Name",                              'css' )->VerifiedSubmit();
 
         # check Queue - Responses page
         $Self->True(
@@ -108,9 +100,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # go to new queue again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-        sleep 5;
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # check new queue values
         $Self->Is(
@@ -163,9 +153,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#GroupID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Comment",                   'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Comment",                   'css' )->VerifiedSubmit();
 
         # check overview page
         $Self->True(
@@ -177,9 +165,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # go to new state again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-        sleep 5;
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # check new queue values
         $Self->Is(

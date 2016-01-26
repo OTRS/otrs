@@ -87,7 +87,7 @@ $Selenium->RunTest(
         ADMINMODULE:
         for my $AdminModule (@AdminModules) {
 
-            $Selenium->get("${ScriptAlias}index.pl?Action=$AdminModule");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$AdminModule");
 
             # Guess if the page content is ok or an error message. Here we
             #   check for the presence of div.SidebarColumn because all Admin

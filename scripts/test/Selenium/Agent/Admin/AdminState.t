@@ -42,7 +42,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminState");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState");
 
         $Self->True(
             index( $Selenium->get_page_source(), 'closed successful' ) > -1,
@@ -53,9 +53,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new state' link
-        $Selenium->find_element( "a.Create", 'css' )->click();
-
-        sleep 5;
+        $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
 
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
@@ -66,9 +64,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -85,9 +81,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#TypeID option[value='1']",  'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test state');
-        $Selenium->find_element( "#Name",                      'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Name",                      'css' )->VerifiedSubmit();
 
         # check overview page
         $Self->True(
@@ -102,12 +96,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        sleep 5;
-
         # go to new state again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-        sleep 5;
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # check new state values
         $Self->Is(
@@ -135,9 +125,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#TypeID option[value='2']",  'css' )->click();
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Name",                      'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Name",                      'css' )->VerifiedSubmit();
 
         # check overview page
         $Self->True(
@@ -153,9 +141,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # go to new state again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
-
-        sleep 5;
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # check new state values
         $Self->Is(

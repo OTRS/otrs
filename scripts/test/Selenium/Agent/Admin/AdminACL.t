@@ -59,12 +59,10 @@ JAVASCRIPT
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
 
         # click 'Create new ACL' link
-        $Selenium->find_element( "a.Create", 'css' )->click();
-
-        sleep 5;
+        $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
 
         # check add page
         for my $ID (
@@ -79,7 +77,7 @@ JAVASCRIPT
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -100,9 +98,7 @@ JAVASCRIPT
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
 
         # send form
-        $Selenium->find_element( "#Name", 'css' )->submit();
-
-        sleep 5;
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
