@@ -1672,7 +1672,7 @@ sub ArticleGet {
     my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
 
     # check if default ticket type exists
-    my $DefaultTicketTypeID = $TypeObject->TypeLookup( Type => $DefaultTicketType );
+    my %AllTicketTypes = reverse $TypeObject->TypeList();
 
     # get type
     if ( defined $Ticket{TypeID} ) {
@@ -1680,7 +1680,7 @@ sub ArticleGet {
             TypeID => $Ticket{TypeID}
         );
     }
-    elsif ( defined $DefaultTicketTypeID ) {
+    elsif ( $AllTicketTypes{$DefaultTicketType} ) {
         $Ticket{Type} = $DefaultTicketType;
     }
     else {

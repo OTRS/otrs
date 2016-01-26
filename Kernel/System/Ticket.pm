@@ -326,9 +326,9 @@ sub TicketCreate {
         my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
 
         # check if default ticket type exists
-        my $DefaultTicketTypeID = $TypeObject->TypeLookup( Type => $DefaultTicketType );
+        my %AllTicketTypes = reverse $TypeObject->TypeList();
 
-        if ( defined $DefaultTicketTypeID ) {
+        if ( $AllTicketTypes{$DefaultTicketType} ) {
             $Param{Type} = $DefaultTicketType;
         }
         else {
