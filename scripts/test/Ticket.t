@@ -106,9 +106,11 @@ $Self->Is(
     '',
     'TicketGet() (SLAID)',
 );
+
+my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
 $Self->Is(
     $Ticket{TypeID},
-    '1',
+    $TypeObject->TypeLookup( Type => $DefaultTicketType ),
     'TicketGet() (TypeID)',
 );
 $Self->Is(
