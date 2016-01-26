@@ -32,7 +32,7 @@ sub PreRun {
     my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule');
     if ( $Module =~ m{StaticDB} ) {
         my $Error = "$Module is the active queue index, aborting.\n";
-        $Error .= "Use Maint::Queue::IndexRebuild to regenerate the active index.\n";
+        $Error .= "Use Maint::Ticket::QueueIndexRebuild to regenerate the active index.\n";
         die $Error;
     }
 
