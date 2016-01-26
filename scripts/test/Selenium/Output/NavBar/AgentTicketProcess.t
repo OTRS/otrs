@@ -89,6 +89,9 @@ $Selenium->RunTest(
         # synchronize process
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 3;
+
         # get process list
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -202,7 +205,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # sleep a little bit to allow mod_perl to pick up the changed config files
+        # let mod_perl / Apache2::Reload pick up the changed configuration
         sleep 3;
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
