@@ -13,6 +13,8 @@ use warnings;
 
 use Storable;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',

@@ -111,6 +111,11 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#$Module - CreateSessionID()",
         );
 
+        $Self->False(
+            scalar $SessionObject->CheckSessionID(SessionID => $SessionID),
+            "CheckSessionID on empty session"
+        );
+
         my %NewSessionDataCheck = $SessionObject->GetSessionIDData( SessionID => $SessionID );
         delete $NewSessionDataCheck{UserChallengeToken};
         delete $NewSessionDataCheck{UserRemoteAddr};
