@@ -1945,6 +1945,7 @@ sub TicketQueueSet {
                     RecipientID           => $UserID,
                     CustomerMessageParams => {
                         Queue => $Queue,
+                        Body  => $Param{Comment} || '',
                     },
                     TicketID => $Param{TicketID},
                     UserID   => $Param{UserID},
@@ -4554,9 +4555,12 @@ sub TicketOwnerSet {
             $Self->SendAgentNotification(
                 Type                  => 'OwnerUpdate',
                 RecipientID           => $Param{NewUserID},
-                CustomerMessageParams => \%Param,
-                TicketID              => $Param{TicketID},
-                UserID                => $Param{UserID},
+                CustomerMessageParams => {
+                    %Param,
+                    Body => $Param{Comment} || '',
+                },
+                TicketID => $Param{TicketID},
+                UserID   => $Param{UserID},
             );
         }
     }
