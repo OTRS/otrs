@@ -1243,11 +1243,12 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$ToolbarModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::ToolBar(\w+)} ) {
-            next TOOLBARMODULE;
-        }
+        next TOOLBARMODULE if ( $Module !~ m{Kernel::Output::HTML::ToolBar(\w+)} );
 
         $Module =~ s{Kernel::Output::HTML::ToolBar(\w+)}{Kernel::Output::HTML::ToolBar::$1}xmsg;
+        next TOOLBARMODULE if ( $Setting->{$ToolbarModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$ToolbarModule}->{'Module'} = $Module;
 
         # set new setting,
@@ -1269,14 +1270,15 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$MenuModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)} ) {
-            next MENUMODULE;
-        }
+        next MENUMODULE if ( $Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)} );
 
         $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::TicketMenu::$1}xmsg;
+        next MENUMODULE if ( $Setting->{$MenuModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$MenuModule}->{'Module'} = $Module;
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
@@ -1295,14 +1297,15 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$MenuModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::TicketOverviewMenu(\w+)} ) {
-            next MENUMODULE;
-        }
+        next MENUMODULE if ( $Module !~ m{Kernel::Output::HTML::TicketOverviewMenu(\w+)} );
 
         $Module =~ s{Kernel::Output::HTML::TicketOverviewMenu(\w+)}{Kernel::Output::HTML::TicketOverviewMenu::$1}xmsg;
+        next MENUMODULE if ( $Setting->{$MenuModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$MenuModule}->{'Module'} = $Module;
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::OverviewMenuModule###' . $MenuModule,
@@ -1321,14 +1324,15 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$OverviewModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::TicketOverview(\w+)} ) {
-            next OVERVIEWMODULE;
-        }
+        next OVERVIEWMODULE if ( $Module !~ m{Kernel::Output::HTML::TicketOverview(\w+)} );
 
         $Module =~ s{Kernel::Output::HTML::TicketOverview(\w+)}{Kernel::Output::HTML::TicketOverview::$1}xmsg;
+        next OVERVIEWMODULE if ( $Setting->{$OverviewModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$OverviewModule}->{'Module'} = $Module;
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::Overview###' . $OverviewModule,
@@ -1339,33 +1343,37 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Preferences group modules...";
 
-    # Preferences groups
-    $Setting = $ConfigObject->Get('PreferencesGroups');
+    # Preferences Modules
+    for my $Type (qw(PreferencesGroups CustomerPreferencesGroups)) {
 
-    PREFERENCEMODULE:
-    for my $PreferenceModule ( sort keys %{$Setting} ) {
+        $Setting = $ConfigObject->Get($Type);
 
-        # update module location
-        my $Module = $Setting->{$PreferenceModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::Preferences(\w+)} ) {
-            next PREFERENCEMODULE;
+        PREFERENCEMODULE:
+        for my $PreferenceModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$PreferenceModule}->{'Module'};
+            next PREFERENCEMODULE if ( $Module !~ m{Kernel::Output::HTML::Preferences(\w+)} );
+
+            $Module =~ s{Kernel::Output::HTML::Preferences(\w+)}{Kernel::Output::HTML::Preferences::$1}xmsg;
+            next PREFERENCEMODULE if ( $Setting->{$PreferenceModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
+            $Setting->{$PreferenceModule}->{'Module'} = $Module;
+
+            # set new setting
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type . '###' . $PreferenceModule,
+                Value => $Setting->{$PreferenceModule},
+            );
         }
-
-        $Module =~ s{Kernel::Output::HTML::Preferences(\w+)}{Kernel::Output::HTML::Preferences::$1}xmsg;
-        $Setting->{$PreferenceModule}->{'Module'} = $Module;
-
-        # set new setting,
-        my $Success = $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'PreferencesGroups###' . $PreferenceModule,
-            Value => $Setting->{$PreferenceModule},
-        );
     }
 
     print "...done.\n";
     print "--- SLA/Service/Queue preference modules...";
 
-    # SLA, Service and Queue preferences
+    # SLA, Service and Queue Preferences modules
     for my $Type (qw(SLA Service Queue)) {
 
         $Setting = $ConfigObject->Get( $Type . 'Preferences' );
@@ -1376,14 +1384,15 @@ sub _MigrateConfigs {
             # update module location
             my $Module = $Setting->{$PreferenceModule}->{'Module'};
             my $Regex  = 'Kernel::Output::HTML::' . $Type . 'Preferences(\w+)';
-            if ( $Module !~ m{$Regex} ) {
-                next MODULE;
-            }
+            next MODULE if ( $Module !~ m{$Regex} );
 
             $Module =~ s{$Regex}{Kernel::Output::HTML::${Type}Preferences::$1}xmsg;
+            next MODULE if ( $Setting->{$PreferenceModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
             $Setting->{$PreferenceModule}->{'Module'} = $Module;
 
-            # set new setting,
+            # set new setting
             my $Success = $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
                 Key   => $Type . 'Preferences###' . $PreferenceModule,
@@ -1395,63 +1404,58 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Article pre view modules...";
 
-    # Article pre view modules
-    $Setting = $ConfigObject->Get('Ticket::Frontend::ArticlePreViewModule');
+    # Article View Modules
+    for my $Type (qw(Ticket::Frontend::ArticleViewModule Ticket::Frontend::ArticlePreViewModule)) {
 
-    ARTICLEMODULE:
-    for my $ArticlePreViewModule ( sort keys %{$Setting} ) {
+        $Setting = $ConfigObject->Get($Type);
 
-        # update module location
-        my $Module = $Setting->{$ArticlePreViewModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::ArticleCheck(\w+)} ) {
-            next ARTICLEMODULE;
+        ARTICLEMODULE:
+        for my $ArticleViewModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$ArticleViewModule}->{'Module'};
+            next ARTICLEMODULE if ( $Module !~ m{Kernel::Output::HTML::ArticleCheck(\w+)} );
+
+            $Module =~ s{Kernel::Output::HTML::ArticleCheck(\w+)}{Kernel::Output::HTML::ArticleCheck::$1}xmsg;
+            next ARTICLEMODULE if ( $Setting->{$ArticleViewModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
+            $Setting->{$ArticleViewModule}->{'Module'} = $Module;
+
+            # set new setting
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type . '###' . $ArticleViewModule,
+                Value => $Setting->{$ArticleViewModule},
+            );
         }
-
-        $Module =~ s{Kernel::Output::HTML::ArticleCheck(\w+)}{Kernel::Output::HTML::ArticleCheck::$1}xmsg;
-        $Setting->{$ArticlePreViewModule}->{'Module'} = $Module;
-
-        # set new setting,
-        my $Success = $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::ArticlePreViewModule###' . $ArticlePreViewModule,
-            Value => $Setting->{$ArticlePreViewModule},
-        );
     }
 
     print "...done.\n";
     print "--- NavBar menu modules...";
 
-    # NavBar menu modules
-    my @NavBarTypes = (
-        {
-            Path => 'Frontend::NavBarModule',
-        },
-        {
-            Path => 'CustomerFrontend::NavBarModule',
-        },
-    );
+    # NavBar Menu Modules
+    for my $Type (qw(Frontend::NavBarModule CustomerFrontend::NavBarModule)) {
 
-    for my $Type (@NavBarTypes) {
-
-        $Setting = $ConfigObject->Get( $Type->{Path} );
+        $Setting = $ConfigObject->Get($Type);
 
         NAVBARMODULE:
         for my $NavBarModule ( sort keys %{$Setting} ) {
 
             # update module location
             my $Module = $Setting->{$NavBarModule}->{'Module'};
-
-            if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} ) {
-                next NAVBARMODULE;
-            }
+            next NAVBARMODULE if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} );
 
             $Module =~ s{Kernel::Output::HTML::NavBar(\w+)}{Kernel::Output::HTML::NavBar::$1}xmsg;
+            next NAVBARMODULE if ( $Setting->{$NavBarModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
             $Setting->{$NavBarModule}->{'Module'} = $Module;
 
-            # set new setting,
+            # set new setting
             my $Success = $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
-                Key   => $Type->{Path} . '###' . $NavBarModule,
+                Key   => $Type . '###' . $NavBarModule,
                 Value => $Setting->{$NavBarModule},
             );
         }
@@ -1460,7 +1464,7 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- NavBar ModuleAdmin modules...";
 
-    # NavBar module admin
+    # NavBar Module Admin
     $Setting = $ConfigObject->Get('Frontend::Module');
 
     MODULEADMIN:
@@ -1469,12 +1473,13 @@ sub _MigrateConfigs {
         # update module location
         my $Module = $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} // '';
 
-        if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} ) {
-            next MODULEADMIN;
-        }
+        next MODULEADMIN if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} );
+        next MODULEADMIN if ( $Setting->{$ModuleAdmin}->{'Module'} eq "Kernel::Output::HTML::NavBar::ModuleAdmin" );
+
+        # update sysconfig if it is necessary
         $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} = "Kernel::Output::HTML::NavBar::ModuleAdmin";
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::Module###' . $ModuleAdmin,
@@ -1485,36 +1490,28 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Dashboard modules...";
 
-    # Dashboard modules
-    my @DashboardTypes = (
-        {
-            Path => 'DashboardBackend',
-        },
-        {
-            Path => 'AgentCustomerInformationCenter::Backend',
-        },
-    );
+    # Dashboard Modules
+    for my $Type (qw(DashboardBackend AgentCustomerInformationCenter::Backend)) {
 
-    for my $Type (@DashboardTypes) {
-
-        $Setting = $ConfigObject->Get( $Type->{Path} );
+        $Setting = $ConfigObject->Get($Type);
 
         DASHBOARDMODULE:
         for my $DashboardModule ( sort keys %{$Setting} ) {
 
             # update module location
             my $Module = $Setting->{$DashboardModule}->{'Module'} // '';
+            next DASHBOARDMODULE if ( $Module !~ m{Kernel::Output::HTML::Dashboard(\w+)} );
 
-            if ( $Module !~ m{Kernel::Output::HTML::Dashboard(\w+)} ) {
-                next DASHBOARDMODULE;
-            }
             $Module =~ s{Kernel::Output::HTML::Dashboard(\w+)}{Kernel::Output::HTML::Dashboard::$1}xmsg;
+            next DASHBOARDMODULE if ( $Setting->{$DashboardModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
             $Setting->{$DashboardModule}->{'Module'} = $Module;
 
-            # set new setting,
+            # set new setting
             my $Success = $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
-                Key   => $Type->{Path} . '###' . $DashboardModule,
+                Key   => $Type . '###' . $DashboardModule,
                 Value => $Setting->{$DashboardModule},
             );
         }
@@ -1523,7 +1520,7 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Customer user generic modules...";
 
-    # customer user generic module
+    # Customer User Generic Module
     $Setting = $ConfigObject->Get('Frontend::CustomerUser::Item');
 
     CUSTOMERUSERGENERICMODULE:
@@ -1531,14 +1528,15 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$CustomerUserGenericModule}->{'Module'} // '';
+        next CUSTOMERUSERGENERICMODULE if ( $Module !~ m{Kernel::Output::HTML::CustomerUser(\w+)} );
 
-        if ( $Module !~ m{Kernel::Output::HTML::CustomerUser(\w+)} ) {
-            next CUSTOMERUSERGENERICMODULE;
-        }
         $Module =~ s{Kernel::Output::HTML::CustomerUser(\w+)}{Kernel::Output::HTML::CustomerUser::$1}xmsg;
+        next CUSTOMERUSERGENERICMODULE if ( $Setting->{$CustomerUserGenericModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$CustomerUserGenericModule}->{'Module'} = $Module;
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::CustomerUser::Item###' . $CustomerUserGenericModule,
@@ -1546,17 +1544,21 @@ sub _MigrateConfigs {
         );
     }
 
-    # set new setting for CustomerNewTicketQueueSelectionGeneric
-    my $Success = $SysConfigObject->ConfigItemUpdate(
-        Valid => 2,
-        Key   => 'CustomerPanel::NewTicketQueueSelectionModule',
-        Value => 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric',
-    );
+    if ($Kernel::OM->Get('Kernel::Config')->Get('CustomerPanel::NewTicketQueueSelectionModule')
+        ne 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric'
+    ) {
+        # set new setting for CustomerNewTicketQueueSelectionGeneric
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 2,
+            Key   => 'CustomerPanel::NewTicketQueueSelectionModule',
+            Value => 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric',
+        );
+    }
 
     print "...done.\n";
     print "--- FilterText modules...";
 
-    # output filter module
+    # Output Filter Module
     $Setting = $ConfigObject->Get('Frontend::Output::FilterText');
 
     FILTERTEXTMODULE:
@@ -1564,14 +1566,15 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$FilterTextModule}->{'Module'} // '';
+        next FILTERTEXTMODULE if ( $Module !~ m{Kernel::Output::HTML::OutputFilter::Text(\w+)} );
 
-        if ( $Module !~ m{Kernel::Output::HTML::OutputFilter::Text(\w+)} ) {
-            next FILTERTEXTMODULE;
-        }
         $Module =~ s{Kernel::Output::HTML::OutputFilter::Text(\w+)}{Kernel::Output::HTML::FilterText::$1}xmsg;
+        next FILTERTEXTMODULE if ( $Setting->{$FilterTextModule}->{'Module'} eq $Module );
+
+        # update sysconfig if it is necessary
         $Setting->{$FilterTextModule}->{'Module'} = $Module;
 
-        # set new setting,
+        # set new setting
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::Output::FilterText###' . $FilterTextModule,
@@ -1582,37 +1585,28 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Notify modules...";
 
-    # Notify modules
-    my @NotifyTypes = (
-        {
-            Path => 'Frontend::NotifyModule',
-        },
-        {
-            Path => 'CustomerFrontend::NotifyModule',
-        },
-    );
+    # Notify Modules
+    for my $Type (qw(Frontend::NotifyModule CustomerFrontend::NotifyModule)) {
 
-    for my $Type (@NotifyTypes) {
-
-        $Setting = $ConfigObject->Get( $Type->{Path} );
+        $Setting = $ConfigObject->Get($Type);
 
         NOTIFYMODULE:
         for my $NotifyModule ( sort keys %{$Setting} ) {
 
             # update module location
             my $Module = $Setting->{$NotifyModule}->{'Module'};
-
-            if ( $Module !~ m{Kernel::Output::HTML::Notification(\w+)} ) {
-                next NOTIFYMODULE;
-            }
+            next NOTIFYMODULE if ( $Module !~ m{Kernel::Output::HTML::Notification(\w+)} );
 
             $Module =~ s{Kernel::Output::HTML::Notification(\w+)}{Kernel::Output::HTML::Notification::$1}xmsg;
+            next NOTIFYMODULE if ( $Setting->{$NotifyModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
             $Setting->{$NotifyModule}->{'Module'} = $Module;
 
-            # set new setting,
+            # set new setting
             my $Success = $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
-                Key   => $Type->{Path} . '###' . $NotifyModule,
+                Key   => $Type . '###' . $NotifyModule,
                 Value => $Setting->{$NotifyModule},
             );
         }
@@ -1697,17 +1691,28 @@ sub _AddZoomMenuClusters {
 
         next MENUMODULE if !IsHashRefWithData( $Setting->{$MenuModule} );
 
+        my $NeedsUpdate;
+
         # set cluster data
         for my $Attribute ( sort keys %{ $ClusterData{$MenuModule} } ) {
-            $Setting->{$MenuModule}->{$Attribute} = $ClusterData{$MenuModule}->{$Attribute};
+
+            if (!$Setting->{$MenuModule}->{$Attribute}
+                || $Setting->{$MenuModule}->{$Attribute} ne $ClusterData{$MenuModule}->{$Attribute}
+            ) {
+                $NeedsUpdate++;
+                $Setting->{$MenuModule}->{$Attribute} = $ClusterData{$MenuModule}->{$Attribute};
+            }
         }
 
-        # save setting
-        my $Success = $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
-            Value => $Setting->{$MenuModule},
-        );
+        if ($NeedsUpdate) {
+            # save setting
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+               Valid => 1,
+               Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
+               Value => $Setting->{$MenuModule},
+            );
+        }
+
     }
 
     print "...done.\n";

@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-01-28 Fixed bug#[11819](http://bugs.otrs.org/show_bug.cgi?id=11819) - Error when trying to edit/create new customer agent while SMIME activated.
  - 2016-01-26 Fixed bug#[11827](http://bugs.otrs.org/show_bug.cgi?id=11827) - Invalid or missing default ticket type throws error in log.
  - 2016-01-25 Fixed bug#[11825](http://bugs.otrs.org/show_bug.cgi?id=11825) - Agent Notification Preferences cannot be set in AdminUser.
  - 2016-01-25 Added new button "Remove Quote" to richtext editor.
