@@ -21,25 +21,50 @@ $Self->True(
     "Instance created",
 );
 
-my %Seen;
-my $DuplicateFound;
+# GetRandomID
+
+my %SeenRandomIDs;
+my $DuplicateIDFound;
 
 LOOP:
 for my $I ( 1 .. 1_000_000 ) {
     my $RandomID = $HelperObject->GetRandomID();
-    if ( $Seen{$RandomID}++ ) {
+    if ( $SeenRandomIDs{$RandomID}++ ) {
         $Self->True(
             0,
             "GetRandomID iteration $I returned a duplicate RandomID $RandomID",
         );
-        $DuplicateFound++;
+        $DuplicateIDFound++;
         last LOOP;
     }
 }
 
 $Self->False(
-    $DuplicateFound,
+    $DuplicateIDFound,
     "GetRandomID() returned no duplicates",
+);
+
+# GetRandomNumber
+
+my %SeenRandomNumbers;
+my $DuplicateNumbersFound;
+
+LOOP:
+for my $I ( 1 .. 1_000_000 ) {
+    my $RandomNumber = $HelperObject->GetRandomNumber();
+    if ( $SeenRandomNumbers{$RandomNumber}++ ) {
+        $Self->True(
+            0,
+            "GetRandomNumber iteration $I returned a duplicate RandomNumber $RandomNumber",
+        );
+        $DuplicateNumbersFound++;
+        last LOOP;
+    }
+}
+
+$Self->False(
+    $DuplicateNumbersFound,
+    "GetRandomNumber() returned no duplicates",
 );
 
 # Test transactions
