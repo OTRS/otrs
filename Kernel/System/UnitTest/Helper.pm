@@ -106,13 +106,37 @@ sub GetRandomID {
 
     LOOP:
     for ( 1 .. 1_000 ) {
-        my $RandomID = 'test' . time() . int( rand(1_000_000_000) );
+        my $RandomID = 'Test' . time() . int( rand(1_000_000) );
         if ( !$SeenRandomIDs{$RandomID}++ ) {
             return $RandomID;
         }
     }
 
     die "Could not generate RandomID!\n";
+}
+
+=item GetRandomNumber()
+
+creates a random ID that can be used in tests as a unique identifier.
+
+=cut
+
+# Make sure that every RandomNumber is only generated once in a process to
+#   ensure predictability for unit test runs.
+my %SeenRandomNumbers;
+
+sub GetRandomNumber {
+    my ( $Self, %Param ) = @_;
+
+    LOOP:
+    for ( 1 .. 1_000 ) {
+        my $RandomNumber = time() . int( rand(1_000_000) );
+        if ( !$SeenRandomNumbers{$RandomNumber}++ ) {
+            return $RandomNumber;
+        }
+    }
+
+    die "Could not generate RandomNumber!\n";
 }
 
 =item TestUserCreate()
