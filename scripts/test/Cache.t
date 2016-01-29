@@ -14,13 +14,20 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        }
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get home directory
 my $HomeDir = $ConfigObject->Get('Home');
 
-# get all avaliable backend modules
+# get all available backend modules
 my @BackendModuleFiles = $MainObject->DirectoryRead(
     Directory => $HomeDir . '/Kernel/System/Cache/',
     Filter    => '*.pm',
@@ -62,7 +69,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         next MODULEFILE if !$CacheObject;
 
-        # flush the cache to have a clear test enviroment
+        # flush the cache to have a clear test environment
         $CacheObject->CleanUp();
 
         # some tests check that the cache expires, for that we have to disable the in-memory cache
@@ -72,7 +79,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # set fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeSet();
+            $Helper->FixedTimeSet();
         }
 
         my $CacheSet = $CacheObject->Set(
@@ -215,7 +222,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 7 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(7);
+            $Helper->FixedTimeAddSeconds(7);
         }
         else {
             sleep 7;
@@ -251,7 +258,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(3);
+            $Helper->FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -274,7 +281,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(3);
+            $Helper->FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -401,7 +408,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # unset fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeUnset();
+            $Helper->FixedTimeUnset();
         }
 
         my $String1 = '';
@@ -431,7 +438,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             }
 
             # create key
-            my $Key = 'Unittest' . rand 999_999_999;
+            my $Key = $Helper->GetRandomID();
 
             # copy strings to safe the reference
             my $StringRef1 = $String1;

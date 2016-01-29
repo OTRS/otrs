@@ -16,11 +16,19 @@ use vars (qw($Self));
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+        }
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # add system address
-my $SystemAddressNameRand0 = 'unittest' . int rand 1000000;
-my $SystemAddressID        = $SystemAddressObject->SystemAddressAdd(
-    Name     => $SystemAddressNameRand0 . '@example.com',
-    Realname => $SystemAddressNameRand0,
+my $SystemAddressNameRand = 'SystemAddress' . $Helper->GetRandomID();
+my $SystemAddressID       = $SystemAddressObject->SystemAddressAdd(
+    Name     => $SystemAddressNameRand . '@example.com',
+    Realname => $SystemAddressNameRand,
     ValidID  => 1,
     QueueID  => 1,
     Comment  => 'Some Comment',
@@ -32,10 +40,10 @@ $Self->True(
 );
 
 # add auto response
-my $AutoResponseNameRand0 = 'unittest' . int rand 1000000;
+my $AutoResponseNameRand = 'AutoResponse' . $Helper->GetRandomID();
 
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
-    Name        => $AutoResponseNameRand0,
+    Name        => $AutoResponseNameRand,
     Subject     => 'Some Subject',
     Response    => 'Some Response',
     Comment     => 'Some Comment',
@@ -55,7 +63,7 @@ my %AutoResponse = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID )
 
 $Self->Is(
     $AutoResponse{Name} || '',
-    $AutoResponseNameRand0,
+    $AutoResponseNameRand,
     'AutoResponseGet() - Name',
 );
 $Self->Is(
@@ -117,12 +125,12 @@ my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
 );
 $Self->Is(
     $Address{Address} || '',
-    $SystemAddressNameRand0 . '@example.com',
+    $SystemAddressNameRand . '@example.com',
     'AutoResponseGetByTypeQueueID() - Address',
 );
 $Self->Is(
     $Address{Realname} || '',
-    $SystemAddressNameRand0,
+    $SystemAddressNameRand,
     'AutoResponseGetByTypeQueueID() - Realname',
 );
 
@@ -134,7 +142,7 @@ $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
 
 my $AutoResponseUpdate = $AutoResponseObject->AutoResponseUpdate(
     ID          => $AutoResponseID,
-    Name        => $AutoResponseNameRand0 . '1',
+    Name        => $AutoResponseNameRand . '1',
     Subject     => 'Some Subject1',
     Response    => 'Some Response1',
     Comment     => 'Some Comment1',
@@ -154,7 +162,7 @@ $Self->True(
 
 $Self->Is(
     $AutoResponse{Name} || '',
-    $AutoResponseNameRand0 . '1',
+    $AutoResponseNameRand . '1',
     'AutoResponseGet() - Name',
 );
 $Self->Is(
@@ -187,5 +195,7 @@ $Self->Is(
     2,
     'AutoResponseGet() - ValidID',
 );
+
+# cleanup is done by RestoreDatabase
 
 1;
