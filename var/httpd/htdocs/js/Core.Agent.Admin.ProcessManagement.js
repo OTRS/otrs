@@ -1109,7 +1109,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                  FieldConfigElement.Config.ArticleType = $('#ArticleType').val();
 
                                  // show error if internal article type is set for an interface different than AgentInterface
-                                 if ($('#Interface').val() !== 'AgentInterface' && $('#ArticleType').val().match(/int/i)){
+                                 if ($('#Interface').val() !== 'AgentInterface' && $('#ArticleType').val().match(/-int/i)){
                                      window.alert(Core.Agent.Admin.ProcessManagement.Localization.WrongArticleTypeMsg);
                                      return false;
                                  }

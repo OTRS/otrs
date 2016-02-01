@@ -916,7 +916,9 @@ sub ArticleTypeList {
     my %Hash;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Param{Type} && $Param{Type} eq 'Customer' ) {
-            if ( $Row[1] !~ /int/i ) {
+
+            # Skip internal articles.
+            if ( $Row[1] !~ /-int/i ) {
                 push @Array, $Row[1];
                 $Hash{ $Row[0] } = $Row[1];
             }
@@ -984,7 +986,7 @@ sub ArticleLastCustomerArticle {
             Extended      => $Param{Extended},
             DynamicFields => $Param{DynamicFields},
         );
-        if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
+        if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /-int/ ) {
             return %Article;
         }
     }
