@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
 # get needed objects
 my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
