@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-02-01 Fixed bug#[11838](http://bugs.otrs.org/show_bug.cgi?id=11838) - New tabs opened from links in a sandboxed Iframe cannot execute JavaScript.
  - 2016-02-01 Fixed bug#[11829](http://bugs.otrs.org/show_bug.cgi?id=11829) - Main and ticket menu subentries disappear.
  - 2016-01-28 Fixed bug#[11819](http://bugs.otrs.org/show_bug.cgi?id=11819) - Error when trying to edit/create new customer agent while SMIME activated.
  - 2016-01-26 Fixed bug#[11827](http://bugs.otrs.org/show_bug.cgi?id=11827) - Invalid or missing default ticket type throws error in log.
