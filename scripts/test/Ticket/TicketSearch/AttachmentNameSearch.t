@@ -221,8 +221,17 @@ my @Tests = (
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             UserID         => 1,
         },
-        ExpectedResults => [ $TicketID1, $TicketID2 ],
-        ForBothStorages => 0,
+        ExpectedResultsArticleStorageDB => [ $TicketID1, $TicketID2 ],
+        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],
+    },
+    {
+        Name   => 'AttachmentName nonexisting',
+        Config => {
+            AttachmentName => 'nonexisting-attachment-name-search.txt',
+            UserID         => 1,
+        },
+        ExpectedResultsArticleStorageDB => [],
+        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],    # does not consider attachment name
     },
     {
         Name   => 'AttachmentName Ticket1 Article1',
@@ -231,8 +240,8 @@ my @Tests = (
             Subject        => 'Ticket1Article1' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID1],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID1],
+        ExpectedResultsArticleStorageFS => [$TicketID1],
     },
     {
         Name   => 'AttachmentName Ticket1 Article2',
@@ -241,8 +250,8 @@ my @Tests = (
             Subject        => 'Ticket1Article2' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID1],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID1],
+        ExpectedResultsArticleStorageFS => [$TicketID1],
     },
     {
         Name   => 'AttachmentName Ticket2 Article1',
@@ -251,8 +260,8 @@ my @Tests = (
             Subject        => 'Ticket2Article1' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID2],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID2],
+        ExpectedResultsArticleStorageFS => [$TicketID2],
     },
     {
         Name   => 'AttachmentName Ticket2 Article2',
@@ -261,8 +270,8 @@ my @Tests = (
             Subject        => 'Ticket2Article2' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID2],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID2],
+        ExpectedResultsArticleStorageFS => [$TicketID2],
     },
     {
         Name   => 'AttachmentName Ticket2 Article3',
@@ -271,8 +280,8 @@ my @Tests = (
             Subject        => 'Ticket2Article3' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID2],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID2],
+        ExpectedResultsArticleStorageFS => [$TicketID2],
     },
     {
         Name   => 'AttachmentName Title Ticket 1',
@@ -281,8 +290,8 @@ my @Tests = (
             Title          => $RandomID . 'Ticket One Title',
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID1],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID1],
+        ExpectedResultsArticleStorageFS => [$TicketID1],
     },
     {
         Name   => 'AttachmentName Title (Like) Ticket 1',
@@ -291,8 +300,8 @@ my @Tests = (
             Title          => $RandomID . '*Title',
             UserID         => 1,
         },
-        ExpectedResults => [$TicketID1],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID1],
+        ExpectedResultsArticleStorageFS => [$TicketID1],
     },
     {
         Name   => 'AttachmentName (AsCustomer)',
@@ -300,8 +309,8 @@ my @Tests = (
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             CustomerUserID => 'customerOne@example.com',
         },
-        ExpectedResults => [ $TicketID1, $TicketID2 ],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [ $TicketID1, $TicketID2 ],
+        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
@@ -310,8 +319,8 @@ my @Tests = (
             Subject        => 'Ticket2Article2' . $RandomID,
             CustomerUserID => 'customerOne@example.com',
         },
-        ExpectedResults => [$TicketID2],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [$TicketID2],
+        ExpectedResultsArticleStorageFS => [$TicketID2],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article3',
@@ -320,8 +329,8 @@ my @Tests = (
             Subject        => 'Ticket2Article3' . $RandomID,
             CustomerUserID => 'customerOne@example.com',
         },
-        ExpectedResults => [],
-        ForBothStorages => 1,
+        ExpectedResultsArticleStorageDB => [],
+        ExpectedResultsArticleStorageFS => [],
     },
 );
 
@@ -346,25 +355,18 @@ for my $Test (@Tests) {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             FullTextIndex       => 1,
+            TicketID            => [@TicketIDs],
             %{ $Test->{Config} },
+            Limit => 2,
         );
 
         @FoundTicketIDs = sort @FoundTicketIDs;
 
-        if ( $StorageBackend eq 'ArticleStorageDB' || $Test->{ForBothStorages} ) {
-            $Self->IsDeeply(
-                \@FoundTicketIDs,
-                $Test->{ExpectedResults},
-                "$Test->{Name} $StorageBackend TicketSearch() -"
-            );
-        }
-        else {
-            $Self->IsNotDeeply(
-                \@FoundTicketIDs,
-                $Test->{ExpectedResults},
-                "$Test->{Name} $StorageBackend TicketSearch() -"
-            );
-        }
+        $Self->IsDeeply(
+            \@FoundTicketIDs,
+            $Test->{"ExpectedResults$StorageBackend"},
+            "$Test->{Name} $StorageBackend TicketSearch() -"
+        );
     }
 }
 
