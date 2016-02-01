@@ -1,4 +1,5 @@
 #4.0.16 2016-??-??
+ - 2016-02-01 Fixed bug#[11829](http://bugs.otrs.org/show_bug.cgi?id=11829) - Main and ticket menu subentries disappear.
  - 2016-01-25 Fixed bug#[11814](http://bugs.otrs.org/show_bug.cgi?id=11814) - Labels in AgentTicketCompose and AgentTicketEmailOutbound are misaligned.
  - 2016-01-21 Fixed bug#[11817](http://bugs.otrs.org/show_bug.cgi?id=11817) - SLAID from TicketGet response Article has wrong cardinality in WSDL.
  - 2016-01-21 Fixed bug#[11803](http://bugs.otrs.org/show_bug.cgi?id=11803) - Got no ProcessEntityID or TicketID and ActivityDialogEntityID!.
