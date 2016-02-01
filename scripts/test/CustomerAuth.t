@@ -14,7 +14,14 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # configure CustomerAuth backend to db
 $ConfigObject->Set( 'CustomerAuthBackend', 'DB' );
@@ -33,14 +40,14 @@ $ConfigObject->Set(
 # add test user
 my $GlobalUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-my $UserRand1 = 'example-user' . int rand 1000000;
+my $UserRand = 'example-user' . $Helper->GetRandomID();
 
 my $TestUserID = $GlobalUserObject->CustomerUserAdd(
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
     UserCustomerID => 'Customer246',
-    UserLogin      => $UserRand1,
-    UserEmail      => $UserRand1 . '@example.com',
+    UserLogin      => $UserRand,
+    UserEmail      => $UserRand . '@example.com',
     ValidID        => 1,
     UserID         => 1,
 );
@@ -54,45 +61,45 @@ $Self->True(
 my @Tests = (
     {
         Password   => 'simple',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'very long password line which is unusual',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'Переводчик',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'كل ما تحب معرفته عن',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => ' ',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "\n",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "\t",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
-        Password   => "a" x 64,     # max length for plain
-        AuthResult => $UserRand1,
+        Password   => "a" x 64,    # max length for plain
+        AuthResult => $UserRand,
     },
 
     # SQL security tests
     {
         Password   => "'UNION'",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "';",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
 );
 
@@ -117,7 +124,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
     for my $Test (@Tests) {
 
         my $PasswordSet = $UserObject->SetPassword(
-            UserLogin => $UserRand1,
+            UserLogin => $UserRand,
             PW        => $Test->{Password},
         );
 
@@ -127,7 +134,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         my $CustomerAuthResult = $CustomerAuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => $Test->{Password},
         );
 
@@ -137,7 +144,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         $CustomerAuthResult = $CustomerAuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => $Test->{Password},
         );
 
@@ -147,7 +154,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         $CustomerAuthResult = $CustomerAuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => 'wrong_pw',
         );
 
@@ -173,8 +180,8 @@ my $Success = $GlobalUserObject->CustomerUserUpdate(
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
     UserCustomerID => 'Customer246',
-    UserLogin      => $UserRand1,
-    UserEmail      => $UserRand1 . '@example.com',
+    UserLogin      => $UserRand,
+    UserEmail      => $UserRand . '@example.com',
     ValidID        => 2,
     UserID         => 1,
 );
