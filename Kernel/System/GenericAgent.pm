@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -322,6 +322,9 @@ sub JobRun {
 
     # escalation tickets
     my %Tickets;
+
+    # get ticket limit on job run
+    my $RunLimit = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentRunLimit');
     if ( $Job{Escalation} ) {
 
         # Find all tickets which will escalate within the next five days.
@@ -329,7 +332,7 @@ sub JobRun {
         my @Tickets = $TicketObject->TicketSearch(
             %Job,
             Result                           => 'ARRAY',
-            Limit                            => $Job{Limit} || 100,
+            Limit                            => $Job{Limit} || $Param{Limit} || 100,
             TicketEscalationTimeOlderMinutes => $Job{TicketEscalationTimeOlderMinutes}
                 || -( 5 * 24 * 60 ),
             Permission => 'rw',
@@ -368,7 +371,7 @@ sub JobRun {
                     %DynamicFieldSearchParameters,
                     ConditionInline => 1,
                     StateType       => $Type,
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -386,7 +389,7 @@ sub JobRun {
                         ConditionInline => 1,
                         Queues          => [$_],
                         StateType       => $Type,
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -401,7 +404,7 @@ sub JobRun {
                     ConditionInline => 1,
                     StateType       => $Type,
                     Queues          => [ $Job{Queue} ],
-                    Limit           => $Param{Limit} || 4000,
+                    Limit           => $Param{Limit} || $RunLimit,
                     UserID          => $Param{UserID},
                 ),
                 %Tickets
@@ -453,7 +456,7 @@ sub JobRun {
                 %Job,
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
@@ -468,7 +471,7 @@ sub JobRun {
                         %DynamicFieldSearchParameters,
                         ConditionInline => 1,
                         Queues          => [$_],
-                        Limit           => $Param{Limit} || 4000,
+                        Limit           => $Param{Limit} || $RunLimit,
                         UserID          => $Param{UserID},
                     ),
                     %Tickets
@@ -481,7 +484,7 @@ sub JobRun {
                 %DynamicFieldSearchParameters,
                 ConditionInline => 1,
                 Queues          => [ $Job{Queue} ],
-                Limit           => $Param{Limit} || 4000,
+                Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );
         }
@@ -996,45 +999,36 @@ sub _JobRunTicket {
             );
 
             my %Notification = (
-                Message => {
-                    'en' => {
-                        Subject => $Param{Config}->{New}->{NoteSubject},
-                        Body => $Param{Config}->{New}->{NoteBody},
-                        ContentType => 'text/plain',
-                    },
-                },
-            );
-            my %CutomerMessageParams = (
-                Subject => $Param{Config}->{New}->{NoteSubject},
-                Body => $Param{Config}->{New}->{NoteBody},
+                Subject     => $Param{Config}->{New}->{NoteSubject},
+                Body        => $Param{Config}->{New}->{NoteBody},
                 ContentType => 'text/plain',
-                ArticleType => $Param{Config}->{ArticleType},
             );
 
-            my %NotificationEvent = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->NotificationEvent(
-                TicketID              => $Param{TicketID},
-                Recipient             => \%CustomerUserData,          # Agent or Customer data get result
-                Notification          => \%Notification,
-                CustomerMessageParams => \%CutomerMessageParams,           # optional
-                UserID                => $Param{UserID},
+            my %GenericAgentArticle = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->GenericAgentArticle(
+                TicketID     => $Param{TicketID},
+                Recipient    => \%CustomerUserData,    # Agent or Customer data get result
+                Notification => \%Notification,
+                UserID       => $Param{UserID},
             );
 
-            if ( IsStringWithData( $NotificationEvent{Body} )
-                 || IsHashRefWithData( $NotificationEvent{Subject} ) )
+            if (
+                IsStringWithData( $GenericAgentArticle{Body} )
+                || IsHashRefWithData( $GenericAgentArticle{Subject} )
+                )
             {
-                $Param{Config}->{New}->{Note}->{Subject} = $NotificationEvent{Subject} || '';
-                $Param{Config}->{New}->{Note}->{Body} = $NotificationEvent{Body} || '';
-                $ContentType = $NotificationEvent{ContentType};
+                $Param{Config}->{New}->{Note}->{Subject} = $GenericAgentArticle{Subject} || '';
+                $Param{Config}->{New}->{Note}->{Body}    = $GenericAgentArticle{Body}    || '';
+                $ContentType                             = $GenericAgentArticle{ContentType};
             }
         }
 
         my $ArticleID = $TicketObject->ArticleCreate(
             TicketID    => $Param{TicketID},
             ArticleType => $Param{Config}->{New}->{Note}->{ArticleType}
-                            || $Param{Config}->{New}->{ArticleType}
-                            || 'note-internal',
-            SenderType  => 'agent',
-            From        => $Param{Config}->{New}->{Note}->{From}
+                || $Param{Config}->{New}->{ArticleType}
+                || 'note-internal',
+            SenderType => 'agent',
+            From       => $Param{Config}->{New}->{Note}->{From}
                 || $Param{Config}->{New}->{NoteFrom}
                 || 'GenericAgent',
             Subject => $Param{Config}->{New}->{Note}->{Subject}
@@ -1483,21 +1477,11 @@ sub _JobUpdateRunTime {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # check if job name already exists
-    return if !$DBObject->Prepare(
-        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
-        Bind => [ \$Param{Name} ],
+    # delete old run times
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM generic_agent_jobs WHERE job_name = ? AND job_key IN (?, ?)',
+        Bind => [ \$Param{Name}, \'ScheduleLastRun', \'ScheduleLastRunUnixTime' ],
     );
-    my @Data;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
-            push @Data,
-                {
-                Key   => $Row[0],
-                Value => $Row[1]
-                };
-        }
-    }
 
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -1514,15 +1498,6 @@ sub _JobUpdateRunTime {
         $DBObject->Do(
             SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
-        );
-    }
-
-    # remove old times
-    for my $Time (@Data) {
-        $DBObject->Do(
-            SQL => 'DELETE FROM generic_agent_jobs WHERE '
-                . 'job_name = ? AND job_key = ? AND job_value = ?',
-            Bind => [ \$Param{Name}, \$Time->{Key}, \$Time->{Value} ],
         );
     }
 

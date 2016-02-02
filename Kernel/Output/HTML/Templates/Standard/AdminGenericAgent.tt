@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -894,6 +894,81 @@ Core.Agent.Admin.GenericAgent.Init({
                 </div>
             </div>
         </form>
+        <div class="WidgetSimple SpacingTop Collapsed">
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("Tag Reference") | html %]</h2>
+            </div>
+
+            <div class="Content">
+
+                <p>[% Translate("You can use the following tags") | html %]:</p>
+
+                <dl>
+                    <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 character of the subject.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the email.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_REALNAME&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the realname of the sender (if given).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the article attribute") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
+                        &lt;OTRS_CUSTOMER_Cc&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Attributes of the current customer user data") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Attributes of the ticket data") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
+                        &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Ticket dynamic fields internal key values") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+                </dl>
+
+                <p class="SpacingTop">
+                    [% Translate("Example notification") | html %]:
+                </p>
+                <label for="SubjectExample">[% Translate("Subject") | html %]</label>:
+                <input type="text" name="SubjectExample" id="SubjectExample" value="Ticket Created: &lt;OTRS_TICKET_Title&gt;" size="80" maxlength="80" readonly />
+                <br/>
+                <label for="ResponseExample">[% Translate("Text") | html %]</label>:
+                <br/>
+                <textarea rows="10" cols="70" name="ResponseExample" id="ResponseExample" readonly>
+Hi &lt;OTRS_CUSTOMER_To&gt;,
+
+ticket &lt;OTRS_TICKET_TicketNumber&gt; has been created in queue &lt;OTRS_TICKET_Queue&gt;.
+
+&lt;OTRS_CUSTOMER_REALNAME&gt; wrote:
+&lt;OTRS_CUSTOMER_Body[30]&gt;
+
+                </textarea>
+            </div>
+        </div>
 [% RenderBlockEnd("Edit") %]
 
 [% RenderBlockStart("Result") %]
@@ -910,6 +985,12 @@ Core.Agent.Admin.GenericAgent.Init({
                     [% Translate("Warning: You used the DELETE option. All deleted tickets will be lost!") | html %]
                 </p>
 [% RenderBlockEnd("DeleteWarning") %]
+
+[% RenderBlockStart("RunLimit") %]
+                <p class="Error">
+                    [% Translate("Warning: There are %s tickets affected but only %s may be modified during one job execution!", Data.Counter, Data.RunLimit) | html %]
+                </p>
+[% RenderBlockEnd("RunLimit") %]
 
                 <div class="SpacingTop">
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Profile=[% Data.Name | uri %]">
@@ -969,7 +1050,6 @@ Core.Agent.Admin.GenericAgent.Init({
         </div>
 [% RenderBlockEnd("ResultBlock") %]
 [% RenderBlockEnd("Result") %]
-
     </div>
     <div class="Clear"></div>
 </div>
