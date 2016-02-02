@@ -14,9 +14,17 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $ServiceObject      = $Kernel::OM->Get('Kernel::System::Service');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # don't check email address validity
 $ConfigObject->Set(
@@ -42,7 +50,7 @@ for my $ServiceID (@OriginalDefaultServices) {
 }
 
 # add service1
-my $ServiceRand1 = 'SomeService' . int( rand(1000000) );
+my $ServiceRand1 = 'SomeService' . $Helper->GetRandomID();
 my $ServiceID1   = $ServiceObject->ServiceAdd(
     Name    => $ServiceRand1,
     Comment => 'Some Comment',
@@ -56,7 +64,7 @@ $Self->True(
 );
 
 # add service2
-my $ServiceRand2 = 'SomeService' . int( rand(1000000) );
+my $ServiceRand2 = 'SomeService' . $Helper->GetRandomID();
 my $ServiceID2   = $ServiceObject->ServiceAdd(
     Name    => $ServiceRand2,
     Comment => 'Some Comment',
@@ -69,9 +77,9 @@ $Self->True(
     'ServiceAdd2()',
 );
 
-my $CustomerUser1 = $HelperObject->TestCustomerUserCreate()
+my $CustomerUser1 = $Helper->TestCustomerUserCreate()
     || die "Did not get test customer user";
-my $CustomerUser2 = $HelperObject->TestCustomerUserCreate()
+my $CustomerUser2 = $Helper->TestCustomerUserCreate()
     || die "Did not get test customer user";
 
 # allocation test 1
@@ -357,7 +365,7 @@ $Self->True(
 my %Customer = $CustomerUserObject->CustomerUserDataGet(
     User => $CustomerUser1,
 );
-my $NewCustomerUser1 = $HelperObject->GetRandomID();
+my $NewCustomerUser1 = $Helper->GetRandomID();
 my $Update           = $CustomerUserObject->CustomerUserUpdate(
     %Customer,
     ID        => $Customer{UserLogin},
@@ -397,86 +405,6 @@ $Self->Is(
     "Services allocated to new customer $NewCustomerUser1 after rename",
 );
 
-# rename customer user again so record can be deleted when test finishes
-$Update = $CustomerUserObject->CustomerUserUpdate(
-    %Customer,
-    ID        => $NewCustomerUser1,
-    UserLogin => $Customer{UserLogin},
-    UserID    => 1,
-);
-
-# delete all test allocations to clean system
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => '<DEFAULT>',
-    ServiceID         => $ServiceID1,
-    Active            => 0,
-    UserID            => 1,
-);
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => '<DEFAULT>',
-    ServiceID         => $ServiceID2,
-    Active            => 0,
-    UserID            => 1,
-);
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $CustomerUser1,
-    ServiceID         => $ServiceID1,
-    Active            => 0,
-    UserID            => 1,
-);
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $CustomerUser1,
-    ServiceID         => $ServiceID2,
-    Active            => 0,
-    UserID            => 1,
-);
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $CustomerUser2,
-    ServiceID         => $ServiceID1,
-    Active            => 0,
-    UserID            => 1,
-);
-$ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $CustomerUser2,
-    ServiceID         => $ServiceID2,
-    Active            => 0,
-    UserID            => 1,
-);
-
-# restore all original default services
-for my $ServiceID (@OriginalDefaultServices) {
-    $ServiceObject->CustomerUserServiceMemberAdd(
-        CustomerUserLogin => '<DEFAULT>',
-        ServiceID         => $ServiceID,
-        Active            => 1,
-        UserID            => 1,
-    );
-}
-
-# set service1 invalid
-my $ServiceUpdate1 = $ServiceObject->ServiceUpdate(
-    ServiceID => $ServiceID1,
-    Name      => $ServiceRand1,
-    ValidID   => 2,
-    UserID    => 1,
-);
-
-$Self->True(
-    $ServiceUpdate1,
-    'ServiceUpdate1()',
-);
-
-# set service2 invalid
-my $ServiceUpdate2 = $ServiceObject->ServiceUpdate(
-    ServiceID => $ServiceID2,
-    Name      => $ServiceRand2,
-    ValidID   => 2,
-    UserID    => 1,
-);
-
-$Self->True(
-    $ServiceUpdate2,
-    'ServiceUpdate2()',
-);
+# cleanup is done by RestoreDatabase
 
 1;
