@@ -17,6 +17,15 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $Data         = $ConfigObject->Get('CustomerCompany');
 my $DefaultValue = $Data->{Params}->{Table};
 
@@ -79,7 +88,7 @@ my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
-    my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
+    my $CompanyRand = 'Example-Customer-Company' . $Key . $Helper->GetRandomID();
 
     my $CustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CompanyRand,
@@ -276,7 +285,7 @@ $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
-    my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
+    my $CompanyRand = 'Example-Customer-Company' . $Key . $Helper->GetRandomID();
 
     my $CustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CompanyRand,
@@ -432,5 +441,7 @@ $Self->False(
     scalar keys %CustomerCompanyList,
     "CustomerCompanyList() with Search",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

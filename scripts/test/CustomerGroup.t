@@ -14,9 +14,17 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
@@ -32,7 +40,7 @@ my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
 my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $GroupObject         = $Kernel::OM->Get('Kernel::System::Group');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 my $UID      = $RandomID;
 my $GID1     = 1;
@@ -861,5 +869,7 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;
