@@ -55,7 +55,7 @@ sub PreRun {
     my $PIDCreated = $Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
         Name  => $Self->Name(),
         Force => $Self->GetOption('force-pid'),
-        TTL   => 60 * 60 * 24 * 3,
+        TTL   => 60 * 60 * 6,
     );
     if ( !$PIDCreated ) {
         my $Error = "Unable to register the process in the database. Is another instance still running?\n";
