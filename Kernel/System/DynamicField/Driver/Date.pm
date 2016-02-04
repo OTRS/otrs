@@ -13,6 +13,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+use Kernel::Language qw(Translatable);
+
 use base qw(Kernel::System::DynamicField::Driver::BaseDateTime);
 
 our @ObjectDependencies = (
