@@ -38,6 +38,7 @@ sub Run {
     $UsageText .= "\n<yellow>Options:</yellow>\n";
     GLOBALOPTION:
     for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+        next GLOBALOPTION if $Option->{Invisible};
         my $OptionShort = "[--$Option->{Name}]";
         $UsageText .= sprintf " <green>%-40s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }
