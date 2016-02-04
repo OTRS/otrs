@@ -14,11 +14,10 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+# get main object
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-my $Home = $ConfigObject->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test #1
 my @Array = ();

@@ -15,9 +15,7 @@ use vars (qw($Self));
 use File::Basename;
 use File::Copy;
 
-use Kernel::System::ObjectManager;
-
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my ( $Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix );

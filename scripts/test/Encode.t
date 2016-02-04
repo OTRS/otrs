@@ -14,8 +14,7 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
 # convert tests

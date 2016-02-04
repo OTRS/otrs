@@ -12,10 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
-# get needed objects
+# get event object
 my $EventObject = $Kernel::OM->Get('Kernel::System::Event');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my %EventList = $EventObject->EventList();
 
@@ -46,5 +52,7 @@ $Self->Is(
     undef,
     "EventListTicket() Article"
 );
+
+# cleanup is done by RestoreDatabase
 
 1;
