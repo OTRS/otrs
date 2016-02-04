@@ -12,13 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
-# get needed objects
+# get SystemAddress object
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # add SystemAddress
-my $SystemAddressEmail    = 'example-SystemAddress' . int( rand(1000000) ) . '@example.com';
+my $SystemAddressEmail    = 'example-SystemAddress' . $Helper->GetRandomID() . '@example.com';
 my $SystemAddressRealname = "OTRS-Team";
 
 my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
@@ -93,28 +99,16 @@ $Self->Is(
 );
 
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
-my $Hit = 0;
-for ( sort keys %SystemAddressList ) {
-    if ( $_ eq $SystemAddressID ) {
-        $Hit = 1;
-    }
-}
 $Self->True(
-    $Hit eq 1,
-    'SystemAddressList()',
+    exists $SystemAddressList{$SystemAddressID} && $SystemAddressList{$SystemAddressID} eq $SystemAddressEmail,
+    "SystemAddressList() contains the SystemAddress $SystemAddressID",
 );
 
 # caching
-%SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
-$Hit = 0;
-for ( sort keys %SystemAddressList ) {
-    if ( $_ eq $SystemAddressID ) {
-        $Hit = 1;
-    }
-}
+%SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 1 );
 $Self->True(
-    $Hit eq 1,
-    'SystemAddressList()',
+    exists $SystemAddressList{$SystemAddressID} && $SystemAddressList{$SystemAddressID} eq $SystemAddressEmail,
+    "SystemAddressList() contains the SystemAddress $SystemAddressID",
 );
 
 my @Tests = (
@@ -201,5 +195,41 @@ $Self->Is(
     2,
     'SystemAddressGet() - ValidID',
 );
+
+# add test valid system address
+my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
+    Name     => $SystemAddressEmail . 'first',
+    Realname => $SystemAddressRealname . 'first',
+    Comment  => 'some comment',
+    QueueID  => 3,
+    ValidID  => 1,
+    UserID   => 1,
+);
+
+# test SystemAddressQueueList() method - get all addresses
+my %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 0 );
+
+$Self->True(
+    exists $SystemQueues{'1'} && $SystemQueues{'1'} == $SystemAddressID,
+    "SystemAddressQueueList() contains the queue 1 of the SystemAddress $SystemAddressID",
+);
+$Self->True(
+    exists $SystemQueues{'3'} && $SystemQueues{'3'} == $SystemAddressID1,
+    "SystemAddressQueueList() contains the queue 3 of the SystemAddress $SystemAddressID1",
+);
+
+# test SystemAddressQueueList() method -  get only valid system addresses
+%SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 1 );
+
+$Self->False(
+    exists $SystemQueues{'1'} && $SystemQueues{'1'} == $SystemAddressID,
+    "SystemAddressQueueList() does not contains the queue 1 of the SystemAddress $SystemAddressID",
+);
+$Self->True(
+    exists $SystemQueues{'3'} && $SystemQueues{'3'} == $SystemAddressID1,
+    "SystemAddressQueueList() contains the invalid queue 2 of the SystemAddress $SystemAddressID1",
+);
+
+# cleanup is done by RestoreDatabase
 
 1;

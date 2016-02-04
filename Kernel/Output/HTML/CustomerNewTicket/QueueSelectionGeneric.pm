@@ -86,12 +86,7 @@ sub Run {
                 Type           => 'create',
                 Action         => $Param{Env}->{Action},
             );
-            my %SystemTos = $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
-                Table => 'system_address',
-                What  => 'queue_id, id',
-                Valid => 1,
-                Clamp => 1,
-            );
+            my %SystemTos = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList();
             for my $QueueID ( sort keys %Queues ) {
                 if ( $SystemTos{$QueueID} ) {
                     $Tos{$QueueID} = $Queues{$QueueID};

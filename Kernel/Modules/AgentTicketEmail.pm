@@ -2051,12 +2051,7 @@ sub _GetTos {
             );
         }
         else {
-            %Tos = $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
-                Table => 'system_address',
-                What  => 'queue_id, id',
-                Valid => 1,
-                Clamp => 1,
-            );
+            %Tos = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList();
         }
 
         # get create permission queues
