@@ -14,22 +14,16 @@ use vars (qw($Self));
 
 local $ENV{TZ} = 'UTC';
 
-use Kernel::System::ObjectManager;
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::Output::HTML::Layout' => {
-        Lang => 'en',
-    },
-    'Kernel::System::Auth::TwoFactor::GoogleAuthenticator' => {
-        Count => 10,
-    },
-    'Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator' => {
-        Count => 10,
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 0,
+        RestoreDatabase            => 0,
     },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get helper object
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
@@ -46,7 +40,7 @@ $ConfigObject->Set(
 );
 
 # set fixed time to have predetermined verifiable results
-$HelperObject->FixedTimeSet(0);
+$Helper->FixedTimeSet(0);
 
 # get time object
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -72,8 +66,8 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $UserRand1     = 'example-user' . int rand 1000000;
-my $CustomerRand1 = 'example-customer' . int rand 1000000;
+my $UserRand     = 'example-user' . $Helper->GetRandomID();
+my $CustomerRand = 'example-customer' . $Helper->GetRandomID();
 
 my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
@@ -82,18 +76,19 @@ my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $TestUserID = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
-    UserLogin     => $UserRand1,
-    UserEmail     => $UserRand1 . '@example.com',
+    UserLogin     => $UserRand,
+    UserEmail     => $UserRand . '@example.com',
     ValidID       => 1,
     ChangeUserID  => 1,
 ) || die "Could not create test user";
+
 my $TestCustomerUserID = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'Firstname Test',
     UserLastname   => 'Lastname Test',
-    UserCustomerID => $CustomerRand1,
-    UserLogin      => $CustomerRand1,
-    UserEmail      => $CustomerRand1 . '@example.com',
+    UserCustomerID => $CustomerRand,
+    UserLogin      => $CustomerRand,
+    UserEmail      => $CustomerRand . '@example.com',
     UserPassword   => 'some_pass',
     ValidID        => 1,
     UserID         => 1,
@@ -119,7 +114,15 @@ for my $ConfigKey ( sort keys %CurrentConfig ) {
     );
 }
 
-# create google authenticator object
+# create Google authenticator object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::Auth::TwoFactor::GoogleAuthenticator' => {
+        Count => 10,
+    },
+    'Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator' => {
+        Count => 10,
+    },
+);
 my $AuthTwoFactorObject         = $Kernel::OM->Get('Kernel::System::Auth::TwoFactor::GoogleAuthenticator');
 my $CustomerAuthTwoFactorObject = $Kernel::OM->Get('Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator');
 
@@ -208,7 +211,7 @@ for my $Test (@Tests) {
         $CustomerUserObject->SetPreferences(
             Key    => 'UnitTestUserGoogleAuthenticatorSecretKey',
             Value  => $CurrentConfig{Secret},
-            UserID => $CustomerRand1,
+            UserID => $CustomerRand,
         );
     }
 
@@ -244,12 +247,12 @@ for my $Test (@Tests) {
     # update time if necessary
     if ( ( $Test->{FixedTimeSet} || 0 ) ne $CurrentConfig{Time} ) {
         $CurrentConfig{Time} = $Test->{FixedTimeSet} || 0;
-        $HelperObject->FixedTimeSet( $CurrentConfig{Time} );
+        $Helper->FixedTimeSet( $CurrentConfig{Time} );
     }
 
     # test agent auth
     my $AuthResult = $AuthTwoFactorObject->Auth(
-        User           => $UserRand1,
+        User           => $UserRand,
         UserID         => $TestUserID,
         TwoFactorToken => $Test->{TwoFactorToken},
     );
@@ -261,7 +264,7 @@ for my $Test (@Tests) {
 
     # test customer auth
     my $CustomerAuthResult = $CustomerAuthTwoFactorObject->Auth(
-        User           => $CustomerRand1,
+        User           => $CustomerRand,
         TwoFactorToken => $Test->{TwoFactorToken},
     );
     $Self->Is(
@@ -271,25 +274,6 @@ for my $Test (@Tests) {
     );
 }
 
-$TestUserID = $UserObject->UserUpdate(
-    UserID        => $TestUserID,
-    UserFirstname => 'Firstname Test1',
-    UserLastname  => 'Lastname Test1',
-    UserLogin     => $UserRand1,
-    UserEmail     => $UserRand1 . '@example.com',
-    ValidID       => 2,
-    ChangeUserID  => 1,
-) || die "Could not invalidate test user";
-$TestCustomerUserID = $CustomerUserObject->CustomerUserUpdate(
-    Source         => 'CustomerUser',
-    UserFirstname  => 'Firstname Test',
-    UserLastname   => 'Lastname Test',
-    UserCustomerID => $CustomerRand1,
-    UserLogin      => $CustomerRand1,
-    UserEmail      => $CustomerRand1 . '@example.com',
-    ValidID        => 2,
-    UserID         => 1,
-    ID             => $CustomerRand1,
-) || die "Could not invalidate test customer";
+# cleanup is done by RestoreDatabase
 
 1;
