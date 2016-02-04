@@ -658,19 +658,6 @@ sub MaskAgentZoom {
         TemplateTypes => 1,
     );
 
-    # get user object
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-    # owner info
-    my %OwnerInfo = $UserObject->GetUserData(
-        UserID => $Ticket{OwnerID},
-    );
-
-    # responsible info
-    my %ResponsibleInfo = $UserObject->GetUserData(
-        UserID => $Ticket{ResponsibleID} || 1,
-    );
-
     # get cofig object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -869,19 +856,43 @@ sub MaskAgentZoom {
         @ArticleBoxShown = @ArticleBox;
     }
 
-    # set display options
-    $Param{WidgetTitle} = Translatable('Ticket Information');
-    $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
+    my %Widgets;
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    WIDGET:
+    for my $Key ( sort keys %{ $Self->{DisplaySettings}->{Widgets} // {} } ) {
+        my $Config = $Self->{DisplaySettings}->{Widgets}->{$Key};
+        my $Success = eval { $MainObject->Require( $Config->{Module} ) };
+        next WIDGET if !$Success;
+        my $Module = eval { $Config->{Module}->new(%$Self) };
+        if ( !$Module ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "new() of Widget module $Config->{Module} not successful!",
 
-    # check if ticket is normal or process ticket
-    my $IsProcessTicket = $TicketObject->TicketCheckForProcessType(
-        'TicketID' => $Self->{TicketID}
-    );
-
-    # overwrite display options for process ticket
-    if ($IsProcessTicket) {
-        $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
+            );
+            next WIDGET;
+        }
+        my $WidgetOutput = $Module->Run(
+            Ticket    => \%Ticket,
+            AclAction => \%AclAction,
+            Config    => $Config,
+        );
+        if ( !$WidgetOutput ) {
+            next WIDGET;
+        }
+        $WidgetOutput->{Rank} //= $Key;
+        my $Location = $WidgetOutput->{Location} || $Config->{Location};
+        push @{ $Widgets{$Location} }, $WidgetOutput;
     }
+    for my $Location ( sort keys %Widgets ) {
+        $Param{ $Location . 'Widgets' } = [
+            map      { $_->{Output} }
+                sort { $a->{Rank} cmp $b->{Rank} } @{ $Widgets{$Location} }
+        ];
+    }
+
+    # set display options
+    $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
 
     # only show article tree if articles are present,
     # or if a filter is set (so that the user has the option to
@@ -1092,150 +1103,13 @@ sub MaskAgentZoom {
 
     # show created by if different then User ID 1
     if ( $Ticket{CreateBy} > 1 ) {
+
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
         $Ticket{CreatedByUser} = $UserObject->UserName( UserID => $Ticket{CreateBy} );
         $LayoutObject->Block(
             Name => 'CreatedBy',
             Data => {%Ticket},
-        );
-    }
-
-    if ( $Ticket{ArchiveFlag} eq 'y' ) {
-        $LayoutObject->Block(
-            Name => 'ArchiveFlag',
-            Data => { %Ticket, %AclAction },
-        );
-    }
-
-    # ticket type
-    if ( $ConfigObject->Get('Ticket::Type') ) {
-
-        my %Type = $Kernel::OM->Get('Kernel::System::Type')->TypeGet(
-            ID => $Ticket{TypeID},
-        );
-
-        $LayoutObject->Block(
-            Name => 'Type',
-            Data => {
-                Valid => $Type{ValidID},
-                %Ticket,
-                %AclAction
-            },
-        );
-    }
-
-    # ticket service
-    if ( $ConfigObject->Get('Ticket::Service') && $Ticket{Service} ) {
-        $LayoutObject->Block(
-            Name => 'Service',
-            Data => { %Ticket, %AclAction },
-        );
-        if ( $Ticket{SLA} ) {
-            $LayoutObject->Block(
-                Name => 'SLA',
-                Data => { %Ticket, %AclAction },
-            );
-        }
-    }
-
-    # show first response time if needed
-    if ( defined $Ticket{FirstResponseTime} ) {
-        $Ticket{FirstResponseTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{FirstResponseTime},
-            Space => ' ',
-        );
-        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{FirstResponseTimeWorkingTime},
-            Space => ' ',
-        );
-        if ( 60 * 60 * 1 > $Ticket{FirstResponseTime} ) {
-            $Ticket{FirstResponseTimeClass} = 'Warning';
-        }
-        $LayoutObject->Block(
-            Name => 'FirstResponseTime',
-            Data => { %Ticket, %AclAction },
-        );
-    }
-
-    # show update time if needed
-    if ( defined $Ticket{UpdateTime} ) {
-        $Ticket{UpdateTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{UpdateTime},
-            Space => ' ',
-        );
-        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{UpdateTimeWorkingTime},
-            Space => ' ',
-        );
-        if ( 60 * 60 * 1 > $Ticket{UpdateTime} ) {
-            $Ticket{UpdateTimeClass} = 'Warning';
-        }
-        $LayoutObject->Block(
-            Name => 'UpdateTime',
-            Data => { %Ticket, %AclAction },
-        );
-    }
-
-    # show solution time if needed
-    if ( defined $Ticket{SolutionTime} ) {
-        $Ticket{SolutionTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{SolutionTime},
-            Space => ' ',
-        );
-        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{SolutionTimeWorkingTime},
-            Space => ' ',
-        );
-        if ( 60 * 60 * 1 > $Ticket{SolutionTime} ) {
-            $Ticket{SolutionTimeClass} = 'Warning';
-        }
-        $LayoutObject->Block(
-            Name => 'SolutionTime',
-            Data => { %Ticket, %AclAction },
-        );
-    }
-
-    # show total accounted time if feature is active:
-    if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
-        $Ticket{TicketTimeUnits} = $TicketObject->TicketAccountedTimeGet(%Ticket);
-        $LayoutObject->Block(
-            Name => 'TotalAccountedTime',
-            Data => \%Ticket,
-        );
-    }
-
-    # show pending until, if set:
-    if ( $Ticket{UntilTime} ) {
-        if ( $Ticket{UntilTime} < -1 ) {
-            $Ticket{PendingUntilClass} = 'Warning';
-        }
-
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        $Ticket{UntilTimeHuman} = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => ( $Ticket{UntilTime} + $TimeObject->SystemTime() ),
-        );
-        $Ticket{PendingUntil} .= $LayoutObject->CustomerAge(
-            Age   => $Ticket{UntilTime},
-            Space => ' '
-        );
-        $LayoutObject->Block(
-            Name => 'PendingUntil',
-            Data => \%Ticket,
-        );
-    }
-
-    # show owner
-    $LayoutObject->Block(
-        Name => 'Owner',
-        Data => { %Ticket, %OwnerInfo, %AclAction },
-    );
-
-    # show responsible
-    if ( $ConfigObject->Get('Ticket::Responsible') ) {
-        $LayoutObject->Block(
-            Name => 'Responsible',
-            Data => { %Ticket, %ResponsibleInfo, %AclAction },
         );
     }
 
@@ -1245,6 +1119,11 @@ sub MaskAgentZoom {
             Name => 'HintNoArticles',
         );
     }
+
+    # check if ticket is normal or process ticket
+    my $IsProcessTicket = $TicketObject->TicketCheckForProcessType(
+        'TicketID' => $Self->{TicketID}
+    );
 
     # show process widget  and activity dialogs on process tickets
     if ($IsProcessTicket) {
@@ -1673,48 +1552,6 @@ sub MaskAgentZoom {
         $LayoutObject->Block(
             Name => 'CustomerTable',
             Data => \%Param,
-        );
-    }
-
-    # get linked objects
-    my $LinkListWithData = $Kernel::OM->Get('Kernel::System::LinkObject')->LinkListWithData(
-        Object           => 'Ticket',
-        Key              => $Self->{TicketID},
-        State            => 'Valid',
-        UserID           => $Self->{UserID},
-        ObjectParameters => {
-            Ticket => {
-                IgnoreLinkedTicketStateTypes => 1,
-            },
-        },
-    );
-
-    # get link table view mode
-    my $LinkTableViewMode = $ConfigObject->Get('LinkObject::ViewMode');
-
-    # create the link table
-    my $LinkTableStrg = $LayoutObject->LinkObjectTableCreate(
-        LinkListWithData => $LinkListWithData,
-        ViewMode         => $LinkTableViewMode,
-    );
-
-    # output the simple link table
-    if ( $LinkTableStrg && $LinkTableViewMode eq 'Simple' ) {
-        $LayoutObject->Block(
-            Name => 'LinkTableSimple',
-            Data => {
-                LinkTableStrg => $LinkTableStrg,
-            },
-        );
-    }
-
-    # output the complex link table
-    if ( $LinkTableStrg && $LinkTableViewMode eq 'Complex' ) {
-        $LayoutObject->Block(
-            Name => 'LinkTableComplex',
-            Data => {
-                LinkTableStrg => $LinkTableStrg,
-            },
         );
     }
 
