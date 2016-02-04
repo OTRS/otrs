@@ -273,7 +273,7 @@ my $ResetMembership = sub {
     }
 };
 
-# reset memberchip
+# reset membership
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -285,7 +285,7 @@ $ConfigObject->Set(
     Value => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
 );
 
-# reset memberchip with AlwaysGroups
+# reset membership with AlwaysGroups
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -297,7 +297,7 @@ $ConfigObject->Set(
     Value => [],
 );
 
-# reset memberchip
+# reset membership
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -347,7 +347,7 @@ $ResetMembership->(
         Config => {
             Type    => 'ro',
             Result  => 'Name',
-            UserID  => 'Notexistent' . $RandomID,
+            UserID  => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResult => [],
@@ -358,7 +358,7 @@ $ResetMembership->(
         Config => {
             Type    => 'ro',
             Result  => 'HASH',
-            UserID  => 'Notexistent' . $RandomID,
+            UserID  => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResult => {},
@@ -532,7 +532,7 @@ $ResetMembership->(
         ResetMembership => 1,
     },
     {
-        Name   => 'Mutiple With UserID - Result Name',
+        Name   => 'Multiple With UserID - Result Name',
         Config => {
             Type    => 'ro',
             Result  => 'Name',
@@ -814,7 +814,7 @@ for my $Test (@Tests) {
     {
         Name   => 'Wrong Group',
         Config => {
-            Group   => 'NonExistent' . $RandomID,
+            Group   => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResults => '',

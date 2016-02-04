@@ -13,11 +13,18 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-my $RandomID = $HelperObject->GetRandomNumber();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomNumber();
 my $UserID   = 1;
 
 my @Tests = (
@@ -39,7 +46,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'Test1', # add same field again - fail
+        Name          => 'Test1',    # add same field again - fail
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -254,7 +261,7 @@ for my $Test (@Tests) {
         Name => $FieldName,
     );
 
-    if ( $FieldNames{ $FieldName } ) {
+    if ( $FieldNames{$FieldName} ) {
         $Self->IsNotDeeply(
             $GetResult,
             {},
@@ -1446,7 +1453,7 @@ for my $ObjectType (qw(Ticket Article)) {
 # tests with more than one object type
 {
 
-    # cobine list for comparisons
+    # combine list for comparisons
     my @ListFieldIDs = (
         @TicketFieldIDs,
         @ArticleFieldIDs,
@@ -1609,7 +1616,7 @@ $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
 
 $Self->False(
     $OrderCheckSuccess,
-    'DynamicFieldOrderCheck() for duplicates, with Flase',
+    'DynamicFieldOrderCheck() for duplicates, with False',
 );
 
 # reset fields order
@@ -1617,7 +1624,7 @@ $OrderResetSuccess = $DynamicFieldObject->DynamicFieldOrderReset();
 
 $Self->True(
     $OrderResetSuccess,
-    'DynamicFieldOrderReset() remove dulicates, with True',
+    'DynamicFieldOrderReset() remove duplicates, with True',
 );
 
 $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
@@ -1657,7 +1664,7 @@ $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
 
 $Self->False(
     $OrderCheckSuccess,
-    'DynamicFieldOrderCheck() for gaps, with Flase',
+    'DynamicFieldOrderCheck() for gaps, with False',
 );
 
 # reset fields order
@@ -1688,5 +1695,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
         "DynamicFieldDelete() Field List() and ListGet() for Field ID $DynamicFieldID"
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;
