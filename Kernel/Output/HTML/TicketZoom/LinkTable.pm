@@ -81,7 +81,7 @@ sub Run {
         Data         => {},
     );
     return {
-        Location => 'Sidebar',
+        Location => $Location,
         Output   => $Output,
         Rank     => '0300',
     };
