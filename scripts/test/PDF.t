@@ -13,9 +13,16 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $PDFObject    = $Kernel::OM->Get('Kernel::System::PDF');
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+my $PDFObject  = $Kernel::OM->Get('Kernel::System::PDF');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create a pdf document
 my $DocumentNew1 = $PDFObject->DocumentNew(
@@ -2719,8 +2726,13 @@ $Self->True(
     "PageBlankNew2()",
 );
 
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+my $Home = $ConfigObject->Get('Home');
+
 my $FileContent1 = $MainObject->FileRead(
-    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt',
+    Location => $Home . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt',
 );
 
 my %CharsetTestData1;
@@ -2804,7 +2816,7 @@ $Self->True(
 );
 
 my $FileContent2 = $MainObject->FileRead(
-    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt',
+    Location => $Home . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt',
 );
 
 my %CharsetTestData2;
@@ -2888,7 +2900,7 @@ $Self->True(
 );
 
 my $FileContent3 = $MainObject->FileRead(
-    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt',
+    Location => $Home . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt',
 );
 
 my %CharsetTestData3;
@@ -2939,5 +2951,7 @@ $Self->True(
     $CharsetTest3Ok,
     "CharsetTest3()",
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;

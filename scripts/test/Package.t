@@ -14,15 +14,20 @@ use vars (qw($Self));
 
 use File::Copy;
 
-use Kernel::System::VariableCheck qw(:all);
-
 # get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
 my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $ConfigObject->Get('Home');
 
@@ -153,7 +158,7 @@ $Self->True(
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
-# check if the package is already installed - check by xml string
+# check if the package is already installed - check by XML string
 my $PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
 $Self->True(
     !$PackageIsInstalledByString,
@@ -223,7 +228,7 @@ $Self->True(
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
-# check if the package is already installed - check by xml string
+# check if the package is already installed - check by XML string
 $PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
 $Self->True(
     $PackageIsInstalledByString,
@@ -769,7 +774,7 @@ $PackageUpgrade = $PackageObject->PackageUpgrade( String => $String3b );
 
 $Self->True(
     $PackageUpgrade,
-    '#5 PackageUpgrade() - ok.',
+    '#5 PackageUpgrade() - OK.',
 );
 
 $CacheClearedCheck->();
@@ -1288,5 +1293,7 @@ if ( !$DeveloperSystem ) {
     # return the correct permissions to otrs.CheckSum.pl
     chmod 0755, $Home . '/' . 'bin/otrs.CheckSum.pl';
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

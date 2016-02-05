@@ -125,10 +125,11 @@ my %MD5SumOf = (
     xls => '39fae660239f62bb0e4a29fe14ff5663',
 );
 
+my $Home = $ConfigObject->Get('Home');
+
 for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $MainObject->MD5sum(
-        Filename => $ConfigObject->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extension",
+        Filename => $Home . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     $Self->Is(
         $MD5Sum || '',
@@ -137,14 +138,15 @@ for my $Extension (qw(doc pdf png txt xls)) {
     );
 }
 
+my $Path = $ConfigObject->Get('TempDir');
+
 # write & read some files via Directory/Filename
 for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $MainObject->MD5sum(
-        Filename => $ConfigObject->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extension",
+        Filename => $Home . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     my $Content = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Main/',
+        Directory => $Home . '/scripts/test/sample/Main/',
         Filename  => "Main-Test1.$Extension",
     );
     $Self->True(
@@ -152,7 +154,7 @@ for my $Extension (qw(doc pdf png txt xls)) {
         "FileRead() - Main-Test1.$Extension",
     );
     my $FileLocation = $MainObject->FileWrite(
-        Directory => $ConfigObject->Get('TempDir'),
+        Directory => $Path,
         Filename  => "me_öüto/al<>?Main-Test1.$Extension",
         Content   => $Content,
     );
@@ -161,7 +163,7 @@ for my $Extension (qw(doc pdf png txt xls)) {
         "FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $MainObject->MD5sum(
-        Filename => $ConfigObject->Get('TempDir') . '/' . $FileLocation,
+        Filename => $Path . '/' . $FileLocation,
     );
     $Self->Is(
         $MD5Sum2 || '',
@@ -169,7 +171,7 @@ for my $Extension (qw(doc pdf png txt xls)) {
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $MainObject->FileDelete(
-        Directory => $ConfigObject->Get('TempDir'),
+        Directory => $Path,
         Filename  => $FileLocation,
     );
     $Self->True(
@@ -181,20 +183,17 @@ for my $Extension (qw(doc pdf png txt xls)) {
 # write & read some files via Location
 for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $MainObject->MD5sum(
-        Filename => $ConfigObject->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extension",
+        Filename => $Home . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     my $Content = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Main/'
-            . "Main-Test1.$Extension",
+        Location => $Home . '/scripts/test/sample/Main/' . "Main-Test1.$Extension",
     );
     $Self->True(
         ${$Content} || '',
         "FileRead() - Main-Test1.$Extension",
     );
     my $FileLocation = $MainObject->FileWrite(
-        Location => $ConfigObject->Get('TempDir') . "Main-Test1.$Extension",
+        Location => $Path . "Main-Test1.$Extension",
         Content  => $Content,
     );
     $Self->True(
@@ -217,7 +216,7 @@ for my $Extension (qw(doc pdf png txt xls)) {
 # write / read ARRAYREF test
 my $Content      = "some\ntest\nöäüßカスタマ";
 my $FileLocation = $MainObject->FileWrite(
-    Directory => $ConfigObject->Get('TempDir'),
+    Directory => $Path,
     Filename  => "some-test.txt",
     Mode      => 'utf8',
     Content   => \$Content,
@@ -228,10 +227,10 @@ $Self->True(
 );
 
 my $ContentARRAYRef = $MainObject->FileRead(
-    Directory => $ConfigObject->Get('TempDir'),
+    Directory => $Path,
     Filename  => $FileLocation,
     Mode      => 'utf8',
-    Result    => 'ARRAY',                         # optional - SCALAR|ARRAY
+    Result    => 'ARRAY',         # optional - SCALAR|ARRAY
 );
 $Self->True(
     $ContentARRAYRef || '',
@@ -254,7 +253,7 @@ $Self->Is(
 );
 
 my $Success = $MainObject->FileDelete(
-    Directory => $ConfigObject->Get('TempDir'),
+    Directory => $Path,
     Filename  => $FileLocation,
 );
 $Self->True(
@@ -264,10 +263,9 @@ $Self->True(
 
 # check if the file have the correct charset
 my $ContentSCALARRef = $MainObject->FileRead(
-    Location => $ConfigObject->Get('Home')
-        . '/scripts/test/sample/Main/PDF-test2-utf-8.txt',
-    Mode   => 'utf8',
-    Result => 'SCALAR',
+    Location => $Home . '/scripts/test/sample/Main/PDF-test2-utf-8.txt',
+    Mode     => 'utf8',
+    Result   => 'SCALAR',
 );
 
 my $Text = ${$ContentSCALARRef};
@@ -283,8 +281,7 @@ $Self->True(
 );
 
 my $FileMTime = $MainObject->FileGetMTime(
-    Location => $ConfigObject->Get('Home')
-        . '/Kernel/Config.pm',
+    Location => $Home . '/Kernel/Config.pm',
 );
 
 $Self->True(
@@ -293,8 +290,7 @@ $Self->True(
 );
 
 my $FileMTimeNonexisting = $MainObject->FileGetMTime(
-    Location => $ConfigObject->Get('Home')
-        . '/Kernel/some.nonexisting.file',
+    Location => $Home . '/Kernel/some.nonexisting.file',
 );
 
 $Self->False(
@@ -303,7 +299,6 @@ $Self->False(
 );
 
 # testing DirectoryRead function
-my $Path                  = $ConfigObject->Get('TempDir');
 my $DirectoryWithFiles    = "$Path/WithFiles";
 my $DirectoryWithoutFiles = "$Path/WithoutFiles";
 my $SubDirA               = "$DirectoryWithFiles/a";

@@ -14,13 +14,18 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
+# get notification event object
 my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 my $UserID     = 1;
 my $TestNumber = 1;
@@ -28,7 +33,7 @@ my $TestNumber = 1;
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
 my $IsNotOracle = 1;
-if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
+if ( $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('Type') eq 'oracle' ) {
     $IsNotOracle = 0;
 }
 
@@ -196,7 +201,7 @@ my @Tests = (
         },
     },
 
-    # first sucessful add and update
+    # first successful add and update
     {
         Name          => 'Test ' . $TestNumber++,
         SuccessAdd    => 1,
@@ -640,8 +645,7 @@ $Self->Is(
     "Added Notification IDs- Right structure",
 );
 
-my @IDs = $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
-@IDs = sort @IDs;
+my @IDs = sort $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
 
 # verify NotificationEventCheck
 $Self->Is(
@@ -685,5 +689,7 @@ for my $NotificationID ( sort keys %NotificationIDs ) {
         "NotificationList() deleted entry - $NotificationID",
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

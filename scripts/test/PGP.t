@@ -15,6 +15,14 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # set config
 $ConfigObject->Set(
     Key   => 'PGP',
@@ -80,6 +88,7 @@ my %Check = (
 );
 
 my $TestText = 'hello1234567890öäüß';
+my $Home     = $ConfigObject->Get('Home');
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
@@ -94,7 +103,7 @@ for my $Count ( 1 .. 2 ) {
     for my $Privacy ( 'Private', 'Public' ) {
 
         my $KeyString = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $Home . "/scripts/test/sample/Crypt/",
             Filename  => "PGP${Privacy}Key-$Count.asc",
         );
         my $Message = $PGPObject->KeyAdd(
@@ -258,7 +267,7 @@ for my $Count ( 1 .. 2 ) {
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
         my $Content = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $Home . "/scripts/test/sample/Crypt/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );
@@ -406,7 +415,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get expired key
     my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-Expired.asc',
     );
 
@@ -430,7 +439,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get key
     $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-ToRevoke.asc',
     );
 
@@ -439,7 +448,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get key
     $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-RevokeCert.asc',
     );
 
@@ -491,5 +500,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count KeySearch()",
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;
