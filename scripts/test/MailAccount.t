@@ -12,9 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get needed objects
+# get mail account object
 my $MailAccountObject = $Kernel::OM->Get('Kernel::System::MailAccount');
 
 my $MailAccountAdd = $MailAccountObject->MailAccountAdd(
