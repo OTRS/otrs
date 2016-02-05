@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -196,6 +197,110 @@ sub Run {
     # overwrite display options for process ticket
     if ($IsProcessTicket) {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
+    }
+
+    # get dynamic field config for frontend module
+    my $DynamicFieldFilter = {
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
+        %{
+            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+                ->{ProcessWidgetDynamicField}
+                || {}
+        },
+    };
+
+    # get the dynamic fields for ticket object
+    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $DynamicFieldFilter || {},
+    );
+    my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # to store dynamic fields to be displayed in the process widget and in the sidebar
+    my ( @FieldsSidebar );
+
+    # cycle trough the activated Dynamic Fields for ticket object
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
+
+        # use translation here to be able to reduce the character length in the template
+        my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
+
+        my $ValueStrg = $DynamicFieldBeckendObject->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            LayoutObject       => $LayoutObject,
+            ValueMaxChars      => $ConfigObject->
+                Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')
+                || 18,    # limit for sidebar display
+        );
+
+        if ( $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} } ) {
+            push @FieldsSidebar, {
+                Name                        => $DynamicFieldConfig->{Name},
+                Title                       => $ValueStrg->{Title},
+                Value                       => $ValueStrg->{Value},
+                Label                       => $Label,
+                Link                        => $ValueStrg->{Link},
+                $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+            };
+        }
+
+        # example of dynamic fields order customization
+        $LayoutObject->Block(
+            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name},
+            Data => {
+                Label => $Label,
+            },
+        );
+
+        $LayoutObject->Block(
+            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name} . '_Plain',
+            Data => {
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
+            },
+        );
+    }
+
+    # output dynamic fields in the sidebar
+    for my $Field (@FieldsSidebar) {
+
+        $LayoutObject->Block(
+            Name => 'TicketDynamicField',
+            Data => {
+                Label => $Field->{Label},
+            },
+        );
+
+        if ( $Field->{Link} ) {
+            $LayoutObject->Block(
+                Name => 'TicketDynamicFieldLink',
+                Data => {
+                    %Ticket,
+
+                    # alias for ticket title, Title will be overwritten
+                    TicketTitle    => $Ticket{Title},
+                    Value          => $Field->{Value},
+                    Title          => $Field->{Title},
+                    Link           => $Field->{Link},
+                    $Field->{Name} => $Field->{Title},
+                },
+            );
+        }
+        else {
+            $LayoutObject->Block(
+                Name => 'TicketDynamicFieldPlain',
+                Data => {
+                    Value => $Field->{Value},
+                    Title => $Field->{Title},
+                },
+            );
+        }
     }
 
     my $Output = $LayoutObject->Output(
