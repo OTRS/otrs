@@ -1146,15 +1146,6 @@ sub MaskAgentZoom {
             ActivityEntityID => $Ticket{$ActivityEntityIDField},
         );
 
-        # output process information in the sidebar
-        $LayoutObject->Block(
-            Name => 'ProcessData',
-            Data => {
-                Process  => $ProcessData->{Name}  || '',
-                Activity => $ActivityData->{Name} || '',
-            },
-        );
-
         # output the process widget the the main screen
         $LayoutObject->Block(
             Name => 'ProcessWidget',

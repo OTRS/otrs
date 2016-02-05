@@ -197,6 +197,32 @@ sub Run {
     # overwrite display options for process ticket
     if ($IsProcessTicket) {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
+
+        # get the DF where the ProcessEntityID is stored
+        my $ProcessEntityIDField = 'DynamicField_'
+            . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
+
+        # get the DF where the AtivityEntityID is stored
+        my $ActivityEntityIDField = 'DynamicField_'
+            . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
+
+
+        my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
+            ProcessEntityID => $Ticket{$ProcessEntityIDField},
+        );
+        my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+            Interface        => 'AgentInterface',
+            ActivityEntityID => $Ticket{$ActivityEntityIDField},
+        );
+
+        # output process information in the sidebar
+        $LayoutObject->Block(
+            Name => 'ProcessData',
+            Data => {
+                Process  => $ProcessData->{Name}  || '',
+                Activity => $ActivityData->{Name} || '',
+            },
+        );
     }
 
     # get dynamic field config for frontend module
