@@ -357,45 +357,6 @@ sub CustomerSearch {
     return %Users;
 }
 
-sub CustomerUserList {
-    my ( $Self, %Param ) = @_;
-
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Users = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => "CustomerUserList::$Valid",
-        );
-        return %{$Users} if ref $Users eq 'HASH';
-    }
-
-    # do not use valid option if no valid option is used
-    if ( !$Self->{CustomerUserMap}->{CustomerValid} ) {
-        $Valid = 0;
-    }
-
-    # get data
-    my %Users = $Self->{DBObject}->GetTableData(
-        What  => "$Self->{CustomerKey}, $Self->{CustomerKey}, $Self->{CustomerID}",
-        Table => $Self->{CustomerTable},
-        Clamp => 1,
-        Valid => $Valid,
-    );
-
-    # cache request
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => "CustomerUserList::$Valid",
-            Value => \%Users,
-            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
-        );
-    }
-    return %Users;
-}
-
 sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 

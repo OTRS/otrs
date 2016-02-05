@@ -14,6 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Valid',
 );
 
 =head1 NAME
@@ -211,10 +212,16 @@ sub SignatureUpdate {
 
 get signature list
 
-    my %List = $SignatureObject->SignatureList();
-
     my %List = $SignatureObject->SignatureList(
-        Valid => 0,
+        Valid => 0,  # optional, defaults to 1
+    );
+
+returns:
+
+        %List = (
+          '1' => 'Some Name' ( Filname ),
+          '2' => 'Some Name' ( Filname ),
+          '3' => 'Some Name' ( Filname ),
     );
 
 =cut
@@ -222,19 +229,35 @@ get signature list
 sub SignatureList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    my $Valid = 1;
-    if ( !$Param{Valid} && defined $Param{Valid} ) {
-        $Valid = 0;
+    # set default value
+    my $Valid = $Param{Valid} // 1;
+
+    # create the valid list
+    my $ValidIDs = join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
+    # build SQL
+    my $SQL = 'SELECT id, name FROM signature';
+
+    # add WHERE statement in case Valid param is set to '1', for valid system address
+    if ($Valid) {
+        $SQL .= ' WHERE valid_id IN (' . $ValidIDs . ')';
     }
 
-    # sql
-    return $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
-        What  => 'id, name',
-        Valid => $Valid,
-        Clamp => 1,
-        Table => 'signature',
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # get data from database
+    return if !$DBObject->Prepare(
+        SQL => $SQL,
     );
+
+    # fetch the result
+    my %SignatureList;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $SignatureList{ $Row[0] } = $Row[1];
+    }
+
+    return %SignatureList;
 }
 
 1;

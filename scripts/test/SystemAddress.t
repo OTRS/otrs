@@ -222,8 +222,8 @@ $Self->True(
 %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 1 );
 
 $Self->False(
-    exists $SystemQueues{'1'} && $SystemQueues{'1'} == $SystemAddressID,
-    "SystemAddressQueueList() does not contains the queue 1 of the SystemAddress $SystemAddressID",
+    exists $SystemQueues{'1'},
+    "SystemAddressQueueList() does not contain the queue 1 of the SystemAddress $SystemAddressID",
 );
 $Self->True(
     exists $SystemQueues{'3'} && $SystemQueues{'3'} == $SystemAddressID1,

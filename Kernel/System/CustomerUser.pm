@@ -180,32 +180,6 @@ sub CustomerSearch {
     return %Data;
 }
 
-=item CustomerUserList()
-
-return a hash with all users (depreciated)
-
-    my %List = $CustomerUserObject->CustomerUserList(
-        Valid => 1, # not required
-    );
-
-=cut
-
-sub CustomerUserList {
-    my ( $Self, %Param ) = @_;
-
-    my %Data;
-    SOURCE:
-    for my $Count ( '', 1 .. 10 ) {
-
-        next SOURCE if !$Self->{"CustomerUser$Count"};
-
-        # get customer list result of backend and merge it
-        my %SubData = $Self->{"CustomerUser$Count"}->CustomerUserList(%Param);
-        %Data = ( %Data, %SubData );
-    }
-    return %Data;
-}
-
 =item CustomerIDList()
 
 return a list of with all known unique CustomerIDs of the registered customers users (no SearchTerm),

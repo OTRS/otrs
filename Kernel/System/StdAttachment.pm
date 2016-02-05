@@ -420,143 +420,56 @@ sub StdAttachmentLookup {
     return $DBValue;
 }
 
-=item StdAttachmentsByResponseID()
-
-DEPRECATED: This function will be removed in further versions of OTRS
-
-return a hash (ID => Name) of std. attachment by response id
-
-    my %StdAttachment = $StdAttachmentObject->StdAttachmentsByResponseID(
-        ID => 4711,
-    );
-
-=cut
-
-sub StdAttachmentsByResponseID {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got no ID!'
-        );
-        return;
-    }
-
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $DBObject->Quote( $Param{$_}, 'Integer' );
-    }
-
-    # return data
-    my %Relation = $DBObject->GetTableData(
-        Table => 'standard_template_attachment',
-        What  => 'standard_attachment_id, standard_template_id',
-        Where => "standard_template_id = $Param{ID}",
-    );
-    my %AllStdAttachments = $Self->StdAttachmentList( Valid => 1 );
-    my %Data;
-    for ( sort keys %Relation ) {
-        if ( $AllStdAttachments{$_} ) {
-            $Data{$_} = $AllStdAttachments{$_};
-        }
-        else {
-            delete $Data{$_};
-        }
-    }
-    return %Data;
-}
-
 =item StdAttachmentList()
 
-return a hash (ID => Name) of std. attachment
+get list of std. attachment - return a hash (ID => Name (Filname))
 
-    my %List = $StdAttachmentObject->StdAttachmentList();
+    my %List = $StdAttachmentObject->StdAttachmentList(
+        Valid => 0,  # optional, defaults to 1
+    );
 
-    my %List = $StdAttachmentObject->StdAttachmentList( Valid => 1 );
+returns:
+
+        %List = (
+          '1' => 'Some Name' ( Filname ),
+          '2' => 'Some Name' ( Filname ),
+          '3' => 'Some Name' ( Filname ),
+    );
 
 =cut
 
 sub StdAttachmentList {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined $Param{Valid} ) {
-        $Param{Valid} = 1;
+    # set default value
+    my $Valid = $Param{Valid} // 1;
+
+    # create the valid list
+    my $ValidIDs = join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
+    # build SQL
+    my $SQL = 'SELECT id, name, filename FROM standard_attachment';
+
+    # add WHERE statement in case Valid param is set to '1', for valid StdAttachment
+    if ($Valid) {
+        $SQL .= ' WHERE valid_id IN (' . $ValidIDs . ')';
     }
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # return data
-    return $DBObject->GetTableData(
-        Table => 'standard_attachment',
-        What  => 'id, name, filename',
-        Clamp => 1,
-        Valid => $Param{Valid},
-    );
-}
-
-=item StdAttachmentSetResponses()
-
-DEPRECATED: This function will be removed in further versions of OTRS
-
-set std responses of response id
-
-    $StdAttachmentObject->StdAttachmentSetResponses(
-        ID               => 123,
-        AttachmentIDsRef => [1, 2, 3],
-        UserID           => 1,
+    # get data from database
+    return if !$DBObject->Prepare(
+        SQL => $SQL,
     );
 
-=cut
-
-sub StdAttachmentSetResponses {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(ID AttachmentIDsRef UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
-            return;
-        }
+    # fetch the result
+    my %StdAttachmentList;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $StdAttachmentList{ $Row[0] } = "$Row[1] ( $Row[2] )";
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # add attachments to response
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM standard_template_attachment WHERE standard_template_id = ?',
-        Bind => [ \$Param{ID} ],
-    );
-
-    ID:
-    for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
-
-        next ID if !$ID;
-
-        $DBObject->Do(
-            SQL => 'INSERT INTO standard_template_attachment (standard_attachment_id, '
-                . 'standard_template_id, create_time, create_by, change_time, change_by)'
-                . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
-            Bind => [
-                \$ID, \$Param{ID}, \$Param{UserID}, \$Param{UserID},
-            ],
-        );
-    }
-
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
-    );
-
-    return 1;
+    return %StdAttachmentList;
 }
 
 =item StdAttachmentStandardTemplateMemberAdd()

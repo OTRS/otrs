@@ -104,7 +104,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 
     $Self->True(
         exists $Groups{$GroupID} && $Groups{$GroupID} eq $GroupName,
-        'GroupList() contains group ' . $GroupName . ' with ID ' . $GroupID,
+        'GroupList() contains the group ' . $GroupName . ' with ID ' . $GroupID,
     );
 }
 
@@ -115,7 +115,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 
     $Self->True(
         exists $GroupDataList{$GroupID} && $GroupDataList{$GroupID}->{Name} eq $GroupName,
-        'GroupDataList() contains group ' . $GroupName . ' with ID ' . $GroupID,
+        'GroupDataList() contains the group ' . $GroupName . ' with ID ' . $GroupID,
     );
 }
 
@@ -192,7 +192,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 
     $Self->False(
         exists $Groups{$GroupID},
-        'GroupList() does not contains group ' . $GroupName . ' with ID ' . $GroupID,
+        'GroupList() does not contain the group ' . $GroupName . ' with ID ' . $GroupID,
     );
 }
 
@@ -203,7 +203,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 
     $Self->True(
         exists $Groups{$GroupID} && $Groups{$GroupID} eq $GroupName,
-        'GroupList() contains group ' . $GroupName . ' with ID ' . $GroupID,
+        'GroupList() contains the group ' . $GroupName . ' with ID ' . $GroupID,
     );
 }
 
