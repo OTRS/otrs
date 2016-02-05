@@ -14,21 +14,28 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $Home = $ConfigObject->Get('Home');
+
 {
     my $CSS = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.css',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Reset.css',
     );
 
     $CSS = ${$CSS};
 
     my $ExpectedCSS = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.min.css',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Reset.min.css',
     );
 
     $ExpectedCSS = ${$ExpectedCSS};
@@ -47,15 +54,13 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     );
 
     my $MinifiedCSSFile = $LoaderObject->GetMinifiedFile(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.css',
-        Type => 'CSS',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Reset.css',
+        Type     => 'CSS',
     );
 
     my $MinifiedCSSFileCached = $LoaderObject->GetMinifiedFile(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Reset.css',
-        Type => 'CSS',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Reset.css',
+        Type     => 'CSS',
     );
 
     $Self->Is(
@@ -73,8 +78,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 {
     my $JavaScript = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
     );
     $JavaScript = ${$JavaScript};
 
@@ -84,8 +88,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
     my $ExpectedJS = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.min.js',
+        Location => $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.min.js',
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
@@ -100,10 +103,8 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 {
     my $MinifiedJSFilename = $LoaderObject->MinifyFiles(
         List => [
-            $ConfigObject->Get('Home')
-                . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
-            $ConfigObject->Get('Home')
-                . '/scripts/test/sample/Loader/OTRS.Agent.App.Dashboard.js',
+            $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
+            $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Dashboard.js',
         ],
         Type            => 'JavaScript',
         TargetDirectory => $ConfigObject->Get('TempDir'),
@@ -116,10 +117,8 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
     my $MinifiedJSFilename2 = $LoaderObject->MinifyFiles(
         List => [
-            $ConfigObject->Get('Home')
-                . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
-            $ConfigObject->Get('Home')
-                . '/scripts/test/sample/Loader/OTRS.Agent.App.Dashboard.js',
+            $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
+            $Home . '/scripts/test/sample/Loader/OTRS.Agent.App.Dashboard.js',
         ],
         Type            => 'JavaScript',
         TargetDirectory => $ConfigObject->Get('TempDir'),
@@ -143,8 +142,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     $MinifiedJS =~ s{\r\n}{\n}xmsg;
 
     my $Expected = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home')
-            . '/scripts/test/sample/Loader/CombinedJavaScript.min.js',
+        Location => $Home . '/scripts/test/sample/Loader/CombinedJavaScript.min.js',
     );
     $Expected = ${$Expected};
     $Expected =~ s{\r\n}{\n}xmsg;
@@ -163,7 +161,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my @JSTests = (
 
     # this next test shows a case where the minification currently only works with
-    # parens around the regular expression. Without them, CSS::Minifier (currently 1.05) will die.
+    # parents around the regular expression. Without them, CSS::Minifier (currently 1.05) will die.
     {
         Source => 'function test(s) { return (/\d{1,2}/).test(s); }',
         Result => 'function test(s){return(/\d{1,2}/).test(s);}',
@@ -181,5 +179,7 @@ for my $Test (@JSTests) {
         $Test->{Name},
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

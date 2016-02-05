@@ -12,17 +12,21 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
-# get needed objects
+# get state object
 my $StateObject = $Kernel::OM->Get('Kernel::System::State');
 
-# add state
-my $StateNameRand0 = 'example-state' . int( rand(1000000) );
-my $StateNameRand1 = 'example-state' . int( rand(1000000) );
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $StateID = $StateObject->StateAdd(
-    Name    => $StateNameRand0,
+# add state
+my $StateName = 'state' . $Helper->GetRandomID();
+my $StateID   = $StateObject->StateAdd(
+    Name    => $StateName,
     Comment => 'some comment',
     ValidID => 1,
     TypeID  => 1,
@@ -37,7 +41,7 @@ $Self->True(
 my %State = $StateObject->StateGet( ID => $StateID );
 
 $Self->True(
-    $State{Name} eq $StateNameRand0,
+    $State{Name} eq $StateName,
     'StateGet() - Name',
 );
 $Self->True(
@@ -52,15 +56,9 @@ $Self->True(
 my %StateList = $StateObject->StateList(
     UserID => 1,
 );
-my $Hit = 0;
-for ( sort keys %StateList ) {
-    if ( $_ eq $StateID ) {
-        $Hit = 1;
-    }
-}
 $Self->True(
-    $Hit eq 1,
-    'StateList()',
+    exists $StateList{$StateID} && $StateList{$StateID} eq $StateName,
+    'StateList() contains the state ' . $StateName . ' with ID ' . $StateID,
 );
 
 my $StateType = $StateObject->StateTypeLookup(
@@ -76,24 +74,15 @@ my @List = $StateObject->StateGetStatesByType(
     StateType => [$StateType],
     Result    => 'ID',
 );
-
-$Hit = 0;
-STATEID:
-for my $StateListID (@List) {
-    if ( $StateID == $StateListID ) {
-        $Hit = 1;
-        last STATEID;
-    }
-}
-
 $Self->True(
-    $Hit eq 1,
-    'StateGetStatesByType()',
+    ( grep { $_ eq $StateID } @List ),
+    "StateGetStatesByType() contains the state $StateName with ID $StateID",
 );
 
-my $StateUpdate = $StateObject->StateUpdate(
+my $StateNameUpdate = $StateName . 'update';
+my $StateUpdate     = $StateObject->StateUpdate(
     ID      => $StateID,
-    Name    => $StateNameRand1,
+    Name    => $StateNameUpdate,
     Comment => 'some comment 1',
     ValidID => 2,
     TypeID  => 1,
@@ -105,29 +94,10 @@ $Self->True(
     'StateUpdate()',
 );
 
-@List = $StateObject->StateGetStatesByType(
-    StateType => [$StateType],
-    Result    => 'ID',
-);
-
-$Hit = 0;
-STATEID:
-for my $StateListID (@List) {
-    if ( $StateID == $StateListID ) {
-        $Hit = 1;
-        last STATEID;
-    }
-}
-
-$Self->True(
-    $Hit eq 0,
-    'StateGetStatesByType() after StateUpdate()',
-);
-
 %State = $StateObject->StateGet( ID => $StateID );
 
 $Self->True(
-    $State{Name} eq $StateNameRand1,
+    $State{Name} eq $StateNameUpdate,
     'StateGet() - Name',
 );
 $Self->True(
@@ -139,27 +109,29 @@ $Self->True(
     'StateGet() - ValidID',
 );
 
+@List = $StateObject->StateGetStatesByType(
+    StateType => [$StateType],
+    Result    => 'ID',
+);
+$Self->True(
+    ( grep { $_ ne $StateID } @List ),
+    "StateGetStatesByType() does not contain the state $StateNameUpdate with ID $StateID",
+);
+
 my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
 );
 
-my $New  = 0;
-my $Open = 0;
-for ( sort keys %StateTypeList ) {
-    if ( $StateTypeList{$_} eq 'new' ) {
-        $New = 1;
-    }
-    elsif ( $StateTypeList{$_} eq 'open' ) {
-        $Open = 1;
-    }
-}
 $Self->True(
-    $New eq 1,
-    'StateTypeList() - new',
+    ( grep { $_ eq 'new' } values %StateTypeList ),
+    "StateGetStatesByType() does not contain the state 'new'",
 );
+
 $Self->True(
-    $Open eq 1,
-    'StateTypeList() - open',
+    ( grep { $_ eq 'open' } values %StateTypeList ),
+    "StateGetStatesByType() does not contain the state 'open'",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;
