@@ -127,7 +127,7 @@ sub new {
         if ( index( $_[0], '[%' ) == -1 ) {
             return $_[0];
         }
-        return $Context->process( \$_[0] );
+        return $Context->include( \$_[0] );
     };
 
     my $InterpolateFilterFactory = sub {
@@ -138,7 +138,7 @@ sub new {
             if ( index( $_[0], '[%' ) == -1 ) {
                 return $_[0];
             }
-            return $FilterContext->process( \$_[0] );
+            return $FilterContext->include( \$_[0] );
         };
     };
 
