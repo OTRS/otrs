@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-02-05 Fixed bug#[11852](http://bugs.otrs.org/show_bug.cgi?id=11852) - Error in migration script with Ticket::Frontend::PreMenuModule.
  - 2016-02-04 Added a --quiet option to suppress console command output, thanks to Moritz Lenz.
  - 2016-02-01 Fixed bug#[11820](http://bugs.otrs.org/show_bug.cgi?id=11820) - Match on !~ "int" for external articles not enough.
  - 2016-02-01 Fixed bug#[11838](http://bugs.otrs.org/show_bug.cgi?id=11838) - New tabs opened from links in a sandboxed Iframe cannot execute JavaScript.

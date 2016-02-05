@@ -1262,34 +1262,38 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Ticket menu modules...";
 
-    # Ticket Menu Modules
-    $Setting = $ConfigObject->Get('Ticket::Frontend::MenuModule');
+    for my $Type (qw(Ticket::Frontend::MenuModule Ticket::Frontend::PreMenuModule)) {
 
-    MENUMODULE:
-    for my $MenuModule ( sort keys %{$Setting} ) {
+        # Ticket Menu Modules
+        $Setting = $ConfigObject->Get($Type);
 
-        # update module location
-        my $Module = $Setting->{$MenuModule}->{'Module'};
-        next MENUMODULE if ( $Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)} );
+        MENUMODULE:
+        for my $MenuModule ( sort keys %{$Setting} ) {
 
-        $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::TicketMenu::$1}xmsg;
-        next MENUMODULE if ( $Setting->{$MenuModule}->{'Module'} eq $Module );
+            # update module location
+            my $Module = $Setting->{$MenuModule}->{'Module'};
+            next MENUMODULE if ( $Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)} );
 
-        # update sysconfig if it is necessary
-        $Setting->{$MenuModule}->{'Module'} = $Module;
+            $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::TicketMenu::$1}xmsg;
+            next MENUMODULE if ( $Setting->{$MenuModule}->{'Module'} eq $Module );
 
-        # set new setting
-        my $Success = $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
-            Value => $Setting->{$MenuModule},
-        );
+            # update sysconfig if it is necessary
+            $Setting->{$MenuModule}->{'Module'} = $Module;
+
+            # set new setting
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type . '###' . $MenuModule,
+                Value => $Setting->{$MenuModule},
+            );
+
+        }
     }
 
     print "...done.\n";
     print "--- Ticket overview menu modules...";
 
-    # Ticket Menu Modules
+    # Ticket Overview Menu Module
     $Setting = $ConfigObject->Get('Ticket::Frontend::OverviewMenuModule');
 
     MENUMODULE:
@@ -1316,7 +1320,7 @@ sub _MigrateConfigs {
     print "...done.\n";
     print "--- Ticket overview modules...";
 
-    # Ticket Menu Modules
+    # Ticket Overview Modules
     $Setting = $ConfigObject->Get('Ticket::Frontend::Overview');
 
     OVERVIEWMODULE:
@@ -1402,7 +1406,7 @@ sub _MigrateConfigs {
     }
 
     print "...done.\n";
-    print "--- Article pre view modules...";
+    print "--- Article view modules...";
 
     # Article View Modules
     for my $Type (qw(Ticket::Frontend::ArticleViewModule Ticket::Frontend::ArticlePreViewModule)) {
@@ -1544,9 +1548,11 @@ sub _MigrateConfigs {
         );
     }
 
-    if ($Kernel::OM->Get('Kernel::Config')->Get('CustomerPanel::NewTicketQueueSelectionModule')
+    if (
+        $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanel::NewTicketQueueSelectionModule')
         ne 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric'
-    ) {
+        )
+    {
         # set new setting for CustomerNewTicketQueueSelectionGeneric
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 2,
@@ -1696,20 +1702,23 @@ sub _AddZoomMenuClusters {
         # set cluster data
         for my $Attribute ( sort keys %{ $ClusterData{$MenuModule} } ) {
 
-            if (!$Setting->{$MenuModule}->{$Attribute}
+            if (
+                !$Setting->{$MenuModule}->{$Attribute}
                 || $Setting->{$MenuModule}->{$Attribute} ne $ClusterData{$MenuModule}->{$Attribute}
-            ) {
+                )
+            {
                 $NeedsUpdate++;
                 $Setting->{$MenuModule}->{$Attribute} = $ClusterData{$MenuModule}->{$Attribute};
             }
         }
 
         if ($NeedsUpdate) {
+
             # save setting
             my $Success = $SysConfigObject->ConfigItemUpdate(
-               Valid => 1,
-               Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
-               Value => $Setting->{$MenuModule},
+                Valid => 1,
+                Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
+                Value => $Setting->{$MenuModule},
             );
         }
 
