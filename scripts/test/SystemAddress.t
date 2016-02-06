@@ -196,6 +196,21 @@ $Self->Is(
     'SystemAddressGet() - ValidID',
 );
 
+# Switch back to QueueID 2
+$SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
+    ID       => $SystemAddressID,
+    Name     => '2' . $SystemAddressEmail,
+    Realname => '2' . $SystemAddressRealname,
+    Comment  => 'some comment 1',
+    QueueID  => 2,
+    ValidID  => 2,
+    UserID   => 1,
+);
+$Self->True(
+    $SystemAddressUpdate,
+    'SystemAddressUpdate()',
+);
+
 # add test valid system address
 my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressEmail . 'first',
@@ -210,7 +225,7 @@ my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
 my %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 0 );
 
 $Self->True(
-    exists $SystemQueues{'1'} && $SystemQueues{'1'} == $SystemAddressID,
+    exists $SystemQueues{'2'} && $SystemQueues{'2'} == $SystemAddressID,
     "SystemAddressQueueList() contains the queue 1 of the SystemAddress $SystemAddressID",
 );
 $Self->True(
@@ -222,7 +237,7 @@ $Self->True(
 %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 1 );
 
 $Self->False(
-    exists $SystemQueues{'1'},
+    exists $SystemQueues{'2'},
     "SystemAddressQueueList() does not contain the queue 1 of the SystemAddress $SystemAddressID",
 );
 $Self->True(
