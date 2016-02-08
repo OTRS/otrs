@@ -10288,7 +10288,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="0" Valid="1">
         <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -10298,7 +10298,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="0" Valid="1">
         <Description Translatable="1">Executes follow-up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
