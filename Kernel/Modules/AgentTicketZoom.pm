@@ -856,6 +856,15 @@ sub MaskAgentZoom {
         @ArticleBoxShown = @ArticleBox;
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # age design
+    $Ticket{Age} = $LayoutObject->CustomerAge(
+        Age   => $Ticket{Age},
+        Space => ' '
+    );
+
     my %Widgets;
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     WIDGET:
@@ -925,9 +934,6 @@ sub MaskAgentZoom {
         );
     }
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # show articles items
     if ( !$Self->{ZoomTimeline} ) {
 
@@ -959,12 +965,6 @@ sub MaskAgentZoom {
             Data => { TicketID => $Ticket{TicketID} },
         );
     }
-
-    # age design
-    $Ticket{Age} = $LayoutObject->CustomerAge(
-        Age   => $Ticket{Age},
-        Space => ' '
-    );
 
     # number of articles
     $Param{ArticleCount} = scalar @ArticleBox;
@@ -1273,7 +1273,7 @@ sub MaskAgentZoom {
     my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # to store dynamic fields to be displayed in the process widget and in the sidebar
-    my ( @FieldsWidget );
+    my (@FieldsWidget);
 
     # cycle trough the activated Dynamic Fields for ticket object
     DYNAMICFIELD:
