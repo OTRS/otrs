@@ -3055,6 +3055,17 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Package::AllowLocalModifications" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Package::ShowFeatureAddons" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Toggles display of OTRS FeatureAddons list in PackageManager.</Description>
         <Group>Framework</Group>

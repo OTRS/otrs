@@ -8,6 +8,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.7 2016-??-??
+ - 2016-02-08 Add new config setting Package::AllowLocalModifications. If this setting is active, local modifications will not be highlighted as errors in the package manager and the support data collector.
  - 2016-02-04 Added a --quiet option to suppress console command output, thanks to Moritz Lenz.
  - 2016-02-01 Fixed bug#[11820](http://bugs.otrs.org/show_bug.cgi?id=11820) - Match on !~ "int" for external articles not enough.
  - 2016-02-01 Fixed bug#[11838](http://bugs.otrs.org/show_bug.cgi?id=11838) - New tabs opened from links in a sandboxed Iframe cannot execute JavaScript.

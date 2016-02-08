@@ -496,11 +496,18 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         if ( !$Deployed ) {
+            my $Priority = 'Error';
+            my $Message  = $LayoutObject->{LanguageObject}
+                ->Translate("Package not correctly deployed! Please reinstall the package.");
+            if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
+                $Priority = 'Notice';
+                $Message  = $LayoutObject->{LanguageObject}->Translate("Package has locally modified files.");
+            }
+
             $Output .= $LayoutObject->Notify(
-                Priority => 'Error',
-                Data     => "$Name $Version - "
-                    . Translatable("Package not correctly deployed! Please reinstall the package."),
-                Link => $LayoutObject->{Baselink}
+                Priority => $Priority,
+                Data     => "$Name $Version - $Message",
+                Link     => $LayoutObject->{Baselink}
                     . 'Action=AdminPackageManager;Subaction=View;Name='
                     . $Name
                     . ';Version='
@@ -1592,11 +1599,19 @@ sub Run {
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $OutputNotify;
     for my $ReinstallKey ( sort keys %NeedReinstall ) {
+
+        my $Priority = 'Error';
+        my $Message  = $LayoutObject->{LanguageObject}
+            ->Translate("Package not correctly deployed! Please reinstall the package.");
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
+            $Priority = 'Notice';
+            $Message  = $LayoutObject->{LanguageObject}->Translate("Package has locally modified files.");
+        }
+
         $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey} - "
-                . Translatable("Package not correctly deployed! Please reinstall the package."),
-            Link => $LayoutObject->{Baselink}
+            Priority => $Priority,
+            Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey} - $Message",
+            Link     => $LayoutObject->{Baselink}
                 . 'Action=AdminPackageManager;Subaction=View;Name='
                 . $ReinstallKey
                 . ';Version='
