@@ -1,4 +1,5 @@
 #5.0.7 2016-??-??
+ - 2016-02-08 Made both the Subject and Reference follow up checks optional, so that they can be turned off.
  - 2016-02-08 Add new config setting Package::AllowLocalModifications. If this setting is active, local modifications will not be highlighted as errors in the package manager and the support data collector.
  - 2016-02-05 Fixed bug#[11852](http://bugs.otrs.org/show_bug.cgi?id=11852) - Error in migration script with Ticket::Frontend::PreMenuModule.
  - 2016-02-04 Added a --quiet option to suppress console command output, thanks to Moritz Lenz.
