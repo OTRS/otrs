@@ -115,8 +115,6 @@ sub new {
         File => 'ARRAY',
     };
 
-    $Self->{PackageVerifyURL} = 'https://pav.otrs.com/otrs/public.pl';
-
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     # permission check
