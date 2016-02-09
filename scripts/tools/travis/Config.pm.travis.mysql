@@ -21,7 +21,7 @@ sub Load {
     $Self->{Database} = 'otrs';
     $Self->{DatabaseUser} = 'otrs';
     $Self->{DatabasePw} = 'otrs';
-    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}";
+    $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
     $Self->{Home} = dirname dirname __FILE__;
 }
 

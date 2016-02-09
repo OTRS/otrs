@@ -2,9 +2,13 @@ language: perl
 perl:
   - "5.14"
 
+services:
+  - mysql
+  - postgresql
+
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq libapache2-mod-perl2 libdbd-mysql-perl libtimedate-perl libnet-dns-perl libnet-ldap-perl libio-socket-ssl-perl libpdf-api2-perl libdbd-mysql-perl libsoap-lite-perl libgd-text-perl libtext-csv-xs-perl libjson-xs-perl libgd-graph-perl libapache-dbi-perl libxml-libxml-perl libxml-xslt-perl
+  - sudo apt-get install -qq libapache2-mod-perl2 libdbd-mysql-perl libtimedate-perl libnet-dns-perl libnet-ldap-perl libio-socket-ssl-perl libpdf-api2-perl libdbd-mysql-perl libdbd-pg-perl libsoap-lite-perl libgd-text-perl libtext-csv-xs-perl libjson-xs-perl libgd-graph-perl libapache-dbi-perl libxml-libxml-perl libxml-xslt-perl
 
 install:
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic
