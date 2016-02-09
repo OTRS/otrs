@@ -126,23 +126,7 @@ $Self->True(
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get remote host with some precautions for certain unit test systems
-my $Host;
-my $FQDN = $ConfigObject->Get('FQDN');
-
-# try to resolve FQDN host
-if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
-    $Host = $FQDN;
-}
-
-# try to resolve local-host instead
-if ( !$Host && gethostbyname('localhost') ) {
-    $Host = 'localhost';
-}
-
-# use hard-coded local-host IP address
-if ( !$Host ) {
-    $Host = '127.0.0.1';
-}
+my $Host = $HelperObject->GetTestHTTPHostname();
 
 # prepare web-service config
 my $RemoteSystem =

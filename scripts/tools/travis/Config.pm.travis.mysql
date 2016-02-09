@@ -23,6 +23,7 @@ sub Load {
     $Self->{DatabasePw} = 'otrs';
     $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
     $Self->{Home} = dirname dirname __FILE__;
+    $Self->{TestHTTPHostname} = 'localhost:5000';
 }
 
 use base qw(Kernel::Config::Defaults);
