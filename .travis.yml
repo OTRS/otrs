@@ -12,7 +12,7 @@ before_install:
 
 install:
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack
-  - bin/otrs.CheckSum -a create
+  - bin/otrs.CheckSum.pl -a create
   - scripts/tools/travis/setup.sh
   - plackup --port 5000 bin/cgi-bin/app.psgi &
 
