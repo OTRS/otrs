@@ -17,5 +17,6 @@ install:
 script:
   - bin/otrs.CheckModules.pl
   - bin/otrs.Console.pl Maint::Database::Check
+  - bin/otrs.Console.pl Maint::Config::Rebuild
   - bin/otrs.Console.pl Dev::UnitTest::Run
 
