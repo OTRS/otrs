@@ -1,6 +1,6 @@
 language: perl
 perl:
-  - "5.10"
+  - "5.14"
 
 before_install:
   - sudo apt-get update -qq
