@@ -16,14 +16,6 @@ use vars (qw($Self));
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # disable dns lookups
 $ConfigObject->Set(
     Key   => 'CheckMXRecord',
