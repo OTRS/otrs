@@ -12,6 +12,7 @@ before_install:
 
 install:
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack
+  - bin/otrs.CheckSum -a create
   - scripts/tools/travis/setup.sh
   - plackup --port 5000 bin/cgi-bin/app.psgi &
 
@@ -19,5 +20,6 @@ script:
   - bin/otrs.CheckModules.pl
   - bin/otrs.Console.pl Maint::Database::Check
   - bin/otrs.Console.pl Maint::Config::Rebuild
+  - wget -qO- localhost:5000/otrs.index.pl
   - bin/otrs.Console.pl Dev::UnitTest::Run
 
