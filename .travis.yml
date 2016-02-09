@@ -10,5 +10,7 @@ install:
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic
   - scripts/tools/travis/setup.sh
 
-script: bin/otrs.Console.pl Dev::UnitTest::Run
+script:
+  - bin/otrs.Console.pl Maint::Database::Check
+  - bin/otrs.Console.pl Dev::UnitTest::Run
 

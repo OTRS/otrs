@@ -1,4 +1,3 @@
 #!/bin/bash
 
-BUILD_ROOT=/home/travis/build/OTRS/otrs
-cp -i $BUILD_ROOT/scripts/tools/travis/Config.pm.travis.postgresql $BUILD_ROOT/Kernel/Config.pm
+cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.pm.travis.postgresql $TRAVIS_BUILD_DIR/Kernel/Config.pm

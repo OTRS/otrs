@@ -12,6 +12,8 @@ use strict;
 use warnings;
 use utf8;
 
+use File::Basename;
+
 sub Load {
     my $Self = shift;
 
@@ -20,7 +22,7 @@ sub Load {
     $Self->{DatabaseUser} = 'otrs';
     $Self->{DatabasePw} = 'some-pass';
     $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}";
-    $Self->{Home} = '/home/travis/build/OTRS/otrs';
+    $Self->{Home} = dirname dirname __FILE__;
 }
 
 use base qw(Kernel::Config::Defaults);
