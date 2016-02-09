@@ -18,6 +18,8 @@ install:
 
 script:
   - bin/otrs.CheckModules.pl
+  - perl -cw bin/cgi-bin/index.pl
+  - perl -cw bin/cgi-bin/app.psgi
   - bin/otrs.Console.pl Maint::Database::Check
   - bin/otrs.Console.pl Maint::Config::Rebuild
   - wget -qO- localhost:5000/otrs.index.pl
