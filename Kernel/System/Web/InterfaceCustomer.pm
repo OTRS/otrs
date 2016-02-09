@@ -1085,7 +1085,9 @@ sub Run {
                     Priority => 'error',
                     Message  => 'No Permission to use this frontend action module!'
                 );
-                $LayoutObject->CustomerFatalError( Comment => Translatable('Please contact your administrator') );
+                $LayoutObject->CustomerFatalError(
+                    Comment => Translatable('Please contact your administrator'),
+                );
                 return;
             }
 

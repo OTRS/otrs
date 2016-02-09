@@ -898,8 +898,9 @@ sub Run {
                 Message =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-                ->FatalError( Comment => 'Please contact your administrator' );
+            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+                Comment => Translatable('Please contact your administrator'),
+            );
             return;
         }
 
@@ -1086,7 +1087,9 @@ sub Run {
             %Data,
         },
     );
-    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Comment => 'Please contact your administrator' );
+    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+        Comment => Translatable('Please contact your administrator'),
+    );
     return;
 }
 

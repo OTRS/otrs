@@ -345,8 +345,8 @@ sub Form {
     if ( !$Self->{TicketID} ) {
 
         return $LayoutObject->ErrorScreen(
-            Message => "Got no TicketID!",
-            Comment => 'System Error!',
+            Message => Translatable('Got no TicketID!'),
+            Comment => Translatable('System Error!'),
         );
     }
 
@@ -465,7 +465,7 @@ sub Form {
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
 
             return $LayoutObject->ErrorScreen(
-                Message => "Article does not belong to ticket $Self->{TicketID}!",
+                Message => $LayoutObject->{LanguageObject}->Translate('Article does not belong to ticket %s!', $Self->{TicketID}),
             );
         }
     }
@@ -909,8 +909,8 @@ sub SendEmail {
 
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                Comment => 'Please contact the admin.',
+                    $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 
@@ -1173,7 +1173,7 @@ sub SendEmail {
     if ( !$ArticleID ) {
 
         return $LayoutObject->ErrorScreen(
-            Comment => 'Please contact the admin.',
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 

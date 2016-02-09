@@ -11,6 +11,8 @@ package Kernel::Modules::AgentTicketPlain;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -34,8 +36,8 @@ sub Run {
     # check needed stuff
     if ( !$ArticleID ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No ArticleID!',
-            Comment => 'Please contact your administrator'
+            Message => Translatable('No ArticleID!'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 
@@ -61,9 +63,8 @@ sub Run {
     my $Plain = $TicketObject->ArticlePlain( ArticleID => $ArticleID );
     if ( !$Plain ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Can\'t read plain article! Maybe there is no plain email in backend! '
-            , 'Read BackendMessage.',
-            Comment => 'Please contact your administrator',
+            Message => Translatable('Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 

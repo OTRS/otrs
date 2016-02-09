@@ -80,8 +80,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -541,8 +541,8 @@ sub Run {
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
                         Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                            $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
