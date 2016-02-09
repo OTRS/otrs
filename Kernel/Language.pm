@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -242,107 +242,6 @@ sub Translate {
     return $Text;
 }
 
-=item Get()
-
-WARNING: THIS METHOD IS DEPRECATED AND WILL BE REMOVED IN FUTURE VERSION OF OTRS! USE Translate() INSTEAD.
-
-Translate a string.
-
-    my $Text = $LanguageObject->Get('Hello');
-
-    Example: (the quoting looks strange, but is in fact correct!)
-
-    my $String = 'History::NewTicket", "2011031110000023", "Postmaster", "3 normal", "open", "9';
-
-    my $TranslatedString = $LanguageObject->Translate( $String );
-
-=cut
-
-sub Get {
-    my ( $Self, $What ) = @_;
-
-    # check
-    return if !defined $What;
-    return '' if $What eq '';
-
-    # check dyn spaces
-    my @Dyn;
-    if ( $What && $What =~ /^(.+?)",\s{0,1}"(.*?)$/ ) {
-        $What = $1;
-        @Dyn = split( /",\s{0,1}"/, $2 );
-    }
-
-    # check wanted param and returns the
-    # lookup or the english data
-    if ( $Self->{Translation}->{$What} ) {
-
-        # Debug
-        if ( $Self->{Debug} > 3 ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'Debug',
-                Message  => "->Get('$What') = ('$Self->{Translation}->{$What}').",
-            );
-        }
-
-        my $Text = $Self->{Translation}->{$What};
-        if (@Dyn) {
-            COUNT:
-            for ( 0 .. $#Dyn ) {
-
-                # be careful $Dyn[$_] can be 0! bug#3826
-                last COUNT if !defined $Dyn[$_];
-
-                if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
-                    $Dyn[$_] = $Self->Time(
-                        Action => 'GET',
-                        Format => $1,
-                    );
-                    $Text =~ s/\%(s|d)/$Dyn[$_]/;
-                }
-                else {
-                    $Text =~ s/\%(s|d)/$Dyn[$_]/;
-                }
-            }
-        }
-
-        return $Text;
-    }
-
-    # warn if the value is not def
-    if ( $Self->{Debug} > 1 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => "->Get('$What') Is not translated!!!",
-        );
-    }
-
-    if ( $Self->{LanguageDebug} ) {
-        print STDERR "No translation available for '$What'\n";
-    }
-
-    if (@Dyn) {
-        COUNT:
-        for ( 0 .. $#Dyn ) {
-
-            # be careful $Dyn[$_] can be 0! bug#3826
-            last COUNT if !defined $Dyn[$_];
-
-            if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
-                $Dyn[$_] = $Self->Time(
-                    Action => 'GET',
-                    Format => $1,
-                );
-                $What =~ s/\%(s|d)/$Dyn[$_]/;
-            }
-            else {
-                $What =~ s/\%(s|d)/$Dyn[$_]/;
-            }
-        }
-    }
-
-    return $What;
-}
-
 =item FormatTimeString()
 
 formats a timestamp according to the specified date format for the current
@@ -404,9 +303,9 @@ sub FormatTimeString {
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
 
-        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Get($DAYS[$WD]) : '';}egx;
+        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Translate($DAYS[$WD]) : '';}egx;
         $ReturnString
-            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
+            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Translate($MONS[$M-1]) : '';}egx;
 
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
             return $ReturnString . " ($Self->{TimeZone})";
@@ -561,9 +460,9 @@ sub Time {
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Get($DAYS[$WD]) : '';}egx;
+        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Translate($DAYS[$WD]) : '';}egx;
         $ReturnString
-            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
+            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Translate($MONS[$M-1]) : '';}egx;
         return $ReturnString;
     }
 

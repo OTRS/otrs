@@ -37,6 +37,16 @@ div.InputField_InputContainer {
     min-width: 190px;
 }
 
+.SidebarColumn .WidgetSimple .InputField_Search, 
+.SidebarColumn .WidgetSimple .InputField_Autocomplete {
+    min-width: 80px;
+}
+
+.WidgetSettingsForm .InputField_Search, 
+.WidgetSettingsForm .InputField_Autocomplete {
+    min-width: 0px;
+}
+
 #Header div.InputField_Container {
     color: #000;
 }
@@ -131,7 +141,7 @@ div.InputField_More {
 
 div.InputField_ListContainer {
     position: absolute;
-    z-index: 1000;
+    z-index: 5000;
     display: none;
     text-shadow: none;
 }
@@ -140,10 +150,14 @@ div.InputField_TreeContainer {
     background-color: #fff;
     border: 1px solid #ccc;
     border-top: none;
-    max-height: 90px;
     overflow-y: auto;
     box-sizing: content-box;
     line-height: 18px;
+}
+
+.ExpandToTop div.InputField_TreeContainer {
+    border-top: 1px solid #ccc;
+    border-bottom: none;
 }
 
 div.InputField_ToolbarContainer {
@@ -268,6 +282,10 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .jstree-node {
     white-space: nowrap;
+}
+
+.jstree-InputField .jstree-node.jstree-hidden {
+    display: none;
 }
 
 .jstree-InputField .jstree-anchor {

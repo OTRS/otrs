@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,21 +62,15 @@ sub Run {
             AllUsers => 1,
         );
 
-        my %Article = $TicketObject->ArticleGet(
-            ArticleID     => $Param{Data}->{ArticleID},
-            DynamicFields => 0,
+        # Set the seen flag to 1 for the agent who created the article.
+        #   This must also be done for articles with SenderType other than agent because
+        #   it could be still coming from an agent (see bug#11565).
+        $TicketObject->ArticleFlagSet(
+            ArticleID => $Param{Data}->{ArticleID},
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Param{UserID},
         );
-
-        if ( %Article && $Article{SenderType} eq 'agent' ) {
-
-            # set the seen flag to 1 for the agent who created the article
-            $TicketObject->ArticleFlagSet(
-                ArticleID => $Param{Data}->{ArticleID},
-                Key       => 'Seen',
-                Value     => 1,
-                UserID    => $Param{UserID},
-            );
-        }
 
         return 1;
     }

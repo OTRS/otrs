@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,16 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-my $MailAccountObject = $Kernel::OM->Get('Kernel::System::MailAccount');
-my $Selenium          = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,8 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminMailAccount");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminMailAccount
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # check AdminMailAccount screen
         $Selenium->find_element( "table",             'css' );
@@ -41,7 +44,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # check "Add mail account" link
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminMailAccount;Subaction=AddNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminMailAccount;Subaction=AddNew' )]")->VerifiedClick();
 
         for my $ID (
             qw(TypeAdd LoginAdd PasswordAdd HostAdd IMAPFolder Trusted DispatchingBy ValidID Comment)
@@ -61,7 +64,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#Trusted').val('0').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#DispatchingBy').val('Queue').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",  'css' )->send_keys("Selenium test AdminMailAccount");
-        $Selenium->find_element( "#LoginAdd", 'css' )->submit();
+        $Selenium->find_element( "#LoginAdd", 'css' )->VerifiedSubmit();
 
         # check if test mail account is present
         my $TestMailHost = "pop3.example.com / $RandomID";
@@ -71,12 +74,12 @@ $Selenium->RunTest(
         );
 
         # edit test mail account and set it to invalid
-        $Selenium->find_element( $TestMailHost, 'link_text' )->click();
+        $Selenium->find_element( $TestMailHost, 'link_text' )->VerifiedClick();
 
         $Selenium->find_element( "#HostEdit", 'css' )->clear();
         $Selenium->find_element( "#HostEdit", 'css' )->send_keys("pop3edit.example.com");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#LoginEdit", 'css' )->submit();
+        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
 
         # check class of invalid EmailAccount in the overview table
         $Self->True(
@@ -104,7 +107,7 @@ $Selenium->RunTest(
             while ( my @Row = $DBObject->FetchrowArray() ) {
                 $MailAccountID = $Row[0];
             }
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$MailAccountID' )]")->click();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$MailAccountID' )]")->VerifiedClick();
         }
 
     }

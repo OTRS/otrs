@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,7 +143,7 @@
 <script type="text/javascript">//<![CDATA[
     $('.CustomerTicketRadio').bind('change', function () {
         var CustomerKey;
-        if ( $(this).attr('checked') ){
+        if ( $(this).prop('checked') ){
 
             CustomerKey = $( '#CustomerKey_' +$(this).val() ).val();
             // get customer tickets
@@ -169,7 +169,7 @@
 
                     <label for="CustomerID">[% Translate("CustomerID") | html %]:</label>
                     <div class="Field">
-                        <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" class="W75pc"/>
+                        <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" [% IF Config("Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly") %] readonly [% END %] class="W75pc"/>
                     </div>
                     <div class="Clear"></div>
 
@@ -351,25 +351,9 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        // Fallback for non-richtext content
-        var Content = $('#RichText').val();
-
-        // get RTE content
-        if (typeof CKEDITOR !== 'undefined') {
-            Content = CKEDITOR.instances["RichText"].getData();
-        }
-
-        // if content already exists let user confirm to really overwrite that content with a template
-        if (
-            Content.length &&
-            !window.confirm([% Translate("Setting a template will overwrite any text or attachment.") | JSON %] + ' ' + [% Translate("Do you really want to continue?") | JSON %]))
-            {
-                // if user cancels confirmation, reset template selection
-                $(this).val('');
-                return false;
-        }
-
-        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>

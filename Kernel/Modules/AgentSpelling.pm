@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Modules::AgentSpelling;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -110,7 +112,7 @@ sub _Mask {
                     }
                 }
                 else {
-                    $ReplaceWords{''} = 'No suggestions';
+                    $ReplaceWords{''} = Translatable('No suggestions');
                 }
                 $Param{SpellCheckString} = $LayoutObject->BuildSelection(
                     Data => \%ReplaceWords,

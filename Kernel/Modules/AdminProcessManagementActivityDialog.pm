@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -80,7 +81,7 @@ sub Run {
     }
 
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket'],
         ResultType => 'HASH',
     );
 
@@ -228,7 +229,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this ActivityDialog",
+                Message => Translatable("There was an error generating a new EntityID for this ActivityDialog"),
             );
         }
 
@@ -243,7 +244,7 @@ sub Run {
         # show error if can't create
         if ( !$ActivityDialogID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the ActivityDialog",
+                Message => Translatable("There was an error creating the ActivityDialog"),
             );
         }
 
@@ -258,8 +259,8 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for ActivityDialog "
-                    . "entity:$EntityID",
+                Message => Translatable("There was an error setting the entity sync status for ActivityDialog")
+                    . " entity:$EntityID",
             );
         }
 
@@ -331,7 +332,7 @@ sub Run {
         # check for ActivityDialogID
         if ( !$ActivityDialogID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ActivityDialogID!",
+                Message => Translatable("Need ActivityDialogID!"),
             );
         }
 
@@ -347,7 +348,7 @@ sub Run {
         # check for valid Activity Dialog data
         if ( !IsHashRefWithData($ActivityDialogData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for ActivityDialogID $ActivityDialogID",
+                Message => Translatable("Could not get data for ActivityDialogIDTranslatable") . " $ActivityDialogID",
             );
         }
 
@@ -492,7 +493,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the ActivityDialog",
+                Message => Translatable("There was an error updating the ActivityDialog"),
             );
         }
 
@@ -507,8 +508,8 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for ActivityDialog "
-                    . "entity:$ActivityDialogData->{EntityID}",
+                Message => Translatable("There was an error setting the entity sync status for ActivityDialog")
+                    . " entity:$ActivityDialogData->{EntityID}",
             );
         }
 
@@ -588,7 +589,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This subaction is not valid",
+            Message => Translatable("This subaction is not valid"),
         );
     }
 }
@@ -672,7 +673,7 @@ sub _ShowEdit {
     }
 
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => [ 'Ticket', 'Article' ],
+        ObjectType => ['Ticket'],
         ResultType => 'HASH',
     );
 
@@ -873,21 +874,48 @@ sub _ShowEdit {
     # create ArticleType selection
     $Param{ArticleTypeSelection} = $LayoutObject->BuildSelection(
         Data => [
-            'note-internal',
-            'note-external',
-            'note-report',
-            'phone',
-            'fax',
-            'sms',
-            'webrequest',
+            Translatable('note-internal'),
+            Translatable('note-external'),
+            Translatable('note-report'),
+            Translatable('phone'),
+            Translatable('fax'),
+            Translatable('sms'),
+            Translatable('webrequest'),
         ],
-        SelectedValue => 'note-internal',
+        SelectedValue => Translatable('note-internal'),
         Name          => 'ArticleType',
         ID            => 'ArticleType',
         Sort          => 'Alphanumeric',
         Translation   => 1,
         Class         => 'Modernize',
     );
+
+    my %TimeUnitsSelectionList = (
+        0 => 'Do not show Field',
+        2 => 'Show Field As Mandatory',
+    );
+
+    if ( !$ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        $TimeUnitsSelectionList{1} = 'Show Field';
+    }
+
+    # create TimeUnits selection
+    if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
+
+        $Param{TimeUnitsSelection} = $LayoutObject->BuildSelection(
+            Data          => \%TimeUnitsSelectionList,
+            SelectedValue => 0,
+            Name          => 'TimeUnits',
+            ID            => 'TimeUnits',
+            Translation   => 1,
+            Class         => 'Modernize',
+        );
+
+        $LayoutObject->Block(
+            Name => 'TimeUnitsContainer',
+            Data => \%Param,
+        );
+    }
 
     # extract parameters from config
     $Param{DescriptionShort} = $Param{ActivityDialogData}->{Config}->{DescriptionShort};

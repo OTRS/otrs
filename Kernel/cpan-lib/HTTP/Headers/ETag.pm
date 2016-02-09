@@ -1,13 +1,15 @@
 package HTTP::Headers::ETag;
 
 use strict;
-use vars qw($VERSION);
-$VERSION = "6.00";
+use warnings;
+
+our $VERSION = "6.11";
 
 require HTTP::Date;
 
 require HTTP::Headers;
-package HTTP::Headers;
+package
+    HTTP::Headers;
 
 sub _etags
 {

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,8 +51,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
     $Self->{CacheType} = 'CustomerGroup';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
@@ -89,7 +87,7 @@ sub GroupMemberAdd {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -100,12 +98,15 @@ sub GroupMemberAdd {
         %{ $Param{Permission} } = ( rw => 1 );
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # update permission
     TYPE:
     for my $Type ( sort keys %{ $Param{Permission} } ) {
 
         # delete existing permission
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'DELETE FROM group_customer_user WHERE '
                 . ' group_id = ? AND user_id = ? AND permission_key = ?',
             Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
@@ -122,7 +123,8 @@ sub GroupMemberAdd {
 
         # insert new permission (if needed)
         next TYPE if !$Param{Permission}->{$Type};
-        $Self->{DBObject}->Do(
+
+        $DBObject->Do(
             SQL => 'INSERT INTO group_customer_user '
                 . '(user_id, group_id, permission_key, permission_value, '
                 . 'create_time, create_by, change_time, change_by) '
@@ -172,7 +174,7 @@ sub GroupMemberList {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -218,22 +220,25 @@ sub GroupMemberList {
         return %{$Cache} if ref $Cache eq 'HASH';
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # if it's active, return just the permitted groups
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
         . " FROM groups g, group_customer_user gu WHERE "
         . " g.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} ) AND "
         . " g.id = gu.group_id AND gu.permission_value = 1 AND "
-        . " gu.permission_key IN ('" . $Self->{DBObject}->Quote( $Param{Type} ) . "', 'rw') "
+        . " gu.permission_key IN ('" . $DBObject->Quote( $Param{Type} ) . "', 'rw') "
         . " AND ";
 
     if ( $Param{UserID} ) {
-        $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
+        $SQL .= " gu.user_id = '" . $DBObject->Quote( $Param{UserID} ) . "'";
     }
     else {
-        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer', ) . "";
+        $SQL .= " gu.group_id = " . $DBObject->Quote( $Param{GroupID}, 'Integer', ) . "";
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $DBObject->Prepare( SQL => $SQL );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my $Key   = '';
         my $Value = '';
         if ( $Param{UserID} ) {
@@ -297,6 +302,7 @@ sub GroupMemberList {
         Key   => $CacheKey,
         Value => \%Data,
     );
+
     return %Data;
 }
 
@@ -317,7 +323,7 @@ sub GroupLookup {
     if ( !$Param{Group} && !$Param{GroupID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no Group or GroupID!'
+            Message  => 'Got no Group or GroupID!',
         );
         return;
     }
@@ -337,6 +343,9 @@ sub GroupLookup {
     );
     return ${$Cache} if ( ref $Cache eq 'SCALAR' );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get data
     my $SQL;
     my @Bind;
@@ -353,13 +362,13 @@ sub GroupLookup {
         $SQL         = 'SELECT name FROM groups WHERE id = ?';
         push @Bind, \$Param{GroupID};
     }
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
     my $Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # store result
         $Result = $Row[0];
@@ -382,7 +391,6 @@ sub GroupLookup {
         Value => \$Result,
     );
 
-    # return result
     return $Result;
 }
 

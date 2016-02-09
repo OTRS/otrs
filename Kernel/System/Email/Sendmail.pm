@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
 );
 
@@ -72,6 +73,10 @@ sub Send {
     # set sendmail binary
     my $Sendmail = $Result{Sendmail};
 
+    # restore the child signal to the original value, in a daemon environment, child signal is set
+    # to ignore causing problems with file handler pipe close
+    local $SIG{'CHLD'} = 'DEFAULT';
+
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
     ## no critic
@@ -84,8 +89,13 @@ sub Send {
         return;
     }
 
-    # switch filehandle to utf8 mode if utf-8 is used
-    binmode $FH, ':utf8';    ## no critic
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # encode utf8 header strings (of course, there should only be 7 bit in there!)
+    $EncodeObject->EncodeOutput( $Param{Header} );
+
+    # encode utf8 body strings
+    $EncodeObject->EncodeOutput( $Param{Body} );
 
     print $FH ${ $Param{Header} };
     print $FH "\n";

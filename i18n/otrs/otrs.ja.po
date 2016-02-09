@@ -2,7 +2,7 @@
 # Translators:
 # Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015
 # Tomy1984, 2015
-# Kentaro Hori <kentaro0919@gmail.com>, 2014-2015
+# Kentaro Hori <kentaro0919@gmail.com>, 2014-2016
 # Kozo Sakurai <sakurai@io-architect.com>, 2014
 # Makoto Miida, 2014
 # Makoto Miida, 2014
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-11 07:42+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -622,7 +622,7 @@ msgstr "テーマ"
 
 #. Template: AAABase
 msgid "Created"
-msgstr "作成"
+msgstr "作成日時"
 
 #. Template: AAABase
 msgid "Created by"
@@ -630,7 +630,7 @@ msgstr "作成者"
 
 #. Template: AAABase
 msgid "Changed"
-msgstr "変更"
+msgstr "変更日時"
 
 #. Template: AAABase
 msgid "Changed by"
@@ -1483,7 +1483,7 @@ msgstr "やり直し"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr "OTRS Daemonが起動していません。"
+msgstr "OTRSデーモンが起動していません。"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1708,6 +1708,10 @@ msgstr "メール設定"
 #. Template: AAAPreferences
 msgid "Other Settings"
 msgstr "その他の設定"
+
+#. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr "通知設定"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -2713,7 +2717,7 @@ msgstr "監視チケット通知を送信"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr "勤務時間外"
+msgstr "外出中"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -3145,15 +3149,15 @@ msgstr "応答例"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr "クラウドサービスマネジメント"
+msgstr "クラウドサービス管理"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "サポート情報コレクター"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "サポート情報コレクター"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -3175,7 +3179,7 @@ msgstr "設定"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "サポート情報の送信"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -3196,29 +3200,29 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "このシステムをサポート登録する"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "システムのサポート登録機能が無効になっています。設定をご確認ください。"
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTRS Group, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "OTRSグループへのシステムのサポート登録により、多くのメリットが提供されます。"
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "このシステムをサポート登録する"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -3249,6 +3253,14 @@ msgstr "顧客を追加"
 #. Template: AdminCustomerCompany
 msgid "Select"
 msgstr "選択"
+
+#. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3958,7 +3970,7 @@ msgstr "作成時間"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
-msgstr "作成時間を設定しない"
+msgstr "作成時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
@@ -3974,7 +3986,7 @@ msgstr "最終変更時間"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr "最終変更時間がセットされていません。"
+msgstr "最終変更時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
@@ -3982,7 +3994,7 @@ msgstr "チケットが最終更新された"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr "この間にチケットが最終変更された"
+msgstr "チケットの最終更新がこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -3990,7 +4002,7 @@ msgstr "変更時間"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "変更時間設定がありません。"
+msgstr "変更時間設定を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -4006,7 +4018,7 @@ msgstr "完了時間"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "完了時間を設定しない"
+msgstr "完了時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -4022,7 +4034,7 @@ msgstr "保留時間"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "保留時間を設定しない"
+msgstr "保留時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
@@ -4038,7 +4050,7 @@ msgstr "エスカレーション時間"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "エスカレーション時間を設定しない"
+msgstr "エスカレーション時間を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
@@ -4221,6 +4233,12 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "警告: 削除オプションを使用します。削除された全てのチケットは消失します。"
 
 #. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr "ジョブ編集"
 
@@ -4238,7 +4256,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "あなたの現在地"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
@@ -4326,7 +4344,7 @@ msgstr "呼び出し元をWebサービス %s に追加"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
-msgstr ""
+msgstr "Webサービス %s の呼び出し元%sを変更する"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new invoker"
@@ -4342,7 +4360,7 @@ msgstr "この呼び出し元を本当に削除しますか。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "All configuration data will be lost."
-msgstr ""
+msgstr "すべての設定情報は失われます"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
@@ -4359,7 +4377,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "バックエンド インボーカー"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4429,87 +4447,87 @@ msgstr "に戻る"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "マッピング シンプル"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "アンマップドキーのデフォルトルール"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "本ルールはマッピングルールが指定されていないすべてのキーに適用されます。"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr ""
+msgstr "アンマップドバリューのデフォルトルール"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
-msgstr ""
+msgstr "本ルールはマッピングルールが指定されていないすべてのバリューに適用されます。"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "新しいキー割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "キー割り当ての追加"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "キーの割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "キー割り当ての削除"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "キー割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "キーの割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "一致"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "へ新しいキーを割り当てる"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "値のマッピング"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "値の割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "へ新しい値を割り当てる"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "割り当てた値の削除"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "新しい値の割り当て"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "値の割り当てを追加"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "このキー割り当てを削除しますか？"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "このキー割り当ての削除"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
@@ -4525,11 +4543,11 @@ msgstr "テンプレート"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
-msgstr ""
+msgstr "入力されたXSLT形式スタイルシートは有効なデータ形式ではありません。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "XSLT形式スタイルシートの挿入"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -4634,7 +4652,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "メッセージの最長値"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
@@ -4648,7 +4666,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Keep-Aliveを送信"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4769,7 +4787,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Endpoint"
-msgstr ""
+msgstr "エンドポイント"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to indicate a specific location for accessing a service."
@@ -4781,7 +4799,7 @@ msgstr "例… http://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
-msgstr ""
+msgstr "名前空間"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
@@ -4843,7 +4861,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "SOAPメッセージコンテントの文字エンコード"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
@@ -4851,7 +4869,7 @@ msgstr "例… utf-8, latin1, iso-8859-1, cp1250, Etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction"
-msgstr ""
+msgstr "SOAPアクション"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" to send a filled SOAPAction header."
@@ -4887,7 +4905,7 @@ msgstr "例… http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
-msgstr ""
+msgstr "Proxy ユーザー"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The user name to be used to access the proxy server."
@@ -4895,7 +4913,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Password"
-msgstr ""
+msgstr "Proxy パスワード"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password for the proxy user."
@@ -5155,7 +5173,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "警告: あなたの名前を変更するグループの管理者はsysconfigの中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
+msgstr "警告: あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -5290,7 +5308,7 @@ msgstr "オンライン管理者マニュアル"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "チケット通知管理"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5298,11 +5316,11 @@ msgstr "通知の追加"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "通知をエクスポート"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "設定のインポート"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5313,7 +5331,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "存在する通知を上書きしますか。"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
@@ -5321,7 +5339,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "通知の設定をインポート"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5341,17 +5359,17 @@ msgstr "通知の編集"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "担当者のプリファレンスに表示"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "担当者プリファレンスツールチップ"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "このメッセージはこの通知に対するツールチップとして担当者プリファレンス画面に表示されます。"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5370,7 +5388,7 @@ msgstr "記事フィルタ"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "ArticleCreateおよびArticleSendイベントに対してのみ"
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
@@ -5385,7 +5403,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "記事送信者タイプ"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
@@ -5405,70 +5423,77 @@ msgstr "受信者"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "送信先"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "これらの担当者に送信"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "グループの全てのメンバーに送信"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "ロールの全てのメンバーに送付"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "外出中の担当者に送信"
 
 #. Template: AdminNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "現在外出中のユーザーにも送付する。"
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "一日に一度"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
-msgstr ""
+msgstr "選択された通知方法を使って1つのチケットにつき1度だけユーザーに通知する。"
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "通知方法"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "These are the possible methods that can be used to send this notification to"
-" each of the recipients. Note: Excluding Email, other methods might not "
-"reach all selected recipients, please take a look on the documentation of "
-"each merthod to get more information. Please select at least one method "
-"below."
+" each of the recipients. Please select at least one method below."
 msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Enable this notification method"
+msgstr "この通知方法を有効化"
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
 msgstr "トランスポート"
 
 #. Template: AdminNotificationEvent
-msgid "Enable this notification method"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "This feature is currently not available."
+msgid "Send by default"
+msgstr "デフォルトで送信"
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "This feature is currently not available."
+msgstr "この機能は現在利用できません。"
+
+#. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "データがありません。"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5476,6 +5501,12 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
+msgstr "通知文書"
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5484,11 +5515,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "メッセージボディー"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "新規通知言語を追加"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
@@ -5496,7 +5527,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "タグリファレンス"
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -5522,12 +5553,46 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "本文から最初の5行を取得 (最新の顧客記事)"
 
 #. Template: AdminNotificationEvent
-msgid "Options of the recipient user for the notification"
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current ticket owner user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current ticket responsible user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current agent user who requested this action"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the recipient user for the notification"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Ticket dynamic fields display values, useful for Dropdown and Multiselect "
+"fields"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Example notification"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "受信 メールアドレス"
+msgid "Additional recipient email addresses"
+msgstr "追加の受信者のメールアドレス"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5537,12 +5602,16 @@ msgstr "記事タイプの通知"
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
-msgstr ""
+msgstr "顧客または追加のメールアドレスに通知が送られる際に記事が作成されます。"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
+msgstr "メールテンプレート"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "完全なメールを生成するためにこのテンプレートを使う。(HTMLメールに対してのみ)"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -5611,7 +5680,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s 利用できるアップデーターがあります"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -5619,7 +5688,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%s 正しくデプロイされました"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
@@ -5694,6 +5763,10 @@ msgid "Chat"
 msgstr "チャット"
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
 msgstr ""
 
@@ -5731,7 +5804,7 @@ msgstr "PGP鍵追加"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "この方法で直接SysConfigからキーリング設定を編集できます。"
+msgstr "この方法で直接システム設定からキーリング設定を編集できます。"
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -6172,7 +6245,7 @@ msgstr "プロセスをコピー"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "中止して閉じる"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -6306,10 +6379,6 @@ msgstr "利用可能な領域"
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "割り当てられた領域"
-
-#. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6656,16 +6725,16 @@ msgid "Type of Linking"
 msgstr "リンクのタイプ"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "新しい領域を追加"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "この領域を削除"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr ""
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "新しい領域を追加"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6694,12 +6763,12 @@ msgid "Config Parameters"
 msgstr "パラメータの設定"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "このパラメータを削除"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "新規パラメータを追加"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "このパラメータを削除"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -6896,7 +6965,7 @@ msgstr ""
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr "注意：OTRS Daemonが起動していないと、システムの登録が正常に行えません。"
+msgstr "注意：OTRSデーモンが起動していないと、システムの登録が正常に行えません。"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -7683,7 +7752,7 @@ msgstr "詳細"
 
 #. Template: AdminSysConfig
 msgid "SysConfig"
-msgstr "システムコンフィグ"
+msgstr "システム設定"
 
 #. Template: AdminSysConfig
 msgid "Navigate by searching in %s settings"
@@ -7703,7 +7772,7 @@ msgstr "設定のエクスポート"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
-msgstr "ファイルからSysConfig設定を読み込み"
+msgstr "ファイルからシステム設定を読み込み"
 
 #. Template: AdminSysConfig
 msgid "Import settings"
@@ -8167,7 +8236,7 @@ msgstr "重複した登録"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "この住所はすでにアドレスリストに存在します。"
 
 #. Template: AgentCustomerSearch
 msgid "It is going to be deleted from the field, please try again."
@@ -8178,40 +8247,36 @@ msgid "Note: Customer is invalid!"
 msgstr "注意: 顧客が無効です。"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
 msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
+msgstr "OTRS デーモンを起動しています。"
+
+#. Template: AgentDaemonInfo
+msgid ""
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
-msgstr "システムを正常に運用するために、OTRS Daemonが正常に起動している必要があります。"
-
-#. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr "OTRS Daemonを起動しています。"
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "%s (”.dist\"拡張子なし)が存在することをご確認ください。"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "cronデーモンが起動していることをご確認ください。"
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr "%s startを実行して、OTRSのcronジョブが起動することを確認して下さい。"
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
+msgstr ""
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -8247,7 +8312,7 @@ msgstr "メールチケット"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8267,7 +8332,7 @@ msgstr "%s宛の新規メールチケット"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8382,11 +8447,11 @@ msgstr "合計"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr "オフィスにいません"
+msgstr "外出中"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "選択されたエージェントは現在チャットに参加できません。"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8442,7 +8507,7 @@ msgstr "個人設定を編集"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "ご存じですか? %sにてOTRSの翻訳にご協力ください。"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8567,6 +8632,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr ""
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "行の合計"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "列の合計"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "キャッシュ"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr ""
@@ -8609,7 +8694,7 @@ msgstr "無効なサービスです"
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
-msgstr "新規所有者"
+msgstr "新しい所有者"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
@@ -8617,7 +8702,7 @@ msgstr "新規所有者を設定してください。"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr "新規 責任者"
+msgstr "新しい責任者"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -8636,6 +8721,24 @@ msgid "Create an Article"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "Inform agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid ""
+"Here you can select additional agents which should receive a notification "
+"regarding the new article."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Text will also be received by:"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr "スペルチェック"
 
@@ -8651,30 +8754,8 @@ msgstr "テンプレートを設定すると作成中の本文または添付フ
 msgid "Note type"
 msgstr "メモタイプ"
 
-#. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "担当者に知らせる"
-
-#. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "オプション"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "関係担当者に知らせる"
-
-#. Template: AgentTicketActionCommon
-msgid ""
-"Here you can select additional agents which should receive a notification "
-"regarding the new article."
-msgstr ""
-
-#. Template: AgentTicketActionCommon
-msgid "Note will be (also) received by:"
-msgstr ""
-
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
+msgid "Bounce %s%s"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -8735,6 +8816,10 @@ msgstr "チケットのロック解除"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -8804,10 +8889,6 @@ msgstr ""
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "全てを取得"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -8939,7 +9020,7 @@ msgstr "新規電話チケットに分割"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "チャットを新規チケットに保存する。"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -8955,11 +9036,11 @@ msgstr "キューへ"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "チャットプロトコル"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "チャットは新規記事として追加されます。"
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s"
@@ -9154,6 +9235,10 @@ msgstr "アーカイブ"
 #. Template: AgentTicketZoom
 msgid "This ticket is archived."
 msgstr "このチケットはアーカイブされています。"
+
+#. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9354,11 +9439,11 @@ msgstr "詳細はマニュアルを参照するか、管理者にお問い合わ
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "モバイルモードへ"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "デスクトップモードへ"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
@@ -9366,11 +9451,11 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "すべてクリア"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "検索条件をクリア"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
@@ -9386,7 +9471,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -9480,7 +9565,7 @@ msgstr "あなたの電子メールアドレス (ユーザー名になります)
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "受信チャット要求"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
@@ -9492,7 +9577,7 @@ msgstr "個人設定の編集"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "ログアウト %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -9604,7 +9689,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "このチケットからチャットを開始する。"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
@@ -9624,7 +9709,7 @@ msgstr "返信"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "チャットプロトコル"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
@@ -9692,7 +9777,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "チケット・フィールド"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
@@ -9715,8 +9800,8 @@ msgid "Open date selection"
 msgstr "対応開始日を選択"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "エラーが発生しました。"
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -9758,31 +9843,31 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "チャットに参加できません。"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
-msgstr ""
+msgstr "内部チャットのみ参加できます。"
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "チャット可能です。"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
-msgstr ""
+msgstr "チャットマネージャを確認してください。"
 
 #. Template: FooterJS
 msgid "New personal chat request"
-msgstr ""
+msgstr "新規の個人チャット要求"
 
 #. Template: FooterJS
 msgid "New customer chat request"
-msgstr ""
+msgstr "新規の顧客チャット要求"
 
 #. Template: FooterJS
 msgid "New public chat request"
-msgstr ""
+msgstr "新規のパブリックチャット要求"
 
 #. Template: FooterJS
 msgid "New activity"
@@ -9790,12 +9875,20 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr "あなたがモニターしているチャットで、新しい動きがあります。"
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Information about the OTRS Daemon"
 msgstr ""
 
 #. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr ""
+msgstr "この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。"
 
 #. Template: FooterJS
 msgid "Find out more about the %s"
@@ -9993,7 +10086,7 @@ msgstr "パスワードを再度入力"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr ""
+msgstr "パスワードを生成しました。"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
@@ -10027,7 +10120,7 @@ msgstr "スタートページ"
 
 #. Template: InstallerFinish
 msgid "Your OTRS Team"
-msgstr ""
+msgstr "Your OTRS Team"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
@@ -10197,8 +10290,207 @@ msgstr ""
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr "必須とマークされている通知を完全に無効化することはできませんのでご了承ください。"
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
+#. Template: ActivityDialogHeader
+msgid "Process Information"
+msgstr "プロセス情報"
+
+#. Template: ActivityDialogHeader
+msgid "Dialog"
+msgstr ""
+
+#. Template: Article
+msgid "Inform Agent"
+msgstr "担当者に知らせる"
+
 #. Template: PublicDefault
 msgid "Welcome"
+msgstr "ようこそ"
+
+#. Template: GeneralSpecificationsWidget
+msgid "Permissions"
+msgstr "権限"
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"You can select one or more groups to define access for different agents."
+msgstr "エージェントごとに、複数のグループを同時選択することもできます。"
+
+#. Template: GeneralSpecificationsWidget
+msgid "Result formats"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "The selected time periods in the statistic are time zone neutral."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation row"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional row containing sums for all data columns."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation column"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional column containing sums for all data rows."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Cache results"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Stores statistics result data in a cache to be used in subsequent views with"
+" the same configuration."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Provide the statistic as a widget that agents can activate in their "
+"dashboard."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Please note that enabling the dashboard widget will activate caching for "
+"this statistic in the dashboard."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "If set to invalid end users can not generate the stat."
+msgstr "無効なエンドユーザーに設定されている場合、統計を生成できません。"
+
+#. Template: PreviewWidget
+msgid "There are problems in the configuration of this statistic:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "You may now configure the X-axis of your statistic."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "This statistic does not provide preview data."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Preview format:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid ""
+"Please note that the preview uses random data and does not consider data "
+"filters."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Configure X-Axis"
+msgstr "X軸の設定"
+
+#. Template: PreviewWidget
+msgid "X-axis"
+msgstr "X軸"
+
+#. Template: PreviewWidget
+msgid "Configure Y-Axis"
+msgstr "Y軸の設定"
+
+#. Template: PreviewWidget
+msgid "Y-axis"
+msgstr "Y軸"
+
+#. Template: PreviewWidget
+msgid "Configure Filter"
+msgstr "フィルタの設定"
+
+#. Template: RestrictionsWidget
+msgid "Please select only one element or turn off the button 'Fixed'."
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Absolute period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Between"
+msgstr "この間"
+
+#. Template: RestrictionsWidget
+msgid "Relative period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "The past complete %s and the current+upcoming complete %s %s"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Do not allow changes to this element when the statistic is generated."
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Format"
+msgstr "書式"
+
+#. Template: StatsParamsWidget
+msgid "Exchange Axis"
+msgstr "縦横軸の交換"
+
+#. Template: StatsParamsWidget
+msgid "Configurable params of static stat"
+msgstr "静的統計情報の設定可能パラメータ"
+
+#. Template: StatsParamsWidget
+msgid "No element selected."
+msgstr "要素が選択されていません。"
+
+#. Template: StatsParamsWidget
+msgid "Scale"
+msgstr "目盛"
+
+#. Template: D3
+msgid "Download SVG"
+msgstr "SVG画像のダウンロード"
+
+#. Template: D3
+msgid "Download PNG"
+msgstr "PNG画像のダウンロード"
+
+#. Template: XAxisWidget
+msgid ""
+"The selected time period defines the default time frame for this statistic "
+"to collect data from."
+msgstr ""
+
+#. Template: XAxisWidget
+msgid ""
+"Defines the time unit that will be used to split the selected time period "
+"into reporting data points."
+msgstr ""
+
+#. Template: YAxisWidget
+msgid ""
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -10207,7 +10499,7 @@ msgstr "OTRS テストページ"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "ようこそ %s %s"
 
 #. Template: Test
 msgid "Counter"
@@ -10237,15 +10529,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" updated!"
-msgstr ""
+msgstr "Webサービス \"%s\" を更新しました。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr ""
+msgstr "Webサービス \"%s\" を作成しました。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr ""
+msgstr "Webサービス \"%s\" を削除しました。"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -10279,6 +10571,10 @@ msgstr ""
 msgid "Customer of the ticket"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10286,7 +10582,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "統計"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -10319,6 +10615,14 @@ msgstr "以前の所有者"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr "%s はチャットから退出しました。"
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
+msgstr "このチャットはすでに閉じられています、  %s 時間後に削除されます。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
@@ -10400,6 +10704,10 @@ msgstr ""
 msgid " You can take one of the next actions:"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr ""
@@ -10417,24 +10725,18 @@ msgstr ""
 msgid "(in process)"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+msgid "Please specify an end date that is after the start date."
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "X-axis"
-msgstr "X軸"
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "Y-axis"
-msgstr "Y軸"
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected start time is before the allowed start time."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10445,16 +10747,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"The selected time upcoming period is larger than the allowed time upcoming "
-"period."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected time scale is smaller than the allowed time scale."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10476,6 +10768,18 @@ msgid "There is something wrong with your time selection."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr "X軸の要素を1つ選択してください。"
 
@@ -10485,12 +10789,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10519,6 +10817,22 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "順序"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -10975,7 +11289,7 @@ msgstr "システムログにエラーが出力されています。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (ドメインネーム)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Please configure your FQDN setting."
@@ -11287,7 +11601,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "対応中チケット"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
@@ -11337,7 +11651,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "新規チケット"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -11409,7 +11723,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "未分類"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
@@ -11425,7 +11739,55 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "fax"
+msgstr "fax"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr "新規作成通知"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr "チケット・フォローアップ通知 (ロック解除)"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr "チケット・フォローアップ通知 (ロック)"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
 msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr "チケット・キュー更新通知"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr "チケット・サービス更新通知"
 
 #. SysConfig
 msgid ""
@@ -11440,7 +11802,7 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr ""
+msgstr "\nお客様\n\n表題に記載ののチケット番号は有効ではございません。\n大変申し訳ありませんが、このメールの処理は行われません。\n\nカスタマーパネルより新たなチケットを作成願います。\n\nヘルプデスク担当\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -11461,6 +11823,10 @@ msgstr "%s time unit(s) accounted. Now total %s time unit(s)."
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(ユーザー名) 姓 名 "
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -11830,6 +12196,10 @@ msgid ""
 msgstr "担当者インタフェースの移動チケット画面で、新しいチケット状態を設定することを許可します。"
 
 #. SysConfig
+msgid "Arabic (Saudi Arabia)"
+msgstr ""
+
+#. SysConfig
 msgid "Archive state changed: \"%s\""
 msgstr ""
 
@@ -11914,6 +12284,10 @@ msgid "Builds an article index right after the article's creation."
 msgstr "項目作成の直後に、項目インデックスをビルドします。"
 
 #. SysConfig
+msgid "Bulgarian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
@@ -11948,6 +12322,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
+msgstr ""
+
+#. SysConfig
+msgid "Catalan"
 msgstr ""
 
 #. SysConfig
@@ -12009,9 +12387,17 @@ msgid "Checks the entitlement status of OTRS Business Solution™."
 msgstr ""
 
 #. SysConfig
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Traditional)"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr ""
+msgstr "通知を受け取りたいチケットの変更の種類を選択してください。"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -12023,7 +12409,7 @@ msgstr "完了チケット(顧客)"
 
 #. SysConfig
 msgid "Cloud Services"
-msgstr ""
+msgstr "クラウドサービス"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
@@ -12119,7 +12505,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "コミュニケーション"
 
 #. SysConfig
 msgid "Company Status"
@@ -12153,7 +12539,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "新規チケットが作成された後に表示する画面を選択してください。"
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -12169,6 +12555,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -12265,7 +12655,7 @@ msgstr "テンプレートの作成と管理"
 
 #. SysConfig
 msgid "Create and manage ticket notifications."
-msgstr ""
+msgstr "チケット通知の作成と管理"
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -12294,6 +12684,10 @@ msgstr "新規受信電話チケットの作成"
 #. SysConfig
 msgid "Create new process ticket"
 msgstr "新規プロセスチケットの作成"
+
+#. SysConfig
+msgid "Croatian"
+msgstr ""
 
 #. SysConfig
 msgid "Custom RSS Feed"
@@ -12367,6 +12761,14 @@ msgstr "顧客 <-> グループ"
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
+msgstr ""
+
+#. SysConfig
+msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid "Danish"
 msgstr ""
 
 #. SysConfig
@@ -12609,15 +13011,14 @@ msgstr "スキャンされるべき全てのX－ヘッダーを定義します�
 
 #. SysConfig
 msgid ""
-"Defines all the languages that are available to the application. The "
-"Key/Content pair links the front-end display name to the appropriate "
-"language PM file. The \"Key\" value should be the base-name of the PM file "
-"(i.e. de.pm is the file, then de is the \"Key\" value). The \"Content\" "
-"value should be the display name for the front-end. Specify any own-defined "
-"language here (see the developer documentation http://otrs.github.io/doc/ "
-"for more infomation). Please remember to use the HTML equivalents for non-"
-"ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use "
-"the &ouml; symbol)."
+"Defines all the languages that are available to the application. Specify "
+"only English names of languages here."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines all the languages that are available to the application. Specify "
+"only native names of languages here."
 msgstr ""
 
 #. SysConfig
@@ -13419,6 +13820,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "顧客インタフェースで、項目のデフォルトのタイプを定義します。"
 
@@ -14052,6 +14457,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Defines the number of days to keep the daemon log files."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
@@ -14184,16 +14593,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr "顧客インタフェースで、チケットの受信者ターゲットを定義します(\"Queue\"は全てのキューを表示し、\"SystemAddress\"は全てのシステム・アドレスを表示します)。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14425,7 +14834,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "期限切れのセッションデータを削除する。"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
@@ -14443,7 +14852,7 @@ msgstr "リクエストされたセッションがタイムアウトしている
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr "OTRSビジネスソリューション™のデプロイと管理"
+msgstr "OTRS Business Solution™のデプロイと管理"
 
 #. SysConfig
 msgid ""
@@ -14501,19 +14910,19 @@ msgstr "タイム・リミットを越えてから状態を変更したペンデ
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
+"Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "担当者インタフェースにおいて、電話チケットの受領者(To:)、およびEメール・チケットの送信者(From:)として表示される文字列を定義します。キューに関しては、NewQueueSelectionType \"<Queue>\"がキューの名前を表示し、SystemAddress \"<Realname> <<Email>>\"は受領者の名前およびEメールを表示します。"
+"the recipient."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
+"Determines the strings that will be shown as recipient (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
 msgstr ""
 
 #. SysConfig
@@ -14522,15 +14931,22 @@ msgstr "リンクされたオブジェクトがそれぞれのズームマスク
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "担当者インタフェースにおいて、受領者（電話チケット）および送信者（Eメール・チケット）に関する、どのオプションが有効となるかを定義します。"
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr "顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。"
+
+#. SysConfig
+msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14570,6 +14986,12 @@ msgstr "チケットズームビューで、項目に関してアカウントさ
 #. SysConfig
 msgid "Dropdown"
 msgstr "ドロップダウン"
+
+#. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -14807,6 +15229,10 @@ msgid "DynamicField object registration."
 msgstr ""
 
 #. SysConfig
+msgid "E-Mail Outbound"
+msgstr "メール送信"
+
+#. SysConfig
 msgid "Edit customer company"
 msgstr "顧客企業を編集"
 
@@ -14828,7 +15254,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
-msgstr ""
+msgstr "フィルタを有効にする。"
 
 #. SysConfig
 msgid ""
@@ -14904,6 +15330,24 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr "リストされたグループためにのみ、チケット監視機能を有効にします。"
 
 #. SysConfig
+msgid "English (Canada)"
+msgstr "英語(カナダ)"
+
+#. SysConfig
+msgid "English (United Kingdom)"
+msgstr "英語(イギリス)"
+
+#. SysConfig
+msgid "English (United States)"
+msgstr "英語(アメリカ合衆国)"
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Enroll process for this ticket"
 msgstr ""
 
@@ -14956,6 +15400,10 @@ msgid "EscalationTime"
 msgstr ""
 
 #. SysConfig
+msgid "Estonian"
+msgstr "エストニア語"
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14972,6 +15420,11 @@ msgstr ""
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Event module that updates customer user search profiles if login changes."
 msgstr ""
 
 #. SysConfig
@@ -15076,6 +15529,10 @@ msgid "Filter incoming emails."
 msgstr "受信メールフィルタ"
 
 #. SysConfig
+msgid "Finnish"
+msgstr "フィンランド語"
+
+#. SysConfig
 msgid "First Queue"
 msgstr ""
 
@@ -15126,6 +15583,14 @@ msgstr "チケットが他のキューに移動された後に、強制的にア
 #. SysConfig
 msgid "Forwarded to \"%s\"."
 msgstr "Forwarded to \"%s\"."
+
+#. SysConfig
+msgid "French"
+msgstr "フランス語"
+
+#. SysConfig
+msgid "French (Canada)"
+msgstr "フランス語（カナダ）"
 
 #. SysConfig
 msgid ""
@@ -15179,7 +15644,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "全文検索"
+
+#. SysConfig
+msgid "Galician"
+msgstr "ガリシア語"
 
 #. SysConfig
 msgid ""
@@ -15245,6 +15714,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr ""
 
 #. SysConfig
+msgid "German"
+msgstr "ドイツ語"
+
+#. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
@@ -15265,11 +15738,12 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "チケットの顧客IDが顧客ユーザIDと合致していた、および顧客がそのチケットが入っているキューに対するグループ許可を持っていた場合に、顧客に対してアクセスを付与します。"
+msgid "Greek"
+msgstr "ギリシャ語"
+
+#. SysConfig
+msgid "Hebrew"
+msgstr "ヘブライ語"
 
 #. SysConfig
 msgid ""
@@ -15280,6 +15754,14 @@ msgid ""
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
 msgstr ""
+
+#. SysConfig
+msgid "Hindi"
+msgstr "ヒンディー語"
+
+#. SysConfig
+msgid "Hungarian"
+msgstr "ハンガリー語"
 
 #. SysConfig
 msgid ""
@@ -15353,7 +15835,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15581,6 +16063,17 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If enabled the daemon will redirect the standard error stream to a log file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will redirect the standard output stream to a log "
+"file."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If "
 "you turn this off, there will likely be problems in IE 7, because it cannot "
 "load more than 32 CSS files."
@@ -15718,13 +16211,29 @@ msgid ""
 msgstr "異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。"
 
 #. SysConfig
+msgid "Italian"
+msgstr "イタリア語"
+
+#. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
 
 #. SysConfig
+msgid "Japanese"
+msgstr "日本語"
+
+#. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -15734,6 +16243,10 @@ msgstr "名, 姓"
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
 msgstr "名, 姓 (ユーザー名)"
+
+#. SysConfig
+msgid "Latvian"
+msgstr "ラトビア語"
 
 #. SysConfig
 msgid "Left"
@@ -15844,6 +16357,10 @@ msgid "List view"
 msgstr ""
 
 #. SysConfig
+msgid "Lithuanian"
+msgstr "リトアニア語"
+
+#. SysConfig
 msgid "Lock / unlock this ticket"
 msgstr ""
 
@@ -15885,8 +16402,12 @@ msgid ""
 msgstr "セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。"
 
 #. SysConfig
+msgid "Malay"
+msgstr "マレー語"
+
+#. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "OTRSグループのクラウドサービスの管理"
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -15906,7 +16427,7 @@ msgstr "既存セッション管理"
 
 #. SysConfig
 msgid "Manage support data."
-msgstr ""
+msgstr "サポート情報の管理"
 
 #. SysConfig
 msgid "Manage system registration."
@@ -15935,8 +16456,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Eメール・リプライにおける件名の最大サイズです。"
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15990,26 +16512,16 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "チケット番号 <OTRS_TICKET> は、チケット番号 <OTRS_MERGE_TO_TICKET> にマージされました。"
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "その他"
 
 #. SysConfig
 msgid ""
 "Module for To-selection in new ticket screen in the customer interface."
 msgstr "顧客インタフェースで、新規チケット画面におけるTo-selectionのモジュールです。"
-
-#. SysConfig
-msgid "Module to check customer permissions."
-msgstr "顧客の許可をチェックするためのモジュールです。"
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "あるユーザが、特別なグループに加入しているか確認するためのモジュールです。ユーザが特別なグループに入っておりro権限とrw権限を持っていれば、アクセスが付与されます。"
 
 #. SysConfig
 msgid ""
@@ -16019,21 +16531,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "チケットの責任者となる担当者を確認するモジュールです。"
+msgid "Module to check the group permissions for customer access to tickets."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "顧客チケットへのアクセスに関して、グループ許可を確認します。"
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "チケットの所有者を確認するモジュールです。"
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "チケットの監視人担当者をチェックするためのモジュールです。"
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16082,6 +16585,40 @@ msgstr "チケット統計を作成するためのモジュールです。"
 
 #. SysConfig
 msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
@@ -16120,6 +16657,10 @@ msgid "NameX"
 msgstr ""
 
 #. SysConfig
+msgid "Nederlands"
+msgstr "オランダ語"
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 
@@ -16154,6 +16695,10 @@ msgstr "担当者インタフェースのチケット電話アウトバウンド
 #. SysConfig
 msgid "None"
 msgstr "なし"
+
+#. SysConfig
+msgid "Norwegian"
+msgstr "ノルウェー語"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -16205,8 +16750,32 @@ msgid "Open tickets (customer)"
 msgstr "オープンチケット(顧客)"
 
 #. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
 msgid "Out Of Office"
-msgstr "オフィスにいません"
+msgstr "外出中"
 
 #. SysConfig
 msgid ""
@@ -16308,6 +16877,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16330,16 +16911,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr "担当者インタフェースにおけるチケット・カレンダーのダッシュボード・バックエンドに関するパラメータです。\"Limit\"は、表示されるデフォルトのエントリー数です。\"Group\"は、プラグインへのアクセスを制限するために使用されます(例：Group: admin;group1;group2;)。\"Default\"は、プラグインがデフォルトで有効となっているか、またはユーザがそれを手動で有効にする必要があるか、を定義します。\"CacheTTLLocal\"は、プラグインのキャッシュ・タイム（分）です。"
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16352,21 +16923,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
+" of the agent interface . \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
@@ -16385,6 +16953,16 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
 msgstr "担当者インタフェースにおけるチケット統計のダッシュボード・バックエンドに関するパラメータです。\"Limit\"は、表示されるデフォルトのエントリー数です。\"Group\"は、プラグインへのアクセスを制限するために使用されます(例：Group: admin;group1;group2;)。\"Default\"は、プラグインがデフォルトで有効となっているか、またはユーザがそれを手動で有効にする必要があるか、を定義します。\"CacheTTLLocal\"は、プラグインのキャッシュ・タイム（分）です。"
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16430,7 +17008,7 @@ msgstr "ログ・ファイルのパスです（LoopProtectionModuleに関して�
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "担当者/顧客"
 
 #. SysConfig
 msgid ""
@@ -16447,8 +17025,24 @@ msgid "Permitted width for compose note windows."
 msgstr "メモ・ウィンドウを構成するために許容される幅です。"
 
 #. SysConfig
+msgid "Persian"
+msgstr "ペルシア語"
+
+#. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "画像のアップロード"
+
+#. SysConfig
+msgid "Polish"
+msgstr "ポーランド語"
+
+#. SysConfig
+msgid "Portuguese"
+msgstr "ポルトガル語"
+
+#. SysConfig
+msgid "Portuguese (Brasil)"
+msgstr "ポルトガル語（ブラジル）"
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16457,10 +17051,6 @@ msgstr "ポストマスター・フィルタ"
 #. SysConfig
 msgid "PostMaster Mail Accounts"
 msgstr "メールアカウント"
-
-#. SysConfig
-msgid "Process Information"
-msgstr "プロセス情報"
 
 #. SysConfig
 msgid "Process Management Activity Dialog GUI"
@@ -16484,7 +17074,7 @@ msgstr "プロセス管理遷移GUI"
 
 #. SysConfig
 msgid "Process pending tickets."
-msgstr ""
+msgstr "保留中プロセスチケット"
 
 #. SysConfig
 msgid "ProcessID"
@@ -16534,11 +17124,11 @@ msgstr "担当者インタフェースのチケット構成画面で、オリジ
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "レポート"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"
-msgstr ""
+msgstr "レポート（OTRS Business Solution™）"
 
 #. SysConfig
 msgid ""
@@ -16690,12 +17280,16 @@ msgid ""
 msgstr "システムを“デモ”モードで動作させます。“Yes”に設定すると、担当者が、担当者用ウェブ・インタフェースを通して、言語選択やテーマなどのプレファレンスを変更できるようになります。これらの変更は、現在のセッションにおいてのみ有効です。担当者がパスワードを変更することはできません。"
 
 #. SysConfig
+msgid "Russian"
+msgstr "ロシア語"
+
+#. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "S/MIME証明書アップロード"
 
 #. SysConfig
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #. SysConfig
 msgid "Sample command output"
@@ -16717,7 +17311,7 @@ msgstr "メンテナンス期間をスケジュール"
 
 #. SysConfig
 msgid "Screen"
-msgstr ""
+msgstr "画面"
 
 #. SysConfig
 msgid "Search Customer"
@@ -16770,7 +17364,7 @@ msgstr "チケット番号を生成するモジュールを選択します。\"A
 
 #. SysConfig
 msgid "Send new outgoing mail from this ticket"
-msgstr ""
+msgstr "このチケットから新規メールを発信"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -16815,6 +17409,14 @@ msgid ""
 msgstr "管理インタフェースの\"Notfication (Event)\"の下で設定された通知を送信します。"
 
 #. SysConfig
+msgid "Serbian Cyrillic"
+msgstr "セルビア語（キリル文字）"
+
+#. SysConfig
+msgid "Serbian Latin"
+msgstr "セルビア語（ラテン文字）"
+
+#. SysConfig
 msgid "Service view"
 msgstr "サービス一覧"
 
@@ -16833,6 +17435,12 @@ msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "AgentTicketZoomで、インラインHTML項目のデフォルトの高さ（pixel）を設定します。"
+
+#. SysConfig
+msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16897,7 +17505,7 @@ msgid ""
 " ascending order: Expert, Advanced, Beginner. The higher the config level is"
 " (e.g. Beginner is the highest), the less likely is it that the user can "
 "accidentally configure the system in a way that it is not usable any more."
-msgstr "管理者のコンフィグ・レベルの設定です。コンフィグ・レベルに拠り、いくつかのシステム・コンフィグ・オプションは表示されなくなります。コンフィグ・レベルは昇順です：Expert, Advanced, Beginner。コンフィグ・レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
+msgstr "管理者の設定レベルの設定です。設定レベルに拠り、いくつかのシステム設定オプションは表示されなくなります。設定レベルは昇順です：Expert, Advanced, Beginner。設定レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
 
 #. SysConfig
 msgid ""
@@ -17432,6 +18040,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "リッチ・テキストのライティングが無効にされている場合でも、項目をリッチ・テキストで表示します。"
 
 #. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
+
+#. SysConfig
 msgid "Show the current owner in the customer interface."
 msgstr ""
 
@@ -17887,7 +18499,7 @@ msgstr "システム内に存在する親/子キューのリストを、ツリ�
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr "OTRS Daemonの起動手順を紹介します。"
+msgstr "OTRSデーモンの起動手順を紹介します。"
 
 #. SysConfig
 msgid ""
@@ -18037,6 +18649,14 @@ msgid "Skin"
 msgstr "スキン"
 
 #. SysConfig
+msgid "Slovak"
+msgstr "スロバキア語"
+
+#. SysConfig
+msgid "Slovenian"
+msgstr "スロベニア語"
+
+#. SysConfig
 msgid "SolutionDiffInMin"
 msgstr "解決期限超過時間"
 
@@ -18077,6 +18697,18 @@ msgstr "スパム・アサシンのセットアップ例です。スパム・ア
 #. SysConfig
 msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr "SpamAssassinのセットアップ例です。マークされたメールを、スパム・キューへ移動します。"
+
+#. SysConfig
+msgid "Spanish"
+msgstr "スペイン語"
+
+#. SysConfig
+msgid "Spanish (Colombia)"
+msgstr "スペイン語(コロンビア)"
+
+#. SysConfig
+msgid "Spanish (Mexico)"
+msgstr "スペイン語(メキシコ)"
 
 #. SysConfig
 msgid ""
@@ -18206,8 +18838,8 @@ msgstr "ポストマスター・データベースのユーザIDを特定しま�
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
 msgstr ""
 
 #. SysConfig
@@ -18274,6 +18906,14 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
+msgid "Swahili"
+msgstr "スワヒリ語"
+
+#. SysConfig
+msgid "Swedish"
+msgstr "スウェーデン語"
+
+#. SysConfig
 msgid "System Maintenance"
 msgstr "システムメンテナンス"
 
@@ -18288,6 +18928,10 @@ msgstr "テンプレート <-> キュー"
 #. SysConfig
 msgid "Textarea"
 msgstr "Textarea"
+
+#. SysConfig
+msgid "Thai"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18473,12 +19117,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
+msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "チケット通知"
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -18494,7 +19138,7 @@ msgstr "Ticket moved into Queue \"%s\" (%s) from Queue \"%s\" (%s)."
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "チケット通知"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -18532,6 +19176,15 @@ msgstr "ツリー表示"
 
 #. SysConfig
 msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
+
+#. SysConfig
+msgid "Turkish"
+msgstr "トルコ語"
+
+#. SysConfig
+msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
 msgstr ""
@@ -18554,6 +19207,10 @@ msgid ""
 msgstr "リモートIPアドレス・チェックをONにします。もし、例えばproxy farmまたはdialup connection経由でアプリケーションが使用されている場合、\"No\"の設定する必要があります。なぜなら、リモートIPアドレスは、ほとんどの場合リクエストごとに異なるからです。"
 
 #. SysConfig
+msgid "Ukrainian"
+msgstr "ウクライナ語"
+
+#. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
 msgstr ""
 
@@ -18574,7 +19231,7 @@ msgstr "全ての項目が確認された、または新規のArticleが作成�
 
 #. SysConfig
 msgid "Update and extend your system with software packages."
-msgstr "このシステムのソフトウェアパッケージの更新と拡張"
+msgstr "このシステムのソフトウェアパッケージの更新と展開"
 
 #. SysConfig
 msgid "Updated SLA to %s (ID=%s)."
@@ -18642,6 +19299,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Vietnam"
+msgstr "ベトナム"
+
+#. SysConfig
 msgid "View performance benchmark results."
 msgstr "パフォーマンスベンチマーク結果を見る。"
 
@@ -18652,6 +19313,20 @@ msgstr "システムログメッセージを見る。"
 #. SysConfig
 msgid "Watch this ticket"
 msgstr "このチケットを見る。"
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
 
 #. SysConfig
 msgid ""

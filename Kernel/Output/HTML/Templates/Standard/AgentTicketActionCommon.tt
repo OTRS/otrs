@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -340,6 +340,44 @@ $('#TypeID').bind('change', function (Event) {
                             </div>
                             <div class="Clear"></div>
 [% END %]
+                        </fieldset>
+[% RenderBlockStart("InformAdditionalAgents") %]
+                        <fieldset class="TableLike FixedLabel">
+[% RenderBlockStart("InformAgent") %]
+                            <label for="InformUserID">[% Translate("Inform agents") | html %]:</label>
+                            <div class="Field">
+                            [% Data.OptionStrg %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("InformAgent") %]
+[% RenderBlockStart("InvolvedAgent") %]
+                            <label for="InvolvedUserID">[% Translate("Inform involved agents") | html %]:</label>
+                            <div class="Field">
+                            [% Data.InvolvedAgentStrg %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("InvolvedAgent") %]
+                            <div class="Field">
+                                <p class="FieldExplanation">
+                                    [% Translate("Here you can select additional agents which should receive a notification regarding the new article.") %]
+                                </p>
+                            </div>
+                        </fieldset>
+[% RenderBlockEnd("InformAdditionalAgents") %]
+[% RenderBlockStart("InformAgentsWithoutSelection") %]
+                        <fieldset class="TableLike FixedLabel">
+                            <label>[% Translate("Text will also be received by:") | html %]:</label>
+                            <div class="Field">
+                                <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
+[% RenderBlockStart("InformAgentsWithoutSelectionSingleUser") %]
+                                <span title="[% Data.UserEmail %]">[% Data.UserFullname %]</span>[% RenderBlockStart("InformAgentsWithoutSelectionSingleUserSeparator") %],[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUserSeparator") %]
+[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUser") %]
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+[% RenderBlockEnd("InformAgentsWithoutSelection") %]
+
+                        <fieldset class="TableLike FixedLabel">
 [% RenderBlockStart("SubjectLabel") %]
                             <label for="Subject">[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabel") %]
@@ -380,7 +418,9 @@ $('#TypeID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#StandardTemplateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        });
         return false;
     });
 //]]></script>
@@ -464,41 +504,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
                         </fieldset>
-[% RenderBlockStart("InformAdditionalAgents") %]
-                        <fieldset class="TableLike FixedLabel">
-[% RenderBlockStart("InformAgent") %]
-                            <label for="InformUserID">[% Translate("Inform Agent") | html %]: ([% Translate("Optional") | html %])</label>
-                            <div class="Field">
-                            [% Data.OptionStrg %]
-                            </div>
-                            <div class="Clear"></div>
-[% RenderBlockEnd("InformAgent") %]
-[% RenderBlockStart("InvolvedAgent") %]
-                            <label for="InvolvedUserID">[% Translate("Inform involved Agents") | html %]:</label>
-                            <div class="Field">
-                            [% Data.InvolvedAgentStrg %]
-                            </div>
-                            <div class="Clear"></div>
-[% RenderBlockEnd("InvolvedAgent") %]
-                            <div class="Field">
-                                <p class="FieldExplanation">
-                                    [% Translate("Here you can select additional agents which should receive a notification regarding the new article.") %]
-                                </p>
-                            </div>
-                        </fieldset>
-[% RenderBlockEnd("InformAdditionalAgents") %]
-[% RenderBlockStart("InformAgentsWithoutSelection") %]
-                        <fieldset class="TableLike FixedLabel">
-                            <label>[% Translate("Note will be (also) received by:") | html %]:</label>
-                            <p class="Value">
-                                <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
-[% RenderBlockStart("InformAgentsWithoutSelectionSingleUser") %]
-                                <span title="[% Data.UserEmail %]">[% Data.UserFullname %]</span>[% RenderBlockStart("InformAgentsWithoutSelectionSingleUserSeparator") %],[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUserSeparator") %]
-[% RenderBlockEnd("InformAgentsWithoutSelectionSingleUser") %]
-                            </p>
-                            <div class="Clear"></div>
-                        </fieldset>
-[% RenderBlockEnd("InformAgentsWithoutSelection") %]
                     </div>
                 </div>
 [% RenderBlockEnd("WidgetArticle") %]

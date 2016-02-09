@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Dashboard::UserOnline;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -65,7 +67,7 @@ sub new {
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
-        || $Self->{Config}->{Limit};
+        || $Self->{Config}->{Limit} || 10;
 
     $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
@@ -85,7 +87,7 @@ sub Preferences {
 
     my @Params = (
         {
-            Desc  => 'Shown',
+            Desc  => Translatable('Shown'),
             Name  => $Self->{PrefKey},
             Block => 'Option',
             Data  => {
@@ -108,6 +110,8 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
+
+        CanRefresh => 1,
 
         # remember, do not allow to use page cache
         # (it's not working because of internal filter)

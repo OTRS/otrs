@@ -1,12 +1,13 @@
 package HTTP::Response;
 
-require HTTP::Message;
-@ISA = qw(HTTP::Message);
-$VERSION = "6.04";
-
 use strict;
-use HTTP::Status ();
+use warnings;
 
+use base 'HTTP::Message';
+
+our $VERSION = "6.11";
+
+use HTTP::Status ();
 
 
 sub new
@@ -212,6 +213,8 @@ sub is_info     { HTTP::Status::is_info     (shift->{'_rc'}); }
 sub is_success  { HTTP::Status::is_success  (shift->{'_rc'}); }
 sub is_redirect { HTTP::Status::is_redirect (shift->{'_rc'}); }
 sub is_error    { HTTP::Status::is_error    (shift->{'_rc'}); }
+sub is_client_error { HTTP::Status::is_client_error (shift->{'_rc'}); }
+sub is_server_error { HTTP::Status::is_server_error (shift->{'_rc'}); }
 
 
 sub error_as_HTML
@@ -429,7 +432,7 @@ charsets have been decoded.  See L<HTTP::Message> for details.
 =item $r->request( $request )
 
 This is used to get/set the request attribute.  The request attribute
-is a reference to the the request that caused this response.  It does
+is a reference to the request that caused this response.  It does
 not have to be the same request passed to the $ua->request() method,
 because there might have been redirects and authorization retries in
 between.
@@ -538,6 +541,10 @@ Returns a textual representation of the response.
 =item $r->is_redirect
 
 =item $r->is_error
+
+=item $r->is_client_error
+
+=item $r->is_server_error
 
 These methods indicate if the response was informational, successful, a
 redirection, or an error.  See L<HTTP::Status> for the meaning of these.

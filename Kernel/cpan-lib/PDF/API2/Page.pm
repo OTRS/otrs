@@ -1,6 +1,6 @@
 package PDF::API2::Page;
 
-our $VERSION = '2.023'; # VERSION
+our $VERSION = '2.025'; # VERSION
 
 use base 'PDF::API2::Basic::PDF::Pages';
 
@@ -113,7 +113,7 @@ sub mediabox {
 
 =item ($llx, $lly, $urx, $ury) = $page->get_mediabox
 
-Gets the mediabox based one best estimates or the default.
+Gets the mediabox based on best estimates or the default.
 
 =cut
 
@@ -138,13 +138,13 @@ sub cropbox {
 
 =item ($llx, $lly, $urx, $ury) = $page->get_cropbox
 
-Gets the cropbox based one best estimates or the default.
+Gets the cropbox based on best estimates or the default.
 
 =cut
 
 sub get_cropbox {
     my $self = shift();
-    return _get_bbox($self, [qw(CropBox BleedBox TrimBox ArtBox MediaBox)]);
+    return _get_bbox($self, [qw(CropBox MediaBox BleedBox TrimBox ArtBox)]);
 }
 
 =item $page->bleedbox $w, $h
@@ -163,13 +163,13 @@ sub bleedbox {
 
 =item ($llx, $lly, $urx, $ury) = $page->get_bleedbox
 
-Gets the bleedbox based one best estimates or the default.
+Gets the bleedbox based on best estimates or the default.
 
 =cut
 
 sub get_bleedbox {
     my $self = shift();
-    return _get_bbox($self, [qw(BleedBox TrimBox ArtBox MediaBox CropBox)]);
+    return _get_bbox($self, [qw(BleedBox CropBox MediaBox TrimBox ArtBox)]);
 }
 
 =item $page->trimbox $w, $h
@@ -186,13 +186,13 @@ sub trimbox {
 
 =item ($llx, $lly, $urx, $ury) = $page->get_trimbox
 
-Gets the trimbox based one best estimates or the default.
+Gets the trimbox based on best estimates or the default.
 
 =cut
 
 sub get_trimbox {
     my $self = shift();
-    return _get_bbox($self, [qw(TrimBox ArtBox MediaBox CropBox BleedBox)]);
+    return _get_bbox($self, [qw(TrimBox CropBox MediaBox ArtBox BleedBox)]);
 }
 
 =item $page->artbox $w, $h
@@ -211,13 +211,13 @@ sub artbox {
 
 =item ($llx, $lly, $urx, $ury) = $page->get_artbox
 
-Gets the artbox based one best estimates or the default.
+Gets the artbox based on best estimates or the default.
 
 =cut
 
 sub get_artbox {
     my $self = shift();
-    return _get_bbox($self, [qw(ArtBox TrimBox BleedBox CropBox MediaBox)]);
+    return _get_bbox($self, [qw(ArtBox CropBox MediaBox TrimBox BleedBox)]);
 }
 
 =item $page->rotate $deg

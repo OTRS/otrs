@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,16 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
@@ -32,7 +39,7 @@ my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
 my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $GroupObject         = $Kernel::OM->Get('Kernel::System::Group');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 my $UID      = $RandomID;
 my $GID1     = 1;
@@ -265,7 +272,7 @@ my $ResetMembership = sub {
     }
 };
 
-# reset memberchip
+# reset membership
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -277,7 +284,7 @@ $ConfigObject->Set(
     Value => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
 );
 
-# reset memberchip with AlwaysGroups
+# reset membership with AlwaysGroups
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -289,7 +296,7 @@ $ConfigObject->Set(
     Value => [],
 );
 
-# reset memberchip
+# reset membership
 $ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
@@ -339,7 +346,7 @@ $ResetMembership->(
         Config => {
             Type    => 'ro',
             Result  => 'Name',
-            UserID  => 'Notexistent' . $RandomID,
+            UserID  => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResult => [],
@@ -350,7 +357,7 @@ $ResetMembership->(
         Config => {
             Type    => 'ro',
             Result  => 'HASH',
-            UserID  => 'Notexistent' . $RandomID,
+            UserID  => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResult => {},
@@ -362,7 +369,7 @@ $ResetMembership->(
             Type    => 'ro',
             Result  => 'ID',
             UserID  => undef,
-            GroupID => 9999,
+            GroupID => 99999999,
         },
         ExpectedResult => [],
         Success        => 1,
@@ -373,7 +380,7 @@ $ResetMembership->(
             Type    => 'ro',
             Result  => 'HASH',
             UserID  => undef,
-            GroupID => 9999,
+            GroupID => 99999999,
         },
         ExpectedResult => {},
         Success        => 1,
@@ -524,7 +531,7 @@ $ResetMembership->(
         ResetMembership => 1,
     },
     {
-        Name   => 'Mutiple With UserID - Result Name',
+        Name   => 'Multiple With UserID - Result Name',
         Config => {
             Type    => 'ro',
             Result  => 'Name',
@@ -806,7 +813,7 @@ for my $Test (@Tests) {
     {
         Name   => 'Wrong Group',
         Config => {
-            Group   => 'NonExistent' . $RandomID,
+            Group   => 'Nonexistent' . $RandomID,
             GroupID => undef,
         },
         ExpectedResults => '',
@@ -816,7 +823,7 @@ for my $Test (@Tests) {
         Name   => 'Wrong GroupID',
         Config => {
             Group   => undef,
-            GroupID => 'Notexistent' . $RandomID,
+            GroupID => 99999999,
         },
         ExpectedResults => '',
         Success         => 1,
@@ -861,5 +868,7 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

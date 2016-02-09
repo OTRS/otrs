@@ -61,7 +61,7 @@
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">OTRS 5</String>
+            <String Regex="">OTRS 6</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
@@ -132,56 +132,112 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
-        <Description Translatable="1">Defines all the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of the PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. Specify any own-defined language here (see the developer documentation http://otrs.github.io/doc/ for more infomation). Please remember to use the HTML equivalents for non-ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
+        <Description Translatable="1">Defines all the languages that are available to the application. Specify only English names of languages here.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="ar_SA">Arabic (Saudi Arabia)</Item>
-                <Item Key="bg">Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)</Item>
-                <Item Key="ca">Catal&amp;agrave;</Item>
-                <Item Key="cs">Czech (&amp;#x010c;esky)</Item>
+                <Item Key="ar_SA" Translatable="1">Arabic (Saudi Arabia)</Item>
+                <Item Key="bg" Translatable="1">Bulgarian</Item>
+                <Item Key="ca" Translatable="1">Catalan</Item>
+                <Item Key="cs" Translatable="1">Czech</Item>
+                <Item Key="da" Translatable="1">Danish</Item>
+                <Item Key="de" Translatable="1">German</Item>
+                <Item Key="en" Translatable="1">English (United States)</Item>
+                <Item Key="en_CA" Translatable="1">English (Canada)</Item>
+                <Item Key="en_GB" Translatable="1">English (United Kingdom)</Item>
+                <Item Key="es" Translatable="1">Spanish</Item>
+                <Item Key="es_CO" Translatable="1">Spanish (Colombia)</Item>
+                <Item Key="es_MX" Translatable="1">Spanish (Mexico)</Item>
+                <Item Key="et" Translatable="1">Estonian</Item>
+                <Item Key="el" Translatable="1">Greek</Item>
+                <Item Key="fa" Translatable="1">Persian</Item>
+                <Item Key="fi" Translatable="1">Finnish</Item>
+                <Item Key="fr" Translatable="1">French</Item>
+                <Item Key="fr_CA" Translatable="1">French (Canada)</Item>
+                <Item Key="gl" Translatable="1">Galician</Item>
+                <Item Key="he" Translatable="1">Hebrew</Item>
+                <Item Key="hi" Translatable="1">Hindi</Item>
+                <Item Key="hr" Translatable="1">Croatian</Item>
+                <Item Key="hu" Translatable="1">Hungarian</Item>
+                <Item Key="it" Translatable="1">Italian</Item>
+                <Item Key="ja" Translatable="1">Japanese</Item>
+                <Item Key="lt" Translatable="1">Lithuanian</Item>
+                <Item Key="lv" Translatable="1">Latvian</Item>
+                <Item Key="ms" Translatable="1">Malay</Item>
+                <Item Key="nl" Translatable="1">Nederlands</Item>
+                <Item Key="nb_NO" Translatable="1">Norwegian</Item>
+                <Item Key="pt_BR" Translatable="1">Portuguese (Brasil)</Item>
+                <Item Key="pt" Translatable="1">Portuguese</Item>
+                <Item Key="pl" Translatable="1">Polish</Item>
+                <Item Key="ru" Translatable="1">Russian</Item>
+                <Item Key="sl" Translatable="1">Slovenian</Item>
+                <Item Key="sr_Latn" Translatable="1">Serbian Latin</Item>
+                <Item Key="sr_Cyrl" Translatable="1">Serbian Cyrillic</Item>
+                <Item Key="sk_SK" Translatable="1">Slovak</Item>
+                <Item Key="sv" Translatable="1">Swedish</Item>
+                <Item Key="sw" Translatable="1">Swahili</Item>
+                <Item Key="th_TH" Translatable="1">Thai</Item>
+                <Item Key="tr" Translatable="1">Turkish</Item>
+                <Item Key="uk" Translatable="1">Ukrainian</Item>
+                <Item Key="vi_VN" Translatable="1">Vietnam</Item>
+                <Item Key="zh_CN" Translatable="1">Chinese (Simplified)</Item>
+                <Item Key="zh_TW" Translatable="1">Chinese (Traditional)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DefaultUsedLanguagesNative" Required="1" Valid="1">
+<Description Translatable="1">Defines all the languages that are available to the application. Specify only native names of languages here.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ar_SA">العَرَبِية‎</Item>
+                <Item Key="bg">Български</Item>
+                <Item Key="ca">Català</Item>
+                <Item Key="cs">Česky</Item>
                 <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
                 <Item Key="en">English (United States)</Item>
                 <Item Key="en_CA">English (Canada)</Item>
                 <Item Key="en_GB">English (United Kingdom)</Item>
-                <Item Key="es">Espa&amp;ntilde;ol</Item>
-                <Item Key="es_CO">Espa&amp;ntilde;ol (Colombia)</Item>
-                <Item Key="es_MX">Espa&amp;ntilde;ol (M&amp;eacute;xico)</Item>
+                <Item Key="es">Español</Item>
+                <Item Key="es_CO">Español (Colombia)</Item>
+                <Item Key="es_MX">Español (México)</Item>
                 <Item Key="et">Eesti</Item>
-                <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
-                <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
+                <Item Key="el">Ελληνικά</Item>
+                <Item Key="fa">فارسى</Item>
                 <Item Key="fi">Suomi</Item>
-                <Item Key="fr">Fran&amp;ccedil;ais</Item>
-                <Item Key="fr_CA">Fran&amp;ccedil;ais (Canada)</Item>
+                <Item Key="fr">Français</Item>
+                <Item Key="fr_CA">Français (Canada)</Item>
                 <Item Key="gl">Galego</Item>
-                <Item Key="he">Hebrew (עִבְרִית)</Item>
-                <Item Key="hi">Hindi</Item>
+                <Item Key="he">עברית</Item>
+                <Item Key="hi">हिन्दी</Item>
                 <Item Key="hr">Hrvatski</Item>
                 <Item Key="hu">Magyar</Item>
                 <Item Key="it">Italiano</Item>
-                <Item Key="ja">Japanese (&amp;#x65e5;&amp;#x672c;&amp;#x8a9e;)</Item>
-                <Item Key="lt">Lietuvi&#371; kalba</Item>
+                <Item Key="ja">日本語</Item>
+                <Item Key="lt">Lietuvių kalba</Item>
                 <Item Key="lv">Latvijas</Item>
-                <Item Key="ms">Malay</Item>
-                <Item Key="nl">Nederlands</Item>
-                <Item Key="nb_NO">Norsk bokm&amp;aring;l</Item>
-                <Item Key="pt_BR">Portugu&amp;ecirc;s Brasileiro</Item>
-                <Item Key="pt">Portugu&amp;ecirc;s</Item>
+                <Item Key="ms">Melayu</Item>
+                <Item Key="nl">Nederlandse</Item>
+                <Item Key="nb_NO">Norsk bokmål</Item>
+                <Item Key="pt_BR">Português Brasileiro</Item>
+                <Item Key="pt">Português</Item>
                 <Item Key="pl">Polski</Item>
-                <Item Key="ru">Russian (&amp;#x0420;&amp;#x0443;&amp;#x0441;&amp;#x0441;&amp;#x043a;&amp;#x0438;&amp;#x0439;)</Item>
-                <Item Key="sl">Slovenian (Sloven&#x0161;&#x010d;ina)</Item>
-                <Item Key="sr_Latn">Serbian Latin (Srpski)</Item>
-                <Item Key="sr_Cyrl">Serbian Cyrillic (&#1089;&#1088;&#1087;&#1089;&#1082;&#1080;)</Item>
-                <Item Key="sk_SK">Slovak (Sloven&amp;#x010d;ina)</Item>
+                <Item Key="ru">Русский</Item>
+                <Item Key="sl">Slovenščina</Item>
+                <Item Key="sr_Latn">Srpski</Item>
+                <Item Key="sr_Cyrl">Српски</Item>
+                <Item Key="sk_SK">Slovenčina</Item>
                 <Item Key="sv">Svenska</Item>
-                <Item Key="sw">Swahili</Item>
-                <Item Key="tr">T&amp;uuml;rk&amp;ccedil;e</Item>
-                <Item Key="uk">Ukrainian (&amp;#x0423;&amp;#x043a;&amp;#x0440;&amp;#x0430;&amp;#x0457;&amp;#x043d;&amp;#x0441;&amp;#x044c;&amp;#x043a;&amp;#x0430;)</Item>
-                <Item Key="vi_VN">Vietnam (Vi&amp;#x0246;t Nam)</Item>
-                <Item Key="zh_CN">Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)</Item>
-                <Item Key="zh_TW">Chinese (Tradi.) (&amp;#x6b63;&amp;#x9ad4;&amp;#x4e2d;&amp;#x6587;)</Item>
+                <Item Key="sw">Kiswahili</Item>
+                <Item Key="th_TH">ภาษาไทย</Item>
+                <Item Key="tr">Türkçe</Item>
+                <Item Key="uk">Українська</Item>
+                <Item Key="vi_VN">ViɆt Nam</Item>
+                <Item Key="zh_CN">简体中文</Item>
+                <Item Key="zh_TW">正體中文</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -235,7 +291,7 @@
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">4px</Item>
                 <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleHeight">85px</Item>
                 <Item Key="StyleWidth">270px</Item>
             </Hash>
         </Setting>
@@ -355,7 +411,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.5.1/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.5.6/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -395,6 +451,17 @@
     </ConfigItem>
     <ConfigItem Name="DisableMSIFrameSecurityRestricted" Required="0" Valid="1">
         <Description Translatable="1">Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DisableIFrameOriginRestricted" Required="0" Valid="1">
+        <Description Translatable="1">Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -538,8 +605,8 @@
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SourceName">Normal</Item>
-                <Item Key="TargetName">Normal</Item>
+                <Item Key="SourceName" Translatable="1">Normal</Item>
+                <Item Key="TargetName" Translatable="1">Normal</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -549,8 +616,8 @@
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SourceName">Parent</Item>
-                <Item Key="TargetName">Child</Item>
+                <Item Key="SourceName" Translatable="1">Parent</Item>
+                <Item Key="TargetName" Translatable="1">Child</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -579,14 +646,6 @@
         <SubGroup>Core::Log</SubGroup>
         <Setting>
             <String Regex="">user</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="LogModule::SysLog::LogSock" Required="1" Valid="1">
-        <Description Translatable="1">If "SysLog" was selected for LogModule, a special log sock can be specified (on solaris you may need to use 'stream').</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Log</SubGroup>
-        <Setting>
-            <String Regex="">unix</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
@@ -1263,12 +1322,12 @@
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1434,12 +1493,12 @@
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1605,12 +1664,12 @@
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1776,12 +1835,12 @@
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -1947,12 +2006,12 @@
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2118,12 +2177,12 @@
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2289,12 +2348,12 @@
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2460,12 +2519,12 @@
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2631,12 +2690,12 @@
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -2996,6 +3055,17 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Package::AllowLocalModifications" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Package::ShowFeatureAddons" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Toggles display of OTRS FeatureAddons list in PackageManager.</Description>
         <Group>Framework</Group>
@@ -3208,6 +3278,21 @@
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <String Regex="">--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PGP::Options::DigestPreference" Required="0" Valid="1">
+        <Description Translatable="1">Sets the preferred digest to be used for PGP binary.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Crypt::PGP</SubGroup>
+        <Setting>
+            <Option SelectedID="sha256">
+                <Item Key=""></Item>
+                <Item Key="sha1">SHA1</Item>
+                <Item Key="sha224">SHA224</Item>
+                <Item Key="sha256">SHA256</Item>
+                <Item Key="sha384">SHA384</Item>
+                <Item Key="sha512">SHA512</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Key::Password" Required="1" Valid="1">
@@ -3486,9 +3571,9 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the table, where the customer preferences are stored.</Description>
+        <Description Translatable="1">Defines the name of the table where the user preferences are stored.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <String Regex="">user_preferences</String>
         </Setting>
@@ -3496,7 +3581,7 @@ You can log in via the following URL:
     <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
         <Description Translatable="1">Defines the column to store the keys for the preferences table.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <String Regex="">preferences_key</String>
         </Setting>
@@ -3523,9 +3608,9 @@ You can log in via the following URL:
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Notification Settings</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Notification Settings</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4331,8 +4416,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
             <Array>
-                <Item>User Profile</Item>
-                <Item>Other Settings</Item>
+                <Item Translatable="1">User Profile</Item>
+                <Item Translatable="1">Other Settings</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4489,17 +4574,17 @@ via the Preferences button after logging in.
                 <Loader>
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <CSS>thirdparty/fullcalendar-2.3.1/fullcalendar.css</CSS>
+                    <CSS>thirdparty/fullcalendar-2.4.0/fullcalendar.min.css</CSS>
                     <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
-                    <JavaScript>thirdparty/momentjs-2.10.3/moment.min.js</JavaScript>
-                    <JavaScript>thirdparty/fullcalendar-2.3.1/fullcalendar.min.js</JavaScript>
-                    <JavaScript>thirdparty/d3-3.5.5/d3.min.js</JavaScript>
+                    <JavaScript>thirdparty/momentjs-2.10.6/moment.min.js</JavaScript>
+                    <JavaScript>thirdparty/fullcalendar-2.4.0/fullcalendar.min.js</JavaScript>
+                    <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/rgbcolor.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/StackBlur.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/canvg.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/rgbcolor.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/StackBlur.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/canvg.js</JavaScript>
                     <JavaScript>thirdparty/StringView-8/stringview.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
@@ -4515,7 +4600,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Information Center</Description>
+                <Description Translatable="1">Customer Information Center.</Description>
                 <Title></Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4555,7 +4640,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Information Center Search</Description>
+                <Description Translatable="1">Customer Information Center Search.</Description>
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
@@ -4613,7 +4698,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Agent Preferences</Description>
+                <Description Translatable="1">Agent Preferences.</Description>
                 <Title></Title>
                 <NavBarName>Preferences</NavBarName>
                 <Loader>
@@ -4628,7 +4713,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Picture upload module</Description>
+                <Description Translatable="1">Picture upload module.</Description>
                 <Title>Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -4640,7 +4725,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
                 <Loader>
@@ -4655,7 +4740,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4667,7 +4752,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Address book of CustomerUser sources</Description>
+                <Description Translatable="1">Address book of CustomerUser sources.</Description>
                 <Title>Address Book</Title>
                 <NavBarName></NavBarName>
                 <Loader>
@@ -4683,7 +4768,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Link Object</Description>
+                <Description Translatable="1">Link Object.</Description>
                 <Title>Link Object</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4695,7 +4780,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Generic Info module</Description>
+                <Description Translatable="1">Generic Info module.</Description>
                 <Title>Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4707,7 +4792,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Global Search Module</Description>
+                <Description Translatable="1">Global Search Module.</Description>
                 <Title Translatable="1">Search</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -4772,7 +4857,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Create and manage agents.</Description>
+                <Description Translatable="1">Create and manage agents.</Description>
                 <Title Translatable="1">Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -4834,7 +4919,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Users</Description>
+                <Description Translatable="1">Edit Customer Users.</Description>
                 <Title Translatable="1">Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4842,7 +4927,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4870,7 +4955,7 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customer Companies</Description>
+                <Description Translatable="1">Edit Customer Companies.</Description>
                 <Title Translatable="1">Customer Companies</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
@@ -4878,7 +4963,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -5286,7 +5371,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Software Package Manager</Description>
+                <Description Translatable="1">Software Package Manager.</Description>
                 <Title Translatable="1">Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -5325,7 +5410,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Logout of customer panel</Description>
+                <Description Translatable="1">Logout of customer panel.</Description>
                 <Title></Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5337,7 +5422,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer preferences</Description>
+                <Description Translatable="1">Customer preferences.</Description>
                 <Title Translatable="1">Preferences</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5349,7 +5434,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To accept login information, such as an EULA or license.</Description>
+                <Description Translatable="1">To accept login information, such as an EULA or license.</Description>
                 <Title Translatable="1">Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5361,7 +5446,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Picture upload module</Description>
+                <Description Translatable="1">Picture upload module.</Description>
                 <Title Translatable="1">Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -5373,7 +5458,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Spell checker</Description>
+                <Description Translatable="1">Spell checker.</Description>
                 <Title Translatable="1">Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
@@ -5506,13 +5591,13 @@ via the Preferences button after logging in.
                     <AccessKey></AccessKey>
                 </NavBar>
                 <Loader>
-                    <JavaScript>thirdparty/d3-3.5.5/d3.min.js</JavaScript>
+                    <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/rgbcolor.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/StackBlur.js</JavaScript>
-                    <JavaScript>thirdparty/canvg-1.0/canvg.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/rgbcolor.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/StackBlur.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.4/canvg.js</JavaScript>
                     <JavaScript>thirdparty/StringView-8/stringview.js</JavaScript>
                     <JavaScript>Core.Agent.Statistics.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
@@ -6240,19 +6325,19 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.11.4/jquery-ui.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
-                <Item>thirdparty/jquery-validate-1.13.1/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.14.0/jquery.validate.js</Item>
                 <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
+                <Item>Core.Exception.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.Exception.js</Item>
                 <Item>Core.JSON.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
@@ -6327,20 +6412,20 @@ via the Preferences button after logging in.
             <Array>
                 <Item>thirdparty/jquery-2.1.4/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-validate-1.13.1/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.14.0/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-ui-1.11.4/jquery-ui.js</Item>
                 <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.Debug.js</Item>
-                <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>
+                <Item>Core.Data.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
-                <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
+                <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
                 <Item>Core.UI.InputFields.js</Item>
                 <Item>Core.UI.Accessibility.js</Item>
@@ -6392,6 +6477,11 @@ via the Preferences button after logging in.
                 <Item Key="3" Translatable="1">Lastname, Firstname (UserLogin)</Item>
                 <Item Key="4" Translatable="1">(UserLogin) Firstname Lastname</Item>
                 <Item Key="5" Translatable="1">(UserLogin) Lastname, Firstname</Item>
+                <!-- Hungarian -->
+                <Item Key="6" Translatable="1">Lastname Firstname</Item>
+                <Item Key="7" Translatable="1">Lastname Firstname (UserLogin)</Item>
+                <Item Key="8" Translatable="1">(UserLogin) Lastname Firstname</Item>
+                <!-- End Hungarian -->
             </Option>
         </Setting>
     </ConfigItem>
@@ -6404,7 +6494,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin.</Item>
+                <Item Key="Description" Translatable="1">This is the default orange - black skin.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6417,7 +6507,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">slim</Item>
                 <Item Key="VisibleName">Default (Slim)</Item>
-                <Item Key="Description">"Slim" skin which tries to save screen space for power users.</Item>
+                <Item Key="Description" Translatable="1">"Slim" skin which tries to save screen space for power users.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6430,7 +6520,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">ivory</Item>
                 <Item Key="VisibleName">Ivory</Item>
-                <Item Key="Description">Balanced white skin by Felix Niklas.</Item>
+                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas.</Item>
                 <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Setting>
@@ -6443,7 +6533,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">ivory-slim</Item>
                 <Item Key="VisibleName">Ivory (Slim)</Item>
-                <Item Key="Description">Balanced white skin by Felix Niklas (slim version).</Item>
+                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas (slim version).</Item>
                 <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Setting>
@@ -6475,7 +6565,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
-                <Item Key="Description">This is the default orange - black skin for the customer interface.</Item>
+                <Item Key="Description" Translatable="1">This is the default orange - black skin for the customer interface.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -6516,8 +6606,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminCustomerUser</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1" Translatable="1">No</Item>
-                <Item Key="0" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6577,6 +6667,18 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerUser::EventModulePost###100-UpdateSearchProfiles" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates customer user search profiles if login changes.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CustomerUser</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Event::SearchProfileUpdate</Item>
+                <Item Key="Event">CustomerUserUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerUser::EventModulePost###100-UpdateServiceMembership" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user service membership if login changes.</Description>
         <Group>Framework</Group>
@@ -6599,7 +6701,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Cache::InMemory" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Should the cache data be help in memory?</Description>
+        <Description Translatable="1">Should the cache data be held in memory?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
@@ -6712,7 +6814,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginMessage" Required="0" Valid="1">
@@ -6720,7 +6822,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance. We should be back online shortly.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance. We should be back online shortly.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginErrorMessage" Required="0" Valid="1">
@@ -6728,7 +6830,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">We are performing scheduled maintenance. Login is temporarily not available.</String>
+            <String Regex="" Translatable="1">We are performing scheduled maintenance. Login is temporarily not available.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">

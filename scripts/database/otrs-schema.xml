@@ -118,6 +118,8 @@
     <Column Name="user_id" Required="true" Type="INTEGER"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="permission_key" Required="true" Size="20" Type="VARCHAR"/>
+    <!-- permission_value is currently unneeded (always 1), but there could be old entries from
+        OTRS 4 or earlier which have 0 set. -->
     <Column Name="permission_value" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -144,6 +146,8 @@
     <Column Name="role_id" Required="true" Type="INTEGER"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="permission_key" Required="true" Size="20" Type="VARCHAR"/>
+    <!-- permission_value is currently unneeded (always 1), but there could be old entries from
+        OTRS 4 or earlier which have 0 set. -->
     <Column Name="permission_value" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -172,6 +176,8 @@
     <Column Name="user_id" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="permission_key" Required="true" Size="20" Type="VARCHAR"/>
+    <!-- Here permission_value is still used (0/1) because CustomerGroup.pm
+        was not yet refactored like Group.pm. -->
     <Column Name="permission_value" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>

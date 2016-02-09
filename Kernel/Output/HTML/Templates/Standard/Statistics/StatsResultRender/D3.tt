@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 
 <div class="MainBox AriaRoleMain">
     <h1 class="Center SpacingBottom">
-        [% Config("Stats::StatsHook") | html %][% Data.StatNumber | html %] — [% Data.Title | html %]
+        [% Config("Stats::StatsHook") | html %][% Data.StatNumber | html %]
+        [% IF Data.TimeZone %] ([% Translate("Time Zone") | html %] [% Data.TimeZone %])[% END %]
+        — [% Data.Title | html %]
     </h1>
 
     <div id="svg-container">
@@ -18,10 +20,10 @@
     </div>
 
     <div class="Center SpacingTop">
-        <a id="download-svg" class="CallForAction" download="[% Data.Title | html %].svg">
+        <a id="download-svg" class="CallForAction" download="[% Data.Title | replace('\s+', '_') | html %][% IF Data.TimeZone %]_TimeZone_[% Data.TimeZone %][% END %].svg">
             <span>[% Translate('Download SVG') | html %]</span>
         </a>
-        <a id="download-png" class="CallForAction" download="[% Data.Title | html %].png">
+        <a id="download-png" class="CallForAction" download="[% Data.Title | replace('\s+', '_') | html %][% IF Data.TimeZone %]_TimeZone_[% Data.TimeZone %][% END %].png">
             <span>[% Translate('Download PNG') | html %]</span>
         </a>
     </div>

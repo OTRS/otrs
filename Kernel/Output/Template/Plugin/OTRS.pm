@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,7 +127,7 @@ sub new {
         if ( index( $_[0], '[%' ) == -1 ) {
             return $_[0];
         }
-        return $Context->process( \$_[0] );
+        return $Context->include( \$_[0] );
     };
 
     my $InterpolateFilterFactory = sub {
@@ -138,7 +138,7 @@ sub new {
             if ( index( $_[0], '[%' ) == -1 ) {
                 return $_[0];
             }
-            return $FilterContext->process( \$_[0] );
+            return $FilterContext->include( \$_[0] );
         };
     };
 

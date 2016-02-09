@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -119,7 +120,11 @@ sub Param {
         );
 
         NOTIFICATION:
-        for my $NotificationID ( sort keys %{ $Self->{NotificationList} } ) {
+        for my $NotificationID (
+            sort { $Self->{NotificationList}->{$a}->{Name} cmp $Self->{NotificationList}->{$b}->{Name} }
+            keys %{ $Self->{NotificationList} }
+            )
+        {
 
             next NOTIFICATION if !$Self->{NotificationList}->{$NotificationID};
 
@@ -131,6 +136,7 @@ sub Param {
                 Data => {
                     NotificationName  => $Notification->{Name},
                     NotificationTitle => $Notification->{Data}->{VisibleForAgentTooltip}->[0] || '',
+                    VisibleForAgent   => $Notification->{Data}->{VisibleForAgent}->[0],
                 },
             );
 
@@ -145,9 +151,12 @@ sub Param {
 
                 my $TransportEnabled = grep { $_ eq $TransportName } @{ $Notification->{Data}->{Transports} };
 
+                my $AgentEnabledByDefault
+                    = grep { $_ eq $TransportName } @{ $Notification->{Data}->{AgentEnabledByDefault} };
+
                 # get user preference for this transport and notification or fall back to
                 #   notification default if there is no user preference
-                my $Use = $UserNotificationTransport->{$Identifier} // $TransportEnabled;
+                my $Use = $UserNotificationTransport->{$Identifier} // $AgentEnabledByDefault;
 
                 my $Checked     = 'checked="checked"';
                 my $HiddenValue = 1;
@@ -201,20 +210,28 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my @IdentifierList;
+    my @MandatoryNotificationIDs;
 
     NOTIFICATION:
     for my $NotificationID ( sort keys %{ $Self->{NotificationList} } ) {
 
         next NOTIFICATION if !$Self->{NotificationList}->{$NotificationID};
 
-        my $Notification = $Self->{NotificationList}->{$NotificationID};
+        my $Notification          = $Self->{NotificationList}->{$NotificationID};
+        my $NotificationMandatory = 0;
+        if ( $Notification->{Data}->{VisibleForAgent} && $Notification->{Data}->{VisibleForAgent}->[0] == 2 ) {
+            $NotificationMandatory = 1;
+            push @MandatoryNotificationIDs, $NotificationID;
+        }
 
         TRANSPORT:
         for my $TransportName ( sort keys %{ $Self->{TransportConfig} } ) {
-
             next TRANSPORT if !grep { $_ eq $TransportName } @{ $Notification->{Data}->{Transports} };
-
-            push @IdentifierList, "Notification-$NotificationID-$TransportName";
+            push @IdentifierList, {
+                Name           => "Notification-$NotificationID-$TransportName",
+                NotificationID => $NotificationID,
+                IsMandatory    => $NotificationMandatory,
+            };
         }
     }
 
@@ -224,8 +241,27 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %UserNotificationTransport;
+    my %MandatoryFulfilled;
     for my $Identifier (@IdentifierList) {
-        $UserNotificationTransport{$Identifier} = $ParamObject->GetParam( Param => $Identifier ) || 0;
+        $UserNotificationTransport{ $Identifier->{Name} } = $ParamObject->GetParam( Param => $Identifier->{Name} ) || 0;
+
+        # check if this is a mandatory notification and this transport is selected
+        if ( $UserNotificationTransport{ $Identifier->{Name} } == 1 ) {
+            $MandatoryFulfilled{ $Identifier->{NotificationID} } = 1;
+        }
+    }
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # now check if there are notifications for which no transport has been selected
+    for my $NotificationID (@MandatoryNotificationIDs) {
+        if ( $MandatoryFulfilled{$NotificationID} != 1 ) {
+            $Self->{Error} = Translatable(
+                "Please make sure you've chosen at least one transport method for mandatory notifications."
+            );
+            return;
+        }
     }
 
     my $Value = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
@@ -241,7 +277,7 @@ sub Run {
         );
     }
 
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
 
     return 1;
 }

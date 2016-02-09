@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -437,7 +437,9 @@ if (%RegistrationInfo) {
 }
 
 # GenerateSupportData tests
-my %OriginalResult = $SupportDataCollectorObject->Collect();
+my %OriginalResult = $SupportDataCollectorObject->Collect(
+    WebTimeout => 40,
+);
 
 # for this test we will just check that both results has the same identifiers
 my %OriginalIdentifiers;

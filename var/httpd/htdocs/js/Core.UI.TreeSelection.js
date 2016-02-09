@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -214,7 +214,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Elements = {},
             InDialog = false,
             StyleSheetURL,
-            $SelectedNodesObj,
+            SelectedNodesTree,
             SelectedNodes = [],
             $CurrentFocusedObj;
 
@@ -293,9 +293,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 SelectedNodes = [];
 
                 // Get selected nodes
-                $SelectedNodesObj = $TreeObj.jstree('get_selected');
-                $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($Node.attr('data-id'));
+                SelectedNodesTree = $TreeObj.jstree('get_selected');
+                $.each(SelectedNodesTree, function () {
+                    SelectedNodes.push($('#' + Core.App.EscapeSelector(this)).data('id'));
                 });
 
                 // Set selected nodes as selected in initial select box
@@ -310,9 +310,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
 
         })
-        .bind('deselect_node.jstree', function (node, selected) {
-            var $Node = $('#' + selected.node.id);
-
+        .bind('deselect_node.jstree', function () {
             // If we are already in a dialog, we don't use the submit
             // button for the tree selection, so we need to apply the changes 'live'
             if (InDialog) {
@@ -321,9 +319,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 SelectedNodes = [];
 
                 // Get selected nodes
-                $SelectedNodesObj = $TreeObj.jstree("get_selected");
-                $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($Node.attr('data-id'));
+                SelectedNodesTree = $TreeObj.jstree('get_selected');
+                $.each(SelectedNodesTree, function () {
+                    SelectedNodes.push($('#' + Core.App.EscapeSelector(this)).data('id'));
                 });
 
                 // Set selected nodes as selected in initial select box

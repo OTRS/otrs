@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@ sub Run {
             CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID)
+            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -226,7 +226,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
-            $Output .= $LayoutObject->Notify( Info => 'Updated!' );
+            $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') );
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
@@ -316,7 +316,7 @@ sub Run {
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID)
+            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -438,7 +438,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
-            $Output .= $LayoutObject->Notify( Info => 'Added!' );
+            $Output .= $LayoutObject->Notify( Info => Translatable('Notification added!') );
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AdminNotificationEvent',
                 Data         => \%Param,
@@ -530,7 +530,8 @@ sub Run {
 
             if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "There was an error getting data for Notification with ID " . $NotificationID,
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
             }
 
@@ -584,7 +585,7 @@ sub Run {
         );
         if ( !IsHashRefWithData( \%NotificationData ) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Unknown Notification $NotificationID!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Notification %s!', $NotificationID ),
             );
         }
 
@@ -605,7 +606,7 @@ sub Run {
         # show error if can't create
         if ( !$NewNotificationID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the Notification",
+                Message => Translatable("There was an error creating the Notification"),
             );
         }
 
@@ -637,8 +638,9 @@ sub Run {
 
         if ( !$NotificationImport->{Success} ) {
             my $Message = $NotificationImport->{Message}
-                || 'Notifications could not be Imported due to a unknown error,'
-                . ' please check OTRS logs for more information';
+                || Translatable(
+                'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information'
+                );
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );
@@ -646,22 +648,22 @@ sub Run {
 
         if ( $NotificationImport->{AddedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following Notifications have been added successfully: '
+                Info => Translatable('The following Notifications have been added successfully: ')
                     . $NotificationImport->{AddedNotifications},
             };
         }
         if ( $NotificationImport->{UpdatedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following Notifications have been updated successfully: '
+                Info => Translatable('The following Notifications have been updated successfully: ')
                     . $NotificationImport->{UpdatedNotifications},
             };
         }
         if ( $NotificationImport->{NotificationErrors} ) {
             push @{ $Param{NotifyData} }, {
                 Priority => 'Error',
-                Info     => 'There where errors adding/updating the following Notifications: '
+                Info     => Translatable('There where errors adding/updating the following Notifications: ')
                     . $NotificationImport->{NotificationErrors}
-                    . '. Please check the log file for more information.',
+                    . Translatable('. Please check the log file for more information.'),
             };
         }
 
@@ -800,6 +802,14 @@ sub _Edit {
     for my $ObjectType ( sort keys %RegisteredEvents ) {
         push @Events, @{ $RegisteredEvents{$ObjectType} || [] };
     }
+
+    # Suppress these events because of danger of endless loops.
+    my %EventBlacklist = (
+        ArticleAgentNotification    => 1,
+        ArticleCustomerNotification => 1,
+    );
+
+    @Events = grep { !$EventBlacklist{$_} } @Events;
 
     # Build the list...
     $Param{EventsStrg} = $LayoutObject->BuildSelection(
@@ -1028,8 +1038,41 @@ sub _Edit {
         @LanguageIDs = ('en');
     }
 
-    my %DefaultUsedLanguages         = %{ $ConfigObject->Get('DefaultUsedLanguages') };
-    my %OriginalDefaultUsedLanguages = %DefaultUsedLanguages;
+    # get names of languages in English
+    my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
+
+    # get native names of languages
+    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
+
+    my %Languages;
+    LANGUAGEID:
+    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
+
+        # next language if there is not set any name for current language
+        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
+            next LANGUAGEID;
+        }
+
+        # get texts in native and default language
+        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
+        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
+
+        # translate to current user's language
+        my $TextTranslated =
+            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
+
+        if ( $TextTranslated && $TextTranslated ne $Text ) {
+            $Text .= ' - ' . $TextTranslated;
+        }
+
+        # next language if there is not set English nor native name of language.
+        next LANGUAGEID if !$Text;
+
+        $Languages{$LanguageID} = $Text;
+    }
+
+    # copy original list of languages which will be used for rebuilding language selection
+    my %OriginalDefaultUsedLanguages = %Languages;
 
     my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
@@ -1072,7 +1115,7 @@ sub _Edit {
                 Subject => $Param{Message}->{$LanguageID}->{Subject} || '',
                 Body    => $Param{Message}->{$LanguageID}->{Body}    || '',
                 LanguageID         => $LanguageID,
-                Language           => $DefaultUsedLanguages{$LanguageID},
+                Language           => $Languages{$LanguageID},
                 SubjectServerError => $Param{ $LanguageID . '_SubjectServerError' } || '',
                 BodyServerError    => $Param{ $LanguageID . '_BodyServerError' } || '',
             },
@@ -1090,11 +1133,11 @@ sub _Edit {
         }
 
         # delete language from drop-down list because it is already shown
-        delete $DefaultUsedLanguages{$LanguageID};
+        delete $Languages{$LanguageID};
     }
 
     $Param{LanguageStrg} = $LayoutObject->BuildSelection(
-        Data         => \%DefaultUsedLanguages,
+        Data         => \%Languages,
         Name         => 'Language',
         Class        => 'Modernize W50pc LanguageAdd',
         Translation  => 1,
@@ -1162,13 +1205,21 @@ sub _Edit {
     # set once per day checked value
     $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked="checked"' : '' );
 
-    if ( $Param{VisibleForAgent} ) {
+    $Param{VisibleForAgentStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+            2 => Translatable('Yes, but require at least one active notification method'),
+        },
+        Name       => 'VisibleForAgent',
+        Sort       => 'NumericKey',
+        Size       => 1,
+        SelectedID => $Param{VisibleForAgent},
+        Class      => 'Modernize W50pc',
+    );
 
-        # include checked attribute
-        $Param{VisibleForAgentChecked} = 'checked="checked"';
-    }
-    else {
-        # include read-only attribute
+    # include read-only attribute
+    if ( !$Param{VisibleForAgent} ) {
         $Param{VisibleForAgentTooltipReadonly} = 'readonly="readonly"';
     }
 
@@ -1247,17 +1298,30 @@ sub _Edit {
                     %Param,
                     );
 
+                # it should decide if the default value for the
+                # notification on AgentPreferences is enabled or not
+                my $AgentEnabledByDefault = 0;
+                if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
+                    $AgentEnabledByDefault = 1;
+                }
+                elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
+                    $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
+                }
+                my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+
                 # transport
                 $LayoutObject->Block(
                     Name => 'TransportRowEnabled',
                     Data => {
-                        Transport             => $Transport,
-                        TransportName         => $RegisteredTransports{$Transport}->{Name},
-                        TransportChecked      => $TransportChecked,
-                        SettingsString        => $TransportSettings,
-                        TransportsServerError => $Param{TransportsServerError},
+                        Transport                    => $Transport,
+                        TransportName                => $RegisteredTransports{$Transport}->{Name},
+                        TransportChecked             => $TransportChecked,
+                        SettingsString               => $TransportSettings,
+                        AgentEnabledByDefaultChecked => $AgentEnabledByDefaultChecked,
+                        TransportsServerError        => $Param{TransportsServerError},
                     },
                 );
+
             }
 
         }

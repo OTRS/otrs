@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -40,7 +41,7 @@ sub Run {
         if ( !defined $Self->{$Needed} ) {
             return $LayoutObject->ErrorScreen(
                 Message => "$Needed is needed!",
-                Comment => 'Please contact your administrator',
+                Comment => Translatable('Please contact your administrator'),
             );
         }
     }
@@ -124,9 +125,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -261,6 +261,7 @@ $Param{Signature}";
             Data          => \%NextStates,
             Name          => 'BounceStateID',
             SelectedValue => $Config->{StateDefault},
+            Class         => 'Modernize',
         );
 
         # add rich text editor
@@ -388,6 +389,7 @@ $Param{Signature}";
                 Data       => \%NextStates,
                 Name       => 'BounceStateID',
                 SelectedID => $Param{BounceStateID},
+                Class      => 'Modernize',
             );
 
             # add rich text editor
@@ -445,8 +447,8 @@ $Param{Signature}";
         # error page
         if ( !$Bounce ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Can't bounce email!",
-                Comment => 'Please contact the admin.',
+                Message => Translatable('Can\'t bounce email!'),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 
@@ -488,8 +490,8 @@ $Param{Signature}";
             # error page
             if ( !$ArticleID ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "Can't send email!",
-                    Comment => 'Please contact the admin.',
+                    Message => Translatable('Can\'t send email!'),
+                    Comment => Translatable('Please contact the admin.'),
                 );
             }
         }
@@ -529,8 +531,8 @@ $Param{Signature}";
         );
     }
     return $LayoutObject->ErrorScreen(
-        Message => 'Wrong Subaction!!',
-        Comment => 'Please contact your administrator',
+        Message => Translatable('Wrong Subaction!'),
+        Comment => Translatable('Please contact your administrator'),
     );
 }
 

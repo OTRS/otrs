@@ -17,7 +17,7 @@ package SOAP::Lite;
 use strict;
 use warnings;
 
-our $VERSION = '1.14';
+our $VERSION = '1.19';
 
 package SOAP::XMLSchemaApacheSOAP::Deserializer;
 
@@ -337,6 +337,8 @@ sub disqualify {
 
 sub splitqname {
     local($1,$2);
+
+    return unless $_[0];
     $_[0] =~ /^(?:([^:]+):)?(.+)$/;
     return ($1,$2)
 }
@@ -1741,7 +1743,7 @@ sub xmlparser {
             ? undef
             : do {
                 require XML::Parser;
-                XML::Parser->new() }
+                XML::Parser->new( NoExpand => 1, Handlers => { Default => sub {} } ) }
             }
             || eval { require XML::Parser::Lite; XML::Parser::Lite->new }
             || die "XML::Parser is not @{[$SOAP::Constants::DO_NOT_USE_XML_PARSER ? 'used' : 'available']} and ", $@;
@@ -3188,12 +3190,14 @@ FAKE
 #                  warn "document/literal support is EXPERIMENTAL in SOAP::Lite"
 #                  if !$has_warned && ($has_warned = 1);
                                     my ($input_ns,$input_name) = SOAP::Utils::splitqname($msg->part->element);
-                                    foreach my $schema ($s->types->schema) {
-                                        foreach my $element ($schema->element) {
-                                            next unless $element->name eq $input_name;
-                                            push @parts,parse_schema_element($element);
+                                    if ($input_name) {
+                                        foreach my $schema ($s->types->schema) {
+                                            foreach my $element ($schema->element) {
+                                                next unless $element->name eq $input_name;
+                                                push @parts,parse_schema_element($element);
+                                            }
+                                            $services{$opername}->{parameters} = [ @parts ];
                                         }
-                                        $services{$opername}->{parameters} = [ @parts ];
                                     }
                                 }
                                 else {
@@ -4165,7 +4169,7 @@ If using $session->call ($method, $callData, $callHeader), SOAP::Lite serializes
     </soap:Header>
     <soap:Body>
       <myMethod xmlns="http://www.someuri.com">
-        <foo />  
+        <foo />
       </myMethod>
     </soap:Body>
   </soap:Envelope>

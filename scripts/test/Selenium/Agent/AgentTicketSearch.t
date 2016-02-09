@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,52 +32,35 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
-        # create test customer
-        my $TestCustomerUser = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
-
-        # get test customer user ID
-        my %TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-            User => $TestCustomerUser,
-        );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test ticket
-        my $TitleRandom    = "Title" . $Helper->GetRandomID();
-        my $CustomerRandom = "Customer" . $Helper->GetRandomID();
-        my $TicketID       = $TicketObject->TicketCreate(
+        my $TitleRandom  = "Title" . $Helper->GetRandomID();
+        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TicketID     = $TicketObject->TicketCreate(
+            TN         => $TicketNumber,
             Title      => $TitleRandom,
             Queue      => 'Raw',
             Lock       => 'unlock',
             Priority   => '3 normal',
             State      => 'open',
-            CustomerID => $TestCustomerUserID{UserCustomerID},
-            OwnerID    => $TestUserID,
-            UserID     => $TestUserID,
+            CustomerID => 'SeleniumCustomer',
+            OwnerID    => 1,
+            UserID     => 1,
         );
         $Self->True(
             $TicketID,
-            "Created $TitleRandom ticket",
+            "Ticket is created - ID $TicketID",
         );
 
-        # get test ticket number
-        my %Ticket = $TicketObject->TicketGet(
-            TicketID => $TicketID,
-        );
-
-        # navigate to AgentTicketSearch
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form has loaded, if neccessary
+        # navigate to AgentTicketSearch screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # check ticket search page
@@ -92,11 +75,8 @@ $Selenium->RunTest(
 
         # add search filter by ticket number and run it
         $Selenium->find_element( ".AddButton",   'css' )->click();
-        $Selenium->find_element( "TicketNumber", 'name' )->send_keys( $Ticket{TicketNumber} );
-        $Selenium->find_element( "TicketNumber", 'name' )->submit();
-
-        # Wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.MainBox').length" );
+        $Selenium->find_element( "TicketNumber", 'name' )->send_keys($TicketNumber);
+        $Selenium->find_element( "TicketNumber", 'name' )->VerifiedSubmit();
 
         # check for expected result
         $Self->True(
@@ -104,14 +84,15 @@ $Selenium->RunTest(
             "Ticket $TitleRandom found on page",
         );
 
-        # input wrong search parameters, result should be 'No ticket data found'
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+        # navigate to AgentTicketSearch screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
+        # input wrong search parameters, result should be 'No ticket data found'
         $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh");
-        $Selenium->find_element( "Fulltext", 'name' )->submit();
+        $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
         # check for expected result
         $Self->True(
@@ -122,14 +103,14 @@ $Selenium->RunTest(
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $TestUserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
-            "Ticket with ticket number $Ticket{TicketNumber} is deleted"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }

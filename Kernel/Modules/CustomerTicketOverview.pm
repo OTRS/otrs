@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -279,8 +279,9 @@ sub Run {
         my $TitleSort  = '';
         my $AgeSort    = '';
         my $QueueSort  = '';
+        my $OwnerSort  = '';
 
-        # this sets the opposit to the $OrderBy
+        # this sets the opposite to the $OrderBy
         if ( $OrderBy eq 'Down' ) {
             $Sort = 'SortAscending';
         }
@@ -303,6 +304,9 @@ sub Run {
         elsif ( $SortBy eq 'Queue' ) {
             $QueueSort = $Sort;
         }
+        elsif ( $SortBy eq 'Owner' ) {
+            $OwnerSort = $Sort;
+        }
         $LayoutObject->Block(
             Name => 'Filled',
             Data => {
@@ -323,6 +327,11 @@ sub Run {
         if ($Owner) {
             $LayoutObject->Block(
                 Name => 'OverviewNavBarPageOwner',
+                Data => {
+                    OrderBy   => $OrderBy,
+                    OwnerSort => $OwnerSort,
+                    Filter    => $FilterCurrent,
+                },
             );
         }
 

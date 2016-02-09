@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -25,6 +26,14 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
+
     return $Self;
 }
 
@@ -37,8 +46,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -127,9 +136,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -408,14 +416,6 @@ sub Run {
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
     my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
 
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' ) {
 
@@ -435,6 +435,48 @@ sub Run {
 
         my %Error;
 
+        # get check item object
+        my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
+        # check some values
+        LINE:
+        for my $Line (qw(To Cc Bcc)) {
+            next LINE if !$GetParam{$Line};
+            for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
+                    $Error{ $Line . 'Invalid' }   = 'ServerError';
+                }
+                my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
+                    Address => $Email->address()
+                );
+                if ($IsLocal) {
+                    $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
+                }
+            }
+        }
+
+        if ( $Error{ToIsLocalAddress} ) {
+            $LayoutObject->Block(
+                Name => 'ToIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
+        if ( $Error{CcIsLocalAddress} ) {
+            $LayoutObject->Block(
+                Name => 'CcIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
+        if ( $Error{BccIsLocalAddress} ) {
+            $LayoutObject->Block(
+                Name => 'BccIsLocalAddressServerErrorMsg',
+                Data => \%GetParam,
+            );
+        }
+
         # If is an action about attachments
         my $IsUpload = 0;
 
@@ -450,7 +492,7 @@ sub Run {
             next COUNT if !$Delete;
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -465,7 +507,7 @@ sub Run {
                 Param => 'FileUpload',
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -473,7 +515,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get time object
@@ -652,7 +694,7 @@ sub Run {
                     return $LayoutObject->ErrorScreen(
                         Message =>
                             "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
@@ -718,7 +760,7 @@ sub Run {
 
         # get pre loaded attachments
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get submit attachment
@@ -789,7 +831,7 @@ sub Run {
         # error page
         if ( !$ArticleTypeID ) {
             return $LayoutObject->ErrorScreen(
-                Comment => 'Can not determine the ArticleType, Please contact the admin.',
+                Comment => Translatable('Can not determine the ArticleType, Please contact the admin.'),
             );
         }
 
@@ -1057,7 +1099,7 @@ sub Run {
             for ( sort keys %AllStdAttachments ) {
                 my %Data = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                 $UploadCacheObject->FormIDAddFile(
-                    FormID      => $FormID,
+                    FormID      => $Self->{FormID},
                     Disposition => 'attachment',
                     %Data,
                 );
@@ -1066,7 +1108,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get last customer article or selected article ...
@@ -1115,7 +1157,7 @@ sub Run {
         $Data{Body} = $LayoutObject->ArticleQuote(
             TicketID          => $Self->{TicketID},
             ArticleID         => $Data{ArticleID},
-            FormID            => $FormID,
+            FormID            => $Self->{FormID},
             UploadCacheObject => $UploadCacheObject,
         );
 
@@ -1221,11 +1263,6 @@ sub Run {
             }
         }
 
-        # check if Cc recipients should be used
-        if ( $ConfigObject->Get('Ticket::Frontend::ComposeExcludeCcRecipients') ) {
-            $Data{Cc} = '';
-        }
-
         # get system address object
         my $SystemAddress = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
@@ -1302,7 +1339,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $LayoutObject->Notify(
-                        Info => "Customer user automatically added in Cc.",
+                        Info => Translatable("Customer user automatically added in Cc."),
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};
@@ -1831,14 +1868,6 @@ sub _Mask {
         $Param{Cc} = '';
     }
 
-    # get form id
-    my $FormID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
     # set preselected values for To field
     if ( $Param{To} ne '' && !$CustomerCounter ) {
         $LayoutObject->Block(
@@ -1861,7 +1890,7 @@ sub _Mask {
         Name => $Param{TicketBackType},
         Data => {
 
-            #            FormID => $FormID,
+            #            FormID => $Self->{FormID},
             %Param,
         },
     );
@@ -2006,7 +2035,7 @@ sub _Mask {
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketCompose',
         Data         => {
-            FormID => $FormID,
+            FormID => $Self->{FormID},
             %Param,
         },
     );

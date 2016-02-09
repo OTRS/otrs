@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,10 +52,18 @@ $Selenium->RunTest(
             ValidID                => 1,
             UserID                 => $TestUserID,
         );
+        $Self->True(
+            $CustomerCompanyID,
+            "CustomerCompany is created - ID $CustomerCompanyID",
+        );
 
-        # go to customer information center screen
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID");
+
+        # navigate to AgentCustomerInformationCenter screen
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID"
+        );
 
         # create test params links
         my @TicketsLinks;
@@ -83,7 +91,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Deleted CustomerCompany - $CustomerCompanyID",
+            "CustomerCompany is deleted - ID $CustomerCompanyID",
         );
 
         # make sure the cache is correct

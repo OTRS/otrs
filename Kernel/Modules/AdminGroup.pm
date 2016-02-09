@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -88,7 +89,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Group updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Group updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminGroup',
                     Data         => \%Param,
@@ -303,12 +304,15 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
 
+    my %List = $GroupObject->GroupList(
+        ValidID => 0,
+    );
+    my $ListSize = keys %List;
+    $Param{AllItemsCount} = $ListSize;
+
     $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
-    );
-    my %List = $GroupObject->GroupList(
-        ValidID => 0,
     );
 
     # get valid list

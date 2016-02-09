@@ -141,7 +141,7 @@ use Carp;
 use IO::File;
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.506";
+$VERSION = "5.507";
 
 
 #------------------------------
@@ -522,7 +522,7 @@ sub open {
 	    die "bad mode: $mode";
     }
 
-    return IO::File->new(\($self->{MBS_Data}), $mode);
+    return IO::File->new(\ $self->{MBS_Data}, $mode);
 }
 
 
@@ -659,7 +659,7 @@ L<MIME::Tools>
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
-Dianne Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.

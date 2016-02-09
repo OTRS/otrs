@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -227,18 +227,6 @@ You should be able to continue reading these lessons, however.
             Replace => 1,
         },
         Name => 'Safety - script tag'
-    },
-    {
-        Input => '<center>
-<BODY onload!#$%&()*~+-_.,:;?@[/|\]^`="alert("XSS")">
-</center>',
-        Result => {
-            Output => '<center>
-<BODY>
-</center>',
-            Replace => 1,
-        },
-        Name => 'Safety - onload'
     },
     {
         Input => '<center>
@@ -809,6 +797,15 @@ You should be able to continue reading these lessons, however.
 ...
 </center>',
             Replace => 1,
+        },
+    },
+    {
+        Name   => 'Safety - bug 10530 - don\'t destroy URL which looks like an on* JS attribute',
+        Input  => '<a href="http://localhost/online/foo/bar.html">www</a>',
+        Config => {},
+        Result => {
+            Output  => '<a href="http://localhost/online/foo/bar.html">www</a>',
+            Replace => 0,
         },
     },
 );

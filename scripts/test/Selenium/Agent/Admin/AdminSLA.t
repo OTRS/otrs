@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSLA");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -42,7 +42,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click "Add SLA"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=SLAEdit' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=SLAEdit' )]")->VerifiedClick();
 
         # check add SLA screen
         for my $ID (
@@ -57,7 +57,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -72,12 +72,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($SLARandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SLAComment);
-        $Selenium->find_element( "#Name",    'css' )->submit();
-
-        # wait to load overview screen
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length"
-        );
+        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
 
         # check if test SLA show on AdminSLA screen
         $Self->True(
@@ -86,7 +81,7 @@ $Selenium->RunTest(
         );
 
         # check test SLA values
-        $Selenium->find_element( $SLARandomID, 'link_text' )->click();
+        $Selenium->find_element( $SLARandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -107,12 +102,7 @@ $Selenium->RunTest(
         # remove test SLA comment and set it to invalid
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
-
-        # wait to load overview screen
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('a.AsBlock:contains($SLARandomID)').length"
-        );
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check class of invalid SLA in the overview table
         $Self->True(
@@ -123,7 +113,7 @@ $Selenium->RunTest(
         );
 
         # check edited SLA values
-        $Selenium->find_element( $SLARandomID, 'link_text' )->click();
+        $Selenium->find_element( $SLARandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
@@ -136,7 +126,7 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # Since there are no tickets that rely on our test SLA we can remove it from DB
+        # since there are no tickets that rely on our test SLA we can remove it from DB
         my $SLAID = $Kernel::OM->Get('Kernel::System::SLA')->SLALookup(
             Name => $SLARandomID,
         );

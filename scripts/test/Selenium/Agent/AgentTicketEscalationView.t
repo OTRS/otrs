@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,21 +26,41 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # Use a calendar with the same business hours for every day so that the UT runs correctly
-        #   on every day of the week and outside usual business hours.
+        # get needed object
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
+        # use a calendar with the same business hours for every day so that the UT runs correctly
+        # on every day of the week and outside usual business hours.
         my %Week;
         my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
         for my $Day (@Days) {
             $Week{$Day} = [ 0 .. 23 ];
         }
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $ConfigObject->Set(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'TimeWorkingHours',
             Value => \%Week,
+        );
+
+        # disable default Vacation days
+        $ConfigObject->Set(
+            Key   => 'TimeVacationDays',
+            Value => {},
+        );
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'TimeVacationDays',
+            Value => {},
         );
 
         # create test user and login
@@ -75,7 +95,7 @@ $Selenium->RunTest(
         # create params for test tickets
         my @Tests = (
 
-            # default callendar is used for test
+            # default calendar is used for test
             # create queue that will escalate tickets in 1 working hour
             {
                 Name         => 'Today',
@@ -134,8 +154,11 @@ $Selenium->RunTest(
         # create test tickets
         my @TicketIDs;
         my $Tickets;
+        my $TicketNumbers;
         for my $TicketCreate (@Tests) {
-            my $TicketID = $TicketObject->TicketCreate(
+            my $TicketNumber = $TicketObject->TicketCreateNumber();
+            my $TicketID     = $TicketObject->TicketCreate(
+                TN           => $TicketNumber,
                 Title        => 'Selenium Test Ticket',
                 Queue        => $TicketCreate->{Queue},
                 Lock         => 'unlock',
@@ -155,13 +178,16 @@ $Selenium->RunTest(
             push @TicketIDs, $TicketID;
 
             # set helper parameter for verifying on what view certain tickets are expected
-            $Tickets->{$TicketID} = $TicketCreate->{Name};
+            $Tickets->{$TicketID}       = $TicketCreate->{Name};
+            $TicketNumbers->{$TicketID} = $TicketNumber;
 
         }
 
         # go to AgentTicketEscalationView
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down"
+        );
 
         for my $Test (@Tests) {
 
@@ -171,19 +197,31 @@ $Selenium->RunTest(
                 $Filter = 'NextWeek';
             }
 
+            # switch to "Tomorrow" if it is already past 22:00 to avoid day switch errors.
+            if ( $Filter eq 'Today' ) {
+                my $CurrentTimestamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
+                    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+                );
+
+                my ($Hour) = $CurrentTimestamp =~ m{(\d{2}):\d{2}:\d{2}};
+                if ( $Hour >= 22 ) {
+                    $Filter = 'Tomorrow';
+                }
+            }
+
             # check for escalation filter buttons (Today / Tomorrow / NextWeek)
             my $Element = $Selenium->find_element(
                 "//a[contains(\@href, \'Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down;View=;Filter=$Filter\' )]"
             );
             $Element->is_enabled();
             $Element->is_displayed();
-            $Element->click();
+            $Element->VerifiedClick();
 
             # check different views
             for my $View (qw(Small Medium Preview)) {
 
                 # switch to view with correct sorting
-                $Selenium->get(
+                $Selenium->VerifiedGet(
                     "${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down;Filter=$Filter;View=$View"
                 );
 
@@ -196,33 +234,31 @@ $Selenium->RunTest(
 
                     if ( ( $Tickets->{$TicketID} eq $Test->{Name} ) ) {
 
-                        my $TicketNumber = $TicketObject->TicketNumberLookup(
-                            TicketID => $TicketID,
-                            UserID   => $TestUserID,
-                        );
-
                         if ( $Test->{Name} ne 'AfterNextWeek' ) {
 
                             $Self->True(
-                                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-                                "$Test->{Name}/$View: Ticket is found on page - $TicketNumber ",
+                                index( $Selenium->get_page_source(), $TicketNumbers->{$TicketID} ) > -1,
+                                "$Test->{Name}/$View: Ticket is found on page - $TicketNumbers->{$TicketID}",
                             );
                         }
                         else {
 
-                    # test created ticket that escalate in more then 1 week and therefore shouldn't be visible on screen
+                            # test created ticket that escalate in more then 1 week
+                            # and therefore shouldn't be visible on screen
                             $Self->True(
-                                index( $Selenium->get_page_source(), $TicketNumber ) == -1,
-                                "$Test->{Name}/$View: Ticket is not found on page - $TicketNumber ",
+                                index( $Selenium->get_page_source(), $TicketNumbers->{$TicketID} ) == -1,
+                                "$Test->{Name}/$View: Ticket is not found on page - $TicketNumbers->{$TicketID}",
                             );
                         }
-
                     }
                 }
             }
 
             # switch back to AgentTicketEscalationView
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down");
+            $Selenium->VerifiedGet(
+                "${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down"
+            );
+
         }
 
         # delete created test tickets

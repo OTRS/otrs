@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,8 +18,20 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        # get needed objects
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # do not check email addresses
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -52,6 +64,10 @@ $Selenium->RunTest(
             ValidID                => 1,
             UserID                 => $TestUserID,
         );
+        $Self->True(
+            $CustomerCompanyID,
+            "CustomerCompany is created - ID $CustomerCompanyID",
+        );
 
         # create test customers
         my @CustomerNames;
@@ -68,13 +84,21 @@ $Selenium->RunTest(
                 ValidID        => 1,
                 UserID         => $TestUserID,
             );
+            $Self->True(
+                $CustomerID,
+                "CustomerUser is created - ID $CustomerID",
+            );
             push @CustomerNames, $TestCustomerLogin;
             push @CustomerIDs,   $CustomerID;
         }
 
-        # go to customer information center screen
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID");
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # navigate to AgentCustomerInformationCenter screen
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID"
+        );
 
         # test customer user list
         for my $Test (@CustomerNames) {
@@ -94,7 +118,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Deleted CustomerCompany - $CustomerCompanyID",
+            "CustomerCompany is deleted - ID $CustomerCompanyID",
         );
 
         # delete test customer
@@ -105,11 +129,11 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Deleted CustomerUser - $CustomerDelete",
+                "CustomerUser is deleted - ID $CustomerDelete",
             );
         }
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         for my $Cache (qw(CustomerCompany CustomerUser)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,

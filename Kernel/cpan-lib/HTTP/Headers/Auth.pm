@@ -1,12 +1,14 @@
 package HTTP::Headers::Auth;
 
 use strict;
-use vars qw($VERSION);
-$VERSION = "6.00";
+use warnings;
+
+our $VERSION = "6.11";
 
 use HTTP::Headers;
 
-package HTTP::Headers;
+package
+    HTTP::Headers;
 
 BEGIN {
     # we provide a new (and better) implementations below

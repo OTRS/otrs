@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,8 +11,6 @@ use warnings;
 use utf8;
 
 use vars qw( $Self %Param );
-
-use Kernel::System::ObjectManager;
 
 # get needed objects
 my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
@@ -81,6 +79,11 @@ my @Tests = (
             '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
         Name => 'JSON - complex structure'
     },
+    {
+        Input  => "Some Text with Unicode Characters that  are not allowed\x{2029} in JavaScript",
+        Result => '"Some Text with Unicode Characters that\u2028 are not allowed\u2029 in JavaScript"',
+        Name   => 'JSON - Unicode Line Terminators are not allowed in JavaScript',
+    }
 );
 
 for my $Test (@Tests) {

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,6 +22,14 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
 
     return $Self;
 }
@@ -54,7 +63,7 @@ sub Run {
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -102,7 +111,7 @@ sub Run {
     if ( $GetParam{FromChatID} ) {
         if ( !$ConfigObject->Get('ChatEngine::Active') ) {
             return $LayoutObject->FatalError(
-                Message => "Chat is not active.",
+                Message => Translatable('Chat is not active.'),
             );
         }
 
@@ -115,17 +124,9 @@ sub Run {
 
         if ( !%ChatParticipant ) {
             return $LayoutObject->FatalError(
-                Message => "No permission.",
+                Message => Translatable('No permission.'),
             );
         }
-    }
-
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
     }
 
     if ( !$Self->{Subaction} ) {
@@ -139,13 +140,14 @@ sub Run {
                 if ($QueueDefaultID) {
                     $Param{ToSelected} = $QueueDefaultID . '||' . $QueueDefault;
                 }
+                $ACLCompatGetParam{QueueID} = $QueueDefaultID;
             }
 
             # warn if there is no (valid) default queue and the customer can't select one
             elsif ( !$Config->{'Queue'} ) {
                 $LayoutObject->CustomerFatalError(
-                    Message => 'Check SysConfig setting for ' . $Self->{Action} . '::QueueDefault.',
-                    Comment => 'Please contact your administrator',
+                    Message => $LayoutObject->{LanguageObject}->Translate('Check SysConfig setting for %s::QueueDefault.', $Self->{Action}),
+                    Comment => Translatable('Please contact your administrator'),
                 );
                 return;
             }
@@ -154,7 +156,8 @@ sub Run {
             my ( $QueueIDParam, $QueueParam ) = split( /\|\|/, $GetParam{Dest} );
             my $QueueIDLookup = $QueueObject->QueueLookup( Queue => $QueueParam );
             if ( $QueueIDLookup && $QueueIDLookup eq $QueueIDParam ) {
-                $Param{ToSelected} = $GetParam{Dest};
+                $Param{ToSelected}          = $GetParam{Dest};
+                $ACLCompatGetParam{QueueID} = $QueueIDLookup;
             }
         }
 
@@ -190,6 +193,7 @@ sub Run {
                     # set possible values filter from ACLs
                     my $ACL = $TicketObject->TicketAcl(
                         %GetParam,
+                        %ACLCompatGetParam,
                         Action         => $Self->{Action},
                         TicketID       => $Self->{TicketID},
                         ReturnType     => 'Ticket',
@@ -226,7 +230,7 @@ sub Run {
         $Output    .= $LayoutObject->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
             %GetParam,
-            QueueID          => $QueueDefaultID,
+            %ACLCompatGetParam,
             ToSelected       => $Param{ToSelected},
             DynamicFieldHTML => \%DynamicFieldHTML,
             FromChatID       => $GetParam{FromChatID} || '',
@@ -272,10 +276,9 @@ sub Run {
             $GetParam{TypeID} = $TypeList{ $Config->{'TicketTypeDefault'} };
             if ( !$GetParam{TypeID} ) {
                 $LayoutObject->CustomerFatalError(
-                    Message => 'Check SysConfig setting for '
-                        . $Self->{Action}
-                        . '::TicketTypeDefault.',
-                    Comment => 'Please contact your administrator',
+                    Message =>
+                        $LayoutObject->{LanguageObject}->Translate('Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action}),
+                    Comment => Translatable('Please contact your administrator'),
                 );
                 return;
             }
@@ -298,7 +301,7 @@ sub Run {
             next COUNT if !$Delete;
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -312,7 +315,7 @@ sub Run {
                 Param => 'file_upload',
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -320,7 +323,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # create html strings for all dynamic fields
@@ -389,8 +392,8 @@ sub Run {
                     my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
                     $Output .= $LayoutObject->CustomerError(
                         Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact your administrator',
+                            $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                        Comment => Translatable('Please contact your administrator'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
                     return $Output;
@@ -480,9 +483,10 @@ sub Run {
             && $Config->{Service}
             && $Config->{ServiceMandatory}
             && !$GetParam{ServiceID}
+            && !$IsUpload
             )
         {
-            $Error{'ServiceIDInvalid'} = ' ServerError';
+            $Error{'ServiceIDInvalid'} = 'ServerError';
         }
 
         # check mandatory sla
@@ -491,9 +495,10 @@ sub Run {
             && $Config->{SLA}
             && $Config->{SLAMandatory}
             && !$GetParam{SLAID}
+            && !$IsUpload
             )
         {
-            $Error{'SLAIDInvalid'} = ' ServerError';
+            $Error{'SLAIDInvalid'} = 'ServerError';
         }
 
         # check type
@@ -679,7 +684,7 @@ sub Run {
 
         # get pre loaded attachment
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get submitted attachment
@@ -723,7 +728,7 @@ sub Run {
         }
 
         # remove pre submitted attachments
-        $UploadCacheObject->FormIDRemove( FormID => $FormID );
+        $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # redirect
         return $LayoutObject->Redirect(
@@ -901,8 +906,8 @@ sub Run {
     }
     else {
         return $LayoutObject->ErrorScreen(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your administrator',
+            Message => Translatable('No Subaction!'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 
@@ -1020,15 +1025,7 @@ sub _GetTos {
 sub _MaskNew {
     my ( $Self, %Param ) = @_;
 
-    # get form id
-    my $FormID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
-    $Param{FormID} = $FormID;
+    $Param{FormID} = $Self->{FormID};
     $Param{Errors}->{QueueInvalid} = $Param{Errors}->{QueueInvalid} || '';
 
     my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
@@ -1281,7 +1278,7 @@ sub _MaskNew {
         FieldFilter => $Config->{DynamicField} || {},
     );
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {

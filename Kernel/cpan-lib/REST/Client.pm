@@ -56,6 +56,13 @@ REST::Client - A simple client for interacting with RESTful http/https resources
  #It is possible to access the L<LWP::UserAgent> object REST::Client is using to
  #make requests, and set advanced options on it, for instance:
  $client->getUseragent()->proxy(['http'], 'http://proxy.example.com/');
+  
+ # request responses can be written directly to a file 
+ $client->setContentFile( "FileName" );
+
+ # or call back method
+ $client->setContentFile( \&callback_method );
+ # see LWP::UserAgent for how to define callback methods
 
 =head1 DESCRIPTION
 
@@ -74,12 +81,11 @@ use 5.008_000;
 use constant TRUE => 1;
 use constant FALSE => 0;
 
-our ($VERSION) = ('$Rev: 272 $' =~ /(\d+)/);
+our ($VERSION) = ('$Rev: 273 $' =~ /(\d+)/);
 
 use URI;
 use LWP::UserAgent;
 use Carp qw(croak carp);
-use Crypt::SSLeay;
 
 =head2 Construction and setup
 
@@ -329,10 +335,6 @@ sub request {
 
     $url = $self->_prepareURL($url);
 
-    #to ensure we use our desired SSL lib
-    my $tmp_socket_ssl_version = $IO::Socket::SSL::VERSION;
-    $IO::Socket::SSL::VERSION = undef;
-
     my $ua = $self->getUseragent();
     if(defined $self->getTimeout()){
         $ua->timeout($self->getTimeout);
@@ -366,10 +368,12 @@ sub request {
 
         $ua->ssl_opts(SSL_cert_file => $self->getCert);
         $ua->ssl_opts(SSL_key_file => $self->getKey); 
-        if(my $ca = $self->getCa){
-            croak "REST::Client exception: Cannot read CA file" unless -f $ca;
-            $ua->ssl_opts(SSL_ca_file => $ca);
-        }
+    }
+   
+    #prime LWP with CA file if we have one     
+    if(my $ca = $self->getCa){
+        croak "REST::Client exception: Cannot read CA file" unless -f $ca;
+        $ua->ssl_opts(SSL_ca_file => $ca);
     }
 
     #prime LWP with PKCS12 certificate if we have one
@@ -383,8 +387,9 @@ sub request {
         }
     }
 
-    my $res = $self->getFollow ? $ua->request($req) : $ua->simple_request($req);
-    $IO::Socket::SSL::VERSION = $tmp_socket_ssl_version;
+    my $res = $self->getFollow ? 
+        $ua->request( $req, $self->getContentFile ) : 
+        $ua->simple_request( $req, $self->getContentFile );
 
     $self->{_res} = $res;
 
@@ -500,7 +505,7 @@ sub _buildAccessors {
 
     return if $self->can('setHost');
 
-    my @attributes = qw(Host Key Cert Ca Timeout Follow Useragent Pkcs12 Pkcs12password);
+    my @attributes = qw(Host Key Cert Ca Timeout Follow Useragent Pkcs12 Pkcs12password ContentFile);
 
     for my $attribute (@attributes){
         my $set_method = "

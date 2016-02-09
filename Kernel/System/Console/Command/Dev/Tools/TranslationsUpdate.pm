@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 use base qw(Kernel::System::Console::BaseCommand);
 
 use File::Basename;
+use File::Copy;
 use Lingua::Translit;
 use Pod::Strip;
 use Storable ();
@@ -185,17 +186,6 @@ sub HandleLanguage {
         return;
     }
 
-    if ($IsSubTranslation) {
-        $Self->Print(
-            "Processing language <yellow>$Language</yellow> template files from <yellow>$Module</yellow>, writing output to <yellow>$TargetFile</yellow>\n"
-        );
-    }
-    else {
-        $Self->Print(
-            "Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n"
-        );
-    }
-
     if ( !@OriginalTranslationStrings ) {
 
         $Self->Print(
@@ -211,6 +201,7 @@ sub HandleLanguage {
         my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Directory,
             Filter    => '*.tt',
+            Recursive => 1,
         );
 
         for my $File (@TemplateList) {
@@ -381,6 +372,17 @@ sub HandleLanguage {
         }
     }
 
+    if ($IsSubTranslation) {
+        $Self->Print(
+            "Processing language <yellow>$Language</yellow> template files from <yellow>$Module</yellow>, writing output to <yellow>$TargetFile</yellow>\n"
+        );
+    }
+    else {
+        $Self->Print(
+            "Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n"
+        );
+    }
+
     # Language file, which only contains the OTRS core translations
     my $LanguageCoreObject = Kernel::Language->new(
         UserLanguage    => $Language,
@@ -403,7 +405,7 @@ sub HandleLanguage {
         },
     );
     if ( $TranslitLanguagesMap{$Language} ) {
-        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );
+        $TranslitObject = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic
         $TranslitLanguageCoreObject = Kernel::Language->new(
             UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
             TranslationFile => 1,
@@ -423,6 +425,7 @@ sub HandleLanguage {
 
     my @TranslationStrings;
 
+    STRING:
     for my $OriginalTranslationString (@OriginalTranslationStrings) {
 
         my $String = $OriginalTranslationString->{Source};
@@ -482,6 +485,8 @@ sub HandleLanguage {
         TargetFile         => $TargetFile,
         TranslationStrings => \@TranslationStrings,
     );
+
+    return 1;
 }
 
 sub LoadPOFile {
@@ -562,6 +567,8 @@ sub WritePOFile {
 
     Locale::PO->save_file_fromarray( $Param{TargetPOFile}, $POEntries )
         || die "Could not save file $Param{TargetPOFile}: $!";
+
+    return 1;
 }
 
 sub WritePOTFile {
@@ -669,7 +676,7 @@ sub WritePerlLanguageFile {
 
         $NewOut = <<"EOF";
 $Separator
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 $Separator
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -761,6 +768,8 @@ EOF
         Content  => \$NewOut,
         Mode     => 'utf8',        # binmode|utf8
     );
+
+    return 1;
 }
 
 1;

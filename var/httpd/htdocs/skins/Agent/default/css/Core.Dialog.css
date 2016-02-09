@@ -78,12 +78,16 @@
 }
 
 .Dialog > .Content > .InnerContent {
-    padding: 10px;
+    padding: 10px 25px 10px 10px;
     background: #FFF;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     max-height: 200px;
     position: relative;
+}
+
+.RTL .Dialog > .Content > .InnerContent {
+    padding: 10px 10px 10px 25px;
 }
 
 .Dialog > .Content > .ContentFooter {
@@ -109,17 +113,17 @@
  * subsection       Alert
  */
 
-.Dialog.Alert span.Icon {
+.Dialog.Alert .InnerContent .fa {
     display: block;
-    width: 22px;
-    height: 35px;
-    float: left;
-    background: url(../img/dialog_alert.png) no-repeat;
+    font-size: 25px;
+    text-align: center;
+    color: #ff505e;
+    margin-bottom: 10px;
 }
 
 .Dialog.Alert h2,
 .Dialog.Alert p {
-    margin-left: 35px;
+    text-align: center;
 }
 
 .Dialog.Alert {
@@ -127,8 +131,6 @@
     top: 100px;
     left: 300px;
 }
-
-
 
 /**
  * subsection   Settings

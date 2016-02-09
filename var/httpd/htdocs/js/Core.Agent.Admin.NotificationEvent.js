@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,6 +47,28 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
             }
             return false;
         });
+
+        function VisibleForAgentHandler() {
+            var TooltipObject = $('#VisibleForAgentTooltip');
+
+            if ($('#VisibleForAgent').val() > 0) {
+                TooltipObject.removeAttr('readonly');
+
+                // show default transport value
+                $('.AgentEnabledByDefault').show();
+            }
+            else {
+                TooltipObject.attr('readonly', 'readonly');
+
+                // hide default transport value
+                $('.AgentEnabledByDefault').hide();
+            }
+        }
+
+        $('#VisibleForAgent').bind('change', VisibleForAgentHandler);
+
+        // Run on first view.
+        VisibleForAgentHandler();
     };
 
    /**

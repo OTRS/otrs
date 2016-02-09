@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Preferences::Password;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -60,26 +62,48 @@ sub Param {
         @Params,
         {
             %Param,
-            Key   => 'Current password',
+            Key   => Translatable('Current password'),
             Name  => 'CurPw',
             Raw   => 1,
             Block => 'Password'
         },
         {
             %Param,
-            Key   => 'New password',
+            Key   => Translatable('New password'),
             Name  => 'NewPw',
             Raw   => 1,
             Block => 'Password'
         },
         {
             %Param,
-            Key   => 'Verify password',
+            Key   => Translatable('Verify password'),
             Name  => 'NewPw1',
             Raw   => 1,
             Block => 'Password'
         },
     );
+
+    # set the TwoFactorModue setting name depending on the interface
+    my $AuthTwoFactorModule = $Self->{ConfigItem}->{Area} eq 'Agent'
+        ? 'AuthTwoFactorModule'
+        : 'Customer::AuthTwoFactorModule';
+
+    # show 2 factor password input if we have at least one backend enabled
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+        next COUNT if !$ConfigObject->Get( $AuthTwoFactorModule . $Count );
+
+        push @Params, {
+            %Param,
+            Key   => '2 Factor Token',
+            Name  => 'TwoFactorToken',
+            Raw   => 1,
+            Block => 'Password',
+        };
+
+        last COUNT;
+    }
+
     return @Params;
 }
 
@@ -106,6 +130,12 @@ sub Run {
         $Pw1 = $Param{GetParam}->{NewPw1}->[0];
     }
 
+    # get the two factor token from form
+    my $TwoFactorToken;
+    if ( $Param{GetParam}->{TwoFactorToken} && $Param{GetParam}->{TwoFactorToken}->[0] ) {
+        $TwoFactorToken = $Param{GetParam}->{TwoFactorToken}->[0];
+    }
+
     # define AuthModule for frontend
     my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'Auth'
@@ -120,26 +150,25 @@ sub Run {
     # validate current password
     if (
         !$AuthObject->Auth(
-            User => $Param{UserData}->{UserLogin},
-            Pw   => $CurPw
+            User           => $Param{UserData}->{UserLogin},
+            Pw             => $CurPw,
+            TwoFactorToken => $TwoFactorToken || '',
         )
         )
     {
-        $Self->{Error}
-            = $LayoutObject->{LanguageObject}->Translate('The current password is not correct. Please try again!');
+        $Self->{Error} = Translatable('The current password is not correct. Please try again!');
         return;
     }
 
     # check if pw is true
     if ( !$Pw || !$Pw1 ) {
-        $Self->{Error} = $LayoutObject->{LanguageObject}->Translate('Please supply your new password!');
+        $Self->{Error} = Translatable('Please supply your new password!');
         return;
     }
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error} = $LayoutObject->{LanguageObject}
-            ->Translate('Can\'t update password, your new passwords do not match. Please try again!');
+        $Self->{Error} = Translatable('Can\'t update password, your new passwords do not match. Please try again!');
         return;
     }
 
@@ -148,14 +177,13 @@ sub Run {
 
     # check if password is not matching PasswordRegExp
     if ( $Config->{PasswordRegExp} && $Pw !~ /$Config->{PasswordRegExp}/ ) {
-        $Self->{Error}
-            = $LayoutObject->{LanguageObject}->Translate('Can\'t update password, it contains invalid characters!');
+        $Self->{Error} = Translatable('Can\'t update password, it contains invalid characters!');
         return;
     }
 
     # check min size of password
     if ( $Config->{PasswordMinSize} && length $Pw < $Config->{PasswordMinSize} ) {
-        $Self->{Error} = $LayoutObject->{LanguageObject}->Translate(
+        $Self->{Error} = Translatable(
             'Can\'t update password, it must be at least %s characters long!',
             $Config->{PasswordMinSize}
         );
@@ -168,22 +196,20 @@ sub Run {
         && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ )
         )
     {
-        $Self->{Error} = $LayoutObject->{LanguageObject}
-            ->Translate('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
+        $Self->{Error}
+            = Translatable('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
         return;
     }
 
     # check min 1 digit password
     if ( $Config->{PasswordNeedDigit} && $Pw !~ /\d/ ) {
-        $Self->{Error}
-            = $LayoutObject->{LanguageObject}->Translate('Can\'t update password, it must contain at least 1 digit!');
+        $Self->{Error} = Translatable('Can\'t update password, it must contain at least 1 digit!');
         return;
     }
 
     # check min 2 char password
     if ( $Config->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = $LayoutObject->{LanguageObject}
-            ->Translate('Can\'t update password, it must contain at least 2 characters!');
+        $Self->{Error} = Translatable('Can\'t update password, it must contain at least 2 characters!');
         return;
     }
 
@@ -194,7 +220,7 @@ sub Run {
     );
     return if !$Success;
 
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 

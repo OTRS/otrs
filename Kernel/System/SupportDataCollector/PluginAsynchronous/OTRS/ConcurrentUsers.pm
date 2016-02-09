@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,6 +67,7 @@ sub Run {
         ENTRY:
         for my $Entry ( @{$ConcurrentUsers} ) {
 
+            next ENTRY if !$Entry->{$Identifier};
             next ENTRY if $Entry->{$Identifier} && $Entry->{$Identifier} <= $MaxValue;
 
             $MaxValue = $Entry->{$Identifier} || 0;

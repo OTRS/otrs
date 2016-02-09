@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::ToolBar::TicketLocked;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -92,7 +94,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $CountNew,
-            Description => 'Locked Tickets New',
+            Description => Translatable('Locked Tickets New'),
             Class       => $ClassNew,
             Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
@@ -103,7 +105,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $CountReached,
-            Description => 'Locked Tickets Reminder Reached',
+            Description => Translatable('Locked Tickets Reminder Reached'),
             Class       => $ClassReached,
             Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
@@ -114,7 +116,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $Count,
-            Description => 'Locked Tickets Total',
+            Description => Translatable('Locked Tickets Total'),
             Class       => $Class,
             Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketLockedView',

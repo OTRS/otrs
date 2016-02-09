@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -129,9 +129,15 @@ Core.Agent = (function (TargetNS) {
             })
             .bind('mouseenter', function () {
                 var $Element = $(this);
+
+                // clear close timeout on mouseenter, even if OpenMainMenuOnHover is not enabled
+                // this makes sure, that leaving the subnav for a short time and coming back
+                // will leave the subnav opened
+                ClearSubnavCloseTimeout($Element);
+
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
-                if ($('body').hasClass('Visible-ScreenXL') && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
 
                     // Set Timeout for opening nav
                     CreateSubnavOpenTimeout($Element, function () {
@@ -179,7 +185,23 @@ Core.Agent = (function (TargetNS) {
 
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
-                if ($('body').hasClass('Visible-ScreenXL') && Core.Config.Get('OpenMainMenuOnHover')) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && Core.Config.Get('OpenMainMenuOnHover')) {
+                    return true;
+                }
+
+                if (!Core.Config.Get('OTRSBusinessIsInstalled') && $Target.hasClass('OTRSBusinessRequired')) {
+                    return true;
+                }
+
+                // Workaround for Windows Phone IE
+                // In Windows Phone IE the event does not bubble up like in other browsers
+                // That means that a subnavigation in mobile mode is still collapsed/expanded,
+                // although the link to the new page is clicked
+                // we force the redirect with this workaround
+                if ($Target.closest('ul').attr('id') !== 'Navigation') {
+                    window.location.href = $Target.closest('a').attr('href');
+                    Event.stopPropagation();
+                    Event.preventDefault();
                     return true;
                 }
 
@@ -203,9 +225,11 @@ Core.Agent = (function (TargetNS) {
                         ClearSubnavCloseTimeout($Element);
                     }
                 }
+
                 // If element has subnavigation, prevent the link
                 if ($Target.closest('li').find('ul').length) {
                     Event.preventDefault();
+                    Event.stopPropagation();
                     return false;
                 }
             })
@@ -481,7 +505,7 @@ Core.Agent = (function (TargetNS) {
             NewContainerWidth;
 
         // navigation resizing only possible in ScreenXL mode
-        if (!$('body').hasClass('Visible-ScreenXL')) {
+        if (RealResizeEvent && !$('body').hasClass('Visible-ScreenXL')) {
             return;
         }
 
@@ -513,7 +537,7 @@ Core.Agent = (function (TargetNS) {
         $('#Navigation > li').each(function() {
             NavigationBarWidth += parseInt($(this).outerWidth(true), 10);
         });
-        $('#Navigation').css('width', (NavigationBarWidth + 2) + 'px');
+        $('#Navigation').css('width', (NavigationBarWidth + 3) + 'px');
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth(true) - NavigationBarWidth, 10));

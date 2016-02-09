@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -663,8 +664,8 @@ sub Run {
             }
 
             my %HeaderMap = (
-                TicketNumber => 'Ticket Number',
-                CustomerName => 'Customer Realname',
+                TicketNumber => Translatable('Ticket Number'),
+                CustomerName => Translatable('Customer Realname'),
             );
 
             my @CSVHeadTranslated = map { $LayoutObject->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
@@ -1284,13 +1285,13 @@ sub Run {
                 else {
 
                     my $Mapping = {
-                        'Last'   => 'Created within the last',
-                        'Before' => 'Created more than ... ago',
+                        'Last'   => Translatable('Created within the last'),
+                        'Before' => Translatable('Created more than ... ago'),
                     };
 
                     $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
                     $Value     = $GetParam{TicketCreateTimePoint} . ' '
-                        . $LayoutObject->{LanguageObject}->Get( $GetParam{TicketCreateTimePointFormat} . '(s)' );
+                        . $LayoutObject->{LanguageObject}->Translate( $GetParam{TicketCreateTimePointFormat} . '(s)' );
                 }
             }
 
@@ -1707,12 +1708,12 @@ sub MaskForm {
     );
     $Param{TicketCreateTimePointFormat} = $LayoutObject->BuildSelection(
         Data => {
-            minute => 'minute(s)',
-            hour   => 'hour(s)',
-            day    => 'day(s)',
-            week   => 'week(s)',
-            month  => 'month(s)',
-            year   => 'year(s)',
+            minute => Translatable('minute(s)'),
+            hour   => Translatable('hour(s)'),
+            day    => Translatable('day(s)'),
+            week   => Translatable('week(s)'),
+            month  => Translatable('month(s)'),
+            year   => Translatable('year(s)'),
         },
         Translation => 1,
         Name        => 'TicketCreateTimePointFormat',
@@ -1748,9 +1749,9 @@ sub MaskForm {
 
         $Param{SearchInArchiveStrg} = $LayoutObject->BuildSelection(
             Data => {
-                ArchivedTickets    => 'Archived tickets',
-                NotArchivedTickets => 'Unarchived tickets',
-                AllTickets         => 'All tickets',
+                ArchivedTickets    => Translatable('Archived tickets'),
+                NotArchivedTickets => Translatable('Unarchived tickets'),
+                AllTickets         => Translatable('All tickets'),
             },
             Name       => 'SearchInArchive',
             SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
@@ -1850,8 +1851,11 @@ sub MaskForm {
 sub _StopWordsServerErrorsGet {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !%Param ) {
-        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Message => "Got no values to check." );
+        $LayoutObject->FatalError( Message => "Got no values to check." );
     }
 
     my %StopWordsServerErrors;
@@ -1882,7 +1886,7 @@ sub _StopWordsServerErrorsGet {
             next FIELD if !@{ $StopWords->{$Field} };
 
             $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $LayoutObject->{LanguageObject}
                 ->Translate('Please remove the following words because they cannot be used for the search:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );

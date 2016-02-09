@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -125,7 +125,10 @@ Core.UI = (function (TargetNS) {
     TargetNS.ToggleTwoContainer = function ($Element1, $Element2) {
         if (isJQueryObject($Element1, $Element2) && $Element1.length && $Element2.length) {
             $Element1.slideToggle('fast', function () {
-                $Element2.slideToggle('fast');
+                $Element2.slideToggle('fast', function() {
+                    Core.UI.InputFields.InitSelect($Element2.find('.Modernize'));
+                });
+                Core.UI.InputFields.InitSelect($Element1.find('.Modernize'));
             });
         }
     };

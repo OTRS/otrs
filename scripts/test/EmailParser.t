@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,10 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+# get main object
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-my $Home = $ConfigObject->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test #1
 my @Array = ();
@@ -879,14 +878,15 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
     'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'To' Multiline encode)",
+    "#22 GetParam(WHAT => 'To' Multiline encode)",
 );
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'Subject' ),
     'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'Subject' Multiline encode)",
+    "#22 GetParam(WHAT => 'Subject' Multiline encode)",
 );
 
+# test #23
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
 while (<$IN>) {
@@ -901,7 +901,25 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
     'wop+autoreply=no@ticket.noris.net',
-    "#22 GetParam(WHAT => 'To') UTF-7 not decoded",
+    "#23 GetParam(WHAT => 'To') UTF-7 not decoded",
+);
+
+# test #24
+@Array = ();
+open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
+while (<$IN>) {
+    push( @Array, $_ );
+}
+close($IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    Email => \@Array,
+);
+
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
+    'wop+autoreply=no@ticket.noris.net',
+    "#24 GetParam(WHAT => 'Envelope-To') UTF-7 not decoded",
 );
 
 1;

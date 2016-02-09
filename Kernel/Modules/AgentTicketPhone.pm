@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@ use warnings;
 use Mail::Address;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -34,6 +35,14 @@ sub new {
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $ConfigObject->Get("Ticket::Frontend::$Self->{Action}")->{DynamicField} || {},
     );
+
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
 
     return $Self;
 }
@@ -143,14 +152,6 @@ sub Run {
     my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
     my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
 
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -194,7 +195,7 @@ sub Run {
     if ( $GetParam{FromChatID} ) {
         if ( !$ConfigObject->Get('ChatEngine::Active') ) {
             return $LayoutObject->FatalError(
-                Message => "Chat is not active.",
+                Message => Translatable('Chat is not active.'),
             );
         }
 
@@ -208,7 +209,7 @@ sub Run {
 
         if ( !%ChatParticipant ) {
             return $LayoutObject->FatalError(
-                Message => "No permission.",
+                Message => Translatable('No permission.'),
             );
         }
 
@@ -221,7 +222,8 @@ sub Run {
         # Check if observer
         if ( $PermissionLevel ne 'Owner' && $PermissionLevel ne 'Participant' ) {
             return $LayoutObject->FatalError(
-                Message => "No permission. $PermissionLevel",
+                Message => Translatable('No permission.'),
+                Comment => $PermissionLevel,
             );
         }
     }
@@ -290,7 +292,7 @@ sub Run {
             # check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "Article does not belong to ticket $Self->{TicketID}!",
+                    Message => $LayoutObject->{LanguageObject}->Translate('Article does not belong to ticket %s!', $Self->{TicketID}),
                 );
             }
 
@@ -324,7 +326,7 @@ sub Run {
             $Article{Body} = $LayoutObject->ArticleQuote(
                 TicketID           => $Article{TicketID},
                 ArticleID          => $GetParam{ArticleID},
-                FormID             => $FormID,
+                FormID             => $Self->{FormID},
                 UploadCacheObject  => $UploadCacheObject,
                 AttachmentsInclude => 1,
             );
@@ -590,7 +592,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get and format default subject and body
@@ -796,7 +798,7 @@ sub Run {
             next COUNT if !$Delete;
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
                 FileID => $Count,
             );
             $IsUpload = 1;
@@ -811,7 +813,7 @@ sub Run {
                 Param => 'FileUpload',
             );
             $UploadCacheObject->FormIDAddFile(
-                FormID      => $FormID,
+                FormID      => $Self->{FormID},
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -819,7 +821,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get time object
@@ -908,8 +910,8 @@ sub Run {
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
                         Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                            $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
@@ -1261,7 +1263,7 @@ sub Run {
 
         # get pre loaded attachment
         my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-            FormID => $FormID,
+            FormID => $Self->{FormID},
         );
 
         # get submit attachment
@@ -1411,9 +1413,87 @@ sub Run {
                 );
             }
             if ($ChatArticleID) {
-                $ChatObject->ChatDelete(
+
+                # check is customer actively present
+                # it means customer has accepted this chat and not left it!
+                my $CustomerPresent = $ChatObject->CustomerPresent(
                     ChatID => $GetParam{FromChatID},
+                    Active => 1,
                 );
+
+                my $Success;
+
+                # if there is no customer present in the chat
+                # just remove the chat
+                if ( !$CustomerPresent ) {
+                    $Success = $ChatObject->ChatDelete(
+                        ChatID => $GetParam{FromChatID},
+                    );
+                }
+
+                # otherwise set chat status to closed and inform other agents
+                else {
+                    $Success = $ChatObject->ChatUpdate(
+                        ChatID     => $GetParam{FromChatID},
+                        Status     => 'closed',
+                        Deprecated => 1,
+                    );
+
+                    # get user data
+                    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                        UserID => $Self->{UserID},
+                    );
+
+                    my $RequesterName = $User{UserFullname};
+                    $RequesterName ||= $Self->{UserID};
+
+                    my $LeaveMessage = $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "%s has left the chat.",
+                        $RequesterName,
+                    );
+
+                    $Success = $ChatObject->ChatMessageAdd(
+                        ChatID          => $GetParam{FromChatID},
+                        ChatterID       => $Self->{UserID},
+                        ChatterType     => 'User',
+                        MessageText     => $LeaveMessage,
+                        SystemGenerated => 1,
+                    );
+
+                    # time after chat will be removed
+                    my $ChatTTL = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::ChatTTL');
+
+                    my $ChatClosedMessage = $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "This chat has been closed and will be removed in %s hours.",
+                        $ChatTTL,
+                    );
+
+                    $Success = $ChatObject->ChatMessageAdd(
+                        ChatID          => $GetParam{FromChatID},
+                        ChatterID       => $Self->{UserID},
+                        ChatterType     => 'User',
+                        MessageText     => $ChatClosedMessage,
+                        SystemGenerated => 1,
+                    );
+
+                    # remove all AGENT participants from chat
+                    my @ParticipantsList = $ChatObject->ChatParticipantList(
+                        ChatID => $GetParam{FromChatID},
+                    );
+                    CHATPARTICIPANT:
+                    for my $ChatParticipant (@ParticipantsList) {
+
+                        # skip it this participant is not agent
+                        next CHATPARTICIPANT if $ChatParticipant->{ChatterType} ne 'User';
+
+                        # remove this participants from the chat
+                        $Success = $ChatObject->ChatParticipantRemove(
+                            ChatID      => $GetParam{FromChatID},
+                            ChatterID   => $ChatParticipant->{ChatterID},
+                            ChatterType => 'User',
+                        );
+                    }
+                }
             }
         }
 
@@ -1472,7 +1552,7 @@ sub Run {
         }
 
         # remove pre submited attachments
-        $UploadCacheObject->FormIDRemove( FormID => $FormID );
+        $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # link tickets
         if (
@@ -1694,7 +1774,7 @@ sub Run {
 
             # remove all attachments from the Upload cache
             my $RemoveSuccess = $UploadCacheObject->FormIDRemove(
-                FormID => $FormID,
+                FormID => $Self->{FormID},
             );
             if ( !$RemoveSuccess ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1723,7 +1803,7 @@ sub Run {
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                     $UploadCacheObject->FormIDAddFile(
-                        FormID      => $FormID,
+                        FormID      => $Self->{FormID},
                         Disposition => 'attachment',
                         %AttachmentsData,
                     );
@@ -1732,7 +1812,7 @@ sub Run {
                 # send a list of attachments in the upload cache back to the clientside JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-                    FormID => $FormID,
+                    FormID => $Self->{FormID},
                 );
             }
 
@@ -1840,8 +1920,8 @@ sub Run {
     }
     else {
         return $LayoutObject->ErrorScreen(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your administrator',
+            Message => Translatable('No Subaction!'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 }
@@ -1911,6 +1991,7 @@ sub _GetUsers {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Owner',
         Data          => \%ShownUsers,
@@ -1973,6 +2054,7 @@ sub _GetResponsibles {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Responsible',
         Data          => \%ShownUsers,
@@ -2087,12 +2169,7 @@ sub _GetTos {
             );
         }
         else {
-            %Tos = $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
-                Table => 'system_address',
-                What  => 'queue_id, id',
-                Valid => 1,
-                Clamp => 1,
-            );
+            %Tos = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList();
         }
 
         # get create permission queues
@@ -2167,15 +2244,7 @@ sub _GetStandardTemplates {
 sub _MaskPhoneNew {
     my ( $Self, %Param ) = @_;
 
-    # get form id
-    my $FormID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
-    $Param{FormID} = $FormID;
+    $Param{FormID} = $Self->{FormID};
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

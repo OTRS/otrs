@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -758,6 +758,45 @@ sub FetchrowArray {
     return @Row;
 }
 
+=item ListTables()
+
+list all tables in the OTRS database.
+
+    my @Tables = $DBObject->ListTables();
+
+On databases like Oracle it could happen that too many tables are listed (all belonging
+to the current user), if the user also has permissions for other databases. So this list
+should only be used for verification of the presence of expected OTRS tables.
+
+=cut
+
+sub ListTables {
+    my $Self = shift;
+
+    my $SQL = $Self->GetDatabaseFunction('ListTables');
+
+    if ( !$SQL ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'Error',
+            Message  => "Database driver $Self->{'DB::Type'} does not support ListTables.",
+        );
+        return;
+    }
+
+    my $Success = $Self->Prepare(
+        SQL => $SQL,
+    );
+
+    return if !$Success;
+
+    my @Tables;
+    while ( my @Row = $Self->FetchrowArray() ) {
+        push @Tables, lc $Row[0];
+    }
+
+    return @Tables;
+}
+
 =item GetColumnNames()
 
 to retrieve the column names of a database statement
@@ -1015,66 +1054,6 @@ sub SQLProcessorPost {
     }
 
     return ();
-}
-
-# GetTableData()
-#
-# !! DONT USE THIS FUNCTION !!
-#
-# Due to compatibility reason this function is still available and it will be removed
-# in upcoming releases.
-
-sub GetTableData {
-    my ( $Self, %Param ) = @_;
-
-    my $Table = $Param{Table};
-    my $What  = $Param{What};
-    my $Where = $Param{Where} || '';
-    my $Valid = $Param{Valid} || '';
-    my $Clamp = $Param{Clamp} || '';
-    my %Data;
-
-    my $SQL = "SELECT $What FROM $Table ";
-    if ($Where) {
-        $SQL .= ' WHERE ' . $Where;
-    }
-
-    if ( !$Where && $Valid ) {
-        my @ValidIDs;
-
-        return if !$Self->Prepare( SQL => 'SELECT id FROM valid WHERE name = \'valid\'' );
-        while ( my @Row = $Self->FetchrowArray() ) {
-            push @ValidIDs, $Row[0];
-        }
-
-        $SQL .= " WHERE valid_id IN ( ${\(join ', ', @ValidIDs)} )";
-    }
-
-    $Self->Prepare( SQL => $SQL );
-
-    while ( my @Row = $Self->FetchrowArray() ) {
-        if ( $Row[3] ) {
-            if ($Clamp) {
-                $Data{ $Row[0] } = "$Row[1] $Row[2] ($Row[3])";
-            }
-            else {
-                $Data{ $Row[0] } = "$Row[1] $Row[2] $Row[3]";
-            }
-        }
-        elsif ( $Row[2] ) {
-            if ($Clamp) {
-                $Data{ $Row[0] } = "$Row[1] ( $Row[2] )";
-            }
-            else {
-                $Data{ $Row[0] } = "$Row[1] $Row[2]";
-            }
-        }
-        else {
-            $Data{ $Row[0] } = $Row[1];
-        }
-    }
-
-    return %Data;
 }
 
 =item QueryCondition()

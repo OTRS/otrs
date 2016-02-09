@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,6 +75,7 @@ Simple GET request:
 
     my %Response = $WebUserAgentObject->Request(
         URL => 'http://example.com/somedata.xml',
+        SkipSSLVerification => 1, # (optional)
     );
 
 Or a POST request; attributes can be a hashref like this:
@@ -83,6 +84,7 @@ Or a POST request; attributes can be a hashref like this:
         URL  => 'http://example.com/someurl',
         Type => 'POST',
         Data => { Attribute1 => 'Value', Attribute2 => 'Value2' },
+        SkipSSLVerification => 1, # (optional)
     );
 
 alternatively, you can use an arrayref like this:
@@ -91,6 +93,7 @@ alternatively, you can use an arrayref like this:
         URL  => 'http://example.com/someurl',
         Type => 'POST',
         Data => [ Attribute => 'Value', Attribute => 'OtherValue' ],
+        SkipSSLVerification => 1, # (optional)
     );
 
 returns
@@ -110,6 +113,7 @@ You can even pass some headers
             Authorization => 'Basic xxxx',
             Content_Type  => 'text/json',
         },
+        SkipSSLVerification => 1, # (optional)
     );
 
 If you need to set credentials
@@ -124,6 +128,7 @@ If you need to set credentials
             Realm    => 'OTRS Unittests',
             Location => 'ftp.otrs.org:80',
         },
+        SkipSSLVerification => 1, # (optional)
     );
 
 =cut
@@ -141,7 +146,11 @@ sub Request {
 
     # In some scenarios like transparent HTTPS proxies, it can be neccessary to turn off
     #   SSL certificate validation.
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') ) {
+    if (
+        $Param{SkipSSLVerification}
+        || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification')
+        )
+    {
         $UserAgent->ssl_opts(
             verify_hostname => 0,
         );

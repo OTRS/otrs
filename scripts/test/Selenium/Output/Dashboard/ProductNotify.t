@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,15 +18,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # get dashboard ProductNotify plugin default sysconfig
@@ -49,55 +47,53 @@ $Selenium->RunTest(
         my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
         # get content of RELEASE
-        my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $Content = $MainObject->FileRead(
-            Location => "$Home/RELEASE",
-            Result   => 'ARRAY',
-        );
+        my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $Content = $MainObject->FileRead( Location => "$Home/RELEASE" );
 
-        # change version in RELEASE to one lower then current
-        my $Version;
-        my $OriginalContent = '';
-        my $TestContent     = '';
-        for my $Line ( @{$Content} ) {
-            $OriginalContent .= $Line;
-            if ( $Line =~ /^VERSION\s{0,2}=\s{0,2}(.*)$/i ) {
-                $Version = $1;
-                substr( $Version, 0, 1, substr( $Version, 0, 1 ) - 1 );
-                $Line =~ s/$1/$Version/;
-            }
-            $TestContent .= $Line;
-        }
+        my $OriginalContent = ${$Content};
 
-        # update RELEASE with test version
-        my $FileLocation = $MainObject->FileWrite(
-            Location => "$Home/RELEASE",
-            Content  => \$TestContent,
-        );
+        # Fake an OTRS 4.0.0 release so that we always have update news available.
+        my $TestContent = <<EOF;
+PRODUCT = OTRS
+VERSION = 4.0.0
+EOF
 
-        # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
+        eval {
+            # update RELEASE with test version
+            $MainObject->FileWrite(
+                Location => "$Home/RELEASE",
+                Content  => \$TestContent,
+            );
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
+            # create test user and login
+            my $TestUserLogin = $Helper->TestUserCreate(
+                Groups => [ 'admin', 'users' ],
+            ) || die "Did not get test user";
 
-        # test if ProductNotify plugin shows correct link
-        my $ProductNotifyLink = "https://www.otrs.com/release-notes-otrs-help-desk";
-        $Self->True(
-            index( $Selenium->get_page_source(), $ProductNotifyLink ) > -1,
-            "ProductNotify dashboard plugin link - found",
-        );
+            $Selenium->Login(
+                Type     => 'Agent',
+                User     => $TestUserLogin,
+                Password => $TestUserLogin,
+            );
+
+            # test if ProductNotify plugin shows correct link
+            my $ProductNotifyLink = "https://www.otrs.com/release-notes-otrs-help-desk";
+            $Self->True(
+                index( $Selenium->get_page_source(), $ProductNotifyLink ) > -1,
+                "ProductNotify dashboard plugin link - found",
+            );
+        };
+
+        my $EvalError = $@;
 
         # restore default RELEASE version
-        $FileLocation = $MainObject->FileWrite(
+        $MainObject->FileWrite(
             Location => "$Home/RELEASE",
             Content  => \$OriginalContent,
         );
+
+        die $EvalError if $EvalError;
+
     }
 );
 

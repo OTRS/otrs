@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,13 @@
         <div class="WidgetSimple">
 [% RenderBlockStart("OverviewHeader") %]
             <div class="Header">
-                <h2>[% Translate("List") | html %]</h2>
+                    <h2>[% Translate("List") | html %]
+                        [% IF Data.ListAll && Data.Limit && Data.ListAll > Data.Limit %]
+                            ([% Data.SearchListSize | html %] [% Translate("shown") | html %] / [% Data.ListAll | html %] [% Translate("total") | html %])
+                        [% ELSE %]
+                            ([% Data.ListAll | html %] [% Translate("total") | html %])
+                        [% END %]
+                    </h2>
             </div>
 [% RenderBlockEnd("OverviewHeader") %]
 [% RenderBlockStart("NoSearchTerms") %]
@@ -108,7 +114,7 @@
 [% RenderBlockEnd("NoDataFoundMsg") %]
 
 [% RenderBlockStart("OverviewResultRow") %]
-                        <tr [% IF Data.ValidID != 1 %]class="Invalid"[% END %]>
+                        <tr [% IF Data.ValidID && Data.ValidID != 1 %]class="Invalid"[% END %]>
 [% RenderBlockStart("OverviewResultRowLink") %]
                             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.CustomerKey | uri %];Search=[% Data.Search | uri %];Nav=[% Data.Nav | uri %]">[% Data.UserLogin | html %]</a></td>
 [% RenderBlockEnd("OverviewResultRowLink") %]
@@ -142,8 +148,17 @@
                 <h2>[% Translate("Edit Customer User") | html %]</h2>
 [% RenderBlockEnd("HeaderEdit") %]
             </div>
-
             <div class="Content">
+            [% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module.match('LDAP') %]
+                <div class="WidgetMessage Top Warning">
+                    <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
+                </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.DisableForm($('form[name=compose]'));
+//]]></script>
+[% END %]
+            [% END %]
                 <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" name="compose" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
@@ -247,12 +262,14 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Item") %]
+                        [% IF Config(Data.Source).ReadOnly != 1 && Config(Data.Source).Module.match('DB') %]
                         <div class="Field SpacingTop">
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
-                            [% Translate("or") | html %]
+                                [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
+                        [% END %]
                     </fieldset>
                 </form>
             </div>

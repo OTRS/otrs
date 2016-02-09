@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,8 @@ sub LoadPreferences {
     # how to determine server version
     $Self->{'DB::Version'}
         = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
+
+    $Self->{'DB::ListTables'} = 'SELECT table_name FROM user_tables ORDER BY table_name';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {

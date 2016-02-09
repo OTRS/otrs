@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-09-14 11:37+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1708,6 +1708,10 @@ msgid "Other Settings"
 msgstr "Mipangilio mingine"
 
 #. Template: AAAPreferences
+msgid "Notification Settings"
+msgstr ""
+
+#. Template: AAAPreferences
 msgid "Change Password"
 msgstr "Badili neno la siri"
 
@@ -3210,7 +3214,7 @@ msgstr "Usajili wa mfumo ni huduma ya kikundi cha OTRS, ambacho kina faida nying
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that you using OTRS cloud services requires the system to be "
+"Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
 
@@ -3247,6 +3251,14 @@ msgstr "Ongeza mteja"
 #. Template: AdminCustomerCompany
 msgid "Select"
 msgstr "chagua"
+
+#. Template: AdminCustomerCompany
+msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "total"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -4217,6 +4229,12 @@ msgstr "Tiketi %s zimeathirika. Unataka kufanya nini?"
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr "Onyo: Umetumia chaguo la kufuta. Tiketi zote zilizofutwa zitapotea!"
+
+#. Template: AdminGenericAgent
+msgid ""
+"Warning: There are %s tickets affected but only %s may be modified during "
+"one job execution!"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -5442,10 +5460,11 @@ msgstr ""
 #. Template: AdminNotificationEvent
 msgid ""
 "These are the possible methods that can be used to send this notification to"
-" each of the recipients. Note: Excluding Email, other methods might not "
-"reach all selected recipients, please take a look on the documentation of "
-"each merthod to get more information. Please select at least one method "
-"below."
+" each of the recipients. Please select at least one method below."
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Enable this notification method"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5453,11 +5472,17 @@ msgid "Transport"
 msgstr "Safirisha"
 
 #. Template: AdminNotificationEvent
-msgid "Enable this notification method"
+msgid "At least one method is needed per notification."
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "At least one method is needed per notification."
+msgid "Send by default"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Should the notification be sent to agents who have not yet made a choice in "
+"their preferences?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5474,6 +5499,12 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"This language is not present or enabled on the system. This notification "
+"text could be deleted if it is not needed anymore."
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5520,12 +5551,46 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Kupata mistari 5 ya kwanza ya kiini (kutoka kwa makala ya mteja wa karibuni)"
 
 #. Template: AdminNotificationEvent
-msgid "Options of the recipient user for the notification"
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current ticket owner user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current ticket responsible user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the current agent user who requested this action"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the recipient user for the notification"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid ""
+"Ticket dynamic fields display values, useful for Dropdown and Multiselect "
+"fields"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Example notification"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
-msgid "Recipient email addresses"
-msgstr "Anuani ya barua pepe ya mpokeaji"
+msgid "Additional recipient email addresses"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5535,6 +5600,10 @@ msgstr "Aina ya taarifa ya makala"
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email template"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
@@ -5690,6 +5759,10 @@ msgstr "Unakaribia kushusha kwenda kwenye OTRS huru na utapoteza vipengele vifua
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
 msgstr "Ongea"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Report Generator"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6306,10 +6379,6 @@ msgid "Assigned Fields"
 msgstr "Uga zilizogaiwa"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Edit Details for Field"
-msgstr "Hariri maelezo ya uga"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
 msgstr "Aina ya makala"
 
@@ -6654,16 +6723,16 @@ msgid "Type of Linking"
 msgstr "Aina ya kiunganishi"
 
 #. Template: AdminProcessManagementTransition
+msgid "Add a new Field"
+msgstr "Ongeza uga mpya"
+
+#. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
 msgstr "Ondoa uga huu"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
 msgstr ""
-
-#. Template: AdminProcessManagementTransition
-msgid "Add a new Field"
-msgstr "Ongeza uga mpya"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -6692,12 +6761,12 @@ msgid "Config Parameters"
 msgstr "Vigezo vya usanidi"
 
 #. Template: AdminProcessManagementTransitionAction
-msgid "Remove this Parameter"
-msgstr "Ondoa hiki kigezo"
-
-#. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
 msgstr "Ongeza kigezo kipya"
+
+#. Template: AdminProcessManagementTransitionAction
+msgid "Remove this Parameter"
+msgstr "Ondoa hiki kigezo"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -8176,39 +8245,35 @@ msgid "Note: Customer is invalid!"
 msgstr "Kidokezo: Mteja ni batili!"
 
 #. Template: AgentDaemonInfo
-msgid "General Information"
-msgstr "Taarifa kwa ujumla"
+msgid ""
+"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"ticket escalation triggering, email sending, etc."
+msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "OTRS Daemon is a separated process that perform asynchronous tasks"
+msgid "A running OTRS Daemon is mandatory for correct system operation."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid "Starting the OTRS Daemon"
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation "
-"triggering, Email sending, etc.)"
+"Make sure that the file '%s' exists (without .dist extension). This cron job"
+" will check every 5 minutes if the OTRS Daemon is running and start it if "
+"needed."
 msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"It is necessary to have the OTRS Daemon running to make the system work "
-"correctly!"
+"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
 msgstr ""
 
 #. Template: AgentDaemonInfo
-msgid "Starting OTRS Daemon"
-msgstr ""
-
-#. Template: AgentDaemonInfo
-msgid "Make sure that %s exists (without .dist extension)"
-msgstr "Hakikisha kwamba %s ipo (bila kiendelezi .dist)"
-
-#. Template: AgentDaemonInfo
-msgid "Check that cron deamon is running in the system"
-msgstr "Angalia hiyo dimoni inayofanyakazi katika mfumo."
-
-#. Template: AgentDaemonInfo
-msgid "Confirm that OTRS cron jobs are running, execute %s start"
+msgid ""
+"After 5 minutes, check that the OTRS Daemon is running in the system "
+"('bin/otrs.Daemon.pl status')."
 msgstr ""
 
 #. Template: AgentDashboard
@@ -8565,6 +8630,26 @@ msgid "Statistics » View %s%s — %s"
 msgstr ""
 
 #. Template: AgentStatisticsView
+msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Sum rows"
+msgstr "Safu mlalo za jumla"
+
+#. Template: AgentStatisticsView
+msgid "Sum columns"
+msgstr "Safu wima za jumla"
+
+#. Template: AgentStatisticsView
+msgid "Show as dashboard widget"
+msgstr "Onyesha kifaa cha dashibodi"
+
+#. Template: AgentStatisticsView
+msgid "Cache"
+msgstr "Hifadhi muda"
+
+#. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
 msgstr ""
@@ -8634,6 +8719,24 @@ msgid "Create an Article"
 msgstr "Tengeneza makala"
 
 #. Template: AgentTicketActionCommon
+msgid "Inform agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid ""
+"Here you can select additional agents which should receive a notification "
+"regarding the new article."
+msgstr "Hapa unaweza kuchagua mawakala wa kuongezea ambao watapokea taarifa kuhusiana na makala mpya."
+
+#. Template: AgentTicketActionCommon
+msgid "Text will also be received by:"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr "Angalia herufi"
 
@@ -8649,31 +8752,9 @@ msgstr "Kuweka kiolezo kutaandika juu ya matini yoyote au kiambatisho."
 msgid "Note type"
 msgstr "Aina ya kidokezo"
 
-#. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "Mtaarifu wakala"
-
-#. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "Ya hiari"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "Taarifu mawakala wanaohusika"
-
-#. Template: AgentTicketActionCommon
-msgid ""
-"Here you can select additional agents which should receive a notification "
-"regarding the new article."
-msgstr "Hapa unaweza kuchagua mawakala wa kuongezea ambao watapokea taarifa kuhusiana na makala mpya."
-
-#. Template: AgentTicketActionCommon
-msgid "Note will be (also) received by:"
-msgstr ""
-
 #. Template: AgentTicketBounce
-msgid "Bounce Ticket"
-msgstr "Tiketi dunda"
+msgid "Bounce %s%s"
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8733,6 +8814,10 @@ msgstr "Fungua tiketi"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -8802,10 +8887,6 @@ msgstr "Ondoa mtumiaji wa mteja wa tiketi"
 #. Template: AgentTicketEmail
 msgid "Get all"
 msgstr "Pata zote"
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
-msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s"
@@ -9152,6 +9233,10 @@ msgstr "Nyaraka"
 #. Template: AgentTicketZoom
 msgid "This ticket is archived."
 msgstr "Tiketi hii imewekwa kwenye nyaraka"
+
+#. Template: AgentTicketZoom
+msgid "Note: Type is invalid!"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9713,8 +9798,8 @@ msgid "Open date selection"
 msgstr "Fungua chaguo la tarehe"
 
 #. Template: Error
-msgid "Oops! An Error occurred."
-msgstr "Samahani! Kosa limetokea."
+msgid "An error occurred."
+msgstr ""
 
 #. Template: Error
 msgid "You can"
@@ -9788,6 +9873,14 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Information about the OTRS Daemon"
 msgstr ""
 
 #. Template: FooterJS
@@ -10195,8 +10288,207 @@ msgstr ""
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Please note that you can't completely disable notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid ""
+"Sorry, but you can't disable all methods for notifications marked as "
+"mandatory."
+msgstr ""
+
+#. Template: PreferencesNotificationEvent
+msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
+#. Template: ActivityDialogHeader
+msgid "Process Information"
+msgstr "Taarifa za mchakato"
+
+#. Template: ActivityDialogHeader
+msgid "Dialog"
+msgstr ""
+
+#. Template: Article
+msgid "Inform Agent"
+msgstr "Mtaarifu wakala"
+
 #. Template: PublicDefault
 msgid "Welcome"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Permissions"
+msgstr "Ruhusa "
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"You can select one or more groups to define access for different agents."
+msgstr "Unaweza kuchagua kikundi kimoja na zaidi kuwapa ufikivu kwa mawakala mbalimbali."
+
+#. Template: GeneralSpecificationsWidget
+msgid "Result formats"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "The selected time periods in the statistic are time zone neutral."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation row"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional row containing sums for all data columns."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Create summation column"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Generate an additional column containing sums for all data rows."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "Cache results"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Stores statistics result data in a cache to be used in subsequent views with"
+" the same configuration."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Provide the statistic as a widget that agents can activate in their "
+"dashboard."
+msgstr "Onyesha takwimu kama kifaa ambacho mawakala wanaweza kuamilisha dashibodi zao."
+
+#. Template: GeneralSpecificationsWidget
+msgid ""
+"Please note that enabling the dashboard widget will activate caching for "
+"this statistic in the dashboard."
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
+msgid "If set to invalid end users can not generate the stat."
+msgstr "Kama imewekwa batili mtumiaji wa mwisho hawezi kutengeneza takwimu."
+
+#. Template: PreviewWidget
+msgid "There are problems in the configuration of this statistic:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "You may now configure the X-axis of your statistic."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "This statistic does not provide preview data."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Preview format:"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid ""
+"Please note that the preview uses random data and does not consider data "
+"filters."
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Configure X-Axis"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "X-axis"
+msgstr "Jira X"
+
+#. Template: PreviewWidget
+msgid "Configure Y-Axis"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Y-axis"
+msgstr ""
+
+#. Template: PreviewWidget
+msgid "Configure Filter"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Please select only one element or turn off the button 'Fixed'."
+msgstr "Tafadhali chagua elementi moja tu au zina kibonye cha 'Pachikwa'."
+
+#. Template: RestrictionsWidget
+msgid "Absolute period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Between"
+msgstr "Katikati"
+
+#. Template: RestrictionsWidget
+msgid "Relative period"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "The past complete %s and the current+upcoming complete %s %s"
+msgstr ""
+
+#. Template: RestrictionsWidget
+msgid "Do not allow changes to this element when the statistic is generated."
+msgstr ""
+
+#. Template: StatsParamsWidget
+msgid "Format"
+msgstr "Mpangilio"
+
+#. Template: StatsParamsWidget
+msgid "Exchange Axis"
+msgstr "Jira ya kubadilishana"
+
+#. Template: StatsParamsWidget
+msgid "Configurable params of static stat"
+msgstr "Vigezo vilivyosanidiwa vya takwimu tuli"
+
+#. Template: StatsParamsWidget
+msgid "No element selected."
+msgstr "Hakuna elementi iliyochaguliwa"
+
+#. Template: StatsParamsWidget
+msgid "Scale"
+msgstr "Mzani"
+
+#. Template: D3
+msgid "Download SVG"
+msgstr ""
+
+#. Template: D3
+msgid "Download PNG"
+msgstr ""
+
+#. Template: XAxisWidget
+msgid ""
+"The selected time period defines the default time frame for this statistic "
+"to collect data from."
+msgstr ""
+
+#. Template: XAxisWidget
+msgid ""
+"Defines the time unit that will be used to split the selected time period "
+"into reporting data points."
+msgstr ""
+
+#. Template: YAxisWidget
+msgid ""
+"Please remember that the scale for the Y-axis has to be larger than the "
+"scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
 
 #. Template: Test
@@ -10277,6 +10569,10 @@ msgstr ""
 msgid "Customer of the ticket"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Yes, but require at least one active notification method"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
@@ -10316,6 +10612,14 @@ msgstr "Mmiliki wa aliyepita!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "%s has left the chat."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "This chat has been closed and will be removed in %s hours."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
@@ -10398,6 +10702,10 @@ msgstr ""
 msgid " You can take one of the next actions:"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked as"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr ""
@@ -10415,24 +10723,18 @@ msgstr ""
 msgid "(in process)"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
+msgid ""
+"Please make sure you've chosen at least one transport method for mandatory "
+"notifications."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
+msgid "Please specify an end date that is after the start date."
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "X-axis"
-msgstr "Jira X"
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "Y-axis"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected start time is before the allowed start time."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected end time is later than the allowed end time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10443,16 +10745,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"The selected time upcoming period is larger than the allowed time upcoming "
-"period."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid "The selected time scale is smaller than the allowed time scale."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10474,6 +10766,18 @@ msgid "There is something wrong with your time selection."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select only one element or allow modification at stat generation "
+"time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid ""
+"Please select at least one value of this field or allow modification at stat"
+" generation time."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
 msgstr ""
 
@@ -10483,12 +10787,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
-msgid ""
-"Please select only one element or allow modification at stat generation "
-"time."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -10517,6 +10815,22 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Panga kwa"
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "Configuration Options Reference"
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be changed."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting is not active by default."
+msgstr ""
+
+#. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+msgid "This setting can not be deactivated."
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -11425,6 +11739,54 @@ msgstr ""
 msgid "fax"
 msgstr ""
 
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket create notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket follow-up notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket owner update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket responsible update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket new note notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket queue update notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (locked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket pending reminder notification (unlocked)"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket escalation warning notification"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket service update notification"
+msgstr ""
+
 #. SysConfig
 msgid ""
 "\n"
@@ -11459,6 +11821,10 @@ msgstr "%s k(v)izio cha muda vinahusika. Sasa %s jumla ya k(v)izio cha muda."
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(Kuingia kwa mtumiaji) Jina kwanza Jina la mwisho"
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -11828,6 +12194,10 @@ msgid ""
 msgstr "Inaruhusu kuweka hali mpya ya tiketi katika skrini ya kutoa ya tiketi ya kiolesura cha wakala."
 
 #. SysConfig
+msgid "Arabic (Saudi Arabia)"
+msgstr ""
+
+#. SysConfig
 msgid "Archive state changed: \"%s\""
 msgstr "Hali ya nyaraka imebadilishwa: \"%s\""
 
@@ -11912,6 +12282,10 @@ msgid "Builds an article index right after the article's creation."
 msgstr "Jenga kielezo cha makala mara baada ya utengenezaji wa makala."
 
 #. SysConfig
+msgid "Bulgarian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
@@ -11947,6 +12321,10 @@ msgstr "Muda wa hifadhi muda katika sekunde kwa ajili ya Moduli ya matokeo ya mw
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
 msgstr "Muda wa hifadhi muda katika sekunde kwa ajili ya mazingira ya nyuma ya usanidi wa huduma za wavuti."
+
+#. SysConfig
+msgid "Catalan"
+msgstr ""
 
 #. SysConfig
 msgid "Change password"
@@ -12004,6 +12382,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Checks the entitlement status of OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#. SysConfig
+msgid "Chinese (Traditional)"
 msgstr ""
 
 #. SysConfig
@@ -12170,6 +12556,10 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Inadhibiti jinsi ya kuonyesha maingizo ya historia ya tiketi kama thamani zinazosomeka. "
 
 #. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
 msgstr "Inadhibiti kama wateja wanauwezo wa kupanga tiketi zao."
 
@@ -12294,6 +12684,10 @@ msgid "Create new process ticket"
 msgstr "Tengeneza tiketi za mchakato mpya."
 
 #. SysConfig
+msgid "Croatian"
+msgstr ""
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr ""
 
@@ -12365,6 +12759,14 @@ msgstr "Makundi ya <->  Wateja"
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from"
 " the search index."
+msgstr ""
+
+#. SysConfig
+msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid "Danish"
 msgstr ""
 
 #. SysConfig
@@ -12607,15 +13009,14 @@ msgstr "Inafafanua vichwa vyote vya X ambavyo vinatakiwa kutambazwa."
 
 #. SysConfig
 msgid ""
-"Defines all the languages that are available to the application. The "
-"Key/Content pair links the front-end display name to the appropriate "
-"language PM file. The \"Key\" value should be the base-name of the PM file "
-"(i.e. de.pm is the file, then de is the \"Key\" value). The \"Content\" "
-"value should be the display name for the front-end. Specify any own-defined "
-"language here (see the developer documentation http://otrs.github.io/doc/ "
-"for more infomation). Please remember to use the HTML equivalents for non-"
-"ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use "
-"the &ouml; symbol)."
+"Defines all the languages that are available to the application. Specify "
+"only English names of languages here."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines all the languages that are available to the application. Specify "
+"only native names of languages here."
 msgstr ""
 
 #. SysConfig
@@ -13417,6 +13818,10 @@ msgid ""
 msgstr "Fafanua aina ya chaguo-msingi ya tiketi kwa tiketi za mteja mpya katika kiolesura cha mteja."
 
 #. SysConfig
+msgid "Defines the default ticket type."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default type for article in the customer interface."
 msgstr "Fafanua aina ya chaguo-msingi kwa makala katika kiolesura cha mteja."
 
@@ -14050,6 +14455,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Defines the number of days to keep the daemon log files."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
@@ -14182,16 +14591,16 @@ msgstr "Inafafanua kipaumbele ambacho taarifa zinawekwa batli na kuwasilishwa."
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the phone ticket and the sender of the email"
+"Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the receipent target of the tickets (\"Queue\" shows all queues, "
+"Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr "Inafafanua lengo la mpokeaji wa tiketi (\"Foleni\" inaonyesha foleni zote, \"Anwani ya Mfumo\" inaonyesha anwani zote za mfumo) katika kiolesura cha mteja. "
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14499,20 +14908,20 @@ msgstr "Inaamua hali zinazowezekana kwa ajili ya tiketi zinazongoja ambazo zimeb
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the phone "
+"Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For"
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
-"the receipent."
-msgstr "Inaamua tungo zitakazo onyeshwa kama mpokeaji (Kwenda:) wa tiketi ya simu na kama mtumaji (Kutoka:) wa tiketi ya barua pepe katikakiolesura cha wakala. Kwa foleni kaam aina ya Chaguo la Foleni Mpya \"<Foleni>\" inaonyesha najina ya foleni na Anwani zaMfumo \"<JinaHalisi>\"<<Barua pepe>>\" inaonyesha jina na barua pepe ya mpokeaji."
+"the recipient."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Determines the strings that will be shown as receipent (To:) of the ticket "
+"Determines the strings that will be shown as recipient (To:) of the ticket "
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
-"\"<Realname> <<Email>>\" shows the name and email of the receipent."
-msgstr "Inaamua tungo zitakazo onyeshwa kama mpokeaji (Kwenda:) wa tiketi katika kiolesura cha mteja. Kwa foleni kaam aina ya Chaguo la Foleni Mpya \"<Foleni>\" inaonyesha najina ya foleni na Anwani zaMfumo \"<JinaHalisi>\"<<Barua pepe>>\" inaonyesha jina na barua pepe ya mpokeaji."
+"\"<Realname> <<Email>>\" shows the name and email of the recipient."
+msgstr ""
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -14520,15 +14929,22 @@ msgstr "Inaamua jinsi ambayo vipengele vilivyounganishwa vitaonyeshwa katika kil
 
 #. SysConfig
 msgid ""
-"Determines which options will be valid of the recepient (phone ticket) and "
+"Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
-msgstr "Inaamua michaguo ipi itakuwa halali kwa mpokeaji (tiketi za simu) na mtumaji (tiketi za barua pepe) katika kiolesura cha wakala."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr "Inaamua foleni zipi zitakuwa halali kwa wapokeaji wa tiketi katika kiolesura cha mteja."
+
+#. SysConfig
+msgid ""
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"included as an IFrame in other websites. Disabling this HTTP header can be a"
+" security issue! Only disable it, if you know what you are doing!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14568,6 +14984,12 @@ msgstr "Inaonyesha muda ulihesabiwa kwa ajili ya makala ya mandhari ya ukuzaji w
 #. SysConfig
 msgid "Dropdown"
 msgstr "Kunjuzi"
+
+#. SysConfig
+msgid ""
+"Dutch stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -14805,6 +15227,10 @@ msgid "DynamicField object registration."
 msgstr "Usajili wa kipengele cha uga wenye nguvu."
 
 #. SysConfig
+msgid "E-Mail Outbound"
+msgstr "Barua pepe zilizofungwa nje."
+
+#. SysConfig
 msgid "Edit customer company"
 msgstr "Hariri kampuni ya mteja "
 
@@ -14902,6 +15328,24 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr "Wezesha kipengele cha kiangalizi cha tiketi katika makundi yaliyoorodheshwa tu."
 
 #. SysConfig
+msgid "English (Canada)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United Kingdom)"
+msgstr ""
+
+#. SysConfig
+msgid "English (United States)"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"English stop words for fulltext index. These words will be removed from the "
+"search index."
+msgstr ""
+
+#. SysConfig
 msgid "Enroll process for this ticket"
 msgstr ""
 
@@ -14954,6 +15398,10 @@ msgid "EscalationTime"
 msgstr ""
 
 #. SysConfig
+msgid "Estonian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14971,6 +15419,11 @@ msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr "Moduli ya tukio ambayo inafanya tamko la usasishwaji katika Kielezoo cha Tiketi kuipa jina foleni kama inahitajika na DBTuli inatumika."
+
+#. SysConfig
+msgid ""
+"Event module that updates customer user search profiles if login changes."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15074,6 +15527,10 @@ msgid "Filter incoming emails."
 msgstr "Chuja barua pepe zinazoingia."
 
 #. SysConfig
+msgid "Finnish"
+msgstr ""
+
+#. SysConfig
 msgid "First Queue"
 msgstr ""
 
@@ -15124,6 +15581,14 @@ msgstr "Inalazimisha kufungua tiketi baada ya kuhamishwa kwenye foleni nyingine.
 #. SysConfig
 msgid "Forwarded to \"%s\"."
 msgstr "Tumwa mbele kwenda \"%s\"."
+
+#. SysConfig
+msgid "French"
+msgstr ""
+
+#. SysConfig
+msgid "French (Canada)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15177,6 +15642,10 @@ msgstr "Regex ya kielezo cha nakala kamili inachuja kuondoa sehemu za makala."
 
 #. SysConfig
 msgid "Fulltext search"
+msgstr ""
+
+#. SysConfig
+msgid "Galician"
 msgstr ""
 
 #. SysConfig
@@ -15243,6 +15712,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr "Usajili wa moduli ya kiolesura cha jumla kwaajili la tabaka la usafirishaji."
 
 #. SysConfig
+msgid "German"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
@@ -15263,11 +15736,12 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Grants access, if the customer ID of the ticket matches the customer user's "
-"ID and the customer user has group permissions on the queue the ticket is "
-"in."
-msgstr "Inatoa ruhusa, kama kitambulisho cha mteja wa tiketi kinalandana na kitambulisho cha mteja mtumiaji na mteja mtumiaji ana ruhusa za kikundi katika foleni, tiketi ipo ndani."
+msgid "Greek"
+msgstr ""
+
+#. SysConfig
+msgid "Hebrew"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15277,6 +15751,14 @@ msgid ""
 "an index after article creation, increasing fulltext searches about 50%. To "
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
+msgstr ""
+
+#. SysConfig
+msgid "Hindi"
+msgstr ""
+
+#. SysConfig
+msgid "Hungarian"
 msgstr ""
 
 #. SysConfig
@@ -15351,7 +15833,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Kama \"Uhifadhi wa msingi wa HTTP\" inachaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kubainisha kwenye sehemu zilizo wazi za majina ya watumiaji (mfano kwa vikoa kwa example_domain\\user kwa mtumiaji)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15579,6 +16061,17 @@ msgstr "Kama imewezeshwa kueua taarifa  kwa ajili ya mipito imewekwa batli."
 
 #. SysConfig
 msgid ""
+"If enabled the daemon will redirect the standard error stream to a log file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will redirect the standard output stream to a log "
+"file."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If "
 "you turn this off, there will likely be problems in IE 7, because it cannot "
 "load more than 32 CSS files."
@@ -15716,13 +16209,29 @@ msgid ""
 msgstr "Inawezekana kusanidi dhima tofauti, kwa mfano kutofautisha kati wakala na wateja, wataokaotumika katika kila huduma kwenye kikoa katika programu tumizi. Kwa kutumia imizo la kawaida (regex), unaweza kusanidi jozi ya yaliyomo/kibonye kulandanisha kikoa. Thamani katika \"Kibonye\" ilandane na kikoa, na thamani kwenye \"Yaliyomo\" iwe dhima batili katika mfumo wako. Tafadhali ona maingizo ya mfano kwa  ajili fomu sahihi ya  imizo la kawaida."
 
 #. SysConfig
+msgid "Italian"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
 
 #. SysConfig
+msgid "Japanese"
+msgstr ""
+
+#. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -15732,6 +16241,10 @@ msgstr "Jina la mwisho, Jina la kwanza"
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
 msgstr "Jina la mwisho, Jina la kwanza (Kuingia kwa mtumiaji)"
+
+#. SysConfig
+msgid "Latvian"
+msgstr ""
 
 #. SysConfig
 msgid "Left"
@@ -15842,6 +16355,10 @@ msgid "List view"
 msgstr ""
 
 #. SysConfig
+msgid "Lithuanian"
+msgstr ""
+
+#. SysConfig
 msgid "Lock / unlock this ticket"
 msgstr ""
 
@@ -15881,6 +16398,10 @@ msgid ""
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
 msgstr "Inafanya usimamizi wa kipindi utumie vidakuzi vya html. Kama vidakuzi vya html havijawezeshwa au kivinjari cha mteja haijawezesha vidakuzi vya  html, mfumo utafanya kazi kama kawaida na itaambatisha kitambulisho cha kipindi kwenye viunganishi."
+
+#. SysConfig
+msgid "Malay"
+msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -15933,8 +16454,9 @@ msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr "Ukubwa wa upeo juu (katika safu mlalo) wa kikasha wa mawakala wanaohusika katika kioleusura cha wakala. "
 
 #. SysConfig
-msgid "Max size of the subjects in an email reply."
-msgstr "Ukubwa wa upeo wa juu wa masomo katika majibu ya barua pepe."
+msgid ""
+"Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16000,16 +16522,6 @@ msgid ""
 msgstr "Moduli kwa ajili ya uchaguzi katika skrini ya tiketi katika kioleusura cha mteja."
 
 #. SysConfig
-msgid "Module to check customer permissions."
-msgstr "Moduli ya kuangalia ruhusa za mteja."
-
-#. SysConfig
-msgid ""
-"Module to check if a user is in a special group. Access is granted, if the "
-"user is in the specified group and has ro and rw permissions."
-msgstr "Moduli ya kuangalia kama mtumiaji yupo katika kundi maalum. Ruhusa itagaiwa, kama mtumiaji yupo katika kundi maalum na ana ruhusa za ro na rw."
-
-#. SysConfig
 msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
@@ -16017,21 +16529,12 @@ msgid ""
 msgstr "Moduli za kuangalia barua pepe zilizofika  ziwekwe alama kama barua pepe za ndani (kwasababu ya barua pepe za ndani zilizotumwa mbele awali). Aina ya Makala na aina ya mtumaji wanafafanua thamani ya barua pepe/makala zilizofika."
 
 #. SysConfig
-msgid "Module to check the agent responsible of a ticket."
-msgstr "Moduli ya kuangalia wakala anayehusika na tiketi."
+msgid "Module to check the group permissions for customer access to tickets."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Module to check the group permissions for the access to customer tickets."
-msgstr "Moduli ya kuangalia ruhusa za kundi kuweza kufikia tiketi za mteja."
-
-#. SysConfig
-msgid "Module to check the owner of a ticket."
-msgstr "Moduli ya kukagua mmiliki wa tiketi"
-
-#. SysConfig
-msgid "Module to check the watcher agents of a ticket."
-msgstr "Moduli ya kukagua waangaliaji wa mawakala wa tiketi."
+msgid "Module to check the group permissions for the access to tickets."
+msgstr ""
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -16080,6 +16583,40 @@ msgstr "Moduli ya kutengeneza takwimu za tiketi."
 
 #. SysConfig
 msgid ""
+"Module to grant access if the CustomerID of the ticket matches the "
+"CustomerID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access if the CustomerUserID of the ticket matches the "
+"CustomerUserID of the customer."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Module to grant access to any agent that has been involved in a ticket in "
+"the past (based on ticket history entries)."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the agent responsible of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the creator of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the owner of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Module to grant access to the watcher agents of a ticket."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
@@ -16118,6 +16655,10 @@ msgid "NameX"
 msgstr "Jina X"
 
 #. SysConfig
+msgid "Nederlands"
+msgstr ""
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "Tiketi mpya [%s] imetengenezwa (Q=%s;P=%s:S=%s)."
 
@@ -16151,6 +16692,10 @@ msgstr "Hali za tiketi zijazo ziwezekanazo baada ya kuongeza kidokezo cha simu k
 
 #. SysConfig
 msgid "None"
+msgstr ""
+
+#. SysConfig
+msgid "Norwegian"
 msgstr ""
 
 #. SysConfig
@@ -16201,6 +16746,30 @@ msgstr "Fungua tiketi (Mtumiaji wa mteja)"
 #. SysConfig
 msgid "Open tickets (customer)"
 msgstr "Fungua tiketi (Mteja)"
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the CreatorCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the InvolvedCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the OwnerCheck permission module. If set, "
+"permission is only granted for tickets in the specified queues."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Optional queue limitation for the ResponsibleCheck permission module. If "
+"set, permission is only granted for tickets in the specified queues."
+msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
@@ -16306,6 +16875,18 @@ msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya mapitio ya tiketi mpya y
 
 #. SysConfig
 msgid ""
+"Parameters for the dashboard backend of the open tickets overview of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin. Note: Only Ticket attributes and "
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
+" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
 "g. Group: admin;group1;group2;). \"QueuePermissionGroup\" is not mandatory, "
@@ -16328,16 +16909,6 @@ msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya mapitio ya tiketi ya mch
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket calendar of the agent "
-"interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
-" used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin."
-msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya Kalenda ya tiketi ya kiolesura cha wakala. ''Kikomo'' ni namba ya vipengee halisi vinavyoonyeshwa kwa mchaguo-halisi. ''Kikundi'' kinatumika kuzuia kufikia kuchomeka (mfano Kikundi:Utawala;kikundi cha 1;kikundi cha 2;). ''Chaguo-msingi'' inahakiki kama mchomeko umewezeshwa kwa mchaguo-msingi au kama mtumizi anahitaji kuwezesha kwa mkono. ''HifadhimudaTTLKiambo'' ni muda wa hifadhi muda katika dakika kwa mchomeko."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
 "the agent interface . \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -16347,6 +16918,16 @@ msgid ""
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
 msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya mapitio ya kupandishwa kwa  tiketi  ya kiolesura cha wakala. ''Kikomo'' ni namba ya vipengee halisi vinavyoonyeshwa kwa mchaguo-halisi. ''Kikundi'' kinatumika kuzuia kufikia kuchomeka (mfano Kikundi:Utawala;kikundi cha 1;kikundi cha 2;). ''Chaguo-msingi'' inahakiki kama mchomeko umewezeshwa kwa mchaguo-msingi au kama mtumizi anahitaji kuwezesha kwa mkono. ''HifadhimudaTTLKiambo'' ni muda wa hifadhi muda katika dakika kwa mchomeko. Angalizo: Sifa za tiketi tu na uga zenye nguvu (Uga wenye Nguvu_Jina X) yanaruhusiwa kwa safu wima chaguo msingi. Mipangilio inayowezekana: 0 = Kutowezeshwa, 1 = Inapatika, 2 = Wezeshwa kwa chaguo msingi."
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the ticket events calendar of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16363,19 +16944,6 @@ msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya mapitio ya kikumbusho ch
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface. \"Limit\" is the number of entries shown by "
-"default. \"Group\" is used to restrict the access to the plugin (e. g. "
-"Group: admin;group1;group2;). \"Default\" determines if the plugin is "
-"enabled by default or if the user needs to enable it manually. "
-"\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
-"Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default."
-msgstr "Parameta kwamazingira ya nyuma ya dashibodi ya mapitio ya kikumbusho cha tiketi inayosubiri ya kiolesura cha wakala. ''Kikomo'' ni namba ya vipengee halisi vinavyoonyeshwa kwa mchaguo-halisi. ''Kikundi'' kinatumika kuzuia kufikia kuchomeka (mfano Kikundi:Utawala;kikundi cha 1;kikundi cha 2;). ''Chaguo-msingi'' inahakiki kama mchomeko umewezeshwa kwa mchaguo-msingi au kama mtumizi anahitaji kuwezesha kwa mkono. ''HifadhimudaTTLKiambo'' ni muda wa hifadhi muda katika dakika kwa mchomeko. Angalizo: Sifa za tiketi tu na uga zenye nguvu (Uga wenye Nguvu_Jina X) yanaruhusiwa kwa safu wima chaguo msingi. Mipangilio inayowezekana: 0 = Kutowezeshwa, 1 = Inapatika, 2 = Wezeshwa kwa chaguo msingi."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the ticket stats of the agent "
 "interface. \"Limit\" is the number of entries shown by default. \"Group\" is"
 " used to restrict the access to the plugin (e. g. Group: "
@@ -16383,6 +16951,16 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
 msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya takwimu za tiketi ya kiolesura cha wakala. ''Kikomo'' ni namba ya vipengee halisi vinavyoonyeshwa kwa mchaguo-halisi. ''Kikundi'' kinatumika kuzuia kufikia kuchomeka (mfano Kikundi:Utawala;kikundi cha 1;kikundi cha 2;). ''Chaguo-msingi'' inahakiki kama mchomeko umewezeshwa kwa mchaguo-msingi au kama mtumizi anahitaji kuwezesha kwa mkono. ''HifadhimudaTTLKiambo'' ni muda wa hifadhi muda katika dakika kwa mchomeko. "
+
+#. SysConfig
+msgid ""
+"Parameters for the dashboard backend of the upcoming events widget of the "
+"agent interface. \"Limit\" is the number of entries shown by default. "
+"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
+"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
+"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
+" cache time in minutes for the plugin."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -16445,8 +17023,24 @@ msgid "Permitted width for compose note windows."
 msgstr "Imeruhusu upana katika windows kwa ajili ya kutunga kidokezo."
 
 #. SysConfig
+msgid "Persian"
+msgstr ""
+
+#. SysConfig
 msgid "Picture-Upload"
 msgstr "Pakia picha"
+
+#. SysConfig
+msgid "Polish"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese"
+msgstr ""
+
+#. SysConfig
+msgid "Portuguese (Brasil)"
+msgstr ""
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -16455,10 +17049,6 @@ msgstr "Vichuja vya mkuu wa Posta"
 #. SysConfig
 msgid "PostMaster Mail Accounts"
 msgstr "Akaunti za barua pepe za mkuu wa posta"
-
-#. SysConfig
-msgid "Process Information"
-msgstr "Taarifa za mchakato"
 
 #. SysConfig
 msgid "Process Management Activity Dialog GUI"
@@ -16688,6 +17278,10 @@ msgid ""
 msgstr "Mfumo unafanya kazi katika hali-tumizi \"Mfano\". Kama imewekwa kuwa \"Ndio\", mawakala wanaweza kubadilisha mapendeleo, kama uchaguzi wa lugha na dhima kwa kupitia kiolesura cha wavuti wa wakala. Mabadiliko haya ni halali kwa kipindi cha sasa. Haitowezekana kwa mawakala kubadilisha neno la siri.\n "
 
 #. SysConfig
+msgid "Russian"
+msgstr ""
+
+#. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "Upakizi wa cheti cha S/MIME"
 
@@ -16813,6 +17407,14 @@ msgid ""
 msgstr "Inatuma taarifa ambazo zimesanidiwa katika kiolesura cha kiongozi chini ya \"Taarifa (Tukio)\"."
 
 #. SysConfig
+msgid "Serbian Cyrillic"
+msgstr ""
+
+#. SysConfig
+msgid "Serbian Latin"
+msgstr ""
+
+#. SysConfig
 msgid "Service view"
 msgstr "Mtazamo wa huduma"
 
@@ -16831,6 +17433,12 @@ msgid ""
 "Set the default height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "Weka urefu wa chaguo-msingi (katika pikseli) ya ndani ya makala ya HTML katika kikuzaji cha tiketi cha wakala."
+
+#. SysConfig
+msgid ""
+"Set the limit of tickets that will be executed on a single genericagent job "
+"execution."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17428,6 +18036,10 @@ msgstr "Inaonyesha uchaguzi husika katika simu na tiketi za barua pepe katika ki
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Inaonyesha makala kama matini tajiri hata kama uandishi wa matini tajiri haujaruhusiwa."
+
+#. SysConfig
+msgid "Show queues even when only locked tickets are in."
+msgstr ""
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
@@ -18035,6 +18647,14 @@ msgid "Skin"
 msgstr "Gamba"
 
 #. SysConfig
+msgid "Slovak"
+msgstr ""
+
+#. SysConfig
+msgid "Slovenian"
+msgstr ""
+
+#. SysConfig
 msgid "SolutionDiffInMin"
 msgstr "Tofauti katika dakika katika ufumbuzi"
 
@@ -18075,6 +18695,18 @@ msgstr "Mfano wa mpangilio wa barua taka muuaji. Puuzia barua pepe ambazo zimewe
 #. SysConfig
 msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr "Mfano wa mpangilio wa barua taka muuaji.Hamisha barua pepe zilizowekwa alama kwenye foleni ya barua taka."
+
+#. SysConfig
+msgid "Spanish"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Colombia)"
+msgstr ""
+
+#. SysConfig
+msgid "Spanish (Mexico)"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18204,9 +18836,9 @@ msgstr "Bainisha kitambulisho cha mtumiaji cha hifadhi data cha mkuu wa posti."
 #. SysConfig
 msgid ""
 "Specifies whether all storage backends should be checked when looking for "
-"attachements. This is only required for installations where some "
-"attachements are in the file system, and others in the database."
-msgstr "Inabainisha kama mazingira yoteya nyuma ya hifadhi yameangaliwa wakati wa uangaliaji wa viambatanishi. Hii inahitajika tu kwa ajili ya usanidi ambapo baadhi ya viambatanishi vipo kwenye faili la mfumo na vingine katika hifadhi data. "
+"attachments. This is only required for installations where some attachments "
+"are in the file system, and others in the database."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18272,6 +18904,14 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Toa mistari iliyowazi katika mapitio ya tiketi katika mandhari ya huduma."
 
 #. SysConfig
+msgid "Swahili"
+msgstr ""
+
+#. SysConfig
+msgid "Swedish"
+msgstr ""
+
+#. SysConfig
 msgid "System Maintenance"
 msgstr "Matengenezo ya mfumo"
 
@@ -18286,6 +18926,10 @@ msgstr "Vielezo <-> Foleni"
 #. SysConfig
 msgid "Textarea"
 msgstr "Sehemu ya nakala"
+
+#. SysConfig
+msgid "Thai"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18471,7 +19115,7 @@ msgid ""
 msgstr "Mpangalio huu unakuruhusu kutendua orodha ya nchi ilijengewa ndani  kwa orodha yako ya nchi. Inatumika hasa kama unataka kutumia nchi chache usichaguazo."
 
 #. SysConfig
-msgid "This will allow the system to send SMS messages."
+msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
@@ -18530,6 +19174,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Triggers ticket escalation events and notification events for escalation."
+msgstr ""
+
+#. SysConfig
+msgid "Turkish"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
 msgstr "Zima uhalalishaji wa cheti wa SSL, kwa mfano kama ukitumia seva mbadala ya HTTPS iliyowazi. Tumia kwa tahadhari yako mwenyewe!"
@@ -18550,6 +19203,10 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr "Inawasha uangalizi wa anwani ya IP ya mbali. Iwekwe kuwa \"Hapana\" kama programu-tumizi inatumika, mfano, kupitia proxy farm au muunganisho wa modem, kwasababu anwani za ip za mbali ni tofauti sana kwa ajili ya maombi."
+
+#. SysConfig
+msgid "Ukrainian"
+msgstr ""
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -18640,6 +19297,10 @@ msgid ""
 msgstr "Inatumia makala tajiri kwa kuangalia na kuhariri: makala, salamu, saini, vielezo vyenye viwango, majibu otomatiki na taarifa."
 
 #. SysConfig
+msgid "Vietnam"
+msgstr ""
+
+#. SysConfig
 msgid "View performance benchmark results."
 msgstr "Angalia matokeo ya utendaji wa kuigwa."
 
@@ -18649,6 +19310,20 @@ msgstr "Angalia ujumbe wa batli ya mfumo."
 
 #. SysConfig
 msgid "Watch this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "We are performing scheduled maintenance."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. Login is temporarily not available."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
 
 #. SysConfig

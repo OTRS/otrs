@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -8,20 +8,21 @@
 
 <div class="MainBox ARIARoleMain SpacingTopLarge ErrorScreen">
 
-    <div class="W33pc CenterBox SpacingBottomLarge">
+    <div class="W50pc CenterBox SpacingBottomLarge">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Oops! An Error occurred.") | html %]</h2>
+                <h2>[% Translate("An error occurred.") | html %]</h2>
             </div>
             <div class="Content">
                 <h4>
-                    [% Translate("Error Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                    [% Translate("Error Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
                 </h4>
                 <p class="SpacingTop">
-                    [% Data.Comment | html %].
+                    [% Translate(Data.Comment) | html %].
                 </p>
 
                 <form action="http://bugs.otrs.org/enter_bug.cgi">
+                    <input type="hidden" name="product" value="OTRS Helpdesk" />
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1"><![CDATA[
 Message:
@@ -78,7 +79,7 @@ $('#GoBack').bind('click', function (Event) {
                 <h2>[% Translate("Error Details") | html %]</h2>
             </div>
             <div class="Content">
-                <code>Backend [% Data.BackendTraceback | html %]</code>
+                <code><pre>Backend [% Data.BackendTraceback | html %]</pre></code>
             </div>
         </div>
 [% RenderBlockEnd("ShowBackendTraceback") %]

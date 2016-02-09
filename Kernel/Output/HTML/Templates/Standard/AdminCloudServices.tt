@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
                     [% Translate("System registration is a service of OTRS Group, which provides a lot of advantages!") | html %]
                 </p>
                 <p>
-                    [% Translate('Please note that you using OTRS cloud services requires the system to be registered.') | html %]
+                    [% Translate('Please note that the use of OTRS cloud services requires the system to be registered.') | html %]
                 </p>
                 <p class="SpacingTop SpacingBottom">
                     <a class="CallForAction Fullsize Centered" href="[% Env("Baselink") %]Action=AdminRegistration">

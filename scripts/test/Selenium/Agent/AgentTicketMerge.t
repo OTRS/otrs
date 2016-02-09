@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,8 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -34,14 +32,10 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+        # create test tickets
         my @TicketIDs;
         my @TicketNumbers;
         for my $Ticket ( 1 .. 2 ) {
@@ -55,13 +49,12 @@ $Selenium->RunTest(
                 State        => 'new',
                 CustomerID   => 'SeleniumCustomer',
                 CustomerUser => "SeleniumCustomer\@localhost.com",
-                OwnerID      => $TestUserID,
-                UserID       => $TestUserID,
+                OwnerID      => 1,
+                UserID       => 1,
             );
-
             $Self->True(
                 $TicketID,
-                "Ticket is created - $TicketID",
+                "Ticket is created - ID $TicketID",
             );
 
             push @TicketIDs,     $TicketID;
@@ -69,9 +62,11 @@ $Selenium->RunTest(
 
         }
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
@@ -80,8 +75,12 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
         # switch to merge window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
 
         # check page
         for my $ID (
@@ -96,7 +95,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#MainTicketNumber", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -108,7 +107,7 @@ $Selenium->RunTest(
 
         # expect error when try to merge ticket with itself
         $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[0] );
-        $Selenium->find_element( "#submitRichText",   'css' )->click();
+        $Selenium->find_element( "#submitRichText",   'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'Can\'t merge ticket with itself!' ) > -1,
@@ -116,6 +115,7 @@ $Selenium->RunTest(
         );
         $Selenium->close();
 
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # force sub menus to be visible in order to be able to click one of the links
@@ -124,8 +124,12 @@ $Selenium->RunTest(
         # click on merge
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
 
         # go back to merge screen and clear ticket number input
         $Selenium->find_element( "#MainTicketNumber", 'css' )->clear();
@@ -135,6 +139,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText",   'css' )->click();
 
         # return back to zoom view and click on history and switch to its view
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # force sub menus to be visible in order to be able to click one of the links
@@ -142,8 +147,12 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='History']")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # confirm merge action
         my $MergeMsg = "Merged Ticket ($TicketNumbers[0]/$TicketIDs[0]) to ($TicketNumbers[1]/$TicketIDs[1])";
@@ -156,15 +165,15 @@ $Selenium->RunTest(
         for my $Ticket (@TicketIDs) {
             my $Success = $TicketObject->TicketDelete(
                 TicketID => $Ticket,
-                UserID   => $TestUserID,
+                UserID   => 1,
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $Ticket"
+                "Ticket with ticket ID $Ticket is deleted"
             );
         }
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );

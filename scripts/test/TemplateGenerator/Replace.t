@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,10 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    RestoreDatabase => 1,
+);
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -344,7 +346,25 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
-        Name => 'mailto-Links',
+        Name => 'OTRS secret config value',                       # <OTRS_CONFIG_DatabasePw>
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CONFIG_DatabasePw>',
+        Result   => 'Test xxx',
+    },
+    {
+        Name => 'OTRS secret config value and normal config value',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CONFIG_DatabasePw> and <OTRS_CONFIG_DefaultTheme>',
+        Result   => 'Test xxx and Standard',
+    },
+    {
+        Name => 'mailto-Links RichText enabled',
         Data => {
             From => 'test@home.com',
         },
@@ -357,6 +377,25 @@ mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20%3COTRS_CUSTOME
 mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
         Result =>
             'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
+    },
+    {
+        Name => 'mailto-Links',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template =>
+            'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20%3COTRS_CUSTOMER_From%3E&amp;body=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Subject und Body</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Subject</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_From%3E">E-Mail mit Body</a><br />',
+        Result =>
+            'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br />
+<br />
+mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
     {
         Name => 'OTRS AGENT + CUSTOMER FROM',    # <OTRS_TICKET_DynamicField_*_Value>
@@ -384,6 +423,24 @@ mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_F
         Result   => "Test Line1\nLine2\nLine3 - Line1\nLine2\nLine3",
     },
     {
+        Name =>
+            'OTRS AGENT + CUSTOMER BODY With RichText enabled'
+        ,    # this is an special case, it sets the Body as it is since is the Data param
+        Data => {
+            Body => "Line1\nLine2\nLine3",
+        },
+        DataAgent => {
+            Body => "Line1\nLine2\nLine3",
+        },
+        RichText => 1,
+        Template => 'Test &lt;OTRS_AGENT_BODY&gt; - &lt;OTRS_CUSTOMER_BODY&gt;',
+        Result   => "Test Line1<br/>
+Line2<br/>
+Line3 - Line1<br/>
+Line2<br/>
+Line3",
+    },
+    {
         Name => 'OTRS AGENT + CUSTOMER BODY[2]',
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -394,6 +451,31 @@ mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_F
         RichText => 0,
         Template => 'Test <OTRS_AGENT_BODY[2]> - <OTRS_CUSTOMER_BODY[2]>',
         Result   => "Test > Line1\n> Line2 - > Line1\n> Line2",
+    },
+    {
+        Name => 'OTRS AGENT + CUSTOMER BODY[7] with RichText enabled',
+        Data => {
+            Body => "Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9",
+        },
+        DataAgent => {
+            Body => "Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9",
+        },
+        RichText => 1,
+        Template => 'Test &lt;OTRS_AGENT_BODY[7]&gt; - &lt;OTRS_CUSTOMER_BODY[7]&gt;',
+        Result =>
+            'Test <div  type="cite" style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Line1<br/>
+Line2<br/>
+Line3<br/>
+Line4<br/>
+Line5<br/>
+Line6<br/>
+Line7</div> - <div  type="cite" style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Line1<br/>
+Line2<br/>
+Line3<br/>
+Line4<br/>
+Line5<br/>
+Line6<br/>
+Line7</div>',
     },
     {
         Name => 'OTRS AGENT + CUSTOMER EMAIL',    # EMAIL without [ ] does not exists
@@ -481,31 +563,6 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup the system
-for my $DynamicFieldID ( sort keys %AddedDynamicFieldIds ) {
-
-    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-        Name => $AddedDynamicFieldIds{$DynamicFieldID},
-    );
-
-    my $Success = $BackendObject->AllValuesDelete(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        UserID             => 1,
-    );
-    $Self->True(
-        $Success,
-        "DynamicField AllValuesDelete() - for DynamicFieldID '$DynamicFieldID' with true",
-    );
-}
-
-# the ticket is no longer needed
-$Success = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "TicketDelete() - fort TicketID '$TicketID' with true",
-);
+# Cleanup is done by RestoreDatabase.
 
 1;

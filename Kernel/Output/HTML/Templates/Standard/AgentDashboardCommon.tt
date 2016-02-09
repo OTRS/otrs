@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,25 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ContentSmallPreferences") %]
+[% RenderBlockStart("ContentSmallRefresh") %]
+                <div class="WidgetAction Refresh">
+                    <a href="#" id="Dashboard[% Data.Name | html %]_toggle" title="[% Translate("Refresh") | html %]">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#Dashboard[% Data.Name | html %]_toggle').on('click', function() {
+    $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
+    Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
+        $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+    });
+    clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
+    return false;
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentSmallRefresh") %]
                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
                         <i class="fa fa-times"></i>
@@ -94,8 +113,10 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
                         <div class="Clear"></div>
 [% RenderBlockEnd("ContentSmallPreferencesItemTextArea") %]
 [% RenderBlockEnd("ContentSmallPreferencesItem") %]
-                        <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
-                        <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint" type="submit" value="[% Translate("Cancel") | html %]">[% Translate("Cancel") | html %]</button>
+                        <div class="SpacingTop Center">
+                            <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint CallForAction Primary" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint CallForAction" type="submit" value="[% Translate("Cancel") | html %]"><span>[% Translate("Cancel") | html %]</span></button>
+                        </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard[% Data.NameForm | html %]_setting_form'));

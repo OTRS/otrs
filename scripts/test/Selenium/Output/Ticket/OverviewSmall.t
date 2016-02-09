@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,9 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -73,11 +69,17 @@ $Selenium->RunTest(
                 Lock         => 'unlock',
                 Priority     => '3 normal',
                 State        => 'new',
-                CustomerID   => '123465',
+                CustomerID   => 'TestCustomer',
                 CustomerUser => 'customer@example.com',
                 OwnerID      => $TestUserID,
                 UserID       => $TestUserID,
             );
+
+            $Self->True(
+                $TicketID,
+                "Ticket is created - $TicketID"
+            );
+
             push @TicketIDs,     $TicketID;
             push @TicketNumbers, $TicketNumber;
         }
@@ -87,10 +89,10 @@ $Selenium->RunTest(
 
         # go to status open view, overview small
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
         # set filter to test queue
-        $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->VerifiedClick();
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;"
@@ -107,13 +109,12 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div#OverviewBody').length" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # sort by ticket number, order up
-        $Selenium->find_element("//a[contains(\@title, \'TicketNumber\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'TicketNumber\' )]")->VerifiedClick();
 
-        # check for ticket with highest ticket number on first 1st page and verifty that ticket
+        # check for ticket with highest ticket number on first 1st page and verify that ticket
         # with lowest ticket number number is not present
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
@@ -125,25 +126,23 @@ $Selenium->RunTest(
         );
 
         # switch to 2nd page to test pagination
-        $Selenium->find_element( "#AgentTicketStatusViewPage2", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div#OverviewBody').length" );
+        $Selenium->find_element( "#AgentTicketStatusViewPage2", 'css' )->VerifiedClick();
 
         # check for ticket with lowest ticket number
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
             "$SortTicketNumbers[14] - found on screen"
         );
+        $Selenium->VerifiedRefresh();
 
         # test if filters are still stored
-        $Selenium->refresh();
-
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
             "$SortTicketNumbers[14] - found on screen"
         );
 
         # remove all filters
-        $Selenium->find_element( "li.ContextSettings.RemoveFilters a", 'css' )->click();
+        $Selenium->find_element( "li.ContextSettings.RemoveFilters a", 'css' )->VerifiedClick();
 
         # delete created test tickets
         my $Success;

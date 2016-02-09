@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,6 +56,30 @@ sub Run {
 
         # error screen, don't show ticket
         return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
+    }
+
+    # get ACL restrictions
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
+    my $ACL = $TicketObject->TicketAcl(
+        Data           => \%PossibleActions,
+        Action         => $Self->{Action},
+        TicketID       => $Self->{TicketID},
+        ReturnType     => 'Action',
+        ReturnSubType  => '-',
+        CustomerUserID => $Self->{UserID},
+    );
+    my %AclAction = $TicketObject->TicketAclActionData();
+
+    # check if ACL restrictions exist
+    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+        my %AclActionLookup = reverse %AclAction;
+
+        # show error screen if ACL prohibits this action
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
+        }
     }
 
     # get content
@@ -186,11 +210,6 @@ sub Run {
         Y    => -6,
     );
 
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
-    );
-
     # output ticket dynamic fields
     $Self->_PDFOutputTicketDynamicFields(
         PageData   => \%Page,
@@ -202,13 +221,9 @@ sub Run {
         Y    => -6,
     );
 
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
-    );
-
     # output customer infos
     if (%CustomerData) {
+
         $Self->_PDFOutputCustomerInfos(
             PageData     => \%Page,
             CustomerData => \%CustomerData,
@@ -435,7 +450,7 @@ sub _PDFOutputTicketDynamicFields {
 
         my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-        # skip dynamic field if is not desinged for customer interface
+        # skip dynamic field if is not designed for customer interface
         my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsCustomerInterfaceCapable',
@@ -474,6 +489,11 @@ sub _PDFOutputTicketDynamicFields {
     if ($Output) {
 
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+
+        $PDFObject->HLine(
+            Color     => '#aaa',
+            LineWidth => 0.5,
+        );
 
         # set new position
         $PDFObject->PositionSet(
@@ -574,6 +594,11 @@ sub _PDFOutputCustomerInfos {
     if ($Output) {
 
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+
+        $PDFObject->HLine(
+            Color     => '#aaa',
+            LineWidth => 0.5,
+        );
 
         # set new position
         $PDFObject->PositionSet(
@@ -723,7 +748,7 @@ sub _PDFOutputArticles {
 
             my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-            # skip the dynamic field if is not desinged for customer interface
+            # skip the dynamic field if is not designed for customer interface
             my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsCustomerInterfaceCapable',
@@ -818,13 +843,14 @@ sub _PDFOutputArticles {
             my $Lines;
             if ( IsArrayRefWithData( $Article{Body} ) ) {
                 for my $Line ( @{ $Article{Body} } ) {
+                    my $CreateTime = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
                     if ( $Line->{SystemGenerated} ) {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} . "\n";
+                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
                     }
                     else {
                         $Lines
                             .= '['
-                            . $Line->{CreateTime} . '] '
+                            . $CreateTime . '] '
                             . $Line->{ChatterName} . ' '
                             . $Line->{MessageText} . "\n";
                     }

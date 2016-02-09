@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,12 +13,19 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $RandomID = int rand 1_000_000_000;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 # create a ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -1012,20 +1019,6 @@ for my $TicketID (@CreatedTicketIds) {
     );
 }
 
-# delete created tickets
-for my $TicketID (@CreatedTicketIds) {
-
-    # delete the ticket
-    my $TicketDelete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $TicketDelete,
-        "TicketDelete() successful for Ticket ID $TicketID - for HistoryValueGet()",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

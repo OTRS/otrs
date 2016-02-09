@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,10 +24,15 @@ $Selenium->RunTest(
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get sysconfig object
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # disable check email addresses
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
 
         # do not check RichText
         $SysConfigObject->ConfigItemUpdate(
@@ -48,6 +53,44 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # create test ticket
+        my $TicketID = $TicketObject->TicketCreate(
+            Title        => 'Selenium ticket',
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'SeleniumCustomer',
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
+        );
+        $Self->True(
+            $TicketID,
+            "TicketCreate - ID $TicketID",
+        );
+
+        # create test email article
+        my $ArticleID = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-external',
+            SenderType     => 'customer',
+            Subject        => 'some short description',
+            Body           => 'the message text',
+            Charset        => 'ISO-8859-15',
+            MimeType       => 'text/plain',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleCreate - ID $ArticleID",
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -65,8 +108,8 @@ $Selenium->RunTest(
         );
 
         # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+        my $TestCustomer       = 'Customer' . $Helper->GetRandomID();
+        my $TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             Source         => 'CustomerUser',
             UserFirstname  => $TestCustomer,
             UserLastname   => $TestCustomer,
@@ -76,36 +119,13 @@ $Selenium->RunTest(
             ValidID        => 1,
             UserID         => $TestUserID,
         );
-
-        # create test phone ticket
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
-
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
-        my $TicketSubject      = "Selenium Ticket";
-        my $TicketBody         = "Selenium body test";
-        $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
-        $Selenium->find_element( "#Subject",  'css' )->submit();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("form").length' );
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # get ticket ID
-        my %TicketIDs = $TicketObject->TicketSearch(
-            Result         => 'HASH',
-            Limit          => 1,
-            CustomerUserID => $TestCustomer,
+        $Self->True(
+            $TestCustomerUserID,
+            "CustomerUserAdd - $TestCustomerUserID",
         );
-        my $TicketID = (%TicketIDs)[0];
+
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -114,8 +134,12 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")->click();
 
         # switch to forward window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length' );
 
         # check AgentTicketFoward page
         for my $ID (
@@ -129,6 +153,7 @@ $Selenium->RunTest(
         }
 
         # input fields and send forward
+        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
@@ -139,19 +164,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ToCustomer", 'css' )->submit();
 
         # return back to AgentTicketZoom
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        # navigate to AgentTicketHistory of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # verify for expected action
         $Self->True(
             index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
             "Action Forward executed correctly",
         );
-
-        # close history and return to AgentTicketZoom for created test ticket
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-        $Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test ticket
         my $Success = $TicketObject->TicketDelete(
@@ -160,7 +183,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket id $TicketID is deleted"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
         # delete created test customer user
@@ -175,9 +198,15 @@ $Selenium->RunTest(
             "Delete customer user - $TestCustomer",
         );
 
-        # make sure the cache is correct.
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
+        # make sure the cache is correct
+        for my $Cache (
+            qw (Ticket CustomerUser )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
+        }
 
     }
 );

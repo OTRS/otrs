@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::LinkObject;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -179,7 +180,7 @@ sub LinkObjectTableCreateComplex {
 
         # define the headline column
         my $Column = {
-            Content => 'Linked as',
+            Content => $Kernel::OM->Get('Kernel::Language')->Translate('Linked as'),
         };
 
         # add new column to the headline
@@ -269,7 +270,7 @@ sub LinkObjectTableCreateComplex {
     );
 
     # set block description
-    my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? 'Search Result' : 'Linked';
+    my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? Translatable('Search Result') : Translatable('Linked');
 
     my $BlockCounter = 0;
 
@@ -337,7 +338,7 @@ sub LinkObjectTableCreateComplex {
             $LayoutObject->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
-                    Name        => 'Bulk',
+                    Name        => Translatable('Bulk'),
                     TableNumber => $BlockCounter,
                 },
             );
@@ -361,7 +362,7 @@ sub LinkObjectTableCreateComplex {
             $LayoutObject->Block(
                 Name => 'TableComplexBlockActionRowBulk',
                 Data => {
-                    Name        => 'Bulk',
+                    Name        => Translatable('Bulk'),
                     TableNumber => $BlockCounter,
                 },
             );

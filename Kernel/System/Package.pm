@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use base qw(Kernel::System::EventHandler);
 
@@ -69,7 +70,6 @@ sub new {
 
     # get needed objects
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
@@ -114,8 +114,6 @@ sub new {
     $Self->{PackageMapFileList} = {
         File => 'ARRAY',
     };
-
-    $Self->{PackageVerifyURL} = 'https://pav.otrs.com/otrs/public.pl';
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
@@ -178,6 +176,9 @@ sub RepositoryList {
                 ORDER BY name, create_time',
     );
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # fetch the data
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -190,7 +191,7 @@ sub RepositoryList {
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
         $Row[3] =~ s{\r\n}{\n}xmsg;
-        $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+        $Package{MD5sum} = $MainObject->MD5sum( String => \$Row[3] );
 
         # get package attributes
         if ( $Row[3] && $Result eq 'Short' ) {
@@ -371,7 +372,8 @@ sub RepositoryAdd {
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_type, content, install_status, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES  (?, ?, ?, ?, \'text/xml\', ?, \'not installed\', '
+            . ' VALUES  (?, ?, ?, ?, \'text/xml\', ?, \''
+            . Translatable('not installed') . '\', '
             . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
@@ -570,7 +572,8 @@ sub PackageInstall {
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'UPDATE package_repository SET install_status = \'installed\''
+        SQL => 'UPDATE package_repository SET install_status = \''
+            . Translatable('installed') . '\''
             . ' WHERE name = ? AND version = ?',
         Bind => [
             \$Structure{Name}->{Content},
@@ -579,8 +582,8 @@ sub PackageInstall {
     );
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
-    $Self->{SysConfigObject}->WriteDefault();
+    my $SysConfigObject = Kernel::System::SysConfig->new();
+    $SysConfigObject->WriteDefault();
 
     # install database (post)
     if ( $Structure{DatabaseInstall} && $Structure{DatabaseInstall}->{post} ) {
@@ -675,8 +678,8 @@ sub PackageReinstall {
     }
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
-    $Self->{SysConfigObject}->WriteDefault();
+    my $SysConfigObject = Kernel::System::SysConfig->new();
+    $SysConfigObject->WriteDefault();
 
     # reinstall code (post)
     if ( $Structure{CodeReinstall} ) {
@@ -833,7 +836,8 @@ sub PackageUpgrade {
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'UPDATE package_repository SET install_status = \'installed\''
+        SQL => 'UPDATE package_repository SET install_status = \''
+            . Translatable('installed') . '\''
             . ' WHERE name = ? AND version = ?',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
@@ -973,8 +977,8 @@ sub PackageUpgrade {
     }
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
-    $Self->{SysConfigObject}->WriteDefault();
+    my $SysConfigObject = Kernel::System::SysConfig->new();
+    $SysConfigObject->WriteDefault();
 
     # upgrade database (post)
     if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
@@ -1166,8 +1170,8 @@ sub PackageUninstall {
     $Self->RepositoryRemove( Name => $Structure{Name}->{Content} );
 
     # install config
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
-    $Self->{SysConfigObject}->WriteDefault();
+    my $SysConfigObject = Kernel::System::SysConfig->new();
+    $SysConfigObject->WriteDefault();
 
     # uninstall database (post)
     if ( $Structure{DatabaseUninstall} && $Structure{DatabaseUninstall}->{post} ) {
@@ -1322,7 +1326,7 @@ sub PackageOnlineList {
         if ( !@XMLARRAY ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Unable to parse repository index document.',
+                Message  => Translatable('Unable to parse repository index document.'),
             );
             return;
         }
@@ -1430,7 +1434,9 @@ sub PackageOnlineList {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
-                'No packages for your framework version found in this repository, it only contains packages for other framework versions.',
+                Translatable(
+                'No packages for your framework version found in this repository, it only contains packages for other framework versions.'
+                ),
         );
     }
     @Packages = @NewPackages;
@@ -1619,6 +1625,9 @@ sub DeployCheck {
     return 1 if !$Structure{Filelist};
     return 1 if ref $Structure{Filelist} ne 'ARRAY';
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     my $Hit = 0;
     for my $File ( @{ $Structure{Filelist} } ) {
 
@@ -1638,7 +1647,7 @@ sub DeployCheck {
         }
         elsif ( -e $LocalFile ) {
 
-            my $Content = $Self->{MainObject}->FileRead(
+            my $Content = $MainObject->FileRead(
                 Location => $Self->{Home} . '/' . $File->{Location},
                 Mode     => 'binmode',
             );
@@ -1735,9 +1744,11 @@ sub PackageVerify {
     # define package verification info
     my $PackageVerifyInfo = {
         Description =>
-            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+            Translatable(
+            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
+            ),
         Title =>
-            'Package not verified by the OTRS Group! It is recommended not to use this package.',
+            Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
     };
 
     # investigate name
@@ -1747,7 +1758,7 @@ sub PackageVerify {
     $Param{Package} =~ s{\r\n}{\n}xmsg;
 
     # create MD5 sum
-    my $Sum = $Self->{MainObject}->MD5sum( String => $Param{Package} );
+    my $Sum = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{Package} );
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -2144,7 +2155,11 @@ sub PackageBuild {
         $XML .= "    <BuildDate>" . $Time . "</BuildDate>\n";
         $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
     }
+
     if ( $Param{Filelist} ) {
+
+        # get main object
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
         $XML .= "    <Filelist>\n";
 
@@ -2180,7 +2195,7 @@ sub PackageBuild {
             # don't use content in in index mode
             if ( !$Param{Type} ) {
                 $XML .= " Encode=\"Base64\">";
-                my $FileContent = $Self->{MainObject}->FileRead(
+                my $FileContent = $MainObject->FileRead(
                     Location => $Home . '/' . $File->{Location},
                     Mode     => 'binmode',
                 );
@@ -2316,7 +2331,7 @@ sub PackageParse {
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$CookedString );
 
     # create checksum
-    my $Checksum = $Self->{MainObject}->MD5sum(
+    my $Checksum = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
         String => \$CookedString,
     );
 
@@ -2591,8 +2606,11 @@ returns true if the distribution package (located under ) can get installed
 sub PackageInstallDefaultFiles {
     my ( $Self, %Param ) = @_;
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
-    my @PackageFiles = $Self->{MainObject}->DirectoryRead(
+    my @PackageFiles = $MainObject->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.opm',
     );
@@ -2602,7 +2620,7 @@ sub PackageInstallDefaultFiles {
     for my $Location (@PackageFiles) {
 
         # read package
-        my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+        my $ContentSCALARRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
             Type     => 'Local',
@@ -2681,13 +2699,16 @@ sub PackageFileGetMD5Sum {
     my $Home = $Self->{Home};
     $Home =~ s{\/\z}{};
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     my %MD5SumLookup;
     for my $File ( @{ $Structure{Filelist} } ) {
 
         my $LocalFile = $Home . '/' . $File->{Location};
 
         # generate the MD5Sum
-        my $MD5Sum = $Self->{MainObject}->MD5sum(
+        my $MD5Sum = $MainObject->MD5sum(
             String => \$File->{Content},
         );
 
@@ -3121,6 +3142,9 @@ sub _CheckModuleRequired {
     # check required perl modules
     if ( $Param{ModuleRequired} && ref $Param{ModuleRequired} eq 'ARRAY' ) {
 
+        # get main object
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
         MODULE:
         for my $Module ( @{ $Param{ModuleRequired} } ) {
 
@@ -3130,7 +3154,7 @@ sub _CheckModuleRequired {
             my $InstalledVersion = 0;
 
             # check if module is installed
-            if ( $Self->{MainObject}->Require( $Module->{Content} ) ) {
+            if ( $MainObject->Require( $Module->{Content} ) ) {
                 $Installed = 1;
 
                 # check version if installed module
@@ -3294,6 +3318,9 @@ sub _FileInstall {
     my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # backup old file (if reinstall, don't overwrite .backup and .save files)
     if ( -e $RealFile ) {
         if ( $Param{File}->{Type} && $Param{File}->{Type} =~ /^replace$/i ) {
@@ -3308,7 +3335,7 @@ sub _FileInstall {
             if ( $Param{Reinstall} && !-e "$RealFile.save" ) {
 
                 # check if it's not the same
-                my $Content = $Self->{MainObject}->FileRead(
+                my $Content = $MainObject->FileRead(
                     Location => $RealFile,
                     Mode     => 'binmode',
                 );
@@ -3356,7 +3383,7 @@ sub _FileInstall {
     }
 
     # write file
-    return if !$Self->{MainObject}->FileWrite(
+    return if !$MainObject->FileWrite(
         Location   => $RealFile,
         Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
@@ -3415,9 +3442,12 @@ sub _FileRemove {
         return;
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # check if we should backup this file, if it is touched/different
     if ( $Param{File}->{Content} ) {
-        my $Content = $Self->{MainObject}->FileRead(
+        my $Content = $MainObject->FileRead(
             Location => $RealFile,
             Mode     => 'binmode',
         );
@@ -3440,7 +3470,7 @@ sub _FileRemove {
     }
 
     # remove old file
-    if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
+    if ( !$MainObject->FileDelete( Location => $RealFile ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't remove file $RealFile: $!!",
@@ -3484,7 +3514,7 @@ sub _ReadDistArchive {
     }
 
     # read ARCHIVE file
-    my $Content = $Self->{MainObject}->FileRead(
+    my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Directory => $Home,
         Filename  => 'ARCHIVE',
         Result    => 'ARRAY',
@@ -3529,6 +3559,9 @@ sub _FileSystemCheck {
         return;
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # create test files in following directories
     for my $Filepath (
         qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)
@@ -3538,7 +3571,7 @@ sub _FileSystemCheck {
         my $Content  = 'test';
 
         # create test file
-        my $Write = $Self->{MainObject}->FileWrite(
+        my $Write = $MainObject->FileWrite(
             Location => $Location,
             Content  => \$Content,
         );
@@ -3547,7 +3580,7 @@ sub _FileSystemCheck {
         return if !$Write;
 
         # delete test file
-        $Self->{MainObject}->FileDelete( Location => $Location );
+        $MainObject->FileDelete( Location => $Location );
     }
 
     return 1;
@@ -3632,6 +3665,9 @@ sub _PackageUninstallMerged {
     # remove unneeded files (if exists)
     if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
 
+        # get main object
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
         FILE:
         for my $FileHash ( @{ $PackageDetails{Filelist} } ) {
 
@@ -3654,7 +3690,7 @@ sub _PackageUninstallMerged {
                         if ( -e $SavedFile ) {
 
                             # remove old file
-                            if ( !$Self->{MainObject}->FileDelete( Location => $SavedFile ) ) {
+                            if ( !$MainObject->FileDelete( Location => $SavedFile ) ) {
                                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'error',
                                     Message  => "Can't remove file $SavedFile: $!!",
@@ -3671,7 +3707,7 @@ sub _PackageUninstallMerged {
                 }
 
                 # remove old file
-                if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
+                if ( !$MainObject->FileDelete( Location => $RealFile ) ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Can't remove file $RealFile: $!!",

@@ -76,12 +76,33 @@
         color: #aaa;
     }
 
+    #ToolBar li.Extended {
+        background: none;
+        display: inline-block;
+        margin: -25px 0px 0px 5px;
+        padding: 0;
+        vertical-align: middle;
+    }
+
+    #ToolBar li.Extended input {
+        padding: 10px;
+    }
+
+    #ToolBar li.Extended .InputField_InputContainer input {
+        padding: 8px;
+    }
+
+    #ToolBar li.Extended form {
+        display: inline;
+    }
+
     #Header #Logo {
         width: 208px !important;
         background-size: 100%;
         position: static;
         margin: -2px auto 0px auto;
         background-position: center;
+        max-height: 100%;
     }
 
     .MainBox, .RTL .MainBox {
@@ -159,6 +180,10 @@
         margin-top: 80px;
     }
 
+    #NavigationContainer > a {
+        display: none !important;
+    }
+
     #Navigation > li {
         background: none;
         float: none;
@@ -201,6 +226,10 @@
     #Navigation > .Active > ul li a {
         padding: 7px 10px;
         border: 0px;
+    }
+
+    #Navigation .Search {
+        width: auto !important;
     }
 
     .WidgetSimple span.Pagination,
@@ -315,10 +344,6 @@
         margin: -10px 0px 10px 0px;
     }
 
-    fieldset.TableLike {
-        display: table-cell;
-    }
-
     fieldset.TableLike.Hidden {
         display: none;
     }
@@ -326,6 +351,11 @@
     fieldset.TableLike > .Field,
     fieldset.TableLike > .Row > .Field {
         padding: 0px;
+    }
+
+    fieldset.TableLike > .Field input[type=file],
+    fieldset.TableLike > .Row > .Field input[type=file] {
+        width: 95%;
     }
 
     fieldset.TableLike > .RichTextField,
@@ -339,8 +369,7 @@
     fieldset.TableLike > .Field > select,
     fieldset.TableLike > .Row > .Field > select,
     fieldset.TableLike > .Field > input,
-    fieldset.TableLike > .Row > .Field > input,
-    input#Subject {
+    fieldset.TableLike > .Row > .Field > input {
         padding: 3px;
         font-size: 0.9em;
         width: 93%;
@@ -354,6 +383,16 @@
     fieldset.TableLike > .Field > input[type=radio],
     fieldset.TableLike > .Row > .Field > input[type=checkbox] {
         width: auto;
+    }
+
+    form label.Mandatory span.Marker {
+        display: inline-block;
+        margin-right: 3px;
+        position: static;
+    }
+
+    form .FieldExplanation {
+        font-size: 0.8em;
     }
 
     .AJAXLoader {
@@ -370,6 +409,12 @@
     .BccCustomerContainer {
         width: auto;
         margin-top: 15px;
+    }
+
+    .LayoutPopup .CustomerContainer,
+    .LayoutPopup .CcCustomerContainer,
+    .LayoutPopup .BccCustomerContainer {
+        margin-left: 30px;
     }
 
     .ui-overlay-autocomplete li.ui-menu-item {
@@ -404,7 +449,7 @@
         float: none;
         width: auto;
         text-align: left;
-        font-size: 1.2em;
+        font-size: 0.9em;
     }
 
     .RTL fieldset.TableLike > label,
@@ -440,7 +485,7 @@
         margin-right: 2px;
     }
 
-    .RichTextField > div.cke {
+    .RichTextField > .cke {
         width: auto !important;
         max-width: 100% !important;
     }
@@ -984,8 +1029,7 @@
     }
 
     .LayoutPopup fieldset.TableLike > .Field > select,
-    .LayoutPopup fieldset.TableLike > .Row > .Field > select,
-    .LayoutPopup input#Subject {
+    .LayoutPopup fieldset.TableLike > .Row > .Field > select {
         width: auto;
     }
 

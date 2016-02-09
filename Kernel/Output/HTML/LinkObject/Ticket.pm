@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # We need our own LayoutObject instance to avoid blockdata collisions
+    # We need our own LayoutObject instance to avoid block data collisions
     #   with the main page.
     $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self} );
 
@@ -199,7 +199,7 @@ sub TableCreateComplex {
             {
                 Type      => 'Text',
                 Content   => $Ticket->{Title},
-                MaxLength => 50,
+                MaxLength => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SubjectSize') || 50,
             },
             {
                 Type    => 'Text',

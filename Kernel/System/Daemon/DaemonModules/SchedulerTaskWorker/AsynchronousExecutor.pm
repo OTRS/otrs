@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,48 +74,15 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed
-    for my $Needed (qw(TaskID Data)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
+    # check task params
+    my $CheckResult = $Self->_CheckTaskParams(
+        %Param,
+        NeededDataAttributes => [ 'Object', 'Function' ],
+        DataParamsRef        => 'HASH',
+    );
 
-            return;
-        }
-    }
-
-    # check data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got no valid Data!',
-        );
-
-        return;
-    }
-
-    for my $Needed (qw(Object Function)) {
-        if ( !$Param{Data}->{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need Data->$Needed!",
-            );
-
-            return;
-        }
-
-    }
-
-    if ( $Param{Data}->{Params} && ref $Param{Data}->{Params} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Data->Params is invalid!",
-        );
-
-        return;
-    }
+    # stop execution if an error in params is detected
+    return if !$CheckResult;
 
     # get module object
     my $LocalObject;
@@ -127,7 +94,7 @@ sub Run {
     if ( !$LocalObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not create a new object $Param{Data}->{Object}!",
+            Message  => "Could not create a new object $Param{Data}->{Object}! - Task: $Param{TaskName}",
         );
 
         return;
@@ -137,7 +104,7 @@ sub Run {
     if ( !$LocalObject->can( $Param{Data}->{Function} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "$Param{Data}->{Object} does not provide $Param{Data}->{Function}()!",
+            Message  => "$Param{Data}->{Object} does not provide $Param{Data}->{Function}()! - Task: $Param{TaskName}",
         );
 
         return;

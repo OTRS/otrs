@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,14 +48,12 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
     $Self->{CacheType} = 'SearchProfile';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
-    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
+    if ( $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('CaseSensitive') ) {
         $Self->{Lower} = 'LOWER';
     }
 
@@ -84,7 +82,7 @@ sub SearchProfileAdd {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -106,9 +104,12 @@ sub SearchProfileAdd {
         $Param{Type} = 'SCALAR';
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     for my $Value (@Data) {
 
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => "
                 INSERT INTO search_profile
                 (login, profile_name,  profile_type, profile_key, profile_value)
@@ -154,7 +155,7 @@ sub SearchProfileGet {
         if ( !defined( $Param{$_} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -171,8 +172,11 @@ sub SearchProfileGet {
     );
     return %{$Cache} if $Cache;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get search profile
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT profile_type, profile_key, profile_value
             FROM search_profile
@@ -183,7 +187,7 @@ sub SearchProfileGet {
     );
 
     my %Result;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         if ( $Data[0] eq 'ARRAY' ) {
             push @{ $Result{ $Data[1] } }, $Data[2];
         }
@@ -221,7 +225,7 @@ sub SearchProfileDelete {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -230,8 +234,11 @@ sub SearchProfileDelete {
     # create login string
     my $Login = $Param{Base} . '::' . $Param{UserLogin};
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete search profile
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "
             DELETE
             FROM search_profile
@@ -251,6 +258,7 @@ sub SearchProfileDelete {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return 1;
 }
 
@@ -273,7 +281,7 @@ sub SearchProfileList {
         if ( !defined( $Param{$_} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -288,8 +296,11 @@ sub SearchProfileList {
     );
     return %{$Cache} if $Cache;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get search profile list
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT profile_name
             FROM search_profile
@@ -300,16 +311,80 @@ sub SearchProfileList {
 
     # fetch the result
     my %Result;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
+
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $Login,
         Value => \%Result,
     );
+
     return %Result;
+}
+
+=item SearchProfileUpdateUserLogin()
+
+changes the UserLogin of SearchProfiles
+
+    my $Result = $SearchProfileObject->SearchProfileUpdateUserLogin(
+        Base         => 'TicketSearch',
+        UserLogin    => 'me',
+        NewUserLogin => 'newme',
+    );
+
+=cut
+
+sub SearchProfileUpdateUserLogin {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Base UserLogin NewUserLogin)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    # get existing profiles
+    my %SearchProfiles = $Self->SearchProfileList(
+        Base      => $Param{Base},
+        UserLogin => $Param{UserLogin},
+    );
+
+    # iterate over profiles; create them for new login name and delete old ones
+    for my $SearchProfile ( sort keys %SearchProfiles ) {
+        my %Search = $Self->SearchProfileGet(
+            Base      => $Param{Base},
+            Name      => $SearchProfile,
+            UserLogin => $Param{UserLogin},
+        );
+
+        # add profile for new login (needs to be done per attribute)
+        for my $Attribute ( sort keys %Search ) {
+            $Self->SearchProfileAdd(
+                Base      => $Param{Base},
+                Name      => $SearchProfile,
+                Key       => $Attribute,
+                Value     => $Search{$Attribute},
+                UserLogin => $Param{NewUserLogin},
+            );
+        }
+
+        # delete the old profile
+        $Self->SearchProfileDelete(
+            Base      => $Param{Base},
+            Name      => $SearchProfile,
+            UserLogin => $Param{UserLogin},
+        );
+    }
+
+    return 1;
 }
 
 1;

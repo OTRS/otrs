@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -528,7 +528,7 @@ sub ArticleCreate {
                 Queue                 => $Param{Queue},
                 Recipients            => $ExtraRecipients,
                 SkipRecipients        => \@SkipRecipients,
-                CustomerMessageParams => {%Param},
+                CustomerMessageParams => {},
             },
             UserID => $Param{UserID},
         );
@@ -916,7 +916,9 @@ sub ArticleTypeList {
     my %Hash;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Param{Type} && $Param{Type} eq 'Customer' ) {
-            if ( $Row[1] !~ /int/i ) {
+
+            # Skip internal articles.
+            if ( $Row[1] !~ /-int/i ) {
                 push @Array, $Row[1];
                 $Hash{ $Row[0] } = $Row[1];
             }
@@ -984,7 +986,7 @@ sub ArticleLastCustomerArticle {
             Extended      => $Param{Extended},
             DynamicFields => $Param{DynamicFields},
         );
-        if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
+        if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /-int/ ) {
             return %Article;
         }
     }
@@ -1665,10 +1667,29 @@ sub ArticleGet {
         return;
     }
 
+    # get type object
+    my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
+    # get default ticket type
+    my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
+
+    # check if default ticket type exists
+    my %AllTicketTypes = reverse $TypeObject->TypeList();
+
     # get type
-    $Ticket{Type} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup(
-        TypeID => $Ticket{TypeID} || 1,
-    );
+    if ( defined $Ticket{TypeID} ) {
+        $Ticket{Type} = $TypeObject->TypeLookup(
+            TypeID => $Ticket{TypeID}
+        );
+    }
+    elsif ( $AllTicketTypes{$DefaultTicketType} ) {
+        $Ticket{Type} = $DefaultTicketType;
+    }
+    else {
+        $Ticket{Type} = $TypeObject->TypeLookup(
+            TypeID => 1
+        );
+    }
 
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
@@ -2200,10 +2221,16 @@ sub ArticleSend {
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
 
+    # initialize parameter for attachments, so that the content pushed into that ref from
+    # EmbeddedImagesExtract will stay available
+    if ( !$Param{Attachment} ) {
+        $Param{Attachment} = [];
+    }
+
     # check for base64 images in body and process them
     $Kernel::OM->Get('Kernel::System::HTMLUtils')->EmbeddedImagesExtract(
         DocumentRef    => \$Param{Body},
-        AttachmentsRef => $Param{Attachment} || [],
+        AttachmentsRef => $Param{Attachment},
     );
 
     # create article

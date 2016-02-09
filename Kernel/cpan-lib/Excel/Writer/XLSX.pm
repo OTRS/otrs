@@ -18,7 +18,7 @@ use strict;
 use Excel::Writer::XLSX::Workbook;
 
 our @ISA     = qw(Excel::Writer::XLSX::Workbook Exporter);
-our $VERSION = '0.84';
+our $VERSION = '0.85';
 
 
 ###############################################################################
@@ -50,7 +50,7 @@ Excel::Writer::XLSX - Create a new file in the Excel 2007+ XLSX format.
 
 =head1 VERSION
 
-This document refers to version 0.84 of Excel::Writer::XLSX, released April 21, 2015.
+This document refers to version 0.84 of Excel::Writer::XLSX, released August 5, 2015.
 
 
 
@@ -3849,6 +3849,15 @@ Alternatively you can read data from an encoded file and convert it to C<UTF-8> 
     }
 
 These methodologies are explained in more detail in L<perlunitut>, L<perluniintro> and L<perlunicode>.
+
+If the program contains UTF-8 text then you will also need to add C<use utf8> to the includes:
+
+    use utf8;
+
+    ...
+
+    $worksheet->write( 'A1', 'Some UTF-8 string' );
+
 
 See also the C<unicode_*.pl> programs in the examples directory of the distro.
 

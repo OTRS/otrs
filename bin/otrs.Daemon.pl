@@ -1,6 +1,6 @@
 #!/usr/bin/perl -X
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -35,7 +35,7 @@ use Fcntl qw(:flock);
 use Kernel::System::ObjectManager;
 
 print STDOUT "otrs.Daemon.pl - the otrs daemon\n";
-print STDOUT "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n\n";
+print STDOUT "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n\n";
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -85,10 +85,19 @@ if ( !@ARGV ) {
     exit 0;
 }
 
+# to wait until all daemon stops (in seconds)
+my $DaemonStopWait = 30;
+my $ForceStop;
+
 # check for debug mode
 my %DebugDaemons;
 my $Debug;
-if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
+if (
+    lc $ARGV[0] eq 'start'
+    && $ARGV[1]
+    && lc $ARGV[1] eq '--debug'
+    )
+{
     $Debug = 1;
 
     # if no more arguments, then use debug mode for all daemons
@@ -109,6 +118,14 @@ if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
             $DebugDaemons{ $ARGV[$ArgIndex] } = 1;
         }
     }
+}
+elsif (
+    lc $ARGV[0] eq 'stop'
+    && $ARGV[1]
+    && lc $ARGV[1] eq '--force'
+    )
+{
+    $ForceStop = 1;
 }
 elsif ( $ARGV[1] ) {
     print STDERR "Invalid option: $ARGV[1]\n\n";
@@ -138,7 +155,7 @@ else {
 
 sub PrintUsage {
     my $UsageText = "Usage:\n";
-    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug]\n";
+    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug] [--force]\n";
     $UsageText .= "\nActions:\n";
     $UsageText .= sprintf " %-30s - %s", 'start', 'Starts the daemon process' . "\n";
     $UsageText .= sprintf " %-30s - %s", 'stop', 'Stops the daemon process' . "\n";
@@ -148,8 +165,10 @@ sub PrintUsage {
     $UsageText
         .= " In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
     $UsageText .= " Debug information is stored in the daemon log files localed under: $LogDir\n";
-    $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n";
-
+    $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n\n";
+    $UsageText
+        .= "\n Forced stop reduces the time the main daemon waits other daemons to stop from normal 30 seconds to 5.\n";
+    $UsageText .= "\n otrs.Daemon.pl stop --force\n\n";
     print STDOUT "$UsageText\n";
 
     return 1;
@@ -196,8 +215,8 @@ sub Start {
     }
 
     my $DaemonChecker = 1;
-    local $SIG{INT}  = sub { $DaemonChecker = 0; };
-    local $SIG{TERM} = sub { $DaemonChecker = 0; };
+    local $SIG{INT} = sub { $DaemonChecker = 0; };
+    local $SIG{TERM} = sub { $DaemonChecker = 0; $DaemonStopWait = 5; };
     local $SIG{CHLD} = "IGNORE";
 
     print STDOUT "Daemon started\n";
@@ -329,9 +348,9 @@ sub Start {
         kill 2, $DaemonModules{$Module}->{PID};
     }
 
-    # wait for active daemon processes to stop
+    # wait for active daemon processes to stop (typically 30 secs, or just 5 if forced)
     WAITTIME:
-    for my $WaitTime ( 1 .. 30 ) {
+    for my $WaitTime ( 1 .. $DaemonStopWait ) {
 
         my $ProcessesStillRunning;
         MODULE:
@@ -373,6 +392,9 @@ sub Start {
         kill 9, $DaemonModules{$Module};
     }
 
+    # remove current log files without content
+    _LogFilesCleanup();
+
     return 0;
 }
 
@@ -381,9 +403,18 @@ sub Stop {
 
     my $RunningDaemonPID = _PIDUnlock();
 
-    # send INT signal to running daemon
     if ($RunningDaemonPID) {
-        kill 2, $RunningDaemonPID;
+
+        if ($ForceStop) {
+
+            # send TERM signal to running daemon
+            kill 15, $RunningDaemonPID;
+        }
+        else {
+
+            # send INT signal to running daemon
+            kill 2, $RunningDaemonPID;
+        }
     }
 
     print STDOUT "Daemon stopped\n";
@@ -530,12 +561,22 @@ sub _LogFilesSet {
         move( "$FileStdErr.log", "$FileStdErr-$SystemTime.log" );
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $RedirectSTDOUT = $ConfigObject->Get('Daemon::Log::STDOUT') || 0;
+    my $RedirectSTDERR = $ConfigObject->Get('Daemon::Log::STDERR') || 0;
+
     # redirect STDOUT and STDERR
-    open STDOUT, '>>', "$FileStdOut.log";
-    open STDERR, '>>', "$FileStdErr.log";
+    if ($RedirectSTDOUT) {
+        open STDOUT, '>>', "$FileStdOut.log";
+    }
+    if ($RedirectSTDERR) {
+        open STDERR, '>>', "$FileStdErr.log";
+    }
 
     # remove not needed log files
-    my $DaysToKeep = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::DaysToKeep') || 10;
+    my $DaysToKeep = $ConfigObject->Get('Daemon::Log::DaysToKeep') || 1;
     my $DaysToKeepTime = $SystemTime - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob "$LogDir/*.log";
@@ -550,12 +591,40 @@ sub _LogFilesSet {
         next LOGFILE if ( ( $1 > $DaysToKeepTime ) && -s $LogFile );
 
         # delete file
-        if ( unlink $LogFile == 0 ) {
+        if ( !unlink $LogFile ) {
 
             # log old backup file cannot be deleted
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Daemon: $Param{Module} could not delete old log file $LogFile! $!",
+            );
+        }
+    }
+
+    return 1;
+}
+
+sub _LogFilesCleanup {
+    my %Param = @_;
+
+    my @LogFiles = glob "$LogDir/*.log";
+
+    LOGFILE:
+    for my $LogFile (@LogFiles) {
+
+        # skip if is not a backup file
+        next LOGFILE if ( $LogFile !~ m{ (?: OUT|ERR ) (?: -\d+)* \.log}igmx );
+
+        # do not delete files if they have content
+        next LOGFILE if -s $LogFile;
+
+        # delete file
+        if ( !unlink $LogFile ) {
+
+            # log old backup file cannot be deleted
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Daemon: could not delete empty log file $LogFile! $!",
             );
         }
     }

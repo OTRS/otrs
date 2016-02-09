@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,7 @@ Core.UI.InputFields = (function (Namespace) {
             var $SelectObj = $('#MultipleSelect'),
                 $SearchObj = $('#' + $SelectObj.data('modernized')),
                 $InputContainerObj = $SelectObj.prev(),
+                $InputListContainerObj,
                 $Nodes,
                 Selection = ['1', '2', '4'],
                 OptionNumber = $SelectObj.find('option').not("[value='']").length,
@@ -85,19 +86,25 @@ Core.UI.InputFields = (function (Namespace) {
             ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
                 Core.App.Unsubscribe(ExpandSubscription);
 
-                $Nodes = $InputContainerObj.find('ul.jstree-container-ul li.jstree-node');
+                $InputListContainerObj = $('body > .InputField_ListContainer').first();
+
+                $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
                 ListNumber = $Nodes.length;
+
                 Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
 
                 $.each(Selection, function (Index, Value) {
                     $Nodes.filter('[data-id="' + Value + '"]').find('.jstree-anchor').click();
                 });
+
+                $SelectObj.triggerHandler('redraw.InputField');
+
                 Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
 
-                $InputContainerObj.find('.InputField_ClearAll').click();
+                $InputListContainerObj.find('.InputField_ClearAll').click();
                 Assert.deepEqual($SelectObj.val(), [ "" ], 'Check if selection has been cleared');
 
-                $InputContainerObj.find('.InputField_SelectAll').click();
+                $InputListContainerObj.find('.InputField_SelectAll').click();
                 Assert.deepEqual($SelectObj.val().length, SelectableOptionNumber, 'Check if everything has been selected');
 
                 Done1();
@@ -105,6 +112,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             // Trigger blur handler
             $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
 
             // Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
@@ -127,6 +135,7 @@ Core.UI.InputFields = (function (Namespace) {
                 $Nodes,
                 OptionNumber = $SelectObj.find('option').not("[value='']").length,
                 $InputContainerObj = $SelectObj.prev(),
+                $InputListContainerObj,
                 ListNumber,
                 ExpandSubscription,
                 CloseSubscription,
@@ -142,18 +151,24 @@ Core.UI.InputFields = (function (Namespace) {
             ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
                 Core.App.Unsubscribe(ExpandSubscription);
 
-                $Nodes = $InputContainerObj.find('ul.jstree-container-ul li.jstree-node');
+                $InputListContainerObj = $('body > .InputField_ListContainer').first();
+
+                $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
                 ListNumber = $Nodes.length;
+
                 Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
 
                 $Nodes.filter('[data-id="' + Selection + '"]').find('.jstree-anchor').click();
-                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
+                $SelectObj.triggerHandler('redraw.InputField');
+                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches (' + Selection + ')');
 
                 Done1();
             });
 
+
             // Trigger blur handler
             $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
 
             // Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
@@ -161,10 +176,12 @@ Core.UI.InputFields = (function (Namespace) {
 
                 Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
 
-                $InputContainerObj.find('.InputField_Selection .Remove a').click();
-                Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
-
-                Done2();
+                // Wait for everything to be closed and resettet
+                window.setTimeout(function () {
+                    $InputContainerObj.find('.InputField_Selection .Remove a').click();
+                    Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
+                    Done2();
+                }, 100);
             });
         });
 

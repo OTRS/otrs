@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Web::Request',
 );
@@ -67,7 +68,8 @@ sub new {
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',
         );
@@ -121,6 +123,7 @@ sub Run {
         # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
+            Debug => $Self->{Debug},
         );
 
         print $GenericObject->Run();
@@ -145,7 +148,8 @@ sub DESTROY {
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle stopped.',
         );

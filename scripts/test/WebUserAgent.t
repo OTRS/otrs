@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,51 +85,6 @@ my @Tests = (
         Timeout => $TimeOut,
         Proxy   => $Proxy,
         Success => '1',
-    },
-    {
-        Name => 'POST - hashref - Test ' . $TestNumber++,
-        URL  => "https://pav.otrs.com/otrs/public.pl",
-        Type => "POST",
-        Data => {
-            'Action'  => 'PublicPackageVerification',
-            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
-        },
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-        Content => '{"Test":"not_verified"}',
-    },
-    {
-        Name => 'POST - arrayref - Test ' . $TestNumber++,
-        URL  => "https://pav.otrs.com/otrs/public.pl",
-        Type => "POST",
-        Data => [
-            'Action'  => 'PublicPackageVerification',
-            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
-        ],
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-        Content => '{"Test":"not_verified"}',
-    },
-    {
-        Name        => 'POST - data but no arrayref or hashref - Test ' . $TestNumber++,
-        URL         => "https://pav.otrs.com/otrs/public.pl",
-        Type        => "POST",
-        Data        => 'SomeData',
-        Timeout     => $TimeOut,
-        Proxy       => $Proxy,
-        Success     => 0,
-        ErrorNumber => 0,
-    },
-    {
-        Name        => 'POST - no data - Test ' . $TestNumber++,
-        URL         => "https://pav.otrs.com/otrs/public.pl",
-        Type        => "POST",
-        Timeout     => $TimeOut,
-        Proxy       => $Proxy,
-        Success     => 0,
-        ErrorNumber => 0,
     },
     {
         Name    => 'GET - http - Header ' . $TestNumber++,

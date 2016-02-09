@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
     </div>
 
     <div class="ContentColumn">
-        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate StatsEditForm">
             <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="EditAction"/>
             <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>

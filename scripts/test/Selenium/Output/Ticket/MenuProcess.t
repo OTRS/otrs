@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get process needed objects
-my $ProcessObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
-my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -28,6 +21,7 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -43,10 +37,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get process object
+        my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
         # get all processes
         my $ProcessList = $ProcessObject->ProcessListGet(
@@ -72,16 +64,20 @@ $Selenium->RunTest(
             }
         }
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # import test selenium process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
-        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        # let mod_perl / Apache2::Reload pick up the changed configuration
         sleep 3;
 
         # get process list
@@ -109,17 +105,19 @@ $Selenium->RunTest(
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
-            CustomerID   => '123465',
+            CustomerID   => 'TestCustomer',
             CustomerUser => 'customer@example.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
 
-        # go to test created ticket zoom
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Self->True(
+            $TicketID,
+            "Ticket is created - $TicketID"
+        );
 
-        # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
-        sleep 3;
+        # go to test created ticket zoom
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # check if process enroll is available for test ticket
         $Self->True(
@@ -128,6 +126,12 @@ $Selenium->RunTest(
             ),
             "Ticket menu Process Enroll - found"
         );
+
+        # get needed objects
+        my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+        my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+        my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+        my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 
         my $Success;
 
@@ -218,14 +222,14 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
+        # let mod_perl / Apache2::Reload pick up the changed configuration
         sleep 3;
 
         # go to test created ticket zoom
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # check if process enroll is not available for test ticket
         $Self->True(

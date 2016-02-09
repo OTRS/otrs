@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,7 @@ use vars (qw($Self));
 use File::Basename;
 use File::Copy;
 
-use Kernel::System::ObjectManager;
-
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my ( $Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix );

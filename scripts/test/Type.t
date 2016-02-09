@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
+        }
+);
+
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my @IDs;
 
 # get needed objects
@@ -198,6 +206,25 @@ $Self->False(
     "NameExistsCheck() - Another type \'$TypeNameRand0\' for ID=$TypeID does not exists!",
 );
 
+# set Ticket::Type::Default config item
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'Ticket::Type::Default',
+    Value => $TypeSecondName,
+);
+
+# update the default ticket type
+$TypeUpdateWrong = $TypeObject->TypeUpdate(
+    ID      => $TypeIDSecond,
+    Name    => $TypeSecondName,
+    ValidID => 2,
+    UserID  => 1,
+);
+
+$Self->False(
+    $TypeUpdateWrong,
+    "The ticket type is set as a default ticket type, so it cannot be changed! - $TypeSecondName",
+);
+
 # perform 2 different TypeLists to check the caching
 my %TypeListValid = $TypeObject->TypeList( Valid => 1 );
 
@@ -225,21 +252,6 @@ $Self->True(
     'TypeList() - all types',
 );
 
-# Since there are no tickets that rely on our test types, we can remove them again
-#   from the DB.
-for my $ID (@IDs) {
-    my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "DELETE FROM ticket_type WHERE id = $ID",
-    );
-    $Self->True(
-        $Success,
-        "TypeDelete() - $ID",
-    );
-}
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'Type',
-);
+# cleanup is done by RestoreDatabase.
 
 1;

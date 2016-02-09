@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,18 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
-my $QueueRand = 'Some::Queue' . int( rand(1000000) );
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $QueueRand = 'Some::Queue' . $Helper->GetRandomID();
 my $QueueID   = $QueueObject->QueueAdd(
     Name                => $QueueRand,
     ValidID             => 1,
@@ -159,6 +166,22 @@ $Self->True(
     'QueueUpdate() - a real scenario from AdminQueue.pm',
 );
 
+# check follow-up value for test queue
+my %FollowUpOptionList = reverse $QueueObject->GetFollowUpOptionList( Valid => 1 );
+my $FollowUpOption = $QueueObject->GetFollowUpOption( QueueID => $QueueID );
+
+for my $FollowUp ( 'possible', 'reject', 'new ticket' ) {
+    $Self->True(
+        exists $FollowUpOptionList{$FollowUp},
+        "Follow-up list contains the follow-up \'$FollowUp\ - ID $FollowUpOptionList{$FollowUp}'",
+    );
+}
+
+$Self->True(
+    exists $FollowUpOptionList{$FollowUpOption} && $FollowUpOptionList{$FollowUpOption} == 1,
+    "Follow-up list contains the follow-up \'$FollowUpOption\' of the queue $QueueID",
+);
+
 my $QueueUpdate1Name = $QueueRand . '1',;
 my $QueueUpdate1     = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
@@ -186,7 +209,7 @@ $Self->True(
 );
 
 #add another queue for testing update queue with existing name
-my $Queue2Rand = 'Some::Queue2' . int( rand(1000000) );
+my $Queue2Rand = 'Some::Queue2' . $Helper->GetRandomID();
 my $QueueID2   = $QueueObject->QueueAdd(
     Name            => $Queue2Rand,
     ValidID         => 1,
@@ -206,7 +229,7 @@ $Self->True(
 push( @IDs, $QueueID2 );
 
 #add subqueue
-my $SubQueueName = '::SubQueue' . int( rand(1000000) );
+my $SubQueueName = '::SubQueue' . $Helper->GetRandomID();
 my $SubQueue1    = $Queue2Rand . $SubQueueName;
 my $QueueID3     = $QueueObject->QueueAdd(
     Name            => $SubQueue1,
@@ -530,7 +553,7 @@ for my $TemplateType ( sort keys %TemplatesByType ) {
 
 # QueueStandardTemplateMemeberAdd() tests
 my $UserID   = 1;
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # create a new template
 my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
@@ -635,7 +658,7 @@ for my $Test (@Tests) {
                 $Templates{$TemplateID} || '',
                 '',
                 "$Test->{Name} QueueStandardTemplateMemberList() | $TemplateID should not be"
-                    . " assingned and must not have a value",
+                    . " assigned and must not have a value",
             );
         }
     }
@@ -647,39 +670,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup
-my $Success = $StandardTemplateObject->StandardTemplateDelete(
-    ID => $TemplateID,
-);
-
-$Self->True(
-    $Success,
-    "StandardTemplateDelete() for QueueStandardTemplateMemeberAdd() | with True",
-);
-
-# Since there are no tickets that rely on our test queues, we can remove them again
-# from the DB.
-for my $ID (@IDs) {
-    my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "DELETE FROM queue_preferences WHERE queue_id = $ID",
-    );
-    $Self->True(
-        $Success,
-        "QueueDelete preferences - $ID",
-    );
-
-    $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "DELETE FROM queue WHERE id = $ID",
-    );
-    $Self->True(
-        $Success,
-        "QueueDelete - $ID",
-    );
-}
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'Queue',
-);
+# cleanup is done by RestoreDatabase
 
 1;

@@ -17,7 +17,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
-        <Description Translatable="1">Max size of the subjects in an email reply.</Description>
+        <Description Translatable="1">Max size of the subjects in an email reply and in some overview screens.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -121,6 +121,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::InvalidOwner::StateChange" Required="0" Valid="1">
+        <Description Translatable="1">Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="pending reminder">open</Item>
+                <Item Key="pending auto">open</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Type" Required="1" Valid="1">
         <Description Translatable="1">Allows defining new types for ticket (if ticket type feature is enabled).</Description>
         <Group>Ticket</Group>
@@ -130,6 +141,14 @@
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Type::Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default ticket type.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="" Translatable="1">Unclassified</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Service" Required="1" Valid="1">
@@ -230,7 +249,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
-        <Description Translatable="1">Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.</Description>
+        <Description Translatable="1">Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -275,7 +294,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::StorageModule::CheckAllBackends" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.</Description>
+        <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -523,7 +542,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndex::StopWords###en" Required="0" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">German stop words for fulltext index. These words will be removed from the search index.</Description>
+        <Description Translatable="1">English stop words for fulltext index. These words will be removed from the search index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
         <Setting>
@@ -840,6 +859,158 @@
                 <Item>zum</Item>
                 <Item>zur</Item>
                 <Item>über</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::SearchIndex::StopWords###nl" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Dutch stop words for fulltext index. These words will be removed from the search index.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Array>
+                <Item>de</Item>
+                <Item>zijn</Item>
+                <Item>een</Item>
+                <Item>en</Item>
+                <Item>in</Item>
+                <Item>je</Item>
+                <Item>het</Item>
+                <Item>van</Item>
+                <Item>op</Item>
+                <Item>ze</Item>
+                <Item>hebben</Item>
+                <Item>het</Item>
+                <Item>hij</Item>
+                <Item>niet</Item>
+                <Item>met</Item>
+                <Item>er</Item>
+                <Item>dat</Item>
+                <Item>die</Item>
+                <Item>te</Item>
+                <Item>wat</Item>
+                <Item>voor</Item>
+                <Item>naar</Item>
+                <Item>gaan</Item>
+                <Item>kunnen</Item>
+                <Item>zeggen</Item>
+                <Item>dat</Item>
+                <Item>maar</Item>
+                <Item>aan</Item>
+                <Item>veel</Item>
+                <Item>zijn</Item>
+                <Item>worden</Item>
+                <Item>uit</Item>
+                <Item>ook</Item>
+                <Item>komen</Item>
+                <Item>als</Item>
+                <Item>om</Item>
+                <Item>moeten</Item>
+                <Item>we</Item>
+                <Item>doen</Item>
+                <Item>bij</Item>
+                <Item>goed</Item>
+                <Item>haar</Item>
+                <Item>dan</Item>
+                <Item>nog</Item>
+                <Item>of</Item>
+                <Item>maken</Item>
+                <Item>zo</Item>
+                <Item>wel</Item>
+                <Item>mijn</Item>
+                <Item>zien</Item>
+                <Item>over</Item>
+                <Item>willen</Item>
+                <Item>staan</Item>
+                <Item>door</Item>
+                <Item>kijken</Item>
+                <Item>zullen</Item>
+                <Item>heel</Item>
+                <Item>nu</Item>
+                <Item>weten</Item>
+                <Item>zitten</Item>
+                <Item>hem</Item>
+                <Item>schrijven</Item>
+                <Item>vinden</Item>
+                <Item>woord</Item>
+                <Item>hoe</Item>
+                <Item>geen</Item>
+                <Item>dit</Item>
+                <Item>mens</Item>
+                <Item>al</Item>
+                <Item>jij</Item>
+                <Item>ander</Item>
+                <Item>groot</Item>
+                <Item>waar</Item>
+                <Item>maar</Item>
+                <Item>weer</Item>
+                <Item>kind</Item>
+                <Item>me</Item>
+                <Item>vragen</Item>
+                <Item>een</Item>
+                <Item>denken</Item>
+                <Item>twee</Item>
+                <Item>horen</Item>
+                <Item>iets</Item>
+                <Item>deze</Item>
+                <Item>krijgen</Item>
+                <Item>ons</Item>
+                <Item>zich</Item>
+                <Item>lezen</Item>
+                <Item>hun</Item>
+                <Item>welk</Item>
+                <Item>zin</Item>
+                <Item>laten</Item>
+                <Item>mogen</Item>
+                <Item>hier</Item>
+                <Item>jullie</Item>
+                <Item>toch</Item>
+                <Item>geven</Item>
+                <Item>jaar</Item>
+                <Item>tegen</Item>
+                <Item>al</Item>
+                <Item>eens</Item>
+                <Item>echt</Item>
+                <Item>houden</Item>
+                <Item>alleen</Item>
+                <Item>lopen</Item>
+                <Item>mee</Item>
+                <Item>ja</Item>
+                <Item>roepen</Item>
+                <Item>tijd</Item>
+                <Item>dag</Item>
+                <Item>elkaar</Item>
+                <Item>even</Item>
+                <Item>lang</Item>
+                <Item>land</Item>
+                <Item>liggen</Item>
+                <Item>waarom</Item>
+                <Item>zetten</Item>
+                <Item>vader</Item>
+                <Item>laat</Item>
+                <Item>beginnen</Item>
+                <Item>blijven</Item>
+                <Item>nee</Item>
+                <Item>moeder</Item>
+                <Item>huis</Item>
+                <Item>nou</Item>
+                <Item>na</Item>
+                <Item>af</Item>
+                <Item>keer</Item>
+                <Item>dus</Item>
+                <Item>tot</Item>
+                <Item>vertellen</Item>
+                <Item>wie</Item>
+                <Item>net</Item>
+                <Item>jou</Item>
+                <Item>les</Item>
+                <Item>want</Item>
+                <Item>man</Item>
+                <Item>nieuw</Item>
+                <Item>elk</Item>
+                <Item>tekst</Item>
+                <Item>omdat</Item>
+                <Item>gebruiken</Item>
+                <Item>u</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -1858,6 +2029,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HideEmptyQueues" Required="1" Valid="1">
+        <Description Translatable="1">Show queues even when only locked tickets are in.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" Required="1" Valid="1">
         <Description Translatable="1">Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.</Description>
         <Group>Ticket</Group>
@@ -2654,10 +2836,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -2829,7 +3011,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">agent</String>
+            <String Regex="" Translatable="1">agent</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Subject" Required="1" Valid="1">
@@ -2863,10 +3045,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending auto</Item>
-                <Item>pending reminder</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -2952,10 +3134,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending auto</Item>
-                <Item>pending reminder</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -2998,7 +3180,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.</Description>
+        <Description Translatable="1">Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3009,7 +3191,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionString" Required="1" Valid="1">
-        <Description Translatable="1">Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "&lt;Queue&gt;" shows the names of the queues and for SystemAddress "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.</Description>
+        <Description Translatable="1">Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "&lt;Queue&gt;" shows the names of the queues and for SystemAddress "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the recipient.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3017,7 +3199,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueOwnSelection" Required="0" Valid="0">
-        <Description Translatable="1">Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.</Description>
+        <Description Translatable="1">Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3074,6 +3256,17 @@
             <String Regex="">customer</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly" Required="1" Valid="1">
+        <Description Translatable="1">Controls if CutomerID is editable in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom" Required="1" Valid="1">
         <Description Translatable="1">Controls if more than one from entry can be set in the new phone ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3116,10 +3309,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending auto</Item>
-                <Item>pending reminder</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -3197,7 +3390,18 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
-            <String Regex="">agent</String>
+            <String Regex="" Translatable="1">agent</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly" Required="1" Valid="1">
+        <Description Translatable="1">Controls if CutomerID is editable in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Subject" Required="1" Valid="1">
@@ -3231,10 +3435,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending auto</Item>
-                <Item>pending reminder</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -3404,7 +3608,7 @@
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <Array>
-                <Item>closed</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -3671,10 +3875,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -3941,9 +4145,9 @@
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4209,8 +4413,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <Array>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4477,9 +4681,9 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4949,10 +5153,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5044,8 +5248,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5116,8 +5320,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5164,10 +5368,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending auto</Item>
-                <Item>pending reminder</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending auto</Item>
+                <Item Translatable="1">pending reminder</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5177,8 +5381,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5242,17 +5446,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ComposeExcludeCcRecipients" Required="1" Valid="1">
-        <Description Translatable="1">Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket forward screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5287,10 +5480,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5308,8 +5501,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5347,10 +5540,10 @@
         <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5368,8 +5561,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item Translatable="1">email-external</Item>
+                <Item Translatable="1">email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5407,6 +5600,17 @@
         <SubGroup>Frontend::Agent::Ticket::ViewCustomer</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly" Required="1" Valid="1">
+        <Description Translatable="1">Controls if CutomerID is editable in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCustomer</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
@@ -5463,10 +5667,10 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>
-                <Item>open</Item>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
+                <Item Translatable="1">new</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">pending reminder</Item>
+                <Item Translatable="1">pending auto</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5476,8 +5680,8 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>
-                <Item>open</Item>
+                <Item Translatable="1">new</Item>
+                <Item Translatable="1">open</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5530,8 +5734,8 @@
         <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <Hash>
-                <Item Key="pending auto close+">closed successful</Item>
-                <Item Key="pending auto close-">closed unsuccessful</Item>
+                <Item Key="pending auto close+" Translatable="1">closed successful</Item>
+                <Item Key="pending auto close-" Translatable="1">closed unsuccessful</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5999,7 +6203,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Back</Item>
+                <Item Key="Name" Translatable="1">Back</Item>
                 <Item Key="Description" Translatable="1">Go back</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">[% Env("LastScreenOverview") %];TicketID=[% Data.TicketID | html %]</Item>
@@ -6017,7 +6221,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Lock</Item>
-                <Item Key="Name">Lock</Item>
+                <Item Key="Name" Translatable="1">Lock</Item>
                 <Item Key="Description" Translatable="1">Lock / unlock this ticket</Item>
                 <Item Key="Action">AgentTicketLock</Item>
                 <Item Key="Target"></Item>
@@ -6033,7 +6237,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">History</Item>
+                <Item Key="Name" Translatable="1">History</Item>
                 <Item Key="Description" Translatable="1">Show the history for this ticket</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=[% Data.TicketID | html %]</Item>
@@ -6051,7 +6255,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Print</Item>
+                <Item Key="Name" Translatable="1">Print</Item>
                 <Item Key="Description" Translatable="1">Print this ticket</Item>
                 <Item Key="Action">AgentTicketPrint</Item>
                 <Item Key="Link">Action=AgentTicketPrint;TicketID=[% Data.TicketID | html %]</Item>
@@ -6070,7 +6274,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Priority</Item>
+                <Item Key="Name" Translatable="1">Priority</Item>
                 <Item Key="Description" Translatable="1">Change the priority for this ticket</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=[% Data.TicketID | html %]</Item>
@@ -6088,7 +6292,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Free Fields</Item>
+                <Item Key="Name" Translatable="1">Free Fields</Item>
                 <Item Key="Description" Translatable="1">Change the free fields for this ticket</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
                 <Item Key="Link">Action=AgentTicketFreeText;TicketID=[% Data.TicketID | html %]</Item>
@@ -6106,7 +6310,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Link</Item>
+                <Item Key="Name" Translatable="1">Link</Item>
                 <Item Key="Description" Translatable="1">Link this ticket to other objects</Item>
                 <Item Key="Action">AgentLinkObject</Item>
                 <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=[% Data.TicketID | html %]</Item>
@@ -6124,7 +6328,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Owner</Item>
+                <Item Key="Name" Translatable="1">Owner</Item>
                 <Item Key="Description" Translatable="1">Change the owner for this ticket</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=[% Data.TicketID | html %]</Item>
@@ -6142,7 +6346,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Responsible</Item>
-                <Item Key="Name">Responsible</Item>
+                <Item Key="Name" Translatable="1">Responsible</Item>
                 <Item Key="Description" Translatable="1">Change the responsible for this ticket</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=[% Data.TicketID | html %]</Item>
@@ -6160,7 +6364,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Customer</Item>
+                <Item Key="Name" Translatable="1">Customer</Item>
                 <Item Key="Description" Translatable="1">Change the customer for this ticket</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</Item>
@@ -6178,7 +6382,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Note</Item>
+                <Item Key="Name" Translatable="1">Note</Item>
                 <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=[% Data.TicketID | html %]</Item>
@@ -6196,7 +6400,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Phone Call Outbound</Item>
+                <Item Key="Name" Translatable="1">Phone Call Outbound</Item>
                 <Item Key="Description" Translatable="1">Add an outbound phone call to this ticket</Item>
                 <Item Key="Action">AgentTicketPhoneOutbound</Item>
                 <Item Key="Link">Action=AgentTicketPhoneOutbound;TicketID=[% Data.TicketID | html %]</Item>
@@ -6214,7 +6418,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Phone Call Inbound</Item>
+                <Item Key="Name" Translatable="1">Phone Call Inbound</Item>
                 <Item Key="Description" Translatable="1">Add an inbound phone call to this ticket</Item>
                 <Item Key="Action">AgentTicketPhoneInbound</Item>
                 <Item Key="Link">Action=AgentTicketPhoneInbound;TicketID=[% Data.TicketID | html %]</Item>
@@ -6232,7 +6436,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">E-Mail Outbound</Item>
+                <Item Key="Name" Translatable="1">E-Mail Outbound</Item>
                 <Item Key="Description" Translatable="1">Send new outgoing mail from this ticket</Item>
                 <Item Key="Action">AgentTicketEmailOutbound</Item>
                 <Item Key="Link">Action=AgentTicketEmailOutbound;TicketID=[% Data.TicketID | html %]</Item>
@@ -6250,7 +6454,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Merge</Item>
+                <Item Key="Name" Translatable="1">Merge</Item>
                 <Item Key="Description" Translatable="1">Merge this ticket and all articles into a another ticket</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=[% Data.TicketID | html %]</Item>
@@ -6268,7 +6472,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Pending</Item>
+                <Item Key="Name" Translatable="1">Pending</Item>
                 <Item Key="Description" Translatable="1">Set this ticket to pending</Item>
                 <Item Key="Action">AgentTicketPending</Item>
                 <Item Key="Link">Action=AgentTicketPending;TicketID=[% Data.TicketID | html %]</Item>
@@ -6287,7 +6491,7 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::TicketWatcher</Item>
                 <Item Key="Action">AgentTicketWatcher</Item>
-                <Item Key="Name">Watch</Item>
+                <Item Key="Name" Translatable="1">Watch</Item>
                 <Item Key="Description" Translatable="1">Watch this ticket</Item>
                 <Item Key="Target"></Item>
                 <Item Key="ClusterName" Translatable="1"></Item>
@@ -6302,7 +6506,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Close</Item>
+                <Item Key="Name" Translatable="1">Close</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=[% Data.TicketID | html %]</Item>
@@ -6320,7 +6524,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Delete</Item>
+                <Item Key="Name" Translatable="1">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Delete this ticket</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
@@ -6338,7 +6542,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Spam</Item>
+                <Item Key="Name" Translatable="1">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Mark this ticket as junk!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Junk</Item>
@@ -6377,7 +6581,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Lock</Item>
-                <Item Key="Name">Lock</Item>
+                <Item Key="Name" Translatable="1">Lock</Item>
                 <Item Key="Action">AgentTicketLock</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
@@ -6391,7 +6595,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Zoom</Item>
+                <Item Key="Name" Translatable="1">Zoom</Item>
                 <Item Key="Action">AgentTicketZoom</Item>
                 <Item Key="Description" Translatable="1">Look into a ticket!</Item>
                 <Item Key="Link">Action=AgentTicketZoom;TicketID=[% Data.TicketID | html %]</Item>
@@ -6407,7 +6611,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">History</Item>
+                <Item Key="Name" Translatable="1">History</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Description" Translatable="1">Show the ticket history</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=[% Data.TicketID | html %]</Item>
@@ -6423,7 +6627,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Priority</Item>
+                <Item Key="Name" Translatable="1">Priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Description" Translatable="1">Change the priority for this ticket</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=[% Data.TicketID | html %]</Item>
@@ -6439,7 +6643,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Note</Item>
+                <Item Key="Name" Translatable="1">Note</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=[% Data.TicketID | html %]</Item>
@@ -6455,7 +6659,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Close</Item>
+                <Item Key="Name" Translatable="1">Close</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=[% Data.TicketID | html %]</Item>
@@ -6471,7 +6675,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Move</Item>
-                <Item Key="Name">Move</Item>
+                <Item Key="Name" Translatable="1">Move</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Change queue!</Item>
             </Hash>
@@ -6484,7 +6688,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Delete</Item>
+                <Item Key="Name" Translatable="1">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Delete this ticket</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
@@ -6493,17 +6697,17 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Spam" Required="0" Valid="0">
-        <Description Translatable="1">Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Junk" Required="0" Valid="0">
+        <Description Translatable="1">Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Spam</Item>
+                <Item Key="Name" Translatable="1">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Mark as Spam!</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Junk</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -6526,7 +6730,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the owner of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the owner of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6537,8 +6741,20 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::OwnerCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the agent responsible of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the agent responsible of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6549,8 +6765,20 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::ResponsibleCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Permission###3-GroupCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
+        <Description Translatable="1">Module to check the group permissions for the access to tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6562,7 +6790,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###4-WatcherCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the watcher agents of a ticket.</Description>
+        <Description Translatable="1">Module to grant access to the watcher agents of a ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6573,8 +6801,56 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Permission###5-CreatorCheck" Required="0" Valid="0">
+        <Description Translatable="1">Module to grant access to the creator of a ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::CreatorCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
+        <Description Translatable="1">Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::InvolvedCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission::InvolvedCheck::Queues" Required="0" Valid="0">
+        <Description Translatable="1">Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Postmaster">ro, move, note</Item>
+                <Item Key="Raw">rw</Item>
+                <Item Key="Misc">note</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check the group permissions for the access to customer tickets.</Description>
+        <Description Translatable="1">Module to check the group permissions for customer access to tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6586,7 +6862,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###2-CustomerUserIDCheck" Required="0" Valid="1">
-        <Description Translatable="1">Grants access, if the customer ID of the ticket matches the customer user's ID and the customer user has group permissions on the queue the ticket is in.</Description>
+        <Description Translatable="1">Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6598,7 +6874,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###3-CustomerIDCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check customer permissions.</Description>
+        <Description Translatable="1">Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -6685,7 +6961,7 @@
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">EscalationTime</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -6731,7 +7007,7 @@
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -6768,7 +7044,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0130-TicketOpen" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
+        <Description Translatable="1">Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -6777,7 +7053,7 @@
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
@@ -6832,7 +7108,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0260-TicketCalendar" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Description Translatable="1">Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -6876,7 +7152,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0280-DashboardEventsTicketCalendar" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Description Translatable="1">Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -6941,21 +7217,21 @@
         <SubGroup>Frontend::Agent::Dashboard::EventsTicketCalendar</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="CustomerID">Customer ID</Item>
-                <Item Key="CustomerUserID">Customer user</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="SLA">SLA</Item>
-                <Item Key="Service">Service</Item>
-                <Item Key="State">State</Item>
-                <Item Key="Title">Title</Item>
-                <Item Key="Type">Type</Item>
+                <Item Key="CustomerID" Translatable="1">Customer ID</Item>
+                <Item Key="CustomerUserID" Translatable="1">Customer user</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="SLA" Translatable="1">SLA</Item>
+                <Item Key="Service" Translatable="1">Service</Item>
+                <Item Key="State" Translatable="1">State</Item>
+                <Item Key="Title" Translatable="1">Title</Item>
+                <Item Key="Type" Translatable="1">Type</Item>
             </Hash>
         </Setting>
     </ConfigItem>
 
     <ConfigItem Name="OnlyValuesOnTicket" Required="1" Valid="1">
-        <Description Translatable="1">Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system's tickets.</Description>
+        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard::TicketFilters</SubGroup>
         <Setting>
@@ -7041,7 +7317,7 @@
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">EscalationTime</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
@@ -7087,7 +7363,7 @@
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
@@ -7124,7 +7400,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0130-CIC-TicketOpen" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
+        <Description Translatable="1">Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
@@ -7133,7 +7409,7 @@
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>
-                <Item Key="Filter">All</Item>
+                <Item Key="Filter" Translatable="1">All</Item>
                 <Item Key="Time">Age</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">ro</Item>
@@ -7194,7 +7470,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomQueue</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Queues</Item>
                 <Item Key="Desc" Translatable="1">Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7211,7 +7487,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomService</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Services</Item>
                 <Item Key="Desc" Translatable="1">Your service selection of your favorite services. You also get notified about those services via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7227,7 +7503,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Overview Refresh Time</Item>
                 <Item Key="Desc" Translatable="1">If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.</Item>
                 <Item Key="Key" Translatable="1">After</Item>
@@ -7255,7 +7531,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Small" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Small"</Item>
                 <Item Key="Data">
@@ -7282,7 +7558,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::ColumnFilters</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Enabled filters.</Item>
                 <Item Key="Key" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
                 <Item Key="PrefKey">UserFilterColumnsEnabled</Item>
@@ -7298,7 +7574,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Medium" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Medium"</Item>
                 <Item Key="Data">
@@ -7325,7 +7601,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Preview" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Preview"</Item>
                 <Item Key="Data">
@@ -7352,7 +7628,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="Column" Translatable="1">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Screen after new ticket</Item>
                 <Item Key="Desc" Translatable="1">Configure which screen should be shown after a new ticket has been created.</Item>
                 <Item Key="Key" Translatable="1">Screen</Item>
@@ -7597,7 +7873,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.</Description>
+        <Description Translatable="1">Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -7608,7 +7884,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionString" Required="0" Valid="1">
-        <Description Translatable="1">Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.</Description>
+        <Description Translatable="1">Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the recipient.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -7723,8 +7999,8 @@
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
+                <Item Translatable="1">open</Item>
+                <Item Translatable="1">closed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -7767,12 +8043,12 @@
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Age">
-                <Item Key="Age">Age</Item>
-                <Item Key="TicketNumber">TicketNumber</Item>
-                <Item Key="Title">Title</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="EscalationTime">EscalationTime</Item>
+                <Item Key="Age" Translatable="1">Age</Item>
+                <Item Key="TicketNumber" Translatable="1">TicketNumber</Item>
+                <Item Key="Title" Translatable="1">Title</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="EscalationTime" Translatable="1">EscalationTime</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -7788,7 +8064,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###ExtendedSearchCondition" Required="1" Valid="1">
-        <Description Translatable="1">Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&amp;&amp;key2)" or "(key1||key2)".</Description>
+        <Description Translatable="1">Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&amp;&amp;key2)" or "(key1||key2)".</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -7826,17 +8102,17 @@
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Array>
-                <Item>TicketNumber</Item>
-                <Item>Age</Item>
-                <Item>Created</Item>
-                <Item>Closed</Item>
-                <Item>State</Item>
-                <Item>Priority</Item>
-                <Item>Lock</Item>
-                <Item>CustomerID</Item>
-                <Item>CustomerName</Item>
-                <Item>From</Item>
-                <Item>Subject</Item>
+                <Item Translatable="1">TicketNumber</Item>
+                <Item Translatable="1">Age</Item>
+                <Item Translatable="1">Created</Item>
+                <Item Translatable="1">Closed</Item>
+                <Item Translatable="1">State</Item>
+                <Item Translatable="1">Priority</Item>
+                <Item Translatable="1">Lock</Item>
+                <Item Translatable="1">CustomerID</Item>
+                <Item Translatable="1">CustomerName</Item>
+                <Item Translatable="1">From</Item>
+                <Item Translatable="1">Subject</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -7949,11 +8225,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open Tickets</Description>
-                <Title>QueueView</Title>
+                <Description Translatable="1">Overview of all open Tickets.</Description>
+                <Title Translatable="1">QueueView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Queue view</Name>
                     <Link>Action=AgentTicketQueue</Link>
                     <LinkOption></LinkOption>
@@ -7964,7 +8240,7 @@
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description></Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Tickets</Name>
@@ -7989,11 +8265,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open Tickets</Description>
-                <Title>ServiceView</Title>
+                <Description Translatable="1">Overview of all open Tickets.</Description>
+                <Title Translatable="1">ServiceView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Service view</Name>
                     <Link>Action=AgentTicketService</Link>
                     <LinkOption></LinkOption>
@@ -8018,11 +8294,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new phone ticket</Description>
-                <Title>New phone ticket</Title>
+                <Description Translatable="1">Create new phone ticket.</Description>
+                <Title Translatable="1">New phone ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create new phone ticket (inbound)</Description>
+                    <Description Translatable="1">Create new phone ticket (inbound).</Description>
                     <Name Translatable="1">New phone ticket</Name>
                     <Link>Action=AgentTicketPhone</Link>
                     <LinkOption></LinkOption>
@@ -8045,8 +8321,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Phone Call</Description>
-                <Title>Phone-Ticket</Title>
+                <Description Translatable="1">Phone Call.</Description>
+                <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8060,8 +8336,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Incoming Phone Call</Description>
-                <Title>Phone-Ticket</Title>
+                <Description Translatable="1">Incoming Phone Call.</Description>
+                <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8075,11 +8351,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new email ticket</Description>
-                <Title>New email ticket</Title>
+                <Description Translatable="1">Create new email ticket.</Description>
+                <Title Translatable="1">New email ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create new email ticket and send this out (outbound)</Description>
+                    <Description Translatable="1">Create new email ticket and send this out (outbound).</Description>
                     <Name Translatable="1">New email ticket</Name>
                     <Link>Action=AgentTicketEmail</Link>
                     <LinkOption></LinkOption>
@@ -8102,11 +8378,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Search Ticket</Description>
-                <Title>Search</Title>
+                <Description Translatable="1">Search Ticket.</Description>
+                <Title Translatable="1">Search</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Search Tickets</Description>
+                    <Description Translatable="1">Search Tickets.</Description>
                     <Name Translatable="1">Search</Name>
                     <Link>Action=AgentTicketSearch</Link>
                     <!-- Use a timeout because otherwise the propagating click event would immediately close the dialog again. -->
@@ -8130,8 +8406,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Locked Tickets</Description>
-                <Title>Locked Tickets</Title>
+                <Description Translatable="1">Locked Tickets.</Description>
+                <Title Translatable="1">Locked Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
@@ -8148,8 +8424,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Responsible Tickets</Description>
-                <Title>Responsible Tickets</Title>
+                <Description Translatable="1">Responsible Tickets.</Description>
+                <Title Translatable="1">Responsible Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AllocationList.css</CSS>
@@ -8165,8 +8441,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Watched Tickets</Description>
-                <Title>Watched Tickets</Title>
+                <Description Translatable="1">Watched Tickets.</Description>
+                <Title Translatable="1">Watched Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
@@ -8207,8 +8483,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open tickets</Description>
-                <Title>Status view</Title>
+                <Description Translatable="1">Overview of all open tickets.</Description>
+                <Title Translatable="1">Status view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets.</Description>
@@ -8235,11 +8511,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all escalated tickets</Description>
-                <Title>Escalation view</Title>
+                <Description Translatable="1">Overview of all escalated tickets.</Description>
+                <Title Translatable="1">Escalation view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview Escalated Tickets</Description>
+                    <Description Translatable="1">Overview Escalated Tickets.</Description>
                     <Name Translatable="1">Escalation view</Name>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <LinkOption></LinkOption>
@@ -8275,7 +8551,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Zoom</Description>
+                <Description>Ticket Zoom.</Description>
                 <Title>Zoom</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8296,7 +8572,7 @@
             <FrontendModuleReg>
                 <Title></Title>
                 <NavBarName>Ticket</NavBarName>
-                <Description>To download attachments</Description>
+                <Description Translatable="1">To download attachments.</Description>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8306,8 +8582,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket plain view of an email</Description>
-                <Title>Plain</Title>
+                <Description Translatable="1">Ticket plain view of an email.</Description>
+                <Title Translatable="1">Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8318,8 +8594,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Note</Description>
-                <Title>Note</Title>
+                <Description Translatable="1">Ticket Note.</Description>
+                <Title Translatable="1">Note</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8333,8 +8609,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Merge</Description>
-                <Title>Merge</Title>
+                <Description Translatable="1">Ticket Merge.</Description>
+                <Title Translatable="1">Merge</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketMerge.js</JavaScript>
@@ -8348,8 +8624,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Pending</Description>
-                <Title>Pending</Title>
+                <Description Translatable="1">Ticket Pending.</Description>
+                <Title Translatable="1">Pending</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8363,9 +8639,9 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>A TicketWatcher Module</Description>
+                <Description Translatable="1">A TicketWatcher Module.</Description>
                 <NavBarName>Ticket-Watcher</NavBarName>
-                <Title>Ticket-Watcher</Title>
+                <Title Translatable="1">Ticket-Watcher</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8375,8 +8651,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Priority</Description>
-                <Title>Priority</Title>
+                <Description Translatable="1">Ticket Priority.</Description>
+                <Title Translatable="1">Priority</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8390,7 +8666,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Lock</Description>
+                <Description Translatable="1">Ticket Lock.</Description>
                 <Title>Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8402,8 +8678,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Move</Description>
-                <Title>Move</Title>
+                <Description Translatable="1">Ticket Move.</Description>
+                <Title Translatable="1">Move</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8460,8 +8736,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket History</Description>
-                <Title>History</Title>
+                <Description Translatable="1">Ticket History.</Description>
+                <Title Translatable="1">History</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8472,8 +8748,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Owner</Description>
-                <Title>Owner</Title>
+                <Description Translatable="1">Ticket Owner.</Description>
+                <Title Translatable="1">Owner</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8487,8 +8763,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Responsible</Description>
-                <Title>Responsible</Title>
+                <Description Translatable="1">Ticket Responsible.</Description>
+                <Title Translatable="1">Responsible</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8502,8 +8778,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose email Answer</Description>
-                <Title>Compose</Title>
+                <Description Translatable="1">Ticket Compose email Answer.</Description>
+                <Title Translatable="1">Compose</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8518,8 +8794,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose Bounce Email</Description>
-                <Title>Bounce</Title>
+                <Description Translatable="1">Ticket Compose Bounce Email.</Description>
+                <Title Translatable="1">Bounce</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8530,8 +8806,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Forward Email</Description>
-                <Title>Forward</Title>
+                <Description Translatable="1">Ticket Forward Email.</Description>
+                <Title Translatable="1">Forward</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8546,8 +8822,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Outbound Email</Description>
-                <Title>Email Outbound</Title>
+                <Description Translatable="1">Ticket Outbound Email.</Description>
+                <Title Translatable="1">Email Outbound</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8562,8 +8838,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Customer</Description>
-                <Title>Customer</Title>
+                <Description Translatable="1">Ticket Customer.</Description>
+                <Title Translatable="1">Customer</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8578,8 +8854,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Close</Description>
-                <Title>Close</Title>
+                <Description Translatable="1">Ticket Close.</Description>
+                <Title Translatable="1">Close</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8593,8 +8869,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket FreeText</Description>
-                <Title>Free Fields</Title>
+                <Description Translatable="1">Ticket FreeText.</Description>
+                <Title Translatable="1">Free Fields</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8608,8 +8884,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Print</Description>
-                <Title>Print</Title>
+                <Description Translatable="1">Ticket Print.</Description>
+                <Title Translatable="1">Print</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8620,7 +8896,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket bulk module</Description>
+                <Description Translatable="1">Ticket bulk module.</Description>
                 <Title>Bulk-Action</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -9012,6 +9288,14 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::GenericAgentRunLimit" Required="0" Valid="1">
+        <Description Translatable="1">Set the limit of tickets that will be executed on a single genericagent job execution.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,6}$">4000</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::UnlockOnAway" Required="1" Valid="1">
         <Description Translatable="1">Unlock tickets whenever a note is added and the owner is out of office.</Description>
         <Group>Ticket</Group>
@@ -9162,6 +9446,7 @@
                 <Item Key="Icon">fa fa-envelope</Item>
                 <Item Key="Prio">100</Item>
                 <Item Key="IsOTRSBusinessTransport">0</Item>
+                <Item Key="AgentEnabledByDefault">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9176,6 +9461,7 @@
                 <Item Key="Icon">fa fa-th-list</Item>
                 <Item Key="Prio">110</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
+                <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9190,6 +9476,7 @@
                 <Item Key="Icon">fa fa-mobile</Item>
                 <Item Key="Prio">120</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
+                <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9227,7 +9514,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of customer tickets</Description>
+                <Description Translatable="1">Overview of customer tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Overview</Title>
                 <NavBar>
@@ -9272,9 +9559,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create tickets</Description>
+                <Description Translatable="1">Create tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>New Ticket</Title>
+                <Title Translatable="1">New Ticket</Title>
                 <NavBar>
                     <Description Translatable="1">Create new Ticket</Description>
                     <Name Translatable="1">New Ticket</Name>
@@ -9295,7 +9582,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket zoom view</Description>
+                <Description Translatable="1">Ticket zoom view.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Zoom</Title>
                 <Loader>
@@ -9311,7 +9598,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Ticket Print Module</Description>
+                <Description Translatable="1">Customer Ticket Print Module.</Description>
                 <NavBarName></NavBarName>
                 <Title>Print</Title>
             </FrontendModuleReg>
@@ -9323,7 +9610,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To download attachments</Description>
+                <Description Translatable="1">To download attachments.</Description>
                 <NavBarName></NavBarName>
                 <Title></Title>
             </FrontendModuleReg>
@@ -9335,7 +9622,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer ticket search</Description>
+                <Description Translatable="1">Customer ticket search.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title>Search</Title>
                 <NavBar>
@@ -9361,8 +9648,8 @@
                 <Item Key="Module">Kernel::System::Ticket::Acl::CloseParentAfterClosedChilds</Item>
                 <Item Key="State">
                     <Array>
-                        <Item>closed successful</Item>
-                        <Item>closed unsuccessful</Item>
+                        <Item Translatable="1">closed successful</Item>
+                        <Item Translatable="1">closed unsuccessful</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -9445,20 +9732,20 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="User">User</Item>
-                <Item Key="CustomerUser">CustomerUser</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Service">Service</Item>
-                <Item Key="Type">Type</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="SLA">SLA</Item>
-                <Item Key="State">State</Item>
-                <Item Key="Owner">Owner</Item>
-                <Item Key="Process">Process</Item>
-                <Item Key="Responsible">Responsible</Item>
-                <Item Key="DynamicField">DynamicField</Item>
-                <Item Key="Frontend">Frontend</Item>
-                <Item Key="Ticket">Ticket</Item>
+                <Item Key="User" Translatable="1">User</Item>
+                <Item Key="CustomerUser" Translatable="1">CustomerUser</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Service" Translatable="1">Service</Item>
+                <Item Key="Type" Translatable="1">Type</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="SLA" Translatable="1">SLA</Item>
+                <Item Key="State" Translatable="1">State</Item>
+                <Item Key="Owner" Translatable="1">Owner</Item>
+                <Item Key="Process" Translatable="1">Process</Item>
+                <Item Key="Responsible" Translatable="1">Responsible</Item>
+                <Item Key="DynamicField" Translatable="1">DynamicField</Item>
+                <Item Key="Frontend" Translatable="1">Frontend</Item>
+                <Item Key="Ticket" Translatable="1">Ticket</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9468,19 +9755,19 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="User">User</Item>
-                <Item Key="CustomerUser">CustomerUser</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Service">Service</Item>
-                <Item Key="Type">Type</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="SLA">SLA</Item>
-                <Item Key="State">State</Item>
-                <Item Key="Owner">Owner</Item>
-                <Item Key="Process">Process</Item>
-                <Item Key="Responsible">Responsible</Item>
-                <Item Key="DynamicField">DynamicField</Item>
-                <Item Key="Ticket">Ticket</Item>
+                <Item Key="User" Translatable="1">User</Item>
+                <Item Key="CustomerUser" Translatable="1">CustomerUser</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Service" Translatable="1">Service</Item>
+                <Item Key="Type" Translatable="1">Type</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="SLA" Translatable="1">SLA</Item>
+                <Item Key="State" Translatable="1">State</Item>
+                <Item Key="Owner" Translatable="1">Owner</Item>
+                <Item Key="Process" Translatable="1">Process</Item>
+                <Item Key="Responsible" Translatable="1">Responsible</Item>
+                <Item Key="DynamicField" Translatable="1">DynamicField</Item>
+                <Item Key="Ticket" Translatable="1">Ticket</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9694,12 +9981,12 @@
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <Array>
-                <Item>From</Item>
-                <Item>To</Item>
-                <Item>Cc</Item>
+                <Item Translatable="1">From</Item>
+                <Item Translatable="1">To</Item>
+                <Item Translatable="1">Cc</Item>
                 <Item>Reply-To</Item>
                 <Item>ReplyTo</Item>
-                <Item>Subject</Item>
+                <Item Translatable="1">Subject</Item>
                 <Item>Message-ID</Item>
                 <Item>Message-Id</Item>
                 <Item>Resent-To</Item>
@@ -9726,6 +10013,7 @@
                 <Item>X-Original-To</Item>
                 <Item>Delivered-To</Item>
                 <Item>Envelope-To</Item>
+                <Item>X-Envelope-To</Item>
                 <Item>Return-Path</Item>
                 <Item>X-OTRS-Owner</Item>
                 <Item>X-OTRS-OwnerID</Item>
@@ -9919,8 +10207,8 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
-                <Item Key="ArticleType">email-internal</Item>
-                <Item Key="SenderType">customer</Item>
+                <Item Key="ArticleType" Translatable="1">email-internal</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9938,8 +10226,8 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9957,8 +10245,8 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9976,8 +10264,8 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9995,12 +10283,12 @@ Thanks for your help!
                 <Item Key="SearchInBody">1</Item>
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
-                <Item Key="SenderType">system</Item>
-                <Item Key="ArticleType">note-report</Item>
+                <Item Key="SenderType" Translatable="1">system</Item>
+                <Item Key="ArticleType" Translatable="1">note-report</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="0" Valid="1">
         <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -10010,7 +10298,7 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="1" Valid="1">
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-References" Required="0" Valid="1">
         <Description Translatable="1">Executes follow-up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -10099,8 +10387,8 @@ Thanks for your help!
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
             <Array>
-                <Item>merged</Item>
-                <Item>removed</Item>
+                <Item Translatable="1">merged</Item>
+                <Item Translatable="1">removed</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -10616,6 +10904,40 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
+        <Description Translatable="1">AgentTicketZoom widget that displays ticket data in the side bar.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketZoom::TicketInformation</Item>
+                <Item Key="Location">Sidebar</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###Widgets###0200-CustomerInformation" Required="0" Valid="1">
+        <Description Translatable="1">AgentTicketZoom widget that displays customer information for the ticket in the side bar.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketZoom::CustomerInformation</Item>
+                <Item Key="Location">Sidebar</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+   <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable" Required="0" Valid="1">
+        <Description Translatable="1">AgentTicketZoom widget that displays a table of objects linked to the ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketZoom::LinkTable</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
         <Group>Ticket</Group>
@@ -11140,12 +11462,12 @@ Thanks for your help!
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Answer">Answer</Item>
-                <Item Key="Create">Create</Item>
-                <Item Key="Forward">Forward</Item>
-                <Item Key="Email">Email</Item>
-                <Item Key="PhoneCall">Phone call</Item>
-                <Item Key="Note">Note</Item>
+                <Item Key="Answer" Translatable="1">Answer</Item>
+                <Item Key="Create" Translatable="1">Create</Item>
+                <Item Key="Forward" Translatable="1">Forward</Item>
+                <Item Key="Email" Translatable="1">Email</Item>
+                <Item Key="PhoneCall" Translatable="1">Phone call</Item>
+                <Item Key="Note" Translatable="1">Note</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -11399,7 +11721,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::Frontend::AgentTicketService###DefaultColumns" Required="0" Valid="1">
         <Description Translatable="1">Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>

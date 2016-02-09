@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,7 @@
         <div class="Field">
             [% Data.SelectField %]
         </div>
+        <div class="Clear"></div>
 [% RenderBlockEnd("MultiSelectField") %]
 [% RenderBlockStart("Time") %]
         <label>[% Translate("Scale") | html %]:</label>
@@ -27,7 +28,7 @@
             [% Data.TimeScaleUnit %]
             <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
 #            <p class="FieldExplanation">
-#                [% Translate("Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).") | html %]
+#                [% Translate("Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).") | html %]
 #            </p>
 # [% Data.TimeScaleCount %] Comment: Danger to use and no best practise
         </div>

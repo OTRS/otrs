@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -149,6 +149,12 @@ sub Send {
             Message  => 'Need To, Cc or Bcc!'
         );
         return;
+    }
+
+    # exchanging original reference prevent it to grow up
+    if ( ref $Param{Attachment} && ref $Param{Attachment} eq 'ARRAY' ) {
+        my @LocalAttachment = @{ $Param{Attachment} };
+        $Param{Attachment} = \@LocalAttachment;
     }
 
     # get config object
@@ -447,13 +453,32 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
+            my $Encoding = $Upload->{Encoding};
+            if ( !$Encoding ) {
+
+                # attachments of unknown text/* content types might be displayed directly in mail clients
+                # because MIME::Entity detects them as 'quoted printable'
+                # this causes problems e.g. for pdf files with broken text/pdf content type
+                # therefore we fall back to 'base64' in these cases
+                if (
+                    $Upload->{ContentType} =~ m{ \A text/  }xmsi
+                    && $Upload->{ContentType} !~ m{ \A text/ (?: plain | html ) ; }xmsi
+                    )
+                {
+                    $Encoding = 'base64';
+                }
+                else {
+                    $Encoding = '-SUGGEST';
+                }
+            }
+
             # attach file to email (no content id needed)
             $Entity->attach(
                 Filename    => $Filename,
                 Data        => $Upload->{Content},
                 Type        => $Upload->{ContentType},
                 Disposition => $Upload->{Disposition} || 'inline',
-                Encoding    => $Upload->{Encoding} || '-SUGGEST',
+                Encoding    => $Encoding,
             );
         }
     }
@@ -473,9 +498,21 @@ sub Send {
 
         if ( $Param{Sign}->{Type} eq 'PGP' ) {
 
+            # determine used digest for proper micalg declaration
+            my $ClearSign = $CryptObject->Sign(
+                Message => 'dummy',
+                Key     => $Param{Sign}->{Key},
+                Type    => 'Clearsign',
+                Charset => $Param{Charset},
+            );
+            my $DigestAlgorithm = 'sha1';
+            if ($ClearSign) {
+                $DigestAlgorithm = lc $1 if $ClearSign =~ m{ \n Hash: [ ] ([^\n]+) \n }xms;
+            }
+
             # make_multipart -=> one attachment for sign
             $Entity->make_multipart(
-                "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
+                "signed; micalg=pgp-$DigestAlgorithm; protocol=\"application/pgp-signature\";",
                 Force => 1,
             );
 
@@ -492,13 +529,13 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
-            # it sign failed, remove singned multi part
+            # it sign failed, remove multi part
             if ( !$Sign ) {
                 $Entity->make_singlepart();
             }
             else {
 
-                # addach sign to email
+                # attach signature to email
                 $Entity->attach(
                     Filename => 'pgp_sign.asc',
                     Data     => $Sign,

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,14 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # set config
 $ConfigObject->Set(
     Key   => 'PGP',
@@ -26,7 +34,10 @@ $ConfigObject->Set(
 );
 $ConfigObject->Set(
     Key   => 'PGP::Key::Password',
-    Value => { '04A17B7A' => 'somepass' },
+    Value => {
+        '04A17B7A' => 'somepass',
+        '114D1CB6' => 'somepass',
+    },
 );
 
 # check if gpg is located there
@@ -52,6 +63,7 @@ if ( !$PGPObject ) {
 my %Search = (
     1 => 'unittest@example.com',
     2 => 'unittest2@example.com',
+    3 => 'unittest3@example.com',
 );
 
 my %Check = (
@@ -77,11 +89,23 @@ my %Check = (
         Fingerprint      => '36E9 9F7F AD76 6405 CBE1  BB42 F533 1A46 F097 4D10',
         FingerprintShort => '36E99F7FAD766405CBE1BB42F5331A46F0974D10',
     },
+    3 => {
+        Type             => 'pub',
+        Identifier       => 'unit test <unittest3@example.com>',
+        Bit              => '4096',
+        Key              => 'E023689E',
+        KeyPrivate       => '114D1CB6',
+        Created          => '2015-12-16',
+        Expires          => 'never',
+        Fingerprint      => '8C99 1F7D CFD0 5245 8DD7  F2E3 EC9A 3128 E023 689E',
+        FingerprintShort => '8C991F7DCFD052458DD7F2E3EC9A3128E023689E',
+    },
 );
 
 my $TestText = 'hello1234567890öäüß';
+my $Home     = $ConfigObject->Get('Home');
 
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
@@ -94,7 +118,7 @@ for my $Count ( 1 .. 2 ) {
     for my $Privacy ( 'Private', 'Public' ) {
 
         my $KeyString = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $Home . "/scripts/test/sample/Crypt/",
             Filename  => "PGP${Privacy}Key-$Count.asc",
         );
         my $Message = $PGPObject->KeyAdd(
@@ -258,7 +282,7 @@ for my $Count ( 1 .. 2 ) {
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
         my $Content = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $Home . "/scripts/test/sample/Crypt/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );
@@ -398,6 +422,135 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
+# check signing for different digest types
+# only key 3 currently supports all those types
+for my $Count (3) {
+
+    my @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+
+    my %DeprecatedDigestTypes = (
+        md5 => 1,
+    );
+    for my $DigestPreference (qw(md5 sha1 sha224 sha256 sha384 sha512)) {
+
+        # set digest type
+        $ConfigObject->Set(
+            Key   => 'PGP::Options::DigestPreference',
+            Value => $DigestPreference,
+        );
+
+        # sign inline
+        my $Sign = $PGPObject->Sign(
+            Message => $TestText,
+            Key     => $Keys[0]->{KeyPrivate},
+            Type    => 'Inline'                  # Detached|Inline
+        );
+        if ( $DeprecatedDigestTypes{$DigestPreference} ) {
+            $Self->False(
+                $Sign || '',
+                "#$Count Sign() using $DigestPreference fail - inline",
+            );
+        }
+        else {
+            $Self->True(
+                $Sign || '',
+                "#$Count Sign() using $DigestPreference - inline",
+            );
+
+            # verify used digest algtorithm
+            my $DigestAlgorithm;
+            $DigestAlgorithm = lc $1 if $Sign =~ m{ \n Hash: [ ] ([^\n]+) \n }xms;
+            $Self->Is(
+                $DigestAlgorithm || '',
+                $DigestPreference,
+                "#$Count Sign() - check used digest algorithm",
+            );
+
+            # verify
+            my %Verify = $PGPObject->Verify(
+                Message => $Sign,
+            );
+
+            $Self->True(
+                $Verify{Successful} || '',
+                "#$Count Verify() - inline",
+            );
+            $Self->Is(
+                $Verify{KeyID} || '',
+                $Check{$Count}->{Key},
+                "#$Count Verify() - inline - KeyID",
+            );
+            $Self->Is(
+                $Verify{KeyUserID} || '',
+                $Check{$Count}->{Identifier},
+                "#$Count Verify() - inline - KeyUserID",
+            );
+
+            # verify failure on manipulated text
+            my $ManipulatedSign = $Sign;
+            $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
+            %Verify = $PGPObject->Verify(
+                Message => $ManipulatedSign,
+            );
+            $Self->True(
+                !$Verify{Successful},
+                "#$Count Verify() - on manipulated text",
+            );
+        }
+
+        # sign detached
+        $Sign = $PGPObject->Sign(
+            Message => $TestText,
+            Key     => $Keys[0]->{KeyPrivate},
+            Type    => 'Detached'                # Detached|Inline
+        );
+        if ( $DeprecatedDigestTypes{$DigestPreference} ) {
+            $Self->False(
+                $Sign || '',
+                "#$Count Sign() using $DigestPreference fail - detached",
+            );
+        }
+        else {
+            $Self->True(
+                $Sign || '',
+                "#$Count Sign() using $DigestPreference - detached",
+            );
+
+            # verify
+            my %Verify = $PGPObject->Verify(
+                Message => $TestText,
+                Sign    => $Sign,
+            );
+            $Self->True(
+                $Verify{Successful} || '',
+                "#$Count Verify() - detached",
+            );
+            $Self->Is(
+                $Verify{KeyID} || '',
+                $Check{$Count}->{Key},
+                "#$Count Verify() - detached - KeyID",
+            );
+            $Self->Is(
+                $Verify{KeyUserID} || '',
+                $Check{$Count}->{Identifier},
+                "#$Count Verify() - detached - KeyUserID",
+            );
+
+            # verify failure
+            %Verify = $PGPObject->Verify(
+                Message => " $TestText ",
+                Sign    => $Sign,
+            );
+            $Self->True(
+                !$Verify{Successful},
+                "#$Count Verify() - detached on manipulated text",
+            );
+        }
+    }
+}
+
 # check for expired and revoked PGP keys
 {
 
@@ -406,7 +559,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get expired key
     my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-Expired.asc',
     );
 
@@ -430,7 +583,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get key
     $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-ToRevoke.asc',
     );
 
@@ -439,7 +592,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get key
     $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Directory => $Home . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-RevokeCert.asc',
     );
 
@@ -459,7 +612,7 @@ for my $Count ( 1 .. 2 ) {
 }
 
 # delete keys
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
@@ -491,5 +644,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count KeySearch()",
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

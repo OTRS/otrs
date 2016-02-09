@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -414,15 +414,15 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register submit
                 $('#SearchFormSubmit').bind('click', function () {
-                    var ShownAttributes = '';
+                    var ShownAttributes = [];
 
                     // remember shown attributes
                     $('#SearchInsert label').each(function () {
                         if ($(this).attr('id')) {
-                            ShownAttributes = ShownAttributes + ';' + $(this).attr('id');
+                            ShownAttributes.push($(this).attr('id'));
                         }
                     });
-                    $('#SearchForm #ShownAttributes').val(ShownAttributes);
+                    $('#SearchForm #ShownAttributes').val(ShownAttributes.join(';'));
 
                     // Normal results mode will return HTML in the same window
                     if ($('#SearchForm #ResultForm').val() === 'Normal') {

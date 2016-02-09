@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -225,7 +225,16 @@ sub SendNotification {
             %Address = $QueueObject->GetSystemAddress( QueueID => $Ticket{QueueID} );
         }
 
-        my $ArticleType = $Recipient{NotificationArticleType} || 'email-notification-ext';
+        my $ArticleType = 'email-notification-ext';
+
+        if ( IsArrayRefWithData( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) ) {
+
+            # get notification article type
+            $ArticleType = $TicketObject->ArticleTypeLookup(
+                ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0],
+            );
+        }
+
         my $ArticleID = $TicketObject->ArticleSend(
             ArticleType    => $ArticleType,
             SenderType     => 'system',

@@ -1,12 +1,11 @@
 package Text::Diff::Config;
 
+use 5.006;
 use strict;
 use warnings;
 
-use vars '$VERSION';
-$VERSION   = '1.41';
-
-use vars qw($Output_Unicode);
+our $VERSION   = '1.43';
+our $Output_Unicode;
 
 BEGIN
 {

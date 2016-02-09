@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,13 +52,13 @@ $Selenium->RunTest(
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is disabled
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
         $Self->True(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) == -1,
             "NavBar 'Customer Administration' button NOT available when frontend AdminCustomerCompany module is disabled",
         );
 
-        # Sleep a little bit so that mod_perl can detect that the system configuration changed and reload it.
+        # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 1;
 
         # enable frontend AdminCustomerCompany module
@@ -67,7 +67,7 @@ $Selenium->RunTest(
         );
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is enabled
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) > -1,
             "NavBar 'Customer Administration' button IS available when frontend AdminCustomerCompany module is enable",

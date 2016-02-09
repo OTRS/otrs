@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -373,6 +373,25 @@ sub _Init {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    # if a day and month are specified validate that the month has that specific day
+    # this could be removed after Schedule::Cron::Events 1.94 is released and tested
+    # see https://rt.cpan.org/Public/Bug/Display.html?id=109246
+    my ( $Min, $Hour, $DayMonth, $Month, $DayWeek ) = split ' ', $Param{Schedule};
+    if ( IsPositiveInteger($DayMonth) && IsPositiveInteger($Month) ) {
+
+        my @MonthLastDay = ( 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
+        my $LastDayOfMonth = $MonthLastDay[ $Month - 1 ];
+
+        if ( $DayMonth > $LastDayOfMonth ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Schedule: $Param{Schedule} is invalid",
             );
 
             return;

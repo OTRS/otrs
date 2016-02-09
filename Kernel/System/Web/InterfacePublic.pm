@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::System::Web::InterfacePublic;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -159,18 +161,22 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$DBCanConnect ) {
-        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+        $LayoutObject->CustomerFatalError(
+            Comment => Translatable('Please contact your administrator'),
+        );
     }
     if ( $ParamObject->Error() ) {
         $LayoutObject->CustomerFatalError(
             Message => $ParamObject->Error(),
-            Comment => 'Please contact your administrator'
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
-        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+        $LayoutObject->CustomerFatalError(
+            Comment => Translatable('Please contact your administrator'),
+        );
         return 1;
     }
 
@@ -182,7 +188,9 @@ sub Run {
             Message =>
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
-        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
+        $LayoutObject->CustomerFatalError(
+            Comment => Translatable('Please contact your administrator'),
+        );
         return;
     }
 
@@ -197,6 +205,7 @@ sub Run {
     my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
         UserID => 1,
         %Param,
+        Debug => $Self->{Debug},
     );
 
     # debug info

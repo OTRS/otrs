@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -232,7 +233,7 @@ sub Run {
 
     my %Filters = (
         All => {
-            Name   => 'All tickets',
+            Name   => Translatable('All tickets'),
             Prio   => 1000,
             Search => {
                 StateIDs => \@ViewableStateIDs,
@@ -244,7 +245,7 @@ sub Run {
             },
         },
         Unlocked => {
-            Name   => 'Available tickets',
+            Name   => Translatable('Available tickets'),
             Prio   => 1001,
             Search => {
                 LockIDs  => \@ViewableLockIDs,
@@ -482,7 +483,7 @@ sub Run {
         View   => $View,
 
         Bulk       => 1,
-        TitleName  => 'QueueView',
+        TitleName  => Translatable('QueueView'),
         TitleValue => $NavBar{SelectedQueue} . $SubQueueIndicatorTitle,
 
         Env        => $Self,
@@ -606,6 +607,7 @@ sub _MaskQueueView {
     }
 
     # build queue string
+    QUEUE:
     for my $QueueRef (@ListedQueues) {
         my $QueueStrg = '';
         my %Queue     = %$QueueRef;
@@ -620,6 +622,22 @@ sub _MaskQueueView {
         my $ShortQueueName = $QueueName[-1];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
+
+        # skip empty Queues (or only locked tickets)
+        if (
+            # only check when setting is set
+            $Config->{HideEmptyQueues}
+
+            # empty or locked only
+            && $Counter{ $Queue{Queue} } < 1
+
+            # always show 'my queues'
+            && $Queue{QueueID} != 0
+            )
+        {
+            # TODO: check what 'Ticket::ViewableLocks' affects
+            next QUEUE;
+        }
 
         my $View   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'View' )   || '';
         my $Filter = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Filter' ) || 'Unlocked';

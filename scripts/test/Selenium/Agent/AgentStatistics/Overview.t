@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,12 +19,24 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', 'stats' ],
         ) || die "Did not get test user";
+
+        # update the number of max stats shown on one page
+        my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Stats::SearchPageShown',
+            Value => 1000,
+        );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -33,7 +45,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview");
 
         # check layout screen
         $Selenium->find_element( "table",             'css' );
@@ -61,6 +73,7 @@ $Selenium->RunTest(
         );
 
         # open the default stats
+        STATID:
         for my $StatID ( @{$StatsIDs} ) {
 
             # check edit link
@@ -97,7 +110,7 @@ $Selenium->RunTest(
 
             # go to view screen of statistics
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentStatistics;Subaction=View;StatID=$StatID\' )]")
-                ->click();
+                ->VerifiedClick();
 
             # check 'Go to overview' link on the view screen
             $Self->True(
@@ -120,7 +133,7 @@ $Selenium->RunTest(
             );
 
             # go to overview screen
-            $Selenium->find_element( "Cancel", 'link_text' )->click();
+            $Selenium->find_element( "Cancel", 'link_text' )->VerifiedClick();
 
         }
     }

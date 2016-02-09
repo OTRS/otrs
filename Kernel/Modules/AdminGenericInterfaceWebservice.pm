@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -928,7 +928,7 @@ sub _ShowEdit {
     # meta configuration for output blocks
     my %CommTypeConfig = (
         Provider => {
-            Title             => 'OTRS as provider',
+            Title             => $LayoutObject->{LanguageObject}->Translate('OTRS as provider'),
             SelectedTransport => $ProviderData->{Transport}->{Type},
             ActionType        => 'Operation',
             ActionsTitle      => 'Operations',
@@ -936,7 +936,7 @@ sub _ShowEdit {
             ControllerData    => \%GIOperations,
         },
         Requester => {
-            Title             => 'OTRS as requester',
+            Title             => $LayoutObject->{LanguageObject}->Translate('OTRS as requester'),
             SelectedTransport => $RequesterData->{Transport}->{Type},
             ActionType        => 'Invoker',
             ActionsTitle      => 'Invokers',

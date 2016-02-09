@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,6 +48,7 @@ $Selenium->RunTest(
             Value => \%QueuePreferences,
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -61,10 +62,10 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to queue admin
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
 
         # add new queue
-        $Selenium->find_element( "a.Create", 'css' )->click();
+        $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
 
         # check add page, and especially included queue attribute Comment2
         for my $ID (
@@ -89,7 +90,7 @@ $Selenium->RunTest(
 
         # set included queue attribute Comment2
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('QueuePreferences Comment2');
-        $Selenium->find_element( "#Name",     'css' )->submit();
+        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
 
         # check if test queue is created
         $Self->True(
@@ -98,7 +99,7 @@ $Selenium->RunTest(
         );
 
         # go to new queue again
-        $Selenium->find_element( $RandomQueueName, 'link_text' )->click();
+        $Selenium->find_element( $RandomQueueName, 'link_text' )->VerifiedClick();
 
         # check queue value for Comment2
         $Self->Is(
@@ -114,10 +115,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",     'css' )->send_keys($UpdatedName);
         $Selenium->find_element( "#Comment2", 'css' )->clear();
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
-        $Selenium->find_element( "#Comment2", 'css' )->submit();
+        $Selenium->find_element( "#Comment2", 'css' )->VerifiedSubmit();
 
         # check updated values
-        $Selenium->find_element( $UpdatedName, 'link_text' )->click();
+        $Selenium->find_element( $UpdatedName, 'link_text' )->VerifiedClick();
+
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
             $UpdatedName,
@@ -129,18 +131,21 @@ $Selenium->RunTest(
             "#Comment2 updated value",
         );
 
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
         # delete test queue
         my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
             Queue => $UpdatedName,
         );
-        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        my $Success = $DBObject->Do(
             SQL => "DELETE FROM queue_preferences WHERE queue_id = $QueueID",
         );
         $Self->True(
             $Success,
             "QueuePreferences are deleted - $UpdatedName",
         );
-        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        $Success = $DBObject->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
         $Self->True(

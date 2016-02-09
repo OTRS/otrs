@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,19 +12,28 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
-my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
-my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
-my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
-my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
-my $Selenium            = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # enable FilterQueuesWithoutAutoResponse filter
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'FilterQueuesWithoutAutoResponses',
+            Value => 1,
+        );
+
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -37,7 +46,7 @@ $Selenium->RunTest(
 
         # add test queue
         my $QueueRandomID = "queue" . $Helper->GetRandomID();
-        my $QueueID       = $QueueObject->QueueAdd(
+        my $QueueID       = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueRandomID,
             ValidID         => 1,
             GroupID         => 1,
@@ -47,6 +56,13 @@ $Selenium->RunTest(
             UserID          => 1,
             Comment         => 'Selenium Test',
         );
+        $Self->True(
+            $QueueID,
+            "Created Queue - $QueueRandomID",
+        );
+
+        # get system address object
+        my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
         # add test system address
         my $SystemAddressRandomID = "sysadd" . $Helper->GetRandomID();
@@ -57,6 +73,10 @@ $Selenium->RunTest(
             QueueID  => 1,
             Comment  => 'Selenium Test',
             UserID   => 1,
+        );
+        $Self->True(
+            $SystemAddressID,
+            "Created SystemAddress - $SystemAddressRandomID",
         );
 
         my $AutoResponseNameRand;
@@ -101,7 +121,7 @@ $Selenium->RunTest(
         my @AutoResponseIDs;
         for my $Test (@Tests) {
             my $AutoResponseNameRand = $Test->{Name} . $Helper->GetRandomID();
-            my $AutoResponseID       = $AutoResponseObject->AutoResponseAdd(
+            my $AutoResponseID       = $Kernel::OM->Get('Kernel::System::AutoResponse')->AutoResponseAdd(
                 Name        => $AutoResponseNameRand,
                 Subject     => $Test->{Subject},
                 Response    => 'Some Response',
@@ -113,6 +133,10 @@ $Selenium->RunTest(
                 ValidID     => 1,
                 UserID      => 1,
             );
+            $Self->True(
+                $AutoResponseID,
+                "Created AutoResponse - $AutoResponseNameRand",
+            );
 
             push @AutoResponseIDs, {
                 ID   => $AutoResponseID,
@@ -120,11 +144,13 @@ $Selenium->RunTest(
             };
         }
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # check AdminQueueAutoResponse screen
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueueAutoResponse");
+        # navigate to AdminQueueAutoResponse screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueueAutoResponse");
 
+        # check overview AdminQueueAutoResponse
         for my $ID (
             qw(Queues AutoResponses FilterQueues FilterAutoResponses)
             )
@@ -157,21 +183,18 @@ $Selenium->RunTest(
             "$AutoResponseIDs[1]->{Name} found on screen",
         );
 
-        my $Success;
-        eval {
-            $Success = $Selenium->find_element(
-                "//a[contains(\@href, 'Action=AdminAutoResponse;Subaction=Change;ID=$AutoResponseIDs[2]->{ID}' )]"
-                )->is_displayed(),
-        };
-
-        $Self->False(
-            $Success,
+        $Self->True(
+            index(
+                $Selenium->get_page_source(),
+                'Action=AdminAutoResponse;Subaction=Change;ID=$AutoResponseIDs[2]->{ID}'
+                ) == -1,
             "$AutoResponseIDs[2]->{Name} is not found screen",
         );
+
+        # clear filter
         $Selenium->find_element( "#FilterAutoResponses", 'css' )->clear();
 
         # test search filter queue
-
         $Selenium->find_element( "#FilterQueues", 'css' )->send_keys($QueueRandomID);
         sleep 1;
 
@@ -183,7 +206,8 @@ $Selenium->RunTest(
         sleep 1;
 
         # check auto response relation for queue screen
-        $Selenium->find_element( $QueueRandomID, 'link_text' )->click();
+        $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();
+
         my $Index = 0;
         for my $Test (@Tests)
         {
@@ -205,10 +229,11 @@ $Selenium->RunTest(
             $Index++;
         }
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check new QueueAutoResponse relations
-        $Selenium->find_element( $QueueRandomID, 'link_text' )->click();
+        $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();
+
         $Index = 0;
         for my $Test (@Tests)
         {
@@ -222,9 +247,24 @@ $Selenium->RunTest(
 
         }
 
-        # Since there are no tickets that rely on our test QueueAutoResponse,
+        # click 'Go to overview'
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminQueueAutoResponse' )]")->VerifiedClick();
+
+        # test QueuesWithoutAutoResponse filter
+        $Selenium->find_element("//a[contains(\@href, 'Filter=QueuesWithoutAutoResponses' )]")->VerifiedClick();
+
+        # verify filter excluded test queue from the list
+        $Self->True(
+            index( $Selenium->get_page_source(), $QueueRandomID ) == -1,
+            "$QueueRandomID not found on screen with QueuesWithoutAutoResponses filter on"
+        );
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # since there are no tickets that rely on our test QueueAutoResponse,
         # we can remove test queue, system address and auto response from the DB
-        $Success = $DBObject->Do(
+        my $Success = $DBObject->Do(
             SQL => "DELETE FROM queue_auto_response WHERE queue_id = $QueueID",
         );
         $Self->True(
@@ -239,7 +279,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Deleted AutoResponse - $AutoResponse->{ID}",
+                "Deleted AutoResponse - $AutoResponse->{Name}",
             );
         }
 
@@ -267,7 +307,7 @@ $Selenium->RunTest(
             );
         }
 
-        # Make sure the caches are correct.
+        # make sure the caches are correct
         for my $Cache (
             qw (Queue AutoResponse SystemAddress QueueAutoResponse)
             )

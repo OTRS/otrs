@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,16 +118,21 @@ if ( !$SMIMEObject ) {
 my %Search = (
     1 => 'unittest@example.org',
     2 => 'unittest2@example.org',
+    3 => 'unittest3@example.org',
+    4 => 'unittest4@example.org',
+    5 => 'unittest5@example.org',
 );
 
 # 0.9.x hashes
 my $CheckHash1 = '980a83c7';
 my $CheckHash2 = '999bcb2f';
+my $CheckHash3 = 'c3857c0d';
 
 # 1.0.0 hashes
 if ($UseNewHashes) {
     $CheckHash1 = 'f62a2257';
     $CheckHash2 = '35c7d865';
+    $CheckHash3 = 'a2ba8622';
 }
 
 my %Check = (
@@ -166,6 +171,26 @@ my %Check = (
         ShortEndDate   => '2026-01-15',
         StartDate      => 'May  8 13:29:18 2012 GMT',
         ShortStartDate => '2012-05-08',
+    },
+    3 => {
+        Modulus =>
+            'EA59D299CD8751ED3DDC34EE92AAC16FF6D1763D4DA58AA925F3691174299ACB7529651B277220A07AF7A6E72D3D151E2885ABCD8AAB4D9F6C9B7ABC2806D21C037C323112EC3644A3C67AF228C20B5B5B62790F9FC3B69FCD2BE7927ADF34CFFEB43EA0F4FD33003F8154CDC299C7268049ABDBB206720D9EA92D69721776F67C4970C778163CAE4D3CC2E5C7DF2654BCAFB8AC33FEEFA2D88531A65A2AD4AD6B83F3D7AF8C2334B0F598C7E112E6BA36A6D3FB828F052930CF492FDBA0C97C6B0685A6A1B4B11DC63A2EA1AFAA541A68364B1EC1A209AC7139283EFA8ECC4F8E2BA7096956BAE21278C4DEB61D2EE8FD774EC911DCEEE82CFC3171D24A9F89',
+        Subject =>
+            'C= DE ST= Bayern L= Straubing OU= OTRS AG CN= unittest emailAddress= unittest3@example.org',
+        Hash        => $CheckHash3,
+        Private     => 'No',
+        Serial      => 'DB93537C2A2E851C',
+        Fingerprint => '91:49:EA:53:42:B3:2F:02:7E:C1:D6:6F:C9:20:FA:26:8B:9C:4F:CF',
+        Type        => 'cert',
+        Issuer =>
+            '/C= DE/ST= Bayern/L= Straubing/OU= OTRS AG/CN= unittest/emailAddress= unittest3@example.org',
+
+        # this is the display for alternate names (SubjectAltName)
+        Email          => 'unittest3@example.org, unittest4@example.org, unittest5@example.org',
+        EndDate        => 'Dec 17 03:31:35 2035 GMT',
+        ShortEndDate   => '2035-12-17',
+        StartDate      => 'Dec 22 03:31:35 2015 GMT',
+        ShortStartDate => '2015-12-22',
     },
     'cert-1' => '-----BEGIN CERTIFICATE-----
 MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
@@ -220,18 +245,43 @@ TtZDIk1lGfM1ZuXWeQfOUE4N0bOM+idDDMk3mcyy9wpkxAgq++FUQXwhwUnpeiZi
 m012tpyvuaVVcNTY5MXgvonWtH2Vv8VnnBJ/at//961DX9u67qIQaIqReU18HjJ3
 w/5UXrBm/VSYu01mcpSN4rCPM9onzepmEA==
 -----END CERTIFICATE-----
-'
+',
+    'cert-3' => '-----BEGIN CERTIFICATE-----
+MIIDyTCCArGgAwIBAgIJANuTU3wqLoUcMA0GCSqGSIb3DQEBCwUAMH0xCzAJBgNV
+BAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xEjAQBgNVBAcMCVN0cmF1YmluZzEQMA4G
+A1UECwwHT1RSUyBBRzERMA8GA1UEAwwIdW5pdHRlc3QxJDAiBgkqhkiG9w0BCQEW
+FXVuaXR0ZXN0M0BleGFtcGxlLm9yZzAeFw0xNTEyMjIwMzMxMzVaFw0zNTEyMTcw
+MzMxMzVaMH0xCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xEjAQBgNVBAcM
+CVN0cmF1YmluZzEQMA4GA1UECwwHT1RSUyBBRzERMA8GA1UEAwwIdW5pdHRlc3Qx
+JDAiBgkqhkiG9w0BCQEWFXVuaXR0ZXN0M0BleGFtcGxlLm9yZzCCASIwDQYJKoZI
+hvcNAQEBBQADggEPADCCAQoCggEBAOpZ0pnNh1HtPdw07pKqwW/20XY9TaWKqSXz
+aRF0KZrLdSllGydyIKB696bnLT0VHiiFq82Kq02fbJt6vCgG0hwDfDIxEuw2RKPG
+evIowgtbW2J5D5/Dtp/NK+eSet80z/60PqD0/TMAP4FUzcKZxyaASavbsgZyDZ6p
+LWlyF3b2fElwx3gWPK5NPMLlx98mVLyvuKwz/u+i2IUxploq1K1rg/PXr4wjNLD1
+mMfhEua6NqbT+4KPBSkwz0kv26DJfGsGhaahtLEdxjouoa+qVBpoNksewaIJrHE5
+KD76jsxPjiunCWlWuuISeMTeth0u6P13TskR3O7oLPwxcdJKn4kCAwEAAaNMMEow
+DwYDVR0TBAgwBgEB/wIBADA3BgNVHREEMDAugRV1bml0dGVzdDRAZXhhbXBsZS5v
+cmeBFXVuaXR0ZXN0NUBleGFtcGxlLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAQHBd
+W0OJu29/u7f89QHEfxMYkux5gZvOim7RMCUEVLSMfopaTkIU2AXQSyK+nmOCZrZ1
+n7/gjMF9zUQ/K1umiqvmvrQCAE0q+N/InKCws36E0dE27JfsquNzBWidSPRrl9Yx
+9yD/7s9pTSRzPK1JUTNs25/msiNz2MU6jQZsRihrNiRS3irSxnETw3Hei30hm12U
+cVp4MA/FwuqS7BhII4k8gM4ZVUWLYQ2ITZens42F0OeEXAc3tMDy8W2wqhJs3Bm3
+egi0I+rwJjXCUZHw+qq0cRV/nEr4dD5aB84f0prW5ebzV9oQewkgsT0uI2EXa9GS
+5X7YgvH3MoPu/qUmcA==
+-----END CERTIFICATE-----
+',
 );
 
 # remove \r that will have been inserted on Windows automatically
 if ( $^O =~ m{Win}i ) {
     $Check{'cert-1'} =~ tr{\r}{}d;
     $Check{'cert-2'} =~ tr{\r}{}d;
+    $Check{'cert-3'} =~ tr{\r}{}d;
 }
 
 my $TestText = 'hello1234567890öäüß';
 
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Certs[0] || '',
@@ -365,7 +415,6 @@ for my $Count ( 1 .. 2 ) {
         Message => $Sign,
         CACert  => "$CertPath/$Certs[0]->{Filename}",
     );
-
     $Self->True(
         $Verify{Successful} || '',
         "#$Count Verify() - self signed sending certificate path",
@@ -458,8 +507,30 @@ for my $Count ( 1 .. 2 ) {
     }
 }
 
+# test search for alternate names, based on check 3
+# we have private keys now though
+$Check{3}->{Private} = 'Yes';
+for my $Count ( 3 .. 5 ) {
+    my @Certs = $SMIMEObject->CertificateSearch(
+        Search => $Search{$Count},
+    );
+
+    $Self->True(
+        $Certs[0] || '',
+        "#$Count CertificateSearch()",
+    );
+
+    for my $ID ( sort keys %{ $Check{3} } ) {
+        $Self->Is(
+            $Certs[0]->{$ID} || '',
+            $Check{3}->{$ID},
+            "#$Count CertificateSearch() - $ID",
+        );
+    }
+}
+
 # delete keys
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Keys = $SMIMEObject->Search(
         Search => $Search{$Count},
     );
@@ -2429,7 +2500,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 }
 
 # attributes cache tests
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Certs[0] || '',
@@ -2651,7 +2722,7 @@ for my $Count ( 1 .. 2 ) {
 }
 
 # delete keys
-for my $Count ( 1 .. 2 ) {
+for my $Count ( 1 .. 3 ) {
     my @Keys = $SMIMEObject->Search(
         Search => $Search{$Count},
     );

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -966,7 +966,7 @@ sub DirectoryRead {
 
 =item GenerateRandomString()
 
-generate a random string of defined lenght, and of a defined alphabet.
+generate a random string of defined length, and of a defined alphabet.
 defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
 
     my $String = $MainObject->GenerateRandomString();

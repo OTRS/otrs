@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,15 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 use Time::HiRes qw(sleep);
-
-# get config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# do not checkmx
-$ConfigObject->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => 0,
-);
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -40,6 +31,16 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # don't check email address validity
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['users'],
         ) || die "Did not get test user";
@@ -56,22 +57,25 @@ $Selenium->RunTest(
         my $TestCustomerUser1 = $Helper->TestCustomerUserCreate()
             || die "Did not get test customer user";
 
-        my $RandomID = $Helper->GetRandomID();
+        my $CustomerUser = $Helper->GetRandomID();
 
         my $Success = $CustomerUserObject->CustomerUserUpdate(
             Source         => 'CustomerUser',
             ID             => $TestCustomerUser1,
             UserCustomerID => $TestCustomerUser1,
             UserLogin      => $TestCustomerUser1,
-            UserFirstname  => "$RandomID-1",
-            UserLastname   => "$RandomID-1",
-            UserPassword   => "$RandomID-1",
-            UserEmail      => "$RandomID-1" . '@localunittest.com',
+            UserFirstname  => "$CustomerUser-1",
+            UserLastname   => "$CustomerUser-1",
+            UserPassword   => "$CustomerUser-1",
+            UserEmail      => "$CustomerUser-1" . '@localunittest.com',
             ValidID        => 1,
             UserID         => 1,
         );
 
-        $Self->True( $Success, "Updated test user 1" );
+        $Self->True(
+            $Success,
+            "Updated test user 1"
+        );
 
         my $TestCustomerUser2 = $Helper->TestCustomerUserCreate()
             || die "Did not get test customer user";
@@ -81,44 +85,60 @@ $Selenium->RunTest(
             ID             => $TestCustomerUser2,
             UserCustomerID => $TestCustomerUser2,
             UserLogin      => $TestCustomerUser2,
-            UserFirstname  => "$RandomID-2",
-            UserLastname   => "$RandomID-2",
-            UserPassword   => "$RandomID-2",
-            UserEmail      => "$RandomID-2" . '@localunittest.com',
+            UserFirstname  => "$CustomerUser-2",
+            UserLastname   => "$CustomerUser-2",
+            UserPassword   => "$CustomerUser-2",
+            UserEmail      => "$CustomerUser-2" . '@localunittest.com',
             ValidID        => 1,
             UserID         => 1,
         );
 
-        $Self->True( $Success, "Updated test user 2" );
+        $Self->True(
+            $Success,
+            "Updated test user 2"
+        );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # Normal autocomplete tests
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
+        # open AgentTicketPhone screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         my %AutoCompleteExpected = (
-            "$RandomID"             => 2,
-            "$RandomID-1"           => 1,
-            "$RandomID-2"           => 1,
-            "$RandomID-nonexisting" => 0,
+            "$CustomerUser" => {
+                Expected     => 2,
+                CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                AutocompleteInput =>
+                    "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
+            },
+            "$CustomerUser-1" => {
+                Expected     => 1,
+                CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                AutocompleteInput =>
+                    "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
+            },
+            "$CustomerUser-2" => {
+                Expected     => 1,
+                CustomerUser => "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com>",
+                AutocompleteInput =>
+                    "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com> ($TestCustomerUser2)",
+            },
+            "$CustomerUser-nonexisting" => {
+                Expected => 0,
+            },
         );
 
         for my $AutocompleteInput ( sort keys %AutoCompleteExpected ) {
 
-            # Workaround: type_keys_ok() does not workin Safari.
-            # Use type_ok() instead and emulate the key events.
-            # see http://jira.openqa.org/browse/SRC-760
+            # check autocomplete field
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
-            # wait for autocomplete to load
-            sleep 0.2;
-            WAIT:
-            for ( 1 .. 40 ) {
-                if ( eval { $Selenium->execute_script("return \$.active") == 0; } ) {
-                    last WAIT;
-                }
-                sleep 0.2;
+            if ( $AutoCompleteExpected{$AutocompleteInput}{Expected} ) {
+
+                # wait for autocomplete to load
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                );
             }
 
             my $AutoCompleteEntries = $Selenium->execute_script(
@@ -127,9 +147,25 @@ $Selenium->RunTest(
 
             $Self->Is(
                 $AutoCompleteEntries,
-                $AutoCompleteExpected{$AutocompleteInput},
+                $AutoCompleteExpected{$AutocompleteInput}{Expected},
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
+
+            if ( $AutoCompleteExpected{$AutocompleteInput}{Expected} ) {
+
+                # select customer user
+                $Selenium->find_element("//*[text()='$AutoCompleteExpected{$AutocompleteInput}{AutocompleteInput}']")
+                    ->VerifiedClick();
+
+                # check if customer is selected
+                $Self->Is(
+                    $Selenium->find_element( "#CustomerTicketText_1", 'css' )->get_value(),
+                    $AutoCompleteExpected{$AutocompleteInput}{CustomerUser},
+                    "Customer user is selected",
+                );
+            }
+
+            $Selenium->VerifiedRefresh();
         }
     }
 );

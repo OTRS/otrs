@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -160,7 +160,7 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
-# tests for handling encrypted emails
+# tests for handling signed / encrypted emails
 my @Tests = (
     {
         Name           => 'Encrypted Body, Plain Attachments',
@@ -180,12 +180,22 @@ my @Tests = (
         ArticleSubject => 'PGP Test 2013-07-02-1977-3',
         ArticleBody    => "This is only a test.\n",
     },
+    {
+        Name               => 'Signed 7bit (Short lines)',
+        EmailFile          => '/scripts/test/sample/PGP/Signed_PGP_Test_7bit.eml',
+        CheckSignatureOnly => 1,
+    },
+    {
+        Name               => 'Signed Quoted-Printable (Long Lines)',
+        EmailFile          => '/scripts/test/sample/PGP/Signed_PGP_Test_QuotedPrintable.eml',
+        CheckSignatureOnly => 1,
+    },
 );
 
 # to store added tickets into the system (will be deleted later)
 my @AddedTickets;
 
-# lookp table to get a better idea of postmaster result
+# lookup table to get a better idea of postmaster result
 my %PostMasterReturnLookup = (
     0 => 'error (also false)',
     1 => 'new ticket created',
@@ -195,6 +205,7 @@ my %PostMasterReturnLookup = (
     5 => 'ignored (because of X-OTRS-Ignore header)',
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # read email content (from a file)
@@ -250,8 +261,34 @@ for my $Test (@Tests) {
         );
         my @CheckResult = $CheckObject->Check( Article => \%RawArticle );
 
+        #use Data::Dumper;
+        #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
+
         # sanity destroy object
         $CheckObject = undef;
+
+        if ( $Test->{CheckSignatureOnly} ) {
+
+            RESULTITEM:
+            for my $ResultItem (@CheckResult) {
+
+                next RESULTITEM if $ResultItem->{Key} ne 'Signed';
+
+                $Self->True(
+                    $ResultItem->{SignatureFound},
+                    "$Test->{Name} - Signature found with true",
+                );
+
+                $Self->True(
+                    $ResultItem->{Successful},
+                    "$Test->{Name} - Signature verify with true",
+                );
+
+                last RESULTITEM;
+            }
+
+            next TEST;
+        }
 
         # check actual contents (subject and body)
         my %Article = $TicketObject->ArticleGet(

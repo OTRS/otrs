@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,8 +20,13 @@ my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerAuth;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # add three users
 $ConfigObject->Set(
@@ -35,7 +40,7 @@ my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Param
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
 
-    my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
+    my $UserRand = 'Example-Customer-User' . $Key . $Helper->GetRandomID();
 
     $UserID = $UserRand;
     my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -824,5 +829,7 @@ $Self->Is(
     1,
     "CustomerSourceList - found 1 writable sources",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

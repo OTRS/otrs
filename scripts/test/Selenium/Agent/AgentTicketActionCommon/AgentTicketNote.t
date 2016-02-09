@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,14 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # do not check RichText
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
@@ -52,29 +53,30 @@ $Selenium->RunTest(
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticcket
+        # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            TN           => $TicketObject->TicketCreateNumber(),
-            Title        => "Selenium Test Ticket",
+            Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localhost.com",
+            CustomerUser => 'SeleniumCustomer@localhost.com',
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-
         $Self->True(
             $TicketID,
-            "Ticket is created - $TicketID",
+            "Ticket is created - ID $TicketID",
         );
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # force sub menus to be visible in order to be able to click one of the links
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
@@ -83,8 +85,25 @@ $Selenium->RunTest(
         # click on 'Note' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # open collapsed widgets, if necessary
+        $Selenium->execute_script(
+            "\$('.WidgetSimple.Collapsed .WidgetAction > a').trigger('click');"
+        );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple.Expanded").length;'
+        );
 
         # check page
         for my $ID (
@@ -96,13 +115,44 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # get default subject value from Ticket::Frontend::AgentTicketNote###Subject
+        my $DefaultNoteSubject = $ConfigObject->Get("Ticket::Frontend::AgentTicketNote")->{Subject};
+
         # add note
-        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        my $NoteSubject;
+        if ($DefaultNoteSubject) {
+            $NoteSubject = $DefaultNoteSubject;
+        }
+        else {
+            $NoteSubject = 'Test';
+            $Selenium->find_element( "#Subject", 'css' )->send_keys($NoteSubject);
+        }
+
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # expand Miscellaneous dropdown menu
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # click on 'History' and switch window
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
 
         # confirm note action
         my $NoteMsg = "Added note (Note)";
@@ -111,6 +161,43 @@ $Selenium->RunTest(
             "Ticket note action completed",
         );
 
+        # close history window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
+
+        # switch window
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # check for subject pre-loaded value
+        my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
+
+        $Self->Is(
+            $Selenium->find_element( '#Subject', 'css' )->get_value(),
+            $NoteSubjectRe . ': ' . $NoteSubject,
+            "Reply-To note #Subject pre-loaded value",
+        );
+
+        # close note window
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -118,10 +205,10 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );

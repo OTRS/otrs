@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,6 @@
         <h2 class="Center">[% Translate("Message of the Day") | html %]</h2>
     </div>
     <div class="Content">
-        <p>This is the message of the day. You can edit this in Kernel/Output/HTML/Templates/Standard/Motd.tt.</p>
+        <p>[% Translate("This is the message of the day. You can edit this in Kernel/Output/HTML/Templates/Standard/Motd.tt.") | html %]</p>
     </div>
 </div>

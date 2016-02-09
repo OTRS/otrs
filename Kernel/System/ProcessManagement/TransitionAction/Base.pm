@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,8 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
 );
 
 sub _CheckParams {
@@ -74,10 +76,14 @@ sub _OverrideUserID {
 sub _ReplaceTicketAttributes {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
 
-        # replace ticket attributes such as <OTRS_Ticket_Dynamic_Field_Name1> or
-        # <OTRS_TICKET_Dynamic_Field_Name1>
+        # replace ticket attributes such as <OTRS_Ticket_DynamicField_Name1> or
+        # <OTRS_TICKET_DynamicField_Name1>
         # <OTRS_Ticket_*> is deprecated and should be removed in further versions of OTRS
         my $Count = 0;
         REPLACEMENT:
@@ -88,8 +94,38 @@ sub _ReplaceTicketAttributes {
             )
         {
             my $TicketAttribute = $1;
-            $Param{Config}->{$Attribute}
-                =~ s{<OTRS_TICKET_$TicketAttribute>}{$Param{Ticket}->{$TicketAttribute} // ''}ige;
+
+            if ( $TicketAttribute =~ m{DynamicField_(\S+?)_Value} ) {
+                my $DynamicFieldName = $1;
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next REPLACEMENT if !$DynamicFieldConfig;
+
+                my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
+                );
+
+                $Param{Config}->{$Attribute}
+                    =~ s{<OTRS_TICKET_$TicketAttribute>}{$DisplayValueStrg->{Value} // ''}ige;
+
+                next REPLACEMENT;
+            }
+
+            # if ticket value is scalar substitute all instances (as strings)
+            # this will allow replacements for "<OTRS_TICKET_Title> <OTRS_TICKET_Queue"
+            if ( !ref $Param{Ticket}->{$TicketAttribute} ) {
+                $Param{Config}->{$Attribute}
+                    =~ s{<OTRS_TICKET_$TicketAttribute>}{$Param{Ticket}->{$TicketAttribute} // ''}ige;
+            }
+            else {
+
+                # if the vale is an array (e.g. a multiselect dynamic field) set the value directly
+                # this unfortunately will not let a combination of values to be replaced
+                $Param{Config}->{$Attribute} = $Param{Ticket}->{$TicketAttribute};
+            }
         }
     }
 

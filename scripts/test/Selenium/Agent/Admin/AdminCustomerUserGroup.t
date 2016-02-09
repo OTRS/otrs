@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,22 +12,26 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $Selenium        = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # disable check email address
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0
+        );
 
         # enable CustomerGroupSupport
         $SysConfigObject->ConfigItemUpdate(
@@ -36,6 +40,7 @@ $Selenium->RunTest(
             Value => 1
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -47,8 +52,8 @@ $Selenium->RunTest(
         );
 
         # create new CustomerUser for the tests
-        my $UserRandomID = "user" . $Helper->GetRandomID();
-        my $UserID       = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+        my $UserRandomID   = "user" . $Helper->GetRandomID();
+        my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             UserFirstname  => $UserRandomID,
             UserLastname   => $UserRandomID,
             UserCustomerID => $UserRandomID,
@@ -56,6 +61,10 @@ $Selenium->RunTest(
             UserEmail      => $UserRandomID . '@localhost.com',
             ValidID        => 1,
             UserID         => 1,
+        );
+        $Self->True(
+            $CustomerUserID,
+            "CustomerUserAdd - $CustomerUserID",
         );
 
         # create new Group for the tests
@@ -65,10 +74,19 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
+        $Self->True(
+            $GroupID,
+            "GroupAdd - $GroupID",
+        );
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUserGroup");
+        # navigate to AdminCustomerUserGroup
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUserGroup");
 
         # check overview AdminCustomerUserGroup
         $Selenium->find_element( "#Customers",          'css' );
@@ -101,7 +119,7 @@ $Selenium->RunTest(
         # test CustomerUser filter
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->submit();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->VerifiedSubmit();
 
         $Self->True(
             index( $Selenium->get_page_source(), $UserRandomID ) > -1,
@@ -110,7 +128,7 @@ $Selenium->RunTest(
 
         # clear CustomerUser filter
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->submit();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->VerifiedSubmit();
 
         # test Filter for Groups
         $Selenium->find_element( "#FilterGroups", 'css' )->send_keys($GroupRandomID);
@@ -122,14 +140,14 @@ $Selenium->RunTest(
         );
 
         # change test CustomerUser relations for test Group
-        $Selenium->find_element( $GroupRandomID, 'link_text' )->click();
+        $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check test Group relation for test CustomerUser
         my $CustomerUserLink = "$UserRandomID $UserRandomID <$UserRandomID\@localhost.com> ($UserRandomID)";
-        $Selenium->find_element( $CustomerUserLink, 'link_text' )->click();
+        $Selenium->find_element( $CustomerUserLink, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->is_selected(),
@@ -145,7 +163,10 @@ $Selenium->RunTest(
         # remove test Group relation for test CustomerUser
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # Since there are no tickets that rely on our test CustomerUserGroup we can remove
         # it from DB, delete test CustomerUser and test Group

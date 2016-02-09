@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
+Core.Config.Set('StatsMaxXaxisAttributes', parseInt('[% Config("Stats::MaxXaxisAttributes") %]', 10) );
 Core.Agent.Dashboard.InitStatsConfiguration($('#StatsSettingsBox[% Data.NamePref | html %]'));
 //]]></script>
 [% END %]

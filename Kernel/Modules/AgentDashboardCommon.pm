@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,9 +78,9 @@ sub Run {
                 # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
-                my $Description = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Description} );
+                my $Description = $LayoutObject->{LanguageObject}->Translate( $StatsHash->{$StatID}->{Description} );
 
-                my $Title = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
+                my $Title = $LayoutObject->{LanguageObject}->Translate( $StatsHash->{$StatID}->{Title} );
                 $Title = $LayoutObject->{LanguageObject}->Translate('Statistic') . ': '
                     . $Title . ' ('
                     . $ConfigObject->Get('Stats::StatsHook')
@@ -135,7 +135,7 @@ sub Run {
         my $Name = $ParamObject->GetParam( Param => 'Name' );
         my $Key = $UserSettingsKey . $Name;
 
-        # update ssession
+        # update session
         $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
@@ -190,7 +190,7 @@ sub Run {
             # update runtime vars
             $LayoutObject->{ $Param->{Name} } = $Value;
 
-            # update ssession
+            # update session
             $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Param->{Name},
@@ -243,7 +243,7 @@ sub Run {
             }
             my $Key = $UserSettingsKey . $Name;
 
-            # update ssession
+            # update session
             $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Key,
@@ -286,7 +286,7 @@ sub Run {
             $Data .= $Backend . ';';
         }
 
-        # update ssession
+        # update session
         $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
@@ -518,6 +518,9 @@ sub Run {
         push @Order, $Name;
     }
 
+    # get default columns
+    my $Columns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
+
     # try every backend to load and execute it
     NAME:
     for my $Name (@Order) {
@@ -545,6 +548,29 @@ sub Run {
                 CustomerID => $Self->{CustomerID} || '',
             },
         );
+
+        # show refresh link if refreshing is available
+        if ( $Element{Config}->{CanRefresh} ) {
+
+            my $NameHTML = $Name;
+            $NameHTML =~ s{-}{_}xmsg;
+
+            $LayoutObject->Block(
+                Name => $Element{Config}->{Block} . 'Refresh',
+                Data => {
+                    %{ $Element{Config} },
+                    Name     => $Name,
+                    NameHTML => $NameHTML,
+                },
+            );
+        }
+
+        # if column is not a default column, add it for translation
+        for my $Column ( sort keys %{ $Element{Config}{DefaultColumns} } ) {
+            if ( !defined $Columns->{$Column} ) {
+                $Columns->{$Column} = $Element{Config}{DefaultColumns}{$Column}
+            }
+        }
 
         # show settings link if preferences are available
         if ( $Element{Preferences} && @{ $Element{Preferences} } ) {
@@ -578,6 +604,7 @@ sub Run {
                         Name        => $Param->{Name},
                         SelectedID  => $Param->{SelectedID},
                         Translation => $Param->{Translation},
+                        Class       => 'Modernize',
                     );
                 }
                 $LayoutObject->Block(
@@ -623,7 +650,6 @@ sub Run {
     }
 
     # add translations for the allocation lists for regular columns
-    my $Columns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
 
         COLUMN:
@@ -795,8 +821,8 @@ sub _Element {
 
     # check backends cache (html page cache)
     my $Content;
-    my $CacheKey = $Config{CacheKey};
-    $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheKey    = $Config{CacheKey};
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     if ( !$CacheKey ) {
         $CacheKey = $Name . '-'
@@ -804,7 +830,7 @@ sub _Element {
             . $LayoutObject->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
-        $Content = $Self->{CacheObject}->Get(
+        $Content = $CacheObject->Get(
             Type => 'Dashboard',
             Key  => $CacheKey,
         );
@@ -825,7 +851,7 @@ sub _Element {
 
     # set cache (html page cache)
     if ( !$CacheUsed && $Config{CacheTTL} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $CacheKey,
             Value => $Content,

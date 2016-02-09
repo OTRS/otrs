@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::SearchProfile',
     'Kernel::System::Time',
     'Kernel::System::Valid',
 );
@@ -489,7 +490,12 @@ sub UserUpdate {
         }
     }
 
-    # check if a user with this login (username) already exits
+    # store old user login for later use
+    my $OldUserLogin = $Self->UserLookup(
+        UserID => $Param{UserID},
+    );
+
+    # check if a user with this login (username) already exists
     if (
         $Self->UserLoginExistsCheck(
             UserLogin => $Param{UserLogin},
@@ -552,6 +558,15 @@ sub UserUpdate {
         Value  => $Param{UserMobile} || '',
     );
 
+    # update search profiles if the UserLogin changed
+    if ( lc $OldUserLogin ne lc $Param{UserLogin} ) {
+        $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileUpdateUserLogin(
+            Base         => 'TicketSearch',
+            UserLogin    => $OldUserLogin,
+            NewUserLogin => $Param{UserLogin},
+        );
+    }
+
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -560,7 +575,7 @@ sub UserUpdate {
         Type => $Self->{CacheType},
     );
 
-    # TODO Not needed to delete the cache if ValidID or Name was nat changed
+    # TODO Not needed to delete the cache if ValidID or Name was not changed
 
     my $SystemPermissionConfig = $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || [];
 
@@ -744,7 +759,7 @@ sub SetPassword {
         $CryptedPw = $Pw;
     }
 
-    # crypt with unix crypt
+    # crypt with UNIX crypt
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
@@ -1185,10 +1200,14 @@ sub SetPreferences {
         'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::1',
         'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::0',
         'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Short::0::' . $FirstnameLastNameOrder,
-        'UserList::Short::1::' . $FirstnameLastNameOrder,
-        'UserList::Long::0::' . $FirstnameLastNameOrder,
-        'UserList::Long::1::' . $FirstnameLastNameOrder,
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Short::1::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::0::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::0',
+        'UserList::Long::1::' . $FirstnameLastNameOrder . '::1',
     );
 
     # get cache object
@@ -1403,7 +1422,20 @@ sub _UserFullname {
             . ') ' . $Param{UserLastname}
             . ', ' . $Param{UserFirstname};
     }
-
+    elsif ( $FirstnameLastNameOrder eq '6' ) {
+        $UserFullname = $Param{UserLastname} . ' '
+            . $Param{UserFirstname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '7' ) {
+        $UserFullname = $Param{UserLastname} . ' '
+            . $Param{UserFirstname} . ' ('
+            . $Param{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '8' ) {
+        $UserFullname = '(' . $Param{UserLogin}
+            . ') ' . $Param{UserLastname}
+            . ' ' . $Param{UserFirstname};
+    }
     return $UserFullname;
 }
 
@@ -1413,7 +1445,7 @@ sub _UserFullname {
 
 =item UserLoginExistsCheck()
 
-return 1 if another user with this login (username) already exits
+return 1 if another user with this login (username) already exists
 
     $Exist = $UserObject->UserLoginExistsCheck(
         UserLogin => 'Some::UserLogin',

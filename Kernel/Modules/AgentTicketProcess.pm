@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -152,9 +153,8 @@ sub Run {
                             Type => 'Small',
                         );
                         $Output .= $LayoutObject->Warning(
-                            Message =>
-                                'Sorry, you need to be the ticket owner to perform this action.',
-                            Comment => 'Please change the owner first.',
+                            Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                            Comment => Translatable('Please change the owner first.'),
                         );
                         $Output .= $LayoutObject->Footer(
                             Type => 'Small',
@@ -923,18 +923,17 @@ sub _GetParam {
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
 
             if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                my $Message = "DynamicFieldConfig missing for field: $DynamicFieldName!";
+                my $Message
+                    = "DynamicFieldConfig missing for field: $DynamicFieldName, or is not a Ticket Dynamic Field!";
 
-                # does not show header and footer again
-                if ( $Self->{IsMainWindow} ) {
-                    return $LayoutObject->Error(
-                        Message => $Message,
-                    );
-                }
-
-                $LayoutObject->FatalError(
-                    Message => $Message,
+                # log error but does not stop the execution as it could be an old Article
+                # DynamicField, see bug#11666
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $Message,
                 );
+
+                next DIALOGFIELD;
             }
 
             # Get DynamicField Values
@@ -1008,6 +1007,8 @@ sub _GetParam {
             );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
+
+            $GetParam{TimeUnits} = $ParamObject->GetParam( Param => 'TimeUnits' );
         }
 
         if ( $CurrentField eq 'CustomerID' ) {
@@ -2269,6 +2270,23 @@ sub _RenderDynamicField {
 
     my $DynamicFieldConfig = ( grep { $_->{Name} eq $Param{FieldName} } @{$DynamicField} )[0];
 
+    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+
+        my $Message = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
+
+        # log error but does not stop the execution as it could be an old Article
+        # DynamicField, see bug#11666
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $Message,
+        );
+
+        return {
+            Success => 1,
+            HTML    => '',
+        };
+    }
+
     my $PossibleValuesFilter;
 
     # get dynamic field backend object
@@ -2618,6 +2636,51 @@ sub _RenderArticle {
         $LayoutObject->Block(
             Name => 'Attachment',
             Data => $Attachment,
+        );
+    }
+
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
+        $Param{TimeUnitsInvalid} = 'ServerError';
+    }
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # show time units
+    if (
+        $ConfigObject->Get('Ticket::Frontend::AccountTime')
+        && $Param{ActivityDialogField}->{Config}->{TimeUnits}
+        )
+    {
+        if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+        elsif ( $Param{ActivityDialogField}->{Config}->{TimeUnits} == 1 ) {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = '';
+        }
+        else {
+
+            $LayoutObject->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+
+        $LayoutObject->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
         );
     }
 
@@ -4215,9 +4278,18 @@ sub _StoreActivityDialog {
                 my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
 
                 if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                    $LayoutObject->FatalError(
-                        Message => "DynamicFieldConfig missing for field: $DynamicFieldName!",
+
+                    my $Message
+                        = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
+
+                    # log error but does not stop the execution as it could be an old Article
+                    # DynamicField, see bug#11666
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => $Message,
                     );
+
+                    next DIALOGFIELD;
                 }
 
                 # Will be extended later on for ACL Checking:
@@ -4366,6 +4438,19 @@ sub _StoreActivityDialog {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
+
+                if (
+                    $CurrentField eq 'Article'
+                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits} == 2
+                    )
+                {
+                    if ( !$Param{GetParam}->{TimeUnits} ) {
+
+                        # set error for the timeunits (if any)
+                        $Error{'TimeUnits'} = 1;
+                    }
+                }
+
                 elsif ($Result) {
                     $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
                 }
@@ -4606,6 +4691,9 @@ sub _StoreActivityDialog {
             );
         }
 
+        # use ProcessEntityID from the web request
+        $ProcessEntityID = $Param{ProcessEntityID};
+
         # Check if we deal with a Ticket Update
         my $UpdateTicketID = $TicketID;
     }
@@ -4687,6 +4775,21 @@ sub _StoreActivityDialog {
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
             my $DynamicFieldName = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
+
+            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+
+                my $Message
+                    = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
+
+                # log error but does not stop the execution as it could be an old Article
+                # DynamicField, see bug#11666
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $Message,
+                );
+
+                next DIALOGFIELD;
+            }
 
             my $Success = $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -4807,6 +4910,16 @@ sub _StoreActivityDialog {
 
                 # remove pre submitted attachments
                 $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+
+                # time accounting
+                if ( $Param{GetParam}{TimeUnits} ) {
+                    $TicketObject->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $Param{GetParam}{TimeUnits},
+                        UserID    => $Self->{UserID},
+                    );
+                }
             }
         }
 
@@ -5459,6 +5572,7 @@ sub _GetResponsibles {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Responsible',
         Data          => \%ShownUsers,
@@ -5552,6 +5666,7 @@ sub _GetOwners {
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
+        Action        => $Self->{Action},
         ReturnType    => 'Ticket',
         ReturnSubType => 'Owner',
         Data          => \%ShownUsers,
@@ -5676,12 +5791,7 @@ sub _GetQueues {
             );
         }
         else {
-            %Queues = $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
-                Table => 'system_address',
-                What  => 'queue_id, id',
-                Valid => 1,
-                Clamp => 1,
-            );
+            %Queues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList();
         }
 
         # get permission queues

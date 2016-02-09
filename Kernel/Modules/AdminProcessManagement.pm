@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 use Data::Dumper;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -44,8 +45,9 @@ sub Run {
         UserID => $Self->{UserID}
     );
 
-    my $SynchronizeMessage
-        = 'Process Management information from database is not in sync with the system configuration, please synchronize all processes.';
+    my $SynchronizeMessage = Translatable(
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.'
+    );
 
     if ( IsArrayRefWithData($EntitySyncStateList) ) {
 
@@ -79,7 +81,7 @@ sub Run {
 
             if ( !$ExampleProcessFilename ) {
                 return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
-                    Message => "Need ExampleProcesses!",
+                    Message => Translatable('Need ExampleProcesses!'),
                 );
             }
 
@@ -91,7 +93,8 @@ sub Run {
 
             if ( !$Content ) {
                 return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
-                    Message => "Could not read $ExampleProcessFilename!",
+                    Message =>
+                        $LayoutObject->{LanguageObject}->Translate( 'Could not read %s!', $ExampleProcessFilename ),
                 );
             }
 
@@ -149,7 +152,7 @@ sub Run {
         my $ProcessID = $ParamObject->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ProcessID!",
+                Message => Translatable('Need ProcessID!'),
             );
         }
 
@@ -183,7 +186,7 @@ sub Run {
         my $ProcessID = $ParamObject->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ProcessID!",
+                Message => Translatable('Need ProcessID!'),
             );
         }
 
@@ -642,7 +645,7 @@ sub Run {
         );
         if ( !$ProcessData ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Unknown Process $ProcessID!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Process %s!', $ProcessID ),
             );
         }
 
@@ -662,7 +665,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this Process",
+                Message => Translatable('There was an error generating a new EntityID for this Process'),
             );
         }
 
@@ -675,7 +678,7 @@ sub Run {
         # show error if  StateEntityID for Inactive does not exist
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "The StateEntityID for for state Inactive does not exists",
+                Message => Translatable('The StateEntityID for state Inactive does not exists'),
             );
         }
 
@@ -692,7 +695,7 @@ sub Run {
         # show error if can't create
         if ( !$ProcessID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the Process",
+                Message => Translatable('There was an error creating the Process'),
             );
         }
 
@@ -707,8 +710,9 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for Process "
-                    . "entity:$EntityID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Process entity: %s', $EntityID
+                ),
             );
         }
 
@@ -752,14 +756,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Description} ) {
 
             # add server error error class
             $Error{DescriptionServerError}        = 'ServerError';
-            $Error{DescriptionServerErrorMessage} = 'This field is required';
+            $Error{DescriptionServerErrorMessage} = Translatable('This field is required');
         }
 
         # check if state exists
@@ -791,7 +795,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this Process",
+                Message => Translatable('There was an error generating a new EntityID for this Process'),
             );
         }
 
@@ -808,7 +812,7 @@ sub Run {
         # show error if can't create
         if ( !$ProcessID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the Process",
+                Message => Translatable('There was an error creating the Process'),
             );
         }
 
@@ -823,8 +827,9 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for Process "
-                    . "entity:$EntityID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Process entity: %s', $EntityID
+                ),
             );
         }
 
@@ -844,7 +849,7 @@ sub Run {
         # check for ProcessID
         if ( !$ProcessID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ProcessID!",
+                Message => Translatable('Need ProcessID!'),
             );
         }
 
@@ -877,7 +882,8 @@ sub Run {
         # check for valid Process data
         if ( !IsHashRefWithData($ProcessData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for ProcessID $ProcessID",
+                Message =>
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ProcessID %s', $ProcessID ),
             );
         }
 
@@ -919,14 +925,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Description} ) {
 
             # add server error error class
             $Error{DescriptionServerError}        = 'ServerError';
-            $Error{DescriptionServerErrorMessage} = 'This field is required';
+            $Error{DescriptionServerErrorMessage} = Translatable('This field is required');
         }
 
         # check if state exists
@@ -963,7 +969,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the Process",
+                Message => Translatable('There was an error updating the Process'),
             );
         }
 
@@ -978,8 +984,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for Process "
-                    . "entity:$ProcessData->{EntityID}",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Process entity: %s',
+                    $ProcessData->{EntityID}
+                ),
             );
         }
 
@@ -1050,7 +1058,8 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message} = 'Process:$ProcessID could not be deleted';
+                $DeleteResult{Message}
+                    = $LayoutObject->{LanguageObject}->Translate( 'Process: %s could not be deleted', $ProcessID );
             }
             else {
 
@@ -1065,8 +1074,10 @@ sub Run {
                 # show error if cant set
                 if ( !$Success ) {
                     $DeleteResult{Success} = $Success;
-                    $DeleteResult{Message} = "There was an error setting the entity sync status "
-                        . "for Process entity:$CheckResult->{ProcessData}->{EntityID}"
+                    $DeleteResult{Message}
+                        = $LayoutObject->{LanguageObject}
+                        ->Translate( 'There was an error setting the entity sync status for Process entity: %s',
+                        $CheckResult->{ProcessData}->{EntityID} );
                 }
             }
 
@@ -1122,7 +1133,7 @@ sub Run {
 
                 # show error if can't set state
                 return $LayoutObject->ErrorScreen(
-                    Message => "There was an error setting the entity sync status.",
+                    Message => Translatable('There was an error setting the entity sync status.'),
                 );
             }
         }
@@ -1130,7 +1141,7 @@ sub Run {
 
             # show error if can't synch
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error synchronizing the processes.",
+                Message => Translatable('There was an error synchronizing the processes.'),
             );
         }
     }
@@ -1197,7 +1208,8 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success => 0,
-                    Message => "The $GetParam{EntityType}:$GetParam{EntityID} is still in use",
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'The %s:%s is still in use', $GetParam{EntityType}, $GetParam{EntityID} ),
                 },
             );
         }
@@ -1214,8 +1226,10 @@ sub Run {
                 $JSON = $LayoutObject->JSONEncode(
                     Data => {
                         Success => 0,
-                        Message => "The $GetParam{EntityType}:$GetParam{ItemID} has a different"
-                            . " EntityID",
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'The %s:%s has a different EntityID',
+                            $GetParam{EntityType}, $GetParam{ItemID}
+                        ),
                     },
                 );
             }
@@ -1232,7 +1246,8 @@ sub Run {
                 my $Message;
                 if ( !$Success ) {
                     $Success = 0;
-                    $Message = "Could not delete $GetParam{EntityType}:$GetParam{ItemID}";
+                    $Message = $LayoutObject->{LanguageObject}
+                        ->Translate( 'Could not delete %s:%s', $GetParam{EntityType}, $GetParam{ItemID} );
                 }
                 else {
 
@@ -1247,8 +1262,10 @@ sub Run {
                     # show error if cant set
                     if ( !$Success ) {
                         $Success = 0;
-                        $Message = "There was an error setting the entity sync status for "
-                            . "$GetParam{EntityType} entity:$Entity->{EntityID}"
+                        $Message
+                            = $LayoutObject->{LanguageObject}
+                            ->Translate( 'There was an error setting the entity sync status for %s entity: %s',
+                            $GetParam{EntityType}, $Entity->{EntityID} );
                     }
                 }
 
@@ -1315,7 +1332,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success => 0,
-                    Message => "Could not get $GetParam{EntityType}",
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get %s', $GetParam{EntityType} ),
                 },
             );
         }
@@ -1794,6 +1811,9 @@ sub _GetParams {
 sub _CheckProcessDelete {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get Process data
     my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessGet(
         ID     => $Param{ID},
@@ -1804,7 +1824,7 @@ sub _CheckProcessDelete {
     if ( !IsHashRefWithData($ProcessData) ) {
         return {
             Success => 0,
-            Message => "Could not get data for ProcessID $Param{ID}",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ProcessID %s', $Param{ID} ),
         };
     }
 
@@ -1817,7 +1837,7 @@ sub _CheckProcessDelete {
     if ( $State ne 'Inactive' ) {
         return {
             Success => 0,
-            Message => "Process:$Param{ID} is not Inactive",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Process: %s is not Inactive', $Param{ID} ),
         };
     }
 
@@ -1980,14 +2000,17 @@ sub _GetProcessData {
 
     my %ProcessData;
 
+    # get needed objects
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get process data
     my $Process = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessGet(
         ID     => $Param{ID},
         UserID => $Self->{UserID},
     );
     if ( !$Process ) {
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
-            Message => "Unknown Process $Param{ID}!",
+        return $LayoutObject->ErrorScreen(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Process %s!', $Param{ID} ),
         );
     }
     $ProcessData{Process} = $Process;

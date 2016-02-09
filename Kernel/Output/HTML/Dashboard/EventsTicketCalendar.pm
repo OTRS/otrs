@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -208,6 +208,9 @@ sub Run {
                     Data => \%Data,
                 );
 
+                # define container for dynamic fields
+                my @EventTicketDynamicFields;
+
                 # add ticket field for the event
                 if ( IsHashRefWithData($EventTicketFields) ) {
 
@@ -224,6 +227,14 @@ sub Run {
                         next TICKETFIELD if !$Key;
                         next TICKETFIELD if !$EventTicketFields->{$Key};
 
+                        # skip dynamic fields, will them added later
+                        if ( $Key =~ m{\A DynamicField_(.*) \z}msx ) {
+                            my $DynamicFieldName = $Key;
+                            $DynamicFieldName =~ s{\A DynamicField_ }{}msxg;
+                            push @EventTicketDynamicFields, $DynamicFieldName;
+                            next TICKETFIELD;
+                        }
+
                         if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
                             $TicketDetail{$Key} = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                                 UserLogin => $TicketDetail{$Key},
@@ -232,7 +243,7 @@ sub Run {
 
                         # translate state and priority name
                         if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}->Get( $TicketDetail{$Key} );
+                            $TicketDetail{$Key} = $LayoutObject->{LanguageObject}->Translate( $TicketDetail{$Key} );
                         }
 
                         $LayoutObject->Block(
@@ -245,8 +256,11 @@ sub Run {
                     }
                 }
 
+                # merge event ticket dynamic fields
+                my $DynamicFieldsForEvent = [ @{$EventDynamicFields}, @EventTicketDynamicFields ];
+
                 # add dynamic field for the event
-                if ( IsArrayRefWithData($EventDynamicFields) ) {
+                if ( IsArrayRefWithData($DynamicFieldsForEvent) ) {
 
                     # include dynamic fields container
                     $LayoutObject->Block(
@@ -256,7 +270,7 @@ sub Run {
 
                     # include dynamic fields
                     DYNAMICFIELD:
-                    for my $Item ( @{$EventDynamicFields} ) {
+                    for my $Item ( @{$DynamicFieldsForEvent} ) {
 
                         next DYNAMICFIELD if !$Item;
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
@@ -269,6 +283,35 @@ sub Run {
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
                             $InfoValue
                                 = $LayoutObject->{LanguageObject}->FormatTimeString( $InfoValue, 'DateFormatShort' );
+                        }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Multiselect' ) {
+                            if ( IsArrayRefWithData($InfoValue) ) {
+
+                                my $DynamicFieldConfig
+                                    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                                    Name => $Item,
+                                    );
+
+                                # get possible values
+                                my $PossibleValues
+                                    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
+                                    DynamicFieldConfig => $DynamicFieldConfig,
+                                    );
+
+                                # include values for the selected keys
+                                my $DynamicFieldValues = [ map { $PossibleValues->{$_} } @{$InfoValue} ];
+
+                                # put all together in a single string
+                                $InfoValue = join ', ', @{$DynamicFieldValues};
+                            }
+                        }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Checkbox' ) {
+                            if ($InfoValue) {
+                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Selected');
+                            }
+                            if ( defined $InfoValue && $InfoValue eq '0' ) {
+                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Not selected');
+                            }
                         }
 
                         $LayoutObject->Block(

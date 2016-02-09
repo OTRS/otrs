@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,7 @@ $Selenium->RunTest(
             Value => \%SLAPreferences,
         );
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -71,10 +72,10 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to SLA admin
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSLA");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSLA");
 
         # click "Add SLA"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=SLAEdit' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=SLAEdit' )]")->VerifiedClick();
 
         # check add page, and especially included SLA attribute Comment2
         for my $ID (
@@ -94,7 +95,7 @@ $Selenium->RunTest(
 
         # set included SLA attribute Comment2
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('SLAPreferences Comment2');
-        $Selenium->find_element( "#Name",     'css' )->submit();
+        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
 
         # check if test SLA is created
         $Self->True(
@@ -103,7 +104,7 @@ $Selenium->RunTest(
         );
 
         # go to new SLA again
-        $Selenium->find_element( $RandomSLAName, 'link_text' )->click();
+        $Selenium->find_element( $RandomSLAName, 'link_text' )->VerifiedClick();
 
         # check SLA value
         $Self->Is(
@@ -123,10 +124,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment2", 'css' )->clear();
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
-        $Selenium->find_element( "#Comment2", 'css' )->submit();
+        $Selenium->find_element( "#Comment2", 'css' )->VerifiedSubmit();
 
         # check updated values
-        $Selenium->find_element( $RandomSLAName, 'link_text' )->click();
+        $Selenium->find_element( $RandomSLAName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#Comment2', 'css' )->get_value(),
@@ -139,6 +140,7 @@ $Selenium->RunTest(
             Name => $RandomSLAName,
         );
 
+        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         my $Success = $DBObject->Do(

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ sub Run {
 
     my %RegistrationData = $RegistrationObject->RegistrationDataGet();
 
-    if ( $RegistrationData{State} ne 'registered' ) {
+    if ( !$RegistrationData{State} || $RegistrationData{State} ne 'registered' ) {
         $Self->Print("System is not registered, skipping...\n");
         $Self->Print("<green>Done.</green>\n");
         return $Self->ExitCodeOk();

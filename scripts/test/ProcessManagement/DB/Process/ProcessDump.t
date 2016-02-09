@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -292,7 +292,7 @@ my $Output = $ProcessObject->ProcessDump( UserID => $UserID );
 $Self->IsNot(
     length $Output,
     0,
-    "ProcessDump() STRING | Output lenght",
+    "ProcessDump() STRING | Output length",
 );
 
 for my $Part (

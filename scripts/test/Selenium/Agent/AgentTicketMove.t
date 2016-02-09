@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable change owner to everyone feature
+        # set to change queue for ticket in a new window
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::MoveType',
@@ -44,17 +44,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticcket
+        # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            TN           => $TicketObject->TicketCreateNumber(),
             Title        => "Selenium Test Ticket",
             Queue        => 'Raw',
             Lock         => 'unlock',
@@ -62,24 +56,29 @@ $Selenium->RunTest(
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
             CustomerUser => "SeleniumCustomer\@localhost.com",
-            OwnerID      => $TestUserID,
-            UserID       => $TestUserID,
+            OwnerID      => 1,
+            UserID       => 1,
         );
-
         $Self->True(
             $TicketID,
-            "Ticket is created - $TicketID",
+            "Ticket is created - ID $TicketID",
         );
 
-        # naviage to zoom view of created test ticket
+        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # navigate to zoom view of created test ticket
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on 'Move' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMove;TicketID=$TicketID' )]")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DestQueueID").length' );
 
         # check page
         for my $ID (
@@ -94,8 +93,21 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        # return back to zoom view and click on history and switch to its view
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
+        $Selenium->find_element("//*[text()='History']")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # confirm ticket move action
         my $MoveMsg = "Ticket moved into Queue \"Misc\" (4) from Queue \"Raw\" (2).";
@@ -107,14 +119,14 @@ $Selenium->RunTest(
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $TestUserID,
+            UserID   => 1,
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );

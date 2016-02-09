@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Preferences::Language;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::Web::Request',
@@ -38,18 +40,44 @@ sub Param {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $DefaultUsedLanguages = $ConfigObject->Get('DefaultUsedLanguages');
+    # get names of languages in English
+    my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
+
+    # get native names of languages
+    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
+
     my %Languages;
-    LANGUAGE_ID:
-    for my $LanguageID ( sort keys %{ $DefaultUsedLanguages // {} } ) {
-        my $Text           = $DefaultUsedLanguages->{$LanguageID};
+    LANGUAGEID:
+    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
+
+        # next language if there is not set any name for current language
+        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
+            next LANGUAGEID;
+        }
+
+        # get texts in native and default language
+        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
+        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
+
+        # translate to current user's language
+        my $TextTranslated =
+            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
+
+        if ( $TextTranslated && $TextTranslated ne $Text ) {
+            $Text .= ' - ' . $TextTranslated;
+        }
+
+        # next language if there is not set English nor native name of language.
+        next LANGUAGEID if !$Text;
+
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $LanguageID,
         );
-        next LANGUAGE_ID if !$LanguageObject;
+        next LANGUAGEID if !$LanguageObject;
+
         my $Completeness = $LanguageObject->{Completeness};
 
-        # Mark all languages with < 25% coverage as "in process" (not for en_ variants).
+        # mark all languages with < 25% coverage as "in process" (not for en_ variants).
         if ( defined $Completeness && $Completeness < 0.25 && $LanguageID !~ m{^en_}smx ) {
             $Text
                 .= ' ' . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate('(in process)');
@@ -70,7 +98,7 @@ sub Param {
                 || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
                 || $ConfigObject->Get('DefaultLanguage'),
             Block => 'Option',
-            Class => 'Modernize',
+            Class => 'W70pc',
             Max   => 200,
         },
     );
@@ -103,7 +131,7 @@ sub Run {
             }
         }
     }
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 

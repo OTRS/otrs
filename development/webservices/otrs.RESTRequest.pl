@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use utf8;
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
 
@@ -163,7 +164,7 @@ my $CreateOrUpdateParams = {
     Article => {
         Subject     => 'some subject',
         Body        => 'some body',
-        ContentType => 'text/plain; charset=ISO-8859-15',
+        ContentType  => 'text/plain; charset=utf8',
     },
 };
 

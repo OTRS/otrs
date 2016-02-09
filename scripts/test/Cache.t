@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get home directory
 my $HomeDir = $ConfigObject->Get('Home');
 
-# get all avaliable backend modules
+# get all available backend modules
 my @BackendModuleFiles = $MainObject->DirectoryRead(
     Directory => $HomeDir . '/Kernel/System/Cache/',
     Filter    => '*.pm',
@@ -47,7 +47,12 @@ for my $ModuleFile (@BackendModuleFiles) {
         Value => "Kernel::System::Cache::$Module",
     );
 
-    for my $SubdirLevels ( 0 .. 3 ) {
+    my $MaxSubdirLevel = 0;
+    if ( $ModuleFile =~ m{ FileStorable\.pm \z }xms ) {
+        $MaxSubdirLevel = 3;
+    }
+
+    for my $SubdirLevels ( 0 .. $MaxSubdirLevel ) {
 
         # make sure that the CacheObject gets recreated for each loop.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Cache'] );
@@ -62,7 +67,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         next MODULEFILE if !$CacheObject;
 
-        # flush the cache to have a clear test enviroment
+        # flush the cache to have a clear test environment
         $CacheObject->CleanUp();
 
         # some tests check that the cache expires, for that we have to disable the in-memory cache
@@ -72,7 +77,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # set fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeSet();
+            $Helper->FixedTimeSet();
         }
 
         my $CacheSet = $CacheObject->Set(
@@ -215,7 +220,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 7 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(7);
+            $Helper->FixedTimeAddSeconds(7);
         }
         else {
             sleep 7;
@@ -251,7 +256,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(3);
+            $Helper->FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -274,7 +279,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeAddSeconds(3);
+            $Helper->FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -401,7 +406,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # unset fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $HelperObject->FixedTimeUnset();
+            $Helper->FixedTimeUnset();
         }
 
         my $String1 = '';
@@ -418,6 +423,9 @@ for my $ModuleFile (@BackendModuleFiles) {
                 .= $String2
                 . $Count
                 . "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZöäüßЖЛЮѬ ";
+
+            next COUNT if $Count % 2;
+
             my $Size = length $String1;
 
             if ( $Size > ( 1024 * 1024 ) ) {
@@ -431,7 +439,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             }
 
             # create key
-            my $Key = 'Unittest' . rand 999_999_999;
+            my $Key = $Helper->GetRandomNumber();
 
             # copy strings to safe the reference
             my $StringRef1 = $String1;
@@ -520,6 +528,130 @@ for my $ModuleFile (@BackendModuleFiles) {
             }
         }
 
+        # get all avaliable test files
+        my @TestFiles = $MainObject->DirectoryRead(
+            Directory => $HomeDir . '/scripts/test/sample/Cache/',
+            Filter    => '*',
+            Silent    => 1,
+        );
+
+        TESTFILE:
+        for my $TestFile (@TestFiles) {
+
+            my @FileParts = split '/', $TestFile;
+            my $FileName = $FileParts[-1];
+
+            # read content of the testfile
+            my $FileContent = $MainObject->FileRead(
+                Location        => $TestFile,
+                Mode            => 'binmode',
+                Type            => 'Local',
+                Result          => 'SCALAR',
+                DisableWarnings => 1,
+            );
+
+            # read content of the testfile
+            my $FileContentFileMD5 = $MainObject->MD5sum(
+                Filename => $TestFile,
+            );
+
+            # create md5 from string reference
+            my $FileContentStringMD5 = $MainObject->MD5sum(
+                String => $FileContent,
+            );
+
+            $Self->Is(
+                $FileContentFileMD5   || '',
+                $FileContentStringMD5 || '',
+                "#9 - $Module - $SubdirLevels - Files - $FileName - MD5 check",
+            );
+
+            # store file content in cache
+            my $CacheSet = $CacheObject->Set(
+                Type  => 'CacheTestFiles',
+                Key   => 'Files',
+                Value => $FileContent,
+                TTL   => 24 * 60 * 60,
+            );
+
+            $Self->True(
+                $CacheSet,
+                "#9 - $Module - $SubdirLevels - Files - $FileName - CacheSet()",
+            );
+
+            # get filecontent from cache
+            my $CacheContent = $CacheObject->Get(
+                Type => 'CacheTestFiles',
+                Key  => 'Files',
+            );
+
+            # create md sum of string from cache
+            my $CacheContentStringMD5 = $MainObject->MD5sum(
+                String => $CacheContent,
+            );
+
+            $Self->Is(
+                $FileContentStringMD5,
+                $CacheContentStringMD5,
+                "#9 - $Module - $SubdirLevels - Files - $FileName - Content check",
+            );
+
+            my $MultipleFileContent;
+            for my $Times ( 1 .. 5 ) {
+
+                $MultipleFileContent = $MultipleFileContent
+                    ? $MultipleFileContent .= ${$FileContent} . ${$FileContent}
+                    : ${$FileContent};
+
+                my $MultipleSize = length $MultipleFileContent;
+
+                if ( $MultipleSize > ( 1024 * 1024 ) ) {
+                    $MultipleSize = sprintf "%.1f MBytes", ( $MultipleSize / ( 1024 * 1024 ) );
+                }
+                elsif ( $MultipleSize > 1024 ) {
+                    $MultipleSize = sprintf "%.1f KBytes", ( ( $MultipleSize / 1024 ) );
+                }
+                else {
+                    $MultipleSize = $MultipleSize . ' Bytes';
+                }
+
+                # create md sum of multiple file content string
+                my $MultipleFileContentMD5 = $MainObject->MD5sum(
+                    String => $MultipleFileContent,
+                );
+
+                # store file content in cache
+                my $CacheSet = $CacheObject->Set(
+                    Type  => 'CacheTestFiles',
+                    Key   => 'MultipleFiles',
+                    Value => $MultipleFileContent,
+                    TTL   => 24 * 60 * 60,
+                );
+
+                $Self->True(
+                    $CacheSet,
+                    "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - CacheSet() - Size $MultipleSize",
+                );
+
+                # get multiple filecontent from cache
+                my $MultipleCacheContent = $CacheObject->Get(
+                    Type => 'CacheTestFiles',
+                    Key  => 'MultipleFiles',
+                );
+
+                # create md sum of string from cache
+                my $MultipleCacheContentStringMD5 = $MainObject->MD5sum(
+                    String => $MultipleCacheContent,
+                );
+
+                $Self->Is(
+                    $MultipleFileContentMD5,
+                    $MultipleCacheContentStringMD5,
+                    "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - Content check - Size $MultipleSize",
+                );
+            }
+        }
+
         for my $Mode ( 'All', 'One', 'None' ) {
 
             if ( $Mode eq 'One' ) {
@@ -581,7 +713,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                         $Self->IsDeeply(
                             $CacheGet,
                             $CacheItem,
-                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test",
+                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test IsDeeply $Key",
                         );
                     }
                     else {
@@ -589,7 +721,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                         # Don't use Is(), produces too much output.
                         $Self->True(
                             $CacheGet eq $CacheItem,
-                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test",
+                            "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test True $Key",
                         );
                     }
                 }

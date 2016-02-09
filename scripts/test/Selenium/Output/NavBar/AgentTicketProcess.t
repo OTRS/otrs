@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,8 +52,6 @@ $Selenium->RunTest(
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         # get all processes
         my $ProcessList = $ProcessObject->ProcessListGet(
             UserID => $TestUserID,
@@ -78,14 +76,21 @@ $Selenium->RunTest(
             }
         }
 
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
         # import test selenium process
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
-        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
+
+        # synchronize process
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 3;
 
         # get process list
         my $List = $ProcessObject->ProcessList(
@@ -102,11 +107,8 @@ $Selenium->RunTest(
             UserID   => $TestUserID,
         );
 
-        # Sleep a little bit to allow mod_perl to pick up the changed config files.
-        sleep 3;
-
         # check if NavBarAgentTicketProcess button is available when process is available
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "NavBar 'New process ticket' button available",
@@ -200,14 +202,14 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        # let mod_perl / Apache2::Reload pick up the changed configuration
         sleep 3;
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
@@ -225,10 +227,10 @@ $Selenium->RunTest(
             Value => \%NavBarAgentTicketProcess,
         );
 
-        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        # sleep a little bit to allow mod_perl to pick up the changed config files
         sleep 3;
 
-        $Selenium->refresh();
+        $Selenium->VerifiedRefresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active, but NavBarAgentTicketProcess is disabled",
@@ -248,8 +250,8 @@ $Selenium->RunTest(
         }
 
         # synchronize process after deleting test process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # make sure the cache is correct.
         for my $Cache (

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -227,10 +227,21 @@ sub CollectByWebRequest {
 
     $Host ||= '127.0.0.1';
 
+    # if the public interface is proteceted with .htaccess
+    # we can specify the htaccess login data here,
+    # this is neccessary for the support data collector
+    my $AuthString   = '';
+    my $AuthUser     = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthUser');
+    my $AuthPassword = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthPassword');
+    if ( $AuthUser && $AuthPassword ) {
+        $AuthString = $AuthUser . ':' . $AuthPassword . '@';
+    }
+
     # prepare web service config
     my $URL =
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
         . '://'
+        . $AuthString
         . $Host
         . '/'
         . $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias')
@@ -241,11 +252,15 @@ sub CollectByWebRequest {
         Timeout => $Param{WebTimeout} || 20,
     );
 
+    # disable webuseragent proxy since the call is sent to self server, see bug#11680
+    $WebUserAgentObject->{Proxy} = '';
+
     # define result
     my %Result = (
         Success => 0,
     );
 
+    # skip the ssl verification, because this is only a internal web request
     my %Response = $WebUserAgentObject->Request(
         Type => 'POST',
         URL  => $URL,
@@ -253,6 +268,7 @@ sub CollectByWebRequest {
             Action         => 'PublicSupportDataCollector',
             ChallengeToken => $ChallengeToken,
         },
+        SkipSSLVerification => 1,
     );
 
     # test if the web response was successful

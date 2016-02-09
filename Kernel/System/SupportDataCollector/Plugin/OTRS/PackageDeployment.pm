@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use base qw(Kernel::System::SupportDataCollector::PluginBase);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Package',
 );
 
@@ -41,11 +42,20 @@ sub Run {
     }
 
     if (@InvalidPackages) {
-        $Self->AddResultProblem(
-            Label   => Translatable('Package Installation Status'),
-            Value   => join( ', ', @InvalidPackages ),
-            Message => Translatable('Some packages are not correctly installed.'),
-        );
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
+            $Self->AddResultInformation(
+                Label   => Translatable('Package Installation Status'),
+                Value   => join( ', ', @InvalidPackages ),
+                Message => Translatable('Some packages have locally modified files.'),
+            );
+        }
+        else {
+            $Self->AddResultProblem(
+                Label   => Translatable('Package Installation Status'),
+                Value   => join( ', ', @InvalidPackages ),
+                Message => Translatable('Some packages are not correctly installed.'),
+            );
+        }
     }
     else {
         $Self->AddResultOk(

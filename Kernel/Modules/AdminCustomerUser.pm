@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -339,7 +340,7 @@ sub Run {
                         Search => $Search,
                     );
                     my $Output = $NavBar . $Note;
-                    $Output .= $LayoutObject->Notify( Info => 'Customer updated!' );
+                    $Output .= $LayoutObject->Notify( Info => Translatable('Customer updated!') );
                     $Output .= $LayoutObject->Output(
                         TemplateFile => 'AdminCustomerUser',
                         Data         => \%Param,
@@ -666,10 +667,25 @@ sub _Overview {
         );
     }
 
-    $LayoutObject->Block(
-        Name => 'OverviewHeader',
-        Data => {},
+    my %ListAllItems = $CustomerUserObject->CustomerSearch(
+        Search => '*',
+        Limit  => 999999,
+        Valid  => 0,
     );
+
+    # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
+    my $Limit = 250;
+
+    if ( keys %ListAllItems <= $Limit ) {
+        my $ListAllItems = keys %ListAllItems;
+        $LayoutObject->Block(
+            Name => 'OverviewHeader',
+            Data => {
+                ListAll => $ListAllItems,
+                Limit   => $Limit,
+            },
+        );
+    }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -681,6 +697,21 @@ sub _Overview {
             Search => $Param{Search},
             Valid  => 0,
         );
+
+        if ( keys %ListAllItems > $Limit ) {
+            my $ListAllItems   = keys %ListAllItems;
+            my $SearchListSize = keys %List;
+
+            $LayoutObject->Block(
+                Name => 'OverviewHeader',
+                Data => {
+                    SearchListSize => $SearchListSize,
+                    ListAll        => $ListAllItems,
+                    Limit          => $Limit,
+                },
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => \%Param,
@@ -910,7 +941,7 @@ sub _Edit {
         {
             my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
             my %CompanyList           = (
-                $CustomerCompanyObject->CustomerCompanyList(),
+                $CustomerCompanyObject->CustomerCompanyList( Limit => 0 ),
                 '' => '-',
             );
             if ( $Param{ $Entry->[0] } ) {

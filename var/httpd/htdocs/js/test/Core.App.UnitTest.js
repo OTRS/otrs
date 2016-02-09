@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,9 +40,19 @@ Core.App = (function (Namespace) {
                 Id,
                 Value;
 
-            expect(3);
+            expect(13);
             equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
-            equal(Core.App.EscapeSelector('ID-mit_anderen+Sonderzeichen'), 'ID-mit_anderen+Sonderzeichen');
+            equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
+            equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
+            equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
+            equal(Core.App.EscapeSelector("'"), "\\'");
+            equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');
+            equal(Core.App.EscapeSelector('\\'), '\\\\');
+            equal(Core.App.EscapeSelector('^'), '\\^');
+            equal(Core.App.EscapeSelector('{}'), '\\{\\}');
+            equal(Core.App.EscapeSelector('`'), '\\`');
+            equal(Core.App.EscapeSelector('|'), '\\|');
+            equal(Core.App.EscapeSelector('~'), '\\~');
 
             $('<div id="testcase"><label for="Testcase::Element###SubItem">Elementlabeltext</label><input type="text" id="Testcase::Element###SubItem" value="5"/></div>').appendTo('body');
             Id = $('#testcase').find('input').attr('id');

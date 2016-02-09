@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,9 +106,11 @@ $Self->Is(
     '',
     'TicketGet() (SLAID)',
 );
+
+my $DefaultTicketType = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default');
 $Self->Is(
     $Ticket{TypeID},
-    '1',
+    $TypeObject->TypeLookup( Type => $DefaultTicketType ),
     'TicketGet() (TypeID)',
 );
 $Self->Is(

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,13 +30,13 @@ sub Run {
 
     my @Expired = $Kernel::OM->Get('Kernel::System::AuthSession')->GetExpiredSessionIDs();
 
-    $Self->Print("<yellow>Deleting expired sessions...</yellow>\n");
+    $Self->Print("<yellow>Listing expired sessions...</yellow>\n");
 
     for my $SessionID ( @{ $Expired[0] } ) {
         $Self->Print("  $SessionID\n");
     }
 
-    $Self->Print("<yellow>Deleting idle sessions...</yellow>\n");
+    $Self->Print("<yellow>Listing idle sessions...</yellow>\n");
 
     for my $SessionID ( @{ $Expired[1] } ) {
         $Self->Print("  $SessionID\n");

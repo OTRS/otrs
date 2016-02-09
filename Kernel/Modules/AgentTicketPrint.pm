@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,10 +30,11 @@ sub Run {
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $Output;
     my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
-    my $ArticleID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ArticleID' );
+    my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -261,11 +262,6 @@ sub Run {
         Y    => -6,
     );
 
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
-    );
-
     # output ticket dynamic fields
     $Self->_PDFOutputTicketDynamicFields(
         PageData   => \%Page,
@@ -275,11 +271,6 @@ sub Run {
     $PDFObject->PositionSet(
         Move => 'relativ',
         Y    => -6,
-    );
-
-    $PDFObject->HLine(
-        Color     => '#aaa',
-        LineWidth => 0.5,
     );
 
     # output linked objects
@@ -301,12 +292,22 @@ sub Run {
 
     # output articles
     $Self->_PDFOutputArticles(
-        PageData    => \%Page,
-        ArticleData => \@ArticleBox,
+        PageData      => \%Page,
+        ArticleData   => \@ArticleBox,
+        ArticleNumber => $ParamObject->GetParam( Param => 'ArticleNumber' ),
     );
 
-    # get ticket object
+    # get time object and use the UserTimeObject, if the system use UTC as
+    # system time and the TimeZoneUser feature is active
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    if (
+        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
+        && $Self->{UserTimeZone}
+        )
+    {
+        $TimeObject = $LayoutObject->{UserTimeObject};
+    }
 
     # return the pdf document
     my $Filename = 'Ticket_' . $Ticket{TicketNumber};
@@ -431,6 +432,15 @@ sub _PDFOutputTicketInfos {
             ),
         },
     ];
+
+    # show created by if different then User ID 1
+    if ( $Ticket{CreateBy} > 1 ) {
+        my $Row = {
+            Key   => $LayoutObject->{LanguageObject}->Translate('Created by'),
+            Value => $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Ticket{CreateBy} ),
+        };
+        push( @{$TableRight}, $Row );
+    }
 
     if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
         my $Row = {
@@ -601,6 +611,11 @@ sub _PDFOutputLinkedObjects {
     # get PDF object
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
+    $PDFObject->HLine(
+        Color     => '#aaa',
+        LineWidth => 0.5,
+    );
+
     # set new position
     $PDFObject->PositionSet(
         Move => 'relativ',
@@ -731,6 +746,11 @@ sub _PDFOutputTicketDynamicFields {
 
         # get PDF object
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+
+        $PDFObject->HLine(
+            Color     => '#aaa',
+            LineWidth => 0.5,
+        );
 
         # set new position
         $PDFObject->PositionSet(
@@ -963,7 +983,14 @@ sub _PDFOutputArticles {
             Y    => -6,
         );
 
-        my $ArticleNumber = $ZoomExpandSort eq 'reverse' ? $ArticleCount - $ArticleCounter + 1 : $ArticleCounter;
+        # get article number
+        my $ArticleNumber;
+        if ( $Param{ArticleNumber} ) {
+            $ArticleNumber = $Param{ArticleNumber};
+        }
+        else {
+            $ArticleNumber = $ZoomExpandSort eq 'reverse' ? $ArticleCount - $ArticleCounter + 1 : $ArticleCounter;
+        }
 
         # article number tag
         $PDFObject->Text(
@@ -1107,13 +1134,14 @@ sub _PDFOutputArticles {
             my $Lines;
             if ( IsArrayRefWithData( $Article{Body} ) ) {
                 for my $Line ( @{ $Article{Body} } ) {
+                    my $CreateTime = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
                     if ( $Line->{SystemGenerated} ) {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} . "\n";
+                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
                     }
                     else {
                         $Lines
                             .= '['
-                            . $Line->{CreateTime} . '] '
+                            . $CreateTime . '] '
                             . $Line->{ChatterName} . ' '
                             . $Line->{MessageText} . "\n";
                     }

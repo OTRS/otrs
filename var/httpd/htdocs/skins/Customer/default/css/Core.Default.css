@@ -13,6 +13,7 @@
 body {
     font: 12px/14px Arial, sans-serif;
     -webkit-text-stroke: 1px transparent;
+    position: relative;
 }
 
 #ViewModeSwitch {
@@ -79,9 +80,9 @@ strong {
     outline: none;
 }
 
-.RTL #Header { 
+.RTL #Header {
     text-align: left;
-} 
+}
 
 #Header #Logo {
     position: absolute;
@@ -90,6 +91,7 @@ strong {
     width: 135px;
     height: 50px;
     background: transparent url(../img/logo.png) no-repeat;
+    background-size: contain;
 }
 
 /* RTL Button placement - development purpose only */
@@ -147,13 +149,13 @@ form #cke_RichText span.cke_wrapper {
     width: 40px !important;
 }
 
-#cke_RichText, 
-.cke_toolbar > .cke_toolgroup, 
-.cke_toolbar .cke_combo_button, 
+#cke_RichText,
+.cke_toolbar > .cke_toolgroup,
+.cke_toolbar .cke_combo_button,
 .cke_inner .cke_contents,
 .cke_dialog_body,
-input.cke_dialog_ui_input_password, 
-input.cke_dialog_ui_input_text, 
+input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_text,
 textarea.cke_dialog_ui_input_textarea {
     border-radius: 0px !important;
 }
@@ -162,8 +164,8 @@ textarea.cke_dialog_ui_input_textarea {
     background-color: #ccc;
 }
 
-input.cke_dialog_ui_input_password:focus, 
-input.cke_dialog_ui_input_text:focus, 
+input.cke_dialog_ui_input_password:focus,
+input.cke_dialog_ui_input_text:focus,
 textarea.cke_dialog_ui_input_textarea:focus {
     box-shadow: 0px 1px 2px #e8e8e8 inset, 0px 0px 3px #ccc !important;
     border-color: #e8e8e8 !important;
@@ -277,6 +279,10 @@ div.Clear {
 
 .WidgetSimple .ErrorMessage .WidgetAction {
     display: none;
+}
+
+.ErrorNote {
+    color: #FF505E;
 }
 
 /**
@@ -530,6 +536,20 @@ form select.Error {
     right: -5px;
     border-right-color: #eee;
     border-left-color: transparent;
+}
+
+/**
+ * @subsection  Spacings
+ */
+.Spacing {
+    margin: 13px;
+}
+
+/**
+ * @subsection  Text
+ */
+.Center {
+    text-align: center;
 }
 
 

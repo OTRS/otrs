@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -424,6 +424,44 @@ Core.Agent.TicketAction = (function (TargetNS) {
     TargetNS.SelectRadioButton = function (Value, Name) {
         $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
+
+    /**
+     * @name ConfirmTemplateOverwrite
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @param {String} FieldName - The ID of the content field (textarea or RTE). ID without selector (#).
+     * @param {jQueryObject} $TemplateSelect - Selector of the dropdown element for the template selection.
+     * @param {Function} Callback - Callback function to execute if overwriting is confirmed.
+     * @description
+     *      After a template was selected, this function lets the user confirm that all already existing content
+     *      in the textarea or RTE will be overwritten with the template content.
+     */
+    TargetNS.ConfirmTemplateOverwrite = function (FieldName, $TemplateSelect, Callback) {
+        var Content = '',
+            LastValue = $TemplateSelect.data('LastValue') || '';
+
+        // Fallback for non-richtext content
+        Content = $('#' + FieldName).val();
+
+        // get RTE content
+        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[FieldName]) {
+            Content = CKEDITOR.instances[FieldName].getData();
+        }
+
+        // if content already exists let user confirm to really overwrite that content with a template
+        if (
+            Content.length &&
+            !window.confirm(Core.Config.Get('TicketActionTemplateOverwrite') + ' ' + Core.Config.Get('TicketActionTemplateOverwriteConfirm')))
+            {
+                // if user cancels confirmation, reset template selection
+                $TemplateSelect.val(LastValue).trigger('redraw');
+
+        }
+        else if ($.isFunction(Callback)) {
+            Callback();
+            $TemplateSelect.data('LastValue', $TemplateSelect.val());
+        }
+    }
 
     return TargetNS;
 }(Core.Agent.TicketAction || {}));

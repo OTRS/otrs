@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,18 +15,19 @@ use vars (qw($Self));
 use Selenium::Remote::WDKeys;
 use Kernel::Language;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # defined user language for testing if message is being translated correctly
         my $Language = "de";
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => ['admin'],
             Language => $Language,
@@ -38,11 +39,14 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminACL screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
 
         # click 'Create new ACL' link
-        $Selenium->find_element( "a.Create", 'css' )->click();
+        $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
 
         # check add page
         for my $ID (
@@ -57,7 +61,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Element->VerifiedSubmit();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -76,7 +80,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -199,10 +203,7 @@ JAVASCRIPT
 
         # set ACL to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->click();
-
-        # wait to open overview page
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Filter").length' );
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();
@@ -237,9 +238,9 @@ JAVASCRIPT
         );
 
         # sync ACL information from database with the system configuration
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();
 
-        # make sure the cache is correct.
+        # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ACLEditor_ACL',
         );

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,9 @@ Content-Disposition: [% Data.ContentDisposition %]
 [% END -%]
 X-Powered-By: [% Config("Product") %] [% Config("Version") %] - Open Ticket Request System (http://www.otrs.com/)
 X-UA-Compatible: IE=edge,chrome=1
+[% IF !Config("DisableIFrameOriginRestricted") -%]
 X-Frame-Options: SAMEORIGIN
+[% END -%]
 [% IF Data.XLoginHeader -%]
 # With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
 X-OTRS-Login: [% Env("Baselink") %]

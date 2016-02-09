@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,10 +11,15 @@
 # set viewport for mobile mode, do not set viewport for DesktopMode
     <script>
         (function(doc, win) {
-            var viewport = doc.getElementById('viewport');
-            if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
-                viewport.setAttribute("content", "width=device-width, initial-scale=1.0, user-scalable=no");
+            var viewport = doc.getElementById('viewport'),
+                isIFrame = (win.top.location.href !== win.location.href),
+                isPopup = (win.name.search(/^OTRSPopup_/) != -1);
+            try {
+              if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+                  viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+              }
             }
+            catch (Exception) {}
         }(document, window));
     </script>
 [% RenderBlockStart("MetaHttpEquivRefresh") %]
@@ -87,16 +92,21 @@
 # resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
     <script>
       (function(doc, win) {
-          if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
-            var ResponsiveCSS;
-[% RenderBlockStart("ResponsiveCSS") %]
-            ResponsiveCSS = doc.createElement("link");
-            ResponsiveCSS.setAttribute("rel", "stylesheet");
-            ResponsiveCSS.setAttribute("type", "text/css");
-            ResponsiveCSS.setAttribute("href", "[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]");
-            doc.getElementsByTagName("head")[0].appendChild(ResponsiveCSS);
-[% RenderBlockEnd("ResponsiveCSS") %]
+          var isIFrame = (win.top.location.href !== win.location.href),
+              isPopup = (win.name.search(/^OTRSPopup_/) != -1);
+          try {
+            if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+              var ResponsiveCSS;
+  [% RenderBlockStart("ResponsiveCSS") %]
+              ResponsiveCSS = doc.createElement("link");
+              ResponsiveCSS.setAttribute("rel", "stylesheet");
+              ResponsiveCSS.setAttribute("type", "text/css");
+              ResponsiveCSS.setAttribute("href", "[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]");
+              doc.getElementsByTagName("head")[0].appendChild(ResponsiveCSS);
+  [% RenderBlockEnd("ResponsiveCSS") %]
+            }
           }
+          catch (Exception) {}
       }(document, window));
     </script>
 

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,24 +95,46 @@ sub new {
 
 creates a random ID that can be used in tests as a unique identifier.
 
-=cut
+It is guaranteed that within a test this function will never return a duplicate.
 
-# Make sure that every RandomID is only generated once in a process to
-#   ensure predictability for unit test runs.
-my %SeenRandomIDs;
+Please note that these numbers are not really random and should only be used
+to create test data.
+
+=cut
 
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    LOOP:
-    for ( 1 .. 1_000 ) {
-        my $RandomID = 'test' . time() . int( rand(1_000_000_000) );
-        if ( !$SeenRandomIDs{$RandomID}++ ) {
-            return $RandomID;
-        }
+    return 'test' . $Self->GetRandomNumber();
+}
+
+=item GetRandomNumber()
+
+creates a random Number that can be used in tests as a unique identifier.
+
+It is guaranteed that within a test this function will never return a duplicate.
+
+Please note that these numbers are not really random and should only be used
+to create test data.
+
+=cut
+
+# Use package variables here (instead of attributes in $Self)
+# to make it work across several unit tests that run during the same second.
+my $GetRandomNumberPreviousEpoch = 0;
+my $GetRandomNumberCounter       = 0;
+
+sub GetRandomNumber {
+    my ( $Self, %Param ) = @_;
+
+    my $Epoch = time();
+    $GetRandomNumberPreviousEpoch //= 0;
+    if ( $GetRandomNumberPreviousEpoch != $Epoch ) {
+        $GetRandomNumberPreviousEpoch = $Epoch;
+        $GetRandomNumberCounter       = 0;
     }
 
-    die "Could not generate RandomID!\n";
+    return $Epoch . $GetRandomNumberCounter++;
 }
 
 =item TestUserCreate()
@@ -381,9 +403,7 @@ sub DESTROY {
     # Restore system configuration if needed
     #
     if ( $Self->{SysConfigBackup} ) {
-
         $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
-
         $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
     }
 
@@ -402,7 +422,8 @@ sub DESTROY {
     # Restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         $Self->Rollback();
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp()
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+        $Self->{UnitTestObject}->True( 1, 'Rolled back all database changes and cleaned up the cache.' );
     }
 
     # disable email checks to create new user
@@ -439,11 +460,20 @@ sub DESTROY {
 
     # invalidate test customer users
     if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
+        TESTCUSTOMERUSERS:
         for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
 
             my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
                 User => $TestCustomerUser,
             );
+
+            if ( !$CustomerUser{UserLogin} ) {
+
+                # if no such customer user exists, there is no need to set it to invalid;
+                # happens when the test customer user is created inside a transaction
+                # that is later rolled back.
+                next TESTCUSTOMERUSERS;
+            }
 
             my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
                 %CustomerUser,

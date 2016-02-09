@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -114,9 +109,9 @@ $Selenium->RunTest(
 
             # go to ticket zoom page of created test ticket
             my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-            $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-            # check are there Downlaod and Viewer liks for test attachment
+            # check are there Download and Viewer links for test attachment
             $Self->True(
                 $Selenium->find_element("//a[contains(\@title, \'Download' )]"),
                 "Download link for attachment is founded"
@@ -126,13 +121,16 @@ $Selenium->RunTest(
                 "Viewer link for attachment is founded"
             );
 
-            # check test attachment in MIME-Viwer
+            # check test attachment in MIME-Viwer, WaitFor will be done after switch to window
             $Selenium->find_element("//a[contains(\@title, \'Viewer' )]")->click();
 
             my $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
 
-            # check expexted values in PDF test attachment
+            # switch to link object window
+            $Selenium->WaitFor( WindowCount => 2 );
+
+            # check expected values in PDF test attachment
             for my $ExpextedValue (qw(OTRS.org TEST)) {
                 $Self->True(
                     index( $Selenium->get_page_source(), $ExpextedValue ) > -1,

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -251,7 +252,7 @@ sub Run {
 
     my %Filters = (
         All => {
-            Name   => 'All tickets',
+            Name   => Translatable('All tickets'),
             Prio   => 1000,
             Search => {
                 StateIDs   => \@ViewableStateIDs,
@@ -263,7 +264,7 @@ sub Run {
             },
         },
         Unlocked => {
-            Name   => 'Available tickets',
+            Name   => Translatable('Available tickets'),
             Prio   => 1001,
             Search => {
                 LockIDs    => \@ViewableLockIDs,
@@ -546,7 +547,7 @@ sub Run {
         View   => $View,
 
         Bulk       => 1,
-        TitleName  => 'Service View',
+        TitleName  => Translatable('Service View'),
         TitleValue => $NavBar{SelectedService},
 
         Env        => $Self,
@@ -750,7 +751,7 @@ sub _MaskServiceView {
     for my $Level ( 1 .. 5 ) {
         next LEVEL if !$Param{ 'ServiceStrg' . $Level };
         $Param{ServiceStrg}
-            .= '<ul class="ServiceOverviewList">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
+            .= '<ul class="ServiceOverviewList Level_' . $Level . '">' . $Param{ 'ServiceStrg' . $Level } . '</ul>';
     }
 
     return (

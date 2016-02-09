@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -326,7 +326,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         text += "<ul>";
         if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (Key, Value) {
-                text += "<li>" + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + Core.App.EscapeHTML(Value) + ") </li>";
+                text += "<li>" + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + "</li>";
             });
         }
         else {
@@ -423,7 +423,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += InterfaceValue.substr(0, 1);
                 });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + Core.App.EscapeHTML(Value) + ") </li>";
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " </li>";
             });
         }
         else {

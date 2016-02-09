@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -218,7 +218,11 @@ sub GetArray {
         # get check item object
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
+        VALUE:
         for my $Value (@Values) {
+            # don't validate CGI::File::Temp objects from file uploads
+            next VALUE if !$Value || ref \$Value ne 'SCALAR';
+
             $CheckItemObject->StringClean(
                 StringRef => \$Value,
                 TrimLeft  => 1,

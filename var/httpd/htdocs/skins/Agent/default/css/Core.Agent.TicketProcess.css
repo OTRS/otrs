@@ -16,7 +16,7 @@
  */
 
 .WidgetSimple > .Content.ProcessInfo {
-    padding: 10px 0px 5px 10px;
+    padding: 10px 10px 5px 10px;
     min-height: 0px;
     overflow: hidden;
 }
@@ -47,10 +47,10 @@
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
-    text-overflow: ellipsis; 
-    height: 17px; 
-    overflow: hidden; 
-    display: block; 
+    text-overflow: ellipsis;
+    height: 17px;
+    overflow: hidden;
+    display: block;
     white-space: nowrap;
 }
 
@@ -112,8 +112,8 @@
 
 #ActivityContent {
     border-top: 1px solid #ccc;
-    padding-top: 5px; 
-    margin-top: 20px; 
+    padding-top: 5px;
+    margin-top: 20px;
     display: none;
 }
 

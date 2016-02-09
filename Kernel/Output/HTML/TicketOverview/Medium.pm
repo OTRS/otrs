@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
@@ -78,7 +79,7 @@ sub ActionRow {
             Name => 'DocumentActionRowBulk',
             Data => {
                 %Param,
-                Name => 'Bulk',
+                Name => Translatable('Bulk'),
             },
         );
     }
@@ -554,7 +555,7 @@ sub _Show {
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
         $LayoutObject->Block(
-            Name => 'Bulk',
+            Name => Translatable('Bulk'),
             Data => \%Param,
         );
     }

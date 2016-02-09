@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,15 +12,21 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+                }
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -31,15 +37,22 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminType");
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # get script alias
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # navigate to AdminType screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType");
+
+        # check overview screen
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new type' link
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminType;Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminType;Subaction=Add' )]")->VerifiedClick();
 
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
@@ -49,7 +62,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -59,27 +72,27 @@ $Selenium->RunTest(
         );
 
         # create a real test type
-        my $RandomID = "Type" . $Helper->GetRandomID();
+        my $TypeRandomID = "Type" . $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($TypeRandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
+            index( $Selenium->get_page_source(), $TypeRandomID ) > -1,
+            "$TypeRandomID found on page",
         );
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # go to new type again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $TypeRandomID, 'link_text' )->VerifiedClick();
 
         # check new type values
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
-            $RandomID,
+            $TypeRandomID,
             "#Name stored value",
         );
         $Self->Is(
@@ -88,34 +101,73 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # set test type to invalid
+        # get current value of Ticket::Type::Default
+        my $DefaultTicketType = $ConfigObject->Get('Ticket::Type::Default');
+
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # set test Type as a default ticket type
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Type::Default',
+            Value => $TypeRandomID
+        );
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
+
+        # try to set test type to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+
+        # default ticket type cannot be set to invalid
+        $Self->True(
+            index(
+                $Selenium->get_page_source(),
+                "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
+                ) > -1,
+            "$TypeRandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
+        );
+
+        # reset default ticket type
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Type::Default',
+            Value => $DefaultTicketType
+        );
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
+
+        # set test type to invalid
+        $Selenium->find_element( "#Name", 'css' )->clear();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($TypeRandomID);
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check class of invalid Type in the overview table
         $Self->True(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($RandomID)').length"
+                "return \$('tr.Invalid td a:contains($TypeRandomID)').length"
             ),
             "There is a class 'Invalid' for test Type",
         );
 
         # check overview page
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
+            index( $Selenium->get_page_source(), $TypeRandomID ) > -1,
+            "$TypeRandomID found on page",
         );
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # go to new type again
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $TypeRandomID, 'link_text' )->VerifiedClick();
 
         # check new type values
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
-            $RandomID,
+            $TypeRandomID,
             "#Name updated value",
         );
         $Self->Is(
@@ -124,22 +176,22 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # Since there are no tickets that rely on our test types, we can remove them again
-        # from the DB.
-        if ($RandomID) {
+        # since there are no tickets that rely on our test types, we can remove them again
+        # from the DB
+        if ($TypeRandomID) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-            $RandomID = $DBObject->Quote($RandomID);
+            $TypeRandomID = $DBObject->Quote($TypeRandomID);
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM ticket_type WHERE name = ?",
-                Bind => [ \$RandomID ],
+                Bind => [ \$TypeRandomID ],
             );
             $Self->True(
                 $Success,
-                "TypeDelete - $RandomID",
+                "TypeDelete - $TypeRandomID",
             );
         }
 
-        # Make sure the cache is correct.
+        # make sure the cache is corrects
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Type',
         );

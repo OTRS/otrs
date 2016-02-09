@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,42 +81,17 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed
-    for my $Needed (qw(TaskID Data)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
+    # check task params
+    my $CheckResult = $Self->_CheckTaskParams(
+        NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
+        %Param,
+    );
 
-            return;
-        }
-    }
-
-    # check data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got no valid Data!',
-        );
-
-        return;
-    }
+    # stop execution if an error in params is detected
+    return if !$CheckResult;
 
     # to store task data locally
     my %TaskData = %{ $Param{Data} };
-
-    # check needed parameters inside task data
-    for my $Needed (qw(WebserviceID Invoker Data)) {
-        if ( !$TaskData{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Got no $Needed!",
-            );
-
-            return;
-        }
-    }
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
@@ -168,7 +143,7 @@ sub Run {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message =>
-                            "Invoker returned future execution time: $ExecutionTime is invalid! falling back to default",
+                            "Invoker $Param{Data}->{Invoker} WebService: $WebServiceName returned future execution time: $ExecutionTime is invalid! falling back to default",
                     );
 
                     $ExecutionTime = 0;

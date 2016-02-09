@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -225,11 +225,17 @@ Core.UI.Popup = (function (TargetNS) {
      * @function
      * @param {String} Type - The event type that will be launched.
      * @param {Object} Param  - The element that contain information about the new screen address.
+     * @param {Boolean} ExecuteInMobileMode - Do not execute this on mobile devices.
      * @description
      *      This function starts the pop-up event.
      */
-    TargetNS.FirePopupEvent = function (Type, Param) {
-        $(window).unbind('beforeunload.Popup').unbind('unload.Popup');
+    TargetNS.FirePopupEvent = function (Type, Param, ExecuteInMobileMode) {
+        if (ExecuteInMobileMode === false && !$('body').hasClass('Visible-ScreenXL') && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+            return;
+        }
+
+        $(window).unbind('beforeunload.Popup');
+        Core.App.UnbindWindowUnloadEvent('Popup');
         $(window).trigger('Popup', [Type, Param]);
     };
 
@@ -471,9 +477,23 @@ Core.UI.Popup = (function (TargetNS) {
                     // Get the position of the current screen on browsers which support it (non-IE) and
                     //  use it to open the popup on the same screen
                     PopupFeatures += ',left=' + ((window.screen.left || 0) + PopupProfiles[PopupProfile].Left);
-                    PopupFeatures += ',top=' + ((window.screen.top || 0) + PopupProfiles[PopupProfile].Top);
                     PopupFeatures += ',width=' + PopupProfiles[PopupProfile].Width;
-                    PopupFeatures += ',height=' + PopupProfiles[PopupProfile].Height;
+
+                    // Bug#11205 (http://bugs.otrs.org/show_bug.cgi?id=11205)
+                    // On small screens (still wide enough to open a popup)
+                    // it can happen, that the popup window is higher than the screen height
+                    // In this case, reduce the popup height to fit into the screen
+                    // We don't have to do that for the width, because a smaller screen width
+                    // would result in a "responsive popup" aka iframe.
+                    if (window.screen.availHeight < PopupProfiles[PopupProfile].Height + PopupProfiles[PopupProfile].Top) {
+                        PopupFeatures += ',height=' + (window.screen.availHeight - PopupProfiles[PopupProfile].Top - 20);
+                        // Adjust top position to have the same distance between top and bottom line.
+                        PopupFeatures += ',top=' + ((window.screen.top || 0) + (PopupProfiles[PopupProfile].Top / 2));
+                    }
+                    else {
+                        PopupFeatures += ',height=' + PopupProfiles[PopupProfile].Height;
+                        PopupFeatures += ',top=' + ((window.screen.top || 0) + PopupProfiles[PopupProfile].Top);
+                    }
 
                     NewWindow = window.open(URL, WindowName, PopupFeatures);
 
@@ -491,11 +511,13 @@ Core.UI.Popup = (function (TargetNS) {
                 else if (WindowMode === 'Iframe') {
                     // jump to the top
                     window.scrollTo(0, 0);
+
+                    // prevent scrolling of the main window
+                    $('html').addClass('NoScroll');
+
                     // add iframe overlay
                     $('body').append('<iframe data-popuptype="' + Type + '" name="' + WindowName + '" class="PopupIframe" src="' + URL + '"></iframe>');
-                    if ($(document).height() > $('iframe.PopupIframe').height()) {
-                        $('iframe.PopupIframe').height($(document).height());
-                    }
+                    $('iframe.PopupIframe').height($(window).height());
                 }
             }
         }
@@ -598,6 +620,7 @@ Core.UI.Popup = (function (TargetNS) {
             // closing the Iframe is a little bit more complicated
             else if (LocalWindowMode === 'Iframe') {
                 $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
+                $('html', ParentObject.document).removeClass('NoScroll');
             }
         }
 
@@ -650,9 +673,7 @@ Core.UI.Popup = (function (TargetNS) {
         $(window).bind('beforeunload.Popup', function () {
             return Core.UI.Popup.CheckPopupsOnUnload();
         });
-        $(window).bind('unload.Popup', function () {
-            Core.UI.Popup.ClosePopupsOnUnload();
-        });
+        Core.App.BindWindowUnloadEvent('Popup', Core.UI.Popup.ClosePopupsOnUnload);
         Core.UI.Popup.RegisterPopupEvent();
 
         // if this window is a popup itself, register another function
@@ -667,21 +688,6 @@ Core.UI.Popup = (function (TargetNS) {
                 ParentWindow.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
                 TargetNS.ClosePopup();
             });
-
-            // if this is a popup-iframe, correct document height if necessary
-            if (window.parent) {
-                // Check if iframe is larger than original document and resize iframe
-                if ($(window.frameElement).height() < $('body').height()) {
-                    $(window.frameElement).height($('body').height());
-                }
-
-                // Additionally repeat this resizing check for every RTE instance created
-                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
-                    if ($(window.frameElement).height() < $('body').height()) {
-                        $(window.frameElement).height($('body').height());
-                    }
-                });
-            }
 
             // add a class to the body element, if this popup is a real popup
             if (window.opener) {

@@ -1,12 +1,11 @@
 package HTTP::Request;
 
-require HTTP::Message;
-@ISA = qw(HTTP::Message);
-$VERSION = "6.00";
-
 use strict;
+use warnings;
 
+use base 'HTTP::Message';
 
+our $VERSION = "6.11";
 
 sub new
 {
@@ -192,7 +191,7 @@ short string like "GET", "HEAD", "PUT" or "POST".
 
 This is used to get/set the uri attribute.  The $val can be a
 reference to a URI object or a plain string.  If a string is given,
-then it should be parseable as an absolute URI.
+then it should be parsable as an absolute URI.
 
 =item $r->header( $field )
 

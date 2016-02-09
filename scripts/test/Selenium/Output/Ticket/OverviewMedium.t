@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ $Selenium->RunTest(
             Value => \%SortOverview,
         );
 
-        # create and log in test useer
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -92,11 +92,17 @@ $Selenium->RunTest(
                 Lock         => 'unlock',
                 Priority     => '3 normal',
                 State        => 'new',
-                CustomerID   => '123465',
+                CustomerID   => 'TestCustomer',
                 CustomerUser => 'customer@example.com',
                 OwnerID      => $TestUserID,
                 UserID       => $TestUserID,
             );
+
+            $Self->True(
+                $TicketID,
+                "Ticket is created - $TicketID"
+            );
+
             push @TicketIDs,     $TicketID;
             push @TicketNumbers, $TicketNumber;
         }
@@ -104,28 +110,30 @@ $Selenium->RunTest(
 
         # go to queue ticket overview
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
 
         # switch to medium view
-        $Selenium->find_element( "a.Medium", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#TicketOverviewMedium').length" );
+        $Selenium->find_element( "a.Medium", 'css' )->VerifiedClick();
 
         # sort by ticket number
         $Selenium->execute_script(
             "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
         );
-        sleep 3;
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.MainBox')" );
+
+        # wait for page reload after changing sort param
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("a[href*=\'SortBy=TicketNumber;OrderBy=Up\']").length'
+        );
 
         # set 10 tickets per page
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->execute_script(
             "\$('#UserTicketOverviewMediumPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a#AgentTicketQueuePage2').length" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-        # check for ticket with lowest ticket number on first 1st page and verifty that ticket
+        # check for ticket with lowest ticket number on first 1st page and verify that ticket
         # with highest ticket number number is not present
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
@@ -137,8 +145,7 @@ $Selenium->RunTest(
         );
 
         # switch to 2nd page to test pagination
-        $Selenium->find_element( "#AgentTicketQueuePage2", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('ul#TicketOverviewMedium').length" );
+        $Selenium->find_element( "#AgentTicketQueuePage2", 'css' )->VerifiedClick();
 
         # check for ticket with highest ticket number
         $Self->True(
@@ -147,8 +154,8 @@ $Selenium->RunTest(
         );
 
         # check if settings are stored when switching between view
-        $Selenium->find_element( "a.Large",  'css' )->click();
-        $Selenium->find_element( "a.Medium", 'css' )->click();
+        $Selenium->find_element( "a.Large",  'css' )->VerifiedClick();
+        $Selenium->find_element( "a.Medium", 'css' )->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
             "$SortTicketNumbers[0] - found on screen after changing views"

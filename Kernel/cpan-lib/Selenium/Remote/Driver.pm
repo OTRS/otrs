@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '0.26';
+$Selenium::Remote::Driver::VERSION = '0.2701';
 # ABSTRACT: Perl Client for Selenium Remote Driver
 
 use Moo;
@@ -104,12 +104,13 @@ has 'session_id' => (
 has 'remote_conn' => (
     is      => 'lazy',
     builder => sub {
-            my $self = shift;
-            return Selenium::Remote::RemoteConnection->new(
-                remote_server_addr => $self->remote_server_addr,
-                port               => $self->port,
-                ua                 => $self->ua
-            );
+        my $self = shift;
+        return Selenium::Remote::RemoteConnection->new(
+            remote_server_addr => $self->remote_server_addr,
+            port               => $self->port,
+            ua                 => $self->ua,
+            wd_context_prefix  => $self->wd_context_prefix
+        );
     },
 );
 
@@ -168,12 +169,22 @@ has 'proxy' => (
     is     => 'rw',
     coerce => sub {
         my $proxy = $_[0];
-        if ( $proxy->{proxyType} eq 'pac' ) {
+        if ( $proxy->{proxyType} =~ /^pac$/i ) {
             if ( not defined $proxy->{proxyAutoconfigUrl} ) {
                 croak "proxyAutoconfigUrl not provided\n";
             }
-            elsif ( not( $proxy->{proxyAutoconfigUrl} =~ /^http/g ) ) {
-                croak "proxyAutoconfigUrl should be of format http://";
+            elsif ( not( $proxy->{proxyAutoconfigUrl} =~ /^(http|file)/g ) ) {
+                croak "proxyAutoconfigUrl should be of format http:// or file://";
+            }
+
+            if ( $proxy->{proxyAutoconfigUrl} =~ /^file/ ) {
+                my $pac_url = $proxy->{proxyAutoconfigUrl};
+                my $file = $pac_url;
+                $file =~ s{^file://}{};
+
+                if (! -e $file) {
+                    warn "proxyAutoConfigUrl file does not exist: '$pac_url'";
+                }
             }
         }
         $proxy;
@@ -224,6 +235,7 @@ has 'inner_window_size' => (
 );
 
 with 'Selenium::Remote::Finders';
+with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub BUILD {
     my $self = shift;
@@ -504,9 +516,11 @@ sub get_capabilities {
 
 sub set_timeout {
     my ( $self, $type, $ms ) = @_;
-    if ( not defined $type or not defined $ms ) {
-        croak "Expecting type & timeout in ms";
+    if ( not defined $type  ) {
+        croak "Expecting type";
     }
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res = { 'command' => 'setTimeout' };
     my $params = { 'type' => $type, 'ms' => $ms };
     return $self->_execute_command( $res, $params );
@@ -515,9 +529,8 @@ sub set_timeout {
 
 sub set_async_script_timeout {
     my ( $self, $ms ) = @_;
-    if ( not defined $ms ) {
-        croak "Expecting timeout in ms";
-    }
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res    = { 'command' => 'setAsyncScriptTimeout' };
     my $params = { 'ms'      => $ms };
     return $self->_execute_command( $res, $params );
@@ -526,6 +539,8 @@ sub set_async_script_timeout {
 
 sub set_implicit_wait_timeout {
     my ( $self, $ms ) = @_;
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res    = { 'command' => 'setImplicitWaitTimeout' };
     my $params = { 'ms'      => $ms };
     return $self->_execute_command( $res, $params );
@@ -1214,7 +1229,7 @@ sub upload_file {
 sub _prepare_file {
     my ($self,$filename) = @_;
 
-    if ( not -r $filename ) { die "upload_file: no such file: $filename"; }
+    if ( not -r $filename ) { croak "upload_file: no such file: $filename"; }
     my $string = "";    # buffer
     my $zip = Archive::Zip->new();
     $zip->addFile($filename, basename($filename));
@@ -1293,6 +1308,28 @@ sub delete_local_storage_item {
     return $self->_execute_command($res, $params);
 }
 
+sub _coerce_timeout_ms {
+    my ($ms) = @_;
+
+    if ( defined $ms ) {
+        return _coerce_number( $ms );
+    }
+    else {
+        croak 'Expecting a timeout in ms';
+    }
+}
+
+sub _coerce_number {
+    my ($maybe_number) = @_;
+
+    if ( Scalar::Util::looks_like_number( $maybe_number )) {
+        return $maybe_number + 0;
+    }
+    else {
+        croak "Expecting a number, not: $maybe_number";
+    }
+}
+
 
 1;
 
@@ -1308,7 +1345,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 0.26
+version 0.2701
 
 =head1 SYNOPSIS
 
@@ -1417,7 +1454,7 @@ you please.
                 pac        - Proxy autoconfiguration from a URL,
                 autodetect - proxy autodetection, probably with WPAD,
                 system     - Use system settings
-            'proxyAutoconfigUrl' - <string> - REQUIRED if proxyType is 'pac', ignored otherwise. Expected format: http://hostname.com:1234/pacfile.
+            'proxyAutoconfigUrl' - <string> - REQUIRED if proxyType is 'pac', ignored otherwise. Expected format: http://hostname.com:1234/pacfile or file:///path/to/pacfile
             'ftpProxy'           - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
             'httpProxy'          - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
             'sslProxy'           - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
@@ -1817,12 +1854,16 @@ Synonymous with mouse_move_to_location
 =head2 quit
 
  Description:
-    Delete the session & close open browsers. We will try to call this
-    on our down when we get DEMOLISHed, but in the event that we are
-    only demolished during global destruction, we will not be able to
-    close the browser. For your own unattended and/or complicated tests,
-    we recommend explicitly calling quit to make sure you're not leaving
-    orphan browsers around.
+    DELETE the session, closing open browsers. We will try to call
+    this on our down when we get destroyed, but in the event that we
+    are demolished during global destruction, we will not be able to
+    close the browser. For your own unattended and/or complicated
+    tests, we recommend explicitly calling quit to make sure you're
+    not leaving orphan browsers around.
+
+    Note that as a Moo class, we use a subroutine called DEMOLISH that
+    takes the place of DESTROY; for more information, see
+    https://metacpan.org/pod/Moo#DEMOLISH.
 
  Usage:
     $driver->quit();
@@ -2348,7 +2389,8 @@ To conveniently write the screenshot to a file, see L<capture_screenshot()>.
 
  Usage:
     my $elem1 = $driver->find_element("//select[\@name='ned']");
-    my $child = $driver->find_child_elements($elem1, "//option");
+    # note the usage of ./ when searching for a child element instead of //
+    my $child = $driver->find_child_elements($elem1, "./option");
 
 =head2 find_element_by_class
 
@@ -2767,7 +2809,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 =head1 CONTRIBUTORS
 
-=for stopwords Allen Lew Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson Phil Kania Mitchell Robert Utter Bas Bloemsaat Tom Hukins Vishwanath Janmanchi amacleay jamadam Brian Horakh Charles Howes Daniel Fackrell Dave Rolsky Dmitry Karasik Eric Johnson Gabor Szabo George S. Baugh
+=for stopwords Allen Lew Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson Phil Kania Mitchell Robert Utter Bas Bloemsaat Tom Hukins Vishwanath Janmanchi amacleay jamadam lembark Brian Horakh Charles Howes Daniel Fackrell Dave Rolsky Dmitry Karasik Eric Johnson Gabor Szabo George S. Baugh
 
 =over 4
 
@@ -2834,6 +2876,10 @@ amacleay <a.macleay@gmail.com>
 =item *
 
 jamadam <sugama@jamadam.com>
+
+=item *
+
+lembark <lembark@wrkhors.com>
 
 =item *
 

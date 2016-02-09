@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -210,6 +210,9 @@ Core.UI.Dialog = (function (TargetNS) {
         function HandleClosingAction() {
             var $CloseButton = $('.Dialog:visible button.Close');
 
+            // publish close event
+            Core.App.Publish('Event.UI.Dialog.CloseDialog.Close', $Dialog);
+
             // Hide any possibly existing tooltips.
             if (Core.Form && Core.Form.ErrorTooltips) {
                 Core.Form.ErrorTooltips.HideTooltip();
@@ -266,6 +269,8 @@ Core.UI.Dialog = (function (TargetNS) {
 
             return (Position + 'px');
         }
+
+        Core.App.Publish('Event.UI.Dialog.ShowDialog.BeforeOpen');
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
@@ -334,7 +339,7 @@ Core.UI.Dialog = (function (TargetNS) {
             $Dialog.addClass('Alert');
             $Dialog.attr("role", "alertdialog");
             $Content = $Dialog.find('.Content').append('<div class="InnerContent"></div>').find('.InnerContent');
-            $Content.append('<span class="Icon"></span>');
+            $Content.append('<i class="fa fa-warning"></i>');
             if (Params.Headline) {
                 $Content.append('<h2>' + Params.Headline + '</h2>');
             }
@@ -443,11 +448,18 @@ Core.UI.Dialog = (function (TargetNS) {
                 containment: 'body',
                 handle: '.Header',
                 start: function() {
+                    // Fire PubSub event for dragstart
+                    // (to handle more dependencies in their own namespaces)
+                    Core.App.Publish('Event.UI.Dialog.ShowDialog.DragStart', $Dialog);
+
                     // Hide any possibly existing tooltips as they will not be moved
                     //  with this dialog.
                     if (Core.Form && Core.Form.ErrorTooltips) {
                         Core.Form.ErrorTooltips.HideTooltip();
                     }
+                },
+                stop: function() {
+                    Core.App.Publish('Event.UI.Dialog.ShowDialog.DragStop', $Dialog);
                 }
             });
         }
@@ -589,6 +601,9 @@ Core.UI.Dialog = (function (TargetNS) {
         // Get the original selector for the content template
         DialogCopySelector = Core.Data.Get($Dialog, 'DialogCopySelector');
 
+        // publish close event
+        Core.App.Publish('Event.UI.Dialog.CloseDialog.Close', $Dialog);
+
         $Dialog.remove();
         $('#Overlay').remove();
         $('body').css({
@@ -617,9 +632,6 @@ Core.UI.Dialog = (function (TargetNS) {
             // write the new DialogCopy back
             Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
         }
-
-        // publish close event
-        Core.App.Publish('Event.UI.Dialog.CloseDialog.Close', $Dialog);
     };
 
     return TargetNS;

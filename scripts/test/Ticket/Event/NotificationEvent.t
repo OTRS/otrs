@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,6 +133,9 @@ my $SetInvalid = $UserObject->UserUpdate(
     ChangeUserID => 1,
 );
 
+# create a new customer user for current test
+my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+
 # get a random id
 my $RandomID = int rand 1_000_000_000;
 
@@ -230,7 +233,7 @@ my $TicketID = $TicketObject->TicketCreate(
     Priority      => '3 normal',
     State         => 'new',
     CustomerID    => 'example.com',
-    CustomerUser  => 'customerOne@example.com',
+    CustomerUser  => $CustomerUserLogin,
     OwnerID       => $UserID,
     ResponsibleID => $UserID,
     UserID        => $UserID,
@@ -270,6 +273,11 @@ my $SuccessWatcher = $TicketObject->TicketWatchSubscribe(
 $Self->True(
     $SuccessWatcher,
     "TicketWatchSubscribe() successful for Ticket ID $TicketID",
+);
+
+# get article types email-notification-int ID
+my $ArticleTypeIntID = $TicketObject->ArticleTypeLookup(
+    ArticleType => 'email-notification-int',
 );
 
 my @Tests = (
@@ -371,7 +379,7 @@ my @Tests = (
         Success         => 1,
     },
     {
-        Name => 'RecipientAgent OutOfOffice',
+        Name => 'RecipientAgent OutOfOffice (in the past)',
         Data => {
             Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             RecipientAgents => [$UserID],
@@ -384,16 +392,70 @@ my @Tests = (
             Config => {},
             UserID => 1,
         },
-        ExpectedResults => [],
-        SetOutOfOffice  => 1,
-        Success         => 1,
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => -3 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => -1 * 60 * 60 * 24,
+        Success                 => 1,
+    },
+    {
+        Name => 'RecipientAgent OutOfOffice (currently)',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults         => [],
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => -1 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => 1 * 60 * 60 * 24,
+        Success                 => 1,
+    },
+    {
+        Name => 'RecipientAgent OutOfOffice (in the future)',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        SetOutOfOffice          => 1,
+        SetOutOfOfficeDiffStart => 1 * 60 * 60 * 24,
+        SetOutOfOfficeDiffEnd   => 3 * 60 * 60 * 24,
+        Success                 => 1,
     },
     {
         Name => 'RecipientAgent Customizable / No preference',
         Data => {
-            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
-            RecipientAgents => [$UserID],
-            VisibleForAgent => [1],
+            Events                => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents       => [$UserID],
+            VisibleForAgent       => [1],
+            Transports            => ['Email'],
+            AgentEnabledByDefault => ['Email'],
         },
         Config => {
             Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
@@ -739,6 +801,29 @@ my @Tests = (
         ],
         Success => 1,
     },
+    {
+        Name => 'RecipientCustomer + NotificationArticleType email-notification-int',
+        Data => {
+            Events                    => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients                => ['Customer'],
+            NotificationArticleTypeID => [$ArticleTypeIntID],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+                ToArray => ["$CustomerUserLogin\@localunittest.com"],
+            },
+        ],
+        Success => 1,
+    },
 
 );
 
@@ -759,28 +844,26 @@ my $SetPostMasterUserID = sub {
 my $SetOutOfOffice = sub {
     my %Param = @_;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() - 1,    # put it one second is past
-    );
+    if ( $Param{OutOfOffice} ) {
 
-    my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() + ( 60 * 24 ),    # add one day
-    );
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffStart},
+        );
 
-    my %Preferences = (
-        OutOfOfficeStartYear  => $Year,
-        OutOfOfficeStartMonth => $Month,
-        OutOfOfficeStartDay   => $Day,
-        OutOfOfficeEndYear    => $EYear,
-        OutOfOfficeEndMonth   => $EMonth,
-        OutOfOfficeEndDay     => $EDay,
-    );
+        my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffEnd},
+        );
 
-    $Preferences{OutOfOffice} = $Param{OutOfOffice};
-
-    if ( $Preferences{OutOfOffice} ) {
+        my %Preferences = (
+            OutOfOfficeStartYear  => $Year,
+            OutOfOfficeStartMonth => $Month,
+            OutOfOfficeStartDay   => $Day,
+            OutOfOfficeEndYear    => $EYear,
+            OutOfOfficeEndMonth   => $EMonth,
+            OutOfOfficeEndDay     => $EDay,
+        );
 
         # pref update db
         my $Success = $UserObject->SetPreferences(
@@ -935,8 +1018,10 @@ for my $Test (@Tests) {
 
     if ( $Test->{SetOutOfOffice} ) {
         my $SuccessOOO = $SetOutOfOffice->(
-            UserID      => $UserID,
-            OutOfOffice => 1,
+            SetOutOfOfficeDiffStart => $Test->{SetOutOfOfficeDiffStart},
+            SetOutOfOfficeDiffEnd   => $Test->{SetOutOfOfficeDiffEnd},
+            UserID                  => $UserID,
+            OutOfOffice             => 1,
         );
 
         # set out of office should always be true
@@ -977,6 +1062,21 @@ for my $Test (@Tests) {
         $Test->{ExpectedResults},
         "$Test->{Name} - Recipients",
     );
+
+    # check if there is email-notification-int article type when sending notification
+    # to customer see bug#11592
+    if ( $Test->{Name} =~ /RecipientCustomer/i ) {
+        my @ArticleBox = $TicketObject->ArticleContentIndex(
+            TicketID      => $TicketID,
+            UserID        => 1,
+            ArticleTypeID => [$ArticleTypeIntID],
+        );
+        $Self->Is(
+            scalar @ArticleBox,
+            1,
+            "$Test->{Name} - Article Type email-notification-int created for Customer recipient",
+        );
+    }
 }
 continue {
     # delete notification event

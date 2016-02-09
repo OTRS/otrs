@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,10 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         var NewHeight;
 
         if (isJQueryObject($Iframe)) {
+            // slightly change the width of the iframe to not be exactly 100% width anymore
+            // this prevents a double horizontal scrollbar (from iframe and surrounding div)
+            $Iframe.width($Iframe.width() - 2);
+
             NewHeight = $Iframe.contents().height();
             if (!NewHeight || isNaN(NewHeight)) {
                 NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
@@ -128,6 +132,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                     NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax');
                 }
             }
+
+            // add delta for scrollbar
+            NewHeight = parseInt(NewHeight, 10) + 25;
             $Iframe.height(NewHeight + 'px');
         }
     };

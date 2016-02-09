@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,7 +135,7 @@
             <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
             [% END %]
             <span class="Warning">
-                [% Translate('Please note that the preview uses random data and does not consider data restrictions.') | html %]
+                [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
             </span>
         </div>
         [% WRAPPER JSOnDocumentComplete %]

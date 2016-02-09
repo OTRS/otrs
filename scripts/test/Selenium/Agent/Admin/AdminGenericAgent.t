@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,20 +12,30 @@ use utf8;
 
 use vars (qw($Self));
 
-our $ObjectManagerDisabled = 1;
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # set generic agent run limit
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::GenericAgentRunLimit',
+            Value => 10
+        );
+
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
+            Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -34,46 +44,50 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        # Create Ticket to test AdminGenericAgent frontend
-        my $TicketID = $TicketObject->TicketCreate(
-            Title        => 'Testticket for Untittest of the Generic Agent',
-            Queue        => 'Raw',
-            Lock         => 'unlock',
-            PriorityID   => 1,
-            StateID      => 1,
-            CustomerNo   => '123465',
-            CustomerUser => 'customerUnitTest@example.com',
-            OwnerID      => 1,
-            UserID       => 1,
+        # get test user ID
+        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin,
         );
 
-        my $ArticleID = $TicketObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            From           => 'Some Agent <email@example.com>',
-            To             => 'Customer A <customer-a@example.com>',
-            Cc             => 'Customer B <customer-b@example.com>',
-            ReplyTo        => 'Customer B <customer-b@example.com>',
-            Subject        => 'some short description',
-            Body           => 'the message text Perl modules provide a range of',
-            ContentType    => 'text/plain; charset=ISO-8859-15',
-            HistoryType    => 'OwnerUpdate',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
-            NoAgentNotify  => 1,
-        );
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        my $TicketNumber = $TicketObject->TicketNumberLookup(
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
+        # create test tickets
+        my $TestTicketTitle = 'TicketGenericAgent' . $Helper->GetRandomID();
+        my @TicketNumbers;
+        for ( 1 .. 20 ) {
 
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminGenericAgent");
+            # create Ticket to test AdminGenericAgent frontend
+            my $TicketID = $TicketObject->TicketCreate(
+                Title        => $TestTicketTitle,
+                Queue        => 'Raw',
+                Lock         => 'unlock',
+                PriorityID   => 1,
+                StateID      => 1,
+                CustomerNo   => 'SeleniumTestCustomer',
+                CustomerUser => 'customerUnitTest@example.com',
+                OwnerID      => $UserID,
+                UserID       => $UserID,
+            );
+            $Self->True(
+                $TicketID,
+                "Ticket is created - $TicketID",
+            );
 
-        my $RandomID = "GenericAgent" . $Helper->GetRandomID();
+            my $TicketNumber = $TicketObject->TicketNumberLookup(
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+
+            push @TicketNumbers, $TicketNumber;
+
+        }
+
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate to AdminGenericAgent screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
 
         # check overview AdminGenericAgent
         $Selenium->find_element( "table",             'css' );
@@ -81,37 +95,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # check add job page
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Update' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Update' )]")->VerifiedClick();
 
         my $Element = $Selenium->find_element( "#Profile", 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
 
-        # toggle Automatic execution (multiple tickets) widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_0')]")->click();
-
-        # toggle Even based execution widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_1')]")->click();
-
-        # toggle Select Tickets widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_2')]")->click();
-
-        # toggle Update/Add Ticket Attribued widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_3')]")->click();
-
-        # toggle Add Note widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_4')]")->click();
-
-        # toggle Execute Ticket Commands widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_5')]")->click();
-
-        # toggle Execude Custome Module widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_6')]")->click();
+        # Toggle widgets
+        $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
 
         # create test job
-        $Selenium->find_element( "#Profile",      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#TicketNumber", 'css' )->send_keys($TicketNumber);
-        $Selenium->find_element( "#Profile",      'css' )->submit();
+        my $RandomID = "GenericAgent" . $Helper->GetRandomID();
+        $Selenium->find_element( "#Profile", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Title",   'css' )->send_keys($TestTicketTitle);
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -120,29 +117,58 @@ $Selenium->RunTest(
         );
 
         # edit test job to delete test ticket
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         # toggle Execute Ticket Commands widget
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_5')]")->click();
+        $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->submit();
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # run test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID\' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
 
         # check if test job show expected result
+        for my $TicketNumber (@TicketNumbers) {
+
+            $Self->True(
+                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
+                "$TicketNumber found on page",
+            );
+
+        }
+
+        # check if there is warning message:
+        # "Affected more tickets then how many will be executed on run job"
         $Self->True(
-            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "$TicketNumber found on page",
+            $Selenium->execute_script(
+                "return \$('p.Error:contains(tickets affected but only)').length"
+            ),
+            "RunLimit warning message shown",
         );
 
         # execute test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
+
+        # run test job again
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
+
+        # check if there is no warning message:
+        # "Affected more tickets than how many will be executed on run job"
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('p.Error:contains(tickets affected but only)').length"
+            ),
+            "There is no warning message",
+        );
+
+        # execute test job
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # set test job to invalid
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+
         $Selenium->execute_script("\$('#Valid').val('0').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->submit();
+        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check class of invalid generic job in the overview table
         $Self->True(
@@ -153,7 +179,7 @@ $Selenium->RunTest(
         );
 
         # delete test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->VerifiedClick();
 
     }
 

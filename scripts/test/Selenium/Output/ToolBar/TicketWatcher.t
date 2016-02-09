@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,20 +55,25 @@ $Selenium->RunTest(
             Priority      => '3 normal',
             State         => 'open',
             CustomerID    => 'SeleniumCustomerID',
-            CustomerUser  => "test\@localhost.com",
+            CustomerUser  => 'test@localhost.com',
             OwnerID       => 1,
             UserID        => 1,
             ResponsibleID => 1,
         );
 
+        $Self->True(
+            $TicketID,
+            "Ticket is created - ID $TicketID"
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to AgentTicketZoom and check watcher feature - sudcribe ticket to watch it
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatcher\' )]")->click();
+        # go to AgentTicketZoom and check watcher feature - subscribe ticket to watch it
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatcher\' )]")->VerifiedClick();
 
         # click on tool bar AgentTicketWatchView
-        $Selenium->find_element("//a[contains(\@title, \'Watched Tickets Total:\' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Watched Tickets Total:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketWatchView";
@@ -85,7 +90,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete ticket - $TicketID"
+            "Ticket is deleted - $TicketID"
         );
     }
 );

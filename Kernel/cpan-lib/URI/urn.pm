@@ -3,6 +3,8 @@ package URI::urn;  # RFC 2141
 use strict;
 use warnings;
 
+our $VERSION = "1.69";
+
 use parent 'URI';
 
 use Carp qw(carp);

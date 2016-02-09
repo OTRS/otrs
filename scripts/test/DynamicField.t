@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,18 +13,42 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomNumber();
 my $UserID   = 1;
 
 my @Tests = (
     {
-        Name          => 'test1',
+        Name          => 'Test1',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
+        Add           => {
+            Config => {
+                Name        => 'AnyName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'something for label',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Article',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'Test1',    # add same field again - fail
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
         Add           => {
             Config => {
                 Name        => 'AnyName',
@@ -220,23 +244,6 @@ my @Tests = (
             UserID     => $UserID,
         },
     },
-    {
-        Name          => 'Test1',
-        SuccessAdd    => 0,
-        SuccessUpdate => 0,
-        Add           => {
-            Config => {
-                Name        => 'AnyName',
-                Description => 'Description for Dynamic Field.',
-            },
-            Label      => 'something for label',
-            FieldOrder => 10000,
-            FieldType  => 'Text',
-            ObjectType => 'Article',
-            ValidID    => 1,
-            UserID     => $UserID,
-        },
-    },
 );
 
 my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
@@ -254,11 +261,7 @@ for my $Test (@Tests) {
         Name => $FieldName,
     );
 
-    if (
-        !$DBObject->GetDatabaseFunction('CaseSensitive')
-        && $FieldNames{ lc $FieldName }
-        )
-    {
+    if ( $FieldNames{$FieldName} ) {
         $Self->IsNotDeeply(
             $GetResult,
             {},
@@ -1450,7 +1453,7 @@ for my $ObjectType (qw(Ticket Article)) {
 # tests with more than one object type
 {
 
-    # cobine list for comparisons
+    # combine list for comparisons
     my @ListFieldIDs = (
         @TicketFieldIDs,
         @ArticleFieldIDs,
@@ -1613,7 +1616,7 @@ $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
 
 $Self->False(
     $OrderCheckSuccess,
-    'DynamicFieldOrderCheck() for duplicates, with Flase',
+    'DynamicFieldOrderCheck() for duplicates, with False',
 );
 
 # reset fields order
@@ -1621,7 +1624,7 @@ $OrderResetSuccess = $DynamicFieldObject->DynamicFieldOrderReset();
 
 $Self->True(
     $OrderResetSuccess,
-    'DynamicFieldOrderReset() remove dulicates, with True',
+    'DynamicFieldOrderReset() remove duplicates, with True',
 );
 
 $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
@@ -1661,7 +1664,7 @@ $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
 
 $Self->False(
     $OrderCheckSuccess,
-    'DynamicFieldOrderCheck() for gaps, with Flase',
+    'DynamicFieldOrderCheck() for gaps, with False',
 );
 
 # reset fields order
@@ -1692,5 +1695,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
         "DynamicFieldDelete() Field List() and ListGet() for Field ID $DynamicFieldID"
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

@@ -1,5 +1,5 @@
 // --
-// Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+// Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -277,7 +277,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 // get field translation
                 Translation = Core.Config.Get('Column' + Field) || Field;
 
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
+                $FieldObj = $('<li />').attr('title', Translation).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AssignedFields').append($FieldObj);
             });
             $.each(DataAvailable, function(Index, Field) {
@@ -285,7 +285,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 // get field translation
                 Translation = Core.Config.Get('Column' + Field) || Field;
 
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
+                $FieldObj = $('<li />').attr('title', Translation).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AvailableFields').append($FieldObj);
             });
 

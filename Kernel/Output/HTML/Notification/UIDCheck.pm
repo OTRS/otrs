@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Notification::UIDCheck;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout'
@@ -42,7 +44,7 @@ sub Run {
         Priority => 'Error',
         Link     => $LayoutObject->{Baselink} . 'Action=AdminUser',
         Data =>
-            $LayoutObject->{LanguageObject}->Translate(
+            Translatable(
             "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
             ),
     );

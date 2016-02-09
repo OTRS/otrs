@@ -40,7 +40,6 @@ span.WarningDialog {
     width: 22px;
     height: 35px;
     float: left;
-    background: url(../img/dialog_alert.png) no-repeat;
 }
 
 .GenericInterfaceSpacing {

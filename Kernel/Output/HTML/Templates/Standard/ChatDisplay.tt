@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 [% FOREACH Line IN Data.ChatMessages %]
     <div>
         <div class="[% IF Line.ChatterID == Env('UserID') %]Own[% ELSE %]Foreign[% END %][% IF Line.SystemGenerated %] SystemGenerated[% END %]">
-            <span class="Time">[[% Line.CreateTime | html %]]</span>
+            <span class="Time">[[% Line.CreateTime | Localize('TimeLong') | html %]]</span>
             <span>
                 <span class="Name">[% IF Line.SystemGenerated != 1 %][% Line.ChatterName | html %][% END %]</span>
                 <span class="Text">[% Line.MessageText | html %]</span>

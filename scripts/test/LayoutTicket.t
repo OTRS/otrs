@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,21 +12,18 @@ use utf8;
 
 use vars (qw($Self %Param));
 
-use Kernel::Output::HTML::Layout;
-
 # get needed objects
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject      = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-my $FormID = $UploadCacheObject->FormIDCreate();
-
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    UserChallengeToken => 'TestToken',
-    UserID             => 1,
-    Lang               => 'de',
-    SessionID          => 123,
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create test data
 my $TicketID = $TicketObject->TicketCreate(
@@ -45,7 +42,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-# add html
+# add HTML
 my $HTML = '<html>
 <head>
 <title>Test</title>
@@ -217,6 +214,20 @@ my @Tests = (
     },
 );
 
+# get layout object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Output::HTML::Layout' => {
+        UserChallengeToken => 'TestToken',
+        UserID             => 1,
+        Lang               => 'de',
+        SessionID          => 123,
+    },
+);
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+# get form ID
+my $FormID = $UploadCacheObject->FormIDCreate();
+
 # execute tests
 for my $Test (@Tests) {
 
@@ -270,7 +281,7 @@ for my $Test (@Tests) {
             elsif ( $Attachment->{Filename} eq $Filename && !$Test->{Attachment}->{$Filename} ) {
                 $Self->True(
                     0,
-                    "Attachment is included, but would 've not been expected - $Filename",
+                    "Attachment is included, but it is not expected - $Filename",
                 );
                 next ATTACHMENT;
             }
@@ -278,7 +289,7 @@ for my $Test (@Tests) {
         if ( $Test->{Attachment}->{$Filename} ) {
             $Self->True(
                 0,
-                "Attachment is not included, but would 've been expected - $Filename",
+                "Attachment is not included, but it is not expected - $Filename",
             );
         }
         else {
@@ -291,13 +302,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup
-$Self->True(
-    $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    ),
-    "TicketDelete()",
-);
+# cleanup is done by RestoreDatabase
 
 1;

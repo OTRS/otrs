@@ -50,12 +50,12 @@ sub LoadDefaults {
 
     # SystemID
     # (The identify of the system. Each ticket number and
-    # each http session id starts with this number)
+    # each HTTP session id starts with this number)
     $Self->{SystemID} = 10;
 
     # NodeID
     # (The identify of the node. In a clustered environment
-    # each node needs a seperate NodeID. On a setup with just
+    # each node needs a separate NodeID. On a setup with just
     # one frontend server, it is not needed to change this setting)
     $Self->{NodeID} = 1;
 
@@ -64,7 +64,7 @@ sub LoadDefaults {
     $Self->{FQDN} = 'yourhost.example.com';
 
     # HttpType
-    # In case you use https instead of plain http specify it here
+    # In case you use HTTPS instead of plain HTTP specify it here
     $Self->{HttpType} = 'http';
 
     # ScriptAlias
@@ -83,7 +83,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTRS 5';
+    $Self->{ProductName} = 'OTRS 6';
 
     # --------------------------------------------------- #
     # database settings                                   #
@@ -153,54 +153,104 @@ sub LoadDefaults {
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
         'ar_SA' => 'Arabic (Saudi Arabia)',
-        'bg' => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
-        'ca' => 'Catal&agrave;',
-        'cs' => 'Czech (&#x010c;esky)',
-        'da' => 'Dansk',
-        'de' => 'Deutsch',
-        'el' => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
+        'bg' => 'Bulgarian',
+        'ca' => 'Catalan',
+        'cs' => 'Czech',
+        'da' => 'Danish',
+        'de' => 'German',
         'en' => 'English (United States)',
         'en_CA' => 'English (Canada)',
         'en_GB' => 'English (United Kingdom)',
-        'es' => 'Espa&ntilde;ol',
-        'es_CO' => 'Espa&ntilde;ol (Colombia)',
-        'es_MX' => 'Espa&ntilde;ol (M&eacute;xico)',
-        'et' => 'Eesti',
-        'fa' => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
-        'fi' => 'Suomi',
-        'fr' => 'Fran&ccedil;ais',
-        'fr_CA' => 'Fran&ccedil;ais (Canada)',
-        'gl' => 'Galego',
-        'he' => 'Hebrew (עִבְרִית)',
+        'es' => 'Spanish',
+        'es_CO' => 'Spanish (Colombia)',
+        'es_MX' => 'Spanish (Mexico)',
+        'et' => 'Estonian',
+        'el' => 'Greek',
+        'fa' => 'Persian',
+        'fi' => 'Finnish',
+        'fr' => 'French',
+        'fr_CA' => 'French (Canada)',
+        'gl' => 'Galician',
+        'he' => 'Hebrew',
         'hi' => 'Hindi',
+        'hr' => 'Croatian',
+        'hu' => 'Hungarian',
+        'it' => 'Italian',
+        'ja' => 'Japanese',
+        'lt' => 'Lithuanian',
+        'lv' => 'Latvian',
+        'ms' => 'Malay',
+        'nl' => 'Nederlands',
+        'nb_NO' => 'Norwegian',
+        'pt_BR' => 'Portuguese (Brasil)',
+        'pt' => 'Portuguese',
+        'pl' => 'Polish',
+        'ru' => 'Russian',
+        'sl' => 'Slovenian',
+        'sr_Latn' => 'Serbian Latin',
+        'sr_Cyrl' => 'Serbian Cyrillic',
+        'sk_SK' => 'Slovak',
+        'sv' => 'Swedish',
+        'sw' => 'Swahili',
+        'th_TH' => 'Thai',
+        'tr' => 'Turkish',
+        'uk' => 'Ukrainian',
+        'vi_VN' => 'Vietnam',
+        'zh_CN' => 'Chinese (Simplified)',
+        'zh_TW' => 'Chinese (Traditional)',
+    };
+
+    $Self->{DefaultUsedLanguagesNative} = {
+        'ar_SA' => 'العَرَبِية‎',
+        'bg' => 'Български',
+        'ca' => 'Català',
+        'cs' => 'Česky',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'en' => 'English (United States)',
+        'en_CA' => 'English (Canada)',
+        'en_GB' => 'English (United Kingdom)',
+        'es' => 'Español',
+        'es_CO' => 'Español (Colombia)',
+        'es_MX' => 'Español (México)',
+        'et' => 'Eesti',
+        'el' => 'Ελληνικά',
+        'fa' => 'فارسى',
+        'fi' => 'Suomi',
+        'fr' => 'Français',
+        'fr_CA' => 'Français (Canada)',
+        'gl' => 'Galego',
+        'he' => 'עברית',
+        'hi' => 'हिन्दी',
         'hr' => 'Hrvatski',
         'hu' => 'Magyar',
         'it' => 'Italiano',
-        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
+        'ja' => '日本語',
         'lt' => 'Lietuvių kalba',
         'lv' => 'Latvijas',
-        'ms' => 'Malay',
-        'nb_NO' => 'Norsk bokm&aring;l',
-        'nl' => 'Nederlands',
+        'ms' => 'Melayu',
+        'nl' => 'Nederlandse',
+        'nb_NO' => 'Norsk bokmål',
+        'pt_BR' => 'Português Brasileiro',
+        'pt' => 'Português',
         'pl' => 'Polski',
-        'pt' => 'Portugu&ecirc;s',
-        'pt_BR' => 'Portugu&ecirc;s Brasileiro',
-        'ru' => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
-        'sk_SK' => 'Slovak (Sloven&#x010d;ina)',
-        'sl' => 'Slovenian (Slovenščina)',
-        'sr_Cyrl' => 'Serbian Cyrillic (српски)',
-        'sr_Latn' => 'Serbian Latin (Srpski)',
+        'ru' => 'Русский',
+        'sl' => 'Slovenščina',
+        'sr_Latn' => 'Srpski',
+        'sr_Cyrl' => 'Српски',
+        'sk_SK' => 'Slovenčina',
         'sv' => 'Svenska',
-        'sw' => 'Swahili',
-        'tr' => 'T&uuml;rk&ccedil;e',
-        'uk' => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
-        'vi_VN' => 'Vietnam (Vi&#x0246;t Nam)',
-        'zh_CN' => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
-        'zh_TW' => 'Chinese (Tradi.) (&#x6b63;&#x9ad4;&#x4e2d;&#x6587;)'
+        'sw' => 'Kiswahili',
+        'th_TH' => 'ภาษาไทย',
+        'tr' => 'Türkçe',
+        'uk' => 'Українська',
+        'vi_VN' => 'ViɆt Nam',
+        'zh_CN' => '简体中文',
+        'zh_TW' => '正體中文',
     };
 
     # default theme
-    # (the default html theme) [default: Standard]
+    # (the default HTML theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
 
     # DefaultTheme::HostBased
@@ -283,11 +333,6 @@ sub LoadDefaults {
     $Self->{'LogModule::SysLog::Facility'} = 'user';
 
     # param for LogModule Kernel::System::Log::SysLog
-    # (Depends on you sys log system environment. 'unix' is default, on
-    # solaris you may need to use 'stream'.)
-    $Self->{'LogModule::SysLog::LogSock'} = 'unix';
-
-    # param for LogModule Kernel::System::Log::SysLog
     # (if syslog can't work with utf-8, force the log
     # charset with this option, on other chars will be
     # replaces with ?)
@@ -332,7 +377,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # authentication settings                             #
     # (enable what you need, auth against otrs db,        #
-    # against LDAP directory, agains HTTP basic auth      #
+    # against LDAP directory, against HTTP basic auth      #
     # or against Radius server)                           #
     # --------------------------------------------------- #
     # This is the auth. module against the otrs db
@@ -378,7 +423,7 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # In case you want to convert all given usernames to lower letters you
-    # should activate this option. It might be helpfull if databases are
+    # should activate this option. It might be helpful if databases are
     # in use that do not distinguish selects for upper and lower case letters
     # (Oracle, postgresql). User might be synched twice, if this option
     # is not in use.
@@ -439,7 +484,7 @@ sub LoadDefaults {
 #    $Self->{'AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
-    # helpful to account for timimg issues (server and entry based)
+    # helpful to account for timing issues (server and entry based)
 #    $Self->{'AuthTwoFactorModule::AllowPreviousToken'} = '1';
 
     # --------------------------------------------------- #
@@ -896,20 +941,20 @@ sub LoadDefaults {
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
         'thirdparty/jquery-2.1.4/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-validate-1.13.1/jquery.validate.js',
+        'thirdparty/jquery-validate-1.14.0/jquery.validate.js',
         'thirdparty/jquery-ui-1.11.4/jquery-ui.js',
         'thirdparty/stacktrace-0.6.4/stacktrace.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.1.1/jquery.jstree.js',
         'Core.Debug.js',
-        'Core.Data.js',
         'Core.Exception.js',
+        'Core.Data.js',
         'Core.JSON.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Config.js',
-        'Core.AJAX.js',
         'Core.App.js',
         'Core.App.Responsive.js',
+        'Core.AJAX.js',
         'Core.UI.js',
         'Core.UI.InputFields.js',
         'Core.UI.Accessibility.js',
@@ -932,19 +977,19 @@ sub LoadDefaults {
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.11.4/jquery-ui.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
-        'thirdparty/jquery-validate-1.13.1/jquery.validate.js',
+        'thirdparty/jquery-validate-1.14.0/jquery.validate.js',
         'thirdparty/stacktrace-0.6.4/stacktrace.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.1.1/jquery.jstree.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Debug.js',
+        'Core.Exception.js',
         'Core.Data.js',
         'Core.Config.js',
-        'Core.Exception.js',
         'Core.JSON.js',
-        'Core.AJAX.js',
         'Core.App.js',
         'Core.App.Responsive.js',
+        'Core.AJAX.js',
         'Core.UI.js',
         'Core.UI.InputFields.js',
         'Core.UI.Accordion.js',
@@ -1344,7 +1389,7 @@ via the Preferences button after logging in.
 #    $Self->{'Customer::AuthTwoFactorModule::AllowEmptySecret'} = '1';
 
     # defines if the otp for the previous timespan (30-60sec ago) will also be valid
-    # helpful to account for timimg issues (server and entry based)
+    # helpful to account for timing issues (server and entry based)
 #    $Self->{'Customer::AuthTwoFactorModule::AllowPreviousToken'} = '1';
 
     # --------------------------------------------------- #
@@ -1414,32 +1459,32 @@ via the Preferences button after logging in.
 
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-            [ 'UserTitle',      'Title',      'title',      1, 0, 'var', '', 0 ],
-            [ 'UserFirstname',  'Firstname',  'first_name', 1, 1, 'var', '', 0 ],
-            [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
-            [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
-            [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
-            [ 'UserEmail',      'Email',      'email',      1, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
-            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-#            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
-            [ 'UserPhone',        'Phone',       'phone',        1, 0, 'var', '', 0 ],
-            [ 'UserFax',          'Fax',         'fax',          1, 0, 'var', '', 0 ],
-            [ 'UserMobile',       'Mobile',      'mobile',       1, 0, 'var', '', 0 ],
-            [ 'UserStreet',       'Street',      'street',       1, 0, 'var', '', 0 ],
-            [ 'UserZip',          'Zip',         'zip',          1, 0, 'var', '', 0 ],
-            [ 'UserCity',         'City',        'city',         1, 0, 'var', '', 0 ],
-            [ 'UserCountry',      'Country',     'country',      1, 0, 'var', '', 0 ],
-            [ 'UserComment',      'Comment',     'comments',     1, 0, 'var', '', 0 ],
-            [ 'ValidID',          'Valid',       'valid_id',     0, 1, 'int', '', 0 ],
+            [ 'UserTitle',      Translatable('Title'),      'title',      1, 0, 'var', '', 0 ],
+            [ 'UserFirstname',  Translatable('Firstname'),  'first_name', 1, 1, 'var', '', 0 ],
+            [ 'UserLastname',   Translatable('Lastname'),   'last_name',  1, 1, 'var', '', 0 ],
+            [ 'UserLogin',      Translatable('Username'),   'login',      1, 1, 'var', '', 0 ],
+            [ 'UserPassword',   Translatable('Password'),   'pw',         0, 0, 'var', '', 0 ],
+            [ 'UserEmail',      Translatable('Email'),      'email',      1, 1, 'var', '', 0 ],
+#            [ 'UserEmail',      Translatable('Email'), 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
+            [ 'UserCustomerID', Translatable('CustomerID'), 'customer_id', 0, 1, 'var', '', 0 ],
+#            [ 'UserCustomerIDs', Translatable('CustomerIDs'), 'customer_ids', 1, 0, 'var', '', 0 ],
+            [ 'UserPhone',        Translatable('Phone'),       'phone',        1, 0, 'var', '', 0 ],
+            [ 'UserFax',          Translatable('Fax'),         'fax',          1, 0, 'var', '', 0 ],
+            [ 'UserMobile',       Translatable('Mobile'),      'mobile',       1, 0, 'var', '', 0 ],
+            [ 'UserStreet',       Translatable('Street'),      'street',       1, 0, 'var', '', 0 ],
+            [ 'UserZip',          Translatable('Zip'),         'zip',          1, 0, 'var', '', 0 ],
+            [ 'UserCity',         Translatable('City'),        'city',         1, 0, 'var', '', 0 ],
+            [ 'UserCountry',      Translatable('Country'),     'country',      1, 0, 'var', '', 0 ],
+            [ 'UserComment',      Translatable('Comment'),     'comments',     1, 0, 'var', '', 0 ],
+            [ 'ValidID',          Translatable('Valid'),       'valid_id',     0, 1, 'int', '', 0 ],
         ],
 
         # default selections
         Selections => {
 
 #            UserTitle => {
-#                'Mr.' => 'Mr.',
-#                'Mrs.' => 'Mrs.',
+#                'Mr.' => Translatable('Mr.'),
+#                'Mrs.' => Translatable('Mrs.'),
 #            },
         },
     };
@@ -1582,6 +1627,12 @@ via the Preferences button after logging in.
 #        SomeParam => 'DefaultValue',
     };
 
+    # If the public interface is protected with .htaccess
+    # we can specify the htaccess login data here,
+    # this is necessary for the support data collector
+    # $Self->{'PublicFrontend::AuthUser'} = '';
+    # $Self->{'PublicFrontend::AuthPassword'} = '';
+
     # --------------------------------------------------- #
     # Frontend Module Registry (Agent)
     # --------------------------------------------------- #
@@ -1635,9 +1686,9 @@ via the Preferences button after logging in.
         ],
         'NavBarModule' => {
             'Block' => 'System',
-            'Description' => 'View system log messages.',
+            'Description' => Translatable('View system log messages.'),
             'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => 'System Log',
+            'Name' => Translatable('System Log'),
             'Prio' => '600'
         },
         'NavBarName' => 'Admin',
@@ -1650,8 +1701,8 @@ via the Preferences button after logging in.
         NavBarName   => 'Admin',
         NavBarModule => {
             Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            Name        => 'SysConfig',
-            Description => 'Edit the system configuration settings.',
+            Name        => Translatable('SysConfig'),
+            Description => Translatable('Edit the system configuration settings.'),
             Block       => 'System',
             Prio        => 800,
         },
@@ -1665,15 +1716,15 @@ via the Preferences button after logging in.
         },
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
-        'Description' => 'Software Package Manager',
+        'Description' => 'Software Package Manager.',
         'Group' => [
             'admin'
         ],
         'NavBarModule' => {
             'Block' => 'System',
-            'Description' => 'Update and extend your system with software packages.',
+            'Description' => Translatable('Update and extend your system with software packages.'),
             'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => 'Package Manager',
+            'Name' => Translatable('Package Manager'),
             'Prio' => '1000'
         },
         'NavBarName' => 'Admin',
@@ -1755,6 +1806,17 @@ sub Set {
         }
     }
     return 1;
+}
+
+=item Translatable()
+
+this is a no-op to mark a text as translatable in the Perl code.
+We use our own version here instead of importing Language::Translatable to not add a dependency.
+
+=cut
+
+sub Translatable {
+    return shift;
 }
 
 #

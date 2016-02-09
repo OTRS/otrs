@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,8 +83,14 @@ sub new {
             Description => 'Do not perform ANSI terminal output coloring.',
         },
         {
-            Name        => 'allow-root',
-            Description => 'Allow root user to execute the command.',
+            Name        => 'quiet',
+            Description => 'Suppress informative output, only retain error messages.',
+        },
+        {
+            Name => 'allow-root',
+            Description =>
+                'Allow root user to execute the command. This might damage your system; use at your own risk.',
+            Invisible => 1,    # hide from usage screen
         },
     ];
 
@@ -404,16 +410,13 @@ sub Execute {
         $Self->ANSI(0);
     }
 
-    # Show warning if command is executed as root
-    if ( $ParsedGlobalOptions->{'allow-root'} && $> == 0 ) {    # $EFFECTIVE_USER_ID
-        $Self->Print(
-            "\n<red>You are running otrs.Console.pl as root. This could potentially damage your system, continue at your own risk.</red>\n\n"
-            )
-    }
-
     if ( $ParsedGlobalOptions->{help} ) {
         print "\n" . $Self->GetUsageHelp();
         return $Self->ExitCodeOk();
+    }
+
+    if ( $ParsedGlobalOptions->{quiet} ) {
+        $Self->{Quiet} = 1;
     }
 
     # Parse command line arguments and bail out in case of error,
@@ -527,6 +530,7 @@ sub GetUsageHelp {
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
     for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+        next GLOBALOPTION if $Option->{Invisible};
         my $OptionShort = "[--$Option->{Name}]";
         $OptionsText .= sprintf " <green>%-30s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }
@@ -603,7 +607,9 @@ if the terminal supports it (see L</ANSI()>).
 sub Print {
     my ( $Self, $Text ) = @_;
 
-    print $Self->_ReplaceColorTags($Text);
+    if ( !$Self->{Quiet} ) {
+        print $Self->_ReplaceColorTags($Text);
+    }
     return;
 }
 

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,15 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Hook = $ConfigObject->Get('Ticket::Hook');
 
@@ -98,11 +105,9 @@ my %Jobs;
 %Jobs = $GenericAgentObject->JobList();
 my $JobCounter1 = keys %Jobs;
 
-my $RandomID = $HelperObject->GetRandomID();
-
 # Create a Ticket to test JobRun and JobRunTicket
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Testticket for Untittest of the Generic Agent',
+    Title        => 'Test ticket for Untittest of the Generic Agent',
     Queue        => 'Raw',
     Lock         => 'unlock',
     PriorityID   => 1,
@@ -148,7 +153,7 @@ $Self->True(
 );
 
 # add a new Job
-my $Name   = 'UnitTest_' . $RandomID;
+my $Name   = $Helper->GetRandomID();
 my %NewJob = (
     Name => $Name,
     Data => {
@@ -561,5 +566,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
         "Deleted dynamic field with id $DynamicFieldID.",
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

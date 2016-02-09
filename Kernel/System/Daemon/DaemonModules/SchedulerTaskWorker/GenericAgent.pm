@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,39 +78,14 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed
-    for my $Needed (qw(TaskID Data)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
+    # check task params
+    my $CheckResult = $Self->_CheckTaskParams(
+        %Param,
+        NeededDataAttributes => [ 'Name', 'Valid' ],
+    );
 
-            return;
-        }
-    }
-
-    # check data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got no valid Data!',
-        );
-
-        return;
-    }
-
-    # check data internally
-    for my $Attribute (qw(Name Valid)) {
-        if ( !defined $Param{Data}->{$Attribute} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Attribute in Data!",
-            );
-
-            return;
-        }
-    }
+    # stop execution if an error in params is detected
+    return if !$CheckResult;
 
     # skip if job is not valid
     return if !$Param{Data}->{Valid};

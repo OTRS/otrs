@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,6 +94,13 @@ sub GeneratePDF {
         $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No matches found.');
     }
 
+    my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
+
+    # if a time zone was selected
+    if ( $Param{TimeZone} ) {
+        $Title .= " ($TranslateTimeZone $Param{TimeZone})";
+    }
+
     # page params
     my %PageParam;
     $PageParam{PageOrientation} = 'landscape';
@@ -101,8 +108,9 @@ sub GeneratePDF {
     $PageParam{MarginRight}     = 40;
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
-    $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
-    $PageParam{HeadlineLeft}    = $Title;
+
+    $PageParam{HeaderRight}  = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{HeadlineLeft} = $Title;
 
     # table params
     my %TableParam;

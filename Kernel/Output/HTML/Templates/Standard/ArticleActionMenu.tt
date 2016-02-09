@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ $('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', fun
         [% ELSE %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
+$(document).on('change', '#[% Item.FormID | html %] select[name=ForwardTemplateID]', function (Event) {
     var URL;
 
     if ($(this).val() > 0) {

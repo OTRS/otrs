@@ -19,6 +19,7 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
     text-align: left;
+    position: relative;
 }
 
 .RTL {
@@ -211,7 +212,7 @@ dd {
 }
 
 .Warning {
-    color: #ff505e;
+    color: #ff9050;
 }
 
 .Notice {
@@ -1135,4 +1136,3 @@ iframe.PopupIframe {
         display: none !important;
     }
 }
-

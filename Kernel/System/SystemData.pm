@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,8 +47,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     # create additional objects
     $Self->{CacheType} = 'SystemData';
@@ -114,7 +112,7 @@ sub SystemDataAdd {
     }
 
     # store data
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             INSERT INTO system_data
                 (data_key, data_value, create_time, create_by, change_time, change_by)
@@ -164,7 +162,10 @@ sub SystemDataGet {
     );
     return $Cache if $Cache;
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT data_value
             FROM system_data
@@ -175,7 +176,7 @@ sub SystemDataGet {
     );
 
     my $Value;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $Value = $Data[0] // '';
     }
 
@@ -231,15 +232,18 @@ sub SystemDataGroupGet {
     );
     return %{$Cache} if $Cache;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+    my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
 
     # prepare group name search
     my $Group = $Param{Group};
     $Group =~ s/\*/%/g;
-    $Group = $Self->{DBObject}->Quote( $Group, 'Like' );
+    $Group = $DBObject->Quote( $Group, 'Like' );
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT data_key, data_value
             FROM system_data
@@ -248,7 +252,7 @@ sub SystemDataGroupGet {
     );
 
     my %Result;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $Data[0] =~ s/^${Group}:://;
 
         $Result{ $Data[0] } = $Data[1];
@@ -273,9 +277,9 @@ Returns true if update was succesful or false if otherwise - for instance
 if key did not exist.
 
     my $Result = $SystemDataObject->SystemDataUpdate(
-        Key     => 'OTRS Version',
-        Value   => 'Some New Value',
-        UserID  => 123,
+        Key    => 'OTRS Version',
+        Value  => 'Some New Value',
+        UserID => 123,
     );
 
 =cut
@@ -311,8 +315,8 @@ sub SystemDataUpdate {
         return;
     }
 
-    # sql
-    return if !$Self->{DBObject}->Do(
+    # update system data table
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE system_data
             SET data_value = ?, change_time = current_timestamp, change_by = ?
@@ -370,8 +374,8 @@ sub SystemDataDelete {
         return;
     }
 
-    # sql
-    return if !$Self->{DBObject}->Do(
+    # remove system data
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             DELETE FROM system_data
             WHERE data_key = ?
@@ -423,23 +427,24 @@ sub _SystemDataCacheKeyDelete {
     );
 
     # delete cache for groups if needed
-    my @Parts = split( '::', $Param{Key} );
+    my @Parts = split '::', $Param{Key};
 
-    if ( scalar @Parts > 1 ) {
+    return 1 if scalar @Parts <= 1;
 
-        # remove last value, delete cache
-        PART:
-        for my $Part (@Parts) {
-            pop @Parts;
-            my $CacheKey = join( '::', @Parts );
-            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-                Type => $Self->{CacheType},
-                Key  => 'SystemDataGetGroup::' . join( '::', @Parts ),
-            );
+    # remove last value, delete cache
+    PART:
+    for my $Part (@Parts) {
 
-            # stop if there is just one value left
-            last PART if scalar @Parts == 1;
-        }
+        pop @Parts;
+        my $CacheKey = join '::', @Parts;
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => $Self->{CacheType},
+            Key  => 'SystemDataGetGroup::' . join( '::', @Parts ),
+        );
+
+        # stop if there is just one value left
+        last PART if scalar @Parts == 1;
     }
 
     return 1;

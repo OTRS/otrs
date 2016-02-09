@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,12 +35,18 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # change test user password preference, input incorrect current password
         my $NewPw = "new" . $TestUserLogin;
         $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
         $Selenium->find_element( "#CurPw",  'css' )->submit();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for incorrect password update preferences message on screen
         my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
@@ -54,6 +60,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
         $Selenium->find_element( "#CurPw",  'css' )->submit();
+
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for correct password update preferences message on screen
         my $UpdateMessage = "Preferences updated successfully!";

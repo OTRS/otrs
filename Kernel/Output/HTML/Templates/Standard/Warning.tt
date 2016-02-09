@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@
             </div>
             <div class="Content">
                 <h4>
-                    [% Translate("Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                    [% Translate("Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
                 </h4>
 
                 <p class="SpacingTop">
-                    [% Data.Comment | html %]
+                    [% Translate(Data.Comment) | html %]
                 </p>
 
                 <p class="SpacingTop">

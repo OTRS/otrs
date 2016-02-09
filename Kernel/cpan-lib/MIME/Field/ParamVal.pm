@@ -80,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.506";
+$VERSION = "5.507";
 
 
 #------------------------------
@@ -238,11 +238,11 @@ sub parse_params {
     # Extract subsequent parameters.
     # No, we can't just "split" on semicolons: they're legal in quoted strings!
     while (1) {                     # keep chopping away until done...
-	$raw =~ m/\G$SPCZ(\;$SPCZ)+/og or last;             # skip leading separator
+	$raw =~ m/\G[^;]*(\;$SPCZ)+/og or last;             # skip leading separator
 	$raw =~ m/\G($PARAMNAME)\s*=\s*/og or last;      # give up if not a param
 	$param = lc($1);
-	$raw =~ m/\G(?:$QUOTED_STRING|($ENCTOKEN)|($BADTOKEN)|($TOKEN))/g or last;   # give up if no value"
-	my ($qstr, $enctoken, $badtoken, $token) = ($1, $2, $3, $4, $5);
+	$raw =~ m/\G(?:$QUOTED_STRING|($ENCTOKEN)|($TOKEN)|($BADTOKEN))/g or last;   # give up if no value"
+	my ($qstr, $enctoken, $token, $badtoken) = ($1, $2, $3, $4, $5);
 	if (defined($qstr)) {
             # unescape
 	    $qstr =~ s/\\(.)/$1/g;
@@ -251,6 +251,13 @@ sub parse_params {
 	    # Strip leading/trailing whitespace from badtoken
 	    $badtoken =~ s/^\s+//;
 	    $badtoken =~ s/\s+\z//;
+
+	    # Only keep token parameters in badtoken;
+	    # cut it off at the first non-token char.  CPAN RT #105455
+	    $badtoken =~ /^($TOKEN)*/;
+	    $badtoken = $1;
+	    # Cut it off at first whitespace too
+	    $badtoken =~ s/\s.*//;
 	}
 	$val = defined($qstr) ? $qstr :
 	    (defined($enctoken) ? $enctoken :

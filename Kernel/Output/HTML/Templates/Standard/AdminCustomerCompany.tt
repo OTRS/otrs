@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,14 +58,17 @@
             </div>
 [% RenderBlockEnd("ActionList") %]
         </div>
-
-
-
         <div class="ContentColumn">
             <div class="WidgetSimple">
 [% RenderBlockStart("OverviewHeader") %]
                 <div class="Header">
-                    <h2>[% Translate("List") | html %]</h2>
+                    <h2>[% Translate("List") | html %]
+                        [% IF Data.ListAll && Data.Limit && Data.ListAll > Data.Limit %]
+                            ([% Data.SearchListSize | html %] [% Translate("shown") | html %] / [% Data.ListAll | html %] [% Translate("total") | html %])
+                        [% ELSE %]
+                            ([% Data.ListAll | html %] [% Translate("total") | html %])
+                        [% END %]
+                    </h2>
                 </div>
 [% RenderBlockEnd("OverviewHeader") %]
 [% RenderBlockStart("NoSearchTerms") %]
@@ -136,7 +139,17 @@ $('.MasterAction').bind('click', function (Event) {
 [% RenderBlockEnd("HeaderEdit") %]
                 </div>
                 <div class="Content">
-                    <form action="[% Env("CGIHandle") %]"  class="Validate" method="post">
+                [% IF Config(Data.Source).ReadOnly == 1 %]
+                    <div class="WidgetMessage Top Warning">
+                        <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
+                    </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.DisableForm($('form#edit'));
+//]]></script>
+[% END %]
+                [% END %]
+                    <form action="[% Env("CGIHandle") %]" id="edit" class="Validate" method="post">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                         <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
@@ -185,12 +198,14 @@ $('.MasterAction').bind('click', function (Event) {
 
 [% RenderBlockEnd("PreferencesGenericOption") %]
 [% RenderBlockEnd("PreferencesGeneric") %]
+                            [% IF  Config(Data.Source).ReadOnly != 1 %]
                             <div class="Field SpacingTop">
                                 <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
-                                [% Translate("or") | html %]
+                                    [% Translate("or") | html %]
                                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]">[% Translate("Cancel") | html %]</a>
                             </div>
                             <div class="Clear"></div>
+                            [% END %]
                         </fieldset>
                     </form>
                 </div>

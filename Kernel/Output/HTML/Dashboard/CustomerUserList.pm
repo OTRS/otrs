@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Dashboard::CustomerUserList;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -47,7 +49,7 @@ sub Preferences {
 
     my @Params = (
         {
-            Desc  => 'Shown customer users',
+            Desc  => Translatable('Shown customer users'),
             Name  => $Self->{PrefKey},
             Block => 'Option',
 

@@ -1,5 +1,5 @@
 package Selenium::Remote::RemoteConnection;
-$Selenium::Remote::RemoteConnection::VERSION = '0.26';
+$Selenium::Remote::RemoteConnection::VERSION = '0.2701';
 #ABSTRACT: Connect to a selenium server
 
 use Moo;
@@ -36,11 +36,12 @@ has 'error_handler' => (
     builder => sub { return Selenium::Remote::ErrorHandler->new; }
 );
 
-
+with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub check_status {
     my $self = shift;
     my $status;
+
     try {
         $status = $self->request({method => 'GET', url => 'status'});
     }
@@ -59,9 +60,6 @@ sub check_status {
     }
 }
 
-
-
-# This request method is tailored for Selenium RC server
 sub request {
     my ($self,$resource,$params,$dont_process_response) = @_;
     my $method =        $resource->{method};
@@ -87,7 +85,8 @@ sub request {
             "http://"
           . $self->remote_server_addr . ":"
           . $self->port
-          . "/wd/hub/$url";
+          . $self->wd_context_prefix
+          . "/$url";
     }
 
     if ((defined $params) && $params ne '') {
@@ -185,7 +184,7 @@ Selenium::Remote::RemoteConnection - Connect to a selenium server
 
 =head1 VERSION
 
-version 0.26
+version 0.2701
 
 =head1 SEE ALSO
 

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,14 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $LinkObject   = $Kernel::OM->Get('Kernel::System::LinkObject');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # ------------------------------------------------------------ #
 # make preparations
@@ -38,7 +46,7 @@ for my $Counter ( 1 .. 2 ) {
     my $UserID = $UserObject->UserAdd(
         UserFirstname => 'LinkObject' . $Counter,
         UserLastname  => 'UnitTest',
-        UserLogin     => 'UnitTest-LinkObject-' . $Counter . int rand 1_000_000,
+        UserLogin     => 'LinkObject-' . $Counter . $Helper->GetRandomID(),
         UserEmail     => 'UnitTest-LinkObject-' . $Counter . '@localhost',
         ValidID       => 1,
         ChangeUserID  => 1,
@@ -50,7 +58,7 @@ for my $Counter ( 1 .. 2 ) {
 # create needed random type names
 my @TypeNames;
 for my $Counter ( 1 .. 100 ) {
-    push @TypeNames, 'UnitTestType' . int rand 1_000_000;
+    push @TypeNames, 'Type' . $Helper->GetRandomID();
 }
 
 # read ticket backend file
@@ -71,7 +79,7 @@ for my $Counter ( 1 .. 100 ) {
     my $Content = ${$TicketBackendContent};
 
     # generate name
-    my $Name = 'UnitTestObject' . int rand 1_000_000;
+    my $Name = 'UnitTestObject' . $Helper->GetRandomNumber();
 
     # replace Dummy with the UnitTestName
     $Content =~ s{ Dummy }{$Name}xmsg;
@@ -262,7 +270,7 @@ my $TypeData = [
         },
     },
 
-    # this type must be inserted sucessfully (check string clean function)
+    # this type must be inserted successfully (check string clean function)
     {
         SourceData => {
             ConfigSet => {
@@ -290,7 +298,7 @@ my $TypeData = [
         },
     },
 
-    # this type must be inserted sucessfully (unicode checks)
+    # this type must be inserted successfully (Unicode checks)
     {
         SourceData => {
             ConfigSet => {
@@ -318,7 +326,7 @@ my $TypeData = [
         },
     },
 
-    # this type must be inserted sucessfully (special character checks)
+    # this type must be inserted successfully (special character checks)
     {
         SourceData => {
             ConfigSet => {
@@ -346,7 +354,7 @@ my $TypeData = [
         },
     },
 
-    # this type must be inserted sucessfully
+    # this type must be inserted successfully
     {
         SourceData => {
             ConfigSet => {
@@ -620,7 +628,7 @@ continue {
 
 my $ObjectData = [
 
-    # this object must be inserted sucessfully
+    # this object must be inserted successfully
     {
         SourceName    => $ObjectNames[0],
         ReferenceName => $ObjectNames[0],
@@ -631,13 +639,13 @@ my $ObjectData = [
         SourceName => $ObjectNames[1] . ' Test ',
     },
 
-    # this object must be inserted sucessfully (check string trim function)
+    # this object must be inserted successfully (check string trim function)
     {
         SourceName    => $ObjectNames[1] . 'Test ',
         ReferenceName => $ObjectNames[1] . 'Test',
     },
 
-    # this object must be inserted sucessfully (check string trim function)
+    # this object must be inserted successfully (check string trim function)
     {
         SourceName    => " \t \n \r " . $ObjectNames[2] . " \t \n \r ",
         ReferenceName => $ObjectNames[2],
@@ -648,7 +656,7 @@ my $ObjectData = [
         SourceName => " \n \t \r ",
     },
 
-    # this type must be inserted sucessfully (unicode checks)
+    # this type must be inserted successfully (Unicode checks)
     {
         SourceName    => ' ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ ',
         ReferenceName => 'ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ',
@@ -977,7 +985,7 @@ my $PossibleObjectsReference = [
         },
     },
 
-    # this test must return the corect number of entries
+    # this test must return the correct number of entries
     {
         SourceData => {
             Object => $ObjectNames[0],
@@ -991,7 +999,7 @@ my $PossibleObjectsReference = [
         ],
     },
 
-    # this test must return the corect number of entries
+    # this test must return the correct number of entries
     {
         SourceData => {
             Object => $ObjectNames[10],
@@ -1003,7 +1011,7 @@ my $PossibleObjectsReference = [
         ],
     },
 
-    # this test must return the corect number of entries
+    # this test must return the correct number of entries
     {
         SourceData => {
             Object => $ObjectNames[20],
@@ -1014,7 +1022,7 @@ my $PossibleObjectsReference = [
         ],
     },
 
-    # this test must return the corect number of entries
+    # this test must return the correct number of entries
     {
         SourceData => {
             Object => $ObjectNames[30],
@@ -1025,7 +1033,7 @@ my $PossibleObjectsReference = [
         ],
     },
 
-    # this test must return the corect number of entries ( zero )
+    # this test must return the correct number of entries ( zero )
     {
         SourceData => {
             Object => $ObjectNames[40],
@@ -1035,7 +1043,7 @@ my $PossibleObjectsReference = [
         ],
     },
 
-    # this test must return the corect number of entries
+    # this test must return the correct number of entries
     {
         SourceData => {
             Object => $ObjectNames[50],
@@ -2776,7 +2784,7 @@ for my $Test ( @{$LinkData} ) {
             next ACTION;
         }
 
-        # check if LinkAdd or LinkDelete was successfull
+        # check if LinkAdd or LinkDelete was successful
         $Self->True(
             $ActionResult,
             "Test $TestCount: $SourceData->{Action}() - check success",
@@ -2948,5 +2956,7 @@ for my $Name (@ObjectNames) {
         DisableWarnings => 1,
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

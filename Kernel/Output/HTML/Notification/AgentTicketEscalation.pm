@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@ package Kernel::Output::HTML::Notification::AgentTicketEscalation;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
@@ -49,7 +51,7 @@ sub Run {
     if ($CacheTime) {
         my $Output = $CacheObject->Get(
             Type => 'TicketEscalation',
-            Key  => 'EscalationResult::' . $Self->{UserID},
+            Key  => 'EscalationResult::' . $Self->{UserID} . '::' . $LayoutObject->{UserLanguage},
         );
         return $Output if defined $Output;
     }
@@ -197,7 +199,7 @@ sub Run {
     if ( $Count == $ShownMax ) {
         $Comment .= $LayoutObject->Notify(
             Priority => 'Error',
-            Info     => 'There are more escalated tickets!',
+            Info     => Translatable('There are more escalated tickets!'),
         );
     }
     my $Output = $ResponseTime . $UpdateTime . $SolutionTime . $Comment;
@@ -206,7 +208,7 @@ sub Run {
     if ($CacheTime) {
         $CacheObject->Set(
             Type  => 'TicketEscalation',
-            Key   => 'EscalationResult::' . $Self->{UserID},
+            Key   => 'EscalationResult::' . $Self->{UserID} . '::' . $LayoutObject->{UserLanguage},
             Value => $Output,
             TTL   => $CacheTime,
         );

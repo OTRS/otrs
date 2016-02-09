@@ -20,7 +20,7 @@ use Carp;
 use Exporter;
 
 our @ISA     = qw(Exporter);
-our $VERSION = '0.84';
+our $VERSION = '0.85';
 our $AUTOLOAD;
 
 ###############################################################################
@@ -275,7 +275,7 @@ sub _get_palette_color {
     # Palette is passed in from the Workbook class.
     my @rgb = @{ $palette->[$index] };
 
-    return sprintf "%02X%02X%02X", @rgb;
+    return sprintf "%02X%02X%02X", @rgb[0, 1, 2];
 }
 
 

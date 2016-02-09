@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,23 @@ Kernel::System::Stats - stats lib
 =head1 SYNOPSIS
 
 All stats functions.
+
+=head2 Explanation for the time zone parameter
+
+The time zone parameter is available, if the system use UTC as system time and the TimeZoneUser feature is active
+and the statistic is a dynamic statistic. The selected periods in the frontend are time zone neutral and for the
+search parameters, the selection will be converted to UTC time based on the selected time zone, because the times
+are stored as UTC time in the database (if the system is configured correctly).
+
+This means e.g. if a absolute period of time from 2015 2015-08-01 00:00:00 to 2015-09-10 23:59:59 and a time zone +6 has been selected,
+the time zone (+6) will be subtracted (with "_SubtractTimeZone") from the selected absolute time period for the search parameter,
+so that the right UTC time will be used for the absolute period of time. For the example this would be the 2015-07-31 18:00:00 to 2015-09-10 17:59:59.
+
+For a relative time period, e.g. a relative period of the last full 10 days and the time zone +10, first the selected
+time zone will be added (with "_AddTimeZone") to the current UTC time, so that the right relative period of time will be used for the frontend output.
+For the example, we have the current UTC time 2015-09-10 16:00:00, that means for the selected relative period and time zone (+10) the period of time
+from 2015-09-01 00:00:00 to 2015-09-10 23:59:59. From the period of time will be substracted the selected time zone (+10) to get the correct UTC time
+for the search in the database (as for the absolute time). In this case that would be the period of time from 2015-08-31 14:00:00 to 2015-09-10 13:59:59.
 
 =head1 PUBLIC INTERFACE
 
@@ -227,6 +244,17 @@ sub StatsGet {
     {
         if ( defined $StatsXML->{$Key}->[1]->{Content} ) {
             $Stat{$Key} = $StatsXML->{$Key}->[1]->{Content};
+        }
+    }
+
+  # provide the time zone field only, if the system use not UTC as system time or the TimeZoneUser feature is not active
+    if (
+        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
+        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
+        )
+    {
+        if ( defined $StatsXML->{TimeZone}->[1]->{Content} ) {
+            $Stat{TimeZone} = $StatsXML->{TimeZone}->[1]->{Content};
         }
     }
 
@@ -1590,6 +1618,7 @@ sub StatsRun {
             UseAsRestriction => $GetParam{UseAsRestriction} || [],
             Title            => $Stat->{Title},
             StatID           => $Stat->{StatID},
+            TimeZone         => $GetParam{TimeZone},
             Cache            => $Stat->{Cache},
             Preview          => $Param{Preview},
             UserID           => $Param{UserID},
@@ -1786,7 +1815,10 @@ sub StatsResultCacheGet {
 builds a filename with a string and a timestamp.
 (space will be replaced with _ and - e.g. Title-of-File_2006-12-31_11-59)
 
-    my $Filename = $StatsObject->StringAndTimestamp2Filename( String => 'Title' );
+    my $Filename = $StatsObject->StringAndTimestamp2Filename(
+        String   => 'Title',
+        TimeZone => '+2',  # optional
+    );
 
 =cut
 
@@ -1818,6 +1850,10 @@ sub StringAndTimestamp2Filename {
     );
 
     my $Filename = $Param{String} . '_' . "$Y-$M-$D" . '_' . "$h-$m";
+
+    if ( $Param{TimeZone} ) {
+        $Filename .= '_TimeZone_' . $Param{TimeZone};
+    }
 
     return $Filename;
 }
@@ -2147,6 +2183,7 @@ sub _GenerateStaticStats {
         UseAsRestriction => \UseAsRestrictionElements,
         Title            => 'TicketStat',
         StatID           => 123,
+        TimeZone         => '+2',   # optional,
         Cache            => 1,      # optional,
         Preview          => 1,      # optional, generate fake data
         UserID           => $UserID,
@@ -2194,6 +2231,10 @@ sub _GenerateDynamicStats {
     $NewParam{Object}       = $Param{Object};
     $NewParam{ObjectModule} = $Param{ObjectModule};
 
+    if ( $Param{TimeZone} ) {
+        $NewParam{TimeZone} = $Param{TimeZone};
+    }
+
     # search for a better way to cache stats (StatID and Cache)
     $NewParam{StatID} = $Param{StatID};
     $NewParam{Cache}  = $Param{Cache};
@@ -2211,8 +2252,23 @@ sub _GenerateDynamicStats {
             if ( $Element->{Block} eq 'Time' ) {
                 delete $Element->{TimePeriodFormat};
                 if ( $Element->{TimeRelativeUnit} ) {
+
+                    my $TimeStamp = $TimeObject->CurrentTimestamp();
+
+           # add the selected timezone to the current timestamp to get the real start timestamp for the selectd timezone
+                    if ( $Param{TimeZone} ) {
+                        $TimeStamp = $Self->_AddTimeZone(
+                            TimeStamp => $TimeStamp,
+                            TimeZone  => $Param{TimeZone},
+                        );
+                    }
+
+                    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+                        String => $TimeStamp,
+                    );
+
                     my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                        SystemTime => $TimeObject->SystemTime(),
+                        SystemTime => $SystemTime,
                     );
 
                     # -1 because the current time will be included
@@ -2226,6 +2282,7 @@ sub _GenerateDynamicStats {
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59, 59 );
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
+
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'HalfYear' ) {
 
@@ -2333,6 +2390,7 @@ sub _GenerateDynamicStats {
                     delete $Element->{TimeRelativeCount};
                     delete $Element->{TimeRelativeUpcomingCount};
                 }
+
                 $TitleTimeStart = $Element->{TimeStart};
                 $TitleTimeStop  = $Element->{TimeStop};
             }
@@ -2360,8 +2418,18 @@ sub _GenerateDynamicStats {
             $RestrictionAttribute{$Element} = $RestrictionPart->{SelectedValues}[0];
         }
         elsif ( $RestrictionPart->{Block} eq 'Time' ) {
-            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} }  = $RestrictionPart->{TimeStop};
-            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStart} } = $RestrictionPart->{TimeStart};
+
+            # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} } = $Self->_SubtractTimeZone(
+                TimeStamp => $RestrictionPart->{TimeStop},
+                TimeZone  => $Param{TimeZone},
+            );
+
+            # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+            $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStart} } = $Self->_SubtractTimeZone(
+                TimeStamp => $RestrictionPart->{TimeStart},
+                TimeZone  => $Param{TimeZone},
+            );
         }
         else {
             $RestrictionAttribute{$Element} = $RestrictionPart->{SelectedValues};
@@ -2652,8 +2720,17 @@ sub _GenerateDynamicStats {
             push(
                 @{ $Xvalue->{SelectedValues} },
                 {
-                    TimeStart => $TimeStart,
-                    TimeStop  => $TimeStop
+                  # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+                    TimeStart => $Self->_SubtractTimeZone(
+                        TimeStamp => $TimeStart,
+                        TimeZone  => $Param{TimeZone},
+                    ),
+
+                  # subtract the selected timezone (if the timezone exists) to get the UTC time for the search parameter
+                    TimeStop => $Self->_SubtractTimeZone(
+                        TimeStamp => $TimeStop,
+                        TimeZone  => $Param{TimeZone},
+                    ),
                 }
             );
         }
@@ -3139,6 +3216,7 @@ sub _GenerateDynamicStats {
                 XValue         => $Xvalue,
                 Restrictions   => \%RestrictionAttribute,
                 TableStructure => \%TableStructure,
+                TimeZone       => $Param{TimeZone},
             );
         }
         else {
@@ -3148,6 +3226,7 @@ sub _GenerateDynamicStats {
                 XValue         => $Xvalue,
                 Restrictions   => \%RestrictionAttribute,
                 TableStructure => \%TableStructure,
+                TimeZone       => $Param{TimeZone},
             );
         }
     }
@@ -3209,12 +3288,13 @@ sub _GenerateDynamicStats {
         return @StatArray;
     }
 
-    if (
-        $TimeObject->TimeStamp2SystemTime( String => $TitleTimeStop )
-        > $TimeObject->SystemTime()
-        )
-    {
+    # subtract the selected timezone (if the timezone exists) to get the UTC time for the check
+    my $CheckTimeStop = $Self->_SubtractTimeZone(
+        TimeStamp => $TitleTimeStop,
+        TimeZone  => $Param{TimeZone},
+    );
 
+    if ( $TimeObject->TimeStamp2SystemTime( String => $CheckTimeStop ) > $TimeObject->SystemTime() ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
@@ -3491,6 +3571,98 @@ sub _AutomaticSampleImport {
     return 1;
 }
 
+=item _AddTimeZone()
+
+Add the given time zone to the given timestamp.
+
+    my $TimeStamp = $StatsObject->_AddTimeZone(
+        TimeStamp => '2015-06-20 20:00:00',
+        TimeZone  => '+6',
+    );
+
+Returns the calculated timestamp or the given timestamp, if no time zone is given.
+
+    $TimeStamp = '2015-06-21 02:00:00',
+
+=cut
+
+sub _AddTimeZone {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{TimeStamp} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TimeStamp!',
+        );
+        return;
+    }
+
+    return $Param{TimeStamp} if !$Param{TimeZone};
+
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => $Param{TimeStamp},
+    );
+
+    # add the selected timezone from the general specification to the given timestamp
+    my $SelectedTimeZoneSystemTime = $SystemTime + ( $Param{TimeZone} * 3600 );
+
+    my $SelectedTimeZoneTimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $SelectedTimeZoneSystemTime,
+    );
+
+    return $SelectedTimeZoneTimeStamp;
+}
+
+=item _SubtractTimeZone()
+
+Subtract the given time zone from the given timestamp.
+
+    my $TimeStamp = $StatsObject->_SubtractTimeZone(
+        TimeStamp => '2015-06-20 18:00:00',
+        TimeZone  => '+6',
+    );
+
+Returns the calculated timestamp or the given timestamp, if no time zone is given.
+
+    $TimeStamp = '2015-06-20 12:00:00',
+
+=cut
+
+sub _SubtractTimeZone {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if ( !$Param{TimeStamp} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TimeStamp!',
+        );
+        return;
+    }
+
+    return $Param{TimeStamp} if !$Param{TimeZone};
+
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => $Param{TimeStamp},
+    );
+
+    # subtract the selected timezone from the general specification to the given timestamp
+    my $SelectedTimeZoneSystemTime = $SystemTime - ( $Param{TimeZone} * 3600 );
+
+    my $SelectedTimeZoneTimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $SelectedTimeZoneSystemTime,
+    );
+
+    return $SelectedTimeZoneTimeStamp;
+}
+
 =item _GetCacheString()
 
 returns a string that can be used for caching this particular statistic
@@ -3507,6 +3679,10 @@ with the given parameters.
 sub _GetCacheString {
     my ( $Self, %Param ) = @_;
     my $Result = '';
+
+    if ( $Param{TimeZone} ) {
+        $Result .= 'TimeZone:' . $Param{TimeZone};
+    }
 
     for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
         $Result .= "$Use:";

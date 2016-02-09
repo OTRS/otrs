@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 use MIME::Parser;
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -47,7 +48,6 @@ sub new {
 
 sub Check {
     my ( $Self, %Param ) = @_;
-
     my %SignCheck;
     my @Return;
 
@@ -75,8 +75,8 @@ sub Check {
             # return info
             return (
                 {
-                    Key   => 'Crypted',
-                    Value => 'Sent message crypted to recipient!',
+                    Key   => Translatable('Crypted'),
+                    Value => Translatable('Sent message crypted to recipient!'),
                 }
             );
         }
@@ -157,7 +157,7 @@ sub Check {
             push(
                 @Return,
                 {
-                    Key   => 'Crypted',
+                    Key   => Translatable('Crypted'),
                     Value => $Decrypt{Message},
                     %Decrypt,
                 },
@@ -168,7 +168,7 @@ sub Check {
             # return with error
             return (
                 {
-                    Key   => 'Crypted',
+                    Key   => Translatable('Crypted'),
                     Value => $Decrypt{Message},
                     %Decrypt,
                 }
@@ -209,8 +209,8 @@ sub Check {
             # return with error
             return (
                 {
-                    Key   => 'Signed',
-                    Value => '"PGP SIGNED MESSAGE" header found, but invalid!',
+                    Key   => Translatable('Signed'),
+                    Value => Translatable('"PGP SIGNED MESSAGE" header found, but invalid!'),
                 }
             );
         }
@@ -233,8 +233,12 @@ sub Check {
         $Parser->decode_headers(0);
         $Parser->extract_nested_messages(0);
         $Parser->output_to_core('ALL');
+
+        # prevent modification of body by parser - required for bug #11755
+        $Parser->decode_bodies(0);
         my $Entity = $Parser->parse_data($Message);
-        my $Head   = $Entity->head();
+        $Parser->decode_bodies(1);
+        my $Head = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
@@ -253,8 +257,8 @@ sub Check {
                 # return info
                 return (
                     {
-                        Key        => 'Crypted',
-                        Value      => 'Sent message crypted to recipient!',
+                        Key        => Translatable('Crypted'),
+                        Value      => Translatable('Sent message crypted to recipient!'),
                         Successful => 1,
                     }
                 );
@@ -314,7 +318,7 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
+                        Key   => Translatable('Crypted'),
                         Value => $Decrypt{Message},
                         %Decrypt,
                     },
@@ -324,7 +328,7 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
+                        Key   => Translatable('Crypted'),
                         Value => $Decrypt{Message},
                         %Decrypt,
                     },
@@ -337,6 +341,7 @@ sub Check {
             && $ContentType =~ /application\/pgp/i
             )
         {
+
             my $SignedText    = $Entity->parts(0)->as_string();
             my $SignatureText = $Entity->parts(1)->body_as_string();
 
@@ -356,7 +361,7 @@ sub Check {
         push(
             @Return,
             {
-                Key   => 'Signed',
+                Key   => Translatable('Signed'),
                 Value => $SignCheck{Message},
                 %SignCheck,
             },

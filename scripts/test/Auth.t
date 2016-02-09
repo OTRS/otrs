@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # configure auth backend to db
@@ -37,17 +45,17 @@ $ConfigObject->Set(
 );
 
 my $TestUserID;
+my $UserRand = 'example-user' . $Helper->GetRandomID();
 
-my $UserRand1 = 'example-user' . int rand 1000000;
-
+# get user object
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
 # add test user
 $TestUserID = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
-    UserLogin     => $UserRand1,
-    UserEmail     => $UserRand1 . '@example.com',
+    UserLogin     => $UserRand,
+    UserEmail     => $UserRand . '@example.com',
     ValidID       => 1,
     ChangeUserID  => 1,
 ) || die "Could not create test user";
@@ -55,45 +63,45 @@ $TestUserID = $UserObject->UserAdd(
 my @Tests = (
     {
         Password   => 'simple',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'very long password line which is unusual',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'Переводчик',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => 'كل ما تحب معرفته عن',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => ' ',
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "\n",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "\t",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
-        Password   => "a" x 64,     # max length for plain
-        AuthResult => $UserRand1,
+        Password   => "a" x 64,    # max length for plain
+        AuthResult => $UserRand,
     },
 
     # SQL security tests
     {
         Password   => "'UNION'",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
     {
         Password   => "';",
-        AuthResult => $UserRand1,
+        AuthResult => $UserRand,
     },
 );
 
@@ -112,6 +120,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         Value => $CryptType
     );
 
+    # get needed objects
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
     my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
@@ -119,7 +128,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
     for my $Test (@Tests) {
 
         my $PasswordSet = $UserObject->SetPassword(
-            UserLogin => $UserRand1,
+            UserLogin => $UserRand,
             PW        => $Test->{Password},
         );
 
@@ -137,7 +146,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         my $AuthResult = $AuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => $Test->{Password},
         );
 
@@ -148,7 +157,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         $AuthResult = $AuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => $Test->{Password},
         );
 
@@ -159,7 +168,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
         );
 
         $AuthResult = $AuthObject->Auth(
-            User => $UserRand1,
+            User => $UserRand,
             Pw   => 'wrong_pw',
         );
 
@@ -180,14 +189,6 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
     }
 }
 
-$TestUserID = $UserObject->UserUpdate(
-    UserID        => $TestUserID,
-    UserFirstname => 'Firstname Test1',
-    UserLastname  => 'Lastname Test1',
-    UserLogin     => $UserRand1,
-    UserEmail     => $UserRand1 . '@example.com',
-    ValidID       => 2,
-    ChangeUserID  => 1,
-) || die "Could not invalidate test user";
+# cleanup is done by RestoreDatabase
 
 1;

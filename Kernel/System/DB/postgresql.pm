@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,8 +55,19 @@ sub LoadPreferences {
     # our results: "PostgreSQL 9.2.4", "PostgreSQL 9.1.9".
     $Self->{'DB::Version'} = "SELECT SUBSTRING(VERSION(), 'PostgreSQL [0-9\.]*')";
 
-    # dbi attributes
-    $Self->{'DB::Attribute'} = {};
+    $Self->{'DB::ListTables'} = <<'EOF',
+SELECT
+    table_name
+FROM
+    information_schema.tables
+WHERE
+    table_type = 'BASE TABLE'
+    AND table_schema NOT IN ('pg_catalog', 'information_schema')
+ORDER BY table_name
+EOF
+
+        # dbi attributes
+        $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';

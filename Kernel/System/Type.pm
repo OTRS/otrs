@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,8 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::SysConfig',
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -276,6 +278,23 @@ sub TypeUpdate {
         return;
     }
 
+    my %Type = $Self->TypeGet(
+        ID => $Param{ID},
+    );
+
+    # check if the type is set as a default ticket type
+    if (
+        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default') eq $Type{Name}
+        && $Param{ValidID} != 1
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
+        );
+        return;
+    }
+
     # sql
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket_type SET name = ?, valid_id = ?, '
@@ -284,6 +303,22 @@ sub TypeUpdate {
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+
+    # check if the name of the default ticket type is updated
+    if (
+        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default') eq $Type{Name}
+        && $Type{Name} ne $Param{Name}
+        )
+    {
+
+        # update default ticket type SySConfig item
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Type::Default',
+            Value => $Param{Name}
+        );
+
+    }
 
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(

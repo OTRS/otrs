@@ -7,7 +7,7 @@ FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
 want to answer them with a team of agents? You're going to love OTRS!
 
 You can find a list of features in the
-[online documentation](http://otrs.github.io/doc/manual/admin/5.0/en/html/otrs.html#features-of-otrs).
+[online documentation](http://otrs.github.io/doc/manual/admin/6.0/en/html/otrs.html#features-of-otrs).
 
 
 License
@@ -126,7 +126,8 @@ Directories & Files
     |           |--- /Queue.pm       (information about queues. e. g. response templates, ...)
     |           |--- /Ticket.pm      (ticket and article functions)
     |           |--- /User.pm        (user module)
-    |           |--- /Request.pm    (HTTP/CGI abstraction module)
+    |           |--- /Web/*.pm       (core interface modules)
+    |                 |--- /Request.pm    (HTTP/CGI abstraction module)
     |
     |  (data stuff)
     |--/var/

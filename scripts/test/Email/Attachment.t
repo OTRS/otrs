@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,36 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $SEND  = 1;
 my $PARSE = 1;
+
+my $AttachmentReference = [
+    {
+        Filename    => 'csvfile.csv',
+        Content     => 'empty',
+        ContentType => 'text/csv',
+    },
+    {
+        Filename    => 'pngfile.png',
+        Content     => 'empty',
+        ContentType => 'image/png; name=pngfile.png',
+    },
+    {
+        Filename    => 'utf-8',
+        Content     => 'empty',
+        ContentType => 'text/html; charset="utf-8"',
+    },
+    {
+        Filename    => 'dos',
+        Content     => 'empty',
+        ContentType => 'text/html; charset="dos"; name="utf"',
+    },
+    {
+        Filename    => 'cp121',
+        Content     => 'empty',
+        ContentType => 'text/html; name="utf-7"; charset="cp121"',
+    },
+];
+
+my $AttachmentNumber = scalar @{$AttachmentReference};
 
 # do not really send emails
 $ConfigObject->Set(
@@ -95,7 +125,7 @@ my @Tests = (
             'utf-8'       => 'text/html; charset="utf-8"',
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
-            }
+        },
     },
     {
         Name => 'Text/plain email.',
@@ -140,8 +170,51 @@ my @Tests = (
             'utf-8'       => 'text/html; charset="utf-8"',
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
-            }
-    }
+        },
+    },
+
+    {
+        Name => 'HTML email - Attachments grow up one.',
+        Data => {
+            From       => 'john.smith@example.com',
+            To         => 'john.smith2@example.com',
+            Subject    => 'some subject',
+            Body       => 'Some Body',
+            Type       => 'text/html',
+            Charset    => 'utf8',
+            Attachment => $AttachmentReference,
+            MimeType   => 'text/html',
+        },
+        ExpectedResults => {
+            'csvfile.csv' => 'text/csv',
+            'pngfile.png' => 'image/png',
+            'utf-8'       => 'text/html; charset="utf-8"',
+            'dos'         => 'text/html; charset="dos"',
+            'cp121'       => 'text/html; charset="cp121"',
+        },
+        CheckAttachmentsSize => '1',
+    },
+    {
+        Name => 'HTML email - Attachments grow up two.',
+        Data => {
+            From       => 'john.smith@example.com',
+            To         => 'john.smith2@example.com',
+            Subject    => 'some subject',
+            Body       => 'Some Body',
+            Type       => 'text/html',
+            Charset    => 'utf8',
+            Attachment => $AttachmentReference,
+            MimeType   => 'text/html',
+        },
+        ExpectedResults => {
+            'csvfile.csv' => 'text/csv',
+            'pngfile.png' => 'image/png',
+            'utf-8'       => 'text/html; charset="utf-8"',
+            'dos'         => 'text/html; charset="dos"',
+            'cp121'       => 'text/html; charset="cp121"',
+        },
+        CheckAttachmentsSize => '1',
+    },
 
 );
 
@@ -161,6 +234,17 @@ for my $Test (@Tests) {
     my ( $Header, $Body ) = $EmailObject->Send(
         %{ $Test->{Data} },
     );
+
+    # check reference attachment size
+    if ( $Test->{CheckAttachmentsSize} ) {
+
+        my $CurrentAttachmentNumber = scalar @{$AttachmentReference};
+        $Self->Is(
+            $AttachmentNumber,
+            $CurrentAttachmentNumber,
+            "AttachmentsSize: $Test->{Name} ",
+        );
+    }
 
     if ( !$Header || ref $Header ne 'SCALAR' ) {
 
