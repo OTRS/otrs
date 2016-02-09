@@ -25,9 +25,9 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $QueueRand = 'Some::Queue' . int( rand(1000000) );
+my $QueueRand = 'Some::Queue' . $Helper->GetRandomID();
 my $QueueID   = $QueueObject->QueueAdd(
     Name                => $QueueRand,
     ValidID             => 1,
@@ -209,7 +209,7 @@ $Self->True(
 );
 
 #add another queue for testing update queue with existing name
-my $Queue2Rand = 'Some::Queue2' . int( rand(1000000) );
+my $Queue2Rand = 'Some::Queue2' . $Helper->GetRandomID();
 my $QueueID2   = $QueueObject->QueueAdd(
     Name            => $Queue2Rand,
     ValidID         => 1,
@@ -229,7 +229,7 @@ $Self->True(
 push( @IDs, $QueueID2 );
 
 #add subqueue
-my $SubQueueName = '::SubQueue' . int( rand(1000000) );
+my $SubQueueName = '::SubQueue' . $Helper->GetRandomID();
 my $SubQueue1    = $Queue2Rand . $SubQueueName;
 my $QueueID3     = $QueueObject->QueueAdd(
     Name            => $SubQueue1,
@@ -553,7 +553,7 @@ for my $TemplateType ( sort keys %TemplatesByType ) {
 
 # QueueStandardTemplateMemeberAdd() tests
 my $UserID   = 1;
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # create a new template
 my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
@@ -658,7 +658,7 @@ for my $Test (@Tests) {
                 $Templates{$TemplateID} || '',
                 '',
                 "$Test->{Name} QueueStandardTemplateMemberList() | $TemplateID should not be"
-                    . " assingned and must not have a value",
+                    . " assigned and must not have a value",
             );
         }
     }
@@ -670,6 +670,6 @@ for my $Test (@Tests) {
     }
 }
 
-# Cleanup is done by RestoreDatabase.
+# cleanup is done by RestoreDatabase
 
 1;

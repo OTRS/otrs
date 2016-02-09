@@ -19,7 +19,7 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -184,10 +184,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             $Kernel::OM->Get('Kernel::System::Ticket');
 
             # add rand postmaster filter
-            my $FilterRand1 = 'filter' . int rand 1000000;
-            my $FilterRand2 = 'filter' . int rand 1000000;
-            my $FilterRand3 = 'filter' . int rand 1000000;
-            my $FilterRand4 = 'filter' . int rand 1000000;
+            my $FilterRand1 = 'filter' . $Helper->GetRandomID();
+            my $FilterRand2 = 'filter' . $Helper->GetRandomID();
+            my $FilterRand3 = 'filter' . $Helper->GetRandomID();
+            my $FilterRand4 = 'filter' . $Helper->GetRandomID();
             $PostMasterFilter->FilterAdd(
                 Name           => $FilterRand1,
                 StopAfterMatch => 0,
@@ -241,7 +241,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             );
 
             # get rand sender address
-            my $UserRand1 = 'example-user' . ( int rand 1000000 ) . '@example.com';
+            my $UserRand1 = 'example-user' . $Helper->GetRandomID() . '@example.com';
 
             FILE:
             for my $File (qw(1 2 3 5 6 11 17 18 21 22 23)) {
@@ -1086,7 +1086,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
 }
 
 # test X-OTRS-(Owner|Responsible)
-my $Login = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->TestUserCreate();
+my $Login = $Helper->TestUserCreate();
 my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
 
 my %OwnerResponsibleTests = (
@@ -1166,5 +1166,7 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

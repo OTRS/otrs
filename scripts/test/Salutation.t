@@ -12,21 +12,27 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
 # get needed objects
 my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # add salutation
-my $SalutationNameRand0 = 'example-salutation' . int rand 1000000;
-my $Salutation          = "Dear <OTRS_CUSTOMER_Realname>,
+my $SalutationName = 'salutation' . $Helper->GetRandomID();
+my $Salutation     = "Dear <OTRS_CUSTOMER_Realname>,
 
 Thank you for your request. Your email address in our database
 is \"<OTRS_CUSTOMER_DATA_UserEmail>\".
 ";
 
 my $SalutationID = $SalutationObject->SalutationAdd(
-    Name        => $SalutationNameRand0,
+    Name        => $SalutationName,
     Text        => $Salutation,
     ContentType => 'text/plain; charset=iso-8859-1',
     Comment     => 'some comment',
@@ -43,7 +49,7 @@ my %Salutation = $SalutationObject->SalutationGet( ID => $SalutationID );
 
 $Self->Is(
     $Salutation{Name} || '',
-    $SalutationNameRand0,
+    $SalutationName,
     'SalutationGet() - Name',
 );
 $Self->True(
@@ -67,32 +73,21 @@ $Self->Is(
 );
 
 my %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
-my $Hit = 0;
-for ( sort keys %SalutationList ) {
-    if ( $_ eq $SalutationID ) {
-        $Hit = 1;
-    }
-}
 $Self->True(
-    $Hit eq 1,
-    'SalutationList()',
+    exists $SalutationList{$SalutationID} && $SalutationList{$SalutationID} eq $SalutationName,
+    'SalutationList() contains the salutation ' . $SalutationName . ' with ID ' . $SalutationID,
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 1 );
-$Hit = 0;
-for ( sort keys %SalutationList ) {
-    if ( $_ eq $SalutationID ) {
-        $Hit = 1;
-    }
-}
 $Self->True(
-    $Hit eq 1,
-    'SalutationList()',
+    exists $SalutationList{$SalutationID} && $SalutationList{$SalutationID} eq $SalutationName,
+    'SalutationList() contains the salutation ' . $SalutationName . ' with ID ' . $SalutationID,
 );
 
-my $SalutationUpdate = $SalutationObject->SalutationUpdate(
+my $SalutationNameUpdate = $SalutationName . '1';
+my $SalutationUpdate     = $SalutationObject->SalutationUpdate(
     ID          => $SalutationID,
-    Name        => $SalutationNameRand0 . '1',
+    Name        => $SalutationNameUpdate,
     Text        => $Salutation . '1',
     ContentType => 'text/plain; charset=utf-8',
     Comment     => 'some comment 1',
@@ -109,7 +104,7 @@ $Self->True(
 
 $Self->Is(
     $Salutation{Name} || '',
-    $SalutationNameRand0 . '1',
+    $SalutationNameUpdate,
     'SalutationGet() - Name',
 );
 $Self->True(
@@ -133,27 +128,17 @@ $Self->Is(
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
-$Hit = 0;
-for ( sort keys %SalutationList ) {
-    if ( $_ eq $SalutationID ) {
-        $Hit = 1;
-    }
-}
 $Self->True(
-    $Hit eq 1,
-    'SalutationList()',
+    exists $SalutationList{$SalutationID} && $SalutationList{$SalutationID} eq $SalutationNameUpdate,
+    'SalutationList() contains the salutation ' . $SalutationNameUpdate . ' with ID ' . $SalutationID,
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 1 );
-$Hit = 0;
-for ( sort keys %SalutationList ) {
-    if ( $_ eq $SalutationID ) {
-        $Hit = 1;
-    }
-}
 $Self->False(
-    $Hit eq 1,
-    'SalutationList()',
+    exists $SalutationList{$SalutationID},
+    'SalutationList() does not contain the salutation ' . $SalutationNameUpdate . ' with ID ' . $SalutationID,
 );
+
+# cleanup is done by RestoreDatabase
 
 1;
