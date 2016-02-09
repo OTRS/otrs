@@ -11,7 +11,7 @@ services:
 #  - sudo apt-get install -qq libdbd-mysql-perl libapache2-reload-perl libtimedate-perl libnet-dns-perl libnet-ldap-perl libio-socket-ssl-perl libpdf-api2-perl libdbd-mysql-perl libsoap-lite-perl libtext-csv-xs-perl libjson-xs-perl libxml-libxml-perl libxml-libxslt-perl libyaml-perl libarchive-zip-perl libcrypt-eksblowfish-perl libencode-hanextra-perl libmail-imapclient-perl libtemplate-perl
 
 install:
-  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql TimeDate Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV::XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
+  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
   - perl bin/otrs.CheckSum.pl -a create
   - scripts/tools/travis/setup.sh
   - plackup --port 5000 bin/cgi-bin/app.psgi &
