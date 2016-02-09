@@ -12,7 +12,7 @@ services:
 
 # We have to install the Perl modules via CPAN because the VMs use a perlbrew based Perl, not Ubuntu's system Perl.
 install:
-  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI Apache2::Reload
+  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
   - perl bin/otrs.CheckSum.pl -a create
   - scripts/tools/travis/setup.sh
   - plackup --port 5000 --access-log /tmp/plack.access.log bin/cgi-bin/app.psgi &
