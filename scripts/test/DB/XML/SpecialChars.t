@@ -269,13 +269,6 @@ my @UTF8Tests = (
         SelectData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
         ResultData => "\x{61}\x{300}",
     },
-    {
-
-        # decomposed UTF8 char (lowercase a with grave)
-        InsertData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
-        SelectData => Encode::encode( 'UTF8', "\x{E0}" ),
-        ResultData => undef,
-    },
 );
 
 UTF8TEST:
