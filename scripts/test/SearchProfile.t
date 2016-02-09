@@ -16,11 +16,18 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
 my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
 my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $UserObject          = $Kernel::OM->Get('Kernel::System::User');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
@@ -28,10 +35,10 @@ $ConfigObject->Set(
 );
 
 # create test user
-my $Login = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->TestUserCreate();
+my $Login = $Helper->TestUserCreate();
 my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 my $TestNumber = 1;
 
@@ -331,7 +338,7 @@ for my $SearchProfileName (@SearchProfileNames) {
     );
 }
 
-my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
 my $CustomerBase          = 'CustomerTicketSearch';
 my %CustomerSearches      = (
     First => {
@@ -380,7 +387,7 @@ $Self->Is(
 my %Customer = $CustomerUserObject->CustomerUserDataGet(
     User => $TestCustomerUserLogin,
 );
-my $NewCustomerUserLogin = $HelperObject->GetRandomID();
+my $NewCustomerUserLogin = $Helper->GetRandomID();
 my $Update               = $CustomerUserObject->CustomerUserUpdate(
     %Customer,
     ID        => $Customer{UserLogin},
@@ -441,5 +448,7 @@ $Self->Is(
     0,
     'CustomerUser: SearchProfileList returns no profiles for user',
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

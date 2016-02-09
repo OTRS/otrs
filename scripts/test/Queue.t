@@ -16,11 +16,18 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
-my $QueueRand = 'Some::Queue' . int( rand(1000000) );
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $QueueRand = 'Some::Queue' . $Helper->GetRandomID();
 my $QueueID   = $QueueObject->QueueAdd(
     Name                => $QueueRand,
     ValidID             => 1,
@@ -186,7 +193,7 @@ $Self->True(
 );
 
 #add another queue for testing update queue with existing name
-my $Queue2Rand = 'Some::Queue2' . int( rand(1000000) );
+my $Queue2Rand = 'Some::Queue2' . $Helper->GetRandomID();
 my $QueueID2   = $QueueObject->QueueAdd(
     Name            => $Queue2Rand,
     ValidID         => 1,
@@ -206,7 +213,7 @@ $Self->True(
 push( @IDs, $QueueID2 );
 
 #add subqueue
-my $SubQueueName = '::SubQueue' . int( rand(1000000) );
+my $SubQueueName = '::SubQueue' . $Helper->GetRandomID();
 my $SubQueue1    = $Queue2Rand . $SubQueueName;
 my $QueueID3     = $QueueObject->QueueAdd(
     Name            => $SubQueue1,
@@ -530,7 +537,7 @@ for my $TemplateType ( sort keys %TemplatesByType ) {
 
 # QueueStandardTemplateMemeberAdd() tests
 my $UserID   = 1;
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # create a new template
 my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
@@ -635,7 +642,7 @@ for my $Test (@Tests) {
                 $Templates{$TemplateID} || '',
                 '',
                 "$Test->{Name} QueueStandardTemplateMemberList() | $TemplateID should not be"
-                    . " assingned and must not have a value",
+                    . " assigned and must not have a value",
             );
         }
     }
@@ -647,39 +654,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup
-my $Success = $StandardTemplateObject->StandardTemplateDelete(
-    ID => $TemplateID,
-);
-
-$Self->True(
-    $Success,
-    "StandardTemplateDelete() for QueueStandardTemplateMemeberAdd() | with True",
-);
-
-# Since there are no tickets that rely on our test queues, we can remove them again
-# from the DB.
-for my $ID (@IDs) {
-    my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "DELETE FROM queue_preferences WHERE queue_id = $ID",
-    );
-    $Self->True(
-        $Success,
-        "QueueDelete preferences - $ID",
-    );
-
-    $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "DELETE FROM queue WHERE id = $ID",
-    );
-    $Self->True(
-        $Success,
-        "QueueDelete - $ID",
-    );
-}
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'Queue',
-);
+# cleanup is done by RestoreDatabase
 
 1;
