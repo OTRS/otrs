@@ -523,8 +523,9 @@ sub _Check {
         #   Don't do this for Net::DNS as it seems to take very long (>20s) in a
         #   mod_perl environment sometimes.
         my %DontRequire = (
-            'Net::DNS'     => 1,
-            'Email::Valid' => 1,    # uses Net::DNS internally
+            'Net::DNS'        => 1,
+            'Email::Valid'    => 1,    # uses Net::DNS internally
+            'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
         );
 
         ## no critic
