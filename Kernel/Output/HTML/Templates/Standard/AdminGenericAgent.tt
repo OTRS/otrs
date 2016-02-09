@@ -904,7 +904,7 @@ Core.Agent.Admin.GenericAgent.Init({
 
             <div class="Content">
 
-                <p>[% Translate("You can use the following tags") | html %]:</p>
+                <p>[% Translate("In the note section, you can use the following tags") | html %]:</p>
 
                 <dl>
                     <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
@@ -951,7 +951,7 @@ Core.Agent.Admin.GenericAgent.Init({
                 </dl>
 
                 <p class="SpacingTop">
-                    [% Translate("Example notification") | html %]:
+                    [% Translate("Example note") | html %]:
                 </p>
                 <label for="SubjectExample">[% Translate("Subject") | html %]</label>:
                 <input type="text" name="SubjectExample" id="SubjectExample" value="Ticket Created: &lt;OTRS_TICKET_Title&gt;" size="80" maxlength="80" readonly />

@@ -14,10 +14,13 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    RestoreDatabase => 1,
+);
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -87,16 +90,6 @@ $Self->Is(
     $GenericAgentArticle{Body},
     $Ticket{TicketNumber},
     "TicketNumber found. OTRS Tag used.",
-);
-
-# cleanup system
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $TicketDelete || '',
-    'TicketDelete()',
 );
 
 1;

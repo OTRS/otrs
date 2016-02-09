@@ -14,9 +14,12 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    RestoreDatabase => 1,
+);
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -124,16 +127,6 @@ $Self->Is(
     "Article found in customer view. TicketNumber found. OTRS Tag used.",
 );
 
-# cleanup system
-my $JobDelete = $GenericAgentObject->JobDelete(
-    Name   => $Name,
-    UserID => 1,
-);
-$Self->True(
-    $JobDelete || '',
-    'JobDelete()',
-);
-
 # add a new Job for note-internal
 $Name   = 'UnitTestInternal_' . $RandomID;
 %NewJob = (
@@ -190,25 +183,6 @@ $Self->Is(
 $Self->False(
     $ArticleBoxCustomer[1]->{Body},
     "No Article found in customer view.",
-);
-
-# cleanup system
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $TicketDelete || '',
-    'TicketDelete()',
-);
-
-$JobDelete = $GenericAgentObject->JobDelete(
-    Name   => $Name,
-    UserID => 1,
-);
-$Self->True(
-    $JobDelete || '',
-    'JobDelete()',
 );
 
 1;
