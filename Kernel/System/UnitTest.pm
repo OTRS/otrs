@@ -825,7 +825,7 @@ sub _Print {
         $PrintName = substr( $PrintName, 0, 1000 ) . "...";
     }
 
-    if ($Self->{Verbose} || !$Test) {
+    if ($Self->{Output} eq 'ASCII' && ( $Self->{Verbose} || !$Test) ) {
         print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
     }
     $Self->{OutputBuffer} = '';
