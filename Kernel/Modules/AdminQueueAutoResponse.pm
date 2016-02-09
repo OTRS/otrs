@@ -135,8 +135,7 @@ sub Run {
         my $QueueHeader;
 
         # filter queues without auto responses
-        if ( $Param{Filter} eq 'QueuesWithoutAutoResponses' )
-        {
+        if ( $Param{Filter} eq 'QueuesWithoutAutoResponses' ) {
 
             %QueueData = $AutoResponseObject->AutoResponseWithoutQueue();
 
@@ -169,7 +168,7 @@ sub Run {
             Name => 'OverviewResult',
             Data => {
                 QueueHeader => $QueueHeader,
-                }
+            },
         );
 
         # if there are any queues, they are shown
