@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.996896634041537;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2002,6 +2002,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Várólista-automatikus válasz kapcsolatok kezelése',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Szűrő a várólistákhoz',
         'Filter for Auto Responses' => 'Szűrő az automatikus válaszokhoz',
         'Auto Responses' => 'Automatikus válaszok',
@@ -3148,6 +3152,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Üdvözöljük',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Jogosultságok',
         'You can select one or more groups to define access for different agents.' =>
@@ -3252,8 +3259,12 @@ sub Data {
         'Yes, but require at least one active notification method' => 'Igen, de legalább egy aktív értesítési módszert igényel',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             'A csomag nincs ellenőrizve az ellenőrző-kiszolgálóval történő kommunikációs hiba miatt!',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => 'Statisztika',
@@ -3557,6 +3568,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Csomagtelepítési állapot',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Néhány csomag nincs helyesen telepítve.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3565,6 +3577,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'A rendszer-azonosító beállítás érvénytelen, csak számjegyeket tartalmazhat.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Jegy indexelő modul',
@@ -4529,8 +4546,8 @@ Az Ön segélyszolgálat csapata
         'Defines the name of the key for customer sessions.' => 'Meghatározza a kulcs nevét az ügyfél munkamenetekhez.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Meghatározza a munkamenetkulcs nevét. Például munkamenet, munkamenet-azonosító vagy OTRS.',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Meghatározza annak a táblának a nevét, ahol az ügyfélbeállítások vannak tárolva.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Meghatározza egy jegy írása / megválaszolása utáni következő lehetséges állapotokat az ügyintézői felület jegyírás képernyőjén.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5076,6 +5093,8 @@ Az Ön segélyszolgálat csapata
             'Ha ez a beállítás „Igaz” értékre van állítva, akkor a webes felületen keresztül, az ügyfelek vagy az ügyintézők által létrehozott jegyek egy automatikus választ fognak kapni, ha be van állítva. Ha ez a beállítás „Nem” értékre van állítva, nem lesznek automatikus válaszok elküldve.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ha ez a reguláris kifejezés illeszkedik, akkor az automatikus válaszadó nem fog üzenetet küldeni.',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'A rendszer küldő típussal rendelkező bejegyzés mellőzése az új bejegyzés szolgáltatásnál (például automatikus válaszok vagy e-mail értesítők).',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5701,10 +5720,10 @@ Az Ön segélyszolgálat csapata
             'Egy hivatkozást jelenít meg a menüben egy jegy felelős ügyintézőjének megtekintéséhez az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Egy hivatkozást jelenít meg a menüben egy kimenő e-mail küldéséhez az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Egy hivatkozást jelenít meg a menüben egy jegy függőben lévőre állításához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Egy hivatkozást jelenít meg a menüben egy jegy szemétként való megjelöléséhez az ügyintézői felület összes jegyáttekintőjében. A hivatkozás megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és a „rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával.',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Egy hivatkozást jelenít meg a menüben egy jegy prioritásának beállításához az ügyintézői felület összes jegyáttekintőjében.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>

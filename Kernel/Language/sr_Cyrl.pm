@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.967927237912877;
+    $Self->{Completeness}        = 0.965385533540224;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1997,6 +1997,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Управљање односима Ред-Аутоматски одговор',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Филтер за редове',
         'Filter for Auto Responses' => 'Филтер за Аутоматске одговоре',
         'Auto Responses' => 'Аутоматски одговори',
@@ -3143,6 +3147,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Добродошли',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Дозволе',
         'You can select one or more groups to define access for different agents.' =>
@@ -3247,8 +3254,12 @@ sub Data {
         'Yes, but require at least one active notification method' => 'Да, али је неопходан бар један активни метод обавештавања.',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             'Пакет није верификован због комуникацијског проблема са верификационим сервером!',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => 'Статистика',
@@ -3552,6 +3563,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Статус инсталације пакета',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Неки пакети нису исправно инсталирани.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3560,6 +3572,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Ваша подешавања системтемског ИД-а су неважећа, треба да садрже само цифре.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Тикет индекс модул',
@@ -4524,8 +4541,8 @@ Thanks for your help!
         'Defines the name of the key for customer sessions.' => 'Одређује назив кључа за клијентске сесије.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Дефинише назив кључа сесије. Нпр. Сесија, Сесија ИД или OTRS.',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Одређује назив табеле, где се складиште подешавања клијената.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Дефинише следеће могуће статусе након отварања / одговарања тикета у приказу екрана за отварање тикета интерфејса оператера.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5071,6 +5088,8 @@ Thanks for your help!
             'Ако је ова опција подешена као „Да”, тикети креирани преко веб интерфејса од стране клијената или оператера, ће ако је подешен добити аутоматски одговор. Ако је ова опција подешена као „Не”, аутоматски одговори неће бити слани.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ако се овај израз поклапа, аутоматски одговарач неће послати ниједну поруку.',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'Игнориши чланак са системским типом пошиљаоца за својство новог чланка (нпр аутоматски одговори или имејл обавештења).',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5080,7 +5099,7 @@ Thanks for your help!
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
-            '',
+            'Ако желите да користите проверу правописа инсталирајте „ispell” или „aspell” на систем. молимо да наведете путању до „ispell” или „aspell” датотеке на вашем оперативном сиситему.',
         'Interface language' => 'Jezik interfejsa',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
@@ -5696,9 +5715,9 @@ Thanks for your help!
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+        'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'У менију приказује везу за подешавање приоритета тикета у сваки преглед тикета у интерфејсу оператера.',

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.763523216850168;
+    $Self->{Completeness}        = 0.761040821198377;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2000,6 +2000,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Zarządzaj relacjami kolejka-autoodpowiedź',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Filtrowanie kolejek',
         'Filter for Auto Responses' => 'Filtrowanie automatycznych odpowiedzi',
         'Auto Responses' => 'Automatyczna odpowiedź',
@@ -3146,6 +3150,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => '',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Uprawnienia',
         'You can select one or more groups to define access for different agents.' =>
@@ -3250,8 +3257,12 @@ sub Data {
         'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => '',
@@ -3555,6 +3566,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Niektóre pakiety nie zostały poprawnie zainstalowane.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3563,6 +3575,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Wartość pola SystemID jest nieprawidłowa, powinno zawierać tylko cyfry.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Moduł indeksów zgłoszeń',
@@ -4516,8 +4533,8 @@ Thanks for your help!
         'Defines the name of the key for customer sessions.' => 'Definiuje nazwę klucza dla sesji klienta.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Definiuje nazwę klucza sesji, np. Sesja, IDSesji lub OTRS. ',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Definiuje nazwę tabeli gdzie ustawienia klienta są zapisane.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Definiuje kolejne możliwe stany po tworzeniu / odpowiedzi na zgłoszenie w oknie tworzenia zgłoszenia interfejsu agenta.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5062,6 +5079,8 @@ Thanks for your help!
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
+            '',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
@@ -5688,10 +5707,10 @@ Thanks for your help!
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Pokazuje w menu link ustawienia zgłoszenia jako spam w przeglądzie zgłoszeń interfejsu agenta. Dodatkowa kontrola dostępu by pokazac lub nie ten link może być wykonana przy użyciu klucza "Grupa" i Zawartości jak "rw:group1;move_into:group2".',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Pokazuje w menu link ustawienia priorytetu zgłoszenia w przeglądzie zgłoszeń interfejsu agenta.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"PO-Revision-Date: 2016-02-10 17:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -6888,6 +6888,22 @@ msgid "Manage Queue-Auto Response Relations"
 msgstr "Várólista-automatikus válasz kapcsolatok kezelése"
 
 #. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
 msgstr "Szűrő a várólistákhoz"
 
@@ -10324,6 +10340,10 @@ msgstr "Ügyintéző értesítése"
 msgid "Welcome"
 msgstr "Üdvözöljük"
 
+#. Template: RichTextEditor
+msgid "Remove Quote"
+msgstr ""
+
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
 msgstr "Jogosultságok"
@@ -10578,9 +10598,17 @@ msgid "Yes, but require at least one active notification method"
 msgstr "Igen, de legalább egy aktív értesítési módszert igényel"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Package has locally modified files."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr "A csomag nincs ellenőrizve az ellenőrző-kiszolgálóval történő kommunikációs hiba miatt!"
+
+#. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+msgid "Queues ( without auto responses )"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
@@ -11322,6 +11350,11 @@ msgstr "Csomagtelepítési állapot"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages have locally modified files."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "Néhány csomag nincs helyesen telepítve."
 
@@ -11332,6 +11365,18 @@ msgstr "OTRS/Csomaglista"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "A rendszer-azonosító beállítás érvénytelen, csak számjegyeket tartalmazhat."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid "Default Ticket Type"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid ""
+"The configured default ticket type is invalid or missing. Please change the "
+"setting Ticket::Type::Default and select a valid ticket type."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -14364,9 +14409,8 @@ msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
 msgstr "Meghatározza a munkamenetkulcs nevét. Például munkamenet, munkamenet-azonosító vagy OTRS."
 
 #. SysConfig
-msgid ""
-"Defines the name of the table, where the customer preferences are stored."
-msgstr "Meghatározza annak a táblának a nevét, ahol az ügyfélbeállítások vannak tárolva."
+msgid "Defines the name of the table where the user preferences are stored."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15837,7 +15881,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -16143,6 +16187,12 @@ msgstr "Ha ez a beállítás „Igaz” értékre van állítva, akkor a webes f
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr "Ha ez a reguláris kifejezés illeszkedik, akkor az automatikus válaszadó nem fog üzenetet küldeni."
+
+#. SysConfig
+msgid ""
+"If this setting is active, local modifications will not be highlighted as "
+"errors in the package manager and support data collector."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18282,6 +18332,14 @@ msgstr "Egy hivatkozást jelenít meg a menüben egy kimenő e-mail küldéséhe
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to set a ticket as junk in every ticket overview of"
+" the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to set a ticket as pending in the ticket zoom view "
 "of the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
@@ -18290,14 +18348,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr "Egy hivatkozást jelenít meg a menüben egy jegy függőben lévőre állításához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to set a ticket as spam in every ticket overview of"
-" the agent interface. Additional access control to show or not show this "
-"link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\"."
-msgstr "Egy hivatkozást jelenít meg a menüben egy jegy szemétként való megjelöléséhez az ügyintézői felület összes jegyáttekintőjében. A hivatkozás megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és a „rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.915270464337003;
+    $Self->{Completeness}        = 0.914538075913106;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1997,6 +1997,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Zuordnung von Queues und automatischen Antworten verwalten',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Filter für Queues',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
@@ -3143,6 +3147,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Willkommen',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Rechtevergabe',
         'You can select one or more groups to define access for different agents.' =>
@@ -3247,8 +3254,12 @@ sub Data {
         'Yes, but require at least one active notification method' => 'Ja, aber mindestens eine Benachrichtigungsmethode muss aktiviert sein',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nicht verifiziert aufgrund eines Kommunikationsproblems mit dem Verifikationsserver!',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => 'Statistik',
@@ -3552,6 +3563,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Paketinstallationsstatus',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3560,6 +3572,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Ihre Einstellung SystemID ist ungültig, sie sollte nur Ziffern enthalten.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Ticket-Index-Modul',
@@ -4523,8 +4540,8 @@ Ihr Helpdesk-Team
         'Defines the name of the key for customer sessions.' => 'Definiert den Namen des Schlüssels für die Kunden-Sessions.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Definiert den Namen des Session-Schlüssels. Zum Beispiel: Session, SessionID oder OTRS',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Definiert den Namen der Tabelle, in der die Kunden-Einstellungen gespeichert werden.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Definiert den nächsten möglichen Status nach Erstellen eines / Antworten auf ein Ticket im Verfassen-Bildschirm im Agenten-Interface.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -4574,19 +4591,19 @@ Ihr Helpdesk-Team
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             'Definiert den Pfad und die TTF Datei für die Handhabung von fett und kursiv gedruckter nichtproportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von fett und kursiv gedruckter proportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle bold monospaced font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von fett gedruckter nichtproportionaler (monospace) Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle bold proportional font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von fett gedruckter proportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle italic monospaced font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von kursiv gedruckter nichtproportionaler (monospace) Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle italic proportional font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von kursiv gedruckter proportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle monospaced font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von nichtproportionaler (monospace) Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle proportional font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung proportionaler Schrift in PDF Dokumenten.',
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt.' =>
             '',
         'Defines the path to PGP binary.' => 'Bestimmt den Pfad zur PGP-Binärdatei.',
@@ -4600,7 +4617,7 @@ Ihr Helpdesk-Team
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
-            '',
+            'Definiert die benötigten Rechte, um ein Ticket in der Eskalationsansicht der Agenten-Oberfläche anzuzeigen.',
         'Defines the search limit for the stats.' => 'Definiert die maximalen Suchergebnisse für Statistiken.',
         'Defines the sender for rejected emails.' => 'Definiert die Absendeadresse für abgelehnte E-Mails.',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -5069,6 +5086,8 @@ Ihr Helpdesk-Team
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
+            '',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
@@ -5695,10 +5714,10 @@ Ihr Helpdesk-Team
             'Zeigt einen Link zum Anzeigen des verantwortlichen Agenten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Zeigt einen Link zum Senden einer ausgehenden E-Mail im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Zeigt einen Link zum Setzen einer Wartezeit für ein Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Zeigt einen Link zum Klassifizieren von Tickets als Spam in den Ticketübersichten des Agentenbereichs an. Zusätzliche Zugriffskontrolle für diesen Link kann über den Schlüssel "Group" und dazugehörigen Inhalt wie "rw:group1;move_into:group2" als Wert erreicht werden.',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Zeigt einen Link zum Verändern der Priorität von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
@@ -6018,9 +6037,9 @@ Ihr Helpdesk-Team
         'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
         'View system log messages.' => 'Systemprotokollnachrichten ansehen.',
         'Watch this ticket' => 'Dieses Ticket beobachten',
-        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance.' => 'Wir führen eine geplante Wartung durch.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
-            'Wir führen eine geplante Wartung durch. Das Einlogen ist im Moment nicht möglich.',
+            'Wir führen eine geplante Wartung durch. Das Einloggen ist im Moment nicht möglich.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>

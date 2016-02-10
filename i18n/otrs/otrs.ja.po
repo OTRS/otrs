@@ -7,11 +7,12 @@
 # Makoto Miida, 2014
 # Makoto Miida, 2014
 # Norihiro Tanaka <noritnk@kcn.ne.jp>, 2014-2015
+# Takayuki MINATO <turbo@minato.tv>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"PO-Revision-Date: 2016-02-10 17:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -6886,6 +6887,22 @@ msgid "Manage Queue-Auto Response Relations"
 msgstr "キュー-自動応答の関連性の管理"
 
 #. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
 msgstr "キューでフィルタ"
 
@@ -9537,7 +9554,7 @@ msgstr "ユーザー名"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr "登録されたメールアドレスに新しいパスワードを送信しました。"
+msgstr "登録されたメールアドレスに新しいパスワードを送信します。"
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -10322,6 +10339,10 @@ msgstr "担当者に知らせる"
 msgid "Welcome"
 msgstr "ようこそ"
 
+#. Template: RichTextEditor
+msgid "Remove Quote"
+msgstr ""
+
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
 msgstr "権限"
@@ -10576,8 +10597,16 @@ msgid "Yes, but require at least one active notification method"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Package has locally modified files."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+msgid "Queues ( without auto responses )"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
@@ -10820,7 +10849,7 @@ msgstr "順序"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
-msgstr ""
+msgstr "構成オプションリファレンス"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
@@ -11320,6 +11349,11 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages have locally modified files."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "正しくインストールされていないパッケージが存在します"
 
@@ -11330,6 +11364,18 @@ msgstr ""
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "あなたのSystemID設定は不正です。数字以外は利用できません。"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid "Default Ticket Type"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid ""
+"The configured default ticket type is invalid or missing. Please change the "
+"setting Ticket::Type::Default and select a valid ticket type."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -14362,9 +14408,8 @@ msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
 msgstr "セッション・キーの名前を定義します。つまり、Session、SessionID、OTRSです。"
 
 #. SysConfig
-msgid ""
-"Defines the name of the table, where the customer preferences are stored."
-msgstr "顧客のプレファレンスが格納される、テーブル名を定義してください。"
+msgid "Defines the name of the table where the user preferences are stored."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15835,7 +15880,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
 
 #. SysConfig
 msgid ""
@@ -16141,6 +16186,12 @@ msgstr ""
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr "ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。"
+
+#. SysConfig
+msgid ""
+"If this setting is active, local modifications will not be highlighted as "
+"errors in the package manager and support data collector."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18280,6 +18331,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to set a ticket as junk in every ticket overview of"
+" the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to set a ticket as pending in the ticket zoom view "
 "of the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
@@ -18288,14 +18347,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to set a ticket as spam in every ticket overview of"
-" the agent interface. Additional access control to show or not show this "
-"link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\"."
-msgstr "担当者インタフェースの全チケット一覧で、チケットをスパムとして設定するためのリンクをメニューに表示します。本リンクを表示または非表示にするための追加的アクセス・コントロールについては、“Group”キーおよび\"rw:group1;move_into:group2\"のようなコンテンツを使用することで可能になります。"
 
 #. SysConfig
 msgid ""

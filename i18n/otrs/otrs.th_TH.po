@@ -1,11 +1,11 @@
 # 
 # Translators:
-# KENNY CHEAH <otrssdnbhd@gmail.com>, 2015
+# KENNY CHEAH <otrssdnbhd@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"PO-Revision-Date: 2016-02-10 17:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -3250,11 +3250,11 @@ msgstr "เลือก"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "แสดงให้เห็น"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "ผลรวม"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -5552,11 +5552,11 @@ msgstr "คุณลักษณะของข้อมูลลูกค้า
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "คุณลักษณะของข้อมูลผู้ใช้เจ้าของตั๋วปัจจุบัน"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "คุณลักษณะของข้อมูลผู้ใช้ที่ดูแลตั๋วปัจจุบัน"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -6878,6 +6878,22 @@ msgstr "ลายเซ็นสำหรับอีเมลคำตอบ"
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
 msgstr "จัดการความสัมพันธ์การตอบสนองคิวอัตโนมัติ"
+
+#. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Show all queues"
+msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
@@ -9232,7 +9248,7 @@ msgstr "จัดเก็บตั๋วนี่แล้ว"
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "หมายเหตุ: ประเภทไม่ถูกต้อง!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9795,7 +9811,7 @@ msgstr "การเลือกวันที่เปิด"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "เกิดข้อผิดพลาด"
 
 #. Template: Error
 msgid "You can"
@@ -10316,6 +10332,10 @@ msgstr "แจ้งเอเย่นต์"
 msgid "Welcome"
 msgstr "ยินดีต้อนรับ"
 
+#. Template: RichTextEditor
+msgid "Remove Quote"
+msgstr ""
+
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
 msgstr "การอนุญาต"
@@ -10570,9 +10590,17 @@ msgid "Yes, but require at least one active notification method"
 msgstr "ใช่ แต่ต้องมีอย่างน้อยหนึ่งวิธีการแจ้งเตือนที่ใช้งาน"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Package has locally modified files."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr "ไม่ได้ตรวจสอบแพคเกจเนื่องจากปัญหาการสื่อสารกับเซิร์ฟเวอร์การตรวจสอบ!"
+
+#. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+msgid "Queues ( without auto responses )"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
@@ -11314,6 +11342,11 @@ msgstr "สถานะการติดตั้งแพคเกจ"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages have locally modified files."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "แพคเกจบางแพคเกจไม่ถูกติดตั้งอย่างถูกต้อง"
 
@@ -11324,6 +11357,18 @@ msgstr "รายการ OTRS/แพคเกจ"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "การตั้งค่า SystemID ของคุณไม่ถูกต้อง มันประกอบด้วยตัวเลขเพียงอย่างเดียว"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid "Default Ticket Type"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid ""
+"The configured default ticket type is invalid or missing. Please change the "
+"setting Ticket::Type::Default and select a valid ticket type."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -11737,51 +11782,51 @@ msgstr "แฟกซ์"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "การแจ้งเตือนการสร้างตั๋ว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "ตั๋วติดตามการแจ้งเตือน (ปลดล็อค)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "ตั๋วติดตามการแจ้งเตือน (ล็อค)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "การแจ้งเตือนการอัพเดตของเจ้าของตั๋ว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "การแจ้งเตือนการอัพเดตผู้รับผิดชอบตั๋ว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "การแจ้งเตือนตั๋วโน้ตใหม่"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "การแจ้งเตือนการอัพเดตตั๋วคิว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "ตั๋วเตือนที่ค้างอยู่การแจ้งเตือน (ล็อค)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "ตั๋วเตือนที่ค้างอยู่การแจ้งเตือน (ปลดล็อค)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "การแจ้งเตือนการขยายตั๋ว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "การแจ้งเตือนคำเตือนการขยายตั๋ว"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "การแจ้งเตือนการอัพเดตตั๋วการบริการ"
 
 #. SysConfig
 msgid ""
@@ -11820,7 +11865,7 @@ msgstr "(UserLogin) ชื่อนามสกุล"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(UserLogin) ชื่อ นามสกุล"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -12553,7 +12598,7 @@ msgstr "ควบคุมวิธีการแสดงรายการป
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
-msgstr ""
+msgstr "ควบคุมหากCutomerIDสามารถแก้ไขได้ในอินเตอร์เฟสตัวแทน"
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -13815,7 +13860,7 @@ msgstr "กำหนดประเภทเริ่มต้นของตั
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "กำหนดสถานะเริ่มต้นของประเภทตั๋ว"
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -14356,9 +14401,8 @@ msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
 msgstr "กำหนดชื่อของคีย์เซสชั่น เช่น Session, SessionID or OTRS"
 
 #. SysConfig
-msgid ""
-"Defines the name of the table, where the customer preferences are stored."
-msgstr "กำหนดชื่อของตารางที่การตั้งค่าของลูกค้าถูกจัดเก็บไว้"
+msgid "Defines the name of the table where the user preferences are stored."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14590,13 +14634,13 @@ msgid ""
 "Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr ""
+msgstr "กำหนดเป้าหมายผู้รับตั๋วโทรศัพท์และผู้ส่งตั๋วอีเมล(\"คิว\" แสดงคิวทั้งหมด \"ที่อยู่ระบบ\"แสดงที่อยู่ระบบทั้งหมด) ในอินเตอร์เฟซเอเย่นต์"
 
 #. SysConfig
 msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" displays all system addresses) in the customer interface."
-msgstr ""
+msgstr "กำหนดเป้าหมายผู้รับตั๋วโทรศัพท์และผู้ส่งตั๋วอีเมล(\"คิว\" แสดงคิวทั้งหมด \"ที่อยู่ระบบ\"แสดงที่อยู่ระบบทั้งหมด) ในอินเตอร์เฟซลูกค้า"
 
 #. SysConfig
 msgid ""
@@ -14967,11 +15011,11 @@ msgstr ""
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
-msgstr ""
+msgstr "แสดงคำเตือนและป้องกันการค้นหาเมื่อหยุดใช้คำที่อยู่ในการค้นหา Fulltext"
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
-msgstr ""
+msgstr "แสดงการตั้งค่าแทนที่ค่าเริ่มต้นสำหรับกระบวนการสร้างตั๋ว"
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
@@ -14979,7 +15023,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "ดรอปดาวน์"
 
 #. SysConfig
 msgid ""
@@ -14989,7 +15033,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
-msgstr ""
+msgstr "ฟิลด์แบบไดนามิก Checkbox Backend GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
@@ -15017,7 +15061,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
+msgstr "ฟิลด์แบบไดนามิก ถูกนำมาใช้เพื่อส่งออกผลการค้นหาในรูปแบบ CSV"
 
 #. SysConfig
 msgid ""
@@ -15044,31 +15088,31 @@ msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface. Possible settings: 0 = Disabled, 1 = "
 "Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "ตัวเลือกฟิลด์แบบไดนามิกแสดงในส่วนของการตอบกลับตั๋วในหน้าจอซูมตั๋วของในอินเตอร์เฟซของลูกค้า การตั้งค่าที่เป็นไปได้คือ 0 = ปิดการใช้งาน 1 = เปิดการใช้งาน 2 = เปิดใช้งานและจำเป็นต้องใช้"
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "ไดนามิคฟิลด์แสดงในหน้าอีเมลขาออกในอินเตอร์เฟซของเอเย่นต์ การตั้งค่าที่เป็นไปได้คือ 0 = ปิดการใช้งาน 1 = เปิดการใช้งาน 2 = เปิดใช้งานและจำเป็นต้องใช้"
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "ไดนามิคฟิลด์แสดงในเครื่องมือกระบวนการซูมตั๋วในอินเตอร์เฟซของเอเย่นต์ การตั้งค่าที่เป็นไปได้คือ 0 = ปิดการใช้งาน 1 = เปิดการใช้งาน"
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "ไดนามิคฟิลด์แสดงในแถบด้านข้างในหน้าการซูมตั๋วในอินเตอร์เฟซของเอเย่นต์ การตั้งค่าที่เป็นไปได้คือ 0 = ปิดการใช้งาน 1 = เปิดการใช้งาน"
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket close screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr ""
+msgstr "ไดนามิคฟิลด์แสดงในหน้าตั๋วปิดในอินเตอร์เฟซของเอเย่นต์ การตั้งค่าที่เป็นไปได้คือ 0 = ปิดการใช้งาน 1 = เปิดการใช้งาน 2 = เปิดใช้งานและจำเป็นต้องใช้"
 
 #. SysConfig
 msgid ""
@@ -15395,7 +15439,7 @@ msgstr "เวลาของการขยาย"
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "ภาษาเอสโตเนีย"
 
 #. SysConfig
 msgid ""
@@ -15442,7 +15486,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "ปฏิทินตั๋วเหตุการณ์"
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -15524,35 +15568,35 @@ msgstr ""
 
 #. SysConfig
 msgid "Finnish"
-msgstr ""
+msgstr "ภาษาฟินแลนด์"
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "คิวแรก"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr ""
+msgstr "FirstLock"
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr ""
+msgstr "FirstResponse"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
-msgstr ""
+msgstr "FirstResponseDiffInMin"
 
 #. SysConfig
 msgid "FirstResponseInMin"
-msgstr ""
+msgstr "FirstResponseInMin"
 
 #. SysConfig
 msgid "Firstname Lastname"
-msgstr ""
+msgstr "ชื่อนามสกุล"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr ""
+msgstr "ชื่อนามสกุล (ผู้ใช้เข้าสู่ระบบ)"
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
@@ -15580,148 +15624,148 @@ msgstr ""
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "ภาษาฝรั่งเศส"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "ภาษาฝรั่งเศษ (แคนาดา)"
 
 #. SysConfig
 msgid ""
 "French stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "คำว่าหยุดภาษาฝรั่งเศสสำหรับดัชนี Fulltext คำพูดเหล่านี้จะถูกลบออกจากดัชนีการค้นหา"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Serivice feature is not used)."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend (ปิดการใช้งานการเชื่อมโยงAgentTicketService  หากตั๋วฟีเจอร์การบริการไม่ถูกใช้)"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend (ปิดการใช้งานการเชื่อมโยงบริษัท ถ้าไม่มีฟีเจอร์บริษัทถูกนำมาใช้)"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available) for Customer."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend สำหรับลูกค้า (ปิดการใช้งานหน้าจอของกระบวนการของตั๋วหน้าจอหากไม่สามารถใช้กระบวนการได้)"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend (ปิดการใช้งานหน้าจอของกระบวนการของตั๋วหน้าจอหากไม่สามารถใช้กระบวนการได้)"
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซของเอเย่นต์"
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซลูกค้า"
 
 #. SysConfig
 msgid "Frontend theme"
-msgstr ""
+msgstr "ธีม Frontend"
 
 #. SysConfig
 msgid "Full value"
-msgstr ""
+msgstr "ค่าเต็ม"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
-msgstr ""
+msgstr "ดัชนี regex ของ Fulltext กรองเพื่แลบบางส่วนของข้อความ"
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "ค้นหาข้อความฉบับเต็ม"
 
 #. SysConfig
 msgid "Galician"
-msgstr ""
+msgstr "ภาษากาลิเซีย"
 
 #. SysConfig
 msgid ""
 "General ticket data shown in the ticket overviews (fall-back). Possible "
 "settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that "
 "TicketNumber can not be disabled, because it is necessary."
-msgstr ""
+msgstr "ข้อมูลทั่วไปของตั๋วแสดงในภาพรวมตั๋ว (ตกหลัง) การตั้งค่าที่เป็นไปได้: 0 =ปิดใช้งาน 1 =พร้อมใช้งาน  2 = เปิดใช้งานโดยค่าเริ่มต้น หมายเหตุ หมายเลขตั๋วไม่สามารถปิดการใช้งานเพราะมันเป็นสิ่งที่จำเป็น"
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr ""
+msgstr "สร้างสถิติแดชบอร์ด"
 
 #. SysConfig
 msgid "GenericAgent"
-msgstr ""
+msgstr "GenericAgent"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของการดีบัก"
 
 #. SysConfig
 msgid "GenericInterface Invoker GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของ Invoker"
 
 #. SysConfig
 msgid "GenericInterface Operation GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของ Operation"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPREST GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของ TransportHTTPREST"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPSOAP GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของ TransportHTTPSOAP"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของWeb Service"
 
 #. SysConfig
 msgid "GenericInterface Webservice History GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของWeb History"
 
 #. SysConfig
 msgid "GenericInterface Webservice Mapping GUI"
-msgstr ""
+msgstr "GUI อินเตอร์เฟซทั่วไปของ Webservice Mapping"
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของผู้ร้องขอ"
 
 #. SysConfig
 msgid "GenericInterface module registration for the mapping layer."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของการทำแผนที่"
 
 #. SysConfig
 msgid "GenericInterface module registration for the operation layer."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของการดำเนินงาน"
 
 #. SysConfig
 msgid "GenericInterface module registration for the transport layer."
-msgstr ""
+msgstr "การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของการขนส่ง"
 
 #. SysConfig
 msgid "German"
-msgstr ""
+msgstr "ภาษาเยอรมัน"
 
 #. SysConfig
 msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "คำหยุดภาษาเยอรมันสำหรับดัชนี Fulltext คำเหล่านี้จะถูกลบออกจากดัชนีการค้นหา"
 
 #. SysConfig
 msgid ""
 "Gives end users the possibility to override the separator character for CSV "
 "files, defined in the translation files."
-msgstr ""
+msgstr "ให้ความเป็นไปได้กับผู้ใช้ในการแทนที่ตัวอักษรที่คั่นสำหรับไฟล์ CSV ที่กำหนดไว้ในแฟ้มการแปล"
 
 #. SysConfig
 msgid "Go back"
@@ -15729,15 +15773,15 @@ msgstr "กลับไป"
 
 #. SysConfig
 msgid "Google Authenticator"
-msgstr ""
+msgstr "การรับรองความถูกต้องจาก Google"
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "ภาษากรีก"
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "ภาษาฮิบรู"
 
 #. SysConfig
 msgid ""
@@ -15751,78 +15795,78 @@ msgstr ""
 
 #. SysConfig
 msgid "Hindi"
-msgstr ""
+msgstr "ภาษาฮินดี"
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "ภาษาฮังการี"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally"
 " autodetection is used) can be specified."
-msgstr ""
+msgstr "สามารถกำหนดโปรแกรมควบคุมฐานข้อมูล (ปกติจะใช้ตรวจสอบอัตโนมัติ)ได้ ถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
-msgstr ""
+msgstr "สามารถกำหนดรหัสผ่านเพื่อเชื่อมต่อกับตารางลูกค้าได้ ถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
-msgstr ""
+msgstr "สามารถกำหนดชื่อผู้ใช้เพื่อเชื่อมต่อกับตารางลูกค้าได้ ถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
-msgstr ""
+msgstr "ต้องกำหนดDSN สำหรับการเชื่อมต่อไปยังตารางลูกค้าถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
-msgstr ""
+msgstr "ต้องกำหนดชื่อคอลัมน์สำหรับ CustomerPassword ในตารางลูกค้าถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the crypt type of passwords"
 " must be specified."
-msgstr ""
+msgstr "ต้องกำหนดรหัสผ่านแบบคริพป์ถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
-msgstr ""
+msgstr "ต้องกำหนดชื่อคอลัมน์สำหรับ CustomerKey ในตารางลูกค้าถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
-msgstr ""
+msgstr "ต้องกำหนดชื่อของตารางที่ข้อมูลลูกค้าของคุณจะถูกเก็บไว้ถ้า \"DB\" ถูกเลือกให้ Customer :: AuthModule"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
-msgstr ""
+msgstr "ต้องกำหนดชื่อของตารางที่ข้อมูลของเซสชั่นจะถูกเก็บไว้ถ้า \"DB\" ถูกเลือกให้ SessionModule"
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data"
 " will be stored must be specified."
-msgstr ""
+msgstr "ต้องกำหนดไดเรกทอรีที่ข้อมูลของเซสชั่นจะถูกเก็บไว้ถ้า \"FS\" ถูกเลือกให้ SessionModule"
 
 #. SysConfig
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
-msgstr ""
+msgstr "คุณสามารถกำหนด (โดยการใช้ RegEx )เพื่อจะตัดส่วนของ REMOTE_USER (เช่น สำหรับการลบโดเมนที่ต่อท้าย) RegExp-Note, $1 จะกลายเป็นล็อกอินใหม่"
 
 #. SysConfig
 msgid ""
@@ -16138,6 +16182,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If this setting is active, local modifications will not be highlighted as "
+"errors in the package manager and support data collector."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Ignore article with system sender type for new article feature (e. g. auto "
 "responses or email notifications)."
 msgstr ""
@@ -16172,7 +16222,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Interface language"
-msgstr ""
+msgstr "ภาษาของอินเตอร์เฟซ"
 
 #. SysConfig
 msgid ""
@@ -16206,7 +16256,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "ภาษาอิตาลี"
 
 #. SysConfig
 msgid ""
@@ -18274,6 +18324,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to set a ticket as junk in every ticket overview of"
+" the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to set a ticket as pending in the ticket zoom view "
 "of the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
@@ -18281,14 +18339,6 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to set a ticket as spam in every ticket overview of"
-" the agent interface. Additional access control to show or not show this "
-"link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\"."
 msgstr ""
 
 #. SysConfig

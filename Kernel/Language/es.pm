@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.756103398755385;
+    $Self->{Completeness}        = 0.755311530198138;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -907,8 +907,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
-        'shown' => '',
-        'total' => '',
+        'shown' => 'mostrados',
+        'total' => 'Total',
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Add Customer' => 'Añadir un cliente',
 
@@ -2002,6 +2002,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Administrar Colas - Relaciones Auto Respuesta  ',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Filtrar por Colas',
         'Filter for Auto Responses' => 'Filtrar por Auto Respuestas',
         'Auto Responses' => 'Respuestas Automáticas',
@@ -2372,7 +2376,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => 'No olvide agregar las nuevas plantillas a las colas',
         'Add Template' => 'Agregar Plantilla',
         'Edit Template' => 'Editar Plantilla',
-        'A standard template with this name already exists!' => 'Ya existe na plantilla estándar con este nombre',
+        'A standard template with this name already exists!' => 'Ya existe una plantilla estándar con este nombre',
         'Create type templates only supports this smart tags' => 'Crear plantillas tipo sólo soporta estas etiquetas inteligentes',
         'Example template' => 'Plantilla Ejemplo',
         'The current ticket state is' => 'El estado actual del ticket es',
@@ -2783,7 +2787,7 @@ sub Data {
         'Save as default' => 'Guardar como Por Defecto',
         'Archive' => 'Archivar',
         'This ticket is archived.' => 'Este ticket está archivado.',
-        'Note: Type is invalid!' => '',
+        'Note: Type is invalid!' => 'Nota: el tipo es inválido!',
         'Locked' => 'Bloqueo',
         'Accounted time' => 'Tiempo contabilizado',
         'Linked Objects' => 'Objetos enlazados',
@@ -2963,7 +2967,7 @@ sub Data {
         'Open date selection' => 'Abrir selección de fecha',
 
         # Template: Error
-        'An error occurred.' => '',
+        'An error occurred.' => 'Ha ocurrido un error.',
         'You can' => 'Puede',
         'Send a bugreport' => 'Enviar un informe de error',
         'go back to the previous page' => 'retroceder a la página anterior',
@@ -3148,6 +3152,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Bienvenido',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Permisos',
         'You can select one or more groups to define access for different agents.' =>
@@ -3192,7 +3199,7 @@ sub Data {
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'No permitir cambios en este elemento mientras la estadística es generada.',
 
         # Template: StatsParamsWidget
         'Format' => 'Formato',
@@ -3252,8 +3259,12 @@ sub Data {
         'Yes, but require at least one active notification method' => 'Si, pero requiere al menos un método de notificación activo',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             'Paquete no verificado debido a problema en la comunicación con el servidor de verificación!',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => 'Estadística',
@@ -3291,7 +3302,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Lo sentimos, usted ya no tiene permisos para acedder a este ticket en su estado actual.',
+            'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
         'Fields with no group' => 'Campos sin grupo',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
@@ -3316,7 +3327,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
-        ' You can take one of the next actions:' => 'Puede tomar una de las siguientes decisiones:',
+        ' You can take one of the next actions:' => 'Puede tomar una de las siguientes acciones:',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
         'Linked as' => 'Enlazado como',
@@ -3557,6 +3568,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Estado de Instalación del Paquete',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Algunos paquetes no estan correctamente instalados.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3565,6 +3577,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'El ajuste del ID del Sistema es invalida, debe contener solamente dígitos.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Módulo De Índice de Tickets',
@@ -4529,7 +4546,7 @@ Tu Equipo de Soporte
         'Defines the name of the key for customer sessions.' => '',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             '',
-        'Defines the name of the table, where the customer preferences are stored.' =>
+        'Defines the name of the table where the user preferences are stored.' =>
             '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             '',
@@ -5075,6 +5092,8 @@ Tu Equipo de Soporte
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
+            '',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
@@ -5701,9 +5720,9 @@ Tu Equipo de Soporte
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+        'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             '',

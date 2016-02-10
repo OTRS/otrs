@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.735040689325036;
+    $Self->{Completeness}        = 0.73287180711387;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2002,6 +2002,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'キュー-自動応答の関連性の管理',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'キューでフィルタ',
         'Filter for Auto Responses' => '自動応答でフィルタ',
         'Auto Responses' => '自動応答',
@@ -2877,7 +2881,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Not yet registered?' => '未登録ですか？',
         'Request new password' => '新規パスワードを申請',
         'Your User Name' => 'ユーザー名',
-        'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信しました。',
+        'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信します。',
         'Create Account' => 'アカウント作成',
         'Please fill out this form to receive login credentials.' => '下記のフォームにログイン時に必要となる事項を入力してください。',
         'How we should address you' => '',
@@ -3148,6 +3152,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: PublicDefault
         'Welcome' => 'ようこそ',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => '権限',
         'You can select one or more groups to define access for different agents.' =>
@@ -3252,8 +3259,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => '統計',
@@ -3373,7 +3384,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Order by' => '順序',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
+        'Configuration Options Reference' => '構成オプションリファレンス',
         'This setting can not be changed.' => '',
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
@@ -3557,6 +3568,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => '正しくインストールされていないパッケージが存在します',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3565,6 +3577,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'あなたのSystemID設定は不正です。数字以外は利用できません。',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'チケットインデクスモジュール',
@@ -4527,8 +4544,8 @@ Thanks for your help!
         'Defines the name of the key for customer sessions.' => '顧客セッションのためのキーの名前を定義します。',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'セッション・キーの名前を定義します。つまり、Session、SessionID、OTRSです。',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            '顧客のプレファレンスが格納される、テーブル名を定義してください。',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、チケットを構成/回答した後の、可能性ある次の状態を定義します。',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5077,6 +5094,8 @@ Thanks for your help!
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '新規項目機能のシステム・センダー・タイプを持つ項目を、無視します（例：自動返答またはEメール通知など）。',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5703,10 +5722,10 @@ Thanks for your help!
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '担当者インタフェースの全チケット一覧で、チケットをスパムとして設定するためのリンクをメニューに表示します。本リンクを表示または非表示にするための追加的アクセス・コントロールについては、“Group”キーおよび"rw:group1;move_into:group2"のようなコンテンツを使用することで可能になります。',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットの優先度を設定するためのリンクをメニューに表示します。',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
