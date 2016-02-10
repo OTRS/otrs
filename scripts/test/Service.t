@@ -425,7 +425,7 @@ my $ItemData = [
         },
     },
 
-    # this service must be inserted successful (parent service check)
+    # this service must be inserted successfully (parent service check)
     {
         Add => {
             ParentID => 'LASTADDID',
