@@ -15,12 +15,12 @@ fi
 if [ $DB = 'postgresql' ]; then
     cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.pm.travis.postgresql $TRAVIS_BUILD_DIR/Kernel/Config.pm
 
-    psql -U postgres "CREATE DATABASE otrs ENCODING=utf8"
-    psql -U postgres "CREATE USER otrs WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOCREATEUSER PASSWORD 'otrs'"
+    psql -U postgres -c "CREATE DATABASE otrs ENCODING=utf8"
+    psql -U postgres -c "CREATE USER otrs WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOCREATEUSER PASSWORD 'otrs'"
     psql -U postgres otrs < $TRAVIS_BUILD_DIR/scripts/database/otrs-schema.postgresql.sql
     psql -U postgres otrs < $TRAVIS_BUILD_DIR/scripts/database/otrs-initial_insert.postgresql.sql
     psql -U postgres otrs < $TRAVIS_BUILD_DIR/scripts/database/otrs-schema-post.postgresql.sql
-    psql -U postgres "ALTER DATABASE otrs OWNER TO otrs"
+    psql -U postgres -c "ALTER DATABASE otrs OWNER TO otrs"
 fi
 
 mkdir -p $TRAVIS_BUILD_DIR/.ssl/certs
