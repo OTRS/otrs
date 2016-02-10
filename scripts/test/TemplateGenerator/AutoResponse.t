@@ -107,14 +107,6 @@ $Self->IsNot(
     "AutoResponseAdd() - AutoResonseID should not be undef",
 );
 
-# get a list of the queues that do not have auto response
-my %AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
-
-$Self->True(
-    exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueName,
-    'AutoResponseWithoutQueue() contains queue ' . $QueueName . ' with ID ' . $QueueID,
-);
-
 # assign auto response to queue
 $Success = $AutoResponseObject->AutoResponseQueue(
     QueueID         => $QueueID,
@@ -124,13 +116,6 @@ $Success = $AutoResponseObject->AutoResponseQueue(
 $Self->True(
     $Success,
     "AutoResponseQueue() - assigned auto response - $AutoResonseName to queue - $QueueName",
-);
-
-# check again after assigning auto response to queue
-%AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
-$Self->False(
-    exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueName,
-    'AutoResponseWithoutQueue() does not contain queue ' . $QueueName . ' with ID ' . $QueueID,
 );
 
 # get ticket object
