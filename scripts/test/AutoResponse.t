@@ -12,11 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    RestoreDatabase => 1,
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
@@ -144,6 +146,14 @@ for my $TypeID ( sort keys %AutoResponseType ) {
         'AutoResponseList() - test Auto Response is in the list.',
     );
 
+    # get a list of the queues that do not have auto response
+    my %AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
+
+    $Self->True(
+        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueRand,
+        'AutoResponseWithoutQueue() contains queue ' . $QueueRand . ' with ID ' . $QueueID,
+    );
+
     my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
         TypeID => $TypeID,
         Valid  => 1,
@@ -162,6 +172,13 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     $Self->True(
         $AutoResponseQueue,
         'AutoResponseQueue()',
+    );
+
+    # check again after assigning auto response to queue
+    %AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
+    $Self->False(
+        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueRand,
+        'AutoResponseWithoutQueue() does not contain queue ' . $QueueRand . ' with ID ' . $QueueID,
     );
 
     my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
