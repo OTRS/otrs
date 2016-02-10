@@ -15,6 +15,7 @@ use vars (qw($Self));
 # get needed objects
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -22,19 +23,17 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get random id
-my $RandomID = $Helper->GetRandomID();
-
-# get queue object
-my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+my $RandomID = $HelperObject->GetRandomID();
 
 # set queue name
 my $QueueName = 'Some::Queue' . $RandomID;
 
 # create new queue
-my %QueueTemplate = (
+my $QueueID   = $QueueObject->QueueAdd(
+
     Name            => $QueueName,
     ValidID         => 1,
     GroupID         => 1,
@@ -44,16 +43,14 @@ my %QueueTemplate = (
     Comment         => 'Some comment',
     UserID          => 1,
 );
-my $QueueID = $QueueObject->QueueAdd(%QueueTemplate);
 
-$Self->IsNot(
+$Self->True(
     $QueueID,
-    undef,
-    "QueueAdd() - QueueID should not be undef",
+    "QueueAdd() - $QueueName, $QueueID",
 );
 
 # add system address
-my $SystemAddressNameRand = 'SystemAddress' . $Helper->GetRandomID();
+my $SystemAddressNameRand = 'SystemAddress' . $HelperObject->GetRandomID();
 my $SystemAddressID       = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressNameRand . '@example.com',
     Realname => $SystemAddressNameRand,
@@ -68,7 +65,7 @@ $Self->True(
 );
 
 # add auto response
-my $AutoResponseNameRand = 'AutoResponse' . $Helper->GetRandomID();
+my $AutoResponseNameRand = 'AutoResponse' . $HelperObject->GetRandomID();
 
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
     Name        => $AutoResponseNameRand,
