@@ -5,17 +5,19 @@
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Deiry Arias <mailimarias@gmail.com>, 2015
 # Deiver Kiel Retana <deikiel@gmail.com>, 2015
+# Diego Schneider <diegoschneider.96@gmail.com>, 2016
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
 # Galo Izquierdo <gizquier@hotmail.com>, 2015
 # juanman <juanma@gnutn.org.ar>, 2015
+# Luis Medina <luis.medina@sacc.com.mx>, 2016
 # Nuño López Ansótegui <nuno.lopez@exevi.com>, 2015
 # Pablo Ascencio <pabloascencio77@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-01-13 16:17+0000\n"
+"PO-Revision-Date: 2016-02-10 17:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -3260,11 +3262,11 @@ msgstr "Seleccionar"
 
 #. Template: AdminCustomerCompany
 msgid "shown"
-msgstr ""
+msgstr "mostrados"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "Total"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -6890,6 +6892,22 @@ msgid "Manage Queue-Auto Response Relations"
 msgstr "Administrar Colas - Relaciones Auto Respuesta  "
 
 #. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Queues without auto responses"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "This filter allow you to show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
+msgid "Show all queues"
+msgstr ""
+
+#. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
 msgstr "Filtrar por Colas"
 
@@ -8076,7 +8094,7 @@ msgstr "Editar Plantilla"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr "Ya existe na plantilla estándar con este nombre"
+msgstr "Ya existe una plantilla estándar con este nombre"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -9242,7 +9260,7 @@ msgstr "Este ticket está archivado."
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "Nota: el tipo es inválido!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9805,7 +9823,7 @@ msgstr "Abrir selección de fecha"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Ha ocurrido un error."
 
 #. Template: Error
 msgid "You can"
@@ -10326,6 +10344,10 @@ msgstr "Informar al agente"
 msgid "Welcome"
 msgstr "Bienvenido"
 
+#. Template: RichTextEditor
+msgid "Remove Quote"
+msgstr ""
+
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
 msgstr "Permisos"
@@ -10449,7 +10471,7 @@ msgstr ""
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "No permitir cambios en este elemento mientras la estadística es generada."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -10580,9 +10602,17 @@ msgid "Yes, but require at least one active notification method"
 msgstr "Si, pero requiere al menos un método de notificación activo"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Package has locally modified files."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr "Paquete no verificado debido a problema en la comunicación con el servidor de verificación!"
+
+#. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+msgid "Queues ( without auto responses )"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
@@ -10652,7 +10682,7 @@ msgstr "Usuarios no válidos"
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. "
-msgstr "Lo sentimos, usted ya no tiene permisos para acedder a este ticket en su estado actual."
+msgstr "Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -10706,7 +10736,7 @@ msgstr "Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid " You can take one of the next actions:"
-msgstr "Puede tomar una de las siguientes decisiones:"
+msgstr "Puede tomar una de las siguientes acciones:"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -11324,6 +11354,11 @@ msgstr "Estado de Instalación del Paquete"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages have locally modified files."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "Algunos paquetes no estan correctamente instalados."
 
@@ -11334,6 +11369,18 @@ msgstr "OTRS/Lista de paquetes"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "El ajuste del ID del Sistema es invalida, debe contener solamente dígitos."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid "Default Ticket Type"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+msgid ""
+"The configured default ticket type is invalid or missing. Please change the "
+"setting Ticket::Type::Default and select a valid ticket type."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -14366,8 +14413,7 @@ msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Defines the name of the table, where the customer preferences are stored."
+msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
 
 #. SysConfig
@@ -16144,6 +16190,12 @@ msgstr ""
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If this setting is active, local modifications will not be highlighted as "
+"errors in the package manager and support data collector."
 msgstr ""
 
 #. SysConfig
@@ -18284,6 +18336,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to set a ticket as junk in every ticket overview of"
+" the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to set a ticket as pending in the ticket zoom view "
 "of the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
@@ -18291,14 +18351,6 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to set a ticket as spam in every ticket overview of"
-" the agent interface. Additional access control to show or not show this "
-"link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\"."
 msgstr ""
 
 #. SysConfig

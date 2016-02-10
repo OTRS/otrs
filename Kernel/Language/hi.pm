@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.496170416467209;
+    $Self->{Completeness}        = 0.494390069228933;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1999,6 +1999,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'श्रेणी-स्वतप्रतिक्रिया संबंधों का प्रबंधन करें',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'श्रेणी के लिए निस्पादक',
         'Filter for Auto Responses' => 'स्वतप्रतिक्रियाओं के लिए निस्पादक',
         'Auto Responses' => 'स्वत प्रतिक्रियाएँ',
@@ -3145,6 +3149,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => '',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'अनुमतियाँ',
         'You can select one or more groups to define access for different agents.' =>
@@ -3249,8 +3256,12 @@ sub Data {
         'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => '',
@@ -3554,6 +3565,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3561,6 +3573,11 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
+            '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -4515,8 +4532,8 @@ Thanks for your help!
         'Defines the name of the key for customer sessions.' => 'ग्राहक सत्र के लिए कुंजी का नाम को परिभाषित करता है।',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'सत्र कुंजी के नाम को परिभाषित करता है। उदा. सत्र SessionID,या OTRS।',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'तालिका के नाम को परिभाषित करता है,जहाँ  ग्राहक वरीयताओं संग्रहीत हैं।',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन में रचना/जवाब टिकट  के बाद अगली संभव स्थिति को परिभाषित करता है।',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5062,6 +5079,8 @@ Thanks for your help!
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'यदि यह नियमित अभिव्यक्ति से मेल खाता है,स्वतःप्रत्युत्तर से कोई संदेश नहीं भेजें।',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'नए अनुच्छेद सुविधा के लिए प्रणाली प्रेषक प्रकार के साथ अनुच्छेद अनदेखा करें(उदाहरण के लिए स्वत: प्रतिक्रिया या ईमेल सूचनाएं)।',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5687,10 +5706,10 @@ Thanks for your help!
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'प्रतिनिधि अंतरफलक में हर टिकट के अवलोकन में टिकट को अवांछनीय के रूप में टिकट निर्धारित करने के लिए विकल्प सूची में एक कड़ी दिखाता है। अतिरिक्त अभिगम नियंत्रण दिखाने या नहीं दिखाने के लिए ये कड़ी किया जा सकता है कुंजी "समूह" का उपयोग करके और "rw:group1;move_into:group2" विषयवस्तु की तरह।',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'प्रतिनिधि अंतरफलक में हर टिकट के अवलोकन में टिकट की प्राथमिकता को निर्धारित करने के लिए विकल्प सूची में एक कड़ी दिखाता है।',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>

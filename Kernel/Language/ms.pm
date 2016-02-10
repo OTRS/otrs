@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.996896634041537;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1996,6 +1996,10 @@ sub Data {
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Mengurus Perhubungan Response Barisan-Auto',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Penapis untuk barisan',
         'Filter for Auto Responses' => 'Penapis untuk Tindak Balas Auto',
         'Auto Responses' => 'Auto Tindak Balas',
@@ -3142,6 +3146,9 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Selamat datang',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'kebenaran',
         'You can select one or more groups to define access for different agents.' =>
@@ -3246,8 +3253,12 @@ sub Data {
         'Yes, but require at least one active notification method' => 'Ya, tetapi memerlukan sekurang- kurangnya satu kaedah pemberitahuan aktif',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             'Pakej tidak disahkan berikutan isu komunikasi dengan pelayan pengesahan!',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => 'Statistik',
@@ -3551,6 +3562,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Status Pemasangan Pakej',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Sesetengah pakej tidak dipasang dengan betul.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3559,6 +3571,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Tetapan IDSistem anda tidak sah, ia sepatutnya hanya mengandungi angka.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Modul Indeks Tiket',
@@ -4526,8 +4543,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Defines the name of the key for customer sessions.' => 'Mentakrifkan nama kunci untuk sesi pelanggan.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Mentakrifkan nama kunic sesi. Contoh: Session, SessionID atau OTRS.',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Mentakrifkan nama jadual, dimana tetapan pelanggan disimpan.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Mentakrifkan status yang mungkin yang seterusya selepas mengarang / menjawab tiket dalam skrin karang tiket dari paparan ejen.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5073,6 +5090,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Jika pilihan ini diset kepada \'Ya\', tiket dicipta melalui antaramuka web, melalui Pelanggan atau Agen, akan menerima respon automatik jika dikonfigurasi. Jika pilihan ini diset kepada \'Tidak\', tiada respon automatik akan dihantar.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Jika regex ini padan, tiada mesej akan dihantar oleh tindak balas auto.',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'Hiraukan artikel dengan sistem jenis penghantar untuk ciri artikel baru (cth: tindak balas auto atau notifikasi emel).',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5698,10 +5717,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Menunjukkan pautan dalam menu untuk melihat agen yang bertanggungjawab pada tiket  dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci "Kumpulan" dan Kandungan seperti "rw:group1;move_into:group2". Untuk merangkaikan item menu gunakan kekunci "ClusterName" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan "ClusterPriority" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Menunjukkan pautan dalam menu untuk menghantar emel keluar dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci "Kumpulan" dan Kandungan seperti "rw:group1;move_into:group2". Untuk merangkaikan item menu gunakan kekunci "ClusterName" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan "ClusterPriority" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar.',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Menunjukkan pautan dalam menu untuk tetapkan tiket sebagai ditangguh dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci "Kumpulan" dan Kandungan seperti "rw:group1;move_into:group2". Untuk merangkaikan item menu gunakan kekunci "ClusterName" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan "ClusterPriority" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar.',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Menunjukkan pautan dalam menu untuk tetapkan tiket sebagai spam dalam setiap overview tiket dari paparan ejen. Kawalan akses tambahan untuk tunjuk atau tidak tunjuk pautan ini boleh dilakukan menggunakan Kunci "Group" dan Kandungan seperti "rw:group1;move_into:group2".',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Menunjukkan pautan dalam menu untuk tetapkan keutamaan tiket dalam setiap overview tiket dari paparan ejen.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>

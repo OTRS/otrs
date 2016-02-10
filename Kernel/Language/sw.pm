@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.837721397797989;
+    $Self->{Completeness}        = 0.835044163284793;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2001,6 +2001,10 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Simamia mahusiano ya majibu ya otomatiki ya foleni',
+        'This filter allow you to show queues without auto responses' => '',
+        'Queues without auto responses' => '',
+        'This filter allow you to show all queues' => '',
+        'Show all queues' => '',
         'Filter for Queues' => 'Chuja kwa ajili ya foleni',
         'Filter for Auto Responses' => 'Chuja kwa ajili ya majibu ya otomatiki.',
         'Auto Responses' => 'Majibu ya otomatiki',
@@ -3147,6 +3151,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Template: PublicDefault
         'Welcome' => '',
 
+        # Template: RichTextEditor
+        'Remove Quote' => '',
+
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Ruhusa ',
         'You can select one or more groups to define access for different agents.' =>
@@ -3251,8 +3258,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Yes, but require at least one active notification method' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
+        'Package has locally modified files.' => '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+
+        # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
+        'Queues ( without auto responses )' => '',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'Statistic' => '',
@@ -3556,6 +3567,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '',
+        'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'kuna vifurishi havijasanikishwa kwa usahihi.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
@@ -3564,6 +3576,11 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Mipangilio ya kitambulisho chako cha mfumo ni batili, lazima iwe na namba tu.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+        'Default Ticket Type' => '',
+        'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Moduli ya kielezo cha tiketi',
@@ -4520,8 +4537,8 @@ Mfano:
         'Defines the name of the key for customer sessions.' => 'Fafanua jina la funguo kwa vipindi vya mteja.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             'Fafanua jina la funguo wa kipindi.Mfano Kipindi, Kitambulisho cha kipindi au OTRS.',
-        'Defines the name of the table, where the customer preferences are stored.' =>
-            'Fafanua jina la jedwali, ambalo mapendekezo ya mteja yamehifadhiwa.',
+        'Defines the name of the table where the user preferences are stored.' =>
+            '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
             'Fafanua hali zinafouta zinazowezekana baada ya kutunga/kujibu tiketi katika skrini ta kutunga tiketi ya kiolesura  cha wakala.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
@@ -5067,6 +5084,8 @@ Mfano:
             'Kama chaguo hili limewekwa "Ndio". tiketi zinazotengenezwa kupitia kiolesura cha wavuti kupitia wateja au mawakala, itapokea majibu ya otomatiki kama imesanidiwa. Kama chaguo hili limewekwa kuwa \'Hapana\', hakuna majibu ya otomatiki yatakayotumwa.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Kama regex inafanana, hakuna ujumbe utakaotumwa na kiitiko cha ototmatiki.',
+        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'Inapuuzia makala yenye aina ya mtumaji wa mfumo kwa ajili ya kipengele cha makala mpya (mfano majibu ya otomatiki au taarifa za barua pepe ).',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -5693,10 +5712,10 @@ Mfano:
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Inaonyesha kiungo katika menyu kuweka tiketi kama barua taka katika mapitio ya kila tiketi ya kiolesura cha wakala. Udhibiti ufikivu umeongezwa kuongesha au kutokuonyesha kiungo hiki kinaweza kufanywa kwa kutumia kibonye  "Kikundi" na yaliyomo kama "rw: Kikundi cha 1; Hamia_kwenye: kikundi cha 2".',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Inaonyesha kiungo katika menyu kuona kipaumbele cha tiketi katika marejeo ya kila tiketi ya kiolesura cha wakala',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>

@@ -8,6 +8,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.7 2016-??-??
+ - 2016-02-10 Updated translations, thanks to all translators.
  - 2016-02-08 Made both the Subject and Reference follow up checks optional, so that they can be turned off.
  - 2016-02-08 Add new config setting Package::AllowLocalModifications. If this setting is active, local modifications will not be highlighted as errors in the package manager and the support data collector.
  - 2016-02-04 Added a --quiet option to suppress console command output, thanks to Moritz Lenz.
