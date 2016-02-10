@@ -1,4 +1,6 @@
-#5.0.7 2016-??-??
+#5.0.8 2016-??-??
+
+#5.0.7 2016-02-16
  - 2016-02-10 Updated translations, thanks to all translators.
  - 2016-02-08 Made both the Subject and Reference follow up checks optional, so that they can be turned off.
  - 2016-02-08 Add new config setting Package::AllowLocalModifications. If this setting is active, local modifications will not be highlighted as errors in the package manager and the support data collector.
