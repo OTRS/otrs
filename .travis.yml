@@ -1,6 +1,7 @@
 language: perl
 perl:
   - "5.14"
+  - "5.18"
 
 services:
   - mysql
