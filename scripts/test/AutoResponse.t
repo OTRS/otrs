@@ -12,6 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
+# get needed objects
+my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
+my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -20,15 +25,15 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get needed objects
-my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
-my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
-my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+# get random id
+my $RandomID = $HelperObject->GetRandomID();
 
-# add test queue
-my $QueueRand = 'Some::Queue' . int( rand(1000000) );
-my $QueueID   = $QueueObject->QueueAdd(
-    Name                => $QueueRand,
+# set queue name
+my $QueueName = 'Some::Queue' . $RandomID;
+
+# create new queue
+my $QueueID = $QueueObject->QueueAdd(
+    Name                => $QueueName,
     ValidID             => 1,
     GroupID             => 1,
     FirstResponseTime   => 30,
@@ -40,25 +45,17 @@ my $QueueID   = $QueueObject->QueueAdd(
     SystemAddressID     => 1,
     SalutationID        => 1,
     SignatureID         => 1,
-    UserID              => 1,
     Comment             => 'Some Comment',
+    UserID              => 1,
 );
 
 $Self->True(
     $QueueID,
-    "QueueAdd() - $QueueRand, $QueueID",
+    "QueueAdd() - $QueueName, $QueueID",
 );
-
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # add system address
-my $SystemAddressNameRand = 'SystemAddress' . $Helper->GetRandomID();
+my $SystemAddressNameRand = 'SystemAddress' . $HelperObject->GetRandomID();
 my $SystemAddressID       = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressNameRand . '@example.com',
     Realname => $SystemAddressNameRand,
@@ -78,7 +75,7 @@ my %AutoResponseType = $AutoResponseObject->AutoResponseTypeList(
 
 for my $TypeID ( sort keys %AutoResponseType ) {
 
-    my $AutoResponseNameRand = 'SystemAddress' . $Helper->GetRandomID();
+    my $AutoResponseNameRand = 'SystemAddress' . $HelperObject->GetRandomID();
 
     my %Tests = (
         Created => {
@@ -150,8 +147,8 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     my %AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
 
     $Self->True(
-        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueRand,
-        'AutoResponseWithoutQueue() contains queue ' . $QueueRand . ' with ID ' . $QueueID,
+        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueName,
+        'AutoResponseWithoutQueue() contains queue ' . $QueueName . ' with ID ' . $QueueID,
     );
 
     my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
@@ -177,8 +174,8 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     # check again after assigning auto response to queue
     %AutoResponseWithoutQueue = $AutoResponseObject->AutoResponseWithoutQueue();
     $Self->False(
-        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueRand,
-        'AutoResponseWithoutQueue() does not contain queue ' . $QueueRand . ' with ID ' . $QueueID,
+        exists $AutoResponseWithoutQueue{$QueueID} && $AutoResponseWithoutQueue{$QueueID} eq $QueueName,
+        'AutoResponseWithoutQueue() does not contain queue ' . $QueueName . ' with ID ' . $QueueID,
     );
 
     my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
