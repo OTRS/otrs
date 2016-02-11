@@ -12,11 +12,18 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get StandardTemplate object
 my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 # tests
 my @Tests = (
@@ -267,5 +274,7 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

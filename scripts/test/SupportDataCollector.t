@@ -19,7 +19,6 @@ use Time::HiRes ();
 use Kernel::System::SupportDataCollector::PluginBase;
 
 # get needed objects
-my $HelperObject               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
 my $MainObject                 = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
@@ -75,7 +74,6 @@ $Self->True(
 );
 
 # test the support data collect function
-
 $CacheObject->CleanUp(
     Type => 'SupportDataCollector',
 );
@@ -168,5 +166,8 @@ $Self->True(
     $TimeElapsedCache < $TimeElapsed,
     "Collect() - Should take less than $TimeElapsed seconds, it took $TimeElapsedCache",
 );
+
+# cleanup cache
+$CacheObject->CleanUp();
 
 1;

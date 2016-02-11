@@ -14,21 +14,21 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# restore sysconfig
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
-
 # get needed objects
 my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
 my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # initialize variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 my $Index    = 1;
 
@@ -284,7 +284,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - SystemMaintenanceGet() - NotifyMessage",
     );
 
-    # dupicate on update entry
+    # duplicate on update entry
     if ( !$Test->{Update} ) {
         $Test->{Update} = $Test->{Add};
     }
@@ -503,7 +503,7 @@ for my $Test (@Tests) {
         UserID    => $UserID,
     );
 
-    $HelperObject->FixedTimeSet(
+    $Helper->FixedTimeSet(
         $TimeObject->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
     );
 
@@ -552,5 +552,7 @@ for my $Test (@Tests) {
     );
 
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

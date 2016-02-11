@@ -13,9 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# prevent only used once error
-use Kernel::System::ObjectManager;
-
 my @Tests = (
     {
         Name    => 'Simple string',
