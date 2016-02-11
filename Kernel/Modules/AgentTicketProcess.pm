@@ -4441,6 +4441,7 @@ sub _StoreActivityDialog {
 
                 if (
                     $CurrentField eq 'Article'
+                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits}
                     && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits} == 2
                     )
                 {
