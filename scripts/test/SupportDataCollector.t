@@ -22,6 +22,7 @@ use Kernel::System::SupportDataCollector::PluginBase;
 my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
 my $MainObject                 = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
+my $HelperObject               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # test the support data collect asynchronous function
 
@@ -82,6 +83,7 @@ $TimeStart = [ Time::HiRes::gettimeofday() ];
 
 %Result = $SupportDataCollectorObject->Collect(
     WebTimeout => 40,
+    Hostname   => $HelperObject->GetTestHTTPHostname(),
 );
 
 $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
