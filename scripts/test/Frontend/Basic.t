@@ -35,7 +35,7 @@ my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
-$BaseURL .= 'localhost/';
+$BaseURL .= $HelperObject->GetTestHTTPHostname() . '/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
 my $AgentBaseURL    = $BaseURL . 'index.pl?';
@@ -102,17 +102,6 @@ my %Frontends = (
     $CustomerBaseURL => $ConfigObject->Get('CustomerFrontend::Module'),
     $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
 );
-
-# test plack server if present
-if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
-    my $PlackBaseURL = 'http://localhost:' . $ConfigObject->Get('UnitTestPlackServerPort') . '/';
-    %Frontends = (
-        %Frontends,
-        $PlackBaseURL . 'index.pl?'    => $ConfigObject->Get('Frontend::Module'),
-        $PlackBaseURL . 'customer.pl?' => $ConfigObject->Get('CustomerFrontend::Module'),
-        $PlackBaseURL . 'public.pl?'   => $ConfigObject->Get('PublicFrontend::Module'),
-    );
-}
 
 for my $BaseURL ( sort keys %Frontends ) {
     FRONTEND:
