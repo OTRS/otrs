@@ -302,6 +302,38 @@ sub Rollback {
     }
 }
 
+=item GetTestHTTPHostname()
+
+returns a hostname for HTTP based tests, possibly including the port.
+
+=cut
+
+sub GetTestHTTPHostname {
+    my ( $Self, %Param ) = @_;
+
+    my $Host = $Kernel::OM->Get('Kernel::Config')->Get('TestHTTPHostname');
+    return $Host if $Host;
+
+    my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+
+    # try to resolve fqdn host
+    if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+        $Host = $FQDN;
+    }
+
+    # try to resolve localhost instead
+    if ( !$Host && gethostbyname('localhost') ) {
+        $Host = 'localhost';
+    }
+
+    # use hardcoded localhost ip address
+    if ( !$Host ) {
+        $Host = '127.0.0.1';
+    }
+
+    return $Host;
+}
+
 my $FixedTime;
 
 =item FixedTimeSet()
