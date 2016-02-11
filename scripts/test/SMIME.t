@@ -17,6 +17,14 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get configuration
 my $HomeDir     = $ConfigObject->Get('Home');
 my $CertPath    = $ConfigObject->Get('SMIME::CertPath');
@@ -1280,7 +1288,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
         $Self->False(
             ( scalar @Result ),
-            "# CertificateSearch(), certificate not found, successfuly deleted",
+            "# CertificateSearch(), certificate not found, successfully deleted",
         );
     }
 
@@ -1363,7 +1371,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         my $WrongPrivateSecretFileContent  = 'Secret';
         my $WrongPrivateSecretFileLocation = "$PrivatePath/$WrongPrivateSecretFile";
 
-        # create the private key file otherwize test will always fail
+        # create the private key file otherwise test will always fail
         my $FileLocation = $MainObject->FileWrite(
             Location => $PrivateKeyFileLocation,
             Content  => \$PrivateKeyFileContent,
@@ -1378,7 +1386,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->True(
             1,
-            "----Normaize Private Secrets wrong private secret filename----"
+            "----Normalize Private Secrets wrong private secret filename----"
         );
 
         # create a new private secret file with a wrong name format
@@ -1418,7 +1426,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             );
         }
 
-        # by this time after the normalization the file should not exsist
+        # by this time after the normalization the file should not exist
         if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1430,7 +1438,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
         $FileExists = 0;
 
-        # the file shoud be renamed to the correct format at this point
+        # the file should be renamed to the correct format at this point
         if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1445,7 +1453,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         # leave the correct private secret file for the next test
         $Self->True(
             1,
-            "----Normaize Private Secret duplicated files with same content----"
+            "----Normalize Private Secret duplicated files with same content----"
         );
 
         # create a new private secret file with a wrong name format
@@ -1453,7 +1461,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $WrongPrivateSecretFile, $WrongPrivateSecretFileContent, $WrongPrivateSecretFileLocation
         );
 
-        # get the content od the wrong and the correct private secret files
+        # get the content of the wrong and the correct private secret files
         my $WrongPrivateSecretContent = $MainObject->FileRead(
             Location => $WrongPrivateSecretFileLocation,
         );
@@ -1484,7 +1492,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             );
         }
 
-        # by this time after the normalization the file should not exsist (since contents are equal)
+        # by this time after the normalization the file should not exist (since contents are equal)
         if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1496,7 +1504,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
         $FileExists = 0;
 
-        # the file shoud be renamed to the correct format at this point
+        # the file should be renamed to the correct format at this point
         if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1512,7 +1520,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         # at the end
         $Self->True(
             1,
-            "----Normaize Private Secret duplicated files with diferent content----"
+            "----Normalize Private Secret duplicated files with different content----"
         );
 
         # change the content of the correct private secret file
@@ -1526,7 +1534,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $WrongPrivateSecretFile, $WrongPrivateSecretFileContent, $WrongPrivateSecretFileLocation
         );
 
-        # get the content od the wrong and the correct private secret files
+        # get the content of the wrong and the correct private secret files
         $WrongPrivateSecretContent = $MainObject->FileRead(
             Location => $WrongPrivateSecretFileLocation,
         );
@@ -1549,7 +1557,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
-        # output details if process was not successfull
+        # output details if process was not successful
         if ( !$Response->{Success} ) {
             $Self->True(
                 0,
@@ -1557,8 +1565,8 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             );
         }
 
-        # by this time after the normalization the file should stil exists
-        # (since contents are diferent)
+        # by this time after the normalization the file should still exists
+        # (since contents are different)
         if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1566,11 +1574,11 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $Self->True(
             $FileExists,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
-                . " with true (after normalize duplicate file diferent content)",
+                . " with true (after normalize duplicate file different content)",
         );
         $FileExists = 0;
 
-        # the corret private secret file still exists
+        # the correct private secret file still exists
         if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
@@ -1611,7 +1619,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     # re-hash tests
     {
 
-        # add CA certifictes manually, otherwise the correct hash will be calculated for the name
+        # add CA certificates manually, otherwise the correct hash will be calculated for the name
         # create wrong file function
         my $CreateWrongCAFiles = sub {
             my (
@@ -1750,7 +1758,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             my $CorrectCAPrivateSecretFile         = "$CorrectCAPrivateKeyFile.P";
             my $CorrectCAPrivateSecretFileLocation = "$CorrectCAPrivateKeyFileLocation.P";
 
-            # check if wrong CA cetificates, private keys and secrets exists
+            # check if wrong CA certificates, private keys and secrets exists
             {
                 my $FileExists;
                 if ( -e $WrongCAFileLocation ) {
@@ -1786,7 +1794,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 );
             }
 
-            # check if crorrect CA certificates, private keys and secrets exists
+            # check if correct CA certificates, private keys and secrets exists
             {
                 my $FileExists;
                 if ( -e $CorrectCAFileLocation ) {
@@ -1818,7 +1826,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     $FileExists,
                     "Re-Hash $TestName: Correct CA $CAName private secret filename:"
                         . " $CorrectCAPrivateSecretFile File exists with false (after re-hash)"
-                        . " there was not provate key",
+                        . " there was not private key",
                 );
             }
 
@@ -1879,7 +1887,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             }
         };
 
-        # function to create certificate reations directly into the database
+        # function to create certificate relations directly into the database
         my $ManualCertRelationAdd = sub {
             my ( $CertificateHash, $CertificateFingerprint, $CAHash, $CAFingerprint, $TestName ) = @_;
 
@@ -2200,14 +2208,14 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 }
             }
 
-            # refresh the hases
+            # refresh the hashes
             my $Response = $SMIMEObject->CheckCertPath();
             $Self->True(
                 $Response->{Success},
                 "Re-Hash $Test->{Name}: CheckCertPath() executed successfully with true",
             );
 
-            # output details if process was not successfull
+            # output details if process was not successful
             if ( !$Response->{Success} ) {
                 $Self->True(
                     0,
@@ -2533,7 +2541,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->Is(
         $Cache,
         undef,
-        "#$Count Cache for Certificarte Attributes is empty",
+        "#$Count Cache for Certificate Attributes is empty",
 
     );
     my %CertificateAttributes = $SMIMEObject->CertificateAttributes(
@@ -2543,7 +2551,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNotDeeply(
         \%CertificateAttributes,
         {},
-        "#$Count Certificarte Attributes OpenSSL are not empty",
+        "#$Count Certificate Attributes OpenSSL are not empty",
     );
 
     # at this point the attributes should be cached, read them again
@@ -2555,7 +2563,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNot(
         $Cache,
         undef,
-        "#$Count Cache for Certificarte Attributes is not empty",
+        "#$Count Cache for Certificate Attributes is not empty",
 
     );
     my %CertificateAttributesCached = $SMIMEObject->CertificateAttributes(
@@ -2565,7 +2573,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNotDeeply(
         \%CertificateAttributesCached,
         {},
-        "#$Count Certificarte Attributes Cached are not empty",
+        "#$Count Certificate Attributes Cached are not empty",
     );
 
     # compare both results
@@ -2602,7 +2610,7 @@ for my $Count ( 1 .. 3 ) {
         "#$Count PrivateAdd()",
     );
 
-    # read private attribues from OpenSSL
+    # read private attributes from OpenSSL
     # check cache
     $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'SMIME_Private',
@@ -2664,7 +2672,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->Is(
         $Cache,
         undef,
-        "#$Count Cache for Certificarte Attributes after private is empty",
+        "#$Count Cache for Certificate Attributes after private is empty",
 
     );
     my %CertificateAttributesAfterPrivate = $SMIMEObject->CertificateAttributes(
@@ -2674,7 +2682,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNotDeeply(
         \%CertificateAttributesAfterPrivate,
         {},
-        "#$Count Certificarte Attributes after private OpenSSL are not empty",
+        "#$Count Certificate Attributes after private OpenSSL are not empty",
     );
 
     # cache must be set right now, read attributes again
@@ -2686,7 +2694,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNot(
         $Cache,
         undef,
-        "#$Count Cache for Certificarte Attributes after private is not empty",
+        "#$Count Cache for Certificate Attributes after private is not empty",
 
     );
     my %CertificateAttributesCachedAfterPrivate = $SMIMEObject->CertificateAttributes(
@@ -2696,7 +2704,7 @@ for my $Count ( 1 .. 3 ) {
     $Self->IsNotDeeply(
         \%CertificateAttributesCachedAfterPrivate,
         {},
-        "#$Count Certificarte Attributes Cached after private are not empty",
+        "#$Count Certificate Attributes Cached after private are not empty",
     );
 
     # compare both
@@ -2755,5 +2763,7 @@ for my $Count ( 1 .. 3 ) {
         "#$Count Search()",
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;
