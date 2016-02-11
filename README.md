@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/OTRS/otrs.svg?branch=rel-5_0)](https://travis-ci.org/OTRS/otrs)
+
 What is OTRS?
 =============
 OTRS is an Open source Ticket Request System with many features to manage
