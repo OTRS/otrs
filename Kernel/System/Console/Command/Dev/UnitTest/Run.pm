@@ -57,6 +57,12 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
+    $Self->AddOption(
+        Name        => 'verbose',
+        Description => "Show details for all tests, not just failing.",
+        Required    => 0,
+        HasValue    => 0,
+    );
 }
 
 sub Run {
@@ -74,6 +80,7 @@ sub Run {
         Directory => $Self->GetOption('directory')  || '',
         Product   => $Self->GetOption('product')    || '',
         SubmitURL => $Self->GetOption('submit-url') || '',
+        Verbose   => $Self->GetOption('verbose')    || '',
     );
 
     if ($FunctionResult) {
