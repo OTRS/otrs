@@ -23,16 +23,57 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $QueueRand1 = $Helper->GetRandomID();
+my $QueueRand2 = $Helper->GetRandomID();
+
+my $QueueID1   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+    Name                => $QueueRand1,
+    ValidID             => 1,
+    GroupID             => 1,
+    FirstResponseTime   => 30,
+    FirstResponseNotify => 70,
+    UpdateTime          => 240,
+    UpdateNotify        => 80,
+    SolutionTime        => 2440,
+    SolutionNotify      => 90,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    UserID              => 1,
+    Comment             => 'Some Comment',
+);
+
+my $QueueID2   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+    Name                => $QueueRand2,
+    ValidID             => 1,
+    GroupID             => 1,
+    FirstResponseTime   => 30,
+    FirstResponseNotify => 70,
+    UpdateTime          => 240,
+    UpdateNotify        => 80,
+    SolutionTime        => 2440,
+    SolutionNotify      => 90,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    UserID              => 1,
+    Comment             => 'Some Comment',
+);
+
 # add SystemAddress
 my $SystemAddressEmail    = 'example-SystemAddress' . $Helper->GetRandomID() . '@example.com';
 my $SystemAddressRealname = "OTRS-Team";
 
-my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
+my %SystemAddressData = (
     Name     => $SystemAddressEmail,
     Realname => $SystemAddressRealname,
     Comment  => 'some comment',
-    QueueID  => 2,
+    QueueID  => $QueueID1,
     ValidID  => 1,
+);
+
+my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
+    %SystemAddressData,
     UserID   => 1,
 );
 
@@ -43,60 +84,25 @@ $Self->True(
 
 my %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-$Self->Is(
-    $SystemAddress{Name},
-    $SystemAddressEmail,
-    'SystemAddressGet() - Name',
-);
-$Self->Is(
-    $SystemAddress{Realname},
-    $SystemAddressRealname,
-    'SystemAddressGet() - Realname',
-);
-$Self->Is(
-    $SystemAddress{Comment},
-    'some comment',
-    'SystemAddressGet() - Comment',
-);
-$Self->Is(
-    $SystemAddress{QueueID},
-    2,
-    'SystemAddressGet() - QueueID',
-);
-$Self->Is(
-    $SystemAddress{ValidID},
-    1,
-    'SystemAddressGet() - ValidID',
-);
+for my $Key (sort keys %SystemAddressData) {
+    $Self->Is(
+        $SystemAddress{$Key},
+        $SystemAddressData{$Key},
+        'SystemAddressGet() - $Key',
+    );
+}
 
 # caching
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-$Self->Is(
-    $SystemAddress{Name},
-    $SystemAddressEmail,
-    'SystemAddressGet() - Name',
-);
-$Self->Is(
-    $SystemAddress{Realname},
-    $SystemAddressRealname,
-    'SystemAddressGet() - Realname',
-);
-$Self->Is(
-    $SystemAddress{Comment},
-    'some comment',
-    'SystemAddressGet() - Comment',
-);
-$Self->Is(
-    $SystemAddress{QueueID},
-    2,
-    'SystemAddressGet() - QueueID',
-);
-$Self->Is(
-    $SystemAddress{ValidID},
-    1,
-    'SystemAddressGet() - ValidID',
-);
+for my $Key (sort keys %SystemAddressData) {
+    $Self->Is(
+        $SystemAddress{$Key},
+        $SystemAddressData{$Key},
+        'SystemAddressGet() - $Key',
+    );
+}
+
 
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
 $Self->True(
@@ -114,15 +120,15 @@ $Self->True(
 my @Tests = (
     {
         Address => uc($SystemAddressEmail),
-        QueueID => 2,
+        QueueID => $QueueID1,
     },
     {
         Address => lc($SystemAddressEmail),
-        QueueID => 2,
+        QueueID => $QueueID1,
     },
     {
         Address => $SystemAddressEmail,
-        QueueID => 2,
+        QueueID => $QueueID1,
     },
     {
         Address => '2' . $SystemAddressEmail,
@@ -154,13 +160,17 @@ for my $Test (@Tests) {
     );
 }
 
-my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
-    ID       => $SystemAddressID,
+my %SystemAddressDataUpdate = (
     Name     => '2' . $SystemAddressEmail,
     Realname => '2' . $SystemAddressRealname,
     Comment  => 'some comment 1',
-    QueueID  => 1,
+    QueueID  => $QueueID2,
     ValidID  => 2,
+);
+
+my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
+    %SystemAddressDataUpdate,
+    ID       => $SystemAddressID,
     UserID   => 1,
 );
 $Self->True(
@@ -170,53 +180,20 @@ $Self->True(
 
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-$Self->Is(
-    $SystemAddress{Name},
-    '2' . $SystemAddressEmail,
-    'SystemAddressGet() - Name',
-);
-$Self->Is(
-    $SystemAddress{Realname},
-    '2' . $SystemAddressRealname,
-    'SystemAddressGet() - Realname',
-);
-$Self->Is(
-    $SystemAddress{Comment},
-    'some comment 1',
-    'SystemAddressGet() - Comment',
-);
-$Self->Is(
-    $SystemAddress{QueueID},
-    1,
-    'SystemAddressGet() - QueueID',
-);
-$Self->Is(
-    $SystemAddress{ValidID},
-    2,
-    'SystemAddressGet() - ValidID',
-);
-
-# Switch back to QueueID 2
-$SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
-    ID       => $SystemAddressID,
-    Name     => '2' . $SystemAddressEmail,
-    Realname => '2' . $SystemAddressRealname,
-    Comment  => 'some comment 1',
-    QueueID  => 2,
-    ValidID  => 2,
-    UserID   => 1,
-);
-$Self->True(
-    $SystemAddressUpdate,
-    'SystemAddressUpdate()',
-);
+for my $Key (sort keys %SystemAddressDataUpdate) {
+    $Self->Is(
+        $SystemAddress{$Key},
+        $SystemAddressDataUpdate{$Key},
+        'SystemAddressGet() - $Key',
+    );
+}
 
 # add test valid system address
 my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressEmail . 'first',
     Realname => $SystemAddressRealname . 'first',
     Comment  => 'some comment',
-    QueueID  => 3,
+    QueueID  => $QueueID1,
     ValidID  => 1,
     UserID   => 1,
 );
@@ -225,24 +202,24 @@ my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
 my %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 0 );
 
 $Self->True(
-    exists $SystemQueues{'2'} && $SystemQueues{'2'} == $SystemAddressID,
-    "SystemAddressQueueList() contains the queue 1 of the SystemAddress $SystemAddressID",
+    exists $SystemQueues{$QueueID2} && $SystemQueues{$QueueID2} == $SystemAddressID,
+    "SystemAddressQueueList() contains the QueueID2",
 );
 $Self->True(
-    exists $SystemQueues{'3'} && $SystemQueues{'3'} == $SystemAddressID1,
-    "SystemAddressQueueList() contains the queue 3 of the SystemAddress $SystemAddressID1",
+    exists $SystemQueues{$QueueID1} && $SystemQueues{$QueueID1} == $SystemAddressID1,
+    "SystemAddressQueueList() contains the QueueID1",
 );
 
 # test SystemAddressQueueList() method -  get only valid system addresses
 %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 1 );
 
 $Self->False(
-    exists $SystemQueues{'2'},
-    "SystemAddressQueueList() does not contain the queue 1 of the SystemAddress $SystemAddressID",
+    exists $SystemQueues{$QueueID2},
+    "SystemAddressQueueList() does not contain the invalid QueueID2",
 );
 $Self->True(
-    exists $SystemQueues{'3'} && $SystemQueues{'3'} == $SystemAddressID1,
-    "SystemAddressQueueList() contains the invalid queue 2 of the SystemAddress $SystemAddressID1",
+    exists $SystemQueues{$QueueID1} && $SystemQueues{$QueueID1} == $SystemAddressID1,
+    "SystemAddressQueueList() contains the valid QueueID1",
 );
 
 # cleanup is done by RestoreDatabase
