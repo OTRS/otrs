@@ -87,6 +87,11 @@ sub new {
     $Self->{XML}     = undef;
     $Self->{XMLUnit} = '';
 
+    open( $Self->{OriginalSTDOUT}, ">&STDOUT" );
+    open( $Self->{OriginalSTDERR}, ">&STDOUT" );
+    $Self->{OriginalSTDOUT}->autoflush(1);
+    $Self->{OriginalSTDERR}->autoflush(1);
+
     return $Self;
 }
 
@@ -118,10 +123,6 @@ sub Run {
     }
 
     $Self->{Verbose} = $Param{Verbose};
-    open($Self->{OriginalSTDOUT}, ">&STDOUT");
-    open($Self->{OriginalSTDERR}, ">&STDOUT");
-    $Self->{OriginalSTDOUT}->autoflush(1);
-    $Self->{OriginalSTDERR}->autoflush(1);
 
     my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
