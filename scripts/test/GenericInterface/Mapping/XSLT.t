@@ -15,6 +15,8 @@ use vars (qw($Self));
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
 
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
         DebugThreshold => 'debug',
@@ -153,12 +155,12 @@ my @MappingTests = (
     {
         Name   => 'Test replacement with custom functions',
         Config => {
-            Template => '<?xml version="1.0" encoding="UTF-8"?>
+            Template => qq{<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:otrs="http://otrs.org"
  extension-element-prefixes="otrs">
-<xsl:import href="Kernel/GenericInterface/Mapping/OTRSFunctions.xsl" />
+<xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTRSFunctions.xsl" />
 <xsl:output method="xml" encoding="utf-8" indent="yes"/>
 <xsl:template match="/RootElement">
 <NewRootElement>
@@ -171,11 +173,11 @@ my @MappingTests = (
     <NewStructure>
         <DateFromISO>
             <xsl:variable name="dateiso" select="/RootElement/DateISO" />
-            <xsl:value-of select="otrs:date-iso-to-xsd($dateiso)" />
+            <xsl:value-of select="otrs:date-iso-to-xsd(\$dateiso)" />
         </DateFromISO>
         <DateToISO>
             <xsl:variable name="datexsd" select="/RootElement/DateXSD" />
-            <xsl:value-of select="otrs:date-xsd-to-iso($datexsd)" />
+            <xsl:value-of select="otrs:date-xsd-to-iso(\$datexsd)" />
         </DateToISO>
         <NewKey1>
             <xsl:value-of select="/RootElement/Key1" />
@@ -186,7 +188,7 @@ my @MappingTests = (
     </NewStructure>
 </NewRootElement>
 </xsl:template>
-</xsl:stylesheet>',
+</xsl:stylesheet>},
         },
         Data => {
             DateISO    => '2010-12-31 23:58:59',
