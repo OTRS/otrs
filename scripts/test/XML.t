@@ -17,7 +17,15 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# test XMLParse2XMLHash() with an iso-8859-1 encoded xml
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# test XMLParse2XMLHash() with an iso-8859-1 encoded XML
 my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
     <Contact>
       <Name type="long">' . "\x{00FC}" . ' Some Test</Name>
@@ -561,10 +569,10 @@ for my $Key (@Keys) {
 }
 
 #------------------------------------------------#
-# a test to find charset problems with xml files
+# a test to find charset problems with XML files
 #------------------------------------------------#
 
-# get the example xml
+# get the example XML
 my $Path = $ConfigObject->Get('Home');
 $Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
@@ -655,5 +663,7 @@ else {
         "XMLParse2XMLHash() - charset test - failed because example file not found",
     );
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

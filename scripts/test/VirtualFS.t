@@ -16,6 +16,14 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my @Tests = (
     {
         Name        => '.txt',
@@ -168,66 +176,44 @@ for my $Backend (qw( FS DB )) {
 
         # find
         my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
-        my $Hit = 0;
-        for (@List) {
-            if ( $_ eq $Test->{Filename} ) {
-                $Hit = 1;
-            }
-        }
-        $Self->True(
-            $Hit,
+        @List = grep { $_ eq $Test->{Filename} } @List;
+        $Self->Is(
+            $List[0],
+            $Test->{Filename},
             "$Backend Find() - $Test->{Find}",
         );
 
         # find not
         @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
-        $Hit = 0;
-        for (@List) {
-            if ( $_ eq $Test->{Filename} ) {
-                $Hit = 1;
-            }
-        }
+        @List = grep { $_ eq $Test->{Filename} } @List;
         $Self->False(
-            $Hit,
+            scalar @List,
             "$Backend Find() - $Test->{FindNot}",
         );
 
         # find preferences
         @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
-        $Hit = 0;
-        for (@List) {
-            if ( $_ eq $Test->{Filename} ) {
-                $Hit = 1;
-            }
-        }
-        $Self->True(
-            $Hit,
+        @List = grep { $_ eq $Test->{Filename} } @List;
+        $Self->Is(
+            $List[0],
+            $Test->{Filename},
             "$Backend Find() - Preferences",
         );
 
         # find not preferences
         @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
-        $Hit = 0;
-        for (@List) {
-            if ( $_ eq $Test->{Filename} ) {
-                $Hit = 1;
-            }
-        }
+        @List = grep { $_ eq $Test->{Filename} } @List;
         $Self->False(
-            $Hit,
+            scalar @List,
             "$Backend Find() - Preferences Not",
         );
 
         # find filename AND preferences
         @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
-        $Hit  = 0;
-        for (@List) {
-            if ( $_ eq $Test->{Filename} ) {
-                $Hit = 1;
-            }
-        }
-        $Self->True(
-            $Hit,
+        @List = grep { $_ eq $Test->{Filename} } @List;
+        $Self->Is(
+            $List[0],
+            $Test->{Filename},
             "$Backend Find() - Filename AND Preferences",
         );
     }
@@ -241,5 +227,7 @@ for my $Backend (qw( FS DB )) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

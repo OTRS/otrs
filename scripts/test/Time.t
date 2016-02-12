@@ -412,7 +412,7 @@ my @DestinationTime = (
         EndTimeSystem   => 1174984943,
     },
 
-    # Behaviour tests
+    # Behavior tests
     {
         Name            => 'Test weekend',
         StartTime       => '2013-03-16 10:00:00',    # Saturday

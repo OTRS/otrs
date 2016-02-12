@@ -13,7 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
 my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
@@ -23,8 +22,16 @@ my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # set fixed time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -119,7 +126,7 @@ $Self->Is(
     'Ticket created as closed as Solution Time = Creation Time',
 );
 
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my $TestUserLogin = $Helper->TestUserCreate(
     Groups => [ 'users', ],
 );
 
@@ -694,7 +701,7 @@ my %TicketData = $TicketObject->TicketGet(
 my $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title    => 'Some Title 1234567',
@@ -747,7 +754,7 @@ $Self->Is(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 # set unlock timeout
 my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
@@ -781,7 +788,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentQueueID = $TicketData{QueueID};
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 my $NewQueue = $CurrentQueueID != 1 ? 1 : 2;
 
@@ -824,11 +831,11 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentTicketType = $TicketData{TypeID};
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 # create a test type
 my $TypeID = $TypeObject->TypeAdd(
-    Name    => 'Unit Test New Type' . int rand 10000,
+    Name    => 'Type' . $Helper->GetRandomID(),
     ValidID => 1,
     UserID  => 1,
 );
@@ -868,21 +875,21 @@ $TicketTypeSet = $TicketObject->TicketTypeSet(
 # set as invalid the test type
 $TypeObject->TypeUpdate(
     ID      => $TypeID,
-    Name    => 'Unit Test New Type' . int rand 10000,
+    Name    => 'Type' . $Helper->GetRandomID(),
     ValidID => 2,
     UserID  => 1,
 );
 
 # create a test service
 my $ServiceID = $ServiceObject->ServiceAdd(
-    Name    => 'Unit Test New Service' . int rand 10000,
+    Name    => 'Service' . $Helper->GetRandomID(),
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
 );
 
 # wait 1 seconds
-$HelperObject->FixedTimeAddSeconds(1);
+$Helper->FixedTimeAddSeconds(1);
 
 # set type
 my $TicketServiceSet = $TicketObject->TicketServiceSet(
@@ -912,7 +919,7 @@ $Self->IsNot(
 # set as invalid the test service
 $ServiceObject->ServiceUpdate(
     ServiceID => $ServiceID,
-    Name      => 'Unit Test New Service' . int rand 10000,
+    Name      => 'Service' . $Helper->GetRandomID(),
     ValidID   => 2,
     UserID    => 1,
 );
@@ -921,7 +928,7 @@ $ServiceObject->ServiceUpdate(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 my $TicketEscalationIndexBuild = $TicketObject->TicketEscalationIndexBuild(
     TicketID => $TicketID,
@@ -951,14 +958,14 @@ $ChangeTime = $TicketData{Changed};
 
 # create a test SLA
 my $SLAID = $SLAObject->SLAAdd(
-    Name    => 'Unit Test New SLA' . int rand 10000,
+    Name    => 'SLA' . $Helper->GetRandomID(),
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
 );
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(5);
+$Helper->FixedTimeAddSeconds(5);
 
 # set SLA
 my $TicketSLASet = $TicketObject->TicketSLASet(
@@ -988,7 +995,7 @@ $Self->IsNot(
 # set as invalid the test SLA
 $SLAObject->SLAUpdate(
     SLAID   => $SLAID,
-    Name    => 'Unit Test New SLA' . int rand 10000,
+    Name    => 'SLA' . $Helper->GetRandomID(),
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
@@ -1361,19 +1368,6 @@ $Self->Is(
     'ArticleGet() (Lock)',
 );
 
-#for ( 1 .. 16 ) {
-#    $Self->Is(
-#        $Article{ 'TicketFreeKey' . $_ },
-#        'Hans_' . $_,
-#        "ArticleGet() (TicketFreeKey$_)",
-#    );
-#    $Self->Is(
-#        $Article{ 'TicketFreeText' . $_ },
-#        'Max_' . $_,
-#        "ArticleGet() (TicketFreeText$_)",
-#    );
-#}
-
 my @MoveQueueList = $TicketObject->MoveQueueList(
     TicketID => $TicketID,
     Type     => 'Name',
@@ -1509,18 +1503,6 @@ if ( $TicketStatus{$TicketID} ) {
         "HistoryTicketStatusGet() (CreatePriority)",
     );
 
-    #    for ( 1 .. 16 ) {
-    #        $Self->Is(
-    #            $TicketHistory{ 'TicketFreeKey' . $_ },
-    #            'Hans_' . $_,
-    #            "HistoryTicketStatusGet() (TicketFreeKey$_)",
-    #        );
-    #        $Self->Is(
-    #            $TicketHistory{ 'TicketFreeText' . $_ },
-    #            'Max_' . $_,
-    #            "HistoryTicketStatusGet() (TicketFreeText$_)",
-    #        );
-    #    }
 }
 else {
     $Self->True(
@@ -1548,7 +1530,7 @@ $Self->False(
     'TicketDelete() worked',
 );
 
-my $CustomerNo = '42' . int rand 1_000_000;
+my $CustomerNo = 'CustomerNo' . $Helper->GetRandomID();
 
 # ticket search sort/order test
 my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
@@ -1569,7 +1551,7 @@ my %TicketCreated = $TicketObject->TicketGet(
 );
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(2);
+$Helper->FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',
@@ -1584,7 +1566,7 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
 );
 
 # wait 5 seconds
-$HelperObject->FixedTimeAddSeconds(2);
+$Helper->FixedTimeAddSeconds(2);
 
 my $Success = $TicketObject->TicketStateSet(
     State    => 'open',
@@ -1692,7 +1674,7 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
 );
 
 # wait 2 seconds
-$HelperObject->FixedTimeAddSeconds(2);
+$Helper->FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',
@@ -2086,7 +2068,7 @@ $Self->Is(
 );
 
 # check that searches with NewerDate in the future are not executed
-$HelperObject->FixedTimeAddSeconds( -60 * 60 );
+$Helper->FixedTimeAddSeconds( -60 * 60 );
 
 # Test TicketCreateTimeNewerDate (future date)
 $SystemTime = $TimeObject->SystemTime();
@@ -2144,14 +2126,14 @@ $TicketObject->TicketDelete(
 # tests for searching StateTypes that might not have states
 # this should return an empty list rather then a big SQL error
 # the problem is, we can't really test if there is an SQL error or not
-# ticketsearch returns an empty list anyway
+# ticket search returns an empty list anyway
 
 my @NewStates = $StateObject->StateGetStatesByType(
     StateType => ['new'],
     Result    => 'ID',
 );
 
-# make sure we dont have valid states for state type new
+# make sure we don't have valid states for state type new
 for my $NewStateID (@NewStates) {
     my %State = $StateObject->StateGet(
         ID => $NewStateID,
@@ -2206,5 +2188,7 @@ for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

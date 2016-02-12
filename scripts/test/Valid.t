@@ -16,6 +16,14 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # tests the method to make sure there is at least 2 registries: valid - invalid
 my %ValidList = $ValidObject->ValidList();
 
@@ -77,5 +85,7 @@ for my $ValidIDKey ( sort keys %ValidList ) {
         "Test ValidLookup $Counter - both IDs are equivalent.",
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

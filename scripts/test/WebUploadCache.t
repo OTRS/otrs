@@ -19,6 +19,14 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 for my $Module (qw(DB FS)) {
 
     # make sure that the $UploadCacheObject gets recreated for each loop.
@@ -52,7 +60,7 @@ for my $Module (qw(DB FS)) {
         $EncodeObject->EncodeOutput( \$Content );
 
         my $MD5         = md5_hex($Content);
-        my $ContentID   = ( int rand 99999 ) + 1;
+        my $ContentID   = $Helper->GetRandomID();
         my $Disposition = 'inline';
 
         if ( $File eq 'txt' ) {
@@ -236,4 +244,7 @@ for my $Module (qw(DB FS)) {
         "#$Module - FormIDRemove()",
     );
 }
+
+# cleanup is done by RestoreDatabase
+
 1;

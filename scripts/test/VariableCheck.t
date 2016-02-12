@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
