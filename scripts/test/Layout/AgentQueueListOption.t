@@ -25,11 +25,12 @@ my @Tests = (
     {
         Name => 'Simple test',
         Params => {
+            Name => 'test',
             Data => {
                 1 => 'Testqueue',
             },
         },
-        Result => '<select name="" id="" class="" data-tree="true"   >
+        Result => '<select name="test" id="test" class="" data-tree="true"   >
 <option value="1">Testqueue</option>
 </select>
 ',
@@ -37,11 +38,12 @@ my @Tests = (
     {
         Name => 'Special characters',
         Params => {
+            Name => 'test',
             Data => {
                 '1||"><script>alert(\'hey there\');</script>' => '"><script>alert(\'hey there\');</script>',
             },
         },
-        Result => q{<select name="" id="" class="" data-tree="true"   >
+        Result => q{<select name="test" id="test" class="" data-tree="true"   >
 <option value="1||&quot;&gt;&lt;script&gt;alert('hey there');&lt;/script&gt;">&quot;&gt;&lt;script&gt;alert('hey there');&lt;/script&gt;</option>
 </select>
 },
