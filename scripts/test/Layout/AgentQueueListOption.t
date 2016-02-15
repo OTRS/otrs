@@ -10,7 +10,7 @@ use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+use vars (qw($Self %Param));
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
@@ -48,7 +48,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name => 'Simple test',
+        Name   => 'Simple test',
         Params => {
             Name => 'test',
             Data => {
@@ -61,7 +61,7 @@ my @Tests = (
 ',
     },
     {
-        Name => 'Special characters',
+        Name   => 'Special characters',
         Params => {
             Name => 'test',
             Data => {
@@ -77,7 +77,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Result = $LayoutObject->AgentQueueListOption(%{$Test->{Params}});
+    my $Result = $LayoutObject->AgentQueueListOption( %{ $Test->{Params} } );
     $Self->Is(
         $Result,
         $Test->{Result},
