@@ -1,4 +1,5 @@
 #3.3.16 ????-??-??
+ - 2016-02-15 Fixed bug#[11870](http://bugs.otrs.org/show_bug.cgi?id=11870) - Missing quoting in Layout::AgentQueueListOption().
  - 2016-01-21 Fixed bug#[11802](http://bugs.otrs.org/show_bug.cgi?id=11802) - Customer user can get access to all ticket data.
 
 #3.3.15 2015-09-29
