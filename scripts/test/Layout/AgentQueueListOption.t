@@ -1,0 +1,61 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+use strict;
+use warnings;
+use utf8;
+
+use vars (qw($Self));
+
+use Kernel::Output::HTML::Layout;
+
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    UserChallengeToken => 'TestToken',
+    UserID             => 1,
+    Lang               => 'de',
+    SessionID          => 123,
+);
+
+my @Tests = (
+    {
+        Name => 'Simple test',
+        Params => {
+            Data => {
+                1 => 'Testqueue',
+            },
+        },
+        Result => '<select name="" id="" class="" data-tree="true"   >
+<option value="1">Testqueue</option>
+</select>
+',
+    },
+    {
+        Name => 'Special characters',
+        Params => {
+            Data => {
+                '1||"><script>alert(\'hey there\');</script>' => '"><script>alert(\'hey there\');</script>',
+            },
+        },
+        Result => q{<select name="" id="" class="" data-tree="true"   >
+<option value="1||&quot;&gt;&lt;script&gt;alert('hey there');&lt;/script&gt;">&quot;&gt;&lt;script&gt;alert('hey there');&lt;/script&gt;</option>
+</select>
+},
+    },
+
+);
+
+for my $Test (@Tests) {
+    my $Result = $LayoutObject->AgentQueueListOption(%{$Test->{Params}});
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+        $Test->{Name}
+    );
+}
+
+1;
