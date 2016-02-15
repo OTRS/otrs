@@ -335,10 +335,13 @@ sub AgentQueueListOption {
         $Data{$_} .= '::';
     }
 
+    # get HTML utils object
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
     # set default item of select box
     if ($ValueNoQueue) {
         $Param{MoveQueuesStrg} .= '<option value="'
-            . $KeyNoQueue
+            . $HTMLUtilsObject->ToHTML( String => $KeyNoQueue )
             . '">'
             . $ValueNoQueue
             . "</option>\n";
@@ -373,9 +376,6 @@ sub AgentQueueListOption {
                     }
                 }
             }
-
-            # get HTML utils object
-            my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
             if ( !$UsedData{$UpQueue} ) {
 
@@ -425,6 +425,9 @@ sub AgentQueueListOption {
                 );
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
+            my $HTMLValue = $HTMLUtilsObject->ToHTML(
+                String => $_,
+            );
             if (
                 $SelectedID eq $_
                 || $Selected eq $Param{Data}->{$_}
@@ -433,7 +436,7 @@ sub AgentQueueListOption {
             {
                 $Param{MoveQueuesStrg}
                     .= '<option selected="selected" value="'
-                    . $_ . '"'
+                    . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";
@@ -449,7 +452,7 @@ sub AgentQueueListOption {
             else {
                 $Param{MoveQueuesStrg}
                     .= '<option value="'
-                    . $_ . '"'
+                    . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";
