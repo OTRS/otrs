@@ -229,6 +229,7 @@ sub AgentQueueListOption {
 
     # set OnChange if AJAX is used
     if ( $Param{Ajax} ) {
+
         if ( !$Param{Ajax}->{Depend} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -329,10 +330,13 @@ sub AgentQueueListOption {
         $Data{$_} .= '::';
     }
 
+    # get HTML utils object
+    my $HTMLUtilsObject = $Self->{HTMLUtilsObject};
+
     # set default item of select box
     if ($ValueNoQueue) {
         $Param{MoveQueuesStrg} .= '<option value="'
-            . $KeyNoQueue
+            . $HTMLUtilsObject->ToHTML( String => $KeyNoQueue )
             . '">'
             . $ValueNoQueue
             . "</option>\n";
@@ -390,7 +394,7 @@ sub AgentQueueListOption {
                         my $DSpace               = '&nbsp;&nbsp;' x $Index;
                         my $OptionTitleHTMLValue = '';
                         if ($OptionTitle) {
-                            my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
+                            my $HTMLValue = $HTMLUtilsObject->ToHTML(
                                 String => $Queue[$Index],
                             );
                             $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
@@ -411,11 +415,14 @@ sub AgentQueueListOption {
             my $String               = $Space . $Queue[-1];
             my $OptionTitleHTMLValue = '';
             if ($OptionTitle) {
-                my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
+                my $HTMLValue = $HTMLUtilsObject->ToHTML(
                     String => $Queue[-1],
                 );
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
+            my $HTMLValue = $HTMLUtilsObject->ToHTML(
+                String => $_,
+            );
             if (
                 $SelectedID eq $_
                 || $Selected eq $Param{Data}->{$_}
@@ -424,7 +431,7 @@ sub AgentQueueListOption {
             {
                 $Param{MoveQueuesStrg}
                     .= '<option selected="selected" value="'
-                    . $_ . '"'
+                    . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";
@@ -440,7 +447,7 @@ sub AgentQueueListOption {
             else {
                 $Param{MoveQueuesStrg}
                     .= '<option value="'
-                    . $_ . '"'
+                    . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";
