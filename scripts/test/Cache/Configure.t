@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::Cache;
-
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -42,7 +40,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     # create a local cache object
-    my $CacheObject = Kernel::System::Cache->new();
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     $CacheObject->Configure(
         CacheInMemory  => 1,
         CacheInBackend => 1,
@@ -50,7 +48,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     die "Could not setup $Module" if !$CacheObject;
 
-    # flush the cache to have a clear test enviroment
+    # flush the cache to have a clear test environment
     $CacheObject->CleanUp();
 
     # set value in memory and in backend

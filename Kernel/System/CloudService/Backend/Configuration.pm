@@ -96,6 +96,15 @@ sub CloudServiceAdd {
         return;
     }
 
+    my %ExistingCloudServices = reverse %{ $Self->CloudServiceList( Valid => 0 ) };
+    if ($ExistingCloudServices{$Param{Name}}) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A CloudService with the name $Param{Name} already exists.",
+        );
+        return;
+    }
+
     # dump config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
@@ -280,6 +289,15 @@ sub CloudServiceUpdate {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "CloudService Config should be a non empty hash reference!",
+        );
+        return;
+    }
+
+    my %ExistingCloudServices = reverse %{ $Self->CloudServiceList( Valid => 0 ) };
+    if ( $ExistingCloudServices{$Param{Name}} != $Param{ID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A CloudService with the name $Param{Name} already exists.",
         );
         return;
     }

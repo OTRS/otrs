@@ -18,13 +18,18 @@ use Kernel::System::VariableCheck qw(:all);
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 
 # get original ACL list
@@ -196,7 +201,7 @@ my @AddedACLList = map {$_} sort keys %AddedACL;
     {
         Name   => 'ACLGet Test 4: Wrong ID',
         Config => {
-            ID     => 'NotExistent' . $RandomID,
+            ID     => '9999999',
             Name   => undef,
             UserID => $UserID,
         },
@@ -382,7 +387,7 @@ for my $Test (@Tests) {
 
 # try to update the ACL
 print "Force a gap between create and update ACL, Sleeping 2s\n";
-$HelperObject->FixedTimeAddSeconds(2);
+$Helper->FixedTimeAddSeconds(2);
 
 TEST:
 for my $Test (@Tests) {
@@ -628,7 +633,7 @@ for my $Index ( 1, 2 ) {
     {
         Name   => 'ACLDelete Test 3: No UserID',
         Config => {
-            ID     => $RandomID,
+            ID     => '99999999',
             UserID => undef,
         },
         Success => 0,
@@ -636,7 +641,7 @@ for my $Index ( 1, 2 ) {
     {
         Name   => 'ACLDelete Test 4: Wrong ACL ID',
         Config => {
-            ID     => $RandomID,
+            ID     => '99999999',
             UserID => $UserID,
         },
         Success => 0,
@@ -718,35 +723,6 @@ $Self->IsDeeply(
     "ACLListGet Test 2: Correct List | Cache",
 );
 
-print "------------System Cleanup------------\n";
-
-# remove added ACLs
-for my $ACLID ( sort keys %AddedACL ) {
-    my $Success = $ACLObject->ACLDelete(
-        ID     => $ACLID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "ACLDelete() ACLID:$ACLID | Deleted sucessfully",
-    );
-
-    $Self->True(
-        $ACLObject->ACLsNeedSync(),
-        "ACLDelete() ACLID:$ACLID sync flag set after ACLDelete",
-    );
-
-    $Self->True(
-        $ACLObject->ACLsNeedSyncReset(),
-        "ACLDelete() ACLID:$ACLID sync flag reset",
-    );
-
-    $Self->False(
-        $ACLObject->ACLsNeedSync(),
-        "ACLDelete() ACLID:$ACLID sync flag not set after reset",
-    );
-}
+# cleanup done by RestoreDatabase
 
 1;

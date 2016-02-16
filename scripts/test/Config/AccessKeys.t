@@ -12,9 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # check used accesskeys in agent frontend
 my %UsedAccessKeysAgent;
