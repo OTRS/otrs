@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-02-16 Added possibility to create non-singleton objects to the ObjectManager via Create().
  - 2016-02-16 Add support for JSON pretty print, thanks to Renée Bäcker.
  - 2016-02-05 Removed deprecated methods CustomerUserList() and GetTableData() (S7).
  - 2016-02-04 Modularized AgentTicketZoom, thanks to Moritz Lenz. It is now possible to add own widgets in the ticket zoom.

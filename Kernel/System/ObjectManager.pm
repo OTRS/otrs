@@ -44,9 +44,10 @@ Kernel::System::ObjectManager - object and dependency manager
 
 =head1 SYNOPSIS
 
-The ObjectManager is the central place to create and access singleton OTRS objects.
+The ObjectManager is the central place to create and access singleton OTRS objects (via C<Get()>)
+as well as create regular (unmanaged) object instances (via C<Create()>).
 
-=head2 How does it work?
+=head2 How does singleton management work?
 
 It creates objects as late as possible and keeps references to them. Upon destruction the objects
 are destroyed in the correct order, based on their dependencies (see below).
@@ -63,7 +64,7 @@ The ObjectManager must always be provided to OTRS by the toplevel script like th
         },
     );
 
-Then in the code any object can be retrieved that the ObjectManager can handle,
+Then in the code any singleton object can be retrieved that the ObjectManager can handle,
 like Kernel::System::DB:
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Prepare('SELECT 1');
@@ -85,7 +86,7 @@ The ObjectManager can load every object that declares its dependencies like this
     );
 
 The C<@ObjectDependencies> is the list of objects that the current object will depend on. They will
-be destroyed only after this object is destroyed.
+be destroyed only after this object is destroyed (only for singletons).
 
 If you want to signal that a package can NOT be loaded by the ObjectManager, you can use the
 C<$ObjectManagerDisabled> flag:
@@ -96,6 +97,26 @@ C<$ObjectManagerDisabled> flag:
     use warnings;
 
     $ObjectManagerDisabled = 1;
+
+To indicate that a certain package can ONLY be loaded as a singleton, you can use the
+C<$ObjectManagerIsSingleton> flag:
+
+    package Kernel::System::Singleton;
+
+    use strict;
+    use warnings;
+
+    $ObjectManagerIsSingleton = 1;
+
+Similarly, you can indicate that a certain package can ONLY be created as unmanaged instance,
+and NOT as a singleton via the C<$ObjectManagerNonSingleton> flag:
+
+    package Kernel::System::NonSingleton;
+
+    use strict;
+    use warnings;
+
+    $ObjectManagerNonSingleton = 1;
 
 =head1 PUBLIC INTERFACE
 
@@ -151,10 +172,7 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-DEPRECATED: For backwards compatibility reasons, object aliases can be defined in L<Kernel::Config::Defaults>.
-For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> object.
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config'); # returns the same ConfigObject as above
+    my $ConfigObject2 = $Kernel::OM->Get('Kernel::Config'); # returns the same ConfigObject as above
 
 =cut
 
@@ -178,6 +196,47 @@ sub Get {
     local $CurrentObject = $_[1] if !$CurrentObject;
 
     return $_[0]->_ObjectBuild( Package => $_[1] );
+}
+
+=item Create()
+
+Creates a new object instance. This instance will not be managed by the object manager later on.
+
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+    my $DateTimeObject2 = $Kernel::OM->Create('Kernel::System::DateTime'); # this is a new independent instance
+
+It is also possible to pass in constructor parameters:
+
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime'
+        ObjectParams => {
+            Param1 => 'Value1',
+        },
+    );
+
+=cut
+
+sub Create {
+    my ( $Self, $Package, %Params ) = @_;
+
+    if ( !$Package ) {
+        $Self->_DieWithError(
+            Error => "Error: Missing parameter (object name)",
+        );
+    }
+
+    # record the object we are about to retrieve to potentially
+    # build better error messages
+    # needs to be a statement-modifying 'if', otherwise 'local'
+    # is local to the scope of the 'if'-block
+    local $CurrentObject = $Package if !$CurrentObject;
+
+    return $Self->_ObjectBuild(
+        Package      => $Package,
+        ObjectParams => $Params{ObjectParams},
+        NoSingleton  => 1,
+    );
 }
 
 sub _ObjectBuild {
@@ -218,12 +277,27 @@ sub _ObjectBuild {
             $Self->_DieWithError( Error => "$Package cannot be loaded via ObjectManager!" );
         }
 
+        if ( $Param{NoSingleton} ) {
+            if ( ${ $Package . '::ObjectManagerSingleton' } ) {
+                $Self->_DieWithError( Error =>
+                        "$Package cannot be created as a new instance via ObjectManager! Use Get() instead of Create() to fetch the singleton."
+                );
+            }
+        }
+        else {
+            if ( ${ $Package . '::ObjectManagerNonSingleton' } ) {
+                $Self->_DieWithError( Error =>
+                        "$Package cannot be loaded as a singleton via ObjectManager! Use Create() instead of Get() to create new instances."
+                );
+            }
+        }
+
         use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
 
     my $NewObject = $Package->new(
-        %{ $Self->{Param}->{$Package} // {} }
+        %{ $Param{ObjectParams} // $Self->{Param}->{$Package} // {} }
     );
 
     if ( !defined $NewObject ) {
@@ -239,6 +313,8 @@ sub _ObjectBuild {
             );
         }
     }
+
+    return $NewObject if ( $Param{NoSingleton} );
 
     $Self->{Objects}->{$Package} = $NewObject;
 
