@@ -12,14 +12,20 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ProcessManagement::Process;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
+my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create common objects to be used in ActivityDialog object creation
 my %CommonObject;
@@ -29,9 +35,8 @@ $CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::Proces
 $CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 $CommonObject{TicketObject}           = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $ProcessObject = Kernel::System::ProcessManagement::Process->new();
-
-my $RandomID = $HelperObject->GetRandomID();
+# define needed variables
+my $RandomID = $Helper->GetRandomID();
 
 # create some queues in the system
 my %QueueData1 = (
@@ -96,10 +101,10 @@ $Self->IsNot(
 
 my $TicketID = $CommonObject{TicketObject}->TicketCreate(
     Title    => 'Process Unittest Testticket',
-    Queue    => $QueueData3{Name},               # or QueueID => 123,
+    Queue    => $QueueData3{Name},
     Lock     => 'unlock',
-    Priority => '3 normal',                      # or PriorityID => 2,
-    State    => 'new',                           # or StateID => 5,
+    Priority => '3 normal',
+    State    => 'new',
     OwnerID  => 1,
     UserID   => 1,
 );
@@ -1878,7 +1883,7 @@ for my $Test (@Tests) {
             );
         }
 
-        # excute process object call
+        # excuse process object call
         my $Result = $ProcessObject->ProcessTransition( %{ $Test->{ProcessTransition} } );
 
         if ( $Test->{ProcessTransition}{TestType} eq 'False' ) {
@@ -2230,53 +2235,6 @@ for my $Test (@Tests) {
     }
 }
 
-# queue
-my $Success = $QueueObject->QueueUpdate(
-    %QueueData1,
-    QueueID    => $QueueID1,
-    FollowUpID => 1,
-    ValidID    => 2,
-);
-
-$Self->True(
-    $Success,
-    "QueueUpdate() - Invalidate queue '$QueueData1{Name}' for ACL check."
-);
-
-$Success = $QueueObject->QueueUpdate(
-    %QueueData2,
-    QueueID    => $QueueID2,
-    FollowUpID => 1,
-    ValidID    => 2,
-);
-
-$Self->True(
-    $Success,
-    "QueueUpdate() - Invalidate queue '$QueueData2{Name}' for ACL check."
-);
-
-$Success = $QueueObject->QueueUpdate(
-    %QueueData2,
-    QueueID    => $QueueID2,
-    FollowUpID => 1,
-    ValidID    => 2,
-);
-
-$Self->True(
-    $Success,
-    "QueueUpdate() - Invalidate queue '$QueueData3{Name}' for ACL check."
-);
-
-if ($TicketID) {
-    my $Success = $CommonObject{TicketObject}->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    $Self->True(
-        $Success || 0,
-        "TicketDelete() Test ticket for Unit tests deleted",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

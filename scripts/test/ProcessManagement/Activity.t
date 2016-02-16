@@ -16,11 +16,10 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 # ActivityGet() tests
 my @Tests = (
@@ -462,7 +461,7 @@ for my $Test (@Tests) {
 # ActivityList() tests
 @Tests = (
     {
-        Name     => 'No Activies',
+        Name     => 'No Activities',
         Activies => {},
         Success  => 0,
     },
@@ -578,7 +577,7 @@ for my $Test (@Tests) {
                 },
             },
             'A4' . $RandomID => {
-                Name           => 'Cyrilic-Язык',
+                Name           => 'Cyrillic-Язык',
                 CreateTime     => '08-02-2012 13:37:00',
                 CreateBy       => '2',
                 ChangeTime     => '09-02-2012 13:37:00',
@@ -621,7 +620,7 @@ for my $Test (@Tests) {
             "ActivityList() Test:'$Test->{Name}' | should be a HASH"
         );
 
-        # create the expected acitivity list manually
+        # create the expected activity list manually
         my %ExpectedActivities = map { $_ => $Test->{Activities}->{$_}->{Name} } keys %{ $Test->{Activities} };
 
         $Self->IsDeeply(
