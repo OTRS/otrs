@@ -12,23 +12,20 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::Ticket;
-use Kernel::System::ProcessManagement::Process;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# create common objects to be used in ActivityDialog object creation
-my %CommonObject;
-$CommonObject{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
-$CommonObject{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-$CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
-$CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define a testing environment, set defined processes to be easy to compare, this are done in memory
 #   no changes to the real system configuration
@@ -100,34 +97,11 @@ my %TestActivityDialogs = (
 $ConfigObject->{Process} = \%TestProcesses;
 $ConfigObject->{'Process::ActivityDialog'} = \%TestActivityDialogs;
 
-# create empty object holders, the following tests requires to set ACLs on the fly and will need to
-#   re create the objects for each test.
-my $TicketObject;
-my $ProcessObject;
-
-# this function is to recreate the objects.
-my $RecreateObjects = sub {
-
-    $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
-    $ProcessObject = Kernel::System::ProcessManagement::Process->new(
-        %{$Self},
-        %CommonObject,
-        TicketObject => $TicketObject,
-        ConfigObject => $ConfigObject,
-    );
-
-    return 1;
-};
-
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # define a set of users
 my $UserID1   = 1;
-my $TestUser2 = $HelperObject->TestUserCreate();
+my $TestUser2 = $Helper->TestUserCreate();
 my $UserID2   = $UserObject->UserLookup(
     UserLogin => $TestUser2,
 );
@@ -136,7 +110,7 @@ $Self->IsNot(
     undef,
     "TestUserCreate() - UserID $UserID2 ID"
 );
-my $TestUser3 = $HelperObject->TestUserCreate();
+my $TestUser3 = $Helper->TestUserCreate();
 my $UserID3   = $UserObject->UserLookup(
     UserLogin => $TestUser3,
 );
@@ -851,9 +825,7 @@ for my $Test (@Tests) {
             $UserType = 'Not Affected User';
         }
 
-        $RecreateObjects->();
-
-        my $ProcessList = $ProcessObject->ProcessList(
+        my $ProcessList = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessList(
             ProcessState => [ 'Active', 'FadeAway' ],
             Interface    => ['AgentInterface'],
         );
@@ -861,6 +833,8 @@ for my $Test (@Tests) {
         # prepare process list for ACLs, use only entities instead of names, convert from
         #   P1 => Name to P1 => P1. As ACLs should work only against entities
         my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # validate the ProcessList with stored ACLs
         my $ACL = $TicketObject->TicketAcl(
@@ -899,31 +873,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup the system
-# set added groups to invalid
-$Success = $GroupObject->GroupUpdate(
-    ID      => $GroupID,
-    Name    => $GroupName,
-    Comment => 'comment describing the group',
-    ValidID => 2,
-    UserID  => 1,
-);
-$Self->True(
-    $Success,
-    "GroupUpdate() - Set group $GroupName to invalid with true",
-);
-
-# set added roles to invalid
-$Success = $GroupObject->RoleUpdate(
-    ID      => $RoleID,
-    Name    => $RoleName,
-    Comment => 'comment describing the role',
-    ValidID => 2,
-    UserID  => 1,
-);
-$Self->True(
-    $Success,
-    "RoleUpdate() - Set role $RoleName to invalid with true",
-);
+# cleanup is done by RestoreDatabase
 
 1;

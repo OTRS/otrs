@@ -16,11 +16,10 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 # ActivityDialogGet() tests
 my @Tests = (
@@ -388,7 +387,7 @@ for my $Test (@Tests) {
         Value => $Test->{ActivityDialogs},
     );
 
-    # get activity dialog descrived in test
+    # get activity dialog described in test
     my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
@@ -791,7 +790,7 @@ for my $Test (@Tests) {
         Value => $Test->{ActivityDialogs},
     );
 
-    # get activity dialog descrived in test
+    # get activity dialog described in test
     my $CheckSuccess = $ActivityDialogObject->ActivityDialogCompletedCheck( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {

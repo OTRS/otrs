@@ -16,11 +16,10 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 # TransitionActionGet() tests
 my @Tests = (
@@ -137,7 +136,7 @@ for my $Test (@Tests) {
         Value => $Test->{TransitionActions},
     );
 
-    # get transition action descrived in test
+    # get transition action described in test
     my $TransitionAction = $TransitionActionObject->TransitionActionGet( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
@@ -356,7 +355,7 @@ for my $Test (@Tests) {
         Value => $Test->{TransitionActions},
     );
 
-    # list get transtion actions
+    # list get transition actions
     my $TransitionActionList = $TransitionActionObject->TransitionActionList( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {

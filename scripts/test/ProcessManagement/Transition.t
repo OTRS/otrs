@@ -31,11 +31,10 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 #     Value => {},
 # );
 
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 # ------------------------------------------------------------ #
 # define general tests
@@ -188,7 +187,7 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => '',
-            Message            => 'TransitionCheck() (emtpy TransitionEntityID)',
+            Message            => 'TransitionCheck() (empty TransitionEntityID)',
             TestType           => 'False',
         },
     },
@@ -1812,54 +1811,5 @@ for my $Test (@Tests) {
         }
     }
 }
-
-# this is apparently not needed for this test
-# my %TransitionConfig = (
-#     'T1' . $RandomID => {
-#         Name       => 'Transition 1 optional',
-#         CreateTime => '09-02-2012 13:37:00',     # optional
-#         CreateBy   => '2',                       # optional
-#         ChangeTime => '10-02-2012 13:37:00',     # optional
-#         ChangeBy   => '3',                       # optional
-#         Condition  => {
-#             Type  => 'and',                      # 'or', 'xor'
-#             Cond1 => {
-#                 Type   => 'and',                 # 'or', 'xor'
-#                 Fields => {
-#                     DynamicField_Make => {
-#                         Type => 'String' || 'Hash' || 'Array' || 'Regexp' || 'Module',
-#                         Match => 'Teststring',    # Type = String => 'String',
-#                                                   # Type = Regexp => qr{ [\n\r\f] }xms
-#                                                   # Type = Hash => { key1 => val1, key2 => val2}
-#                                                   # Type = Array => [val1, val2, val3]
-#                                                   # Type = Module => 'Kernel::System::',
-#                                                   # ... to be continued
-#                     },
-#                     DynamicField_VWModel => ['1'],
-#                 },
-#             },
-#             Cond2 => {
-#                 DynamicField_Make         => ['2'],
-#                 DynamicField_PeugeotModel => ['1'],
-#             },
-#         },
-#     },
-#     'T2' . $RandomID => {
-#         Name       => 'Transition 2 optional',
-#         CreateTime => '09-02-2012 13:37:00',
-#         CreateBy   => '3',
-#         ChangeTime => '10-02-2012 13:37:00',
-#         ChangeBy   => '2',
-#         Condition  => {
-#             Cond1 => {
-#                 Fields => {
-#                     Queue                => ['Raw'],
-#                     DynamicField_Make    => ['2'],
-#                     DynamicField_VWModel => ['2'],
-#                 },
-#             },
-#         },
-#     },
-# );
 
 1;
