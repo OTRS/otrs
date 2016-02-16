@@ -17,11 +17,18 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $YAMLObject   = $Kernel::OM->Get('Kernel::System::YAML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $Home     = $ConfigObject->Get('Home');
 my $UserID   = 1;
 
@@ -217,7 +224,7 @@ for my $Test (@Tests) {
             Location => $Home . '/scripts/test/sample/ACL/' . $Test->{ACLFile},
         );
 
-        my $RandomID = $HelperObject->GetRandomID();
+        my $RandomID = $Helper->GetRandomID();
 
         # convert process to Perl for easy handling
         $ACLData = $YAMLObject->Load( Data => $$FileRef );
@@ -256,7 +263,7 @@ for my $Test (@Tests) {
         my @AddedACLs = split ',', $ACLImport->{AddedACLs};
         for my $ACLName (@AddedACLs) {
 
-            # cleanup possilbe leasing whitespaces in name
+            # cleanup possible leading whitespaces in name
             $ACLName =~ s{^\s+}{};
             my $ACL = $ACLObject->ACLGet(
                 Name   => $ACLName,
@@ -276,7 +283,7 @@ for my $Test (@Tests) {
         my @UpdatedACLs = split ',', $ACLImport->{UpdatedACLs};
         for my $ACLName (@UpdatedACLs) {
 
-            # cleanup possilbe leasing whitespaces in name
+            # cleanup possible leading whitespaces in name
             $ACLName =~ s{^\s+}{};
             my $ACL = $ACLObject->ACLGet(
                 Name   => $ACLName,
@@ -300,35 +307,6 @@ for my $Test (@Tests) {
     }
 }
 
-print "------------System Cleanup------------\n";
-
-# remove added ACLs
-for my $ACLID ( sort keys %ACLToDelete ) {
-    my $Success = $ACLObject->ACLDelete(
-        ID     => $ACLID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "ACLDelete() ACLID:$ACLID | Deleted sucessfully",
-    );
-
-    $Self->True(
-        $ACLObject->ACLsNeedSync(),
-        "ACLDelete() ACLID:$ACLID sync flag set after ACLDelete",
-    );
-
-    $Self->True(
-        $ACLObject->ACLsNeedSyncReset(),
-        "ACLDelete() ACLID:$ACLID sync flag reset",
-    );
-
-    $Self->False(
-        $ACLObject->ACLsNeedSync(),
-        "ACLDelete() ACLID:$ACLID sync flag not set after reset",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

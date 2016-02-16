@@ -14,10 +14,6 @@ use vars (qw($Self));
 
 use Kernel::Config::Files::ZZZAAuto;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
 =head1 SYNOPSIS
 
 This test verifies that the settings defined in Defaults.pm
@@ -30,8 +26,8 @@ and cause wrong test failures.
 =cut
 
 # Get list of installed config XML files
-my $Directory   = $ConfigObject->Get('Home') . "/Kernel/Config/Files/";
-my @ConfigFiles = $MainObject->DirectoryRead(
+my $Directory   = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/Kernel/Config/Files/";
+my @ConfigFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $Directory,
     Filter    => "*.xml",
 );
