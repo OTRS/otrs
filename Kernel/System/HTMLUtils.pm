@@ -1086,12 +1086,6 @@ sub Safety {
                 }
                 {$2}sgxim;
 
-                # remove entities in tag
-                $Replaced += $Tag =~ s{
-                    (&\{.+?\})
-                }
-                {}sgxim;
-
                 # remove javascript in a href links or src links
                 $Replaced += $Tag =~ s{
                     ((?:\s|;|/)(?:background|url|src|href)=)
