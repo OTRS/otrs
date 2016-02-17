@@ -16,21 +16,26 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 my $CacheObject      = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $EntityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 
-my $EntityID = $EntityObject->EntityIDGenerate(
+my $EntityID = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity')->EntityIDGenerate(
     EntityType => 'Transition',
     UserID     => 1,
 );
@@ -257,7 +262,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'TransitionAdd Test 13: EntityID Full Lenght',
+        Name   => 'TransitionAdd Test 13: EntityID Full Length',
         Config => {
             EntityID => $EntityID,
             Name     => $EntityID,
@@ -339,7 +344,7 @@ my @AddedTransitionsList = map {$_} sort keys %AddedTransitions;
     {
         Name   => 'TransitionGet Test 4: Wrong ID',
         Config => {
-            ID       => 'NotExistent' . $RandomID,
+            ID       => '9999999',
             EntityID => undef,
             UserID   => $UserID,
         },
@@ -349,7 +354,7 @@ my @AddedTransitionsList = map {$_} sort keys %AddedTransitions;
         Name   => 'TransitionGet Test 5: Wrong EntityID',
         Config => {
             ID       => undef,
-            EntityID => 'NotExistent' . $RandomID,
+            EntityID => '9999999',
             UserID   => $UserID,
         },
         Success => 0,
@@ -687,7 +692,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update Transition, Waiting 2s\n";
 
         # wait 2 seconds
-        $HelperObject->FixedTimeAddSeconds(2);
+        $Helper->FixedTimeAddSeconds(2);
 
         my $Success = $TransitionObject->TransitionUpdate( %{ $Test->{Config} } );
 
@@ -878,7 +883,7 @@ for my $TransitionID ( sort { $a <=> $b } keys %TestTransitionListCopy ) {
     {
         Name   => 'TransitionDelete Test 4: Wrong Transition ID',
         Config => {
-            ID     => $RandomID,
+            ID     => '9999999',
             UserID => $UserID,
         },
         Success => 0,
@@ -968,19 +973,6 @@ $Self->IsDeeply(
     "TransitionListGet Test 2: Correct List | Cache",
 );
 
-print "------------System Cleanup------------\n";
+# cleanup is done by RestoreDatabase
 
-# remove added Transitions
-for my $TransitionID ( sort keys %AddedTransitions ) {
-    my $Success = $TransitionObject->TransitionDelete(
-        ID     => $TransitionID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "TransitionDelete() TransitionID:$TransitionID | Deleted sucessfully",
-    );
-}
 1;

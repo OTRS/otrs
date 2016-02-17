@@ -16,20 +16,25 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
 
-my $EntityID = $EntityObject->EntityIDGenerate(
+my $EntityID = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity')->EntityIDGenerate(
     EntityType => 'ActivityDialog',
     UserID     => 1,
 );
@@ -296,7 +301,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'ActivityDialogAdd Test 15: EntityID Full Lenght',
+        Name   => 'ActivityDialogAdd Test 15: EntityID Full Length',
         Config => {
             EntityID => $EntityID,
             Name     => $EntityID,
@@ -384,7 +389,7 @@ my @AddedActivityDialogsList = map {$_} sort keys %AddedActivityDialogs;
     {
         Name   => 'ActivityDialogGet Test 4: Wrong ID',
         Config => {
-            ID       => 'NotExistent' . $RandomID,
+            ID       => '9999999',
             EntityID => undef,
             UserID   => $UserID,
         },
@@ -394,7 +399,7 @@ my @AddedActivityDialogsList = map {$_} sort keys %AddedActivityDialogs;
         Name   => 'ActivityDialogGet Test 5: Wrong EntityID',
         Config => {
             ID       => undef,
-            EntityID => 'NotExistent' . $RandomID,
+            EntityID => '9999999',
             UserID   => $UserID,
         },
         Success => 0,
@@ -714,7 +719,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update ActivityDialog, Waiting 2s\n";
 
         # wait 2 seconds
-        $HelperObject->FixedTimeAddSeconds(2);
+        $Helper->FixedTimeAddSeconds(2);
 
         my $Success = $ActivityDialogObject->ActivityDialogUpdate( %{ $Test->{Config} } );
 
@@ -905,7 +910,7 @@ for my $ActivityDialogID ( sort { $a <=> $b } keys %TestActivityDialogListCopy )
     {
         Name   => 'ActivityDialogDelete Test 4: Wrong ActivityDialog ID',
         Config => {
-            ID     => $RandomID,
+            ID     => '9999999',
             UserID => $UserID,
         },
         Success => 0,
@@ -995,19 +1000,6 @@ $Self->IsDeeply(
     "ActivityDialogListGet Test 2: Correct List | Cache",
 );
 
-print "------------System Cleanup------------\n";
+# cleanup is done by RestoreDatabase
 
-# remove added ActivityDialogs
-for my $ActivityDialogID ( sort keys %AddedActivityDialogs ) {
-    my $Success = $ActivityDialogObject->ActivityDialogDelete(
-        ID     => $ActivityDialogID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "ActivityDialogDelete() ActivityDialogID:$ActivityDialogID | Deleted sucessfully",
-    );
-}
 1;

@@ -16,18 +16,23 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 # define needed variables
-my $RandomID                = $HelperObject->GetRandomID();
+my $RandomID                = $Helper->GetRandomID();
 my $UserID                  = 1;
 my $ActivityDialogEntityID1 = 'AD1-' . $RandomID;
 my $ActivityDialogEntityID2 = 'AD2-' . $RandomID;
@@ -36,7 +41,7 @@ my $ActivityDialogName1     = 'ActivityDialog1';
 my $ActivityDialogName2     = 'ActivityDialog2';
 my $ActivityDialogName3     = 'ActivityDialog3';
 
-my $EntityID = $EntityObject->EntityIDGenerate(
+my $EntityID = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity')->EntityIDGenerate(
     EntityType => 'Activity',
     UserID     => 1,
 );
@@ -220,7 +225,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'ActivityAdd Test 10: EntityID Full Lenght',
+        Name   => 'ActivityAdd Test 10: EntityID Full Length',
         Config => {
             EntityID => $EntityID,
             Name     => $EntityID,
@@ -292,7 +297,7 @@ my @AddedActivityList = map {$_} sort keys %AddedActivities;
     {
         Name   => 'ActivityGet Test 4: Wrong ID',
         Config => {
-            ID                  => 'NotExistent' . $RandomID,
+            ID                  => '9999999',
             EntityID            => undef,
             ActivityDialogNames => 0,
             UserID              => $UserID,
@@ -303,7 +308,7 @@ my @AddedActivityList = map {$_} sort keys %AddedActivities;
         Name   => 'ActivityGet Test 5: Wrong EntityID',
         Config => {
             ID                  => undef,
-            EntityID            => 'NotExistent' . $RandomID,
+            EntityID            => '9999999',
             ActivityDialogNames => 0,
             UserID              => $UserID,
         },
@@ -691,7 +696,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update activity, Waiting 2s\n";
 
         # wait 2 seconds
-        $HelperObject->FixedTimeAddSeconds(2);
+        $Helper->FixedTimeAddSeconds(2);
 
         my $Success = $ActivityObject->ActivityUpdate( %{ $Test->{Config} } );
 
@@ -880,7 +885,7 @@ for my $ActivityID ( sort { $a <=> $b } keys %TestActivityListCopy ) {
     {
         Name   => 'ActivityDelete Test 4: Wrong Activity ID',
         Config => {
-            ID     => $RandomID,
+            ID     => '9999999',
             UserID => $UserID,
         },
         Success => 0,
@@ -970,33 +975,6 @@ $Self->IsDeeply(
     "ActivityListGet Test 2: Correct List | Cache",
 );
 
-print "------------System Cleanup------------\n";
+# cleanup is done by RestoreDatabase
 
-# remove added activities
-for my $ActivityDialogID (@AddedActivityDialogs) {
-    my $Success = $ActivityDialogObject->ActivityDialogDelete(
-        ID     => $ActivityDialogID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "ActivityDialogDelete() ActivityID:$ActivityDialogID | Deleted sucessfully",
-    );
-}
-
-# remove added activities
-for my $ActivityID ( sort keys %AddedActivities ) {
-    my $Success = $ActivityObject->ActivityDelete(
-        ID     => $ActivityID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "ActivityDelete() ActivityID:$ActivityID | Deleted sucessfully",
-    );
-}
 1;

@@ -14,14 +14,19 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get entity object
 my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
-# define needed variables
-my $RandomID = $HelperObject->GetRandomID();
-my $UserID   = 1;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# define needed variable
+my $UserID = 1;
 
 #
 # Tests for EntityIDGenerate
@@ -108,7 +113,8 @@ for my $Test (@Tests) {
             "$Test->{Name} | EntityID should not be undef",
         );
 
-        my $EntityPrefix = $ConfigObject->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
+        my $EntityPrefix
+            = $Kernel::OM->Get('Kernel::Config')->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
 
         my $Match;
         if ( $EntityID =~ m{\A $Test->{Config}->{EntityType} - [0-9a-f]{32}? \z}smx ) {
@@ -140,7 +146,7 @@ my $OrigEntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $Use
         "EntintySyncStatePurge executed successfully",
     );
 
-    # check that the list is real emty
+    # check that the list is real empty
     my $EntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $UserID );
 
     $Self->Is(
@@ -347,7 +353,7 @@ for my $Test (@Tests) {
         "EntintySyncStatePurge executed successfully",
     );
 
-    # check that the list is real emty
+    # check that the list is real empty
     my $EntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $UserID );
 
     $Self->Is(
@@ -485,7 +491,7 @@ for my $Test (@Tests) {
         Success => 1,
     },
     {
-        Name   => 'EntitySyncStateList Test 8: Only new prosesses',
+        Name   => 'EntitySyncStateList Test 8: Only new Processes',
         Config => {
             EntityType => 'Process',
             SyncState  => 'new',
@@ -605,7 +611,7 @@ for my $Test (@Tests) {
         $Self->Is(
             $Success,
             1,
-            "$Test->{Name} | should be a executed correclty",
+            "$Test->{Name} | should be a executed correctly",
         );
 
         # get the Sync register after delete
@@ -663,51 +669,6 @@ for my $Test (@Tests) {
     }
 }
 
-# clean up
-print "---------------------- Restore original sync states ----------------------\n";
-my $Success = $EntityObject->EntitySyncStatePurge( UserID => $UserID );
-
-$Self->True(
-    $Success,
-    "EntintySyncStatePurge executed successfully"
-);
-
-my $EntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $UserID );
-
-$Self->Is(
-    scalar @{$EntitySyncStateList},
-    0,
-    "EntitySyncStateList after purge should be empty",
-);
-
-for my $EntitySyncData (@$OrigEntitySyncStateList) {
-    my $Success = $EntityObject->EntitySyncStateSet(
-        %{$EntitySyncData},
-        UserID => $UserID,
-    );
-
-    $Self->True(
-        $Success,
-        "EntitySyncStateSet reset orgininal syc state for EntityID:$EntitySyncData->{EntityID}"
-    );
-}
-
-my $FinalEntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $UserID );
-
-# remove times before compare
-for my $EntitySyncState ( @{$OrigEntitySyncStateList} ) {
-    delete $EntitySyncState->{CreateTime};
-    delete $EntitySyncState->{ChangeTime};
-}
-for my $EntitySyncState ( @{$FinalEntitySyncStateList} ) {
-    delete $EntitySyncState->{CreateTime};
-    delete $EntitySyncState->{ChangeTime};
-}
-
-$Self->IsDeeply(
-    $OrigEntitySyncStateList,
-    $FinalEntitySyncStateList,
-    "Final Entity Sync State List compared with original",
-);
+# cleanup is done by RestoreDatabase
 
 1;
