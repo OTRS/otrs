@@ -184,10 +184,14 @@ sub Run {
                 push @{ $Self->{NotOkInfo} }, [$File];
 
                 $Self->{OutputBuffer} = '';
-                local *STDOUT;
-                open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
-                local *STDERR;
-                open STDERR, '>:utf8', \$Self->{OutputBuffer};    ## no critic
+                local *STDOUT = *STDOUT;
+                local *STDERR = *STDERR;
+                if (!$Param{Verbose}) {
+                    undef *STDOUT;
+                    undef *STDERR;
+                    open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
+                    open STDERR, '>:utf8', \$Self->{OutputBuffer};    ## no critic
+                }
 
                 # HERE the actual tests are run!!!
                 if ( !eval ${$UnitTestFile} ) {    ## no critic
