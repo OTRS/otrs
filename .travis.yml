@@ -28,9 +28,18 @@ matrix:
     - perl: "5.22"
       env: DB=postgresql
 
+# Use new docker based infrastructure
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - libxml2-utils
+    - nodejs
+    - npm
+    - gettext
+
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libxml2-utils nodejs npm gettext
   - npm -g install eslint
 
 # We have to install the Perl modules via CPAN because the VMs use a perlbrew based Perl, not Ubuntu's system Perl.
