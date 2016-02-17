@@ -28,10 +28,9 @@ matrix:
     - perl: "5.22"
       env: DB=postgresql
 
-# Use 14.04 platform. Docker based VMs seem slower.
+# Use 12.04 platform. Docker based VMs seem slower, and trusty beta has not enough available VMs.
 # See https://docs.travis-ci.com/user/ci-environment/
 sudo: required
-dist: trusty
 
 addons:
   apt:
