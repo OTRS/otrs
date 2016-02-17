@@ -36,9 +36,9 @@ addons:
     packages:
     - libxml2-utils
     - nodejs
-    - npm
     - gettext
 
+# npm is already available with nodejs
 before_install:
   - npm -g install eslint
 
