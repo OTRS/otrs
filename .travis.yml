@@ -34,12 +34,18 @@ matrix:
 
 # We have to install the Perl modules via CPAN because the VMs use a perlbrew based Perl, not Ubuntu's system Perl.
 install:
+  # generate ARCHIVE file
+  - perl bin/otrs.CheckSum.pl -a create
+  # install OTRSCodePolicy, but skip the SOPM to avoid validation errors.
   - mkdir -p /tmp/OTRSCodePolicy
   - git clone https://github.com/OTRS/otrscodepolicy.git /tmp/OTRSCodePolicy
+  - rm /tmp/OTRSCodePolicy/OTRSCodePolicy.sopm
   - cp -rf /tmp/OTRSCodePolicy/* .
+  # install OTRS cpan dependencies
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql DBD::Pg Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
-  - perl bin/otrs.CheckSum.pl -a create
+  # configure OTRS
   - scripts/tools/travis/setup.sh
+  # start web server
   - plackup --port 5000 bin/cgi-bin/app.psgi > /tmp/plack.log 2>&1 &
 
 script:
