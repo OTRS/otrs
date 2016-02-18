@@ -22,6 +22,15 @@
         overflow: hidden;
     }
 
+    html.NoScroll body {
+        position: static;
+    }
+
+    html.NoScroll #AppWrapper {
+        overflow: hidden;
+        position: fixed;
+    }
+
     .MessageBox, .RTL .MessageBox {
         margin: 0px;
     }

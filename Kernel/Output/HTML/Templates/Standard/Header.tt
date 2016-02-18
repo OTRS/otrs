@@ -13,6 +13,7 @@
 [% InsertTemplate("HTMLHead.tt") %]
 <body class="[% Data.BodyClass | html %]">
     <a name="Top"></a>
+    <div id="AppWrapper">
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
         <ul id="ToolBar">

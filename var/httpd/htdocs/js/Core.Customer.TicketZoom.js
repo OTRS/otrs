@@ -46,6 +46,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 }
             }
 
+            NewHeight = parseInt(NewHeight, 10) + 25;
             $(Iframe).height(NewHeight + 'px');
         }, 1500);
     }

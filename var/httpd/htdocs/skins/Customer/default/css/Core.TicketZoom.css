@@ -349,6 +349,9 @@
     padding: 13px 8px;
     background: #FFF;
     border-bottom: 1px solid #E9E9E9;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+    width: 98%;
 }
 
 .TicketZoom iframe {
