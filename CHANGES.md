@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-18 Deprecated unused ObjectLockState package and gi_object_lock_state table.
  - 2016-02-15 Fixed bug#[11870](http://bugs.otrs.org/show_bug.cgi?id=11870) - Missing quoting in Layout::AgentQueueListOption().
 
 #5.0.7 2016-02-16
