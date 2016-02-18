@@ -34,10 +34,6 @@ use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::System::User;
 
-# Contains the top-level object being retrieved;
-# used to generate better error messages.
-our $CurrentObject;
-
 =head1 NAME
 
 Kernel::System::ObjectManager - object and dependency manager
@@ -189,12 +185,6 @@ sub Get {
         );
     }
 
-    # record the object we are about to retrieve to potentially
-    # build better error messages
-    # needs to be a statement-modifying 'if', otherwise 'local'
-    # is local to the scope of the 'if'-block
-    local $CurrentObject = $_[1] if !$CurrentObject;
-
     return $_[0]->_ObjectBuild( Package => $_[1] );
 }
 
@@ -235,12 +225,6 @@ sub Create {
         );
     }
 
-    # record the object we are about to retrieve to potentially
-    # build better error messages
-    # needs to be a statement-modifying 'if', otherwise 'local'
-    # is local to the scope of the 'if'-block
-    local $CurrentObject = $Package if !$CurrentObject;
-
     return $Self->_ObjectBuild(
         %Param,
         Package      => $Package,
@@ -259,19 +243,12 @@ sub _ObjectBuild {
         require $FileName;
     };
     if ($@) {
-        if ( $CurrentObject && $CurrentObject ne $Package ) {
-            $Self->_DieWithError(
-                Error => "$CurrentObject depends on $Package, but $Package could not be loaded: $@",
-            );
+        if ($Param{Silent}) {
+            return;     # don't throw
         }
-        else {
-            if ($Param{Silent}) {
-                return;     # don't throw
-            }
-            $Self->_DieWithError(
-                Error => "$Package could not be loaded: $@",
-            );
-        }
+        $Self->_DieWithError(
+            Error => "$Package could not be loaded: $@",
+        );
     }
 
     # Kernel::Config does not declare its dependencies (they would have to be in
@@ -313,20 +290,12 @@ sub _ObjectBuild {
     );
 
     if ( !defined $NewObject ) {
-        if ( $CurrentObject && $CurrentObject ne $Package ) {
-            $Self->_DieWithError(
-                Error =>
-                    "$CurrentObject depends on $Package, but the constructor of $Package returned undef.",
-            );
+        if ($Param{Silent}) {
+            return;     # don't throw
         }
-        else {
-            if ($Param{Silent}) {
-                return;     # don't throw
-            }
-            $Self->_DieWithError(
-                Error => "The constructor of $Package returned undef.",
-            );
-        }
+        $Self->_DieWithError(
+            Error => "The constructor of $Package returned undef.",
+        );
     }
 
     return $NewObject if ( $Param{NoSingleton} );
