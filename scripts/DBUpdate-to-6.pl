@@ -84,6 +84,10 @@ Please run it as the 'otrs' user or with the help of su:
             Message => 'Check framework version',
             Command => \&_CheckFrameworkVersion,
         },
+        {
+            Message => 'Drop deprecated table gi_object_lock_state',
+            Command => \&_DropObjectLockState,
+        },
 
         # ...
 
@@ -202,6 +206,75 @@ sub _CheckFrameworkVersion {
     if ( $Version !~ /^6\.0(.*)$/ ) {
 
         die "Error: You are trying to run this script on the wrong framework version $Version!"
+    }
+
+    return 1;
+}
+
+=item _DropObjectLockState()
+
+Drop deprecated gi_object_lock_state table if empty.
+
+    _DropObjectLockState();
+
+=cut
+
+sub _DropObjectLockState {
+
+    # get needed objects
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+
+    my %Tables = map { lc($_) => 1 } $DBObject->ListTables();
+    return 1 if !$Tables{gi_object_lock_state};
+
+    # get number of remaining entries
+    return if !$DBObject->Prepare(
+        SQL => 'SELECT COUNT(*) FROM gi_object_lock_state',
+    );
+
+    my $Count;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Count = $Row[0];
+    }
+
+    # delete table but only if table is empty
+    # if there are some entries left, these must be deleted by other modules
+    # so we give them a chance to be migrated from these modules
+    if ($Count) {
+        print STDERR
+            "\nThere are still entries in your gi_object_lock_state table, therefore it will not be deleted.\n";
+        return 1;
+    }
+
+    # drop table 'notifications'
+    my $XMLString = '<TableDrop Name="gi_object_lock_state"/>';
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $DBObject->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $DBObject->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
     }
 
     return 1;

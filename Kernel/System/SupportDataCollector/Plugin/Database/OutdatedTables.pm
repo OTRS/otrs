@@ -17,6 +17,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
+    'Kernel::System::Package',
 );
 
 sub GetDisplayPath {
@@ -30,8 +31,22 @@ sub Run {
 
     my @OutdatedTables;
 
+    # This table was removed with OTRS 5 (if empty).
     if ( $ExistingTables{notifications} ) {
         push @OutdatedTables, 'notifications';
+    }
+
+    # This table was removed with OTRS 6 (if empty).
+    if ( $ExistingTables{gi_object_lock_state} ) {
+        my $SolManConnectorInstalled;
+
+        for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
+            if ( $Package->{Name}->{Content} eq 'OTRSGenericInterfaceConnectorSAPSolMan' ) {
+                $SolManConnectorInstalled = 1
+            }
+        }
+
+        push @OutdatedTables, 'gi_object_lock_state' if !$SolManConnectorInstalled;
     }
 
     if ( !@OutdatedTables ) {

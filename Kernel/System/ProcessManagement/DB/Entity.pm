@@ -197,7 +197,7 @@ gets the sync state of an entity
 
 If sync state was found, returns:
 
-    $ObjectLockState = {
+    $EntitySyncState = {
         EntityType       => 'Process',
         EntityID         => 'P1',
         SyncState        => 'not_sync',

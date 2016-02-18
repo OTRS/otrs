@@ -1885,34 +1885,6 @@
     </ForeignKey>
 </Table>
 
-<!--
-    THIS TABLE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE VERSION OF OTRS.
-    PLEASE DON'T USE IT IN NEW CODE.
--->
-<Table Name="gi_object_lock_state">
-    <Column Name="webservice_id" Required="true" Type="INTEGER"/>
-    <Column Name="object_type" Required="true" Size="30" Type="VARCHAR"/>
-    <Column Name="object_id" Required="true" Type="BIGINT"/>
-    <Column Name="lock_state" Required="true" Size="30" Type="VARCHAR"/>
-    <Column Name="lock_state_counter" Required="true" Type="INTEGER"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Unique Name="gi_object_lock_state_list">
-        <UniqueColumn Name="webservice_id"/>
-        <UniqueColumn Name="object_type"/>
-        <UniqueColumn Name="object_id"/>
-    </Unique>
-    <Index Name="object_lock_state_list_state">
-        <IndexColumn Name="webservice_id"/>
-        <IndexColumn Name="object_type"/>
-        <IndexColumn Name="object_id"/>
-        <IndexColumn Name="lock_state"/>
-    </Index>
-    <ForeignKey ForeignTable="gi_webservice_config">
-        <Reference Local="webservice_id" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <Table Name="smime_signer_cert_relations">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="cert_hash" Required="true" Size="8" Type="VARCHAR"/>

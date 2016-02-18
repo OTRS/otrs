@@ -2629,21 +2629,6 @@ CREATE INDEX FK_gi_debugger_entry_contentc3 ON gi_debugger_entry_content (gi_deb
 CREATE INDEX gi_debugger_entry_content_cr4e ON gi_debugger_entry_content (create_time);
 CREATE INDEX gi_debugger_entry_content_dea1 ON gi_debugger_entry_content (debug_level);
 -- ----------------------------------------------------------
---  create table gi_object_lock_state
--- ----------------------------------------------------------
-CREATE TABLE gi_object_lock_state (
-    webservice_id NUMBER (12, 0) NOT NULL,
-    object_type VARCHAR2 (30) NOT NULL,
-    object_id NUMBER (20, 0) NOT NULL,
-    lock_state VARCHAR2 (30) NOT NULL,
-    lock_state_counter NUMBER (12, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_list UNIQUE (webservice_id, object_type, object_id)
-);
-CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
-CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
--- ----------------------------------------------------------
 --  create table smime_signer_cert_relations
 -- ----------------------------------------------------------
 CREATE TABLE smime_signer_cert_relations (

@@ -206,7 +206,6 @@ ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_histeb FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT FK_gi_debugger_entry_webserv66 FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_content3b FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry (id);
-ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_websbe FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio60 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio77 FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_fieldbe FOREIGN KEY (field_id) REFERENCES dynamic_field (id);
