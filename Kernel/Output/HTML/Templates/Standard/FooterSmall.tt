@@ -8,5 +8,6 @@
 
 [% InsertTemplate("FooterJS.tt") %]
 
+    </div>
 </body>
 </html>

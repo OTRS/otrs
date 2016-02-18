@@ -13,3 +13,4 @@
 [% InsertTemplate("HTMLHead.tt") %]
 <body class="[% Data.BodyClass | html %]">
     <a name="Top"></a>
+    <div id="AppWrapper">
