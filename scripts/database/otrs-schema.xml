@@ -1885,6 +1885,10 @@
     </ForeignKey>
 </Table>
 
+<!--
+    THIS TABLE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE VERSION OF OTRS.
+    PLEASE DON'T USE IT IN NEW CODE.
+-->
 <Table Name="gi_object_lock_state">
     <Column Name="webservice_id" Required="true" Type="INTEGER"/>
     <Column Name="object_type" Required="true" Size="30" Type="VARCHAR"/>

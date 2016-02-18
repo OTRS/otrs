@@ -22,6 +22,9 @@ Kernel::System::GenericInterface::ObjectLockState - lock state backend
 
 =head1 SYNOPSIS
 
+THIS PACKAGE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE VERSION OF OTRS.
+PLEASE DON'T USE IT IN NEW CODE.
+
 =head1 PUBLIC INTERFACE
 
 =over 4
