@@ -118,4 +118,29 @@ $Self->False(
     "Cannot create a nonexisting object with Silent => 1",
 );
 
+$Object = eval { $Kernel::OM->Create('scripts::test::ObjectManager::FailingConstructor') };
+$Self->True(
+    $@,
+    "Creating an object with failing constructor via OM causes an exception",
+);
+$Self->False(
+    $Object,
+    "Cannot create an object with failing constructor",
+);
+
+$Object = eval {
+    $Kernel::OM->Create(
+        'scripts::test::ObjectManager::FailingConstructor',
+        Silent => 1,
+    )
+};
+$Self->False(
+    $@,
+    "Creating an object with failing constructor via OM causes no exception with Silent => 1",
+);
+$Self->False(
+    $Object,
+    "Cannot create an object with failing constructor",
+);
+
 1;

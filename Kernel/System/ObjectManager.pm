@@ -320,6 +320,9 @@ sub _ObjectBuild {
             );
         }
         else {
+            if ($Param{Silent}) {
+                return;     # don't throw
+            }
             $Self->_DieWithError(
                 Error => "The constructor of $Package returned undef.",
             );
