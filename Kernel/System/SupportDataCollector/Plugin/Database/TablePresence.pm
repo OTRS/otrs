@@ -53,10 +53,7 @@ sub Run {
 
     my @XMLHash = $Kernel::OM->Get('Kernel::System::XML')->XMLParse2XMLHash( String => ${$ContentRef} );
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    my %ExistingTables = map { lc($_) => 1 } $DBObject->ListTables();
+    my %ExistingTables = map { lc($_) => 1 } $Kernel::OM->Get('Kernel::System::DB')->ListTables();
 
     my @MissingTables;
     TABLE:
