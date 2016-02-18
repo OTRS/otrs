@@ -92,4 +92,30 @@ $Self->IsNot(
     "Create() returns new instances"
 );
 
+# Test exceptions in Create()
+$Object = eval { $Kernel::OM->Create('scripts::test::ObjectManager::WrongPackageName') };
+$Self->True(
+    $@,
+    "Creating a nonexisting object via OM causes an exception",
+);
+$Self->False(
+    $Object,
+    "Cannot create a nonexisting object",
+);
+
+$Object = eval {
+    $Kernel::OM->Create(
+        'scripts::test::ObjectManager::WrongPackageName',
+        Silent => 1,
+    )
+};
+$Self->False(
+    $@,
+    "Creating a nonexisting object via OM causes no exception with Silent => 1",
+);
+$Self->False(
+    $Object,
+    "Cannot create a nonexisting object with Silent => 1",
+);
+
 1;

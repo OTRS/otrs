@@ -44,8 +44,8 @@ Kernel::System::ObjectManager - object and dependency manager
 
 =head1 SYNOPSIS
 
-The ObjectManager is the central place to create and access singleton OTRS objects (via C<Get()>)
-as well as create regular (unmanaged) object instances (via C<Create()>).
+The ObjectManager is the central place to create and access singleton OTRS objects (via L<Get()>)
+as well as create regular (unmanaged) object instances (via L<Create()>).
 
 =head2 How does singleton management work?
 
@@ -139,7 +139,7 @@ The hash reference will be flattened and passed to the constructor of the object
         },
     );
 
-Alternatively, C<ObjectParamAdd()> can be used to set these parameters at runtime (but this
+Alternatively, L<ObjectParamAdd()> can be used to set these parameters at runtime (but this
 must happen before the object was created).
 
 If the C<< Debug => 1 >> option is present, destruction of objects
@@ -209,16 +209,25 @@ Creates a new object instance. This instance will not be managed by the object m
 It is also possible to pass in constructor parameters:
 
     my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime'
+        'Kernel::System::DateTime',
         ObjectParams => {
             Param1 => 'Value1',
         },
     );
 
+By default, this method will C<die>, if the package cannot be instantiated.
+You can suppress this with C<< Silent => 1 >>, for example to not cause exceptions when trying
+to load modules based on user configuration.
+
+    my $CustomObject = $Kernel::OM->Create(
+        'Kernel::System::CustomObject',
+        Silent => 1,
+    );
+
 =cut
 
 sub Create {
-    my ( $Self, $Package, %Params ) = @_;
+    my ( $Self, $Package, %Param ) = @_;
 
     if ( !$Package ) {
         $Self->_DieWithError(
@@ -233,8 +242,8 @@ sub Create {
     local $CurrentObject = $Package if !$CurrentObject;
 
     return $Self->_ObjectBuild(
+        %Param,
         Package      => $Package,
-        ObjectParams => $Params{ObjectParams},
         NoSingleton  => 1,
     );
 }
@@ -256,6 +265,9 @@ sub _ObjectBuild {
             );
         }
         else {
+            if ($Param{Silent}) {
+                return;     # don't throw
+            }
             $Self->_DieWithError(
                 Error => "$Package could not be loaded: $@",
             );
