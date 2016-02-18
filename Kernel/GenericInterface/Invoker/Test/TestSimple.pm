@@ -118,7 +118,7 @@ sub HandleResponse {
         };
     }
 
-    if ( $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
+    if ( $Param{Data}->{ResponseContent} && $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
 
         # ResponseContent has URI like params, convert them into a hash
         my %QueryParams = split /[&=]/, $Param{Data}->{ResponseContent};
