@@ -540,6 +540,7 @@ dd {
  */
 #LoginLogo {
     background: transparent url(../img/loginlogo_default.png) center no-repeat;
+    background-size: contain;
     height: 100px;
 }
 
