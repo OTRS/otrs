@@ -197,7 +197,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=AdminTemplate">[% Translate("Cancel") | html %]</a>
                         </div>

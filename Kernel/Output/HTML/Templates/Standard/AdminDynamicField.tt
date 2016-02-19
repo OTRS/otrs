@@ -113,7 +113,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
     Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), [% Translate("Settings") | JSON %], '20%', 'Center', true,
         [
             {
-                Label: [% Translate("Submit") | JSON %],
+                Label: [% Translate("Save") | JSON %],
                 Type: 'Submit',
                 Class: 'Primary'}
         ]);

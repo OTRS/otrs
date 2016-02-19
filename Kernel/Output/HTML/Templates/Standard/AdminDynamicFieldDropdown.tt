@@ -205,7 +205,7 @@
             </div>
             <fieldset class="TableLike">
                 <div class="Field SpacingTop">
-                    <button type="submit" class="Primary CallForAction" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                    <button type="submit" class="Primary CallForAction" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                     [% Translate("or") | html %]
                     <a href="[% Env("Baselink") %]Action=AdminDynamicField">[% Translate("Cancel") | html %]</a>
                 </div>

@@ -127,7 +127,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("ChangeItemList") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Data.Action | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>

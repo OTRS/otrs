@@ -110,7 +110,7 @@ $('#SysConfigGroup').bind('change', function(){
                         </div>
                         <div class="Field">
                             <button title="[% Translate("Load SysConfig settings from file") | html %]" class="Primary" type="submit" value="[% Translate("Import") | html %]">
-                                [% Translate("Submit") | html %]
+                                [% Translate("Import") | html %]
                             </button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>

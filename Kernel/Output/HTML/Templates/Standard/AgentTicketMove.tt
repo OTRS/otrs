@@ -328,7 +328,7 @@
 
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Move") | html %] (g)" type="submit" value="[% Translate("Move") | html %]"><span>[% Translate("Move") | html %]</span></button>
         </div>
     </div>
 </form>

@@ -375,7 +375,7 @@
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Item") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
