@@ -11,6 +11,8 @@ package Kernel::Modules::AdminTemplate;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -138,7 +140,9 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Template updated!' );
+                $Output .= $LayoutObject->Notify(
+                    Info => Translatable('Template updated!'),
+                );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
@@ -257,7 +261,9 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Template added!' );
+                $Output .= $LayoutObject->Notify(
+                    Info => Translatable('Template added!'),
+                );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
