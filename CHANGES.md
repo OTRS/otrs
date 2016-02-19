@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-02-19 Fixed bug#[11468](http://bugs.otrs.org/show_bug.cgi?id=11468) - Using SVG images for Agent and Customer logo requires additional CSS.
  - 2016-02-19 Added dynamic filter fields to several admin frontends, thanks to Nils Leideck.
  - 2016-02-19 Fixed bug#[8298](http://bugs.otrs.org/show_bug.cgi?id=8298) - Made use of "Submit" and "Save" buttons more consistent, thanks to Niels Dimmers.
  - 2016-02-18 Drop deprecated unused ObjectLockState package and gi_object_lock_state table.
