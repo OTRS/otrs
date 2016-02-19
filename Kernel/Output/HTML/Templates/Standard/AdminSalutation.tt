@@ -38,6 +38,16 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSalutations">[% Translate("Filter for salutations") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterSalutations" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSalutations" value="" title="[% Translate("Filter for salutations") | html %]">
+            </div>
+        </div>
+
     </div>
     <div class="ContentColumn">
 
@@ -47,7 +57,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="Salutations">
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
@@ -76,8 +86,16 @@
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterSalutations'), $('#Salutations'));
+//]]></script>
+[% END %]
             </div>
         </div>
 [% RenderBlockEnd("OverviewResult") %]
