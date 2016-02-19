@@ -1,4 +1,6 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-02-19 Added dynamic filter fields to several admin frontends, thanks to Nils Leideck.
+ - 2016-02-19 Fixed bug#[8298](http://bugs.otrs.org/show_bug.cgi?id=8298) - Made use of "Submit" and "Save" buttons more consistent, thanks to Niels Dimmers.
  - 2016-02-18 Drop deprecated unused ObjectLockState package and gi_object_lock_state table.
  - 2016-02-16 Added possibility to create non-singleton objects to the ObjectManager via Create().
  - 2016-02-16 Add support for JSON pretty print, thanks to Renée Bäcker.
