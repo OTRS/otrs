@@ -82,6 +82,14 @@ Core.Agent.Admin.Group = (function (TargetNS) {
         </div>
 [% RenderBlockEnd("ActionList") %]
 
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterGroups">[% Translate("Filter for groups") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for log entries") | html %]">
+            </div>
+        </div>
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -109,7 +117,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable" id="Groups">
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
@@ -129,8 +137,16 @@ Core.Agent.Admin.Group = (function (TargetNS) {
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterGroups'), $('#Groups'));
+//]]></script>
+[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 
