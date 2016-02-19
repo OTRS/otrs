@@ -11,6 +11,14 @@
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
+                <h2><label for="FilterLogEntries">[% Translate("Filter for log entries") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterLogEntries" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
             </div>
             <div class="Content">
@@ -37,7 +45,7 @@ $('#HideHint').bind('click', function(){
                 <h2>[% Translate("Recent Log Entries") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="LogEntries">
                     <thead>
                         <tr>
                             <th class="W25pc">[% Translate("Time") | html %]</th>
@@ -55,8 +63,16 @@ $('#HideHint').bind('click', function(){
                             <td>[% Data.Message | html %]</td>
                         </tr>
 [% RenderBlockEnd("Row") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterLogEntries'), $('#LogEntries'));
+//]]></script>
+[% END %]
             </div>
         </div>
     </div>
