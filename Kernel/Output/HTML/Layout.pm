@@ -661,7 +661,7 @@ sub Output {
 
         # do time translation (with seconds)
         $Output =~ s{
-        \$TimeLong{"(.*?)"}
+        \$TimeLong[{]"(.*?)"[}]
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1);
@@ -669,7 +669,7 @@ sub Output {
 
         # do time translation (without seconds)
         $Output =~ s{
-        \$TimeShort{"(.*?)"}
+        \$TimeShort[{]"(.*?)"[}]
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
@@ -677,7 +677,7 @@ sub Output {
 
         # do date translation
         $Output =~ s{
-        \$Date{"(.*?)"}
+        \$Date[{]"(.*?)"[}]
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
@@ -685,7 +685,7 @@ sub Output {
 
         # do translation
         $Output =~ s{
-        \$Text{"(.*?)"}
+        \$Text[{]"(.*?)"[}]
     }
     {
         $Self->Ascii2Html(
@@ -694,7 +694,7 @@ sub Output {
     }egx;
 
         $Output =~ s{
-        \$JSText{"(.*?)"}
+        \$JSText[{]"(.*?)"[}]
     }
     {
         $Self->Ascii2Html(
@@ -705,7 +705,7 @@ sub Output {
 
         # do html quote
         $Output =~ s{
-        \$Quote{"(.*?)"}
+        \$Quote[{]"(.*?)"[}]
     }
     {
         my $Text = $1;
