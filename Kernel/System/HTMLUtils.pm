@@ -1074,7 +1074,7 @@ sub Safety {
 
                 # remove entities in tag
                 $Replaced += $Tag =~ s{
-                    (&\{.+?\})
+                    (&[{].+?[}])
                 }
                 {}sgxim;
 
