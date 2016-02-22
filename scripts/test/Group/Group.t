@@ -12,11 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-our @ObjectDependencies = (
-    'Kernel::System::Group',
-    'Kernel::System::Time',
-);
-
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
