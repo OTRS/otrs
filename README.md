@@ -62,9 +62,9 @@ Databases
 Browsers
 - Use a modern web browser.
 - These browsers are not supported:
-  - Internet Explorer before version 10
-  - Firefox before version 10
-  - Safari before version 5
+  - Internet Explorer before version 11
+  - Firefox before version 31
+  - Safari before version 6
 
 
 Directories & Files
