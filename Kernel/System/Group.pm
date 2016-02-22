@@ -110,14 +110,23 @@ sub GroupAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name ValidID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Name ValidID UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Needed!",
             );
             return;
         }
+    }
+
+    my %ExistingGroups = reverse $Self->GroupList( Valid => 0 );
+    if ( defined $ExistingGroups{ $Param{Name} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A Group with the name $Param{Name} already exists.",
+        );
+        return;
     }
 
     # get database object
@@ -232,14 +241,23 @@ sub GroupUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(ID Name ValidID UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Needed!",
             );
             return;
         }
+    }
+
+    my %ExistingGroups = reverse $Self->GroupList( Valid => 0 );
+    if ( defined $ExistingGroups{ $Param{Name} } && $ExistingGroups{ $Param{Name} } != $Param{ID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A Group with the name $Param{Name} already exists.",
+        );
+        return;
     }
 
     # set default value
@@ -581,14 +599,23 @@ sub RoleAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name ValidID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Name ValidID UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
+    }
+
+    my %ExistingRoles = reverse $Self->RoleList( Valid => 0 );
+    if ( defined $ExistingRoles{ $Param{Name} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A Role with the name $Param{Name} already exists.",
+        );
+        return;
     }
 
     # get database object
@@ -662,6 +689,15 @@ sub RoleUpdate {
             );
             return;
         }
+    }
+
+    my %ExistingRoles = reverse $Self->RoleList( Valid => 0 );
+    if ( defined $ExistingRoles{ $Param{Name} } && $ExistingRoles{ $Param{Name} } != $Param{ID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A Role with the name $Param{Name} already exists.",
+        );
+        return;
     }
 
     # set default value
