@@ -17,18 +17,26 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
 );
 
-# get needed objects
+# get group object
 my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
 
 #
 # Role tests
 #
-my $RoleNameRandomPartBase = $TimeObject->SystemTime();
-my %RoleIDByRoleName       = (
-    'test-role-' . $RoleNameRandomPartBase . '-1' => undef,
-    'test-role-' . $RoleNameRandomPartBase . '-2' => undef,
-    'test-role-' . $RoleNameRandomPartBase . '-3' => undef,
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $GroupNameRandom  = $Helper->GetRandomID();
+my %RoleIDByRoleName = (
+    'test-role-' . $GroupNameRandom . '-1' => undef,
+    'test-role-' . $GroupNameRandom . '-2' => undef,
+    'test-role-' . $GroupNameRandom . '-3' => undef,
 );
 
 # try to add roles
@@ -117,7 +125,7 @@ for my $RoleName ( sort keys %RoleIDByRoleName ) {
 }
 
 # change name of a single role
-my $RoleNameToChange = 'test-role-' . $RoleNameRandomPartBase . '-1';
+my $RoleNameToChange = 'test-role-' . $GroupNameRandom . '-1';
 my $ChangedRoleName  = $RoleNameToChange . '-changed';
 my $RoleIDToChange   = $RoleIDByRoleName{$RoleNameToChange};
 
@@ -137,49 +145,58 @@ $RoleIDByRoleName{$ChangedRoleName} = $RoleIDToChange;
 delete $RoleIDByRoleName{$RoleNameToChange};
 
 # try to add role with previous name
-my $RoleID = $GroupObject->RoleAdd(
+my $RoleID1 = $GroupObject->RoleAdd(
     Name    => $RoleNameToChange,
     ValidID => 1,
     UserID  => 1,
 );
 
 $Self->True(
-    $RoleID,
+    $RoleID1,
     'RoleAdd() for new role ' . $RoleNameToChange,
 );
 
-if ($RoleID) {
-    $RoleIDByRoleName{$RoleNameToChange} = $RoleID;
+if ($RoleID1) {
+    $RoleIDByRoleName{$RoleNameToChange} = $RoleID1;
 }
 
 # try to add role with changed name
-$RoleID = $GroupObject->RoleAdd(
+$RoleID1 = $GroupObject->RoleAdd(
     Name    => $ChangedRoleName,
     ValidID => 1,
     UserID  => 1,
 );
 
 $Self->False(
-    $RoleID,
-    'RoleAdd() for new role ' . $ChangedRoleName,
+    $RoleID1,
+    'RoleAdd() add role with existing name ' . $ChangedRoleName,
 );
 
-# set created roles to invalid
-ROLENAME:
-for my $RoleName ( sort keys %RoleIDByRoleName ) {
-    next ROLENAME if !$RoleIDByRoleName{$RoleName};
+my $RoleName2 = $ChangedRoleName . 'update';
+my $RoleID2   = $GroupObject->RoleAdd(
+    Name    => $RoleName2,
+    ValidID => 1,
+    UserID  => 1,
+);
 
-    my $RoleUpdate = $GroupObject->RoleUpdate(
-        ID      => $RoleIDByRoleName{$RoleName},
-        Name    => $RoleName,
-        ValidID => 2,
-        UserID  => 1,
-    );
+$Self->True(
+    $RoleID2,
+    'RoleAdd() add the second test role ' . $RoleName2,
+);
 
-    $Self->True(
-        $RoleUpdate,
-        'RoleUpdate() to set role ' . $RoleName . ' to invalid',
-    );
-}
+# try to update role with existing name
+my $RoleUpdateWrong = $GroupObject->RoleUpdate(
+    ID      => $RoleID2,
+    Name    => $ChangedRoleName,
+    ValidID => 2,
+    UserID  => 1,
+);
+
+$Self->False(
+    $RoleUpdateWrong,
+    'RoleUpdate() update role with existing name ' . $ChangedRoleName,
+);
+
+# cleanup is done by RestoreDatabase
 
 1;
