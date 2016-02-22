@@ -13,7 +13,10 @@ use warnings;
 
 use Kernel::System::ObjectManager;
 
-our $ObjectManagerNonSingleton = 1;
+our %ObjectManagerFlags = (
+    NonSingleton => 1,
+);
+
 our @ObjectDependencies = ();
 
 sub new {

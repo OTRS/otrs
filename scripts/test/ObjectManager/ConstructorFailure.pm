@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::test::ObjectManager::FailingConstructor;    ## no critic
+package scripts::test::ObjectManager::ConstructorFailure;    ## no critic
 
 use strict;
 use warnings;
