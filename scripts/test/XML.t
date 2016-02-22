@@ -583,15 +583,15 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
     }
     close($DATA);
 
-    # charset test - use file form the filesystem and parse it
+    # charset test - use file from the filesystem and parse it
     @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
     $Self->True(
         $#XMLHash == 1
             && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
-        'XMLParse2XMLHash() - charset test - use file form the filesystem and parse it',
+        'XMLParse2XMLHash() - charset test - use file from the filesystem and parse it',
     );
 
-    # charset test - use file form the article attachment and parse it
+    # charset test - use file from the article attachment and parse it
     my $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title',
         Queue        => 'Raw',
@@ -653,7 +653,7 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
     $Self->True(
         $#XMLHash == 1
             && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
-        'XMLParse2XMLHash() - charset test - use file form the article attachment and parse it',
+        'XMLParse2XMLHash() - charset test - use file from the article attachment and parse it',
     );
 
 }

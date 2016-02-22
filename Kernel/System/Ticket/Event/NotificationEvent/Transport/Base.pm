@@ -88,7 +88,7 @@ generates and returns the HTML code to display exclusive settings for each trans
 
 returns
 
-    $HTMLOuput = 'some HTML code';
+    $HTMLOutput = 'some HTML code';
 
 =cut
 

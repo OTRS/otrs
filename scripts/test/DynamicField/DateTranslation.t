@@ -570,7 +570,7 @@ for my $Test (@Tests) {
         WebRequest => $WebRequest,
     );
 
-    # get the value form the web request
+    # get the value from the web request
     my $Value = $BackendObject->EditFieldValueGet(
         %{ $Test->{Config}->{Common} },
         %{ $Test->{Config}->{EditFieldValueGet} },

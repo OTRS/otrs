@@ -261,7 +261,7 @@ sub EditFieldRender {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # extract the dynamic field value form the web request
+    # extract the dynamic field value from the web request
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
@@ -504,7 +504,7 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOuput as default if not specified
+    # set HTMLOutput as default if not specified
     if ( !defined $Param{HTMLOutput} ) {
         $Param{HTMLOutput} = 1;
     }
@@ -581,7 +581,7 @@ sub DisplayValueRender {
             }
         }
 
-        # HTMLOuput transformations
+        # HTMLOutput transformations
         if ( $Param{HTMLOutput} ) {
 
             $ReadableValue = $Param{LayoutObject}->Ascii2Html(

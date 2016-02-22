@@ -502,7 +502,7 @@ sub _ShowScreen {
     # when adding we need to create an extra order number for the new field
     if ( $Param{Mode} eq 'Add' ) {
 
-        # get the last element form the order list and add 1
+        # get the last element from the order list and add 1
         my $LastOrderNumber = $DynamicfieldOrderList[-1];
         $LastOrderNumber++;
 

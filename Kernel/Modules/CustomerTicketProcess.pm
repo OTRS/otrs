@@ -427,7 +427,7 @@ sub _RenderAjax {
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # extract the dynamic field value form the web request
+        # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,

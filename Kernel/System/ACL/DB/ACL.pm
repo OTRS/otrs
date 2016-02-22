@@ -1254,7 +1254,7 @@ sub _ACLMigrateFrom33 {
     return $ACL if ref $ACL->{ConfigChange}->{Possible}->{Action} ne 'HASH';
 
     # convert old hash into an array using only the keys set to 0, and skip those that are set
-    # to 1, set them as PossibleNot and delete the Possible->Action section form the ACL.
+    # to 1, set them as PossibleNot and delete the Possible->Action section from the ACL.
     my @NewAction = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
         sort keys %{ $ACL->{ConfigChange}->{Possible}->{Action} };
 

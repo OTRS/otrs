@@ -260,7 +260,7 @@ sub EditFieldRender {
         );
     }
 
-    # extract the dynamic field value form the web request
+    # extract the dynamic field value from the web request
     my $FieldValues = $Self->EditFieldValueGet(
         ReturnValueStructure => 1,
         %Param,

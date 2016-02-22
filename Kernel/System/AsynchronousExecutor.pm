@@ -45,7 +45,7 @@ creates a scheduler daemon task to execute a function asynchronously.
         Attempts                 => 3,                          # optional, default: 1, number of tries to lock the
                                                                 #   task by the scheduler
         MaximumParallelInstances => 1,                          # optional, default: 0 (unlimited), number of same
-                                                                #   function calls form the same object that can be
+                                                                #   function calls from the same object that can be
                                                                 #   executed at the the same time
     );
 

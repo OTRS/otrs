@@ -104,7 +104,7 @@ sub new {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOuput as default if not specified
+    # set HTMLOutput as default if not specified
     if ( !defined $Param{HTMLOutput} ) {
         $Param{HTMLOutput} = 1;
     }
@@ -121,7 +121,7 @@ sub DisplayValueRender {
 
     my $Title = $Value;
 
-    # HTMLOuput transformations
+    # HTMLOutput transformations
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
