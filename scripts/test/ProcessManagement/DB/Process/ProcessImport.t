@@ -15,10 +15,7 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
 my $DynamicFieldObject     = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
@@ -26,9 +23,17 @@ my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement
 my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $YAMLObject             = $Kernel::OM->Get('Kernel::System::YAML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
-my $Home     = $ConfigObject->Get('Home');
+my $RandomID = $Helper->GetRandomID();
+my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $UserID   = 1;
 
 # get a list of current processes and it parts
@@ -481,10 +486,10 @@ for my $Test (@Tests) {
     # read process for YAML file if needed
     my $FileRef;
     if ( $Test->{ProcessFile} ) {
-        $FileRef = $MainObject->FileRead(
+        $FileRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Home . '/scripts/test/sample/ProcessManagement/' . $Test->{ProcessFile},
         );
-        my $RandomID = $HelperObject->GetRandomID();
+        my $RandomID = $Helper->GetRandomID();
 
         # convert process to Perl for easy handling
         $ProcessData = $YAMLObject->Load( Data => $$FileRef );
@@ -519,18 +524,13 @@ for my $Test (@Tests) {
             "ProcessImport() $Test->{Name} - return value with true",
         );
 
-        my $CurrentProcessID;
-
         # get CurrentProcessID
         my $CurrentProcessList = $ProcessObject->ProcessListGet(
             UserID => 1,
         );
-        PROCESS:
-        for my $Process ( @{$CurrentProcessList} ) {
-            next PROCESS if $Process->{Name} ne $ProcessData->{Process}->{Name};
-            $CurrentProcessID = $Process->{ID};
-            last PROCESS;
-        }
+
+        my @ProcessTest = grep { $_->{Name} eq $ProcessData->{Process}->{Name} } @{$CurrentProcessList};
+        my $CurrentProcessID = $ProcessTest[0]->{ID};
 
         $Self->IsNot(
             $CurrentProcessID,
@@ -553,106 +553,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup
-
-# remove DynamicFields
-for my $DynamicFieldID (@AddedFieldIDs) {
-    my $Success = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $DynamicFieldID,
-        UserID => $UserID,
-    );
-
-    # sanity check
-    $Self->True(
-        $Success,
-        "DynamicFieldDelete() Field ID $DynamicFieldID"
-    );
-}
-
-my $FinalProcessList = $ProcessObject->ProcessList(
-    UserID => 1,
-);
-my $FinalActivityList = $ActivityObject->ActivityList(
-    UserID => 1,
-);
-my $FinalActivityDialogList = $ActivityDialogObject->ActivityDialogList(
-    UserID => 1,
-);
-my $FinalTransitionList = $TransitionObject->TransitionList(
-    UserID => 1,
-);
-my $FinalTransitionActionList = $TransitionActionObject->TransitionActionList(
-    UserID => 1,
-);
-
-PROCESSID:
-for my $ProcessID ( sort keys %{$FinalProcessList} ) {
-    next PROCESSID if ( $OriginalProcessList->{$ProcessID} );
-
-    my $Success = $ProcessObject->ProcessDelete(
-        ID     => $ProcessID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Success,
-        "ProcessDelete() for added ProcessID: $ProcessID",
-    );
-}
-
-ACTIVITYID:
-for my $ActivityID ( sort keys %{$FinalActivityList} ) {
-    next ACTIVITYID if ( $OriginalActivityList->{$ActivityID} );
-
-    my $Success = $ActivityObject->ActivityDelete(
-        ID     => $ActivityID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Success,
-        "ActivityDelete() for added ActivityID: $ActivityID",
-    );
-}
-
-ACTIVITYDIALOGID:
-for my $ActivityDialogID ( sort keys %{$FinalActivityDialogList} ) {
-    next ACTIVITYDIALOGID if ( $OriginalActivityDialogList->{$ActivityDialogID} );
-
-    my $Success = $ActivityDialogObject->ActivityDialogDelete(
-        ID     => $ActivityDialogID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Success,
-        "ActivityDialogDelete() for added ActivityDialogID: $ActivityDialogID",
-    );
-}
-
-TRANSITIONID:
-for my $TransitionID ( sort keys %{$FinalTransitionList} ) {
-    next TRANSITIONID if ( $OriginalTransitionList->{$TransitionID} );
-
-    my $Success = $TransitionObject->TransitionDelete(
-        ID     => $TransitionID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Success,
-        "TransitionDelete() for added TransitionID: $TransitionID",
-    );
-}
-
-TRANSITIONACTIONID:
-for my $TransitionActionID ( sort keys %{$FinalTransitionActionList} ) {
-    next TRANSITIONACTIONID if ( $OriginalTransitionActionList->{$TransitionActionID} );
-
-    my $Success = $TransitionActionObject->TransitionActionDelete(
-        ID     => $TransitionActionID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Success,
-        "TransitionActionDelete() for added TransitionActionID: $TransitionActionID",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;
