@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-22 Fixed bug#[11862](http://bugs.otrs.org/show_bug.cgi?id=11862) - Ticket Notification Management - 'Send by default' has no impact.
  - 2016-02-22 Fixed bug#[11885](http://bugs.otrs.org/show_bug.cgi?id=11885) - uninitialized value in scripts/DBUpdate-to-5.pl.
  - 2016-02-19 Fixed bug#[11468](http://bugs.otrs.org/show_bug.cgi?id=11468) - Using SVG images for Agent and Customer logo requires additional CSS.
  - 2016-02-18 Deprecated unused ObjectLockState package and gi_object_lock_state table.
