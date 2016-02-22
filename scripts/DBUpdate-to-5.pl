@@ -1478,7 +1478,8 @@ sub _MigrateConfigs {
         my $Module = $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} // '';
 
         next MODULEADMIN if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} );
-        next MODULEADMIN if ( $Setting->{$ModuleAdmin}->{'Module'} eq "Kernel::Output::HTML::NavBar::ModuleAdmin" );
+        next MODULEADMIN
+            if ( $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} eq "Kernel::Output::HTML::NavBar::ModuleAdmin" );
 
         # update sysconfig if it is necessary
         $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} = "Kernel::Output::HTML::NavBar::ModuleAdmin";
