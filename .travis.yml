@@ -67,7 +67,6 @@ script:
   - perl bin/otrs.Console.pl Maint::Config::Rebuild
   - perl bin/otrs.Console.pl Dev::UnitTest::Run
 
-
 notifications:
   email:
     recipients:
