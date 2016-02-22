@@ -14,42 +14,39 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate');
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketArticleCreate';
 
 # set user details
-my $TestUserLogin = $HelperObject->TestUserCreate();
-my $TestUserID    = $UserObject->UserLookup(
+my $TestUserLogin = $Helper->TestUserCreate();
+my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
+
+# get ticket object
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # ----------------------------------------
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
-    TN            => undef,
     Title         => 'test',
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
-    Service       => undef,
-    SLA           => undef,
-    CustomerID    => undef,
-    CustomerUser  => undef,
     OwnerID       => 1,
     ResponsibleID => 1,
-    ArchiveFlag   => undef,
     UserID        => $UserID,
 );
 
@@ -347,7 +344,7 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     my $OrigTest = Storable::dclone($Test);
 
-    my $Success = $ModuleObject->Run(
+    my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate')->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
         ActivityEntityID         => 'A1',
@@ -359,7 +356,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
         # get last article
@@ -378,7 +375,7 @@ for my $Test (@Tests) {
 
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_TICKET_NotExisting>'
-                && $DBObject->GetDatabaseFunction('Type') eq 'oracle'
+                && $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('Type') eq 'oracle'
                 )
             {
                 $Article{$Attribute} //= '';
@@ -437,20 +434,6 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
-# Destructors to remove our Testitems
-# ----------------------------------------
-
-# Ticket
-my $Delete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Delete,
-    "TicketDelete() - $TicketID",
-);
-
-# ----------------------------------------
+# cleanup is done by RestoreDatabase
 
 1;

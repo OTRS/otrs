@@ -16,24 +16,26 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
-my $LinkObject              = $Kernel::OM->Get('Kernel::System::LinkObject');
-my $StateObject             = $Kernel::OM->Get('Kernel::System::State');
-my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
-my $UserObject              = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject            = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $LinkObject         = $Kernel::OM->Get('Kernel::System::LinkObject');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketCreate';
-my $RandomID   = $HelperObject->GetRandomID();
+my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $HelperObject->TestUserCreate();
-my $TestUserID    = $UserObject->UserLookup(
+my $TestUserLogin = $Helper->TestUserCreate();
+my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
@@ -52,20 +54,14 @@ $Self->True(
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
-    TN            => undef,
     Title         => 'test',
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
-    Service       => undef,
-    SLA           => undef,
-    CustomerID    => undef,
-    CustomerUser  => undef,
     OwnerID       => 1,
     ResponsibleID => 1,
-    ArchiveFlag   => undef,
     UserID        => $UserID,
 );
 
@@ -195,7 +191,7 @@ $Self->True(
     DynamicFields => 1,
 );
 
-my @PendingStateIDs = $StateObject->StateGetStatesByType(
+my @PendingStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
     StateType => ['pending reminder'],
     Result    => 'ID',
 );
@@ -732,7 +728,7 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     my $OrigTest = Storable::dclone($Test);
 
-    my $Success = $ModuleObject->Run(
+    my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate')->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
         ActivityEntityID         => 'A1',
@@ -746,7 +742,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
         # search for new created ticket
@@ -861,7 +857,7 @@ for my $Test (@Tests) {
                 $ExpectedValue = 0;
             }
             elsif ( $Attribute eq 'PendingTime' && $OrigTest->{UpdatePendingTime} ) {
-                $ExpectedValue = $TimeObject->TimeStamp2SystemTime(
+                $ExpectedValue = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
                     String => $ExpectedValue,
                 );
             }
@@ -921,7 +917,7 @@ for my $Test (@Tests) {
         }
         if ( $Test->{Config}->{Config}->{LinkAs} ) {
 
-            # crearte a LinkLookup for easy check
+            # create a LinkLookup for easy check
             my %LinkLookup;
 
             my %TypeList = $LinkObject->TypeList(
@@ -983,57 +979,6 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
-# Destructor to remove our Test items
-# ----------------------------------------
-
-for my $DynamicFieldID ( $DynamicFieldID1, $DynamicFieldID2, $DynamicFieldID3 ) {
-    my $Success = $DynamicFieldValueObject->AllValuesDelete(
-        FieldID => $DynamicFieldID,
-        UserID  => 1,
-    );
-    $Self->True(
-        $Success,
-        "AllValuesDelete() - $DynamicFieldID",
-    );
-    $Success = $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $DynamicFieldID,
-        UserID  => 1,
-        Reorder => 0,
-    );
-    $Self->True(
-        $Success,
-        "DynamicFieldDelete() - $DynamicFieldID",
-    );
-}
-
-# Ticket
-for my $TicketID (@AddedTickets) {
-    my $Delete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Delete,
-        "TicketDelete() - $TicketID",
-    );
-}
-
-# test email backed
-my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
-
-$Success = $TestEmailObject->CleanUp();
-$Self->True(
-    $Success,
-    'Test email backend final cleanup',
-);
-
-$Self->IsDeeply(
-    $TestEmailObject->EmailsGet(),
-    [],
-    'Test email backend empty after final cleanup',
-);
-
-# ----------------------------------------
+# cleanup is done by RestoreDatabase
 
 1;

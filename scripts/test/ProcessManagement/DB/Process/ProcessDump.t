@@ -16,17 +16,22 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
 my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # define needed variables
-my $RandomID = $HelperObject->GetRandomID();
-my $UserID   = 1;
+my $UserID = 1;
 
 # Add process Parts
 my $ProcessID = $ProcessObject->ProcessAdd(
@@ -322,60 +327,6 @@ for my $Entity (qw(P-Test1 A-Test1 AD-Test1 T-Test1 TA-Test1)) {
     );
 }
 
-# clean the system
-my $Success = $ProcessObject->ProcessDelete(
-    ID     => $ProcessID,
-    UserID => $UserID,
-);
-
-$Self->IsNot(
-    $Success,
-    undef,
-    "ProcessDelete() | Success is not undef",
-);
-
-$Success = $ActivityObject->ActivityDelete(
-    ID     => $ActivityID,
-    UserID => $UserID,
-);
-
-$Self->IsNot(
-    $Success,
-    undef,
-    "ActivityDelete() | Success is not undef",
-);
-
-$Success = $ActivityDialogObject->ActivityDialogDelete(
-    ID     => $ActivityDialogID,
-    UserID => $UserID,
-);
-
-$Self->IsNot(
-    $Success,
-    undef,
-    "ActivityDialogDelete() | Success is not undef",
-);
-
-$Success = $TransitionObject->TransitionDelete(
-    ID     => $TransitionID,
-    UserID => $UserID,
-);
-
-$Self->IsNot(
-    $Success,
-    undef,
-    "TransitionDelete() | Success is not undef",
-);
-
-$Success = $TransitionActionObject->TransitionActionDelete(
-    ID     => $TransitionActionID,
-    UserID => $UserID,
-);
-
-$Self->IsNot(
-    $Success,
-    undef,
-    "TransitionActionDelete() | Success is not undef",
-);
+# cleanup is done by RestoreDatabase
 
 1;

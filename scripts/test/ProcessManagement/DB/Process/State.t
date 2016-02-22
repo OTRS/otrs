@@ -15,10 +15,8 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $StateObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
+# get state objects
+my $StateObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
 
 my $LocalStateList = $StateObject->{StateList};
 
@@ -32,12 +30,12 @@ my $StateList = $StateObject->StateList();
 $Self->IsNot(
     ref $StateList,
     'HASH',
-    'StateList Test 1: Emty params | should not be HASH',
+    'StateList Test 1: Empty params | should not be HASH',
 );
 $Self->Is(
     $StateList,
     undef,
-    'StateList Test 1: Emty params | should be undef',
+    'StateList Test 1: Empty params | should be undef',
 );
 
 $StateList = $StateObject->StateList( UserID => $UserID );
@@ -45,7 +43,7 @@ $StateList = $StateObject->StateList( UserID => $UserID );
 $Self->Is(
     ref $StateList,
     'HASH',
-    'StateList Test 1: Emtpy params | should be HASH',
+    'StateList Test 1: Empty params | should be HASH',
 );
 $Self->IsDeeply(
     $StateList,
@@ -173,7 +171,7 @@ for my $Test (@Tests) {
         $Self->Is(
             $Result,
             $Test->{Result},
-            "$Test->{Name} | Resul should be $Test->{Result}",
+            "$Test->{Name} | Result should be $Test->{Result}",
         );
     }
     else {
