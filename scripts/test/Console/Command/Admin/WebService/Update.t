@@ -12,14 +12,22 @@ use utf8;
 
 use vars (qw($Self));
 
-my $RandomName = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $WebService = 'webservice' . $Helper->GetRandomID();
 
 # get web service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 # create a base web service
 my $WebServiceID = $WebserviceObject->WebserviceAdd(
-    Name   => $RandomName,
+    Name   => $WebService,
     Config => {
         Debugger => {
             DebugThreshold => 'debug',
@@ -61,14 +69,14 @@ my @Tests = (
     {
         Name    => 'Non existing webservice-id',
         Options => [
-            '--webservice-id', $RandomName,
+            '--webservice-id', $WebService,
             '--source-path',   "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.yml"
         ],
         ExitCode => 1,
     },
     {
         Name     => 'Non existing source-path',
-        Options  => [ '--webservice-id', $WebServiceID, '--source-path', $WebServiceID ],
+        Options  => [ '--webservice-id', $WebServiceID, '--source-path', $WebService ],
         ExitCode => 1,
     },
     {
@@ -111,16 +119,6 @@ for my $Test (@Tests) {
     );
 }
 
-if ($WebServiceID) {
-    my $Success = $WebserviceObject->WebserviceDelete(
-        ID     => $WebServiceID,
-        UserID => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "WebserviceDelete() for web service: $RandomName with true",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

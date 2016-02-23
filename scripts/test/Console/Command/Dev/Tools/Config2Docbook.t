@@ -12,6 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Config2Docbook');
 
 my $ExitCode = $CommandObject->Execute();
@@ -45,5 +54,7 @@ $Self->True(
 );
 
 print $Result;
+
+# cleanup cache is done by RestoreDatabase
 
 1;
