@@ -19,13 +19,6 @@ are ignored in OTRS correctly (see bug#11616).
 
 use vars (qw($Self));
 
-our @ObjectDependencies = (
-    'Kernel::System::Group',
-    'Kernel::System::Time',
-    'Kernel::System::UnitTest::Helper',
-    'Kernel::System::User',
-);
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -148,5 +141,7 @@ $Self->Is(
     undef,
     "Role-Group connection found",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

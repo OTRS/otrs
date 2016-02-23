@@ -12,11 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-our @ObjectDependencies = (
-    'Kernel::System::Group',
-    'Kernel::System::Time',
-);
-
 # get group object
 my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
