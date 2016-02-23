@@ -15,7 +15,9 @@ use Encode;
 use Encode::Locale;
 use IO::Interactive qw(is_interactive);
 
-our $ObjectManagerIsSingleton = 1;
+our %ObjectManagerFlags = (
+    IsSingleton => 1,
+);
 our @ObjectDependencies = ();
 
 =head1 NAME

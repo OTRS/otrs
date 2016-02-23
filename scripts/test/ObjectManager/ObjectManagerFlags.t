@@ -157,4 +157,24 @@ $Self->False(
     "Cannot create an object with failing constructor",
 );
 
+#
+# Live example of a Singleton
+#
+
+$Object = $Kernel::OM->Get('Kernel::System::Encode');
+$Self->True(
+    $Object,
+    "Created singleton EncodeObject."
+);
+
+$Object = eval { $Kernel::OM->Create('Kernel::System::Encode') };
+$Self->True(
+    $@,
+    "Fetching singleton EncodeObject via Create() causes an exception",
+);
+$Self->False(
+    $Object,
+    "Singleton EncodeObject cannot be fetched via Create()",
+);
+
 1;
