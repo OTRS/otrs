@@ -229,7 +229,7 @@ $Selenium->RunTest(
             $Index++;
         }
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check new QueueAutoResponse relations
         $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();

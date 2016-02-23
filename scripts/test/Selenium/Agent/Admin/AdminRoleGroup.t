@@ -102,7 +102,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='owner']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
         $Selenium->find_element( $RoleRandomID, 'link_text' )->VerifiedClick();
@@ -141,7 +141,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='move_into']")->click();
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='priority']")->click();
         $Selenium->find_element("//input[\@value='$RoleID'][\@name='create']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();

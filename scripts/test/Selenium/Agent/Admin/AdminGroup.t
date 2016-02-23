@@ -87,7 +87,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check if test group is present in AdminUserGroup
         $Self->True(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();

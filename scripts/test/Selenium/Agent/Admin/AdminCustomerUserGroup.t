@@ -143,7 +143,7 @@ $Selenium->RunTest(
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check test Group relation for test CustomerUser
         my $CustomerUserLink = "$UserRandomID $UserRandomID <$UserRandomID\@localhost.com> ($UserRandomID)";
@@ -163,7 +163,7 @@ $Selenium->RunTest(
         # remove test Group relation for test CustomerUser
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

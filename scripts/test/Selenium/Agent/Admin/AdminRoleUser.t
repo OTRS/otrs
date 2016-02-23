@@ -94,7 +94,7 @@ $Selenium->RunTest(
         $Selenium->find_element( $FullUserID, 'link_text' )->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$RoleID']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         #check and edit test user relation for test role
         $Selenium->find_element( $RoleRandomID, 'link_text' )->VerifiedClick();
@@ -107,7 +107,7 @@ $Selenium->RunTest(
 
         # remove test relation
         $Selenium->find_element("//input[\@value='$UserID']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check if relation is clear
         $Selenium->find_element( $RoleRandomID, 'link_text' )->VerifiedClick();

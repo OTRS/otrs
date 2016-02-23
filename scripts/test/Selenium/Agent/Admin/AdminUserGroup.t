@@ -68,7 +68,7 @@ $Selenium->RunTest(
 
         # give full read and write access to the tickets in test group for test user
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # test filter for Users
         my $FullTestUserLogin = "$TestUserLogin ($TestUserLogin $TestUserLogin)";
@@ -100,7 +100,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
@@ -129,7 +129,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$GroupID'][\@name='note']")->click();
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test agent permissions
         $Selenium->find_element( $FullTestUserLogin, 'link_text' )->VerifiedClick();
