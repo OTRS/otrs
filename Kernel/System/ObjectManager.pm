@@ -226,8 +226,8 @@ sub Create {
 
     return $Self->_ObjectBuild(
         %Param,
-        Package      => $Package,
-        NoSingleton  => 1,
+        Package     => $Package,
+        NoSingleton => 1,
     );
 }
 
@@ -242,8 +242,8 @@ sub _ObjectBuild {
         require $FileName;
     };
     if ($@) {
-        if ($Param{Silent}) {
-            return;     # don't throw
+        if ( $Param{Silent} ) {
+            return;    # don't throw
         }
         $Self->_DieWithError(
             Error => "$Package could not be loaded: $@",
@@ -254,7 +254,7 @@ sub _ObjectBuild {
     #   Kernel::Config::Defaults), so assume [] in this case.
     my $Dependencies = [];
 
-    no strict 'refs';
+    no strict 'refs';    ## no critic
     my %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     use strict 'refs';
 
@@ -271,14 +271,16 @@ sub _ObjectBuild {
 
         if ( $Param{NoSingleton} ) {
             if ( $ObjectManagerFlags{IsSingleton} ) {
-                $Self->_DieWithError( Error =>
+                $Self->_DieWithError(
+                    Error =>
                         "$Package cannot be created as a new instance via ObjectManager! Use Get() instead of Create() to fetch the singleton."
                 );
             }
         }
         else {
             if ( $ObjectManagerFlags{NonSingleton} ) {
-                $Self->_DieWithError( Error =>
+                $Self->_DieWithError(
+                    Error =>
                         "$Package cannot be loaded as a singleton via ObjectManager! Use Create() instead of Get() to create new instances."
                 );
             }
@@ -293,8 +295,8 @@ sub _ObjectBuild {
     );
 
     if ( !defined $NewObject ) {
-        if ($Param{Silent} || $ObjectManagerFlags{AllowConstructorFailure}) {
-            return;     # don't throw
+        if ( $Param{Silent} || $ObjectManagerFlags{AllowConstructorFailure} ) {
+            return;    # don't throw
         }
         $Self->_DieWithError(
             Error => "The constructor of $Package returned undef.",
