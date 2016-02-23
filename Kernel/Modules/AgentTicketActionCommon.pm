@@ -842,15 +842,14 @@ sub Run {
 
             my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
             my @NotifyUserIDs;
-            if ( $Self->{ReplyToArticle} ) {
-                @NotifyUserIDs = (
-                    @{ $Self->{UserListWithoutSelection} },
-                    @{ $Self->{InformUserID} },
-                    @{ $Self->{InvolvedUserID} },
-                );
+            if ( $Self->{Config}->{InformAgent} ) {
+                push @NotifyUserIDs, @{ $Self->{InformUserID} };
             }
-            else {
-                @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
+            if ( $Self->{Config}->{InvolvedAgent} ) {
+                push @NotifyUserIDs, @{ $Self->{InvolvedUserID} };
+            }
+            if ( $Self->{ReplyToArticle} ) {
+                push @NotifyUserIDs, @{ $Self->{UserListWithoutSelection} };
             }
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
