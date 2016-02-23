@@ -12,6 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Database::XMLExecute');
 
 my ( $Result, $ExitCode );
@@ -58,5 +67,7 @@ $Self->False(
     $Success,
     "SELECT after table drop",
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;

@@ -12,14 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-my $RandomName = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get web service object
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $WebService = 'webservice' . $Helper->GetRandomID();
 
 # create a base web service
-my $WebServiceID = $WebserviceObject->WebserviceAdd(
-    Name   => $RandomName,
+my $WebServiceID = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceAdd(
+    Name   => $WebService,
     Config => {
         Debugger => {
             DebugThreshold => 'debug',
@@ -48,7 +53,7 @@ my @Tests = (
     },
     {
         Name     => 'Non existing webservice-id',
-        Options  => [ '--webservice-id', $RandomName ],
+        Options  => [ '--webservice-id', $WebService ],
         ExitCode => 1,
     },
     {
@@ -63,6 +68,7 @@ my @Tests = (
     },
 );
 
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::WebService::Delete');
 
 for my $Test (@Tests) {
@@ -75,5 +81,7 @@ for my $Test (@Tests) {
         "$Test->{Name}",
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;
