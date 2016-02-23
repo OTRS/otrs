@@ -1565,18 +1565,12 @@ Core.UI.InputFields = (function (TargetNS) {
                             // Tab
                             // Find correct input, if element is selected in dropdown and tab key is used
                             case $.ui.keyCode.TAB:
-                                // Multiple selects should not select an element with tab but only
-                                // leave the field and confirm the selected values
+                                // On pressing tab the active element will be selected and the field will be left
+                                $HoveredNode = $TreeObj.find('.jstree-hovered');
                                 if (!Multiple) {
-                                    $HoveredNode = $TreeObj.find('.jstree-hovered');
-                                    if ($HoveredNode.hasClass('jstree-clicked')) {
-                                        $TreeObj.jstree('deselect_node', $HoveredNode.get(0));
-                                    }
-                                    else {
-                                        $TreeObj.jstree('deselect_all');
-                                        $TreeObj.jstree('select_node', $HoveredNode.get(0));
-                                    }
+                                    $TreeObj.jstree('deselect_all');
                                 }
+                                $TreeObj.jstree('select_node', $HoveredNode.get(0));
 
                                 if (Event.shiftKey) {
                                     FocusPreviousElement($SearchObj);
@@ -2048,6 +2042,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     var $TreeObj = $TreeContainerObj.find('.jstree');
 
                     switch (Event.which) {
+
+                        // Return (do not submit form on pressing enter key in search field)
+                        case $.ui.keyCode.ENTER:
+                            Event.preventDefault();
+                            Event.stopPropagation();
+                            break;
 
                         // Tab
                         case $.ui.keyCode.TAB:
