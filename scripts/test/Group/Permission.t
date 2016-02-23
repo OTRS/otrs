@@ -12,23 +12,22 @@ use utf8;
 
 use vars (qw($Self));
 
-our @ObjectDependencies = (
-    'Kernel::System::Group',
-    'Kernel::System::Time',
-    'Kernel::System::UnitTest::Helper',
-    'Kernel::System::User',
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
-my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
 # create test users
 my %UserIDByUserLogin;
 for my $UserCount ( 0 .. 2 ) {
-    my $UserLogin = $HelperObject->TestUserCreate();
+    my $UserLogin = $Helper->TestUserCreate();
     my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
 
     $UserIDByUserLogin{$UserLogin} = $UserID;
@@ -37,7 +36,7 @@ my @UserIDs = values %UserIDByUserLogin;
 
 # create test groups
 my %GroupIDByGroupName;
-my $GroupNameRandomPartBase = $TimeObject->SystemTime();
+my $GroupNameRandomPartBase = $Helper->GetRandomID();
 for my $GroupCount ( 1 .. 3 ) {
     my $GroupName = 'test-permission-group-' . $GroupNameRandomPartBase . '-' . $GroupCount;
     my $GroupID   = $GroupObject->GroupAdd(
@@ -52,7 +51,7 @@ my @GroupIDs = values %GroupIDByGroupName;
 
 # create test roles
 my %RoleIDByRoleName;
-my $RoleNameRandomPartBase = $TimeObject->SystemTime();
+my $RoleNameRandomPartBase = $Helper->GetRandomID();
 for my $RoleCount ( 1 .. 3 ) {
     my $RoleName = 'test-permission-role-' . $RoleNameRandomPartBase . '-' . $RoleCount;
     my $RoleID   = $GroupObject->RoleAdd(
@@ -936,40 +935,6 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
     }
 }
 
-# set created roles to invalid
-ROLENAME:
-for my $RoleName ( sort keys %RoleIDByRoleName ) {
-    next ROLENAME if !$RoleIDByRoleName{$RoleName};
-
-    my $RoleUpdate = $GroupObject->RoleUpdate(
-        ID      => $RoleIDByRoleName{$RoleName},
-        Name    => $RoleName,
-        ValidID => 2,
-        UserID  => 1,
-    );
-
-    $Self->True(
-        $RoleUpdate,
-        'RoleUpdate() to set role ' . $RoleName . ' to invalid',
-    );
-}
-
-# set created groups to invalid
-GROUPNAME:
-for my $GroupName ( sort keys %GroupIDByGroupName ) {
-    next GROUPNAME if !$GroupIDByGroupName{$GroupName};
-
-    my $GroupUpdate = $GroupObject->GroupUpdate(
-        ID      => $GroupIDByGroupName{$GroupName},
-        Name    => $GroupName,
-        ValidID => 2,
-        UserID  => 1,
-    );
-
-    $Self->True(
-        $GroupUpdate,
-        'GroupUpdate() to set group ' . $GroupName . ' to invalid',
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;
