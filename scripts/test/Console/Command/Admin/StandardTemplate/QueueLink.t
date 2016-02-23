@@ -14,8 +14,15 @@ use vars (qw($Self));
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::StandardTemplate::QueueLink');
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomName   = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $TemplateName = 'template' . $Helper->GetRandomID();
 
 # try to execute command without any options
 my $ExitCode = $CommandObject->Execute();
@@ -26,7 +33,7 @@ $Self->Is(
 );
 
 # provide only one option
-$ExitCode = $CommandObject->Execute( '--template-name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--template-name', $TemplateName );
 $Self->Is(
     $ExitCode,
     1,
@@ -34,7 +41,7 @@ $Self->Is(
 );
 
 # provide invalid template name
-$ExitCode = $CommandObject->Execute( '--template-name', $RandomName, '--queue-name', 'Junk' );
+$ExitCode = $CommandObject->Execute( '--template-name', $TemplateName, '--queue-name', 'Junk' );
 $Self->Is(
     $ExitCode,
     1,
@@ -42,19 +49,52 @@ $Self->Is(
 );
 
 # provide invalid queue name
-$ExitCode = $CommandObject->Execute( '--template-name', 'test answer', '--queue-name', $RandomName );
+my $QueueName = 'queue' . $Helper->GetRandomID();
+$ExitCode = $CommandObject->Execute( '--template-name', 'test answer', '--queue-name', $QueueName );
 $Self->Is(
     $ExitCode,
     1,
     "Invalid queue name",
 );
 
+my $StandardTemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateAdd(
+    Name         => $TemplateName,
+    Template     => 'Thank you for your email.',
+    ContentType  => 'text/plain; charset=utf-8',
+    TemplateType => 'Answer',
+    ValidID      => 1,
+    UserID       => 1,
+);
+
+$Self->True(
+    $StandardTemplateID,
+    "Test standard template is created - $StandardTemplateID",
+);
+
+my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+    Name            => $QueueName,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+$Self->True(
+    $QueueID,
+    "Test queue is created - $QueueID",
+);
+
 # provide valid options
-$ExitCode = $CommandObject->Execute( '--template-name', 'test answer', '--queue-name', 'Junk' );
+$ExitCode = $CommandObject->Execute( '--template-name', $StandardTemplateID, '--queue-name', $QueueName );
 $Self->Is(
     $ExitCode,
     0,
     "Valid options",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;
