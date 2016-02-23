@@ -16,8 +16,17 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::S
 
 my ( $Result, $ExitCode );
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomName   = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $SystemAddressName = 'SystemAddress' . $Helper->GetRandomID();
+my $SystemAddress     = $SystemAddressName . '@example.com',
+    my $QueueName     = 'queue' . $Helper->GetRandomID();
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -28,7 +37,7 @@ $Self->Is(
 );
 
 # missing options
-$ExitCode = $CommandObject->Execute( '--name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $SystemAddressName );
 $Self->Is(
     $ExitCode,
     1,
@@ -36,16 +45,37 @@ $Self->Is(
 );
 
 # invalid queue
-$ExitCode
-    = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', $RandomName );
+$ExitCode = $CommandObject->Execute(
+    '--name', $SystemAddressName, '--email-address', $SystemAddress, '--queue-name',
+    $QueueName
+);
 $Self->Is(
     $ExitCode,
     1,
     "Invalid queue",
 );
 
+my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+    Name            => $QueueName,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+$Self->True(
+    $QueueID,
+    "Test queue is created - $QueueID",
+);
+
 # valid options
-$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk' );
+$ExitCode = $CommandObject->Execute(
+    '--name', $SystemAddressName, '--email-address', $SystemAddress, '--queue-name',
+    $QueueName
+);
 $Self->Is(
     $ExitCode,
     0,
@@ -53,25 +83,16 @@ $Self->Is(
 );
 
 # valid options (same again, should already exist)
-$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk' );
+$ExitCode = $CommandObject->Execute(
+    '--name', $SystemAddressName, '--email-address', $SystemAddress, '--queue-name',
+    $QueueName
+);
 $Self->Is(
     $ExitCode,
     1,
     "Valid options (but already exists)",
 );
 
-# delete services
-my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => "DELETE FROM system_address WHERE value1 = '$RandomName'",
-);
-$Self->True(
-    $Success,
-    "SystemAddressDelete - $RandomName",
-);
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'SystemAddress',
-);
+# cleanup is done by RestoreDatabase
 
 1;

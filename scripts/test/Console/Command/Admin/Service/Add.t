@@ -16,9 +16,16 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::S
 
 my ( $Result, $ExitCode );
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomName   = $HelperObject->GetRandomID();
-my $RandomName2  = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $ParentServiceName = "ParentService" . $Helper->GetRandomID();
+my $ChildServiceName  = "ChildService" . $Helper->GetRandomID();
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -29,49 +36,37 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute( '--name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $ParentServiceName );
 $Self->Is(
     $ExitCode,
     0,
-    "Minimum options",
+    "Minimum options ( the service is added - $ParentServiceName )",
 );
 
 # same again (should fail because already exists)
-$ExitCode = $CommandObject->Execute( '--name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $ParentServiceName );
 $Self->Is(
     $ExitCode,
     1,
-    "Minimum options (already exists)",
+    "Minimum options ( service $ParentServiceName already exists )",
 );
 
 # invalid parent
-$ExitCode = $CommandObject->Execute( '--name', $RandomName2, '--parent-name', $RandomName2 );
+$ExitCode = $CommandObject->Execute( '--name', $ChildServiceName, '--parent-name', $ChildServiceName );
 $Self->Is(
     $ExitCode,
     1,
-    "Parent does not exist",
+    "Parent service $ChildServiceName does not exist",
 );
 
 # valid parent
-$ExitCode = $CommandObject->Execute( '--name', $RandomName2, '--parent-name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $ChildServiceName, '--parent-name', $ParentServiceName );
 $Self->Is(
     $ExitCode,
     0,
-    "Existing parent",
+    "Existing parent ( service is added - $ChildServiceName )",
 );
 
-# delete services
-my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => "DELETE FROM service WHERE name = '$RandomName' OR name = '${RandomName}::${RandomName2}'",
-);
-$Self->True(
-    $Success,
-    "ServiceDelete - $RandomName/$RandomName2",
-);
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'Service',
-);
+# cleanup is done by RestoreDatabase
 
 1;

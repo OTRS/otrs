@@ -16,8 +16,14 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Q
 
 my ( $Result, $ExitCode );
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomName   = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $QueuemName = "queue" . $Helper->GetRandomID();
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -28,36 +34,33 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--group', 'admin' );
+$ExitCode = $CommandObject->Execute( '--name', $QueuemName, '--group', 'admin' );
 $Self->Is(
     $ExitCode,
     0,
     "Minimum options",
 );
 
+# provide name which already exists
+$ExitCode = $CommandObject->Execute( '--name', $QueuemName, '--group', 'admin' );
+$Self->Is(
+    $ExitCode,
+    1,
+    "Queue with the name $QueuemName already exists",
+);
+
 # provide illegal system-address-name
-my $RandomName2 = $HelperObject->GetRandomID();
-$ExitCode
-    = $CommandObject->Execute( '--name', $RandomName2, '--group', 'admin', '--system-address-name', $RandomName2 );
+my $SystemAddressName = "address" . $Helper->GetRandomID();
+$ExitCode = $CommandObject->Execute(
+    '--name', "$QueuemName-second", '--group', 'admin', '--system-address-name',
+    $SystemAddressName
+);
 $Self->Is(
     $ExitCode,
     1,
     "Illegal system address name",
 );
 
-# Since there are no tickets that rely on our test queues, we can remove them again
-# from the DB.
-my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => "DELETE FROM queue WHERE name = '$RandomName'",
-);
-$Self->True(
-    $Success,
-    "QueueDelete - $RandomName",
-);
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'Queue',
-);
+# cleanup is done by RestoreDatabase
 
 1;

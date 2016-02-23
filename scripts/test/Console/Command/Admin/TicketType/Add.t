@@ -16,8 +16,15 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::T
 
 my ( $Result, $ExitCode );
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomName   = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $TypeName = "type" . $Helper->GetRandomID();
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -28,7 +35,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute( '--name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $TypeName );
 $Self->Is(
     $ExitCode,
     0,
@@ -36,25 +43,13 @@ $Self->Is(
 );
 
 # same again (should fail because already exists)
-$ExitCode = $CommandObject->Execute( '--name', $RandomName );
+$ExitCode = $CommandObject->Execute( '--name', $TypeName );
 $Self->Is(
     $ExitCode,
     1,
     "Minimum options (already exists)",
 );
 
-# delete ticket type
-my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => "DELETE FROM ticket_type WHERE name = '$RandomName'",
-);
-$Self->True(
-    $Success,
-    "TicketTypeDelete - $RandomName",
-);
-
-# Make sure the cache is correct.
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-    Type => 'TicketType',
-);
+# cleanup is done by RestoreDatabase
 
 1;

@@ -20,6 +20,14 @@ if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') ) {
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::RepositoryList');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $ExitCode = $CommandObject->Execute();
 
 $Self->Is(
@@ -27,5 +35,7 @@ $Self->Is(
     %List ? 0 : 1,
     "Admin::Package::RepositoryList exit code without arguments",
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;
