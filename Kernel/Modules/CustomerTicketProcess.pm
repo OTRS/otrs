@@ -3702,7 +3702,7 @@ sub _StoreActivityDialog {
                     Body                      => $Param{GetParam}{Body},
                     Subject                   => $Param{GetParam}{Subject},
                     ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
-                    ForceNotificationToUserID => $Param{GetParam}{InformUserID},
+                    ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents} ? $Param{GetParam}{InformUserID} : [],
                 );
                 if ( !$ArticleID ) {
                     return $LayoutObject->CustomerErrorScreen();
