@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-23 Fixed bug#[11179](http://bugs.otrs.org/show_bug.cgi?id=11179) - InformUser and InvolvedUser can be injected even if they are disabled in SysConfig.
  - 2016-02-23 Fixed bug#[11807](http://bugs.otrs.org/show_bug.cgi?id=11807) - Inconsistent key navigation in modernized input fields.
  - 2016-02-22 Fixed bug#[11862](http://bugs.otrs.org/show_bug.cgi?id=11862) - Ticket Notification Management - 'Send by default' has no impact.
  - 2016-02-22 Fixed bug#[11885](http://bugs.otrs.org/show_bug.cgi?id=11885) - uninitialized value in scripts/DBUpdate-to-5.pl.

@@ -813,16 +813,18 @@ sub Run {
             # get involved user list
             my @InvolvedUserID = $ParamObject->GetArray( Param => 'InvolvedUserID' );
 
+            if ( $Self->{Config}->{InformAgent} ) {
+                push @NotifyUserIDs, @InformUserID;
+            }
+
+            if ( $Self->{Config}->{InvolvedAgent} ) {
+                push @NotifyUserIDs, @InvolvedUserID;
+            }
+
             if ( $Self->{ReplyToArticle} ) {
-                @NotifyUserIDs = (
-                    @UserListWithoutSelection,
-                    @InformUserID,
-                    @InvolvedUserID,
-                );
+                push @NotifyUserIDs, @UserListWithoutSelection;
             }
-            else {
-                @NotifyUserIDs = ( @InformUserID, @InvolvedUserID );
-            }
+
             $ArticleID = $TicketObject->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
                 SenderType                      => 'agent',
