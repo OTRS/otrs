@@ -695,7 +695,7 @@ sub MigrateDTLtoTT {
         }esmxg;
 
     # drop empty $Text
-    $Content =~ s{\$Text{""}}{}xmsg;
+    $Content =~ s{ \$Text [{] "" [}] }{}xmsg;
 
     # $JSText
     $Content =~ s{
