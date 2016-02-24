@@ -33,10 +33,17 @@ local *Kernel::System::OTRSBusiness::OTRSBusinessEntitlementStatus = sub {
     return 1;
 };
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::OTRSBusiness::EntitlementCheck');
-
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get needed objects
+my $CommandObject    = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::OTRSBusiness::EntitlementCheck');
 my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $NextUpdateTimeKey = 'OTRSBusiness::EntitlementCheck::NextUpdateTime';
 
@@ -48,7 +55,7 @@ if ( defined $SystemDataObject->SystemDataGet( Key => $NextUpdateTimeKey ) ) {
     );
 }
 
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 my $ExitCode = $CommandObject->Execute();
 
@@ -70,7 +77,7 @@ $TestCloudServiceCall = 0;
 my $FixedTimeAddSeconds = 60 * 60 * 2;
 
 # set the fixed time
-$HelperObject->FixedTimeAddSeconds($FixedTimeAddSeconds);
+$Helper->FixedTimeAddSeconds($FixedTimeAddSeconds);
 
 $ExitCode = $CommandObject->Execute();
 
@@ -108,7 +115,7 @@ $TestCloudServiceCall = 0;
 $FixedTimeAddSeconds = 60 * 60 * 28;
 
 # set the fixed time
-$HelperObject->FixedTimeAddSeconds($FixedTimeAddSeconds);
+$Helper->FixedTimeAddSeconds($FixedTimeAddSeconds);
 
 $ExitCode = $CommandObject->Execute();
 
@@ -130,7 +137,7 @@ $TestCloudServiceCall = 0;
 $FixedTimeAddSeconds = 60 * 60 * 1;
 
 # set the fixed time
-$HelperObject->FixedTimeAddSeconds($FixedTimeAddSeconds);
+$Helper->FixedTimeAddSeconds($FixedTimeAddSeconds);
 
 $ExitCode = $CommandObject->Execute();
 
@@ -145,6 +152,8 @@ $Self->False(
     "The function 'OTRSBusinessEntitlementStatus' was not called from the console command.",
 );
 
-$HelperObject->FixedTimeUnset();
+$Helper->FixedTimeUnset();
+
+# cleanup cache is done by RestoreDatabase
 
 1;

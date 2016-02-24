@@ -12,6 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # prepare the environment
 my $Success = $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'DaemonModules###UnitTest1',
@@ -87,5 +95,7 @@ for my $Test (@Tests) {
         "$Test->{Name} Command exit code",
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

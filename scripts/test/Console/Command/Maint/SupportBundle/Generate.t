@@ -12,6 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # cleanup from previous tests
 my @SupportFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => '/var/tmp',
@@ -21,6 +29,7 @@ foreach my $File (@SupportFiles) {
     unlink $File;
 }
 
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::SupportBundle::Generate');
 
 my $TargetDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/tmp";
@@ -48,5 +57,7 @@ $Self->Is(
 foreach my $File (@SupportFiles) {
     unlink $File;
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;
