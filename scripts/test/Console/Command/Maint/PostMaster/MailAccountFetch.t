@@ -12,6 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::PostMaster::MailAccountFetch');
 
 my $ExitCode = $CommandObject->Execute();
@@ -31,5 +40,7 @@ $Self->Is(
     1,
     "Maint::PostMaster::MailAccountFetch exit code for nonexisting mail account",
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;

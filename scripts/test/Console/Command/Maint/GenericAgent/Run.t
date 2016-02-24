@@ -12,6 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -46,11 +54,8 @@ my %TicketConfig = (
     UserID       => 1,
 );
 
-# get helper object
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # freeze time
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 my $TicketID1 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(
@@ -60,7 +65,7 @@ $Self->IsNot(
 );
 
 # make sure the next ticket is created 1 minute after
-$HelperObject->FixedTimeAddSeconds(60);
+$Helper->FixedTimeAddSeconds(60);
 
 my $TicketID2 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(
@@ -117,7 +122,7 @@ my @Tests = (
     },
 );
 
-# get needed objects
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::GenericAgent::Run');
 
 TESTCASE:
@@ -192,15 +197,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup
-for my $TicketID ( $TicketID1, $TicketID2 ) {
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Success,
-        "Final Cleanup TicketDelete() - for TicketID $TicketID with true",
-    );
-}
+# cleanup is done by RestoreDatabase
+
 1;

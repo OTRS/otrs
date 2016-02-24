@@ -12,6 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::SupportData::CollectAsynchronous');
 
 my $ExitCode = $CommandObject->Execute();
@@ -21,5 +30,7 @@ $Self->Is(
     0,
     "Maint::SupportData::CollectAsynchronous exit code",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

@@ -14,10 +14,19 @@ use vars (qw($Self));
 
 use File::stat();
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $ZZZAAuto = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZAAuto.pm';
 my $Before   = File::stat::stat($ZZZAAuto);
 sleep 2;
 
+# get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
 my $ExitCode      = $CommandObject->Execute();
 
@@ -34,5 +43,7 @@ $Self->IsNot(
     $After->ctime(),
     "ZZZAAuto ctime",
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;
