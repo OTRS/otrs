@@ -2259,8 +2259,8 @@ sub NoPermission {
             $Self->Block(
                 Name => 'PossibleNextActionRow',
                 Data => {
-                    Link        => $PossibleNextActions->{$Key},
-                    Description => $Key,
+                    Link        => $Key,
+                    Description => $PossibleNextActions->{$Key},
                 },
             );
         }
