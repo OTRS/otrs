@@ -276,6 +276,7 @@ sub Run {
                         || $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
                         || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                     LoginFailed => 1,
+                    MessageType => 'Error',
                     User        => $User,
                     %Param,
                 ),
@@ -321,6 +322,7 @@ sub Run {
                         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.'
                         ),
                     %Param,
+                    MessageType => 'Error',
                 ),
             );
             return;
@@ -362,8 +364,9 @@ sub Run {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title   => 'Login',
-                    Message => $Error,
+                    Title       => 'Login',
+                    Message     => $Error,
+                    MessageType => 'Error',
                     %Param,
                 ),
             );
@@ -527,6 +530,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Logout',
                     Message => Translatable('Session invalid. Please log in again.'),
+                    MessageType => 'Error',
                     %Param,
                 ),
             );
@@ -587,7 +591,7 @@ sub Run {
             Output => \$LayoutObject->Login(
                 Title       => 'Logout',
                 Message     => $LogoutMessage,
-                MessageType => 'Logout',
+                MessageType => 'Success',
                 %Param,
             ),
         );
@@ -607,6 +611,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
                     Message => Translatable('Feature not active!'),
+                    MessageType => 'Error',
                 ),
             );
             return;
@@ -653,6 +658,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
                     Message => Translatable('Sent password reset instructions. Please check your email.'),
+                    MessageType => 'Success',
                     %Param,
                 ),
             );
@@ -695,6 +701,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
                     Message => Translatable('Sent password reset instructions. Please check your email.'),
+                    MessageType => 'Success',
                     %Param,
                 ),
             );
@@ -712,6 +719,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
                     Message => Translatable('Invalid Token!'),
+                    MessageType => 'Error',
                     %Param,
                 ),
             );
@@ -755,9 +763,10 @@ sub Run {
         );
         $LayoutObject->Print(
             Output => \$LayoutObject->Login(
-                Title   => 'Login',
-                Message => $Message,
-                User    => $User,
+                Title       => 'Login',
+                Message     => $Message,
+                User        => $User,
+                MessageType => 'Success',
                 %Param,
             ),
         );
@@ -854,6 +863,7 @@ sub Run {
                     Title => 'Login',
                     Message =>
                         $LayoutObject->{LanguageObject}->Translate( $SessionObject->SessionIDErrorMessage() ),
+                    MessageType => 'Error',
                     %Param,
                 ),
             );
@@ -883,6 +893,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title   => 'Panic!',
                     Message => Translatable('Panic! Invalid Session!!!'),
+                    MessageType => 'Error',
                     %Param,
                 ),
             );

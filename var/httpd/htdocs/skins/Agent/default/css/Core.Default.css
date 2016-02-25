@@ -228,6 +228,28 @@ dd {
 }
 
 /**
+ * @subsection  Errors
+ * @note        Error fields for forms
+ */
+
+.ErrorBox,
+.SuccessBox {
+    display: block;
+    padding: 5px 8px 4px;
+    cursor: default;
+}
+
+.ErrorBox {
+    color: #FFF;
+    background: #D41111;
+}
+
+.SuccessBox {
+    color: #FFF;
+    background: #08A503;
+}
+
+/**
  * @note    Use the class InvisibleText to hide text from the screen,
  *          while it is still recognized and read by screen readers.
  */
@@ -1135,5 +1157,10 @@ iframe.PopupIframe {
 
     .ResponsiveHandle {
         display: none !important;
+    }
+
+    .ErrorBox, .SuccessBox {
+        margin: 0px 0px 20px 0px;
+        line-height: 150%;
     }
 }
