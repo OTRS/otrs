@@ -12,14 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-        RestoreDatabase            => 1,
-        }
+        RestoreDatabase => 1,
+    },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::InvalidUserCleanup');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
@@ -29,7 +29,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 0,
 );
 
-my $UserName = $HelperObject->TestUserCreate();
+my $UserName = $Helper->TestUserCreate();
 my %User     = $UserObject->GetUserData( User => $UserName );
 my $UserID   = $User{UserID};
 
@@ -77,5 +77,7 @@ $Self->Is(
     'open',
     'Ticket from invalid owner was set to "open"',
 );
+
+# cleanup cache is done by RestoreDatabase
 
 1;
