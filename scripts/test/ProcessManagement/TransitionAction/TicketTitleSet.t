@@ -15,20 +15,25 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketTitleSet';
-my $RandomID   = $HelperObject->GetRandomID();
+my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $HelperObject->TestUserCreate();
-my $TestUserID    = $UserObject->UserLookup(
+my $TestUserLogin = $Helper->TestUserCreate();
+my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
@@ -36,20 +41,14 @@ my $TestUserID    = $UserObject->UserLookup(
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
-    TN            => undef,
     Title         => 'test',
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
-    Service       => undef,
-    SLA           => undef,
-    CustomerID    => undef,
-    CustomerUser  => undef,
     OwnerID       => 1,
     ResponsibleID => 1,
-    ArchiveFlag   => undef,
     UserID        => $UserID,
 );
 
@@ -240,7 +239,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
         # get ticket
@@ -294,22 +293,6 @@ for my $Test (@Tests) {
     }
 }
 
-# ----------------------------------------
-
-#-----------------------------------------
-# Destructors to remove our Testitems
-# ----------------------------------------
-
-# Ticket
-my $Delete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Delete,
-    "TicketDelete() - $TicketID",
-);
-
-# ----------------------------------------
+# cleanup is done by RestoreDatabase.
 
 1;

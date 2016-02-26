@@ -4466,7 +4466,6 @@ sub TicketOwnerSet {
 
     # lookup if no NewUserID is given
     if ( !$Param{NewUserID} ) {
-
         $Param{NewUserID} = $UserObject->UserLookup(
             UserLogin => $Param{NewUser},
         );
@@ -4474,10 +4473,18 @@ sub TicketOwnerSet {
 
     # lookup if no NewUser is given
     if ( !$Param{NewUser} ) {
-
         $Param{NewUser} = $UserObject->UserLookup(
             UserID => $Param{NewUserID},
         );
+    }
+
+    # make sure the user exists
+    if ( !$UserObject->UserLookup( UserID => $Param{NewUserID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "User does not exist.",
+        );
+        return;
     }
 
     # check if update is needed!
@@ -4690,6 +4697,15 @@ sub TicketResponsibleSet {
     # lookup if no NewUser is given
     if ( !$Param{NewUser} ) {
         $Param{NewUser} = $UserObject->UserLookup( UserID => $Param{NewUserID} );
+    }
+
+    # make sure the user exists
+    if ( !$UserObject->UserLookup( UserID => $Param{NewUserID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "User does not exist.",
+        );
+        return;
     }
 
     # check if update is needed!
