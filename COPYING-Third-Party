@@ -88,11 +88,6 @@ o Name:    CPAN MIME::Tools
   Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
            # Copyright (c) 1999 by ZeeGee Software Inc. All rights reserved.
 
-o Name:    CPAN MIME::EncWords
-  Web:     n/a
-  License: # All rights reserved.
-           # GNU v2 - http://www.gnu.org/licenses/gpl.html
-
 o Name:    CPAN MailTools
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

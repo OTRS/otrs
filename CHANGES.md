@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-26 Fixed bug#[11891](http://bugs.otrs.org/show_bug.cgi?id=11891) - Unit Tests fail if MIME::EncWords is installed.
  - 2016-02-23 Fixed bug#[11882](http://bugs.otrs.org/show_bug.cgi?id=11882) - Untraslatable string.
  - 2016-02-23 Fixed bug#[8971](http://bugs.otrs.org/show_bug.cgi?id=8971) - NewPhoneTicket toolbar button - does not check group settings, thanks to S7.
  - 2016-02-23 Fixed bug#[11179](http://bugs.otrs.org/show_bug.cgi?id=11179) - InformUser and InvolvedUser can be injected even if they are disabled in SysConfig.

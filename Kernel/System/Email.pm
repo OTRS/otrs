@@ -15,6 +15,7 @@ use warnings;
 use Mail::Address;
 use MIME::Entity;
 use MIME::Parser;
+use MIME::Words;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -877,39 +878,17 @@ sub _EncodeMIMEWords {
     # return if no content is given
     return '' if !defined $Param{Line};
 
-    # check if MIME::EncWords is installed
-    if ( eval { require MIME::EncWords } ) {    ## no critic
-        return MIME::EncWords::encode_mimewords(
-            Encode::encode(
-                $Param{Charset},
-                $Param{Line},
-            ),
-            Charset => $Param{Charset},
+    return MIME::Words::encode_mimewords(
+        Encode::encode(
+            $Param{Charset},
+            $Param{Line},
+        ),
+        Charset => $Param{Charset},
 
-            # use 'a' for quoted printable or base64 choice automatically
-            Encoding => 'a',
-
-            # for line length calculation to fold lines
-            Field => $Param{Field},
-        );
-    }
-
-    # as fallback use MIME::Words of MIME::Tools (but it lakes on some utf8
-    # issues, see pod of MIME::Words)
-    else {
-        require MIME::Words;    ## no critic
-        return MIME::Words::encode_mimewords(
-            Encode::encode(
-                $Param{Charset},
-                $Param{Line},
-            ),
-            Charset => $Param{Charset},
-
-            # for line length calculation to fold lines (gets ignored by
-            # MIME::Words, see pod of MIME::Words)
-            Field => $Param{Field},
-        );
-    }
+        # for line length calculation to fold lines (gets ignored by
+        # MIME::Words, see pod of MIME::Words)
+        Field => $Param{Field},
+    );
 }
 
 sub _MessageIDCreate {
