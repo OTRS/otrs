@@ -14,14 +14,10 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
-my $Home = $ConfigObject->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
-my $FileContent = $MainObject->FileRead(
+my $FileContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
     Location => "$Home/scripts/test/sample/EmailParser/DuplicateFilenameSpecialCharacters.box",
     Result   => 'ARRAY',
 );

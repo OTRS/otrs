@@ -17,15 +17,20 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my %Jobs;
 
-my $RandomID = $HelperObject->GetRandomID();
-
-# Create a Ticket to test JobRun and JobRunTicket
+# create a Ticket to test JobRun and JobRunTicket
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Testticket for Untittest of the Generic Agent',
     Queue        => 'Raw',
@@ -39,28 +44,25 @@ my $TicketID = $TicketObject->TicketCreate(
 );
 
 my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID    => $TicketID,
-    ArticleType => 'note-internal',
-    SenderType  => 'agent',
-    From        => 'Agent Some Agent Some Agent <email@example.com>',
-    To          => 'Customer A <customer-a@example.com>',
-    Cc          => 'Customer B <customer-b@example.com>',
-    ReplyTo     => 'Customer B <customer-b@example.com>',
-    Subject     => 'some short description',
-    Body        => 'the message text Perl modules provide a range of
-',
-
-    #    MessageID => '<asdasdasd.123@example.com>',
+    TicketID       => $TicketID,
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Agent Some Agent Some Agent <email@example.com>',
+    To             => 'Customer A <customer-a@example.com>',
+    Cc             => 'Customer B <customer-b@example.com>',
+    ReplyTo        => 'Customer B <customer-b@example.com>',
+    Subject        => 'some short description',
+    Body           => 'the message text Perl modules provide a range of',
     ContentType    => 'text/plain; charset=ISO-8859-15',
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
+    NoAgentNotify  => 1,
 );
 
 $Self->True(
     $TicketID,
-    'Ticket was created',
+    "Ticket is created - $TicketID",
 );
 
 my %Ticket = $TicketObject->TicketGet(
@@ -69,18 +71,19 @@ my %Ticket = $TicketObject->TicketGet(
 
 $Self->True(
     $Ticket{TicketNumber},
-    'Found ticket number',
+    "Found ticket number - $Ticket{TicketNumber}",
 );
 
 # add a new Job
-my $Name   = 'UnitTest_' . $RandomID;
-my %NewJob = (
+my $Name          = 'job' . $Helper->GetRandomID();
+my $TargetAddress = $Helper->GetRandomID() . '@unittest.com';
+my %NewJob        = (
     Name => $Name,
     Data => {
         TicketNumber   => $Ticket{TicketNumber},
         NewModule      => 'scripts::test::GenericAgent::MailForward',
         NewParamKey1   => 'TargetAddress',
-        NewParamValue1 => 'somebody@unittest.com',
+        NewParamValue1 => $TargetAddress,
     },
 );
 
@@ -90,7 +93,7 @@ my $JobAdd = $GenericAgentObject->JobAdd(
 );
 $Self->True(
     $JobAdd || '',
-    'JobAdd()',
+    "JobAdd() - $Name",
 );
 
 $Self->True(
@@ -115,18 +118,8 @@ $Self->Is(
 
 $Self->Is(
     $ArticleBox[1]->{To},
-    'somebody@unittest.com',
-    "TargetAddress was used",
-);
-
-# the ticket is no longer needed
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $TicketDelete || '',
-    'TicketDelete()',
+    $TargetAddress,
+    "TargetAddress is used",
 );
 
 my $JobDelete = $GenericAgentObject->JobDelete(
@@ -137,5 +130,7 @@ $Self->True(
     $JobDelete || '',
     'JobDelete()',
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

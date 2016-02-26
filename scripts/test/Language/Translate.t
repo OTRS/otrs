@@ -12,12 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Language;
-
 # create language object which contains all translations
-my $LanguageObject = Kernel::Language->new(
-    UserLanguage => 'de',
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Language' => {
+        UserLanguage => 'de',
+    },
 );
+my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
 # test cases
 my @Tests = (

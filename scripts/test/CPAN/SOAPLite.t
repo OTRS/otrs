@@ -21,12 +21,13 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreSystemConfiguration => 1,
+        RestoreDatabase            => 1,
     },
 );
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # define SOAP variables
 my $SOAPUser     = 'User' . $RandomID;
@@ -45,7 +46,7 @@ $SysConfigObject->ConfigItemUpdate(
 );
 
 # get remote host with some precautions for certain unit test systems
-my $Host = $HelperObject->GetTestHTTPHostname();
+my $Host = $Helper->GetTestHTTPHostname();
 
 # skip this test on Plack
 # TODO: fix this
@@ -153,7 +154,7 @@ for my $Test (@Tests) {
         $FaultString = $SOAPMessage->fault()->{faultstring};
     }
 
-    # get result form SOAP message if any
+    # get result from SOAP message if any
     my $Result;
     if ( $SOAPMessage->result() ) {
         $Result = $SOAPMessage->result();
@@ -171,5 +172,7 @@ for my $Test (@Tests) {
         "$Test->{Name}: Message result should have a value",
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;
