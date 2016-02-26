@@ -16,11 +16,17 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # enable ticket type for this run
 $ConfigObject->Set(
@@ -28,7 +34,7 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-# set TicketDynamicFieldDefault as no Transation mode to avoid error messages at the end of the
+# set TicketDynamicFieldDefault as no Transaction mode to avoid error messages at the end of the
 # test (regarding missing TicketIDs)
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
@@ -41,64 +47,43 @@ $ConfigObject->Set(
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketTypeSet';
-my $RandomID   = $HelperObject->GetRandomID();
+my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $HelperObject->TestUserCreate();
-my $TestUserID    = $UserObject->UserLookup(
+my $TestUserLogin = $Helper->TestUserCreate();
+my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-my $Type1Name = 'Type1' . $RandomID;
-my $Type2Name = 'Type2' . $RandomID;
-my $Type3Name = 'Type3' . $RandomID;
+my @TypeID;
+my @TypeName;
+for my $Item ( 0 .. 2 ) {
+    $TypeName[$Item] = 'Type' . $Item . $RandomID;
 
-my $Type1ID = $TypeObject->TypeAdd(
-    Name    => $Type1Name,
-    ValidID => 1,
-    UserID  => 1,
-);
-$Self->True(
-    $Type1ID,
-    "TypeAdd() - $Type1Name",
-);
-my $Type2ID = $TypeObject->TypeAdd(
-    Name    => $Type2Name,
-    ValidID => 1,
-    UserID  => 1,
-);
-$Self->True(
-    $Type2ID,
-    "TypeAdd() - $Type2Name",
-);
-my $Type3ID = $TypeObject->TypeAdd(
-    Name    => $Type3Name,
-    ValidID => 1,
-    UserID  => 1,
-);
-$Self->True(
-    $Type3ID,
-    "TypeAdd() - $Type3Name",
-);
+    $TypeID[$Item] = $TypeObject->TypeAdd(
+        Name    => $TypeName[$Item],
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    $Self->True(
+        $TypeID[$Item],
+        "TypeAdd() - $TypeName[$Item]",
+    );
+}
 
 # ----------------------------------------
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
-    TN            => undef,
-    Title         => $Type2Name,
+    Title         => $TypeName[1],
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
     StateID       => 1,
-    TypeID        => $Type1ID,
-    Service       => undef,
-    SLA           => undef,
-    CustomerID    => undef,
-    CustomerUser  => undef,
+    TypeID        => $TypeID[0],
     OwnerID       => 1,
     ResponsibleID => 1,
-    ArchiveFlag   => undef,
     UserID        => $UserID,
 );
 
@@ -116,8 +101,6 @@ $Self->True(
     IsHashRefWithData( \%Ticket ),
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
-
-# ----------------------------------------
 
 # Run() tests
 my @Tests = (
@@ -174,7 +157,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                Type => $Type2ID,
+                Type => $TypeID[1],
             },
         },
         Success => 0,
@@ -205,51 +188,51 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TypeID => 'NotExisting' . $RandomID,
+                TypeID => 9999999,
             },
         },
         Success => 0,
     },
     {
-        Name   => "Correct Type $Type2Name",
+        Name   => "Correct Type $TypeName[1]",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Type => $Type2Name,
+                Type => $TypeName[1],
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct Type $Type3Name",
+        Name   => "Correct Type $TypeName[2]",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Type => $Type3Name,
+                Type => $TypeName[2],
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct TypeID $Type2Name",
+        Name   => "Correct TypeID $TypeName[1]",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TypeID => $Type2ID,
+                TypeID => $TypeID[1],
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct TypeID $Type3Name',
+        Name   => "Correct TypeID $TypeName[2]",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TypeID => $Type3ID,
+                TypeID => $TypeID[2],
             },
         },
         Success => 1,
@@ -282,7 +265,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Type   => $Type2Name,
+                Type   => $TypeName[1],
                 UserID => $TestUserID,
             },
         },
@@ -307,7 +290,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
         # get ticket
@@ -364,48 +347,6 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
-# Destructors to remove our Testitems
-# ----------------------------------------
-
-# Ticket
-my $Delete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Delete,
-    "TicketDelete() - $TicketID",
-);
-
-my @Types = (
-    {
-        ID   => $Type1ID,
-        Name => $Type1Name,
-    },
-    {
-        ID   => $Type2ID,
-        Name => $Type2Name,
-    },
-    {
-        ID   => $Type3ID,
-        Name => $Type3Name,
-    },
-);
-
-for my $TypeInfo (@Types) {
-    my $Success = $TypeObject->TypeUpdate(
-        ID      => $TypeInfo->{ID},
-        Name    => $TypeInfo->{Name},
-        ValidID => 2,
-        UserID  => 1,
-    );
-    $Self->True(
-        $Success,
-        "TypeUpdate() - Set to invalid - $TypeInfo->{Name}",
-    );
-}
-
-# ----------------------------------------
+# cleanup is done by RestoreDatabase.
 
 1;

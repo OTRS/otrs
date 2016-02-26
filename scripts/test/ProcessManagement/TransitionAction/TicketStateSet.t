@@ -1,6 +1,4 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -15,21 +13,20 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketStateSet');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$HelperObject->FixedTimeSet();
+$Helper->FixedTimeSet();
 
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketStateSet';
-my $RandomID   = $HelperObject->GetRandomID();
+my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserLogin = $Helper->TestUserCreate();
 my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
@@ -38,20 +35,14 @@ my $TestUserID    = $UserObject->UserLookup(
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
-    TN            => undef,
     Title         => 'open',
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
-    Service       => undef,
-    SLA           => undef,
-    CustomerID    => undef,
-    CustomerUser  => undef,
     OwnerID       => 1,
     ResponsibleID => 1,
-    ArchiveFlag   => undef,
     UserID        => $UserID,
 );
 
@@ -272,7 +263,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
         # get ticket
@@ -340,7 +331,7 @@ for my $Test (@Tests) {
 }
 
 #-----------------------------------------
-# Destructors to remove our Testitems
+# Destructors to remove our Test items
 # ----------------------------------------
 
 # Ticket
@@ -352,6 +343,9 @@ $Self->True(
     $Delete,
     "TicketDelete() - $TicketID",
 );
+
+# cleanUp casche
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 # ----------------------------------------
 
