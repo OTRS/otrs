@@ -1,5 +1,5 @@
 #4.0.17 2016-??-??
- - 2016-02-26 Fixed bug#[10303](http://bugs.otrs.org/show_bug.cgi?id=10303) - Created Date Not Available as a Dashboard Column.
+ - 2016-02-26 Fixed bug#[11891](http://bugs.otrs.org/show_bug.cgi?id=11891) - Unit Tests fail if MIME::EncWords is installed.
  - 2016-02-23 Fixed bug#[11882](http://bugs.otrs.org/show_bug.cgi?id=11882) - Untraslatable string.
  - 2016-02-23 Fixed bug#[11179](http://bugs.otrs.org/show_bug.cgi?id=11179) - InformUser and InvolvedUser can be injected even if they are disabled in SysConfig.
  - 2016-02-15 Fixed bug#[11870](http://bugs.otrs.org/show_bug.cgi?id=11870) - Missing quoting in Layout::AgentQueueListOption().
