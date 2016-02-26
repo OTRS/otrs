@@ -266,7 +266,7 @@ To find tickets in your system.
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',  # Down|Up
-        SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|TicketNumber|Queue|Priority|Age|Type|Lock
+        SortBy  => 'Age',   # Created|Owner|Responsible|CustomerID|State|TicketNumber|Queue|Priority|Age|Type|Lock
                             # Changed|Title|Service|SLA|PendingTime|EscalationTime
                             # EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
                             # DynamicField_FieldNameX
@@ -332,6 +332,7 @@ sub TicketSearch {
         Type                   => 'st.type_id',
         Priority               => 'st.ticket_priority_id',
         Age                    => 'st.create_time_unix',
+        Created                => 'st.create_time',
         Changed                => 'st.change_time',
         Service                => 'st.service_id',
         SLA                    => 'st.sla_id',
