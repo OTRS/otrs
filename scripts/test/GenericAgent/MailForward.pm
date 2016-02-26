@@ -43,19 +43,22 @@ sub Run {
         return;
     }
 
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my %Ticket = $TicketObject->TicketGet(
         %Param,
         UserID => 1,
     );
 
-    my %Article = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleFirstArticle(
+    my %Article = $TicketObject->ArticleFirstArticle(
         %Param,
         UserID => 1,
     );
 
     return if !(%Article);
 
-    my %AttachmentIndex = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleAttachmentIndex(
+    my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
         %Article,
         UserID => 1,
     );
@@ -63,7 +66,7 @@ sub Run {
     my @Attachments;
 
     for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-        my %Attachment = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleAttachment(
+        my %Attachment = $TicketObject->ArticleAttachment(
             %Article,
             UserID => 1,
             FileID => $FileID,
@@ -75,7 +78,7 @@ sub Run {
 
     my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
 
-    $Kernel::OM->Get('Kernel::System::Ticket')->ArticleSend(
+    $TicketObject->ArticleSend(
         %Article,
         Attachment     => \@Attachments,
         To             => scalar $Param{New}->{'TargetAddress'},

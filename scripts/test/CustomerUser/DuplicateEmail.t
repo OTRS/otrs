@@ -12,22 +12,29 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get customer user object
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 # add two users
-$ConfigObject->Set(
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
-my $Rand = int rand 1000000;
+my $RandomID = $Helper->GetRandomID();
 
 my @CustomerLogins;
 for my $Key ( 1 .. 2 ) {
 
-    my $UserRand = 'Duplicate' . $Key . $Rand;
+    my $UserRand = 'Duplicate' . $Key . $RandomID;
 
     my $UserID = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser',
@@ -66,8 +73,6 @@ for my $Key ( 1 .. 2 ) {
     );
 }
 
-print @CustomerLogins;
-
 my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
     User => $CustomerLogins[0],
 );
@@ -77,10 +82,10 @@ my $Customer1Email = $CustomerData{UserEmail};
 # create a new customer with email address of customer 1
 my $UserID = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
-    UserFirstname  => "Firstname Add $Rand",
-    UserLastname   => "Lastname Add $Rand",
-    UserCustomerID => "CustomerID Add $Rand",
-    UserLogin      => "UserLogin Add $Rand",
+    UserFirstname  => "Firstname Add $RandomID",
+    UserLastname   => "Lastname Add $RandomID",
+    UserCustomerID => "CustomerID Add $RandomID",
+    UserLogin      => "UserLogin Add $RandomID",
     UserEmail      => $Customer1Email,
     UserPassword   => 'some_pass',
     ValidID        => 1,
@@ -109,5 +114,7 @@ $Self->False(
     $Update,
     "CustomerUserUpdate() - not possible for duplicate email address",
 );
+
+# cleanup is done by RestoreDatabase
 
 1;

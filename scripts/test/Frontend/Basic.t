@@ -24,18 +24,22 @@ use Kernel::System::UnitTest::Helper;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    SkipSSLVerify => 1,
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1
+    },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my $TestUserLogin = $Helper->TestUserCreate(
     Groups => ['admin'],
 );
-my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
-$BaseURL .= $HelperObject->GetTestHTTPHostname() . '/';
+$BaseURL .= $Helper->GetTestHTTPHostname() . '/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
 my $AgentBaseURL    = $BaseURL . 'index.pl?';
@@ -145,5 +149,8 @@ for my $BaseURL ( sort keys %Frontends ) {
         }
     }
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;

@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self %Param));
 
-use Kernel::Language;
-
-TEST:
 my @Tests = (
     {
         Name           => 'Default format',
@@ -79,10 +76,19 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    my $LanguageObject = Kernel::Language->new(
-        UserTimeZone => $Test->{UserTimeZone},
-        UserLanguage => 'de',
+    # discard language object
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::Language'],
     );
+
+    # get language object
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::Language' => {
+            UserTimeZone => $Test->{UserTimeZone},
+            UserLanguage => 'de',
+        },
+    );
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     $LanguageObject->{ $Test->{DateFormatName} } = $Test->{DateFormat};
 

@@ -12,12 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get needed objects
-my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
 my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
-$ConfigObject->Set(
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
@@ -25,7 +32,7 @@ $ConfigObject->Set(
 my @CustomerIDs;
 for my $Key ( 1 .. 1, 'ä', 'カス' ) {
 
-    my $CompanyRand = 'Example-Customer-Company' . $Key . int rand 1000000;
+    my $CompanyRand = 'CustomerCompany' . $Key . $Helper->GetRandomID();
 
     push @CustomerIDs, $CompanyRand;
 
@@ -66,7 +73,7 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
     my @CustomerLogins;
     for my $CustomerUserKey ( 1 .. 3, 'ä', 'カス' ) {
 
-        my $UserRand = 'Example-Customer-User' . $CustomerUserKey . int rand 1000000;
+        my $UserRand = 'CustomerUser' . $CustomerUserKey . $Helper->GetRandomID();
 
         push @CustomerLogins, $UserRand;
 
@@ -141,5 +148,7 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase
 
 1;

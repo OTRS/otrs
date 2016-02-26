@@ -36,8 +36,6 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
 # Constants for test(s): 1 - enabled, 0 - disabled.
 # SEND - check sending body. PARSE - check parsed body.
 
@@ -75,7 +73,7 @@ my $AttachmentReference = [
 my $AttachmentNumber = scalar @{$AttachmentReference};
 
 # do not really send emails
-$ConfigObject->Set(
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
