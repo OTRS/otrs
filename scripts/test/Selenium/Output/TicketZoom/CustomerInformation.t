@@ -140,6 +140,10 @@ $Selenium->RunTest(
         $SysConfigObject->ConfigItemReset(
             Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0200-CustomerInformation',
         );
+
+        # wait for mod_perl to pick up the changes
+        sleep 3;
+
         $Selenium->VerifiedRefresh();
 
         # verify there is 'Customer Information' widget, it's enabled
