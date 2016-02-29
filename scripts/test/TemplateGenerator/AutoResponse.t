@@ -15,6 +15,14 @@ use vars (qw($Self));
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # disable rich text editor
 my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',
@@ -45,20 +53,13 @@ $Self->True(
     "Set default language to English",
 );
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomID     = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # create customer users
-my $TestUserLoginEN = $HelperObject->TestCustomerUserCreate(
+my $TestUserLoginEN = $Helper->TestCustomerUserCreate(
     Language => 'en',
 );
-my $TestUserLoginDE = $HelperObject->TestCustomerUserCreate(
+my $TestUserLoginDE = $Helper->TestCustomerUserCreate(
     Language => 'de',
 );
 

@@ -13,15 +13,20 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    RestoreDatabase => 1,
-);
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 my @DynamicFieldsToAdd = (
     {
@@ -92,11 +97,11 @@ for my $DynamicField (@DynamicFieldsToAdd) {
 # constructor
 my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
-my $TestCustomerLogin = $HelperObject->TestCustomerUserCreate(
+my $TestCustomerLogin = $Helper->TestCustomerUserCreate(
     Language => 'en',
 );
 
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my $TestUserLogin = $Helper->TestUserCreate(
     Language => 'en',
 );
 
@@ -104,7 +109,7 @@ my %TestUser = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $TestUserLogin,
 );
 
-my $TestUser2Login = $HelperObject->TestUserCreate(
+my $TestUser2Login = $Helper->TestUserCreate(
     Language => 'en',
 );
 
@@ -112,7 +117,7 @@ my %TestUser2 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $TestUserLogin,
 );
 
-my $TestUser3Login = $HelperObject->TestUserCreate(
+my $TestUser3Login = $Helper->TestUserCreate(
     Language => 'en',
 );
 
@@ -120,7 +125,7 @@ my %TestUser3 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $TestUserLogin,
 );
 
-my $TestUser4Login = $HelperObject->TestUserCreate(
+my $TestUser4Login = $Helper->TestUserCreate(
     Language => 'en',
 );
 
