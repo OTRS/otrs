@@ -947,6 +947,7 @@ sub Run {
         }
 
         my $QueueID = $GetParam{NewQueueID} || $Ticket{QueueID};
+        my $StateID = $GetParam{NewStateID} || $Ticket{StateID};
 
         # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
@@ -967,16 +968,19 @@ sub Run {
         my $Owners = $Self->_GetOwners(
             %GetParam,
             QueueID  => $QueueID,
+            StateID  => $StateID,
             AllUsers => $GetParam{OwnerAll},
         );
         my $OldOwners = $Self->_GetOldOwners(
             %GetParam,
             QueueID  => $QueueID,
+            StateID  => $StateID,
             AllUsers => $GetParam{OwnerAll},
         );
         my $ResponsibleUsers = $Self->_GetResponsible(
             %GetParam,
             QueueID  => $QueueID,
+            StateID  => $StateID,
             AllUsers => $GetParam{OwnerAll},
         );
         my $Priorities = $Self->_GetPriorities(
@@ -986,11 +990,13 @@ sub Run {
             %GetParam,
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
+            StateID        => $StateID,
         );
         my $Types = $Self->_GetTypes(
             %GetParam,
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
+            StateID        => $StateID,
         );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
@@ -1001,12 +1007,14 @@ sub Run {
             %GetParam,
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
+            StateID        => $StateID,
             ServiceID      => $ServiceID,
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
+            StateID        => $StateID,
         );
 
         # update Dynamic Fields Possible Values via AJAX
