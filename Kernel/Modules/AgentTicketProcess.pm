@@ -4295,34 +4295,33 @@ sub _StoreActivityDialog {
                 # Will be extended later on for ACL Checking:
                 my $PossibleValuesFilter;
 
-                # Check DynamicField Values
-                my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
-                    PossibleValuesFilter => $PossibleValuesFilter,
-                    ParamObject          => $ParamObject,
-                    Mandatory            => $ActivityDialog->{Fields}{$CurrentField}{Display} == 2,
-                );
-
-                if ( !IsHashRefWithData($ValidationResult) ) {
-                    $LayoutObject->FatalError(
-                        Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                    );
-                }
-
-                if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} }         = 1;
-                    $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
-                }
-
-                # if we had an invisible field, use config's default value
+                # if we have an invisible field, use config's default value
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
                     $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
                         || '';
                 }
-
-                # else take the DynamicField Value
+                # only validate visible fields
                 else {
+                    # Check DynamicField Values
+                    my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                        DynamicFieldConfig   => $DynamicFieldConfig,
+                        PossibleValuesFilter => $PossibleValuesFilter,
+                        ParamObject          => $ParamObject,
+                        Mandatory            => $ActivityDialog->{Fields}{$CurrentField}{Display} == 2,
+                    );
+
+                    if ( !IsHashRefWithData($ValidationResult) ) {
+                        $LayoutObject->FatalError(
+                            Message =>
+                                "Could not perform validation on field $DynamicFieldConfig->{Label}!",
+                        );
+                    }
+
+                    if ( $ValidationResult->{ServerError} ) {
+                        $Error{ $DynamicFieldConfig->{Name} }         = 1;
+                        $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
+                    }
+
                     $TicketParam{$CurrentField} =
                         $DynamicFieldBackendObject->EditFieldValueGet(
                         DynamicFieldConfig => $DynamicFieldConfig,
