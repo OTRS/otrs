@@ -14,20 +14,16 @@ use vars (qw($Self));
 
 use CGI;
 
-use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get dynamic field backend object
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
 # Use a fixed year to compare the time selection results
-$HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 12:00:00' ),
+$Kernel::OM->Get('Kernel::System::UnitTest::Helper')->FixedTimeSet(
+    $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2013-12-12 12:00:00' ),
 );
 
 my $UserID = 1;
@@ -1192,7 +1188,7 @@ for my $Test (@Tests) {
 
             if ( $CGIEnabled && ref $Test->{Config}->{CGIParam} eq 'HASH' ) {
 
-                # creatate a new CGI object to simulate a web request
+                # create a new CGI object to simulate a web request
                 my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
 
                 my $LocalParamObject = Kernel::System::Web::Request->new(
@@ -1239,4 +1235,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;

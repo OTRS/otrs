@@ -12,14 +12,21 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $RandomID = int rand 1_000_000_000;
+# define needed variable
+my $RandomID = $Helper->GetRandomNumber();
 
 # create a ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -45,7 +52,7 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -61,7 +68,7 @@ $Self->True(
 );
 
 # get the Dynamic Fields configuration
-my $DynamicFieldsConfig = $ConfigObject->Get('DynamicFields::Driver');
+my $DynamicFieldsConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver');
 
 # sanity check
 $Self->Is(
@@ -631,6 +638,7 @@ my @Tests = (
 
 );
 
+# execute tests
 for my $Test (@Tests) {
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $Test->{DynamicFieldConfig},
@@ -842,16 +850,6 @@ $Self->True(
     "AllValuesDelete() successful for Field ID $FieldID",
 );
 
-# delete the dynamic field
-my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-    ID     => $FieldID,
-    UserID => 1,
-);
-
-# sanity check
-$Self->True(
-    $FieldDelete,
-    "DynamicFieldDelete() successful for Field ID $FieldID",
-);
+# cleanup is done by RestoreDatabase
 
 1;

@@ -12,10 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
 my %DynamicFieldConfigs = (
@@ -504,7 +500,7 @@ my @Tests = (
 # execute tests
 for my $Test (@Tests) {
 
-    my $Match = $DFBackendObject->ObjectMatch( %{ $Test->{Config} } );
+    my $Match = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ObjectMatch( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
         $Self->True(
@@ -521,4 +517,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;
