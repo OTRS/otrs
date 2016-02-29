@@ -17,16 +17,22 @@ my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # create local objects
-my $RandomID = int rand 1_000_000_000;
+my $RandomID = $Helper->GetRandomID();
 
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
     'Backend object was created successfuly',
 );
-
-my @TestDynamicFields;
 
 # create a dynamic field
 my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
@@ -43,53 +49,37 @@ my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
     Reorder => 0,
 );
 
-my $Field1Config = $DynamicFieldObject->DynamicFieldGet(
+my @DFConfig;
+my $DFTicketConfig = $DynamicFieldObject->DynamicFieldGet(
     ID => $FieldID1,
 );
 
-push @TestDynamicFields, $FieldID1;
+push @DFConfig, $DFTicketConfig;
 
-# create a dynamic field
-my $FieldIDArticle1 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFTArticle1$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Article',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
+# create a dynamic fields
 
-my $FieldArticle1Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldIDArticle1,
-);
+for my $Item ( 1 .. 2 ) {
+    my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+        Name       => "DFTArticle$Item$RandomID",
+        Label      => 'Description',
+        FieldOrder => 9991,
+        FieldType  => 'Text',                                  # mandatory, selects the DF backend to use for this field
+        ObjectType => 'Article',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+        ValidID => 1,
+        UserID  => 1,
+        Reorder => 0,
+    );
 
-push @TestDynamicFields, $FieldIDArticle1;
+    my $DFArticleConfig = $DynamicFieldObject->DynamicFieldGet(
+        ID => $DynamicFieldID,
+    );
 
-# create a dynamic field
-my $FieldIDArticle2 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFTArticle2$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Article',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
+    push @DFConfig, $DFArticleConfig;
 
-my $FieldArticle2Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldIDArticle2,
-);
-
-push @TestDynamicFields, $FieldIDArticle2;
+}
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
@@ -110,59 +100,48 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 
     my @TestTicketIDs;
+    my @TicketIDs;
+    my @Tickets;
 
-    my $TicketID1 = $TicketObject->TicketCreate(
-        Title        => "Ticket$RandomID",
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'closed successful',
-        CustomerNo   => '123465',
-        CustomerUser => 'customer@example.com',
-        OwnerID      => 1,
-        UserID       => 1,
-    );
+    for my $Item ( 0 .. 1 ) {
+        my $TicketID = $TicketObject->TicketCreate(
+            Title        => "Ticket$RandomID",
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'closed successful',
+            CustomerNo   => '123465',
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
+        );
 
-    push @TestTicketIDs, $TicketID1;
+        push @TestTicketIDs, $TicketID;
+        push @TicketIDs,     $TicketID;
 
-    my %Ticket1 = $TicketObject->TicketGet(
-        TicketID => $TicketID1,
-    );
+        my %TicketData = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+        );
 
-    my $TicketID2 = $TicketObject->TicketCreate(
-        Title        => "Ticket$RandomID",
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'closed successful',
-        CustomerNo   => '123465',
-        CustomerUser => 'customer@example.com',
-        OwnerID      => 1,
-        UserID       => 1,
-    );
-
-    push @TestTicketIDs, $TicketID2;
-
-    my %Ticket2 = $TicketObject->TicketGet(
-        TicketID => $TicketID2,
-    );
+        push @Tickets, \%TicketData;
+    }
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $Field1Config,
-        ObjectID           => $TicketID1,
+        DynamicFieldConfig => $DFConfig[0],
+        ObjectID           => $TicketIDs[0],
         Value              => 'ticket1_field1',
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $Field1Config,
-        ObjectID           => $TicketID2,
+        DynamicFieldConfig => $DFConfig[0],
+        ObjectID           => $TicketIDs[1],
         Value              => 'ticket2_field1',
         UserID             => 1,
     );
 
     my $ArticleID = $TicketObject->ArticleCreate(
-        TicketID       => $TicketID1,
+        TicketID       => $TicketIDs[0],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
         From           => 'Some Agent <email@example.com>',
@@ -177,21 +156,21 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle1Config,
+        DynamicFieldConfig => $DFConfig[1],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle1_ticket1_article1',
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle2Config,
+        DynamicFieldConfig => $DFConfig[2],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle2_ticket1_article1',
         UserID             => 1,
     );
 
     $ArticleID = $TicketObject->ArticleCreate(
-        TicketID       => $TicketID1,
+        TicketID       => $TicketIDs[0],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
         From           => 'Some Agent <email@example.com>',
@@ -206,21 +185,21 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle1Config,
+        DynamicFieldConfig => $DFConfig[1],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle1_ticket1_article2',
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle2Config,
+        DynamicFieldConfig => $DFConfig[2],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle2_ticket1_article2',
         UserID             => 1,
     );
 
     $ArticleID = $TicketObject->ArticleCreate(
-        TicketID       => $TicketID2,
+        TicketID       => $TicketIDs[1],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
         From           => 'Some Agent <email@example.com>',
@@ -235,21 +214,21 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle1Config,
+        DynamicFieldConfig => $DFConfig[1],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle1_ticket2_article1',
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle2Config,
+        DynamicFieldConfig => $DFConfig[2],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle2_ticket2_article1',
         UserID             => 1,
     );
 
     $ArticleID = $TicketObject->ArticleCreate(
-        TicketID       => $TicketID2,
+        TicketID       => $TicketIDs[1],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
         From           => 'Some Agent <email@example.com>',
@@ -264,14 +243,14 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle1Config,
+        DynamicFieldConfig => $DFConfig[1],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle1_ticket2_article2',
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
-        DynamicFieldConfig => $FieldArticle2Config,
+        DynamicFieldConfig => $DFConfig[2],
         ObjectID           => $ArticleID,
         Value              => 'fieldarticle2_ticket2_article2',
         UserID             => 1,
@@ -290,7 +269,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \%TicketIDsSearch,
-        { $TicketID1 => $Ticket1{TicketNumber} },
+        { $TicketIDs[0] => $Tickets[0]->{TicketNumber} },
         "$Module - Search for one article field",
     );
 
@@ -310,7 +289,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \%TicketIDsSearch,
-        { $TicketID1 => $Ticket1{TicketNumber} },
+        { $TicketIDs[0] => ( $Tickets[0]->{TicketNumber} ) },
         "$Module - Search for two article fields in one article",
     );
 
@@ -351,8 +330,8 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     $Self->IsDeeply(
         \%TicketIDsSearch,
         {
-            $TicketID1 => $Ticket1{TicketNumber},
-            $TicketID2 => $Ticket2{TicketNumber},
+            $TicketIDs[0] => ( $Tickets[0]->{TicketNumber} ),
+            $TicketIDs[1] => ( $Tickets[1]->{TicketNumber} ),
         },
         "$Module - Search for two article fields in different tickets, wildcard",
     );
@@ -374,8 +353,8 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     $Self->IsDeeply(
         \%TicketIDsSearch,
         {
-            $TicketID1 => $Ticket1{TicketNumber},
-            $TicketID2 => $Ticket2{TicketNumber},
+            $TicketIDs[0] => ( $Tickets[0]->{TicketNumber} ),
+            $TicketIDs[1] => ( $Tickets[1]->{TicketNumber} ),
         },
         "$Module - Search for two article fields in different tickets, hardcoded",
     );
@@ -398,7 +377,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \@TicketIDsSearch,
-        [ $TicketID1, $TicketID2, ],
+        [ $TicketIDs[0], $TicketIDs[1], ],
         "$Module - Sort by search field, ASC",
     );
 
@@ -420,7 +399,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \@TicketIDsSearch,
-        [ $TicketID2, $TicketID1, ],
+        [ $TicketIDs[1], $TicketIDs[0], ],
         "$Module - Sort by search field, DESC",
     );
 
@@ -439,7 +418,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \@TicketIDsSearch,
-        [ $TicketID1, $TicketID2, ],
+        [ $TicketIDs[0], $TicketIDs[1], ],
         "$Module - Sort by another field, ASC",
     );
 
@@ -458,7 +437,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     $Self->IsDeeply(
         \@TicketIDsSearch,
-        [ $TicketID2, $TicketID1, ],
+        [ $TicketIDs[1], $TicketIDs[0], ],
         "$Module - Sort by another field, DESC",
     );
 
@@ -472,14 +451,6 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     }
 }
 
-for my $FieldID (@TestDynamicFields) {
-
-    # delete the dynamic field
-    $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $FieldID,
-        UserID  => 1,
-        Reorder => 0,
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

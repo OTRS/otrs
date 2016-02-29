@@ -12,8 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
@@ -232,5 +240,7 @@ for my $Module (qw(StaticDB)) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

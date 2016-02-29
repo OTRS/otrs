@@ -24,6 +24,14 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+    # get helper object
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::UnitTest::Helper' => {
+            RestoreDatabase => 1,
+        },
+    );
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::' . $SourceBackend,
@@ -167,18 +175,8 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             }
         }
     }
-
-    # cleanup
-    for my $TicketID (@TicketIDs) {
-        my $Delete = $TicketObject->TicketDelete(
-            UserID   => 1,
-            TicketID => $TicketID,
-        );
-        $Self->True(
-            $Delete,
-            "$NamePrefix - TicketDelete()",
-        );
-    }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;
