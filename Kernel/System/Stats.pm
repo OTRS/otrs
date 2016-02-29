@@ -2152,9 +2152,8 @@ sub _GenerateStaticStats {
 
         # these two lines are requirements of me, perhaps this
         # information is needed for former static stats
-        Format       => $Param{Format}->[0],
-        Module       => $Param{ObjectModule},
-        UserLanguage => $User{UserLanguage},
+        Format => $Param{Format}->[0],
+        Module => $Param{ObjectModule},
     );
 
     $Result[0]->[0] = $Param{Title} . ' ' . $Result[0]->[0];
@@ -3404,7 +3403,7 @@ sub _CreateStaticResultCacheFilename {
         Type     => 'md5',
     );
 
-    return 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache';
+    return 'Stats' . $Param{StatID} . '-' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-' . $MD5Key . '.cache';
 }
 
 =item _SetResultCache()
@@ -3679,6 +3678,9 @@ with the given parameters.
 sub _GetCacheString {
     my ( $Self, %Param ) = @_;
     my $Result = '';
+
+    # add the Language to the cache key
+    $Result .= 'Language:' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage};
 
     if ( $Param{TimeZone} ) {
         $Result .= 'TimeZone:' . $Param{TimeZone};
