@@ -12,8 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get dynamic field backend object
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
@@ -537,4 +536,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;

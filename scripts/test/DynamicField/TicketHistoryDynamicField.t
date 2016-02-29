@@ -12,9 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -29,7 +35,7 @@ my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "TestTextArea$RandomID",
     Label      => 'TestTextAreaShortName',
     FieldOrder => 9991,
-    FieldType  => 'TextArea',                # mandatory, selects the DF backend to use for this field
+    FieldType  => 'TextArea',
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'TestTextAreaShortName',
@@ -54,7 +60,7 @@ my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
         "TestTextArea1TestTextArea2TestTextArea3TestTextArea4TestTextArea5TestTextArea6TestTextArea7TestTextArea8TestTextArea9TestTextArea10TestTextArea11TestTextArea$RandomID",
     Label      => 'TestTextArea_long',
     FieldOrder => 9992,
-    FieldType  => 'TextArea',            # mandatory, selects the DF backend to use for this field
+    FieldType  => 'TextArea',
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'TestTextAreaLongName',
@@ -73,18 +79,18 @@ if ($FieldID2) {
 }
 
 # get the Dynamic Fields configuration
-my $DynamicFieldsConfig = $ConfigObject->Get('DynamicFields::Driver');
+my $DynamicFieldsConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver');
 
 # sanity check
 $Self->Is(
     ref $DynamicFieldsConfig,
     'HASH',
-    'Dynamic Field confguration',
+    'Dynamic Field configuration',
 );
 $Self->IsNotDeeply(
     $DynamicFieldsConfig,
     {},
-    'Dynamic Field confguration is not empty',
+    'Dynamic Field configuration is not empty',
 );
 
 $Self->True(
@@ -95,7 +101,7 @@ $Self->True(
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
+    'Backend object was created successfully',
 );
 
 # check all registered backend delegates
@@ -108,10 +114,10 @@ $Self->True(
 $Self->Is(
     ref $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
     $DynamicFieldsConfig->{$FieldType}->{Module},
-    "Backend delegate for field type $FieldType was created successfuly",
+    "Backend delegate for field type $FieldType was created successfully",
 );
 
-# Tests for diferent length of Dynamic Field name and Value
+# Tests for different length of Dynamic Field name and Value
 # short value there is 12 characters
 # long value there is 159 characters
 # extra-long value there is 318 characters
@@ -501,54 +507,11 @@ for my $Test (@Tests) {
                         "$Test->{Name} for TicketCreate - History Name for ticket $TicketID"
                     );
                 }
-
             }
         }
-
-        # delete the ticket
-        my $TicketDelete = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
-
-        # sanity check
-        $Self->True(
-            $TicketDelete,
-            "$Test->{Name} - TicketDelete() successful for Ticket ID $TicketID",
-        );
-
     }
 }
 
-# clean up created DynamicFields
-for my $FieldID (@FieldIDs) {
-
-    my $ValuesDelete = $BackendObject->AllValuesDelete(
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-            FieldType  => 'Text',
-        },
-        UserID => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $ValuesDelete,
-        "AllValuesDelete() successful for Field ID $FieldID",
-    );
-
-    # delete the dynamic field
-    my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $FieldID,
-        UserID => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $FieldDelete,
-        "DynamicFieldDelete() successful for Field ID $FieldID",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

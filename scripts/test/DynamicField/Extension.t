@@ -12,9 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
@@ -235,7 +234,7 @@ my %Functions = (
 # define tests
 my @Tests = (
     {
-        Name   => 'Dyanmic Field Text',
+        Name   => 'Dynamic Field Text',
         Config => {
             FieldConfig => $DynamicFieldConfigs{Text},
         },
@@ -251,7 +250,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field TextArea',
+        Name   => 'Dynamic Field TextArea',
         Config => {
             FieldConfig => $DynamicFieldConfigs{TextArea},
         },
@@ -267,7 +266,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field Checkbox',
+        Name   => 'Dynamic Field Checkbox',
         Config => {
             FieldConfig => $DynamicFieldConfigs{Checkbox},
         },
@@ -283,7 +282,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field Dropdown',
+        Name   => 'Dynamic Field Dropdown',
         Config => {
             FieldConfig => $DynamicFieldConfigs{Dropdown},
         },
@@ -299,7 +298,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field Multiselect',
+        Name   => 'Dynamic Field Multiselect',
         Config => {
             FieldConfig => $DynamicFieldConfigs{Multiselect},
         },
@@ -331,7 +330,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field Date',
+        Name   => 'Dynamic Field Date',
         Config => {
             FieldConfig => $DynamicFieldConfigs{Date},
         },
@@ -347,7 +346,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Dyanmic Field DateTime',
+        Name   => 'Dynamic Field DateTime',
         Config => {
             FieldConfig => $DynamicFieldConfigs{DateTime},
         },
@@ -364,6 +363,7 @@ my @Tests = (
     },
 );
 
+# execute tests
 for my $Test (@Tests) {
     for my $Behavior (@Behaviors) {
         my $HasBehaviorResult = $DFBackendObject->HasBehavior(
@@ -389,4 +389,7 @@ for my $Test (@Tests) {
         }
     }
 }
+
+# we don't need any cleanup
+
 1;

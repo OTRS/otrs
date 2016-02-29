@@ -17,15 +17,23 @@ use CGI;
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $RandomID = int rand 1_000_000_000;
+# define needed variable
+my $RandomID = $Helper->GetRandomID();
 
 # set timezone variables
 $ConfigObject->Set(
@@ -118,7 +126,7 @@ for my $DynamicField (@DynamicFields) {
     $DynamicFieldConfigsByType{ $DynamicField->{FieldType} } = $DynamicFieldConfig;
 }
 
-# create different layout objects for diffefrent time zones
+# create different layout objects for different time zones
 my $LayoutObjectM6 = Kernel::Output::HTML::Layout->new(
     Lang         => 'en',
     UserTimeZone => '-6',
@@ -481,13 +489,14 @@ my @Tests = (
     },
 );
 
+# execute tests
 for my $Test (@Tests) {
 
     # for EditFieldRender test both cases, a values passed and value in a web request as they might
     # be different
     for my $Type ( sort keys %{ $Test->{Config}->{EditFieldRender} } ) {
 
-        # set the appropiate configuration
+        # set the appropriate configuration
         my %Config;
         if ( $Type eq 'Value' ) {
             %Config = (
@@ -497,7 +506,7 @@ for my $Test (@Tests) {
         }
         else {
 
-            # creatate a new CGI object to simulate a web request
+            # create a new CGI object to simulate a web request
             my $WebRequest = CGI->new( $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam} );
 
             my $LocalParamObject = Kernel::System::Web::Request->new(
@@ -537,7 +546,7 @@ for my $Test (@Tests) {
         #reset capturing groups
         "OTRS" =~ m{OTRS};
 
-        # also get Hour and Munute for DateTime fields
+        # also get Hour and Minute for DateTime fields
         if ( $Test->{Config}->{Type} eq 'DateTime' ) {
 
             #get hour from HTML
@@ -563,7 +572,7 @@ for my $Test (@Tests) {
 
     }
 
-    # creatate a new CGI object to simulate a web request
+    # create a new CGI object to simulate a web request
     my $WebRequest = CGI->new( $Test->{Config}->{EditFieldValueGet}->{CGIParam} );
 
     my $LocalParamObject = Kernel::System::Web::Request->new(
@@ -600,46 +609,6 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup the system
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
-
-for my $FieldType ( sort keys %DynamicFieldConfigsByType ) {
-
-    my $DynamicFieldConfig = $DynamicFieldConfigsByType{$FieldType};
-    my $FieldID            = $DynamicFieldConfig->{ID};
-
-    my $ValuesDelete = $BackendObject->AllValuesDelete(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        UserID             => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $ValuesDelete,
-        "AllValuesDelete() successful for Field ID $FieldID",
-    );
-
-    # delete the dynamic field
-    my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $FieldID,
-        UserID => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $FieldDelete,
-        "DynamicFieldDelete() successful for Field ID $FieldID",
-    );
-}
+# cleanup is done by RestoreDatabase
 
 1;

@@ -13,7 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
@@ -723,4 +722,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;

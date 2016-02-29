@@ -16,7 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my $UserID = 1;
@@ -436,7 +435,7 @@ for my $Test (@Tests) {
             }
             else {
 
-                # like Operator is very complex and deppends on the DB
+                # like Operator is very complex and depends on the DB
                 my $SQL = $DBObject->QueryCondition(
                     Key   => $Test->{ExpectedResult}->{$Operator}->{ColumnKey},
                     Value => $Config{SearchTerm},
@@ -452,4 +451,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;

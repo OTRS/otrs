@@ -17,13 +17,13 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
 my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
 # use a fixed year to compare the time selection results
-$HelperObject->FixedTimeSet(
+$Helper->FixedTimeSet(
     $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 );
 
@@ -1268,7 +1268,7 @@ EOF
         Success => 1,
     },
     {
-        Name   => 'Multiselect: Value direct (multiople)',
+        Name   => 'Multiselect: Value direct (multiple)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
             LayoutObject       => $LayoutObject,
@@ -3079,7 +3079,7 @@ for my $Test (@Tests) {
 
         if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
-            # creatate a new CGI object to simulate a web request
+            # create a new CGI object to simulate a web request
             my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
 
             my $LocalParamObject = Kernel::System::Web::Request->new(
@@ -3119,4 +3119,5 @@ for my $Test (@Tests) {
 }
 
 # we don't need any cleanup
+
 1;
