@@ -1301,6 +1301,12 @@ Core.UI.InputFields = (function (TargetNS) {
                     $TreeContainerObj.addClass('InputField_TreeContainer')
                         .attr('tabindex', '-1');
 
+                    // Subtract approx. filters list height if applicable
+                    if (Filterable) {
+                        AvailableMaxHeight -= $SelectObj.data('filters').Filters.length
+                            * Config.SafeMargin;
+                    }
+
                     // Ensure the minimum height of the list
                     if (AvailableMaxHeight < 90) {
                         AvailableMaxHeight = 90;
