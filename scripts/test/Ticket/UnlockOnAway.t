@@ -79,6 +79,11 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTim
     SystemTime => $TimeObject->SystemTime(),
 );
 
+# Special case for leap years. There is no Feb 29 in the next and previous years in this case.
+if ( $Month == 2 && $Day == 29) {
+    $Day--;
+}
+
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeStartYear',
