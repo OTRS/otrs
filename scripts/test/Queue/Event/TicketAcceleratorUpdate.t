@@ -15,6 +15,14 @@ use utf8;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Module       = 'StaticDB';
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 $ConfigObject->Set(
     Key   => 'Ticket::ArchiveSystem',
     Value => 1,
@@ -132,5 +140,7 @@ for my $TicketID (@TicketIDs) {
         "$Module TicketDelete() - $TicketID",
     );
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

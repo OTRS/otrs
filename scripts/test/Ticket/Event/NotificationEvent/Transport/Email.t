@@ -16,6 +16,14 @@ use vars (qw($Self));
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # disable rich text editor
 my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',
@@ -286,5 +294,7 @@ $Self->True(
     $TicketDelete,
     "TicketDelete() successful for Ticket ID $TicketID",
 );
+
+# cleanup is done by RestoreDatabase.
 
 1;

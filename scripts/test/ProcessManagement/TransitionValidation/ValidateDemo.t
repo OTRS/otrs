@@ -15,7 +15,6 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ValidationObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo');
 
@@ -76,7 +75,7 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => '7 - Wromg Queue (Misc)',
+        Name   => '7 - Wrong Queue (Misc)',
         Config => {
             Data => {
                 Queue => 'Misc',
@@ -104,7 +103,6 @@ for my $Test (@Tests) {
             $ValidateResult,
             1,
             "Validate() ValidationDemo for test $Test->{Name} should return 1",
-
         );
     }
     else {
@@ -112,7 +110,6 @@ for my $Test (@Tests) {
             $ValidateResult,
             1,
             "Validate() ValidationDemo for test $Test->{Name} should not return 1",
-
         );
     }
 }

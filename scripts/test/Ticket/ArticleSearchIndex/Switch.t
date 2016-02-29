@@ -14,9 +14,10 @@ use vars (qw($Self));
 
 #
 # This test should make sure that after switching from StaticDB to RuntimeDB,
-#   tickets with stale entries in article_search can still be deleted (see bug#11677).
+# tickets with stale entries in article_search can still be deleted (see bug#11677).
 #
 
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
@@ -24,12 +25,21 @@ $ConfigObject->Set(
     Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
 );
 
+# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 $Self->True(
     $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::StaticDB'),
     "TicketObject loaded the correct backend",
 );
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create some content
 my $TicketID = $TicketObject->TicketCreate(
@@ -95,5 +105,7 @@ $Self->True(
     $Delete,
     'TicketDelete()',
 );
+
+# cleanup is done by RestoreDatabase.
 
 1;

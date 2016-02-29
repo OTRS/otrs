@@ -32,9 +32,15 @@ my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # UTC tests
 local $ENV{TZ} = 'UTC';
@@ -244,7 +250,7 @@ for my $Ticket (@Tickets) {
     );
 
     # set the fixed time
-    $HelperObject->FixedTimeSet($SystemTime);
+    $Helper->FixedTimeSet($SystemTime);
 
     # create the ticket
     my $TicketID = $TicketObject->TicketCreate(
@@ -260,7 +266,7 @@ for my $Ticket (@Tickets) {
     push @TicketIDs, $TicketID;
 }
 continue {
-    $HelperObject->FixedTimeUnset();
+    $Helper->FixedTimeUnset();
 }
 
 # set the language to 'en' before the StatsRun
@@ -1322,7 +1328,7 @@ for my $Test (@Tests) {
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(
         String => $Test->{TimeStamp},
     );
-    $HelperObject->FixedTimeSet($SystemTime);
+    $Helper->FixedTimeSet($SystemTime);
 
     # print test case description
     if ( $Test->{Description} ) {
@@ -1362,33 +1368,11 @@ for my $Test (@Tests) {
 }
 continue {
 
-    $HelperObject->FixedTimeUnset();
+    $Helper->FixedTimeUnset();
 
     $TestCount++;
 }
 
-# ------------------------------------------------------------ #
-# delete realted stuff
-# ------------------------------------------------------------ #
-
-for my $TicketID (@TicketIDs) {
-
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Success,
-        "TicketDelete() Removed ticket $TicketID",
-    );
-}
-
-$Self->True(
-    $StatsObject->StatsDelete(
-        StatID => $StatID,
-        UserID => 1,
-    ),
-    'StatsDelete() delete stat',
-);
+# cleanup is done by RestoreDatabase.
 
 1;

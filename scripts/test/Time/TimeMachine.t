@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get time object
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 my $StartSystemTime = $TimeObject->SystemTime();

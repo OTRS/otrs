@@ -23,6 +23,14 @@ my $Stats = $StatsObject->StatsListGet(
     UserID => 1,
 );
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 $Self->True(
     scalar keys %{$Stats},
     ( scalar keys %{$Stats} ) . " Stats found",
@@ -68,7 +76,7 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
         "StatsRun preview result has same number of columns in Row 1 as live result (StatID $StatID) $Stat->{Object}",
     );
 
-    # Ticketlist stats make a ticket search and that could return identical results in preview and live
+    # TicketList stats make a ticket search and that could return identical results in preview and live
     #   if there are not enough tickets in the system (for example just one).
     if ( $Stat->{Object} ne 'TicketList' ) {
         $Self->IsNotDeeply(
@@ -78,5 +86,7 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;
