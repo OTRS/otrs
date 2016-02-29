@@ -1301,6 +1301,184 @@ my @Tests = (
             ],
         ],
     },
+
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # Language: de
+    {
+        Description => "Test stat without a time zone (last complete 7 days and scale 1 day) and language 'de'",
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'de',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sa 8',
+                'So 9',
+                'Mo 10',
+                'Di 11',
+                'Mi 12',
+                'Do 13',
+                'Fr 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # Language: es
+    {
+        Description => "Test stat without a time zone (last complete 7 days and scale 1 day) and language 'es'",
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'es',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Cola',
+                'Sáb 8',
+                'Dom 9',
+                'Lun 10',
+                'Mar 11',
+                'Mié 12',
+                'Jue 13',
+                'Vie 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
 );
 
 # ------------------------------------------------------------ #
@@ -1312,6 +1490,20 @@ my $TestCount = 1;
 
 TEST:
 for my $Test (@Tests) {
+
+    # set the language for the test (for the translatable content)
+    if ($Test->{Language}) {
+
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::Language'],
+        );
+
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::Language' => {
+                UserLanguage => $Test->{Language},
+            },
+        );
+    }
 
     # check ContractAdd attribute
     if ( !$Test->{StatsUpdate} || ref $Test->{StatsUpdate} ne 'HASH' ) {
@@ -1372,6 +1564,11 @@ continue {
 
     $TestCount++;
 }
+
+# to get the system default language in the next test
+$Kernel::OM->ObjectsDiscard(
+    Objects => ['Kernel::Language'],
+);
 
 # cleanup is done by RestoreDatabase.
 

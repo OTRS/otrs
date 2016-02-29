@@ -14,6 +14,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.8 2016-??-??
+ - 2016-02-29 Fixed bug#[11757](http://bugs.otrs.org/show_bug.cgi?id=11757) - otrs.Console.pl Maint::Stats::Generate - language option not working.
  - 2016-02-29 Fixed bug#[11821](http://bugs.otrs.org/show_bug.cgi?id=11821) - Invisible fields are validated in ActivityDialogs.
  - 2016-02-29 Fixed bug#[11878](http://bugs.otrs.org/show_bug.cgi?id=11878) - Dashboard Widget Online removes menu bar if Italian language is set.
  - 2016-02-26 Fixed bug#[10303](http://bugs.otrs.org/show_bug.cgi?id=10303) - Created Date Not Available as a Dashboard Column.

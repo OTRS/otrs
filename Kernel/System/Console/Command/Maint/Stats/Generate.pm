@@ -271,7 +271,6 @@ sub Run {
             StatID       => $Self->{StatID},
             GetParam     => \%GetParam,
             UserID       => 1,
-            UserLanguage => $Self->{Language},
         ),
     };
 
