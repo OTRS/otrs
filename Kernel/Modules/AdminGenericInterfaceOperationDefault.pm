@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -35,7 +36,7 @@ sub Run {
 
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need WebserviceID!",
+            Message => Translatable('Need WebserviceID!'),
         );
     }
 
@@ -45,7 +46,7 @@ sub Run {
 
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
         );
     }
 
@@ -112,12 +113,12 @@ sub _Add {
 
     if ( !$OperationType ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need OperationType",
+            Message => Translatable('Need OperationType'),
         );
     }
     if ( !$Self->_OperationTypeCheck( OperationType => $OperationType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Operation $OperationType is not registered",
+            Message => $LayoutObject->{LanguageObject}->Translate('Operation %s is not registered', $OperationType),
         );
     }
 
@@ -161,12 +162,12 @@ sub _AddAction {
     # uncorrectable errors
     if ( !$GetParam{OperationType} ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need OperationType",
+            Message => Translatable('Need OperationType'),
         );
     }
     if ( !$Self->_OperationTypeCheck( OperationType => $GetParam{OperationType} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "OperationType $GetParam{OperationType} is not registered",
+            Message => $LayoutObject->{LanguageObject}->Translate('OperationType %s is not registered', $GetParam{OperationType}),
         );
     }
 
@@ -244,7 +245,7 @@ sub _Change {
 
     if ( !$Operation ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need Operation",
+            Message => Translatable('Need Operation'),
         );
     }
 
@@ -256,7 +257,7 @@ sub _Change {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for operation $Operation",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for operation %s', $Operation),
         );
     }
 
@@ -294,7 +295,7 @@ sub _ChangeAction {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need $Needed",
+                Message => $LayoutObject->{LanguageObject}->Translate('Need %s', $Needed),
             );
         }
     }
@@ -309,7 +310,7 @@ sub _ChangeAction {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for operation $GetParam{OldOperation}",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for operation %s', $GetParam{OldOperation}),
         );
     }
 

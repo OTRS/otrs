@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -34,7 +35,7 @@ sub Run {
 
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need WebserviceID!",
+            Message => Translatable('Need WebserviceID!'),
         );
     }
 
@@ -44,7 +45,7 @@ sub Run {
 
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
         );
     }
 

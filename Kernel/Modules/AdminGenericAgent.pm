@@ -1376,7 +1376,7 @@ sub _StopWordsServerErrorsGet {
 
     if ( !%Param ) {
         $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
-            Message => "Got no values to check.",
+            Message => Translatable('Got no values to check.'),
         );
     }
 

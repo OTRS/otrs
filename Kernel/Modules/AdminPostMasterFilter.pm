@@ -71,7 +71,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Update' ) {
         my %Data = $PostMasterFilter->FilterGet( Name => $Name );
         if ( !%Data ) {
-            return $LayoutObject->ErrorScreen( Message => "No such filter: $Name" );
+            return $LayoutObject->ErrorScreen(
+                Message => $LayoutObject->{LanguageObject}->Translate('No such filter: %s', $Name),
+            );
         }
         return $Self->_MaskUpdate(
             Name => $Name,
