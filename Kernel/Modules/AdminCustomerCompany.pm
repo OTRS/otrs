@@ -149,7 +149,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Info     => $LayoutObject->{LanguageObject}->Translate(
-                    'Customer Company %s already exists!.',
+                    'Customer Company %s already exists!',
                     $GetParam{CustomerID},
                 ),
             );
@@ -252,7 +252,9 @@ sub Run {
                 $Output .= $LayoutObject->NavigationBar(
                     Type => $NavigationBarType,
                 );
-                $Output .= $LayoutObject->Notify( Info => Translatable('Customer company added!') );
+                $Output .= $LayoutObject->Notify(
+                    Info => Translatable('Customer company added!'),
+                );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminCustomerCompany',
                     Data         => \%Param,
@@ -275,7 +277,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Info     => $LayoutObject->{LanguageObject}->Translate(
-                    'Customer Company %s already exists!.',
+                    'Customer Company %s already exists!',
                     $CustomerCompanyID,
                 ),
             );

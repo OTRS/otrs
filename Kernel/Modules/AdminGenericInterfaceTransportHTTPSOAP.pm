@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -43,7 +44,7 @@ sub Run {
         # check for WebserviceID
         if ( !$WebserviceID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need WebserviceID!",
+                Message => Translatable('Need WebserviceID!'),
             );
         }
 
@@ -53,7 +54,7 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
+                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
             );
         }
 
@@ -77,7 +78,7 @@ sub Run {
         # check for WebserviceID
         if ( !$WebserviceID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need WebserviceID!",
+                Message => Translatable('Need WebserviceID!'),
             );
         }
 
@@ -89,7 +90,7 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
+                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
             );
         }
 
@@ -106,7 +107,7 @@ sub Run {
 
                 # add server error error class
                 $Error{ $ParamName . 'ServerError' }        = 'ServerError';
-                $Error{ $ParamName . 'ServerErrorMessage' } = 'This field is required';
+                $Error{ $ParamName . 'ServerErrorMessage' } = Translatable('This field is required');
             }
         }
 
@@ -126,7 +127,7 @@ sub Run {
 
                 # add server error error class
                 $Error{EndpointServerError}        = 'ServerError';
-                $Error{EndpointServerErrorMessage} = 'This field is required';
+                $Error{EndpointServerErrorMessage} = Translatable('This field is required');
             }
 
             $TransportConfig->{Encoding}   = $GetParam->{Encoding};
@@ -194,7 +195,7 @@ sub Run {
 
                 # add server error error class
                 $Error{MaxLengthServerError}        = 'ServerError';
-                $Error{MaxLengthServerErrorMessage} = 'This field should be an integer number.';
+                $Error{MaxLengthServerErrorMessage} = Translatable('This field should be an integer number.');
             }
         }
 
@@ -249,7 +250,7 @@ sub Run {
     }
 
     return $LayoutObject->ErrorScreen(
-        Message => "Need Subaction!",
+        Message => Translatable('Need Subaction!'),
     );
 }
 

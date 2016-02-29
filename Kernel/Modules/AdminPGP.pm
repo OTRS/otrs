@@ -13,6 +13,8 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+use Kernel::Language qw(Translatable);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -89,7 +91,7 @@ sub Run {
         my $Type = $ParamObject->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Key to delete!',
+                Message => Translatable('Need param Key to delete!'),
             );
         }
         my $Success = '';
@@ -118,7 +120,7 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         my $Message = '';
         if ($Success) {
-            $Message = "Key $Key deleted!";
+            $Message = $LayoutObject->{LanguageObject}->Translate('Key %s deleted!', $Key);
         }
         else {
             $Message = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
@@ -242,7 +244,7 @@ sub Run {
         my $Type = $ParamObject->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Key to download!',
+                Message => Translatable('Need param Key to download!'),
             );
         }
         my $KeyString = '';
@@ -272,7 +274,7 @@ sub Run {
         my $Type = $ParamObject->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Key to download!',
+                Message => Translatable('Need param Key to download!'),
             );
         }
         my $Download = '';

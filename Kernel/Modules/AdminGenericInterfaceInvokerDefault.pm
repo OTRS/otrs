@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -34,7 +35,7 @@ sub Run {
         = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WebserviceID' ) || 0 );
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need WebserviceID!",
+            Message => Translatable('Need WebserviceID!'),
         );
     }
 
@@ -44,7 +45,7 @@ sub Run {
 
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
         );
     }
 
@@ -133,12 +134,12 @@ sub _Add {
 
     if ( !$InvokerType ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need InvokerType",
+            Message => Translatable('Need InvokerType'),
         );
     }
     if ( !$Self->_InvokerTypeCheck( InvokerType => $InvokerType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Invoker $InvokerType is not registered",
+            Message => $LayoutObject->{LanguageObject}->Translate('Invoker %s is not registered', $InvokerType),
         );
     }
 
@@ -182,12 +183,12 @@ sub _AddAction {
     # uncorrectable errors
     if ( !$GetParam{InvokerType} ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need InvokerType",
+            Message => Translatable('Need InvokerType'),
         );
     }
     if ( !$Self->_InvokerTypeCheck( InvokerType => $GetParam{InvokerType} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "InvokerType $GetParam{InvokerType} is not registered",
+            Message => $LayoutObject->{LanguageObject}->Translate('InvokerType % is not registered', $GetParam{InvokerType}),
         );
     }
 
@@ -266,7 +267,7 @@ sub _Change {
 
     if ( !$Invoker ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need Invoker",
+            Message => Translatable('Need Invoker'),
         );
     }
 
@@ -278,7 +279,7 @@ sub _Change {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for invoker $Invoker",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $Invoker),
         );
     }
 
@@ -316,7 +317,7 @@ sub _ChangeAction {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need $Needed",
+                Message => $LayoutObject->{LanguageObject}->Translate('Need %s', $Needed),
             );
         }
     }
@@ -331,7 +332,7 @@ sub _ChangeAction {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for invoker $GetParam{OldInvoker}",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{OldInvoker}),
         );
     }
 
@@ -725,7 +726,7 @@ sub _AddEvent {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for invoker $GetParam{Invoker}",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{Invoker}),
         );
     }
 
@@ -788,7 +789,7 @@ sub _DeleteEvent {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need $Needed",
+                Message => $LayoutObject->{LanguageObject}->Translate('Need %s', $Needed),
             );
         }
     }
@@ -803,7 +804,7 @@ sub _DeleteEvent {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for invoker $GetParam{Invoker}",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{Invoker}),
         );
     }
 

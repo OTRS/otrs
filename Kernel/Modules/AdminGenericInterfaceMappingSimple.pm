@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -55,14 +56,14 @@ sub Run {
     # check for valid action backend
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get registered configuration for action type $ActionType",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get registered configuration for action type %s', $ActionType),
         );
     }
 
     # check for WebserviceID
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need WebserviceID!",
+            Message => Translatable('Need WebserviceID!'),
         );
     }
 
@@ -76,7 +77,7 @@ sub Run {
     # check for valid web service configuration
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
         );
     }
 
@@ -86,7 +87,7 @@ sub Run {
     # check for valid action backend
     if ( !$ActionBackend ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get backend for $ActionType $Action",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get backend for %s %s', $ActionType, $Action),
         );
     }
 
@@ -231,7 +232,7 @@ sub Run {
         # check for successful web service update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not update configuration data for WebserviceID $WebserviceID",
+                Message => $LayoutObject->{LanguageObject}->Translate('Could not update configuration data for WebserviceID %s', $WebserviceID),
             );
         }
 

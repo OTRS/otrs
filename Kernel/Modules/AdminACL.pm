@@ -80,8 +80,7 @@ sub Run {
 
         if ( !$ACLImport->{Success} ) {
             my $Message = $ACLImport->{Message}
-                || 'ACLs could not be Imported due to a unknown error,'
-                . ' please check OTRS logs for more information';
+                || Translatable('ACLs could not be Imported due to a unknown error, please check OTRS logs for more information');
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );
@@ -95,16 +94,19 @@ sub Run {
         }
         if ( $ACLImport->{UpdatedACLs} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following ACLs have been updated successfully: '
-                    . $ACLImport->{UpdatedACLs},
+                Info => $LayoutObject->{LanguageObject}->Translate(
+                    'The following ACLs have been updated successfully: %s',
+                    $ACLImport->{UpdatedACLs}
+                ),
             };
         }
         if ( $ACLImport->{ACLErrors} ) {
             push @{ $Param{NotifyData} }, {
                 Priority => 'Error',
-                Info     => 'There where errors adding/updating the following ACLs: '
-                    . $ACLImport->{ACLErrors}
-                    . '. Please check the log file for more information.',
+                Info     => $LayoutObject->{LanguageObject}->Translate(
+                    'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.',
+                     $ACLImport->{ACLErrors}
+                ),
             };
         }
 
@@ -165,14 +167,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{ValidID} ) {
 
             # add server error error class
             $Error{ValidIDServerError}        = 'ServerError';
-            $Error{ValidIDServerErrorMessage} = 'This field is required';
+            $Error{ValidIDServerErrorMessage} = Translatable('This field is required');
         }
 
         # if there is an error return to edit screen
@@ -198,7 +200,7 @@ sub Run {
         # show error if can't create
         if ( !$ACLID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the ACL",
+                Message => Translatable('There was an error creating the ACL'),
             );
         }
 
@@ -214,7 +216,7 @@ sub Run {
         # check for ACLID
         if ( !$ACLID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ACLID!",
+                Message => Translatable('Need ACLID!'),
             );
         }
 
@@ -227,7 +229,7 @@ sub Run {
         # check for valid ACL data
         if ( !IsHashRefWithData($ACLData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for ACLID $ACLID",
+                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for ACLID %s', $ACLID),
             );
         }
 
@@ -282,14 +284,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{ValidID} ) {
 
             # add server error error class
             $Error{ValidIDServerError}        = 'ServerError';
-            $Error{ValidIDServerErrorMessage} = 'This field is required';
+            $Error{ValidIDServerErrorMessage} = Translatable('This field is required');
         }
 
         # if there is an error return to edit screen
@@ -318,7 +320,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the ACL",
+                Message => Translatable('There was an error updating the ACL'),
             );
         }
 
@@ -361,7 +363,7 @@ sub Run {
 
                 # show error if can't set state
                 return $LayoutObject->ErrorScreen(
-                    Message => "There was an error setting the entity sync status.",
+                    Message => Translatable('There was an error setting the entity sync status.'),
                 );
             }
         }
@@ -369,7 +371,7 @@ sub Run {
 
             # show error if can't synch
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error synchronizing the ACLs.",
+                Message => Translatable('There was an error synchronizing the ACLs.'),
             );
         }
     }
@@ -400,7 +402,7 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message} = 'ACL $ACLID could not be deleted';
+                $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate('ACL %s could not be deleted', $ACLID);
             }
 
             # build JSON output
@@ -448,7 +450,7 @@ sub Run {
 
             if ( !$ACLSingleData || !IsHashRefWithData($ACLSingleData) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "There was an error getting data for ACL with ID " . $ACLID,
+                    Message => $LayoutObject->{LanguageObject}->Translate('There was an error getting data for ACL with ID %s', $ACLID),
                 );
             }
 
@@ -520,7 +522,7 @@ sub Run {
         # show error if can't create
         if ( !$ACLID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the ACL",
+                Message => Translatable('There was an error creating the ACL'),
             );
         }
 

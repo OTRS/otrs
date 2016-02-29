@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -38,7 +39,7 @@ sub Run {
 
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need WebserviceID!",
+            Message => Translatable('Need WebserviceID!'),
         );
     }
 
@@ -48,7 +49,7 @@ sub Run {
 
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
         );
     }
 
@@ -219,7 +220,9 @@ sub _ExportWebserviceHistory {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$Param{WebserviceHistoryID} ) {
-        $LayoutObject->FatalError( Message => "Got no WebserviceHistoryID!" );
+        $LayoutObject->FatalError(
+            Message => Translatable('Got no WebserviceHistoryID!'),
+        );
     }
 
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
@@ -257,7 +260,9 @@ sub _RollbackWebserviceHistory {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$Param{WebserviceHistoryID} ) {
-        $LayoutObject->FatalError( Message => "Got no WebserviceHistoryID!" );
+        $LayoutObject->FatalError(
+            Message => Translatable('Got no WebserviceHistoryID!'),
+        );
     }
 
     my $WebserviceID        = $Param{WebserviceID};
