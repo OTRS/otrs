@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-29 Fixed bug#[11878](http://bugs.otrs.org/show_bug.cgi?id=11878) - Dashboard Widget Online removes menu bar if Italian language is set.
  - 2016-02-26 Fixed bug#[10303](http://bugs.otrs.org/show_bug.cgi?id=10303) - Created Date Not Available as a Dashboard Column.
  - 2016-02-26 Fixed bug#[11891](http://bugs.otrs.org/show_bug.cgi?id=11891) - Unit Tests fail if MIME::EncWords is installed.
  - 2016-02-23 Fixed bug#[11882](http://bugs.otrs.org/show_bug.cgi?id=11882) - Untraslatable string.
