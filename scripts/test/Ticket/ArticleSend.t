@@ -36,7 +36,7 @@ $Self->True(
 
 my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
-# Testing ArticleSend, especially for bug#8828 (attachments)
+# testing ArticleSend, especially for bug#8828 (attachments)
 # create a ticket first
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -223,5 +223,7 @@ for my $Test (@ArticleTests) {
     );
 
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

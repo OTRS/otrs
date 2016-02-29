@@ -16,8 +16,16 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $UserID   = 1;
-my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -489,14 +497,6 @@ for my $Test (@Tests) {
     }
 }
 
-# the ticket is no longer needed
-my $Success = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "TicketDelete() - TicketID:'$TicketID'",
-);
+# cleanup is done by RestoreDatabase.
 
 1;

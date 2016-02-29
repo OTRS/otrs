@@ -18,13 +18,17 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     # make sure that the TicketObject gets recreated for each loop.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+    # get helper object
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::UnitTest::Helper' => {
+            RestoreDatabase => 1,
+        },
+    );
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-    my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
+    my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => 'Raw' );
 
-    $ConfigObject->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
@@ -358,17 +362,8 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         $AccountedTimes[0] + $AccountedTimes[ $ArraySize - 1 ],
         "Merged ticket accounted time",
     );
-
-    # delete tickets
-    for my $TicketID (@TicketIDs) {
-        $Self->True(
-            $TicketObject->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => 1,
-            ),
-            "$Module TicketDelete()",
-        );
-    }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

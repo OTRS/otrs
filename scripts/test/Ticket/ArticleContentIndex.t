@@ -12,9 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some test ticket for ArticleContentIndex',
@@ -201,10 +208,6 @@ $Self->Is(
     'ArticlePage with filtering by ArticleTypeID',
 );
 
-# Cleanup
-$TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
+# cleanup is done by RestoreDatabase.
 
 1;
