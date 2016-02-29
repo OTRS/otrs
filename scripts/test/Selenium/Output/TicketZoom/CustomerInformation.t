@@ -75,11 +75,10 @@ $Selenium->RunTest(
             UserFirstname  => $CustomerData{CustomerFirstName},
             UserLastname   => $CustomerData{CustomerLastName},
             UserCustomerID => $CompanyNameID,
-            ,
-            UserLogin => $CustomerData{CustomerLogin},
-            UserEmail => $CustomerData{CustomerEmail},
-            ValidID   => 1,
-            UserID    => 1,
+            UserLogin      => $CustomerData{CustomerLogin},
+            UserEmail      => $CustomerData{CustomerEmail},
+            ValidID        => 1,
+            UserID         => 1,
         );
         $Self->True(
             $CustomerUserID,
@@ -97,8 +96,8 @@ $Selenium->RunTest(
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'open',
-            CustomerID   => $CustomerUserID,
-            CustomerUser => $CustomerData{CustomerLogin},
+            CustomerID   => $CompanyNameID,
+            CustomerUser => $CustomerUserID,
             OwnerID      => 1,
             UserID       => 1,
         );

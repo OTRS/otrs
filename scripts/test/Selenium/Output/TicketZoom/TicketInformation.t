@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use utf8;
+use POSIX qw( floor );
 
 use vars (qw($Self));
 
@@ -380,9 +381,16 @@ $Selenium->RunTest(
         # refresh screen to be sure escalation time will get latest times
         $Selenium->VerifiedRefresh();
 
+        # get ticket data for escalation time values
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+            Extended => 1,
+            UserID   => 1,
+        );
+
         # verify escalation times, warning should be active
-        for my $EscalationTime ( values %EscalationTimes ) {
-            $EscalationTime--;
+        for my $EscalationTime ( sort keys %EscalationTimes ) {
+            $EscalationTime = floor( $Ticket{$EscalationTime} / 60 );
             $Self->True(
                 $Selenium->find_element("//p[\@class='Warning'][\@title='Service Time: $EscalationTime m']"),
                 "Escalation Time $EscalationTime m , found in Ticket Information Widget",
