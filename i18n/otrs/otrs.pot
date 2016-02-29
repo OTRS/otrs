@@ -1,14 +1,14 @@
 msgid ""
-msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+msgstr "Project-Id-Version: OTRS
+POT-Creation-Date: 2014-08-08 19:10+0200
+PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE
+Last-Translator: FULL NAME <EMAIL@ADDRESS>
+Language-Team: LANGUAGE <LL@li.org>
+Language: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+"
 
 #. Template: AAABase
 msgid "Yes"
@@ -4755,6 +4755,10 @@ msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Warning: There are %s tickets affected but only %s may be modified during one job execution!"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Edit job"
 msgstr ""
 
@@ -9031,6 +9035,10 @@ msgid "Compose answer for ticket"
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "This address is registered as system address and cannot be used: %s"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
 msgstr ""
 
@@ -9096,10 +9104,6 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "Get all"
-msgstr ""
-
-#. Template: AgentTicketEmail
-msgid "Do you really want to continue?"
 msgstr ""
 
 #. Template: AgentTicketEmailOutbound
@@ -9978,6 +9982,10 @@ msgstr ""
 msgid "Slide the navigation bar"
 msgstr ""
 
+#. Template: FooterJS
+msgid "Do you really want to continue?"
+msgstr ""
+
 #. Template: Header
 msgid "You are logged in as"
 msgstr ""
@@ -10372,6 +10380,10 @@ msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
+msgstr ""
+
+#. SysConfig
+msgid "(UserLogin) Lastname Firstname"
 msgstr ""
 
 #. SysConfig
@@ -10880,6 +10892,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CutomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -12515,6 +12531,10 @@ msgid "Determines which queues will be valid for ticket's recepients in the cust
 msgstr ""
 
 #. SysConfig
+msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
 msgid "Disable restricted security for IFrames in IE. May be required for SSO to work in IE8."
 msgstr ""
 
@@ -13352,6 +13372,14 @@ msgstr ""
 
 #. SysConfig
 msgid "It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in \"Key\" should match the domain, and the value in \"Content\" should be a valid theme on your system. Please see the example entries for the proper form of the regex."
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "Lastname Firstname (UserLogin)"
 msgstr ""
 
 #. SysConfig
@@ -14244,6 +14272,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Set the default height (in pixels) of inline HTML articles in AgentTicketZoom."
+msgstr ""
+
+#. SysConfig
+msgid "Set the limit of tickets that will be executed on a single genericagent job execution."
 msgstr ""
 
 #. SysConfig
