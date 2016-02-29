@@ -18,6 +18,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -1320,10 +1321,13 @@ sub GetHeaderLine {
     my $SortedAttributesRef = $Self->_SortedAttributes();
     my @HeaderLine;
 
+    # get language object
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
     ATTRIBUTE:
     for my $Attribute ( @{$SortedAttributesRef} ) {
         next ATTRIBUTE if !$SelectedAttributes{$Attribute};
-        push @HeaderLine, $TicketAttributes->{$Attribute};
+        push @HeaderLine, $LanguageObject->Translate( $TicketAttributes->{$Attribute} );
     }
     return \@HeaderLine;
 }
@@ -1369,7 +1373,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -1464,7 +1468,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
