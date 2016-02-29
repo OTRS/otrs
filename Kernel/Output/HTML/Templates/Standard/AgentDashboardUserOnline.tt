@@ -108,7 +108,7 @@ $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
         Data,
         function(Response) {
             if (Response < 1) {
-                window.alert('[% Translate("Selected agent is not available for chat") | html %]. ');
+                window.alert([% Translate("Selected agent is not available for chat") | JSON %]);
 
                 // Reload page
                 document.location.reload(true);
