@@ -72,7 +72,7 @@ The <green>$Name</green> command migrates article data from one storage backend 
 
  <green>otrs.console.pl $Self->{Name} --target ArticleStorageFS</green>
 
-You can specifiy limits for the tickets migrated with <yellow>--tickets-closed-before-date</yellow> and <yellow>--tickets-closed-before-days</yellow>.
+You can specify limits for the tickets migrated with <yellow>--tickets-closed-before-date</yellow> and <yellow>--tickets-closed-before-days</yellow>.
 
 To reduce load on the database for a running system, you can use the <yellow>--micro-sleep</yellow> parameter. The command will pause for the specified amount of microseconds after each ticket.
 

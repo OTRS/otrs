@@ -6951,7 +6951,7 @@ sub TicketArticleStorageSwitch {
                     %{$Attachment},
                     ArticleID => $ArticleID,
                     UserID    => $Param{UserID},
-                    Force     => 1,
+                    Force     => 0,
                 );
             }
 
