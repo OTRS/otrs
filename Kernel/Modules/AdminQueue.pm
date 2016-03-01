@@ -664,9 +664,9 @@ sub _Edit {
     );
     my %Calendar = ( '' => '-' );
 
-    my $Limit = $ConfigObject->Get("ShownCalendarLimit") || 50;
+    my $Maximum = $ConfigObject->Get("MaximumCalendarNumber") || 50;
 
-    for my $CalendarNumber ( '', 1 .. $Limit ) {
+    for my $CalendarNumber ( '', 1 .. $Maximum ) {
         if ( $ConfigObject->Get("TimeVacationDays::Calendar$CalendarNumber") ) {
             $Calendar{$CalendarNumber} = "Calendar $CalendarNumber - "
                 . $ConfigObject->Get( "TimeZone::Calendar" . $CalendarNumber . "Name" );
