@@ -1,5 +1,5 @@
 package Net::SSLGlue;
-our $VERSION = '1.054';
+our $VERSION = '1.055';
 
 =head1 NAME
 
@@ -36,7 +36,7 @@ IO::Socket::INET.
 =head1 COPYRIGHT
 
 This module and the modules in the Net::SSLGlue Hierarchy distributed together
-with this module are copyright (c) 2008-2013, Steffen Ullrich.
+with this module are copyright (c) 2008-2015, Steffen Ullrich.
 All Rights Reserved.
 These modules are free software. They may be used, redistributed and/or modified
 under the same terms as Perl itself.
