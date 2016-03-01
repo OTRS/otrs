@@ -2,7 +2,6 @@
  - 2016-03-01 Fixed bug#[11858](http://bugs.otrs.org/show_bug.cgi?id=11858) - Queues can just choose between 50 Calendar.
  - 2016-03-01 Fixed bug#[939](http://bugs.otrs.org/show_bug.cgi?id=939) - Change title to another text to distinguish it in other languages.
  - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
- - 2016-03-01 Fixed bug#[939](http://bugs.otrs.org/show_bug.cgi?id=939) - Change title to another text to distinguish it in other languages.
  - 2016-02-29 Fixed bug#[11874](http://bugs.otrs.org/show_bug.cgi?id=11874) - Restrict service based on state when posting a note.
  - 2016-02-19 Fixed bug#[11468](http://bugs.otrs.org/show_bug.cgi?id=11468) - Using SVG images for Agent and Customer logo requires additional CSS.
  - 2016-02-19 Added dynamic filter fields to several admin frontends, thanks to Nils Leideck.
