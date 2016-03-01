@@ -351,7 +351,7 @@ sub Run {
         if ( !IsHashRefWithData($ActivityDialogData) ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'Could not get data for ActivityDialogIDTranslatable %s',
+                    'Could not get data for ActivityDialogID %s',
                     $ActivityDialogID
                 ),
             );
