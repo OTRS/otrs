@@ -1301,6 +1301,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         }
 
+        // IE (11) has some permission problems with objects from other windows
+        // Therefore we "copy" the object if we are in IE
+        if ($.browser.trident) {
+            Config = Core.JSON.Parse(Core.JSON.Stringify(Config));
+        }
+
         // Update config from e.g. popup windows
 
         // Update Process
