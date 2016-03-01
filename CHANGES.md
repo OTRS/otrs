@@ -17,6 +17,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.8 2016-??-??
+ - 2016-02-01 Fixed bug#[11220](http://bugs.otrs.org/show_bug.cgi?id=11220) - Highlighting broken for holiday dates in Calendar Datepicker.
  - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
  - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
  - 2016-03-01 Fixed bug#[11234](http://bugs.otrs.org/show_bug.cgi?id=11234) - Attachments lost due to filename collision in ArticleStorageFS.

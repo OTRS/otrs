@@ -831,13 +831,13 @@ span.ImportantArticles i {
 /* Vacation Days */
 td.Highlight a.ui-state-default {
     border: 1px solid #fad42e;
-    background: #ffe45c;
-    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c));
-    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
-    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
-    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
-    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%);
+    background: #ffe45c !important;
+    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c)) !important;
+    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
+    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
+    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%) !important;
+    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%) !important;
 }
 
 /* Today */
