@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-02-01 Fixed bug#[11854](http://bugs.otrs.org/show_bug.cgi?id=11854) - Using the spam button with a restricting ACL leads to useless error message, thanks to S7.
  - 2016-02-01 Fixed bug#[11220](http://bugs.otrs.org/show_bug.cgi?id=11220) - Highlighting broken for holiday dates in Calendar Datepicker.
  - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
  - 2016-03-01 Updated CPAN module Net::SSLGlue to version 1.055.

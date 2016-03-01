@@ -239,6 +239,15 @@ sub Run {
         $Error{DestQueue} = 1;
     }
 
+    # check if destination queue is restricted by ACL
+    my %QueueList = $TicketObject->TicketMoveList(
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+    );
+    if ( $GetParam{DestQueueID} && !exists $QueueList{ $GetParam{DestQueueID} } ) {
+        return $LayoutObject->NoPermission( WithHeader => 'yes' );
+    }
+
     # do not submit
     if ( $GetParam{NoSubmit} ) {
         $Error{NoSubmit} = 1;
