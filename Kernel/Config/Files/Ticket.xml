@@ -9803,6 +9803,7 @@
                 <Item>AgentTicketPhone</Item>
                 <Item>AgentTicketPhoneInbound</Item>
                 <Item>AgentTicketPhoneOutbound</Item>
+                <Item>AgentTicketPlain</Item>
                 <Item>AgentTicketPrint</Item>
                 <Item>AgentTicketPriority</Item>
                 <Item>AgentTicketProcess</Item>
