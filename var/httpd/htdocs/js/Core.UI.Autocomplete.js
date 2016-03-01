@@ -168,6 +168,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
 
                 if (!$Loader.length) {
                     $Element.after(LoaderHTML);
+                    $Loader = $('#' + AJAXLoaderPrefix + FieldID);
                 }
                 else {
                     $Loader.show();
