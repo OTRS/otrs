@@ -160,7 +160,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
         $Element.autocomplete({
             minLength: AutocompleteConfig.MinQueryLength,
             delay: AutocompleteConfig.QueryDelay,
-            search: function(Event) {
+            search: function() {
                 var FieldID = $Element.attr('id'),
                     LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
 
