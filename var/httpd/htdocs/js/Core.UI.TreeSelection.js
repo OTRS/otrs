@@ -524,13 +524,13 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         SelectData.sort(function(a, b) {
 
-            var KeyA = a.Key.toLowerCase(),
-                KeyB = b.Key.toLowerCase();
+            var ValueA = a.Value.toLowerCase(),
+                ValueB = b.Value.toLowerCase();
 
-            if (KeyA < KeyB) {
+            if (ValueA < ValueB) {
                return -1;
             }
-            if (KeyA > KeyB) {
+            if (ValueA > ValueB) {
                return 1;
             }
             return 0;
