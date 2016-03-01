@@ -389,7 +389,8 @@ sub Run {
         );
         if ( !$Content ) {
             $LayoutObject->FatalError(
-                Message => "Can't get for ArticleID $Self->{ArticleID}!",
+                Message =>
+                    $LayoutObject->{LanguageObject}->Translate( 'Can\'t get for ArticleID %s!', $Self->{ArticleID} ),
             );
         }
         return $LayoutObject->Attachment(
@@ -460,7 +461,7 @@ sub Run {
         if ($Update) {
             $JSON = $LayoutObject->JSONEncode(
                 Data => {
-                    Message => 'Article filter settings were saved.',
+                    Message => Translatable('Article filter settings were saved.'),
                 },
             );
         }
@@ -523,7 +524,7 @@ sub Run {
         if ($Update) {
             $JSON = $LayoutObject->JSONEncode(
                 Data => {
-                    Message => 'Event type filter settings were saved.',
+                    Message => Translatable('Event type filter settings were saved.'),
                 },
             );
         }
@@ -3272,7 +3273,7 @@ sub _ArticleMenu {
                         ItemType             => 'Dropdown',
                         DropdownType         => 'Forward',
                         StandardForwardsStrg => $StandardForwardsStrg,
-                        Name                 => 'Forward',
+                        Name                 => Translatable('Forward'),
                         Class                => 'AsPopup PopupType_TicketAction',
                         Action               => 'AgentTicketForward',
                         FormID               => 'Forward' . $Article{ArticleID},

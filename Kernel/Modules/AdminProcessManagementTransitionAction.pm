@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -85,19 +86,19 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Module} ) {
 
             # add server error error class
             $Error{ModuleServerError}        = 'ServerError';
-            $Error{ModuleServerErrorMessage} = 'This field is required';
+            $Error{ModuleServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Config} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "At least one valid config parameter is required.",
+                Message => Translatable('At least one valid config parameter is required.'),
             );
         }
 
@@ -120,7 +121,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this TransitionAction",
+                Message => Translatable('There was an error generating a new EntityID for this TransitionAction'),
             );
         }
 
@@ -136,7 +137,7 @@ sub Run {
         # show error if can't create
         if ( !$TransitionActionID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the TransitionAction",
+                Message => Translatable('There was an error creating the TransitionAction'),
             );
         }
 
@@ -151,8 +152,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for TransitionAction "
-                    . "entity:$EntityID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for TransitionAction entity: %s',
+                    $EntityID
+                ),
             );
         }
 
@@ -228,7 +231,7 @@ sub Run {
         # check for TransitionActionID
         if ( !$TransitionActionID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need TransitionActionID!",
+                Message => Translatable('Need TransitionActionID!'),
             );
         }
 
@@ -244,7 +247,10 @@ sub Run {
         # check for valid TransitionAction data
         if ( !IsHashRefWithData($TransitionActionData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for TransitionActionID $TransitionActionID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Could not get data for TransitionActionID %s',
+                    $TransitionActionID
+                ),
             );
         }
 
@@ -282,19 +288,19 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Module} ) {
 
             # add server error error class
             $Error{ModuleServerError}        = 'ServerError';
-            $Error{ModuleServerErrorMessage} = 'This field is required';
+            $Error{ModuleServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{Config} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "At least one valid config parameter is required.",
+                Message => Translatable('At least one valid config parameter is required.'),
             );
         }
 
@@ -321,7 +327,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the TransitionAction",
+                Message => Translatable('There was an error updating the TransitionAction'),
             );
         }
 
@@ -336,8 +342,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for TransitionAction "
-                    . "entity:$TransitionActionData->{EntityID}",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for TransitionAction entity: %s',
+                    $TransitionActionData->{EntityID}
+                ),
             );
         }
 
@@ -421,7 +429,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This subaction is not valid",
+            Message => Translatable('This subaction is not valid'),
         );
     }
 }
@@ -479,7 +487,7 @@ sub _ShowEdit {
         $Param{Title} = "Edit Transition Action \"$TransitionActionData->{Name}\"";
     }
     else {
-        $Param{Title} = 'Create New Transition Action';
+        $Param{Title} = Translatable('Create New Transition Action');
     }
 
     my $Output = $LayoutObject->Header(
@@ -599,7 +607,7 @@ sub _GetParams {
 
     if ( @ConfigParamKeys != @ConfigParamValues ) {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
-            Message => "Error: Not all keys seem to have values or vice versa.",
+            Message => Translatable('Error: Not all keys seem to have values or vice versa.'),
         );
     }
 

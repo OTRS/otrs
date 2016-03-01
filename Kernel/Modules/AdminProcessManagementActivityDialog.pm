@@ -178,14 +178,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{DescriptionShort} ) {
 
             # add server error error class
             $Error{DescriptionShortServerError} = 'ServerError';
-            $Error{DecriptionShortErrorMessage} = 'This field is required';
+            $Error{DecriptionShortErrorMessage} = Translatable('This field is required');
         }
 
         # check if permission exists
@@ -258,8 +258,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for ActivityDialog "
-                    . "entity:$EntityID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for ActivityDialog entity: %s',
+                    $EntityID
+                ),
             );
         }
 
@@ -347,7 +349,10 @@ sub Run {
         # check for valid Activity Dialog data
         if ( !IsHashRefWithData($ActivityDialogData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for ActivityDialogID $ActivityDialogID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Could not get data for ActivityDialogID %s',
+                    $ActivityDialogID
+                ),
             );
         }
 
@@ -438,14 +443,14 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         if ( !$GetParam->{DescriptionShort} ) {
 
             # add server error error class
             $Error{DescriptionShortServerError} = 'ServerError';
-            $Error{DecriptionShortErrorMessage} = 'This field is required';
+            $Error{DecriptionShortErrorMessage} = Translatable('This field is required');
         }
 
         # check if permission exists
@@ -507,8 +512,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for ActivityDialog "
-                    . "entity:$ActivityDialogData->{EntityID}",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for ActivityDialog entity: %s',
+                    $ActivityDialogData->{EntityID}
+                ),
             );
         }
 
@@ -794,7 +801,7 @@ sub _ShowEdit {
             );
         }
 
-        $Param{Title} = 'Create New Activity Dialog';
+        $Param{Title} = Translatable('Create New Activity Dialog');
     }
 
     # get interface infos

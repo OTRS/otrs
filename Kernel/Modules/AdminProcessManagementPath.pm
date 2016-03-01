@@ -14,6 +14,7 @@ use warnings;
 use List::Util qw(first);
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -106,7 +107,7 @@ sub Run {
             if ( !$TransferData->{$Needed} ) {
 
                 return $LayoutObject->ErrorScreen(
-                    Message => "Need $Needed!",
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s!', $Needed ),
                 );
             }
         }
@@ -232,7 +233,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This subaction is not valid",
+            Message => Translatable('This subaction is not valid'),
         );
     }
 }

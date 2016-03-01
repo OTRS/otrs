@@ -13,6 +13,8 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+use Kernel::Language qw(Translatable);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -79,7 +81,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Upload' ) {
 
         if ( !$ConfigObject->Get('ConfigImportAllowed') ) {
-            return $LayoutObject->FatalError( Message => "Import not allowed!" );
+            return $LayoutObject->FatalError(
+                Message => Translatable('Import not allowed!'),
+            );
         }
 
         # challenge token check for write action
@@ -91,7 +95,7 @@ sub Run {
         );
         if ( !%UploadStuff ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need File!',
+                Message => Translatable('Need File!'),
             );
         }
         elsif ( $SysConfigObject->Upload( Content => $UploadStuff{Content} ) ) {
@@ -162,7 +166,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
                 next ITEM;
             }
@@ -180,7 +186,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -197,7 +205,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -212,7 +222,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -330,7 +342,9 @@ sub Run {
                     %NoValidationOption,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -371,7 +385,9 @@ sub Run {
                     %NoValidationOption,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -582,7 +598,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -629,7 +647,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -676,7 +696,9 @@ sub Run {
                 );
 
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 
@@ -697,7 +719,9 @@ sub Run {
                     Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                    $LayoutObject->FatalError(
+                        Message => Translatable('Can\'t write ConfigItem!'),
+                    );
                 }
             }
 

@@ -78,7 +78,8 @@ sub Run {
 
         if ( !$ACLImport->{Success} ) {
             my $Message = $ACLImport->{Message}
-                || Translatable('ACLs could not be Imported due to a unknown error, please check OTRS logs for more information');
+                || Translatable(
+                'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information');
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );
@@ -86,8 +87,10 @@ sub Run {
 
         if ( $ACLImport->{AddedACLs} ) {
             push @{ $Param{NotifyData} }, {
-                Info => 'The following ACLs have been added successfully: '
-                    . $ACLImport->{AddedACLs},
+                Info => $LayoutObject->{LanguageObject}->Translate(
+                    'The following ACLs have been added successfully: %s',
+                    $ACLImport->{AddedACLs}
+                ),
             };
         }
         if ( $ACLImport->{UpdatedACLs} ) {
@@ -103,7 +106,7 @@ sub Run {
                 Priority => 'Error',
                 Info     => $LayoutObject->{LanguageObject}->Translate(
                     'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.',
-                     $ACLImport->{ACLErrors}
+                    $ACLImport->{ACLErrors}
                 ),
             };
         }
@@ -227,7 +230,7 @@ sub Run {
         # check for valid ACL data
         if ( !IsHashRefWithData($ACLData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for ACLID %s', $ACLID),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ACLID %s', $ACLID ),
             );
         }
 
@@ -400,7 +403,8 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate('ACL %s could not be deleted', $ACLID);
+                $DeleteResult{Message}
+                    = $LayoutObject->{LanguageObject}->Translate( 'ACL %s could not be deleted', $ACLID );
             }
 
             # build JSON output
@@ -448,7 +452,8 @@ sub Run {
 
             if ( !$ACLSingleData || !IsHashRefWithData($ACLSingleData) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}->Translate('There was an error getting data for ACL with ID %s', $ACLID),
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'There was an error getting data for ACL with ID %s', $ACLID ),
                 );
             }
 

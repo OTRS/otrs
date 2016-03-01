@@ -47,7 +47,7 @@ sub Run {
     my $Config = $ConfigObject->Get($BackendConfigKey);
     if ( !$Config ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No such config for ' . $BackendConfigKey,
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $BackendConfigKey ),
         );
     }
 
@@ -177,7 +177,7 @@ sub Run {
         );
         if ( !@PreferencesOnly ) {
             $LayoutObject->FatalError(
-                Message => "No preferences for $Name!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'No preferences for %s!', $Name ),
             );
         }
 
@@ -215,7 +215,7 @@ sub Run {
         );
         if ( !%ElementReload ) {
             $LayoutObject->FatalError(
-                Message => "Can't get element data of $Name!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Can\'t get element data of %s!', $Name ),
             );
         }
         return $LayoutObject->Attachment(
@@ -384,7 +384,7 @@ sub Run {
 
         if ( !%Element ) {
             $LayoutObject->FatalError(
-                Message => "Can't get element data of $Name!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Can\'t get element data of %s!', $Name ),
             );
         }
         return $LayoutObject->Attachment(
@@ -415,7 +415,7 @@ sub Run {
 
         if ( !$FilterContent ) {
             $LayoutObject->FatalError(
-                Message => "Can't get filter content data of $Name!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Can\'t get filter content data of %s!', $Name ),
             );
         }
 

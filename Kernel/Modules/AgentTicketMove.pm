@@ -44,7 +44,7 @@ sub Run {
     for my $Needed (qw(TicketID)) {
         if ( !$Self->{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need $Needed!",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s!', $Needed ),
             );
         }
     }
@@ -697,9 +697,11 @@ sub Run {
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
-                        Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'Could not perform validation on field %s!',
+                            $DynamicFieldConfig->{Label},
+                        ),
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 

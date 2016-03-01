@@ -21,6 +21,8 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
@@ -28,7 +30,9 @@ sub new {
     for my $NeededData (qw( UserID Subaction AccessRo SessionID ))
     {
         if ( !$Param{$NeededData} ) {
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Message => "Got no $NeededData!" );
+            $LayoutObject->FatalError(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Got no %s!', $NeededData ),
+            );
         }
         $Self->{$NeededData} = $Param{$NeededData};
     }
@@ -46,6 +50,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     my $Subaction = $Self->{Subaction};
 
     my %RoSubactions = (
@@ -56,7 +62,7 @@ sub Run {
 
     if ( $RoSubactions{$Subaction} ) {
         if ( !$Self->{AccessRo} ) {
-            return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->NoPermission( WithHeader => 'yes' );
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
         my $Method = $RoSubactions{$Subaction};
         return $Self->$Method();
@@ -77,14 +83,16 @@ sub Run {
 
     if ( $RwSubactions{$Subaction} ) {
         if ( !$Self->{AccessRw} ) {
-            return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->NoPermission( WithHeader => 'yes' );
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
         my $Method = $RwSubactions{$Subaction};
         return $Self->$Method();
     }
 
     # No (known) subaction?
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen( Message => 'Invalid Subaction.' );
+    return $LayoutObject->ErrorScreen(
+        Message => Translatable('Invalid Subaction.'),
+    );
 }
 
 sub OverviewScreen {
@@ -271,7 +279,9 @@ sub ExportAction {
 
     my $StatID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StatID' );
     if ( !$StatID ) {
-        return $LayoutObject->ErrorScreen( Message => 'Export: Need StatID!' );
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Export: Need StatID!'),
+        );
     }
 
     my $ExportFile = $Kernel::OM->Get('Kernel::System::Stats')->Export(
@@ -294,7 +304,9 @@ sub DeleteAction {
 
     my $StatID = $ParamObject->GetParam( Param => 'StatID' );
     if ( !$StatID ) {
-        return $LayoutObject->ErrorScreen( Message => 'Delete: Get no StatID!' );
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Delete: Get no StatID!'),
+        );
     }
 
     # challenge token check for write action
@@ -316,7 +328,7 @@ sub EditScreen {
     # get param
     if ( !( $Param{StatID} = $ParamObject->GetParam( Param => 'StatID' ) ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Need StatID!',
+            Message => Translatable('Need StatID!'),
         );
     }
 
@@ -380,7 +392,7 @@ sub EditAction {
 
     if ( !$Stat ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Need StatID!',
+            Message => Translatable('Need StatID!'),
         );
     }
 
@@ -694,7 +706,9 @@ sub ViewScreen {
     # get StatID
     my $StatID = $ParamObject->GetParam( Param => 'StatID' );
     if ( !$StatID ) {
-        return $LayoutObject->ErrorScreen( Message => 'Need StatID!' );
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Need StatID!'),
+        );
     }
 
     # get message if one available
@@ -706,7 +720,7 @@ sub ViewScreen {
     );
     if ( !IsHashRefWithData( $StatsList->{$StatID} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Could not load stat.',
+            Message => Translatable('Could not load stat.'),
         );
     }
 
@@ -718,7 +732,7 @@ sub ViewScreen {
     # get param
     if ( !IsHashRefWithData($Stat) ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Could not load stat.',
+            Message => Translatable('Could not load stat.'),
         );
     }
 
@@ -793,7 +807,9 @@ sub AddScreen {
     }
 
     # build output
-    my $Output = $LayoutObject->Header( Title => 'Add New Statistic' );
+    my $Output = $LayoutObject->Header(
+        Title => Translatable('Add New Statistic'),
+    );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentStatisticsAdd',
@@ -866,7 +882,9 @@ sub AddAction {
         UserID => $Self->{UserID},
     );
     if ( !$Param{StatID} ) {
-        return $LayoutObject->ErrorScreen( Message => 'Could not create statistic.' );
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Could not create statistic.'),
+        );
     }
     $Kernel::OM->Get('Kernel::System::Stats')->StatsUpdate(
         StatID => $Param{StatID},
@@ -904,7 +922,9 @@ sub RunAction {
     }
     for my $Required (@RequiredParams) {
         if ( !$Param{$Required} ) {
-            return $LayoutObject->ErrorScreen( Message => "Run: Get no $Required!" );
+            return $LayoutObject->ErrorScreen(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Run: Get no %s!', $Required ),
+            );
         }
     }
 

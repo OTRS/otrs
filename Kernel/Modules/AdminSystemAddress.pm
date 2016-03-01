@@ -100,8 +100,9 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output
-                    .= $LayoutObject->Notify( Info => 'System e-mail address updated!' );
+                $Output .= $LayoutObject->Notify(
+                    Info => Translatable('System e-mail address updated!'),
+                );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSystemAddress',
                     Data         => \%Param,
@@ -192,7 +193,9 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'System e-mail address added!' );
+                $Output .= $LayoutObject->Notify(
+                    Info => Translatable('System e-mail address added!'),
+                );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSystemAddress',
                     Data         => \%Param,
