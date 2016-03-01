@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-01 Fixed bug#[11866](http://bugs.otrs.org/show_bug.cgi?id=11866) - Customer history destroys the customer information.
  - 2016-02-29 Fixed bug#[11874](http://bugs.otrs.org/show_bug.cgi?id=11874) - Restrict service based on state when posting a note.
  - 2016-02-29 Fixed bug#[11693](http://bugs.otrs.org/show_bug.cgi?id=11693) - Display issues with new style fields filters with many entries.
  - 2016-02-29 Fixed bug#[11757](http://bugs.otrs.org/show_bug.cgi?id=11757) - otrs.Console.pl Maint::Stats::Generate - language option not working.

@@ -512,6 +512,7 @@
                     </fieldset>
                 </form>
             </div>
+            <div class="Clear"></div>
         </div>
         <div id="CustomerTickets"></div>
     </div>
