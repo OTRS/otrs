@@ -2,8 +2,6 @@
  - 2016-03-01 Updated CPAN module Net::SSLGlue to version 1.055.
  - 2016-03-01 Fixed bug#[11858](http://bugs.otrs.org/show_bug.cgi?id=11858) - Queues can just choose between 50 Calendar.
  - 2016-03-01 Fixed bug#[939](http://bugs.otrs.org/show_bug.cgi?id=939) - Change title to another text to distinguish it in other languages.
- - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
- - 2016-02-29 Fixed bug#[11874](http://bugs.otrs.org/show_bug.cgi?id=11874) - Restrict service based on state when posting a note.
  - 2016-02-19 Fixed bug#[11468](http://bugs.otrs.org/show_bug.cgi?id=11468) - Using SVG images for Agent and Customer logo requires additional CSS.
  - 2016-02-19 Added dynamic filter fields to several admin frontends, thanks to Nils Leideck.
  - 2016-02-19 Fixed bug#[8298](http://bugs.otrs.org/show_bug.cgi?id=8298) - Made use of "Submit" and "Save" buttons more consistent, thanks to Niels Dimmers.
@@ -19,9 +17,12 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.8 2016-??-??
+ - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
+ - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
  - 2016-03-01 Fixed bug#[11234](http://bugs.otrs.org/show_bug.cgi?id=11234) - Attachments lost due to filename collision in ArticleStorageFS.
  - 2015-03-01 Fixed bug#[11327](http://bugs.otrs.org/show_bug.cgi?id=11327) - DropDown field content is not sorted alphabetically if treeview is active.
  - 2016-03-01 Fixed bug#[11866](http://bugs.otrs.org/show_bug.cgi?id=11866) - Customer history destroys the customer information.
+ - 2016-02-29 Fixed bug#[11874](http://bugs.otrs.org/show_bug.cgi?id=11874) - Restrict service based on state when posting a note.
  - 2016-02-29 Fixed bug#[11693](http://bugs.otrs.org/show_bug.cgi?id=11693) - Display issues with new style fields filters with many entries.
  - 2016-02-29 Fixed bug#[11757](http://bugs.otrs.org/show_bug.cgi?id=11757) - otrs.Console.pl Maint::Stats::Generate - language option not working.
  - 2016-02-29 Fixed bug#[11821](http://bugs.otrs.org/show_bug.cgi?id=11821) - Invisible fields are validated in ActivityDialogs.

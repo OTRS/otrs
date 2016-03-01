@@ -513,9 +513,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 
 [% RenderBlockStart("DocumentReadyActionRowAdd") %]
 [% FOREACH MenuElement IN Data.Data %]
-    [% MenuElement.Name = Interpolate(MenuElement.Name) %]
     [% MenuElement.Link = Interpolate(MenuElement.Link) %]
-    [% MenuElement.Description = Interpolate(MenuElement.Description) %]
 [% END %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
