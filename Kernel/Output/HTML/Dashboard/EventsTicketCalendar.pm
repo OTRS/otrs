@@ -158,7 +158,16 @@ sub Run {
                 my $EndTime = $TimeObject->TimeStamp2SystemTime(
                     String => $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField },
                 );
-                next TICKET if $StartTime > $EndTime;
+
+                # check if start time is after end time
+                if ($StartTime > $EndTime) {
+
+                    # turn start and end time around for the calendar view
+                    my $NewStartTime = $EndTime;
+                    my $NewEndTime   = $StartTime;
+                    $StartTime       = $NewStartTime;
+                    $EndTime         = $NewEndTime;
+                }
 
                 my %Data;
                 $Data{ID}    = $TicketID;
