@@ -178,10 +178,7 @@
  * @subsection  Custom Field Sizes
  */
 
-#Signup #Title {
-    width: 55px;
-}
-
+#Signup #Title,
 #Signup input[type='text'],
 #Signup input[type='email'] {
     width: 250px;

@@ -116,7 +116,7 @@
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <div>
                         <label for="Title">[% Translate("Title or salutation") | html %]</label>
-                        <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" maxlength="50" value="[% Data.UserTitle | html %]"/>
+                        <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" class="W50pc" value="[% Data.UserTitle | html %]"/>
                     </div>
                     <div class="NewLine">
                         <label class="Mandatory" for="FirstName"><span class="Marker">*</span> [% Translate("Firstname") | html %]</label>
