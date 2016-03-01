@@ -294,9 +294,9 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
                 Chart.margin({
                     top: 20,
-                    right: 20,
+                    right: 10,
                     bottom: 30,
-                    left: 20
+                    left: 30
                 });
 
                 Chart.useInteractiveGuideline(true)
