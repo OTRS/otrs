@@ -151,7 +151,7 @@
                     <input type="hidden" name="Search" value="[% Data.Search | html %]"/>
                     <fieldset class="TableLike">
 
-                        <label for="UserTitle">[% Translate("Title") | html %]:</label>
+                        <label for="UserTitle">[% Translate("Title or salutation") | html %]:</label>
                         <div class="Field">
                             <input type="text" name="UserTitle" id="UserTitle" value="[% Data.UserTitle | html %]" class="W50pc" maxlength="50"/>
                         </div>
