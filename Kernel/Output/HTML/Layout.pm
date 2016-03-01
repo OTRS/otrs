@@ -2260,7 +2260,7 @@ sub NoPermission {
                 Name => 'PossibleNextActionRow',
                 Data => {
                     Link        => $Key,
-                    Description => $PossibleNextActions->{$Key},
+                    Description => $Self->{LanguageObject}->Translate( $PossibleNextActions->{$Key} ),
                 },
             );
         }
