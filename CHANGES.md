@@ -18,10 +18,11 @@
 
 #5.0.8 2016-??-??
  - 2016-03-01 Fixed bug#[11168](http://bugs.otrs.org/show_bug.cgi?id=11168) - Lost condition in AgentTicketSearch.
- - 2016-02-01 Fixed bug#[11888](http://bugs.otrs.org/show_bug.cgi?id=11888) - Customer Information center closed ticket counter includes merged and removed.
- - 2016-02-01 Fixed bug#[11886](http://bugs.otrs.org/show_bug.cgi?id=11886) - ACL Action missing.
- - 2016-02-01 Fixed bug#[11854](http://bugs.otrs.org/show_bug.cgi?id=11854) - Using the spam button with a restricting ACL leads to useless error message, thanks to S7.
- - 2016-02-01 Fixed bug#[11220](http://bugs.otrs.org/show_bug.cgi?id=11220) - Highlighting broken for holiday dates in Calendar Datepicker.
+ - 2015-03-01 Fixed bug#[11116](http://bugs.otrs.org/show_bug.cgi?id=11116) - No Loading symbol while searching for customer.
+ - 2016-03-01 Fixed bug#[11888](http://bugs.otrs.org/show_bug.cgi?id=11888) - Customer Information center closed ticket counter includes merged and removed.
+ - 2016-03-01 Fixed bug#[11886](http://bugs.otrs.org/show_bug.cgi?id=11886) - ACL Action missing.
+ - 2016-03-01 Fixed bug#[11854](http://bugs.otrs.org/show_bug.cgi?id=11854) - Using the spam button with a restricting ACL leads to useless error message, thanks to S7.
+ - 2016-03-01 Fixed bug#[11220](http://bugs.otrs.org/show_bug.cgi?id=11220) - Highlighting broken for holiday dates in Calendar Datepicker.
  - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
  - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
  - 2016-03-01 Fixed bug#[11234](http://bugs.otrs.org/show_bug.cgi?id=11234) - Attachments lost due to filename collision in ArticleStorageFS.
