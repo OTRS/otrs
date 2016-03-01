@@ -89,7 +89,7 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_DropObjectLockState,
         },
         {
-            Message => 'Migrate PossibleNextActions Setting',
+            Message => 'Migrate PossibleNextActions setting',
             Command => \&_MigratePossibleNextActions,
         },
 
@@ -284,11 +284,13 @@ sub _DropObjectLockState {
     return 1;
 }
 
+# The seetting "PossibleNextActions" was changed in OTRS 6. Make sure that it is adopted also for systems
+#   that had this setting locally modified. Basically keys and values have be swapped, but only once.
 sub _MigratePossibleNextActions {
     my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get('PossibleNextActions') || {};
 
     # create a lookup array to no not modify the looping variable
-    my @Actions = sort keys $PossibleNextActions;
+    my @Actions = sort keys %{ $PossibleNextActions // {} };
 
     my $Updated;
     ACTION:
