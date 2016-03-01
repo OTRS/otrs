@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
  - 2016-03-01 Updated CPAN module Net::SSLGlue to version 1.055.
  - 2016-03-01 Fixed bug#[11900](http://bugs.otrs.org/show_bug.cgi?id=11900) - Browser zoom: Link page design broken.
  - 2016-03-01 Fixed bug#[11875](http://bugs.otrs.org/show_bug.cgi?id=11875) - Printed timestamp is shown with GMT, thanks to S7.

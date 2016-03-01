@@ -503,7 +503,7 @@ sub _Show {
             push @ActionItems, {
                 HTML        => $Output,
                 ID          => $Item->{ID},
-                Name        => $LayoutObject->{LanguageObject}->Translate( $Item->{Name} ),
+                Name        => $Item->{Name},
                 Link        => $LayoutObject->{Baselink} . $Item->{Link},
                 Target      => $Item->{Target},
                 PopupType   => $Item->{PopupType},
