@@ -11,6 +11,8 @@ package Kernel::Output::HTML::CustomerUser::GenericTicket;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -54,8 +56,8 @@ sub Run {
         States => {
             Object => 'Kernel::System::State',
             Return => 'StateIDs',
-            Input  => '',
-            Method => '',
+            Input  => 'State',
+            Method => 'StateLookup',
         },
         Priorities => {
             Object => 'Kernel::System::Priority',
@@ -121,7 +123,7 @@ sub Run {
         }
     }
 
-    # build url
+    # build URL
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
@@ -150,6 +152,51 @@ sub Run {
         $TicketSearch{CustomerUserLogin} = $CustomerUserLoginEscaped;
         $URL .= ';CustomerUserLogin='
             . $LayoutObject->LinkEncode($CustomerUserLoginEscaped);
+    }
+
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
+    # replace StateType to StateIDs for the count numbers in customer information links
+    if ( $TicketSearch{StateType} ) {
+        my @StateIDs;
+
+        if ( $TicketSearch{StateType} eq 'Open' ) {
+            @StateIDs = $StateObject->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+        }
+        elsif ( $TicketSearch{StateType} eq 'Closed' ) {
+            my @ViewableStateOpen = $StateObject->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+
+            my %StateList = $StateObject->StateList( UserID => $Self->{UserID} );
+            for my $Item ( sort keys %StateList ) {
+                if ( !grep ( { $_ eq $Item } @ViewableStateOpen ) ) {
+                    push @StateIDs, $Item;
+                }
+            }
+        }
+
+        # current ticket state type
+        else {
+            @StateIDs = $StateObject->StateGetStatesByType(
+                StateType => $TicketSearch{StateType},
+                Result    => 'ID',
+            );
+        }
+
+        # merge with StateIDs
+        if ( @StateIDs && IsArrayRefWithData( $TicketSearch{StateIDs} ) ) {
+            my %StateIDs = map { $_ => 1 } @StateIDs;
+            @StateIDs = grep { exists $StateIDs{$_} } @{ $TicketSearch{StateIDs} };
+        }
+
+        if (@StateIDs) {
+            $TicketSearch{StateIDs} = \@StateIDs;
+        }
     }
 
     my %TimeMap = (
