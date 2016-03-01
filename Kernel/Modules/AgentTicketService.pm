@@ -41,7 +41,9 @@ sub Run {
     my $Access = $ConfigObject->Get('Ticket::Service');
 
     if ( !$Access ) {
-        $LayoutObject->FatalError( Message => 'Feature not enabled!' );
+        $LayoutObject->FatalError(
+            Message => Translatable('Feature not enabled!'),
+        );
     }
 
     # get config param
@@ -283,7 +285,9 @@ sub Run {
 
     # check if filter is valid
     if ( !$Filters{$Filter} ) {
-        $LayoutObject->FatalError( Message => "Invalid Filter: $Filter!" );
+        $LayoutObject->FatalError(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid Filter: %s!', $Filter ),
+        );
     }
 
     # get view param
@@ -365,7 +369,8 @@ sub Run {
 
         if ( !$FilterContent ) {
             $LayoutObject->FatalError(
-                Message => "Can't get filter content data of $HeaderColumn!",
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
             );
         }
 

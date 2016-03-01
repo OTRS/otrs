@@ -343,7 +343,8 @@ sub Run {
 
         if ( !$FilterContent ) {
             $LayoutObject->FatalError(
-                Message => "Can't get filter content data of $HeaderColumn!",
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
             );
         }
 

@@ -13,6 +13,8 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+use Kernel::Language qw(Translatable);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -35,7 +37,9 @@ sub Run {
     # check if feature is active
     # ------------------------------------------------------------ #
     if ( !$ConfigObject->Get('SMIME') ) {
-        my $Output .= $LayoutObject->FatalError( Message => "S/MIME support is disabled in Kernel::Config::SMIME." );
+        my $Output .= $LayoutObject->FatalError(
+            Message => Translatable('S/MIME support is disabled in Kernel::Config::SMIME.'),
+        );
         return $Output;
     }
 
@@ -61,7 +65,7 @@ sub Run {
 
     if ( !$SMIMEObject ) {
         my $Output .= $LayoutObject->FatalError(
-            Message => "S/MIME environment is not working. Please check log for more info!"
+            Message => Translatable('S/MIME environment is not working. Please check log for more info!'),
         );
         return $Output;
     }
@@ -78,7 +82,7 @@ sub Run {
         my $Type     = $ParamObject->GetParam( Param => 'Type' )     || '';
         if ( !$Filename ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Filename to delete!',
+                Message => Translatable('Need param Filename to delete!'),
             );
         }
 
@@ -296,7 +300,7 @@ sub Run {
         my $Filename = $ParamObject->GetParam( Param => 'Filename' ) || '';
         if ( !$Filename ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Filename to download!',
+                Message => Translatable('Need param Filename to download!'),
             );
         }
 
@@ -322,7 +326,7 @@ sub Run {
         my $Type = $ParamObject->GetParam( Param => 'Type' ) || '';
         if ( !$Filename ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Filename to download!',
+                Message => Translatable('Need param Filename to download!'),
             );
         }
 
@@ -375,7 +379,7 @@ sub Run {
 
         if ( !$CertFingerprint || !$CAFingerprint ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Needed CertFingerprint and CAFingerprint',
+                Message => Translatable('Needed CertFingerprint and CAFingerprint'),
             );
         }
 
@@ -390,12 +394,12 @@ sub Run {
         my $Output;
         if ( $CertFingerprint eq $CAFingerprint ) {
             $Message{Priority} = 'Error';
-            $Message{Message}  = 'CAFingerprint must be different than CertFingerprint';
+            $Message{Message}  = Translatable('CAFingerprint must be different than CertFingerprint');
             $Error             = 1;
         }
         elsif ($Exists) {
             $Message{Priority} = 'Error';
-            $Message{Message}  = 'Relation exists!';
+            $Message{Message}  = Translatable('Relation exists!');
             $Error             = 1;
         }
 
@@ -414,11 +418,11 @@ sub Run {
 
             if ($Result) {
                 $Message{Priority} = 'Notify';
-                $Message{Message}  = 'Relation added!';
+                $Message{Message}  = Translatable('Relation added!');
             }
             else {
                 $Message{Priority} = 'Error';
-                $Message{Message}  = 'Imposible to add relation!';
+                $Message{Message}  = Translatable('Imposible to add relation!');
             }
 
             $Output = $Self->_SignerCertificateOverview(
@@ -444,7 +448,7 @@ sub Run {
 
         if ( !$CertFingerprint && !$CAFingerprint ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Needed CertFingerprint and CAFingerprint!',
+                Message => Translatable('Needed CertFingerprint and CAFingerprint!'),
             );
         }
 
@@ -459,7 +463,7 @@ sub Run {
         my $Output;
         if ( !$Exists ) {
             $Message{Priority} = 'Error';
-            $Message{Message}  = 'Relation doesn\'t exists';
+            $Message{Message}  = Translatable('Relation doesn\'t exists');
             $Error             = 1;
         }
 
@@ -478,11 +482,11 @@ sub Run {
 
             if ($Success) {
                 $Message{Priority} = 'Notify';
-                $Message{Message}  = 'Relation deleted!';
+                $Message{Message}  = Translatable('Relation deleted!');
             }
             else {
                 $Message{Priority} = 'Error';
-                $Message{Message}  = 'Imposible to delete relation!';
+                $Message{Message}  = Translatable('Imposible to delete relation!');
             }
 
             $Output = $Self->_SignerCertificateOverview(
@@ -501,7 +505,7 @@ sub Run {
         my $Filename = $ParamObject->GetParam( Param => 'Filename' ) || '';
         if ( !$Filename ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need param Filename to download!'
+                Message => Translatable('Need param Filename to download!'),
             );
         }
 
@@ -509,7 +513,10 @@ sub Run {
 
         if ( !$Output ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Certificate $Filename could not be read!"
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Certificate %s could not be read!',
+                    $Filename
+                ),
             );
         }
 
@@ -697,7 +704,7 @@ sub _SignerCertificateOverview {
 
     if ( !$Param{CertFingerprint} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Needed Fingerprint',
+            Message => Translatable('Needed Fingerprint'),
         );
     }
 

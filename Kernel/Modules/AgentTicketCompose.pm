@@ -69,7 +69,7 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message    => "You need $Config->{Permission} permissions!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }
@@ -692,8 +692,10 @@ sub Run {
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
-                        Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'Could not perform validation on field %s!',
+                            $DynamicFieldConfig->{Label},
+                        ),
                         Comment => Translatable('Please contact the admin.'),
                     );
                 }
@@ -831,7 +833,8 @@ sub Run {
         # error page
         if ( !$ArticleTypeID ) {
             return $LayoutObject->ErrorScreen(
-                Comment => Translatable('Can not determine the ArticleType, Please contact the admin.'),
+                Message => Translatable('Can not determine the ArticleType.'),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 

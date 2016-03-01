@@ -14,6 +14,7 @@ use warnings;
 use List::Util qw(first);
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -125,7 +126,7 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         # if there is an error return to edit screen
@@ -147,7 +148,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this Activity",
+                Message => Translatable('There was an error generating a new EntityID for this Activity'),
             );
         }
 
@@ -162,7 +163,7 @@ sub Run {
         # show error if can't create
         if ( !$ActivityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the Activity",
+                Message => Translatable('There was an error creating the Activity'),
             );
         }
 
@@ -177,8 +178,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for Activity "
-                    . "entity:$EntityID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Activity entity: %s',
+                    $EntityID
+                ),
             );
         }
 
@@ -254,7 +257,7 @@ sub Run {
         # check for ActivityID
         if ( !$ActivityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ActivityID!",
+                Message => Translatable('Need ActivityID!'),
             );
         }
 
@@ -270,7 +273,8 @@ sub Run {
         # check for valid Activity data
         if ( !IsHashRefWithData($ActivityData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for ActivityID $ActivityID",
+                Message =>
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ActivityID %s', $ActivityID ),
             );
         }
 
@@ -345,7 +349,7 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = 'This field is required';
+            $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
         # if there is an error return to edit screen
@@ -370,7 +374,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the Activity",
+                Message => Translatable('There was an error updating the Activity'),
             );
         }
 
@@ -385,8 +389,10 @@ sub Run {
         # show error if can't set
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error setting the entity sync status for Activity "
-                    . "entity:$ActivityData->{EntityID}",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Activity entity: %s',
+                    $ActivityData->{EntityID}
+                ),
             );
         }
 
@@ -470,7 +476,7 @@ sub Run {
         if ( !$Param{EntityID} || !$Param{ActivityDialog} ) {
             %Result = (
                 Success => 0,
-                Message => "Missing Parameter: Need Activity and ActivityDialog!",
+                Message => Translatable('Missing Parameter: Need Activity and ActivityDialog!'),
             );
 
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -493,7 +499,7 @@ sub Run {
         if ( !IsHashRefWithData($ActivityData) ) {
             %Result = (
                 Success => 0,
-                Message => "Activity not found!",
+                Message => Translatable('Activity not found!'),
             );
 
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -520,7 +526,7 @@ sub Run {
         if ( !$ActivityDialogsLookup{ $Param{ActivityDialog} } ) {
             %Result = (
                 Success => 0,
-                Message => "ActivityDialog not found!",
+                Message => Translatable('ActivityDialog not found!'),
             );
 
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -542,8 +548,9 @@ sub Run {
             if ($CheckActivityDialog) {
                 %Result = (
                     Success => 0,
-                    Message =>
-                        "ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!",
+                    Message => Translatable(
+                        'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!'
+                    ),
                 );
 
                 $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -580,7 +587,7 @@ sub Run {
         if ( !$Success ) {
             %Result = (
                 Success => 0,
-                Message => "Error while saving the Activity to the database!",
+                Message => Translatable('Error while saving the Activity to the database!'),
             );
 
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -629,7 +636,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This subaction is not valid",
+            Message => Translatable('This subaction is not valid'),
         );
     }
 }
@@ -841,7 +848,7 @@ sub _ShowEdit {
             );
         }
 
-        $Param{Title} = 'Create New Activity';
+        $Param{Title} = Translatable('Create New Activity');
     }
 
     my $Output = $LayoutObject->Header(

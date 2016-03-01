@@ -279,7 +279,7 @@ sub Run {
 
             if ( !$Access ) {
                 return $LayoutObject->NoPermission(
-                    Message    => "You need ro permission!",
+                    Message    => Translatable('You need ro permission!'),
                     WithHeader => 'yes',
                 );
             }
@@ -292,7 +292,8 @@ sub Run {
             # check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}->Translate('Article does not belong to ticket %s!', $Self->{TicketID}),
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
                 );
             }
 
@@ -910,7 +911,8 @@ sub Run {
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
                         Message =>
-                            $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                            $LayoutObject->{LanguageObject}
+                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                         Comment => Translatable('Please contact the admin.'),
                     );
                 }
@@ -1570,7 +1572,7 @@ sub Run {
 
             if ( !$Access ) {
                 return $LayoutObject->NoPermission(
-                    Message    => "You need ro permission!",
+                    Message    => Translatable('You need ro permission!'),
                     WithHeader => 'yes',
                 );
             }

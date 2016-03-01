@@ -63,7 +63,7 @@ sub Run {
 
         # error screen, don't show ticket
         return $LayoutObject->NoPermission(
-            Message    => "You need $Config->{Permission} permissions!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }

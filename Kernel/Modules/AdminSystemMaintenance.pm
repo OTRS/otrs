@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -119,7 +120,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Error',
-                Info     => "Start date shouldn't be defined after Stop date!",
+                Info     => Translatable('Start date shouldn\'t be defined after Stop date!'),
             };
         }
 
@@ -162,7 +163,7 @@ sub Run {
         # show error if can't create
         if ( !$SystemMaintenanceID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the SystemMaintenance",
+                Message => Translatable('There was an error creating the System Maintenance'),
             );
         }
 
@@ -184,7 +185,7 @@ sub Run {
         # check for SystemMaintenanceID
         if ( !$SystemMaintenanceID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need SystemMaintenanceID!",
+                Message => Translatable('Need SystemMaintenanceID!'),
             );
         }
 
@@ -206,7 +207,10 @@ sub Run {
         # check for valid system maintenance data
         if ( !IsHashRefWithData($SystemMaintenanceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not get data for SystemMaintenanceID $SystemMaintenanceID",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Could not get data for SystemMaintenanceID %s',
+                    $SystemMaintenanceID
+                ),
             );
         }
 
@@ -215,7 +219,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => "System Maintenance was saved successfully!",
+                Info     => Translatable('System Maintenance was saved successfully!'),
             };
         }
 
@@ -224,7 +228,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => 'Session has been killed!',
+                Info     => Translatable('Session has been killed!'),
             };
 
             # set class for expanding sessions widget
@@ -236,7 +240,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => 'All sessions have been killed, except for your own.',
+                Info     => Translatable('All sessions have been killed, except for your own.'),
             };
 
             # set class for expanding sessions widget
@@ -285,7 +289,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Error',
-                Info     => "Start date shouldn't be defined after Stop date!",
+                Info     => Translatable('Start date shouldn\'t be defined after Stop date!'),
             };
         }
 
@@ -331,7 +335,7 @@ sub Run {
         # show error if can't create
         if ( !$UpdateResult ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the SystemMaintenance",
+                Message => Translatable('There was an error updating the System Maintenance'),
             );
         }
 
@@ -363,8 +367,10 @@ sub Run {
         );
         if ( !$Delete ) {
             return $LayoutObject->ErrorScreen(
-                Message =>
-                    "Was not possible to delete the SystemMaintenance entry : $SystemMaintenanceID!",
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Was not possible to delete the SystemMaintenance entry: %s!',
+                    $SystemMaintenanceID
+                ),
             );
         }
         return $LayoutObject->Redirect( OP => 'Action=AdminSystemMaintenance' );

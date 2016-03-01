@@ -14,6 +14,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +38,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( !$ConfigObject->Get('Ticket::Watcher') ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Feature is not active',
+            Message => Translatable('Feature is not active'),
         );
     }
 
@@ -163,7 +164,9 @@ sub Run {
         );
     }
 
-    $LayoutObject->ErrorScreen( Message => 'Invalid subaction' );
+    $LayoutObject->ErrorScreen(
+        Message => Translatable('Invalid subaction'),
+    );
 }
 
 1;

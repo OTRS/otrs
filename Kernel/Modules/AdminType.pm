@@ -40,7 +40,7 @@ sub Run {
         my %Data = $TypeObject->TypeGet( ID => $ID );
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need Type!',
+                Message => Translatable('Need Type!'),
             );
         }
         my $Output = $LayoutObject->Header();
@@ -81,7 +81,7 @@ sub Run {
         my %Data = $TypeObject->TypeGet( ID => $GetParam{ID} );
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen(
-                Message => 'Need Type!',
+                Message => Translatable('Need Type!'),
             );
         }
 
