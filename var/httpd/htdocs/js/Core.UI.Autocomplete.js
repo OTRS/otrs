@@ -50,7 +50,16 @@ Core.UI.Autocomplete = (function (TargetNS) {
      * @description
      *      The actual config, after merging the fallback values.
      */
-        Config = {};
+        Config = {},
+    /**
+     * @private
+     * @name AJAXLoaderPrefix
+     * @memberof Core.UI.Autocomplete
+     * @member {String}
+     * @description
+     *      AJAXLoaderPrefix
+     */
+        AJAXLoaderPrefix = 'AJAXLoader';
 
     /**
      * @private
@@ -138,7 +147,8 @@ Core.UI.Autocomplete = (function (TargetNS) {
      *      This function initializes autocomplete on an input element.
      */
     TargetNS.Init = function ($Element, SourceFunction, SelectFunction, Type, Options) {
-        var AutocompleteConfig;
+        var AutocompleteConfig,
+            $Loader;
 
         // Only start autocompletion, if $Element is valid element
         if (!isJQueryObject($Element) || !$Element.length) {
@@ -150,9 +160,25 @@ Core.UI.Autocomplete = (function (TargetNS) {
         $Element.autocomplete({
             minLength: AutocompleteConfig.MinQueryLength,
             delay: AutocompleteConfig.QueryDelay,
+            search: function() {
+                var FieldID = $Element.attr('id'),
+                    LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
+
+                $Loader = $('#' + AJAXLoaderPrefix + FieldID);
+
+                if (!$Loader.length) {
+                    $Element.after(LoaderHTML);
+                }
+                else {
+                    $Loader.show();
+                }
+            },
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $Element.autocomplete('widget').addClass('ui-overlay-autocomplete');
+
+                // remove loader again
+                $Loader.hide();
                 return false;
             },
             source: function (Request, Response) {
