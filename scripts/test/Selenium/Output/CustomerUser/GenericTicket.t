@@ -73,7 +73,6 @@ $Selenium->RunTest(
 
         # create test customer user
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => [ 'admin', 'users' ],
         ) || die "Did not get test customer user";
 
         # get test customer user ID
@@ -82,7 +81,7 @@ $Selenium->RunTest(
         );
         my $CustomerID = $CustomerIDs[0];
 
-        # get ticket object
+        # get needed objects
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test data parameters
@@ -92,14 +91,14 @@ $Selenium->RunTest(
                 TicketCount   => '',
                 TicketNumbers => [],
                 TicketIDs     => [],
-                TicketLink    => 'StateType=Open',
+                TicketLink    => 'Open',
             },
             'Closed' => {
                 TicketState   => 'closed successful',
                 TicketCount   => '',
                 TicketNumbers => [],
                 TicketIDs     => [],
-                TicketLink    => 'StateType=Closed',
+                TicketLink    => 'Closed',
             },
         );
 
@@ -138,7 +137,11 @@ $Selenium->RunTest(
         # go to zoom view of created test ticket
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketData{Open}->{TicketIDs}->[0]");
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketData{Open}->{TicketIDs}->[0]"
+        );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # test CustomerUserGenericTicket module
         for my $TestLinks ( sort keys %TicketData ) {
@@ -172,6 +175,21 @@ $Selenium->RunTest(
                 );
             }
 
+            # click on 'Change search option'
+            $Selenium->find_element(
+                "//a[contains(\@href, \'AgentTicketSearch;Subaction=LoadProfile' )]"
+            )->click();
+
+            # link open in new window switch to it
+            $Handles = $Selenium->get_window_handles();
+            $Selenium->switch_to_window( $Handles->[2] );
+
+            # wait until search dialog has been loaded
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchFormSubmit").length' );
+
+            # verify state search attributes are shown in search screen, see bug #10853
+            $Selenium->find_element( "#StateIDs", 'css' );
+
             # close current window and return to original
             $Selenium->close();
             $Selenium->WaitFor( WindowCount => 1 );
@@ -196,7 +214,7 @@ $Selenium->RunTest(
 
         # make sure cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-    }
+        }
 );
 
 1;
