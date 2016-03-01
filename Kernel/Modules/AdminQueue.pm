@@ -676,10 +676,12 @@ sub _Edit {
     );
     my %Calendar = ( '' => '-' );
 
-    for my $Number ( '', 1 .. 50 ) {
-        if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$Number") ) {
-            $Calendar{$Number} = "Calendar $Number - "
-                . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Number . "Name" );
+    my $Maximum = $Self->{ConfigObject}->Get("MaximumCalendarNumber") || 50;
+
+    for my $CalendarNumber ( '', 1 .. $Maximum ) {
+        if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$CalendarNumber") ) {
+            $Calendar{$CalendarNumber} = "Calendar $CalendarNumber - "
+                . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $CalendarNumber . "Name" );
         }
     }
     $Param{CalendarOption} = $Self->{LayoutObject}->BuildSelection(
