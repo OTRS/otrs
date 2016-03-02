@@ -157,70 +157,73 @@ Core.UI.Autocomplete = (function (TargetNS) {
 
         AutocompleteConfig = InitConfig(Type, Options);
 
-        $Element.autocomplete({
-            minLength: AutocompleteConfig.MinQueryLength,
-            delay: AutocompleteConfig.QueryDelay,
-            search: function() {
-                var FieldID = $Element.attr('id'),
-                    LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
+        $Element.each(function () {
+            var $SingleElement = $(this);
+            $SingleElement.autocomplete({
+                minLength: AutocompleteConfig.MinQueryLength,
+                delay: AutocompleteConfig.QueryDelay,
+                search: function() {
+                    var FieldID = $SingleElement.attr('id'),
+                        LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
 
-                $Loader = $('#' + AJAXLoaderPrefix + FieldID);
-
-                if (!$Loader.length) {
-                    $Element.after(LoaderHTML);
                     $Loader = $('#' + AJAXLoaderPrefix + FieldID);
-                }
-                else {
-                    $Loader.show();
-                }
-            },
-            response: function() {
-                // remove loader again
-                $Loader.hide();
-            },
-            open: function() {
-                // force a higher z-index than the overlay/dialog
-                $Element.autocomplete('widget').addClass('ui-overlay-autocomplete');
-                return false;
-            },
-            source: function (Request, Response) {
-                // if an old ajax request is already running, stop the old request and start the new one
-                if ($Element.data('AutoCompleteXHR')) {
-                    $Element.data('AutoCompleteXHR').abort();
-                    $Element.removeData('AutoCompleteXHR');
-                    // run the response function to hide the request animation
-                    Response({});
-                }
 
-                if (SourceFunction) {
-                    SourceFunction(Request, Response);
-                }
+                    if (!$Loader.length) {
+                        $SingleElement.after(LoaderHTML);
+                        $Loader = $('#' + AJAXLoaderPrefix + FieldID);
+                    }
+                    else {
+                        $Loader.show();
+                    }
+                },
+                response: function() {
+                    // remove loader again
+                    $Loader.hide();
+                },
+                open: function() {
+                    // force a higher z-index than the overlay/dialog
+                    $SingleElement.autocomplete('widget').addClass('ui-overlay-autocomplete');
+                    return false;
+                },
+                source: function (Request, Response) {
+                    // if an old ajax request is already running, stop the old request and start the new one
+                    if ($SingleElement.data('AutoCompleteXHR')) {
+                        $SingleElement.data('AutoCompleteXHR').abort();
+                        $SingleElement.removeData('AutoCompleteXHR');
+                        // run the response function to hide the request animation
+                        Response({});
+                    }
 
-                /*
-                 * Your SourceFunction must return an array of the data you collected.
-                 * Every array element is an object with the following keys:
-                 * label: the string displayed in the suggestion menu
-                 * value: the string to be inserted in the input field
-                 * You can add more keys, if you want to transport data to the select function
-                 * all keys will be available there via the UI.item object.
-                 *
-                 * If you use an ajax function inside your source, make sure to
-                 * save the XHRObject in a data-value, to control the xhr automatically:
-                 * $Element.data('AutoCompleteXHR', YourCallHere());
-                 * This makes sure, that we can abort old ajax request, if new searches are triggered.
-                 *
-                 * The input value can be found in Request.term. Don't forget to send the MaxResult config
-                 * to the server in your ajax request.
-                 */
-            },
-            select: function (Event, UI) {
-                if (SelectFunction) {
-                    SelectFunction(Event, UI);
-                }
+                    if (SourceFunction) {
+                        SourceFunction(Request, Response);
+                    }
 
-                Event.preventDefault();
-                return false;
-            }
+                    /*
+                     * Your SourceFunction must return an array of the data you collected.
+                     * Every array element is an object with the following keys:
+                     * label: the string displayed in the suggestion menu
+                     * value: the string to be inserted in the input field
+                     * You can add more keys, if you want to transport data to the select function
+                     * all keys will be available there via the UI.item object.
+                     *
+                     * If you use an ajax function inside your source, make sure to
+                     * save the XHRObject in a data-value, to control the xhr automatically:
+                     * $Element.data('AutoCompleteXHR', YourCallHere());
+                     * This makes sure, that we can abort old ajax request, if new searches are triggered.
+                     *
+                     * The input value can be found in Request.term. Don't forget to send the MaxResult config
+                     * to the server in your ajax request.
+                     */
+                },
+                select: function (Event, UI) {
+                    if (SelectFunction) {
+                        SelectFunction(Event, UI);
+                    }
+
+                    Event.preventDefault();
+                    return false;
+                }
+            });
         });
 
         if (!AutocompleteConfig.AutoCompleteActive) {
