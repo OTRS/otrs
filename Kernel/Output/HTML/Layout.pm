@@ -2091,8 +2091,8 @@ sub NoPermission {
             $Self->Block(
                 Name => 'PossibleNextActionRow',
                 Data => {
-                    Link        => $Key,
-                    Description => $Self->{LanguageObject}->Translate( $PossibleNextActions->{$Key} ),
+                    Link        => $Self->{LanguageObject}->Translate( $PossibleNextActions->{$Key} ),
+                    Description => $Key,
                 },
             );
         }
