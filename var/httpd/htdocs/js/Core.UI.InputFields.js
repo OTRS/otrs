@@ -1513,7 +1513,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle node deselection in tree list
-                    .on('deselect_node.jstree', function (Node, Selected) {
+                    .on('deselect_node.jstree', function (Node, Selected) { //eslint-disable-line no-unused-vars
 
                         var SelectedNodesIDs,
                             HasEmptyElement = $SelectObj.find('option[value=""]').length === 0 ? false : true;
@@ -1544,8 +1544,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
                             // Delay triggering change event on original field (see bug#11419)
                             $SelectObj.data('changed', true);
-                        } else {
-                            $TreeObj.jstree('select_node', Selected.node);
                         }
                     })
 

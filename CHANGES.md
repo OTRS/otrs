@@ -18,6 +18,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.8 2016-??-??
+ - 2016-03-02 Fixed bug#[11873](http://bugs.otrs.org/show_bug.cgi?id=11873) - Click on disabled branches in modern inputs result provokes jquery errors.
  - 2016-03-02 Fixed bug#[11150](http://bugs.otrs.org/show_bug.cgi?id=11150) - Handling of dashboard widget names with special characters.
  - 2016-03-02 Fixed bug#[10117](http://bugs.otrs.org/show_bug.cgi?id=10117) - Filter in queue view for customer userID shows only customers from given backend.
  - 2016-03-02 Fixed bug#[11810](http://bugs.otrs.org/show_bug.cgi?id=11810) - <OTRS_TICKET_State> not translated to spanish when answering from AgentTicketZoom screen.
