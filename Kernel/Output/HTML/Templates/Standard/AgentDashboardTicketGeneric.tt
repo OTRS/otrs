@@ -52,10 +52,10 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]').unbind('click').bind('click', function (Event) {
+    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
         var Filter, LinkPage, ColumnFilterName, CustomerID;
 
-        Filter  = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter  = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         LinkPage = '';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
@@ -71,9 +71,9 @@
             });
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %]', function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %]', function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         Event.preventDefault();
         return false;
@@ -95,10 +95,10 @@
                     <a id="TicketNumberOverviewControl[% Data.Name | html %]" name="TicketNumberOverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Config("Ticket::Hook") %]</a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#TicketNumberOverviewControl[% Data.Name | html %]').unbind('click').bind('click', function (Event) {
+    $('#TicketNumberOverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
         var Filter, LinkPage, ColumnFilterName, CustomerID;
 
-        Filter  = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter  = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         LinkPage = '';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
@@ -114,9 +114,9 @@
             });
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=TicketNumber;OrderBy=[% Data.OrderBy | html %]', function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + ''), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=TicketNumber;OrderBy=[% Data.OrderBy | html %]', function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         Event.preventDefault();
         return false;
@@ -166,11 +166,11 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
                     <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#ColumnFilter[% Data.HeaderColumnName | html %][% Data.Name | html %]').unbind('change').bind('change', function(){
+    $('#ColumnFilter' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('change').bind('change', function(){
         var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
 
         LinkPage = '';
-        Filter   = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
         // set ColumnFilter value for current ColumnFilter
@@ -197,18 +197,18 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
             }
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         return false;
     });
 
-    $('#[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]').unbind('click').bind('click', function (Event) {
+    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
         var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
 
         LinkPage = '';
-        Filter   = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
         // set ColumnFilter value for current ColumnFilter
@@ -235,9 +235,9 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
             }
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         Event.preventDefault();
         return false;
@@ -250,11 +250,11 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
                     <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]').unbind('click').bind('click', function (Event) {
+    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
         var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
 
         LinkPage = '';
-        Filter   = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
         // set ColumnFilter value for current ColumnFilter
@@ -281,9 +281,9 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
             }
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID +';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID +';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         Event.preventDefault();
         return false;
@@ -317,11 +317,11 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#ColumnFilter[% Data.HeaderColumnName | html %][% Data.Name | html %]').unbind('change').bind('change', function(){
+    $('#ColumnFilter' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('change').bind('change', function(){
         var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
 
         LinkPage = '';
-        Filter   = $('#Filter[% Data.Name | html %]').val() || 'All';
+        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
         CustomerID = $('input[name=CustomerID]').val() || '';
 
         // set ColumnFilter value for current ColumnFilter
@@ -348,9 +348,9 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
             }
         });
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         return false;
     });
@@ -574,8 +574,8 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
     Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(function() {
 
         // get active filter
-        var Filter      = $('#Dashboard[% Data.Name | html %]-box').find('.Tab.Actions li.Selected a').attr('data-filter'),
-            $OrderByObj = $('#Dashboard[% Data.Name | html %]-box').find('th.SortDescendingLarge, th.SortAscendingLarge'),
+        var Filter      = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li.Selected a').attr('data-filter'),
+            $OrderByObj = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('th.SortDescendingLarge, th.SortAscendingLarge'),
             SortBy      = $OrderByObj.attr('data-column') || '',
             OrderBy     = '';
 
@@ -586,9 +586,9 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
             OrderBy = 'Down';
         }
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];SortBy=' + SortBy + ';OrderBy=' + OrderBy, function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];SortBy=' + SortBy + ';OrderBy=' + OrderBy, function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
     }, Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
@@ -600,18 +600,18 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
 [% RenderBlockStart("ContentLargeTicketGenericRemoveFilters") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-if (!$('#Dashboard[% Data.Name | html %]-box').find('.ActionMenu').find('.RemoveFilters').length) {
-    $('#Dashboard[% Data.Name | html %]-box')
+if (!$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.ActionMenu').find('.RemoveFilters').length) {
+    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box')
         .find('.ActionMenu')
         .prepend('<div class="WidgetAction RemoveFilters"><a href="#" id="Dashboard[% Data.Name | html %]-remove-filters" title="[% Translate("Remove active filters for this widget.") | html %]"><i class="fa fa-trash-o"></i></a></div>')
         .find('.RemoveFilters')
         .on('click', function() {
 
             // get active filter
-            var Filter = $('#Dashboard[% Data.Name | html %]-box').find('.Tab.Actions li.Selected a').attr('data-filter');
-            $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-            Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];RemoveFilters=1', function () {
-                $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+            var Filter = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];RemoveFilters=1', function () {
+                $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
             });
             return false;
         });
@@ -623,7 +623,7 @@ if (!$('#Dashboard[% Data.Name | html %]-box').find('.ActionMenu').find('.Remove
 [% RenderBlockStart("ContentLargeTicketGenericRemoveFiltersRemove") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#Dashboard[% Data.Name | html %]-box').find('.RemoveFilters').remove();
+$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.RemoveFilters').remove();
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericRemoveFiltersRemove") %]
@@ -643,15 +643,15 @@ $('#Dashboard[% Data.Name | html %]-box').find('.RemoveFilters').remove();
         }
     });
 
-    $('#Dashboard[% Data.Name | html %]-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
+    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
         var Filter = $(this).attr('data-filter'),
         CustomerID;
 
         CustomerID = $('input[name=CustomerID]').val() || '';
 
-        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + encodeURIComponent(CustomerID), function () {
-            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + encodeURIComponent(CustomerID), function () {
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
         });
         return false;
     });
