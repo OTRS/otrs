@@ -11,6 +11,8 @@ package Kernel::Modules::AdminCustomerCompany;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
