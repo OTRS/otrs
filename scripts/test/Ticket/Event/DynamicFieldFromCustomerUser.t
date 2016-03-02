@@ -12,25 +12,27 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
-
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 # don't check email address validity
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-# create helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    RestoreSystemConfiguration => 1,
-);
-
-# create a RandomID
-my $RandomID = $HelperObject->GetRandomID();
-
 $ConfigObject->Set(
     Key   => 'DynamicFieldFromCustomerUser::Mapping',
     Value => {
@@ -47,37 +49,25 @@ $ConfigObject->Set(
     },
 );
 
-# get needed objects
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
 # create the required dynamic fields
 my @DynamicFields = (
     {
         Name       => 'CustomerLogin' . $RandomID,
         Label      => 'CustomerLogin',
         FieldOrder => 9991,
-        FieldType  => 'Text',
-        ObjectType => 'Ticket',
     },
     {
         Name       => 'CustomerFirstname' . $RandomID,
         Label      => 'CustomerFirstname',
         FieldOrder => 9992,
-        FieldType  => 'Text',
-        ObjectType => 'Ticket',
     },
     {
         Name       => 'CustomerLastname' . $RandomID,
         Label      => 'CustomerLastname',
         FieldOrder => 9993,
-        FieldType  => 'Text',
-        ObjectType => 'Ticket',
     },
 );
 
-my @AddedDynamicFieldIDs;
 my @AddedDynamicFieldNames;
 for my $DynamicFieldConfig (@DynamicFields) {
 
@@ -86,6 +76,8 @@ for my $DynamicFieldConfig (@DynamicFields) {
         Config => {
             DefaultValue => '',
         },
+        FieldType     => 'Text',
+        ObjectType    => 'Ticket',
         InternalField => 0,
         Reorder       => 0,
         ValidID       => 1,
@@ -99,15 +91,12 @@ for my $DynamicFieldConfig (@DynamicFields) {
         "DynamicFieldAdd() for '$DynamicFieldConfig->{Label}' Field ID should be defined",
     );
 
-    # remember the DynamicField ID
-    push @AddedDynamicFieldIDs, $ID;
-
-    # remember the DynamicField Name
+    # remember the DynamicFieldName
     push @AddedDynamicFieldNames, $DynamicFieldConfig->{Name};
 }
 
 # create a customer user
-my $TestUserLogin = $HelperObject->TestCustomerUserCreate();
+my $TestUserLogin = $Helper->TestCustomerUserCreate();
 
 # get customer user data
 my %TestUserData = $CustomerUserObject->CustomerUserDataGet(
@@ -149,7 +138,7 @@ my %Ticket = $TicketObject->TicketGet(
     Silent        => 0,
 );
 
-# test actual resutls with expected ones
+# test actual results with expected ones
 for my $DynamicFieldName (@AddedDynamicFieldNames) {
     $Self->IsNot(
         $Ticket{ 'DynamicField_' . $DynamicFieldName },
@@ -174,32 +163,6 @@ $Self->Is(
     "DynamicField 'CustomerLastname$RandomID' for Ticket ID:'$TicketID' match TestUser Lastname",
 );
 
-# clean the system
-# remove the ticket
-my $Success = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity test
-$Self->True(
-    $Success,
-    "TicketDelete() for Ticket ID:'$TicketID' with true",
-);
-
-# remove dynamic fields
-for my $ID (@AddedDynamicFieldIDs) {
-    my $Success = $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $ID,
-        UserID  => 1,
-        Reorder => 0,
-    );
-
-    # sanity test
-    $Self->True(
-        $Success,
-        "DynamicFieldDelete() for DynamicField ID:'$ID' with true",
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

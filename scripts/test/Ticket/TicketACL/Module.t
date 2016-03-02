@@ -13,10 +13,18 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-$ConfigObject->Set(
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'Ticket::Acl::Module',
     Value => {
         DummyModule => {
@@ -28,29 +36,20 @@ $ConfigObject->Set(
     },
 );
 
-# get needed objects
-my $ValidObject    = $Kernel::OM->Get('Kernel::System::Valid');
-my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
-my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
-my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
-my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
-my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
-
 # set valid options
-my %ValidList = $ValidObject->ValidList();
+my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 %ValidList = reverse %ValidList;
 
 # set user options
-my $UserLogin = $HelperObject->TestUserCreate(
+my $UserLogin = $Helper->TestUserCreate(
     Groups => ['admin'],
 ) || die "Did not get test user";
 
-my $UserID = $UserObject->UserLookup(
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
-# set helper options
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # set queue options
 my $QueueName = 'Queue_' . $RandomID;
@@ -73,7 +72,7 @@ $Self->True(
 
 # set state options
 my $StateName = 'State_' . $RandomID;
-my $StateID   = $StateObject->StateAdd(
+my $StateID   = $Kernel::OM->Get('Kernel::System::State')->StateAdd(
     Name    => $StateName,
     ValidID => 1,
     TypeID  => 1,
@@ -88,7 +87,7 @@ $Self->True(
 
 # set priority options
 my $PriorityName = 'Priority_' . $RandomID;
-my $PriorityID   = $PriorityObject->PriorityAdd(
+my $PriorityID   = $Kernel::OM->Get('Kernel::System::Priority')->PriorityAdd(
     Name    => $PriorityName,
     ValidID => $ValidList{'valid'},
     UserID  => 1,
@@ -154,31 +153,6 @@ $Self->False(
     'Non-matching ACL from module',
 );
 
-# clean tickets
-my $TicketDeleteSuccess = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
+# cleanup is done by RestoreDatabase.
 
-# sanity check
-$Self->True(
-    $TicketDeleteSuccess,
-    "TicketDelete ID ($TicketID) deleted successfully"
-);
-
-# clean the system
-# clean queues
-my $QueueUpdateSuccess = $QueueObject->QueueUpdate(
-    $QueueObject->QueueGet(
-        ID     => $QueueID,
-        UserID => 1,
-    ),
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $QueueUpdateSuccess,
-    "QueueUpdate() ID ($QueueID) invalidated successfully"
-);
+1;

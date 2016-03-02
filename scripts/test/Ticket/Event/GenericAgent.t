@@ -15,18 +15,23 @@ use vars (qw($Self));
 use Kernel::System::Ticket;
 use Kernel::System::GenericAgent;
 
-# get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get dynamic field object
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 # define structure for create and update values
 my %TicketValues = (
     Create => {
-        Title      => 'Test ticket for UntitTest of the event ticket actions.',
+        Title      => 'Test ticket for UnitTest of the event ticket actions.',
         StateID    => 1,
         PriorityID => 2,
         OwnerID    => 1,
@@ -42,7 +47,6 @@ my %TicketValues = (
         CustomerID => '456',
         LockID     => 2,
         QueueID    => 3,
-
     },
 );
 
@@ -105,15 +109,14 @@ for my $Item ( sort keys %{ $TicketValues{Update} } ) {
 }
 
 # add dynamic fields
-my @DynamicfieldIDs;
-my %AddDynamicfields = (
+my %AddDynamicFields = (
     NewDynamicField          => 'A new value',
-    InterestingDynamicField  => 'The most beautyful song in the world.',
+    InterestingDynamicField  => 'The most beautiful song in the world.',
     NothingToSayDynamicField => 'Null',
     TooLongDynamicField      => $RandomID,
 );
 
-for my $FieldName ( sort keys %AddDynamicfields ) {
+for my $FieldName ( sort keys %AddDynamicFields ) {
 
     # create a dynamic field
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -135,9 +138,7 @@ for my $FieldName ( sort keys %AddDynamicfields ) {
         "DynamicFieldAdd() successful for Field $FieldName",
     );
 
-    push @DynamicfieldIDs, $FieldID;
-
-    $NewJob{Data}->{ 'DynamicField_' . $FieldName . $RandomID } = $AddDynamicfields{$FieldName};
+    $NewJob{Data}->{ 'DynamicField_' . $FieldName . $RandomID } = $AddDynamicFields{$FieldName};
 }
 
 my $TicketObject       = Kernel::System::Ticket->new();
@@ -230,65 +231,15 @@ for my $Item ( sort keys %{ $TicketValues{Update} } ) {
 }
 
 # check also for Dynamic Fields
-for my $Item ( sort keys %AddDynamicfields ) {
+for my $Item ( sort keys %AddDynamicFields ) {
 
     $Self->Is(
         $TicketMod{ 'DynamicField_' . $Item . $RandomID },
-        $AddDynamicfields{$Item},
+        $AddDynamicFields{$Item},
         "TicketGet() - DynamicFields - $Item",
     );
 }
 
-for my $DynamicFieldID (@DynamicfieldIDs) {
-
-    my $ValuesDelete = $BackendObject->AllValuesDelete(
-        DynamicFieldConfig => {
-            ID         => $DynamicFieldID,
-            ObjectType => 'Ticket',
-            FieldType  => 'Text',
-        },
-        UserID => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $ValuesDelete,
-        "AllValuesDelete() successful for Field ID $DynamicFieldID",
-    );
-
-    # delete the dynamic field
-    my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $DynamicFieldID,
-        UserID => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $FieldDelete,
-        "DynamicFieldDelete() successful for Field ID $DynamicFieldID",
-    );
-}
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
-
-# delete job
-my $JobDelete = $GenericAgentObject->JobDelete(
-    Name   => $JobName,
-    UserID => 1,
-);
-$Self->True(
-    $JobDelete || '',
-    'JobDelete()',
-);
+# cleanup is done by RestoreDatabase.
 
 1;

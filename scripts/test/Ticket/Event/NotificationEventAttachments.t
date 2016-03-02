@@ -17,6 +17,14 @@ use vars (qw($Self));
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',
     Value => 1,
@@ -53,65 +61,29 @@ $Self->IsDeeply(
     'Test backend empty after initial cleanup',
 );
 
-# set restore configuration param
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
-
-# get helper object
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my @UserIDs;
-
-# create a new user User
-my $UserLogin = $HelperObject->TestUserCreate(
-    Groups => ['users'],
-);
-
 # get user object
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-my %UserData = $UserObject->GetUserData(
-    User => $UserLogin,
-);
+my @UserIDs;
 
-my $UserID1 = $UserData{UserID};
+# create a new users
+for ( 1 .. 4 ) {
 
-# store ID for use it later
-push @UserIDs, $UserID1;
+    my $UserLogin = $Helper->TestUserCreate(
+        Groups => ['users'],
+    );
 
-# create a new user User2
-my $UserLogin2 = $HelperObject->TestUserCreate(
-    Groups => ['users'],
-);
+    my %UserData = $UserObject->GetUserData(
+        User => $UserLogin,
+    );
 
-my %UserData2 = $UserObject->GetUserData(
-    User => $UserLogin2,
-);
+    my $UserID = $UserData{UserID};
 
-my $UserID2 = $UserData2{UserID};
-
-# store ID for use it later
-push @UserIDs, $UserID2;
-
-# create a new user User3
-my $UserLogin3 = $HelperObject->TestUserCreate(
-    Groups => ['users'],
-);
-
-my %UserData3 = $UserObject->GetUserData(
-    User => $UserLogin3,
-);
-
-my $UserID3 = $UserData3{UserID};
-
-# store ID for use it later
-push @UserIDs, $UserID3;
+    push @UserIDs, $UserID;
+}
 
 # get a random id
-my $RandomID = int rand 1_000_000_000;
+my $RandomID = $Helper->GetRandomID();
 
 # get group object
 my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -213,9 +185,9 @@ my $TicketID = $TicketObject->TicketCreate(
     State         => 'new',
     CustomerID    => 'example.com',
     CustomerUser  => 'customerOne@example.com',
-    OwnerID       => $UserID1,
-    ResponsibleID => $UserID2,
-    UserID        => $UserID3,
+    OwnerID       => $UserIDs[0],
+    ResponsibleID => $UserIDs[1],
+    UserID        => $UserIDs[2],
 );
 
 # sanity check
@@ -364,6 +336,7 @@ for my $Test (@Tests) {
 
 }
 continue {
+
     # delete notification event
     my $NotificationDelete = $NotificationEventObject->NotificationDelete(
         ID     => $NotificationID,
@@ -390,113 +363,6 @@ $Self->IsDeeply(
     "CustomerMessageParams didn't grow after sending emails.",
 );
 
-# cleanup
-
-# revert queue to original group
-$QueueObject->QueueUpdate(
-    QueueID => 1,
-    %Queue,
-    UserID => 1,
-);
-
-$Self->True(
-    $Success,
-    "Set Queue ID 1 to Group ID $Queue{GroupID}",
-);
-
-# delete the dynamic field
-my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
-    ID      => $FieldID,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-# sanity check
-$Self->True(
-    $DFDelete,
-    "DynamicFieldDelete() successful for Field ID $FieldID",
-);
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => $UserID1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
-
-for my $UserID (@UserIDs) {
-
-    # delete group
-    $Success = $GroupObject->PermissionGroupUserAdd(
-        GID        => $GID,
-        UID        => $UserID,
-        Permission => {
-            ro        => 0,
-            move_into => 0,
-            create    => 0,
-            owner     => 0,
-            priority  => 0,
-            rw        => 0,
-        },
-        UserID => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "Removed User ID $UserID from Group ID $GID",
-    );
-}
-
-# get db object
-my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-# remove new group manually
-$Success = $DBObject->Do(
-    SQL => 'DELETE FROM groups
-        WHERE id = ?',
-    Bind => [
-        \$GID,
-    ],
-);
-
-$Self->True(
-    $Success,
-    "Deleted Group ID $GID",
-);
-
-for my $UserID (@UserIDs) {
-
-    # remove role
-    $Success = $GroupObject->PermissionRoleUserAdd(
-        RID    => $RoleID,
-        UID    => $UserID,
-        Active => 0,
-        UserID => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "Removed User ID $UserID from Role ID $RoleID",
-    );
-}
-
-# remove new role manually
-$Success = $DBObject->Do(
-    SQL => 'DELETE FROM roles
-        WHERE id = ?',
-    Bind => [
-        \$RoleID,
-    ],
-);
-
-$Self->True(
-    $Success,
-    "Deleted Role ID $RoleID",
-);
+# cleanup is done by RestoreDatabase.
 
 1;
