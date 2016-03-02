@@ -17,6 +17,10 @@
  * @subsection  Event Graph
  */
 
+.MessageBox + #calendar {
+    margin-top: 10px !important;
+}
+
 div.EventDetails {
     z-index: 5;
     width: 400px;
