@@ -12,11 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create a new ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -200,21 +205,11 @@ for my $SearchTest (@SearchTests) {
     );
 }
 
-# cleanup
-my $Delete = $TicketObject->TicketDelete(
-    UserID   => 1,
-    TicketID => $TicketID,
-);
-$Self->True(
-    $Delete,
-    "TicketDelete()",
-);
-
 # create 2 new users
 my @UserIDs;
 for ( 1 .. 2 ) {
-    my $UserLogin = $HelperObject->TestUserCreate();
-    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
+    my $UserLogin = $Helper->TestUserCreate();
+    my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 
@@ -234,7 +229,6 @@ $Self->True(
     $TicketID,
     'TicketCreate()',
 );
-my @TicketIDs = ($TicketID);
 
 # create article
 my @ArticleIDs;
@@ -457,35 +451,6 @@ for my $Test (@Tests) {
     $Self->Is( $Count, $Test->{Expected}, $Test->{Name} );
 }
 
-# delete tickets
-for my $TicketID (@TicketIDs) {
-    $Self->True(
-        $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        ),
-        'TicketDelete()',
-    );
-}
-
-# set created users to invalid
-for my $UserID (@UserIDs) {
-
-    # get current user data
-    my %User = $UserObject->GetUserData(
-        UserID => $UserID,
-    );
-
-    # invalidate user
-    $UserObject->UserUpdate(
-        UserID        => $UserID,
-        UserFirstname => $User{UserFirstname},
-        UserLastname  => $User{UserLastname},
-        UserLogin     => $User{UserLogin},
-        UserEmail     => $User{UserEmail},
-        ValidID       => 2,
-        ChangeUserID  => 1,
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

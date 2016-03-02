@@ -13,26 +13,31 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ValidObject             = $Kernel::OM->Get('Kernel::System::Valid');
-my $UserObject              = $Kernel::OM->Get('Kernel::System::User');
-my $CustomerUserObject      = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $ServiceObject           = $Kernel::OM->Get('Kernel::System::Service');
-my $QueueObject             = $Kernel::OM->Get('Kernel::System::Queue');
-my $TypeObject              = $Kernel::OM->Get('Kernel::System::Type');
-my $PriorityObject          = $Kernel::OM->Get('Kernel::System::Priority');
-my $SLAObject               = $Kernel::OM->Get('Kernel::System::SLA');
-my $StateObject             = $Kernel::OM->Get('Kernel::System::State');
-my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ServiceObject      = $Kernel::OM->Get('Kernel::System::Service');
+my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
+my $TypeObject         = $Kernel::OM->Get('Kernel::System::Type');
+my $PriorityObject     = $Kernel::OM->Get('Kernel::System::Priority');
+my $SLAObject          = $Kernel::OM->Get('Kernel::System::SLA');
+my $StateObject        = $Kernel::OM->Get('Kernel::System::State');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set valid options
-my %ValidList = $ValidObject->ValidList();
+my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 %ValidList = reverse %ValidList;
 
 # set user options
-my $UserLogin = $HelperObject->TestUserCreate(
+my $UserLogin = $Helper->TestUserCreate(
     Groups => ['admin'],
 ) || die "Did not get test user";
 
@@ -42,7 +47,7 @@ my $UserID = $UserObject->UserLookup(
 my %UserData = $UserObject->GetUserData(
     UserID => $UserID,
 );
-my $NewUserLogin = $HelperObject->TestUserCreate(
+my $NewUserLogin = $Helper->TestUserCreate(
     Groups => ['admin'],
 ) || die "Did not get test user";
 
@@ -54,22 +59,21 @@ my %NewUserData = $UserObject->GetUserData(
 );
 
 # set customer user options
-my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate()
+my $CustomerUserLogin = $Helper->TestCustomerUserCreate()
     || die "Did not get test customer user";
 
 my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
     User => $CustomerUserLogin,
 );
 
-my $NewCustomerUserLogin = $HelperObject->TestCustomerUserCreate()
+my $NewCustomerUserLogin = $Helper->TestCustomerUserCreate()
     || die "Did not get test customer user";
 
 my %NewCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
     User => $NewCustomerUserLogin,
 );
 
-# set helper options
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # set queue options
 my $QueueName = 'Queue_' . $RandomID;
@@ -90,11 +94,6 @@ $Self->True(
     "QueueAdd() ID ($QueueID) added successfully"
 );
 
-my %QueueData = $QueueObject->QueueGet(
-    ID     => $QueueID,
-    UserID => 1,
-);
-
 my $NewQueueName = 'NewQueue_' . $RandomID;
 my $NewQueueID   = $QueueObject->QueueAdd(
     Name            => $NewQueueName,
@@ -113,11 +112,6 @@ $Self->True(
     "QueueAdd() ID ($NewQueueID) added successfully"
 );
 
-my %NewQueueData = $QueueObject->QueueGet(
-    ID     => $NewQueueID,
-    UserID => 1,
-);
-
 # set service options
 my $ServiceName = 'Service_' . $RandomID;
 my $ServiceID   = $ServiceObject->ServiceAdd(
@@ -132,11 +126,6 @@ $Self->True(
     "ServiceAdd() ID ($ServiceID) added successfully"
 );
 
-my %ServiceData = $ServiceObject->ServiceGet(
-    ServiceID => $ServiceID,
-    UserID    => 1,
-);
-
 my $NewServiceName = 'NewService_' . $RandomID;
 my $NewServiceID   = $ServiceObject->ServiceAdd(
     Name    => $NewServiceName,
@@ -148,11 +137,6 @@ my $NewServiceID   = $ServiceObject->ServiceAdd(
 $Self->True(
     $NewServiceID,
     "ServiceAdd() ID ($NewServiceID) added successfully"
-);
-
-my %NewServiceData = $ServiceObject->ServiceGet(
-    ServiceID => $NewServiceID,
-    UserID    => 1,
 );
 
 # set type options
@@ -169,11 +153,6 @@ $Self->True(
     "TypeAdd() ID ($TypeID) added successfully"
 );
 
-my %TypeData = $TypeObject->TypeGet(
-    ID     => $TypeID,
-    UserID => 1,
-);
-
 my $NewTypeName = 'NewType_' . $RandomID;
 my $NewTypeID   = $TypeObject->TypeAdd(
     Name    => $NewTypeName,
@@ -185,11 +164,6 @@ my $NewTypeID   = $TypeObject->TypeAdd(
 $Self->True(
     $NewTypeID,
     "TypeAdd() ID ($NewTypeID) added successfully"
-);
-
-my %NewTypeData = $TypeObject->TypeGet(
-    ID     => $NewTypeID,
-    UserID => 1,
 );
 
 # set priority options
@@ -206,10 +180,6 @@ $Self->True(
     "PriorityAdd() ID ($PriorityID) added successfully"
 );
 
-my %PriorityData = $PriorityObject->PriorityGet(
-    PriorityID => $PriorityID,
-    UserID     => 1,
-);
 my $NewPriorityName = 'NewPriority_' . $RandomID;
 my $NewPriorityID   = $PriorityObject->PriorityAdd(
     Name    => $NewPriorityName,
@@ -221,11 +191,6 @@ my $NewPriorityID   = $PriorityObject->PriorityAdd(
 $Self->True(
     $NewPriorityID,
     "PriorityAdd() ID ($NewPriorityID) added successfully"
-);
-
-my %NewPriorityData = $PriorityObject->PriorityGet(
-    PriorityID => $NewPriorityID,
-    UserID     => 1,
 );
 
 # set SLA options
@@ -242,10 +207,6 @@ $Self->True(
     "SLAAdd() ID ($SLAID) added successfully"
 );
 
-my %SLAData = $SLAObject->SLAGet(
-    SLAID  => $SLAID,
-    UserID => 1,
-);
 my $NewSLAName = 'NewSLA_' . $RandomID;
 my $NewSLAID   = $SLAObject->SLAAdd(
     Name    => $NewSLAName,
@@ -257,11 +218,6 @@ my $NewSLAID   = $SLAObject->SLAAdd(
 $Self->True(
     $NewSLAID,
     "SLAAdd() ID ($NewSLAID) added successfully"
-);
-
-my %NewSLAData = $SLAObject->SLAGet(
-    SLAID  => $SLAID,
-    UserID => 1,
 );
 
 # set state options
@@ -279,10 +235,6 @@ $Self->True(
     "StateAdd() ID ($StateID) added successfully"
 );
 
-my %StateData = $StateObject->StateGet(
-    ID     => $StateID,
-    UserID => 1,
-);
 my $NewStateName = 'NewState_' . $RandomID;
 my $NewStateID   = $StateObject->StateAdd(
     Name    => $NewStateName,
@@ -295,11 +247,6 @@ my $NewStateID   = $StateObject->StateAdd(
 $Self->True(
     $NewStateID,
     "StateAdd() ID ($NewStateID) added successfully"
-);
-
-my %NewStateData = $StateObject->StateGet(
-    ID     => $NewStateID,
-    UserID => 1,
 );
 
 # set dynamic_field options
@@ -518,7 +465,7 @@ $Self->True(
 );
 
 # set the dynamic field value
-my $DynamicFieldValueSetSuccess = $DynamicFieldValueObject->ValueSet(
+my $DynamicFieldValueSetSuccess = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
     FieldID  => $DynamicFieldID,
     ObjectID => $TicketID,
     Value    => [
@@ -1546,7 +1493,7 @@ $Self->True(
         },
     },
     {
-        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Wrong Properies,'
+        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Wrong Properties,'
             . ' Correct PropertiesDatabase: ',
         ACLs => {
             'DB-CustomerUser-1-C' => {
@@ -1823,7 +1770,7 @@ $Self->True(
         },
     },
     {
-        Name => 'ACL DB-SLA-1 - Sent new SLA, Wrong Propeties, Correct PropertiesDatabase: ',
+        Name => 'ACL DB-SLA-1 - Sent new SLA, Wrong Properties, Correct PropertiesDatabase: ',
         ACLs => {
             'DB-SLA-1-C' => {
                 Properties => {
@@ -3642,191 +3589,6 @@ $Self->True(
 );
 $ExecuteTests->( Tests => \@Tests );
 
-# ---
-# clean the system
-# ---
-# clean queues
-my $QueueUpdateSuccess = $QueueObject->QueueUpdate(
-    %QueueData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $QueueUpdateSuccess,
-    "QueueUpdate() ID ($QueueID) invalidated successfully"
-);
-
-my $NewQueueUpdateSuccess = $QueueObject->QueueUpdate(
-    %NewQueueData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewQueueUpdateSuccess,
-    "QueueUpdate() ID ($NewQueueID) invalidated successfully"
-);
-
-# clean services
-my $ServiceUpdateSuccess = $ServiceObject->ServiceUpdate(
-    %ServiceData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $ServiceUpdateSuccess,
-    "ServiceUpdate() ID ($ServiceID) invalidated successfully"
-);
-
-my $NewServiceUpdateSuccess = $ServiceObject->ServiceUpdate(
-    %NewServiceData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewServiceUpdateSuccess,
-    "ServiceUpdate() ID ($NewServiceID) invalidated successfully"
-);
-
-# clean types
-my $TypeUpdateSuccess = $TypeObject->TypeUpdate(
-    %TypeData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $TypeUpdateSuccess,
-    "TypeUpdate() ID ($TypeID) invalidated successfully"
-);
-my $NewTypeUpdateSuccess = $TypeObject->TypeUpdate(
-    %NewTypeData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewTypeUpdateSuccess,
-    "TypeUpdate() ID ($NewTypeID) invalidated successfully"
-);
-
-# clean priorities
-my $PriorityUpdateSuccess = $PriorityObject->PriorityUpdate(
-    %PriorityData,
-    PriorityID => $PriorityData{ID},
-    ValidID    => $ValidList{'invalid'},
-    UserID     => 1,
-);
-
-# sanity check
-$Self->True(
-    $PriorityUpdateSuccess,
-    "PriorityUpdate() ID ($PriorityID) invalidated successfully"
-);
-my $NewPriorityUpdateSuccess = $PriorityObject->PriorityUpdate(
-    %NewPriorityData,
-    PriorityID => $NewPriorityData{ID},
-    ValidID    => $ValidList{'invalid'},
-    UserID     => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewPriorityUpdateSuccess,
-    "PriorityUpdate() ID ($NewPriorityID) invalidated successfully"
-);
-
-# clean SLAs
-my $SLAUpdateSuccess = $SLAObject->SLAUpdate(
-    %SLAData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $SLAUpdateSuccess,
-    "SLAUpdate() ID ($SLAID) invalidated successfully"
-);
-my $NewSLAUpdateSuccess = $SLAObject->SLAUpdate(
-    %NewSLAData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewSLAUpdateSuccess,
-    "SLAUpdate() ID ($NewSLAID) invalidated successfully"
-);
-
-# clean states
-my $StateUpdateSuccess = $StateObject->StateUpdate(
-    %StateData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $StateUpdateSuccess,
-    "StateUpdate() ID ($StateID) invalidated successfully"
-);
-my $NewStateUpdateSuccess = $StateObject->StateUpdate(
-    %NewStateData,
-    ValidID => $ValidList{'invalid'},
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $NewStateUpdateSuccess,
-    "StateUpdate() ID ($NewStateID) invalidated successfully"
-);
-
-# clean dynamic fields
-my $DynamicFieldValueDeleteSuccess = $DynamicFieldValueObject->AllValuesDelete(
-    FieldID => $DynamicFieldID,
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $DynamicFieldValueDeleteSuccess,
-    "DynamicFieldValue AllValuesDelete() for DynamicField ($DynamicFieldID) deleted successfully"
-);
-
-my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
-    ID      => $DynamicFieldID,
-    Reorder => 0,
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $DynamicFieldDeleteSuccess,
-    "DynamicFieldDelete() for DynamicField ($DynamicFieldID) deleted successfully"
-);
-
-# clean tickets
-my $TicketDeleteSuccess = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDeleteSuccess,
-    "TicketDelete ID ($TicketID) deleted successfully"
-);
+# cleanup is done by RestoreDatabase.
 
 1;

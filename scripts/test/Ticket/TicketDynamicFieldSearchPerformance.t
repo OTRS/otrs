@@ -15,13 +15,19 @@ use vars (qw($Self));
 use Time::HiRes;
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# create local objects
-my $RandomID = int rand 1_000_000_000;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 # Field number to create.
 #   A search will be executed in all fields at once (causing a JOIN for each
@@ -33,48 +39,33 @@ my @SearchSteps = ( 1, 2, 3, 4, 5 );    # Steps at which to check search perform
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
+    'Backend object was created successfully',
 );
 
-my @TestTicketIDs;
+my @TicketIDs;
+my @Tickets;
+for my $Item ( 1 .. 2 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => "Ticket$RandomID",
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'closed successful',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
 
-my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => "Ticket$RandomID",
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
+    push @TicketIDs, $TicketID;
 
-push @TestTicketIDs, $TicketID1;
+    my %TicketData = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+    );
 
-my %Ticket1 = $TicketObject->TicketGet(
-    TicketID => $TicketID1,
-);
+    push @Tickets, \%TicketData;
+}
 
-my $TicketID2 = $TicketObject->TicketCreate(
-    Title        => "Ticket$RandomID",
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-push @TestTicketIDs, $TicketID2;
-
-my %Ticket2 = $TicketObject->TicketGet(
-    TicketID => $TicketID2,
-);
-
-my @TestDynamicFields;
 my %SearchParams;
 
 for my $Counter ( 1 .. $FieldCount ) {
@@ -94,22 +85,20 @@ for my $Counter ( 1 .. $FieldCount ) {
         UserID  => 1,
     );
 
-    push @TestDynamicFields, $FieldID;
-
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
     );
 
     $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $TicketID1,
+        ObjectID           => $TicketIDs[0],
         Value              => "ticket1_field$Counter",
         UserID             => 1,
     );
 
     $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $TicketID2,
+        ObjectID           => $TicketIDs[1],
         Value              => "ticket2_field$Counter",
         UserID             => 1,
     );
@@ -133,7 +122,7 @@ for my $Counter ( 1 .. $FieldCount ) {
 
         $Self->IsDeeply(
             \%TicketIDsSearch,
-            { $TicketID1 => $Ticket1{TicketNumber} },
+            { $TicketIDs[0] => $Tickets[0]->{TicketNumber} },
             "Search for $Counter fields result",
         );
 
@@ -147,23 +136,6 @@ for my $Counter ( 1 .. $FieldCount ) {
     }
 }
 
-for my $TicketID (@TestTicketIDs) {
-
-    # the ticket is no longer needed
-    $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-}
-
-for my $FieldID (@TestDynamicFields) {
-
-    # delete the dynamic field
-    $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $FieldID,
-        UserID  => 1,
-        Reorder => 0,
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

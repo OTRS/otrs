@@ -13,249 +13,201 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# create local objects
-my $RandomID = int rand 1_000_000_000;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
+    'Backend object was created successfully',
 );
 
-my @TestDynamicFields;
-
-# create a dynamic field
-my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT1$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',            # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-push @TestDynamicFields, $FieldID1;
-
-my $Field1Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID1,
-);
-
-# create a dynamic field
-my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT2$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9992,
-    FieldType  => 'Dropdown',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue   => 'Default',
-        PossibleValues => {
-            ticket1_field2 => 'ticket1_field2',
-            ticket2_field2 => 'ticket2_field2',
+# create dynamic field properties
+my @DynamicFieldProperties = (
+    {
+        Name       => "DFT1$RandomID",
+        FieldOrder => 9991,
+        FieldType  => 'Text',
+        Config     => {
+            DefaultValue => 'Default',
         },
     },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID2,
-);
-
-push @TestDynamicFields, $FieldID2;
-
-# create a dynamic field
-my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT3$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9993,
-    FieldType  => 'DateTime',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID3,
-);
-
-push @TestDynamicFields, $FieldID3;
-
-# create a dynamic field
-my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT4$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9993,
-    FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID4,
-);
-
-push @TestDynamicFields, $FieldID4;
-
-# create a dynamic field
-my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT5$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9995,
-    FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
-        PossibleValues => {
-            ticket1_field5 => 'ticket1_field51',
-            ticket2_field5 => 'ticket2_field52',
-            ticket3_field5 => 'ticket2_field53',
-            ticket4_field5 => 'ticket2_field54',
-            ticket5_field5 => 'ticket2_field55',
+    {
+        Name       => "DFT2$RandomID",
+        FieldOrder => 9992,
+        FieldType  => 'Dropdown',
+        Config     => {
+            DefaultValue   => 'Default',
+            PossibleValues => {
+                ticket1_field2 => 'ticket1_field2',
+                ticket2_field2 => 'ticket2_field2',
+            },
         },
     },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
+    {
+        Name       => "DFT3$RandomID",
+        FieldOrder => 9993,
+        FieldType  => 'DateTime',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT4$RandomID",
+        FieldOrder => 9993,
+        FieldType  => 'Checkbox',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT5$RandomID",
+        FieldOrder => 9995,
+        FieldType  => 'Multiselect',
+        Config     => {
+            DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
+            PossibleValues => {
+                ticket1_field5 => 'ticket1_field51',
+                ticket2_field5 => 'ticket2_field52',
+                ticket3_field5 => 'ticket2_field53',
+                ticket4_field5 => 'ticket2_field54',
+                ticket5_field5 => 'ticket2_field55',
+            },
+        },
+    }
 );
 
-my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID5,
+my @FieldConfig;
+
+# create dynamic fields
+for my $DynamicFieldProperties (@DynamicFieldProperties) {
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+        %{$DynamicFieldProperties},
+        Label      => 'Description',
+        ObjectType => 'Ticket',
+        ValidID    => 1,
+        UserID     => 1,
+        Reorder    => 0,
+    );
+
+    $Self->True(
+        $FieldID,
+        'DynamicField is created - $FieldID',
+    );
+
+    push @FieldConfig, $DynamicFieldObject->DynamicFieldGet(
+        ID => $FieldID,
+    );
+}
+
+my @TicketData;
+for ( 1 .. 2 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => "Ticket$RandomID",
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'closed successful',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+
+    $Self->True(
+        $TicketID,
+        'Ticket is created - $TicketID',
+    );
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+    );
+
+    push @TicketData, {
+        TicketID     => $TicketID,
+        TicketNumber => $Ticket{TicketNumber},
+        }
+}
+
+my @Values = (
+    {
+        DynamicFieldConfig => $FieldConfig[0],
+        ObjectID           => $TicketData[0]{TicketID},
+        Value              => 'ticket1_field1',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[1],
+        ObjectID           => $TicketData[0]{TicketID},
+        Value              => 'ticket1_field2',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[2],
+        ObjectID           => $TicketData[0]{TicketID},
+        Value              => '2001-01-01 01:01:01',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[3],
+        ObjectID           => $TicketData[0]{TicketID},
+        Value              => '0',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[4],
+        ObjectID           => $TicketData[0]{TicketID},
+        Value              => ['ticket1_field5'],
+        UserID             => 1,
+
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[0],
+        ObjectID           => $TicketData[1]{TicketID},
+        Value              => 'ticket2_field1',
+
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[1],
+        ObjectID           => $TicketData[1]{TicketID},
+        Value              => 'ticket2_field2',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[2],
+        ObjectID           => $TicketData[1]{TicketID},
+        Value              => '2011-11-11 11:11:11',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[3],
+        ObjectID           => $TicketData[1]{TicketID},
+        Value              => '1',
+    },
+    {
+        DynamicFieldConfig => $FieldConfig[4],
+        ObjectID           => $TicketData[1]{TicketID},
+        Value              => [
+            'ticket1_field5',
+            'ticket2_field5',
+            'ticket4_field5',
+        ],
+    },
 );
 
-push @TestDynamicFields, $FieldID5;
-
-my @TestTicketIDs;
-
-my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => "Ticket$RandomID",
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-push @TestTicketIDs, $TicketID1;
-
-my %Ticket1 = $TicketObject->TicketGet(
-    TicketID => $TicketID1,
-);
-
-my $TicketID2 = $TicketObject->TicketCreate(
-    Title        => "Ticket$RandomID",
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-push @TestTicketIDs, $TicketID2;
-
-my %Ticket2 = $TicketObject->TicketGet(
-    TicketID => $TicketID2,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field1Config,
-    ObjectID           => $TicketID1,
-    Value              => 'ticket1_field1',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field2Config,
-    ObjectID           => $TicketID1,
-    Value              => 'ticket1_field2',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field3Config,
-    ObjectID           => $TicketID1,
-    Value              => '2001-01-01 01:01:01',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field4Config,
-    ObjectID           => $TicketID1,
-    Value              => '0',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field5Config,
-    ObjectID           => $TicketID1,
-    Value              => ['ticket1_field5'],
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field1Config,
-    ObjectID           => $TicketID2,
-    Value              => 'ticket2_field1',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field2Config,
-    ObjectID           => $TicketID2,
-    Value              => 'ticket2_field2',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field3Config,
-    ObjectID           => $TicketID2,
-    Value              => '2011-11-11 11:11:11',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field4Config,
-    ObjectID           => $TicketID2,
-    Value              => '1',
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field5Config,
-    ObjectID           => $TicketID2,
-    Value              => [
-        'ticket1_field5',
-        'ticket2_field5',
-        'ticket4_field5',
-    ],
-    UserID => 1,
-);
+for my $Value (@Values) {
+    $BackendObject->ValueSet(
+        DynamicFieldConfig => $Value->{DynamicFieldConfig},
+        ObjectID           => $Value->{ObjectID},
+        Value              => $Value->{Value},
+        UserID             => 1,
+    );
+}
 
 my %TicketIDsSearch = $TicketObject->TicketSearch(
     Result                       => 'HASH',
@@ -270,7 +222,7 @@ my %TicketIDsSearch = $TicketObject->TicketSearch(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for one field',
 );
 
@@ -287,7 +239,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for one field',
 );
 
@@ -307,7 +259,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for two fields',
 );
 
@@ -368,8 +320,9 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     {
-        $TicketID1 => $Ticket1{TicketNumber},
-        $TicketID2 => $Ticket2{TicketNumber},
+        $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber},
+        $TicketData[1]{TicketID} => $TicketData[1]{TicketNumber},
+        ,
     },
     'Search for two fields, match two tickets',
 );
@@ -399,7 +352,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for five fields',
 );
 
@@ -429,7 +382,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for five fields, two operators with equals',
 );
 
@@ -459,7 +412,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \%TicketIDsSearch,
-    { $TicketID1 => $Ticket1{TicketNumber} },
+    { $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber} },
     'Search for five fields, two operators without equals',
 );
 
@@ -601,7 +554,7 @@ my @TicketResultSearch = $TicketObject->TicketSearch(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for two fields, match two tickets, sort for search field, ASC',
 );
 
@@ -623,7 +576,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for two fields, match two tickets, sort for search field, DESC',
 );
 
@@ -642,7 +595,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for field, match two tickets, sort for another field, ASC',
 );
 
@@ -661,7 +614,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for field, match two tickets, sort for another field, DESC',
 );
 
@@ -680,7 +633,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for field, match two tickets, sort for date field, ASC',
 );
 
@@ -699,7 +652,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for field, match two tickets, sort for date field, DESC',
 );
 
@@ -718,7 +671,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for field, match two tickets, sort for checkbox field, ASC',
 );
 
@@ -737,7 +690,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for field, match two tickets, sort for checkbox field, DESC',
 );
 
@@ -753,7 +706,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for no field, sort for checkbox field, ASC',
 );
 
@@ -769,7 +722,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for no field, sort for checkbox field, DESC',
 );
 
@@ -788,7 +741,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID1, $TicketID2, ],
+    [ $TicketData[0]{TicketID}, $TicketData[1]{TicketID}, ],
     'Search for field, match two tickets, sort for text field, ASC',
 );
 
@@ -807,7 +760,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, $TicketID1, ],
+    [ $TicketData[1]{TicketID}, $TicketData[0]{TicketID}, ],
     'Search for one value, match two ticket',
 );
 
@@ -827,7 +780,7 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, ],
+    [ $TicketData[1]{TicketID}, ],
     'Search for two values in a same field, match one ticket using two operators',
 );
 
@@ -846,27 +799,10 @@ $Self->IsDeeply(
 
 $Self->IsDeeply(
     \@TicketResultSearch,
-    [ $TicketID2, ],
+    [ $TicketData[1]{TicketID}, ],
     'Search for two values in a same field, match one ticket using an array ',
 );
 
-for my $TicketID (@TestTicketIDs) {
-
-    # the ticket is no longer needed
-    $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-}
-
-for my $FieldID (@TestDynamicFields) {
-
-    # delete the dynamic field
-    $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $FieldID,
-        UserID  => 1,
-        Reorder => 0,
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

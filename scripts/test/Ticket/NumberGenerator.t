@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get needed object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # check all number generators
