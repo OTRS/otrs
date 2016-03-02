@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-03-02 Fixed bug#[8313](http://bugs.otrs.org/show_bug.cgi?id=8313) - No such package: package-x.x.x message in package installation.
  - 2016-03-02 Fixed bug#[8055](http://bugs.otrs.org/show_bug.cgi?id=8055) - Disable Add/Edit customers when usign LDAP.
  - 2016-03-01 Updated CPAN module Net::SSLGlue to version 1.055.
  - 2016-03-01 Fixed bug#[11858](http://bugs.otrs.org/show_bug.cgi?id=11858) - Queues can just choose between 50 Calendar.

@@ -228,9 +228,10 @@ get a package from local repository
     );
 
     my $PackageScalar = $PackageObject->RepositoryGet(
-        Name    => 'Application A',
-        Version => '1.0',
-        Result  => 'SCALAR',
+        Name            => 'Application A',
+        Version         => '1.0',
+        Result          => 'SCALAR',
+        DisableWarnings => 1,         # optional
     );
 
 =cut
@@ -278,10 +279,14 @@ sub RepositoryGet {
     }
 
     if ( !$Package ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "No such package: $Param{Name}-$Param{Version}!",
-        );
+
+        if ( !$Param{DisableWarnings} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "No such package: $Param{Name}-$Param{Version}!",
+            );
+        }
+
         return;
     }
 
@@ -350,9 +355,10 @@ sub RepositoryAdd {
 
     # check if package already exists
     my $PackageExists = $Self->RepositoryGet(
-        Name    => $Structure{Name}->{Content},
-        Version => $Structure{Version}->{Content},
-        Result  => 'SCALAR',
+        Name            => $Structure{Name}->{Content},
+        Version         => $Structure{Version}->{Content},
+        Result          => 'SCALAR',
+        DisableWarnings => 1,
     );
 
     # get database object
