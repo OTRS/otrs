@@ -11,7 +11,6 @@ package Kernel::Modules::AgentTicketService;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
