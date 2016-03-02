@@ -412,6 +412,25 @@ sub Template {
         );
     }
 
+    # get user language
+    my $Language;
+    if ( defined $Param{TicketID} ) {
+
+        # get ticket data
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+            TicketID => $Param{TicketID},
+        );
+
+        # get recipient
+        my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
+        $Language = $User{UserLanguage};
+    }
+
+    # if customer language is not defined, set default language
+    $Language //= $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
     # replace place holder stuff
     my $TemplateText = $Self->_Replace(
         RichText => $Self->{RichText},
@@ -419,6 +438,7 @@ sub Template {
         TicketID => $Param{TicketID} || '',
         Data     => $Param{Data} || {},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
 
     return $TemplateText;
@@ -1127,7 +1147,7 @@ sub _Replace {
             NoOutOfOffice => 1,
         );
 
-        # html quoting of content
+        # HTML quoting of content
         if ( $Param{RichText} ) {
 
             ATTRIBUTE:
@@ -1153,7 +1173,7 @@ sub _Replace {
         NoOutOfOffice => 1,
     );
 
-    # html quoting of content
+    # HTML quoting of content
     if ( $Param{RichText} ) {
 
         ATTRIBUTE:
@@ -1290,7 +1310,7 @@ sub _Replace {
     for my $DataType (qw(OTRS_CUSTOMER_ OTRS_AGENT_)) {
         my %Data = %{ $ArticleData{$DataType} };
 
-        # html quoting of content
+        # HTML quoting of content
         if (
             $Param{RichText}
             && ( !$Data{ContentType} || $Data{ContentType} !~ /application\/json/ )
@@ -1322,7 +1342,7 @@ sub _Replace {
                         Data => $Data{Body},
                     );
 
-                    # replace body with html text
+                    # replace body with HTML text
                     $Data{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
                         TemplateFile => "ChatDisplay",
                         Data         => {
