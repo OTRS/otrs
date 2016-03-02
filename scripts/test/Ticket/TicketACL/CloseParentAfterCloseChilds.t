@@ -18,6 +18,14 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my @BlackListedStates = ( 'closed successful', 'closed unsuccessful' );
 
 # enable feature
@@ -35,11 +43,9 @@ $ConfigObject->Set(
     Value => {},
 );
 
-# get helper object
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomID     = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
-my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserLogin = $Helper->TestUserCreate();
 my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
@@ -47,37 +53,31 @@ my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => 'Parent Ticket' . $RandomID,
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'open',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
+my @TitleData = (
+    'Parent Ticket' . $RandomID,
+    'Child Ticket' . $RandomID
 );
-$Self->True(
-    $TicketID1,
-    "TicketCreate() for parent ticket: $TicketID1",
-);
+my @TicketIDs;
 
-my $TicketID2 = $TicketObject->TicketCreate(
-    Title        => 'Child Ticket' . $RandomID,
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'open',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-$Self->True(
-    $TicketID2,
-    "TicketCreate() for child ticket: $TicketID2",
-);
+for my $TitleDataItem (@TitleData) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => $TitleDataItem,
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'open',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    $Self->True(
+        $TicketID,
+        "TicketCreate() for parent ticket: $TicketID",
+    );
+
+    push @TicketIDs, $TicketID;
+}
 
 # get link object
 my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
@@ -86,9 +86,9 @@ my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
 {
     my $Success = $LinkObject->LinkAdd(
         SourceObject => 'Ticket',
-        SourceKey    => $TicketID1,
+        SourceKey    => $TicketIDs[0],
         TargetObject => 'Ticket',
-        TargetKey    => $TicketID2,
+        TargetKey    => $TicketIDs[1],
         Type         => 'ParentChild',
         State        => 'Valid',
         UserID       => 1,
@@ -96,7 +96,7 @@ my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
 
     $Self->True(
         $Success,
-        "LinkAdd() for TicketID: $TicketID1 and TicketID: $TicketID2",
+        "LinkAdd() for TicketID: $TicketIDs[0] and TicketID: $TicketIDs[1]",
     );
 }
 
@@ -109,7 +109,7 @@ my $CheckACLs = sub {
 
     my $Success = $TicketObject->TicketAcl(
         Data          => \%StateList,
-        TicketID      => $TicketID1,
+        TicketID      => $TicketIDs[0],
         ReturnType    => 'Ticket',
         ReturnSubType => 'State',
         UserID        => $TestUserID,
@@ -166,7 +166,7 @@ my $CheckACLs = sub {
 
     $Success = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
-        TicketID      => $TicketID1,
+        TicketID      => $TicketIDs[0],
         ReturnType    => 'Action',
         ReturnSubType => '-',
         UserID        => $TestUserID,
@@ -219,13 +219,13 @@ $CheckACLs->(
 # close child ticket
 my $Success = $TicketObject->TicketStateSet(
     State    => 'closed successful',
-    TicketID => $TicketID2,
+    TicketID => $TicketIDs[1],
     UserID   => 1,
 );
 
 $Self->True(
     $Success,
-    "TicketStateSet() Closed for child ticket: $TicketID2 with true",
+    "TicketStateSet() Closed for child ticket: $TicketIDs[1] with true",
 );
 
 # check ACLs with with child closed
@@ -234,34 +234,6 @@ $CheckACLs->(
     Success  => 0,
 );
 
-# cleanup the system
-{
-    my $Success = $LinkObject->LinkDelete(
-        Object1 => 'Ticket',
-        Key1    => $TicketID1,
-        Object2 => 'Ticket',
-        Key2    => $TicketID2,
-        Type    => 'ParentChild',
-        UserID  => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "LinkDelete() for TicketID: $TicketID1 and TicketID: $TicketID2",
-    );
-
-}
-
-for my $TicketID ( $TicketID1, $TicketID2 ) {
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "TicketDelete() for TicketID: $TicketID",
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;
