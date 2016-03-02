@@ -358,6 +358,49 @@ sub Run {
                 $GetParam{ShownAttributes} = [ split /;/, $GetParam{ShownAttributes} ];
             }
 
+            # replace StateType to StateIDs
+            if ( $GetParam{StateType} ) {
+                my @StateIDs;
+
+                if ( $GetParam{StateType} eq 'Open' ) {
+                    @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+                        Type   => 'Viewable',
+                        Result => 'ID',
+                    );
+                }
+                elsif ( $GetParam{StateType} eq 'Closed' ) {
+                    my %ViewableStateOpenLookup = $Self->{StateObject}->StateGetStatesByType(
+                        Type   => 'Viewable',
+                        Result => 'HASH',
+                    );
+
+                    my %StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+                    for my $Item ( sort keys %StateList ) {
+                        if ( !$ViewableStateOpenLookup{$Item} ) {
+                            push @StateIDs, $Item;
+                        }
+                    }
+                }
+
+                # current ticket state type
+                else {
+                    @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+                        StateType => $GetParam{StateType},
+                        Result    => 'ID',
+                    );
+                }
+
+                # merge with StateIDs
+                if ( @StateIDs && IsArrayRefWithData( $GetParam{StateIDs} ) ) {
+                    my %StateIDs = map { $_ => 1 } @StateIDs;
+                    @StateIDs = grep { exists $StateIDs{$_} } @{ $GetParam{StateIDs} };
+                }
+
+                if (@StateIDs) {
+                    $GetParam{StateIDs} = \@StateIDs;
+                }
+            }
+
             # insert new profile params
             KEY:
             for my $Key ( sort keys %GetParam ) {
@@ -465,7 +508,7 @@ sub Run {
             }
         }
 
-        # Special behaviour for the fulltext search toolbar module:
+        # Special behavior for the fulltext search toolbar module:
         # - Check full text string to see if contents is a ticket number.
         # - If exists and not in print or CSV mode, redirect to the ticket.
         # See http://bugs.otrs.org/show_bug.cgi?id=4238 for details.
@@ -515,7 +558,7 @@ sub Run {
 
         my %AttributeLookup;
 
-        # create attibute lookup table
+        # create attribute lookup table
         for my $Attribute ( @{ $GetParam{ShownAttributes} || [] } ) {
             $AttributeLookup{$Attribute} = 1;
         }
@@ -1059,7 +1102,7 @@ sub Run {
                 Value     => $URL,
             );
 
-            # start html page
+            # start HTML page
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
 
@@ -1556,7 +1599,7 @@ sub Run {
             PREFERENCE:
             for my $Preference ( @{$SearchFieldPreferences} ) {
 
-                # get field html
+                # get field HTML
                 $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
                     = $Self->{BackendObject}->SearchFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -2193,7 +2236,7 @@ sub Run {
             my @OrderedDefaults;
             if (%Defaults) {
 
-                # ordering atributes on the same order like in Atributes
+                # ordering attributes on the same order like in Attributes
                 for my $Item (@Attributes) {
                     my $KeyAtr = $Item->{Key};
                     for my $Key ( sort keys %Defaults ) {
