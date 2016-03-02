@@ -133,7 +133,15 @@ Core.UI.Popup = (function (TargetNS) {
         // In IE (Win Phone) window.opener is undefined
         // typeof null === object
         if (window.opener !== null && typeof window.opener !== 'undefined') {
-            return window.opener;
+            // Special handling for IE11
+            // Because of permission problems, IE11 returns a valid window object
+            // but without the needed JS object "Core". window.parent contains that element
+            if (typeof window.opener.Core !== 'undefined') {
+                return window.opener;
+            }
+            else {
+                return window.parent;
+            }
         }
         else {
             return window.parent;
