@@ -151,6 +151,23 @@ my @Tests = (
         Result => 1,
     },
     {
+        Name   => 'Correct with array parameters',
+        Config => {
+            TaskID   => 123,
+            TaskName => 'UnitTest',
+            Data     => {
+                Object   => 'Kernel::System::Ticket',
+                Function => 'TicketPriorityList',
+                # this will coerce into a hash, but we need to test that array params work
+                Params   => [
+                    'TicketID', 1,
+                    'UserID',   1,
+                ],
+            },
+        },
+        Result => 1,
+    },
+    {
         Name   => 'Correct with empty parameters',
         Config => {
             TaskID   => 123,

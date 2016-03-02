@@ -78,11 +78,13 @@ sub Run {
     my $CheckResult = $Self->_CheckTaskParams(
         %Param,
         NeededDataAttributes => [ 'Object', 'Function' ],
-        DataParamsRef        => 'HASH',
     );
 
     # stop execution if an error in params is detected
     return if !$CheckResult;
+
+    # Stop execution if invalid params ref is detected.
+    return if !ref $Param{Data}->{Params};
 
     # get module object
     my $LocalObject;
@@ -127,9 +129,17 @@ sub Run {
         # redirect the standard error to a variable
         open STDERR, ">>", \$ErrorMessage;
 
-        $LocalObject->$Function(
-            %{ $Param{Data}->{Params} },
-        );
+        if (ref $Param{Data}->{Params} eq 'ARRAY') {
+            $LocalObject->$Function(
+                @{ $Param{Data}->{Params} },
+            );
+        }
+        else {
+            $LocalObject->$Function(
+                %{ $Param{Data}->{Params} // {} },
+            );
+        }
+
     };
 
     # check if there are errors
