@@ -54,12 +54,12 @@
                     </p>
                     <div class="Clear"></div>
                     <div class="Field SpacingTop">
-                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="UninstallAction"/>
                             <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                             <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Uninstall package") | html %]"><span>[% Translate("Uninstall package") | html %]</span></button>
+                            <button class="Primary CallForAction Validate" type="submit" value="[% Translate("Uninstall package") | html %]"><span>[% Translate("Uninstall package") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </form>
@@ -116,7 +116,7 @@
                     </p>
                     <div class="Clear"></div>
                     <div class="Field SpacingTop">
-                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="ReinstallAction"/>
                             <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
@@ -165,7 +165,7 @@
                     <p class="IntroInstall">
                         [% Data.Description %]
                     </p>
-                    <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
                         <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>

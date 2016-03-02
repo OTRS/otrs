@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-03-02 Fixed bug#[8154](http://bugs.otrs.org/show_bug.cgi?id=8154) - Uninstall button can be pressed twice.
  - 2016-03-02 Fixed bug#[11866](http://bugs.otrs.org/show_bug.cgi?id=11866) - Customer history destroys the customer information.
  - 2016-03-02 Fixed bug#[11168](http://bugs.otrs.org/show_bug.cgi?id=11168) - Lost condition in AgentTicketSearch.
  - 2016-03-01 Fixed bug#[11886](http://bugs.otrs.org/show_bug.cgi?id=11886) - ACL Action missing.
