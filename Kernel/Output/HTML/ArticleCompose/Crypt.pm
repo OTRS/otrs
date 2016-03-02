@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::ArticleCompose::Crypt;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
@@ -20,16 +22,6 @@ our @ObjectDependencies = (
     'Kernel::System::Crypt::SMIME',
     'Kernel::Output::HTML::Layout',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Option {
     my ( $Self, %Param ) = @_;

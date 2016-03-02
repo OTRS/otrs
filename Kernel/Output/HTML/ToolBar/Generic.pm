@@ -8,18 +8,10 @@
 
 package Kernel::Output::HTML::ToolBar::Generic;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

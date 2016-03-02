@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::Notification::DaemonCheck;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
@@ -19,18 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Group',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    $Self->{UserID} = $Param{UserID};
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

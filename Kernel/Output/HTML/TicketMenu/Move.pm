@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::TicketMenu::Move;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
@@ -18,19 +20,6 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::Output::HTML::Layout',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get UserID param
-    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

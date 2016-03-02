@@ -8,23 +8,12 @@
 
 package Kernel::Output::HTML::CustomerUser::Generic;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
 our $ObjectManagerDisabled = 1;
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get UserID param
-    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

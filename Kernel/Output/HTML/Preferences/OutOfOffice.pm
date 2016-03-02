@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::Preferences::OutOfOffice;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
@@ -21,20 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::Time',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    if ( !$Self->{UserID} ) {
-        die "Got no UserID!";
-    }
-
-    return $Self;
-}
 
 sub Param {
     my ( $Self, %Param ) = @_;

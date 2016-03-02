@@ -8,19 +8,12 @@
 
 package Kernel::Output::HTML::TicketZoom::LinkTable;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
 our $ObjectManagerDisabled = 1;
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    my $Self = \%Param;
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::TicketZoom::TicketInformation;
 
+use base 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 
@@ -15,15 +17,6 @@ use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our $ObjectManagerDisabled = 1;
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    my $Self = \%Param;
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;
