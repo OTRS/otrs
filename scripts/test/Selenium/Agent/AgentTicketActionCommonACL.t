@@ -24,6 +24,12 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketNote###Service',
+            Value => 1,
+        );
+
         # get helper object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
@@ -164,7 +170,7 @@ EOF
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until page has loaded
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DestQueueID").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length' );
 
         # check for entries in the service selection, there should be only one
         $Self->True(
