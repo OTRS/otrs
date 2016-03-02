@@ -858,6 +858,8 @@ var TicketID    = [% Data.TicketID | JSON %],
         'is_chat'       : [% Item.IsChatArticle | JSON %],
         'article_data'  : {
         [% IF Item.ArticleID %]
+            'sender_type' : [% Item.ArticleData.SenderType | html | JSON %],
+            'article_type' : [% Item.ArticleData.ArticleType | html | JSON %],
             'subject': [% Item.ArticleData.Subject | html | JSON %],
             'from'   : [% Item.ArticleData.From | html | JSON %],
             'to'     : [% Item.ArticleData.To | html | JSON %],
