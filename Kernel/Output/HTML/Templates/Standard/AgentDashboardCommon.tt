@@ -50,7 +50,7 @@
                 </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-toggle'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ContentSmallPreferences") %]
@@ -62,10 +62,10 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
                 </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('#Dashboard[% Data.Name | html %]_toggle').on('click', function() {
-    $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-    Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
-        $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_toggle').on('click', function() {
+    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+    Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
+        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
     });
     clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
     return false;
@@ -119,8 +119,8 @@ $('#Dashboard[% Data.Name | html %]_toggle').on('click', function() {
                         </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard[% Data.NameForm | html %]_setting_form'));
-Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard' + Core.App.EscapeSelector('[% Data.NameForm | html %]') + '_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
 //]]></script>
 [% END %]
                     </fieldset>
@@ -166,7 +166,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'),
                 </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-toggle'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ContentLargePreferences") %]
@@ -245,8 +245,8 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
                         </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]',$('#Dashboard[% Data.NameForm | html %]_setting_form'));
-Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'), 'Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]'),$('#Dashboard' + Core.App.EscapeSelector('[% Data.NameForm | html %]') + '_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
 //]]></script>
 [% END %]
                     </fieldset>

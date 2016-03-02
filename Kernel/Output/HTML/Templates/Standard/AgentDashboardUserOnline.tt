@@ -15,13 +15,13 @@
 </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#Dashboard[% Data.Name | html %]Agent').unbind('click').bind('click', function(){
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Agent', function () {
+    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + 'Agent').unbind('click').bind('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Agent', function () {
         });
         return false;
     });
-    $('#Dashboard[% Data.Name | html %]Customer').unbind('click').bind('click', function(){
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Customer', function () {
+    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + 'Customer').unbind('click').bind('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Customer', function () {
         });
         return false;
     });
@@ -145,9 +145,9 @@ Core.Config.Set('RefreshSeconds_[% Data.NameHTML | html %]', parseInt("[% Data.R
 if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
     Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(
         function() {
-            $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-            Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
-                $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
+                $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
             });
             clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
         },
