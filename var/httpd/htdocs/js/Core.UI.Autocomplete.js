@@ -174,12 +174,13 @@ Core.UI.Autocomplete = (function (TargetNS) {
                     $Loader.show();
                 }
             },
+            response: function() {
+                // remove loader again
+                $Loader.hide();
+            },
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $Element.autocomplete('widget').addClass('ui-overlay-autocomplete');
-
-                // remove loader again
-                $Loader.hide();
                 return false;
             },
             source: function (Request, Response) {
