@@ -167,14 +167,14 @@ sub Run {
             );
         }
         elsif ( $TicketSearch{StateType} eq 'Closed' ) {
-            my @ViewableStateOpen = $StateObject->StateGetStatesByType(
+            my %ViewableStateOpenLookup = $StateObject->StateGetStatesByType(
                 Type   => 'Viewable',
-                Result => 'ID',
+                Result => 'HASH',
             );
 
             my %StateList = $StateObject->StateList( UserID => $Self->{UserID} );
             for my $Item ( sort keys %StateList ) {
-                if ( !grep ( { $_ eq $Item } @ViewableStateOpen ) ) {
+                if ( !$ViewableStateOpenLookup{$Item} ) {
                     push @StateIDs, $Item;
                 }
             }
