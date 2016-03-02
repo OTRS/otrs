@@ -18,6 +18,14 @@ my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 my $StateObject  = $Kernel::OM->Get('Kernel::System::State');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 my @Tests = (
@@ -38,32 +46,30 @@ my @Tests = (
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',                     # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',                             # agent|system|customer
-                    From        => 'Some Agent <email@example.com>',    # not required but useful
-                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
-                    Subject     => 'some short description',                      # required
-                    Body        => 'the message text',                            # required
-                    Charset     => 'ISO-8859-15',
-                    MimeType    => 'text/plain',
-                    HistoryType => 'OwnerUpdate'
-                    ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+                    ArticleType    => 'note-internal',
+                    SenderType     => 'agent',
+                    From           => 'Some Agent <email@example.com>',
+                    To             => 'Some Customer A <customer-a@example.com>',
+                    Subject        => 'some short description',
+                    Body           => 'the message text',
+                    Charset        => 'ISO-8859-15',
+                    MimeType       => 'text/plain',
+                    HistoryType    => 'OwnerUpdate',
                     HistoryComment => 'Some free text!',
                     UserID         => 1,
                 },
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',            # agent|system|customer
-                    From        => 'Some other Agent <email2@example.com>',       # not required but useful
-                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
-                    Subject     => 'some short description',                      # required
-                    Body        => 'the message text',                            # required
-                    Charset     => 'UTF-8',
-                    MimeType    => 'text/plain',
-                    HistoryType => 'OwnerUpdate'
-                    ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+                    ArticleType    => 'note-internal',
+                    SenderType     => 'agent',
+                    From           => 'Some other Agent <email2@example.com>',
+                    To             => 'Some Customer A <customer-a@example.com>',
+                    Subject        => 'some short description',
+                    Body           => 'the message text',
+                    Charset        => 'UTF-8',
+                    MimeType       => 'text/plain',
+                    HistoryType    => 'OwnerUpdate',
                     HistoryComment => 'Some free text!',
                     UserID         => 1,
                 },
@@ -367,16 +373,6 @@ for my $Test (@Tests) {
     }
 }
 
-# clean up created tickets
-for my $HistoryTicketID (@HistoryCreateTicketIDs) {
-    my $Delete = $TicketObject->TicketDelete(
-        UserID   => 1,
-        TicketID => $HistoryTicketID,
-    );
-    $Self->True(
-        $Delete,
-        'HistoryGet - TicketDelete()',
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

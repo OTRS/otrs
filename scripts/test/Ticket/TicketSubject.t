@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {

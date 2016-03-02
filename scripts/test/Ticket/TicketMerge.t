@@ -12,11 +12,18 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-my @TicketIDs;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my @TicketIDs;
 my $Limit = 15;
 
 # create some tickets to merge them all
@@ -140,23 +147,6 @@ for my $TicketID (@TicketIDs) {
     $Count++;
 }
 
-# delete all test tickets
-my $DeleteCount = 0;
-for my $TicketID (@TicketIDs) {
-    $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    my $DeleteID = $TicketObject->TicketNumberLookup(
-        TicketID => $TicketID,
-        UserID   => 1,
-    ) || 0;
-    $DeleteCount += $DeleteID;
-}
-
-$Self->False(
-    $DeleteCount,
-    'Deleted all test Tickets.'
-);
+# cleanup is done by RestoreDatabase.
 
 1;

@@ -13,18 +13,24 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
-$ConfigObject->Set(
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'Ticket::UnlockOnAway',
     Value => 1,
 );
 
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my $TestUserLogin = $Helper->TestUserCreate(
     Groups => [ 'users', ],
 );
 
@@ -80,7 +86,7 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTim
 );
 
 # Special case for leap years. There is no Feb 29 in the next and previous years in this case.
-if ( $Month == 2 && $Day == 29) {
+if ( $Month == 2 && $Day == 29 ) {
     $Day--;
 }
 
@@ -139,10 +145,6 @@ $Self->Is(
     'Ticket now unlocked (UnlockOnAway)',
 );
 
-# the ticket is no longer needed
-$TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
+# cleanup is done by RestoreDatabase.
 
 1;
