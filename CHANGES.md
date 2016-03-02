@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-03-01 Fixed bug#[11897](http://bugs.otrs.org/show_bug.cgi?id=11897) - Text in the Queue View is not translateable.
  - 2016-03-01 Fixed bug#[11901](http://bugs.otrs.org/show_bug.cgi?id=11901) - Process Configuration ist destroyed in IE11 if changing data in e.g. Activity popup.
  - 2016-03-01 Fixed bug#[11116](http://bugs.otrs.org/show_bug.cgi?id=11116) - No Loading symbol while searching for customer.
  - 2016-03-01 Fixed bug#[11220](http://bugs.otrs.org/show_bug.cgi?id=11220) - Highlighting broken for holiday dates in Calendar Datepicker.
