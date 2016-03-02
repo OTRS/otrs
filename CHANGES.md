@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-02 Fixed bug#[8313](http://bugs.otrs.org/show_bug.cgi?id=8313) - No such package: package-x.x.x message in package installation.
  - 2016-03-02 Fixed bug#[11877](http://bugs.otrs.org/show_bug.cgi?id=11877) - Closing AgentLinkObject popup throws JavaScript error in IE 11.
  - 2016-03-02 Fixed bug#[11839](http://bugs.otrs.org/show_bug.cgi?id=11839) - Generic Agent does not filter a value int text DF.
  - 2016-03-02 Fixed bug#[11745](http://bugs.otrs.org/show_bug.cgi?id=11745) - apostrophe in email can't be searched.
