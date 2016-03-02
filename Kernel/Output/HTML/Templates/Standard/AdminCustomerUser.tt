@@ -149,16 +149,11 @@
 [% RenderBlockEnd("HeaderEdit") %]
             </div>
             <div class="Content">
-            [% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module.match('LDAP') %]
+[% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module.match('LDAP') %]
                 <div class="WidgetMessage Top Warning">
-                    <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
+                    <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only, but the customer user preferences can be changed!") | html %]</p>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.DisableForm($('form[name=compose]'));
-//]]></script>
 [% END %]
-            [% END %]
                 <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" name="compose" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
@@ -170,13 +165,13 @@ Core.Form.DisableForm($('form[name=compose]'));
 [% RenderBlockStart("PreferencesGeneric") %]
 [% RenderBlockStart("PreferencesGenericInputHidden") %]
                         <div class="Field">
-                            <input type="hidden" name="[% Data.Name | html %]" value="[% Data.Value | html %]"/>
+                            <input type="hidden" name="[% Data.Name | html %]" value="[% Data.Value | html %]"[% IF ReadOnly %] readonly="readonly"[% END %]/>
                         </div>
 [% RenderBlockEnd("PreferencesGenericInputHidden") %]
 [% RenderBlockStart("PreferencesGenericInput") %]
                         <label class="[% Data.RequiredLabelClass | html %]" for="[% Data.Name | html %]"><span class="Marker">[% Data.RequiredLabelCharacter | html %]</span> [% Translate(Data.Item) | html %]:</label>
                         <div class="Field">
-                            <input type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="[% Data.Value | html %]" [% Data.ReadOnlyType | html %]/>
+                            <input type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly="readonly"[% END %]/>
 [% RenderBlockStart("PreferencesGenericErrorMsg") %]
                             <div id="[% Data.Name | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockEnd("PreferencesGenericErrorMsg") %]
@@ -204,7 +199,7 @@ Core.Form.DisableForm($('form[name=compose]'));
 [% RenderBlockStart("PreferencesGenericPassword") %]
                         <label class="[% Data.RequiredLabelClass | html %]" for="[% Data.Name | html %]"><span class="Marker">[% Data.RequiredLabelCharacter | html %]</span> [% Translate(Data.Item) | html %]:</label>
                         <div class="Field">
-                            <input type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="" maxlength="100" [% Data.ReadOnlyType | html %]/>
+                            <input type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="" maxlength="100" [% IF Data.ReadOnly %] readonly="readonly"[% END %]/>
                             <div id="[% Data.Name | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="[% Data.Name | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>
@@ -262,14 +257,12 @@ Core.Form.DisableForm($('form[name=compose]'));
                         <div class="Clear"></div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Item") %]
-                        [% IF Config(Data.Source).ReadOnly != 1 && Config(Data.Source).Module.match('DB') %]
                         <div class="Field SpacingTop">
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                                 [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
-                        [% END %]
                     </fieldset>
                 </form>
             </div>

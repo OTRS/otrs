@@ -262,10 +262,21 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
+        # update only the preferences, if the source is readonly or a ldap backend
+        my $UpdateOnlyPreferences;
+
+        if ( $ConfigObject->Get($Source)->{ReadOnly} || $ConfigObject->Get($Source)->{Module} =~ /LDAP/i ) {
+            $UpdateOnlyPreferences = 1;
+        }
+
         my $Note = '';
         my ( %GetParam, %Errors );
+
+        ENTRY:
         for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
             $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
+
+            next ENTRY if $UpdateOnlyPreferences;
 
             # check mandatory fields
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
@@ -275,10 +286,9 @@ sub Run {
         $GetParam{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
 
         # check email address
-        if (
-            $GetParam{UserEmail}
-            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
-            )
+        if (  !$UpdateOnlyPreferences
+            && $GetParam{UserEmail}
+            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} ) )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
@@ -287,12 +297,17 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            # update user
-            my $Update = $CustomerUserObject->CustomerUserUpdate(
-                %GetParam,
-                UserID => $Self->{UserID},
-            );
-            if ($Update) {
+            my $UpdateSuccess;
+
+            if ( !$UpdateOnlyPreferences ) {
+
+                $UpdateSuccess = $CustomerUserObject->CustomerUserUpdate(
+                    %GetParam,
+                    UserID => $Self->{UserID},
+                );
+            }
+
+            if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
 
                 # update preferences
                 my %Preferences = %{ $ConfigObject->Get('CustomerPreferencesGroups') };
@@ -843,6 +858,14 @@ sub _Edit {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my $UpdateOnlyPreferences;
+
+    # update user
+    if ( $ConfigObject->Get( $Param{Source} )->{ReadOnly} || $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i )
+    {
+        $UpdateOnlyPreferences = 1;
+    }
+
     ENTRY:
     for my $Entry ( @{ $ConfigObject->Get( $Param{Source} )->{Map} } ) {
         next ENTRY if !$Entry->[0];
@@ -855,20 +878,15 @@ sub _Edit {
         }
 
         # check if login auto creation
-        if (
-            $ConfigObject->Get( $Param{Source} )->{AutoLoginCreation}
-            && $Entry->[0] eq 'UserLogin'
-            )
-        {
+        if ( $ConfigObject->Get( $Param{Source} )->{AutoLoginCreation} && $Entry->[0] eq 'UserLogin' ) {
             $Block = 'InputHidden';
         }
-        if ( $Entry->[7] ) {
-            $Param{ReadOnlyType} = 'readonly';
-            $Param{ReadOnly}     = '*';
+
+        if ( $Entry->[7] || $UpdateOnlyPreferences ) {
+            $Param{ReadOnly} = 1;
         }
         else {
-            $Param{ReadOnlyType} = '';
-            $Param{ReadOnly}     = '';
+            $Param{ReadOnly} = 0;
         }
 
         # show required flag
@@ -916,6 +934,7 @@ sub _Edit {
                 Translation => 1,
                 SelectedID  => $Param{ $Entry->[0] },
                 Class       => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Disabled    => $UpdateOnlyPreferences ? 1 : 0,
             );
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
@@ -932,6 +951,7 @@ sub _Edit {
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Disabled   => $UpdateOnlyPreferences ? 1 : 0,
             );
         }
         elsif (
@@ -965,6 +985,7 @@ sub _Edit {
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
                 Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                Disabled   => $UpdateOnlyPreferences ? 1 : 0,
             );
         }
         elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
@@ -1104,7 +1125,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data} eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {
