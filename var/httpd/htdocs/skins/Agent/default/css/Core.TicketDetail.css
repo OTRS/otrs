@@ -830,6 +830,14 @@ div.Headline .Flag {
     border-right-color: #B7C3E8;
 }
 
+.UseArticleColors .TimelineView .TypeIncoming.SenderType_customer.ArticleType_email-internal h3 {
+    background-color: #fff;
+}
+
+.UseArticleColors .TimelineView .TypeIncoming.SenderType_customer.ArticleType_email-internal h3:after {
+    border-right-color: #ddd;   
+}
+
 .UseArticleColors .TimelineView .TypeTicketAutoAction h3 {
     background-color: #ffffd1;
     color: #000;
