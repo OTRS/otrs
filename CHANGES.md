@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-02 Fixed bug#[8154](http://bugs.otrs.org/show_bug.cgi?id=8154) - Uninstall button can be pressed twice.
  - 2016-03-01 Fixed bug#[11835](http://bugs.otrs.org/show_bug.cgi?id=11835) - Events Ticket Calendar disappears when EndTime before StartTime.
  - 2016-03-01 Fixed bug#[11901](http://bugs.otrs.org/show_bug.cgi?id=11901) - Process Configuration ist destroyed in IE11 if changing data in e.g. Activity popup.
  - 2016-03-01 Fixed bug#[11804](http://bugs.otrs.org/show_bug.cgi?id=11804) - Too much whitespace in AgentTicketCustomer popup.
