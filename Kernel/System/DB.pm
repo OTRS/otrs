@@ -1337,12 +1337,14 @@ sub QueryCondition {
             $Word =~ s/%%/%/g;
             $Word =~ s/%%/%/g;
 
-            # perform quoting depending on query type
-            if ( $Word =~ m/%/ ) {
-                $Word = $Self->Quote( $Word, 'Like' );
-            }
-            else {
-                $Word = $Self->Quote($Word);
+            # perform quoting depending on query type (only if not in bind mode)
+            if (!$BindMode) {
+                if ( $Word =~ m/%/ ) {
+                    $Word = $Self->Quote( $Word, 'Like' );
+                }
+                else {
+                    $Word = $Self->Quote($Word);
+                }
             }
 
             # if it's a NOT LIKE condition
