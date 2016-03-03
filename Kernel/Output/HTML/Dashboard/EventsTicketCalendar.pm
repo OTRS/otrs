@@ -172,6 +172,14 @@ sub Run {
                     $StartTime = $NewStartTime;
                     $EndTime   = $NewEndTime;
 
+                    # we also need to turn the time in the tooltip around, otherwiese the time bar display would be wrong
+                    $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField } = $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $StartTime,
+                    );
+                    $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField } = $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $EndTime,
+                    );
+
                     # show a notification bar to indicate that the start and end time are set in a wrong way
                     $Content .= $LayoutObject->Notify(
                         Priority => 'Warning',
