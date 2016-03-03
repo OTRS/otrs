@@ -517,10 +517,22 @@ sub Run {
             }
         }
 
-        my $SkinSelected = $Self->{'UserSkin'}
-            || $SkinSelectedHostBased
-            || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
-            || 'default';
+        my $SkinSelected = $Self->{'UserSkin'};
+
+        # check if the skin is valid
+        my $SkinValid = 0;
+        if ($SkinSelected) {
+           $SkinValid = $Self->{LayoutObject}->SkinValidate(
+                SkinType => 'Agent',
+                Skin => $SkinSelected,
+            );
+        }
+
+        if (!$SkinValid) {
+            $SkinSelected = $SkinSelectedHostBased
+                || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+                || 'default';
+        }
 
         my %AgentLogo;
 
