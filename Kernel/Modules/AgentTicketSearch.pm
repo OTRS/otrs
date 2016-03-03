@@ -929,8 +929,12 @@ sub Run {
                     . $Self->{LayoutObject}->{LanguageObject}->Translate('Search');
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Translate('printed by');
                 my $Page      = $Self->{LayoutObject}->{LanguageObject}->Translate('Page');
-                my $Time      = $Self->{LayoutObject}->{Time};
-                my $Url       = '';
+                my $Time      = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                    $Self->{TimeObject}->CurrentTimestamp(),
+                    'DateFormat',
+                );
+
+                my $Url = '';
                 if ( $ENV{REQUEST_URI} ) {
                     $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
                         . $Self->{ConfigObject}->Get('FQDN')

@@ -315,7 +315,7 @@ fieldset.TableLike.FixedLabelSmall > .Value {
                             <table border="0" cellspacing="1" cellpadding="0" width="100%">
                                 <tr>
                                     <td align="right" valign="top">
-                                        <font size="-2">[% Translate("printed by") | html %] [% Env("UserFirstname") | html %] [% Env("UserLastname") | html %] ([% Env("UserEmail") | html %]) [% Env("Time") | html %]</font>
+                                        <font size="-2">[% Translate("printed by") | html %] [% Env("UserFirstname") | html %] [% Env("UserLastname") | html %] ([% Env("UserEmail") | html %]) [% Env("DateTimeString") | Localize("TimeLong") | html %]</font>
                                     </td>
                                 </tr>
                             </table>
