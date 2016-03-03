@@ -410,6 +410,25 @@ sub Template {
         );
     }
 
+    # get user language
+    my $Language;
+    if ( defined $Param{TicketID} ) {
+
+        # get ticket data
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+            TicketID => $Param{TicketID},
+        );
+
+        # get recipient
+        my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
+        $Language = $User{UserLanguage};
+    }
+
+    # if customer language is not defined, set default language
+    $Language //= $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
     # replace place holder stuff
     my $TemplateText = $Self->_Replace(
         RichText => $Self->{RichText},
@@ -417,6 +436,7 @@ sub Template {
         TicketID => $Param{TicketID} || '',
         Data     => $Param{Data} || {},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
 
     return $TemplateText;
