@@ -67,10 +67,22 @@ sub LoaderCreateAgentCSSCalls {
     # 2. use HostBased skin setting, if available
     # 3. use default skin from configuration
 
-    my $SkinSelected = $Self->{'UserSkin'}
-        || $SkinSelectedHostBased
-        || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
-        || 'default';
+    my $SkinSelected = $Self->{'UserSkin'};
+
+    # check if the skin is valid
+    my $SkinValid = 0;
+    if ($SkinSelected) {
+       $SkinValid = $Self->SkinValidate(
+            SkinType => 'Agent',
+            Skin => $SkinSelected,
+        );
+    }
+
+    if (!$SkinValid) {
+        $SkinSelected = $SkinSelectedHostBased
+            || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
+            || 'default';
+    }
 
     # save selected skin
     $Self->{SkinSelected} = $SkinSelected;
