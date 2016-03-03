@@ -89,17 +89,17 @@ sub Run {
         ],
     );
 
+    if ( $Self->{Config}->{OwnerOnly} ) {
+        $Map{Escalation}->[1]->{OwnerIDs} = [ $Self->{UserID} ];
+        $Map{Pending}->[1]->{OwnerIDs} = [ $Self->{UserID} ];
+    }
+
     # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my %Date;
     for my $Type ( sort keys %Map ) {
-
-        my $UID;
-        if ( $Self->{Config}->{OwnerOnly} ) {
-            $UID = $Self->{UserID};
-        }
 
         # search tickets
         my @TicketIDs = $TicketObject->TicketSearch(
@@ -110,7 +110,6 @@ sub Run {
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID     => $Self->{UserID},
-            OwnerID    => $UID,
             Limit      => 25,
         );
 
