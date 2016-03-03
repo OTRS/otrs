@@ -37,12 +37,16 @@ div.InputField_InputContainer {
     min-width: 190px;
 }
 
-.SidebarColumn .WidgetSimple .InputField_Search, 
+.InputField_Search.Small {
+    min-width: 130px;
+}
+
+.SidebarColumn .WidgetSimple .InputField_Search,
 .SidebarColumn .WidgetSimple .InputField_Autocomplete {
     min-width: 80px;
 }
 
-.WidgetSettingsForm .InputField_Search, 
+.WidgetSettingsForm .InputField_Search,
 .WidgetSettingsForm .InputField_Autocomplete {
     min-width: 0px;
 }
