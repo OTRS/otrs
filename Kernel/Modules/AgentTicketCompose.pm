@@ -1684,8 +1684,8 @@ sub _Mask {
         }
 
         my %Selected;
-        if ( $Self->{GetParam}->{ArticleTypeID} ) {
-            $Selected{SelectedID} = $Self->{GetParam}->{ArticleTypeID};
+        if ( $Param{ArticleTypeID} ) {
+            $Selected{SelectedID} = $Param{ArticleTypeID};
         }
         else {
             $Selected{SelectedValue} = $Config->{DefaultArticleType};
