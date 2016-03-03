@@ -187,6 +187,9 @@ sub Run {
         TicketID => $Ticket{TicketID}
     );
 
+    # get zoom settings depending on ticket type
+    $Self->{DisplaySettings} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
+
     # overwrite display options for process ticket
     if ($IsProcessTicket) {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
