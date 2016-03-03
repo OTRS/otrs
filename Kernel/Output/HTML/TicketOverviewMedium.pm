@@ -157,7 +157,7 @@ sub ActionRow {
                     Name => $Item->{Block},
                     Data => {
                         ID          => $Item->{ID},
-                        Name        => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
+                        Name        => $Item->{Name},
                         Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
