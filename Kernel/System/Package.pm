@@ -118,10 +118,7 @@ sub new {
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     # permission check
-    if ( !$Self->_FileSystemCheck() ) {
-        die "ERROR: Need write permission in OTRS home\n"
-            . "Try: \$OTRS_HOME/bin/otrs.SetPermissions.pl !!!\n";
-    }
+    die if !$Self->_FileSystemCheck();
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -904,8 +901,8 @@ sub PackageUpgrade {
             if ( !$UseInstalled ) {
 
                 if (
-                    $Part->{TagType} eq 'End'
-                    && $Part->{Tag} eq $NotUseTag
+                    $Part->{TagType}     eq 'End'
+                    && $Part->{Tag}      eq $NotUseTag
                     && $Part->{TagLevel} eq $NotUseTagLevel
                     )
                 {
@@ -1002,7 +999,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -2253,7 +2250,7 @@ sub PackageBuild {
                         for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $Key ne 'Tag'
+                                $Key    ne 'Tag'
                                 && $Key ne 'Content'
                                 && $Key ne 'TagType'
                                 && $Key ne 'TagLevel'
@@ -3573,7 +3570,7 @@ sub _FileSystemCheck {
         qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)
         )
     {
-        my $Location = "$Home/$Filepath/check_permissons.$$";
+        my $Location = $Home . $Filepath . "check_permissions.$$";
         my $Content  = 'test';
 
         # create test file
@@ -3582,8 +3579,14 @@ sub _FileSystemCheck {
             Content  => \$Content,
         );
 
-        # return false if not created
-        return if !$Write;
+        if ( !$Write ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "ERROR: Need write permissions for directory $Home$Filepath\n"
+                    . " Try: $Home/bin/otrs.SetPermissions.pl!",
+            );
+            return;
+        }
 
         # delete test file
         $MainObject->FileDelete( Location => $Location );
@@ -3937,8 +3940,8 @@ sub _CheckDBMerged {
         if ( $Use eq 0 ) {
 
             if (
-                $Part->{TagType} eq 'End'
-                && $Part->{Tag} eq $NotUseTag
+                $Part->{TagType}     eq 'End'
+                && $Part->{Tag}      eq $NotUseTag
                 && $Part->{TagLevel} eq $NotUseTagLevel
                 )
             {
