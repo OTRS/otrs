@@ -12,6 +12,7 @@ package Kernel::Modules::AgentDashboardCommon;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
