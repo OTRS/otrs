@@ -175,7 +175,6 @@ one or more ticket entries in one call.
                     FirstResponseInMin              (minutes till first response)
                     FirstResponseDiffInMin          (minutes till or over first response)
 
-                    SolutionTime                    (timestamp of solution time, also close time)
                     SolutionInMin                   (minutes till solution time)
                     SolutionDiffInMin               (minutes till or over solution time)
 

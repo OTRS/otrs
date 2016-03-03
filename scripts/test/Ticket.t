@@ -121,9 +121,9 @@ $Self->Is(
     'TicketGet() (TypeID)',
 );
 $Self->Is(
-    $Ticket{SolutionTime},
+    $Ticket{Closed},
     $Ticket{Created},
-    'Ticket created as closed as Solution Time = Creation Time',
+    'Ticket created as closed as Close Time = Creation Time',
 );
 
 my $TestUserLogin = $Helper->TestUserCreate(

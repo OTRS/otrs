@@ -1104,7 +1104,7 @@ sub _ReportingValues {
         );
 
         my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Ticket{SolutionTime},
+            String => $Ticket{Closed},
         );
 
         $SolutionAllOver{$TicketID} = $SolutionTime - $Ticket{CreateTimeUnix};
