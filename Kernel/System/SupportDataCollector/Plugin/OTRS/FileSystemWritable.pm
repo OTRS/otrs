@@ -40,7 +40,7 @@ sub Run {
     my @ReadonlyDirectories;
 
     for my $TestDirectory (@TestDirectories) {
-        my $File = "$Home/$TestDirectory/check_permissons.$$";
+        my $File = $Home . $TestDirectory . "check_permissions.$$";
         if ( open( my $FH, '>', "$File" ) ) {    ## no critic
             print $FH "test";
             close($FH);

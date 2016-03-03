@@ -1,5 +1,6 @@
 #5.0.8 2016-??-??
  - 2016-03-03 Fixed bug#[11526](http://bugs.otrs.org/show_bug.cgi?id=11526) - Some dropdowns in AgentTicketZoom do not use modernized input fields.
+ - 2016-03-03 Fixed bug#[6795](http://bugs.otrs.org/show_bug.cgi?id=6795) - Useless/confusing message "ERROR: Need write permission in OTRS home"
  - 2016-03-03 Fixed bug#[8188](http://bugs.otrs.org/show_bug.cgi?id=8188) - Disabled skins are still used.
  - 2016-03-03 Fixed bug#[6492](http://bugs.otrs.org/show_bug.cgi?id=6492) - Saving Search Templates.
  - 2016-03-03 Fixed bug#[7542](http://bugs.otrs.org/show_bug.cgi?id=7542) - Results of HistoryTicketStatusGet() are slightly wrong (and don't take time zones into account)
