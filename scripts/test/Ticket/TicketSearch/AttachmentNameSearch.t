@@ -16,13 +16,21 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $UserID = 1;
 
 # get a random id
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
@@ -34,84 +42,46 @@ $ConfigObject->Set(
     Value => 'Kernel::System::Ticket::ArticleStorageDB',
 );
 
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-# ticket id container
 my @TicketIDs;
 
 # create 2 tickets
-# create ticket 1
-my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => $RandomID . 'Ticket One Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465' . $RandomID,
-    CustomerUser => 'customerOne@example.com',
-    Service      => 'TestService' . $RandomID,
-    OwnerID      => 1,
-    UserID       => 1,
-);
+for my $Item ( 1 .. 2 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title => ( $Item == 1 ) ? ( $RandomID . 'Ticket One Title' ) : ( $RandomID . 'Ticket Two Title ' . $RandomID ),
+        Queue => 'Raw',
+        Lock  => 'unlock',
+        Priority     => '3 normal',
+        State        => 'new',
+        CustomerID   => '123465' . $RandomID,
+        CustomerUser => 'customerOne@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
 
-# sanity check
-$Self->True(
-    $TicketID1,
-    "TicketCreate() successful for Ticket One ID $TicketID1",
-);
+    # sanity check
+    $Self->True(
+        $TicketID,
+        "TicketCreate() successful for Ticket ID $TicketID",
+    );
 
-# get the Ticket entry
-my %TicketEntryOne = $TicketObject->TicketGet(
-    TicketID      => $TicketID1,
-    DynamicFields => 0,
-    UserID        => $UserID,
-);
+    # get the Ticket entry
+    my %TicketEntry = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+        UserID        => $UserID,
+    );
 
-$Self->True(
-    IsHashRefWithData( \%TicketEntryOne ),
-    "TicketGet() successful for Local TicketGet One ID $TicketID1",
-);
+    $Self->True(
+        IsHashRefWithData( \%TicketEntry ),
+        "TicketGet() successful for Local TicketGet ID $TicketID",
+    );
 
-# add ticket id
-push @TicketIDs, $TicketID1;
-
-# create ticket 2
-my $TicketID2 = $TicketObject->TicketCreate(
-    Title        => $RandomID . 'Ticket Two Title ' . $RandomID,
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465' . $RandomID,
-    CustomerUser => 'customerOne@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketID2,
-    "TicketCreate() successful for Ticket Two ID $TicketID2",
-);
-
-# get the Ticket entry
-my %TicketEntryTwo = $TicketObject->TicketGet(
-    TicketID      => $TicketID2,
-    DynamicFields => 0,
-    UserID        => $UserID,
-);
-
-$Self->True(
-    IsHashRefWithData( \%TicketEntryTwo ),
-    "TicketGet() successful for Local TicketGet Two ID $TicketID2",
-);
-
-# add ticket id
-push @TicketIDs, $TicketID2;
+    push @TicketIDs, $TicketID;
+}
 
 my $TicketCounter = 1;
 
-# create article and attachments
+# create articles and attachments
 TICKET:
 for my $TicketID (@TicketIDs) {
 
@@ -170,7 +140,7 @@ for my $TicketID (@TicketIDs) {
 
 # add an internal article
 my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID       => $TicketID2,
+    TicketID       => $TicketIDs[1],
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
     From           => 'Agent Some Agent Some Agent <email@example.com>',
@@ -221,8 +191,8 @@ my @Tests = (
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketID1, $TicketID2 ],
-        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName nonexisting',
@@ -231,7 +201,7 @@ my @Tests = (
             UserID         => 1,
         },
         ExpectedResultsArticleStorageDB => [],
-        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],    # does not consider attachment name
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],    # does not consider attachment name
     },
     {
         Name   => 'AttachmentName Ticket1 Article1',
@@ -240,8 +210,8 @@ my @Tests = (
             Subject        => 'Ticket1Article1' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID1],
-        ExpectedResultsArticleStorageFS => [$TicketID1],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
     },
     {
         Name   => 'AttachmentName Ticket1 Article2',
@@ -250,8 +220,8 @@ my @Tests = (
             Subject        => 'Ticket1Article2' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID1],
-        ExpectedResultsArticleStorageFS => [$TicketID1],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article1',
@@ -260,8 +230,8 @@ my @Tests = (
             Subject        => 'Ticket2Article1' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID2],
-        ExpectedResultsArticleStorageFS => [$TicketID2],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article2',
@@ -270,8 +240,8 @@ my @Tests = (
             Subject        => 'Ticket2Article2' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID2],
-        ExpectedResultsArticleStorageFS => [$TicketID2],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article3',
@@ -280,8 +250,8 @@ my @Tests = (
             Subject        => 'Ticket2Article3' . $RandomID,
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID2],
-        ExpectedResultsArticleStorageFS => [$TicketID2],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Title Ticket 1',
@@ -290,8 +260,8 @@ my @Tests = (
             Title          => $RandomID . 'Ticket One Title',
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID1],
-        ExpectedResultsArticleStorageFS => [$TicketID1],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
     },
     {
         Name   => 'AttachmentName Title (Like) Ticket 1',
@@ -300,8 +270,8 @@ my @Tests = (
             Title          => $RandomID . '*Title',
             UserID         => 1,
         },
-        ExpectedResultsArticleStorageDB => [$TicketID1],
-        ExpectedResultsArticleStorageFS => [$TicketID1],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
     },
     {
         Name   => 'AttachmentName (AsCustomer)',
@@ -309,8 +279,8 @@ my @Tests = (
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             CustomerUserID => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [ $TicketID1, $TicketID2 ],
-        ExpectedResultsArticleStorageFS => [ $TicketID1, $TicketID2 ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
@@ -319,8 +289,8 @@ my @Tests = (
             Subject        => 'Ticket2Article2' . $RandomID,
             CustomerUserID => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [$TicketID2],
-        ExpectedResultsArticleStorageFS => [$TicketID2],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article3',
@@ -340,7 +310,7 @@ for my $Test (@Tests) {
     for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
         # For the search it is enough to change the config, the TicketObject does not
-        #   have to be recreated to use the different base class
+        # have to be recreated to use the different base class
         $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => "Kernel::System::Ticket::$StorageBackend",
@@ -370,23 +340,6 @@ for my $Test (@Tests) {
     }
 }
 
-$ConfigObject->Set(
-    Key   => 'Ticket::StorageModule',
-    Value => "Kernel::System::Ticket::ArticleStorageDB",
-);
-
-for my $TicketID (@TicketIDs) {
-
-    my $TicketDelete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $TicketDelete,
-        "TicketDelete() successful for Ticket ID $TicketID",
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;
