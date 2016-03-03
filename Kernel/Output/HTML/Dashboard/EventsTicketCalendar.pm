@@ -13,6 +13,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
