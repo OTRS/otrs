@@ -5180,6 +5180,13 @@ sub HistoryTicketStatusGet {
         $SQLExt .= ')';
     }
 
+    # assemble stop date/time string for database comparison
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $StopSystemTime
+        = $TimeObject->TimeStamp2SystemTime( String => "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 00:00:00" );
+    my ( $StopSec, $StopMin, $StopHour, $StopDay, $StopMonth, $StopYear, $StopWDay )
+        = $TimeObject->SystemTime2Date( SystemTime => $StopSystemTime + 24 * 60 * 60 );    # add a day
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -5187,8 +5194,8 @@ sub HistoryTicketStatusGet {
         SQL => "
             SELECT DISTINCT(th.ticket_id), th.create_time
             FROM ticket_history th
-            WHERE th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59'
-                AND th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:01'
+            WHERE th.create_time < '$StopYear-$StopMonth-$StopDay 00:00:00'
+                AND th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:00'
                 $SQLExt
             ORDER BY th.create_time DESC",
         Limit => 150000,
@@ -5371,7 +5378,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1] eq 'StateUpdate'
+            $Row[1]    eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -5379,7 +5386,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
