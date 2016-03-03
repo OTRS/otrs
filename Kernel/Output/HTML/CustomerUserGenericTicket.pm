@@ -12,6 +12,7 @@ package Kernel::Output::HTML::CustomerUserGenericTicket;
 use strict;
 use warnings;
 
+use Kernel::System::State;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 sub new {
