@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-03 Fixed bug#[11754](http://bugs.otrs.org/show_bug.cgi?id=11754) - OwnerOnly is not respected in Dashboard Widget for Upcoming Events.
  - 2016-03-03 Fixed bug#[11526](http://bugs.otrs.org/show_bug.cgi?id=11526) - Some dropdowns in AgentTicketZoom do not use modernized input fields.
  - 2016-03-03 Fixed bug#[6795](http://bugs.otrs.org/show_bug.cgi?id=6795) - Useless/confusing message "ERROR: Need write permission in OTRS home"
  - 2016-03-03 Fixed bug#[8188](http://bugs.otrs.org/show_bug.cgi?id=8188) - Disabled skins are still used.
