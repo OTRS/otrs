@@ -1051,7 +1051,6 @@ Additional params are:
         FirstResponseInMin              (minutes till first response)
         FirstResponseDiffInMin          (minutes till or over first response)
 
-        SolutionTime                    (timestamp of solution time, also close time)
         SolutionInMin                   (minutes till solution time)
         SolutionDiffInMin               (minutes till or over solution time)
 
@@ -1523,9 +1522,6 @@ sub _TicketGetClosed {
     }
 
     return if !$Data{Closed};
-
-    # for compat. wording reasons
-    $Data{SolutionTime} = $Data{Closed};
 
     # get escalation properties
     my %Escalation = $Self->TicketEscalationPreferences(
