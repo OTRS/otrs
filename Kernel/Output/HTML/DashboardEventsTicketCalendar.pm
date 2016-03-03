@@ -285,6 +285,20 @@ sub Run {
                             $InfoValue
                                 = $LayoutObject->{LanguageObject}->FormatTimeString( $InfoValue, 'DateFormatShort' );
                         }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Dropdown' ) {
+
+                            my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                                Name => $Item,
+                            );
+
+                            # get possible values
+                            my $PossibleValues
+                                = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                );
+
+                            $InfoValue = $PossibleValues->{$InfoValue} || $InfoValue;
+                        }
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Multiselect' ) {
                             if ( IsArrayRefWithData($InfoValue) ) {
 
