@@ -79,6 +79,9 @@ bin/CodeInstall.pl
 bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 
+# OTRSCodeHub
+var/git
+
 # OTRSBusiness
 CHANGES-OTRSBusiness.md
 doc/*/OTRSBusiness.*
