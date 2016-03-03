@@ -26,7 +26,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
 
-    # Make sure that the TicketObject gets recreated for each loop.
+    # make sure that the TicketObject gets recreated for each loop.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
     $ConfigObject->Set(
@@ -71,7 +71,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
+        NoAgentNotify  => 1,
     );
     $Self->True(
         $ArticleID,
@@ -104,7 +104,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
+        NoAgentNotify  => 1,
     );
     $Self->True(
         $ArticleID,
@@ -147,6 +147,53 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
     $Self->True(
         !$TicketIDs{$TicketID},
+        'TicketSearch() (HASH:Body)',
+    );
+
+    # use full text search on ticket with Cyrillic characters
+    # see bug #11791 ( http://bugs.otrs.org/show_bug.cgi?id=11791 )
+    $ArticleID = $TicketObject->ArticleCreate(
+        TicketID       => $TicketID,
+        ArticleType    => 'note-internal',
+        SenderType     => 'agent',
+        From           => 'Some Agent <email@example.com>',
+        To             => 'Some Customer <customer@example.com>',
+        Subject        => 'Испытуемый',
+        Body           => 'Это полный приговор',
+        ContentType    => 'text/plain; charset=ISO-8859-15',
+        HistoryType    => 'OwnerUpdate',
+        HistoryComment => 'Some free text!',
+        UserID         => 1,
+        NoAgentNotify  => 1,
+    );
+    $Self->True(
+        $ArticleID,
+        'ArticleCreate()',
+    );
+
+    # search
+    %TicketIDs = $TicketObject->TicketSearch(
+        Subject    => '%испытуемый%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
+        'TicketSearch() (HASH:Subject)',
+    );
+
+    # search
+    %TicketIDs = $TicketObject->TicketSearch(
+        Body       => '%полный%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
         'TicketSearch() (HASH:Body)',
     );
 
@@ -195,8 +242,38 @@ my @Tests = (
         ],
     },
     {
-        Name   => "Stop words",
-        String => 'is a the of for and und der',
+        Name   => "English - Stop words",
+        String => 'is a the of for and',
+        Result => [
+        ],
+    },
+    {
+        Name   => "German - Stop words",
+        String => 'ist eine der von für und',
+        Result => [
+        ],
+    },
+    {
+        Name   => "Dutch - Stop words",
+        String => 'goed tijd hebben voor gaan',
+        Result => [
+        ],
+    },
+    {
+        Name   => "Spanish - Stop words",
+        String => 'también algún siendo arriba',
+        Result => [
+        ],
+    },
+    {
+        Name   => "French - Stop words",
+        String => 'là pièce étaient où',
+        Result => [
+        ],
+    },
+    {
+        Name   => "Italian - Stop words",
+        String => 'avevano consecutivo meglio nuovo',
         Result => [
         ],
     },
@@ -212,6 +289,56 @@ my @Tests = (
         String => 'Word ' . 'x' x 50,
         Result => [
             'word',
+        ],
+    },
+    {
+        Name   => '# @ Characters alone',
+        String => "# Word @ Something",
+        Result => [
+            'word',
+            'something',
+        ],
+    },
+    {
+        Name   => '# @ Characters with other words',
+        String => '#Word @Something',
+        Result => [
+            '#word',
+            '@something',
+        ],
+    },
+    {
+        Name   => "Cyrillic Serbian string",
+        String => "Чудесна жута шума",
+        Result => [
+            "чудесна",
+            "жута",
+            "шума"
+        ],
+    },
+    {
+        Name   => "Latin Croatian string",
+        String => "Čudesna žuta šuma",
+        Result => [
+            "čudesna",
+            "žuta",
+            "šuma"
+        ],
+    },
+    {
+        Name   => "Cyrillic Russian string",
+        String => "Это полный приговор",
+        Result => [
+            "это",
+            "полный",
+            "приговор",
+        ],
+    },
+    {
+        Name   => "Chinese string",
+        String => "这是一个完整的句子",
+        Result => [
+            "这是一个完整的句子",
         ],
     },
 );
@@ -241,6 +368,6 @@ for my $Module (qw(StaticDB)) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
+# cleanup is done by RestoreDatabase
 
 1;
