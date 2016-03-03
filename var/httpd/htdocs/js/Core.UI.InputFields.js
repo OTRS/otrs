@@ -1050,6 +1050,11 @@ Core.UI.InputFields = (function (TargetNS) {
                     .attr('role', 'search')
                     .attr('autocomplete', 'off');
 
+                // If original field has class small, add it to the input field, too
+                if ($SelectObj.hasClass('Small')) {
+                    $SearchObj.addClass('Small');
+                }
+
                 // Set width of search field to that of the select field
                 $SearchObj.width(SelectWidth);
 
