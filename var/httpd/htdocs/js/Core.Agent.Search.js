@@ -422,7 +422,12 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register submit
                 $('#SearchFormSubmit').bind('click', function () {
+
                     var ShownAttributes = [];
+
+                    if ($('#SearchProfileAddAction, #SearchProfileAddName').is(':visible') && $('#SearchProfileAddName').val()) {
+                        $('#SearchProfileAddAction').trigger('click');
+                    }
 
                     // remember shown attributes
                     $('#SearchInsert label').each(function () {
