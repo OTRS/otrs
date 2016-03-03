@@ -14,6 +14,7 @@ use warnings;
 
 use Mail::Address;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;

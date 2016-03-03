@@ -11,6 +11,7 @@ package Kernel::Modules::AgentTicketActionCommon;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 

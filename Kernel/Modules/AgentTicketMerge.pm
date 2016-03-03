@@ -11,9 +11,10 @@ package Kernel::Modules::AgentTicketMerge;
 use strict;
 use warnings;
 
+use Mail::Address;
+
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
 

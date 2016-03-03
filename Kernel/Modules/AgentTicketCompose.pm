@@ -11,8 +11,10 @@ package Kernel::Modules::AgentTicketCompose;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
+
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 

@@ -14,6 +14,8 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use POSIX qw/ceil/;
+
+use Kernel::Language qw(Translatable);
 use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 

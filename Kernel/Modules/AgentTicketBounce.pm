@@ -11,10 +11,12 @@ package Kernel::Modules::AgentTicketBounce;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
+
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -11,9 +11,10 @@ package Kernel::Modules::AgentTicketLockedView;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 our $ObjectManagerDisabled = 1;
+
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
