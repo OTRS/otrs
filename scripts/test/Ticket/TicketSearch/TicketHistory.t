@@ -13,73 +13,64 @@ use utf8;
 
 use vars (qw($Self));
 
-my @TicketIDs;
-
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# create a new ticket (1)
-my $TicketID1 = $TicketObject->TicketCreate(
-    Title      => 'My ticket created by Agent A',
-    QueueID    => '1',
-    Lock       => 'unlock',
-    PriorityID => 1,
-    StateID    => 1,
-    OwnerID    => 1,
-    UserID     => 1,
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Self->True(
-    $TicketID1,
-    "TicketCreate() for test - $TicketID1",
-);
-push @TicketIDs, $TicketID1;
+my @TicketIDs;
 
-# create a new ticket (2)
-my $TicketID2 = $TicketObject->TicketCreate(
-    Title      => 'My ticket created by Agent A',
-    QueueID    => '1',
-    Lock       => 'unlock',
-    PriorityID => 1,
-    StateID    => 1,
-    OwnerID    => 1,
-    UserID     => 1,
-);
+# create 2 tickets
+for ( 1 .. 2 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title      => 'My ticket created by Agent A',
+        QueueID    => '1',
+        Lock       => 'unlock',
+        PriorityID => 1,
+        StateID    => 1,
+        OwnerID    => 1,
+        UserID     => 1,
+    );
 
-$Self->True(
-    $TicketID2,
-    "TicketCreate() for test - $TicketID1",
-);
-push @TicketIDs, $TicketID1;
+    $Self->True(
+        $TicketID,
+        "TicketCreate() for test - $TicketID",
+    );
+    push @TicketIDs, $TicketID;
+}
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$HelperObject->FixedTimeSet();
-
-$HelperObject->FixedTimeAddSeconds(60);
+$Helper->FixedTimeSet();
+$Helper->FixedTimeAddSeconds(60);
 
 # update ticket 1
 my $Success = $TicketObject->TicketLockSet(
     Lock     => 'lock',
-    TicketID => $TicketID1,
+    TicketID => $TicketIDs[0],
     UserID   => 1,
 );
 $Self->True(
     $Success,
-    "TicketLockSet() for test - $TicketID1",
+    "TicketLockSet() for test - $TicketIDs[0]",
 );
 
 # close ticket 2
 $Success = $TicketObject->TicketStateSet(
     State    => 'closed successful',
-    TicketID => $TicketID2,
+    TicketID => $TicketIDs[1],
     UserID   => 1,
 );
 $Self->True(
     $Success,
-    "TicketStateSet() for test - $TicketID2",
+    "TicketStateSet() for test - $TicketIDs[1]",
 );
 
-$HelperObject->FixedTimeAddSeconds(60);
+$Helper->FixedTimeAddSeconds(60);
 
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
@@ -90,49 +81,49 @@ my @Tests = (
         Config => {
             CreatedTypeIDs => [ '1', ],
         },
-        ExpectedTicketIDs => [ $TicketID1, $TicketID2 ],
+        ExpectedTicketIDs => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => "CreatedStateIDs",
         Config => {
             CreatedStateIDs => [ '1', ],
         },
-        ExpectedTicketIDs => [ $TicketID1, ],
+        ExpectedTicketIDs => [ $TicketIDs[0], ],
     },
     {
         Name   => "CreatedUserIDs",
         Config => {
             CreatedUserIDs => [ '1', ],
         },
-        ExpectedTicketIDs => [ $TicketID1, $TicketID2 ],
+        ExpectedTicketIDs => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => "CreatedQueueIDs",
         Config => {
             CreatedQueueIDs => [ '1', ],
         },
-        ExpectedTicketIDs => [ $TicketID1, $TicketID2 ],
+        ExpectedTicketIDs => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => "CreatedPriorityIDs",
         Config => {
             CreatedPriorityIDs => [ '1', ],
         },
-        ExpectedTicketIDs => [ $TicketID1, $TicketID2 ],
+        ExpectedTicketIDs => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => "TicketChangeTimeOlderDate",
         Config => {
             TicketChangeTimeOlderDate => $TimeObject->CurrentTimestamp(),
         },
-        ExpectedTicketIDs => [ $TicketID1, $TicketID2 ],
+        ExpectedTicketIDs => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => "TicketCloseTimeOlderDate",
         Config => {
             TicketCloseTimeOlderDate => $TimeObject->CurrentTimestamp(),
         },
-        ExpectedTicketIDs => [$TicketID2],
+        ExpectedTicketIDs => [ $TicketIDs[1] ],
     },
     {
         Name   => "TicketCloseTimeNewerDate",
@@ -141,7 +132,7 @@ my @Tests = (
                 SystemTime => $TimeObject->SystemTime() - 61,
             ),
         },
-        ExpectedTicketIDs => [$TicketID2],
+        ExpectedTicketIDs => [ $TicketIDs[1] ],
     },
 );
 
@@ -155,27 +146,17 @@ for my $Test (@Tests) {
         %{ $Test->{Config} },
     );
 
-    my %ReturndedLookup = map { $_ => 1 } @ReturnedTicketIDs;
+    my %ReturnedLookup = map { $_ => 1 } @ReturnedTicketIDs;
 
     for my $TicketID ( @{ $Test->{ExpectedTicketIDs} } ) {
 
         $Self->True(
-            $ReturndedLookup{$TicketID},
+            $ReturnedLookup{$TicketID},
             "$Test->{Name} TicketSearch() - Results contains ticket $TicketID",
         );
     }
 }
 
-for my $TicketID (@TicketIDs) {
-
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Success,
-        "Removed ticket $TicketID",
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

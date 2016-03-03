@@ -15,28 +15,32 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-# add two users
-$ConfigObject->Set(
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
 my @CustomerLogins;
-my $Rand = int( rand(1000000) );
-for my $Key ( 1 .. 2 ) {
-    my $UserRand = 'TestCustomerUserLogin + ' . $Key . $Rand;
 
-    my $UserID = $CustomerUserObject->CustomerUserAdd(
+# add two customer users
+for ( 1 .. 2 ) {
+    my $UserRand = "CustomerUserLogin + " . $Helper->GetRandomID();
+
+    my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser',
-        UserFirstname  => 'Firstname Test' . $Key,
-        UserLastname   => 'Lastname Test' . $Key,
+        UserFirstname  => 'Firstname Test',
+        UserLastname   => 'Lastname Test',
         UserCustomerID => "CustomerID-$UserRand",
         UserLogin      => $UserRand,
         UserEmail      => $UserRand . '-Email@example.com',
@@ -44,13 +48,12 @@ for my $Key ( 1 .. 2 ) {
         ValidID        => 1,
         UserID         => 1,
     );
-    push @CustomerLogins, $UserID;
+    push @CustomerLogins, $CustomerUserID;
 
     $Self->True(
-        $UserID,
-        "CustomerUserAdd() - $UserID",
+        $CustomerUserID,
+        "CustomerUserAdd() - $CustomerUserID",
     );
-
 }
 
 my @TicketIDs;
@@ -165,33 +168,6 @@ for my $CustomerUserLogin (@CustomerLogins) {
     );
 }
 
-# clean up customer users
-
-for my $CustomerUserLogin (@CustomerLogins) {
-
-    print $CustomerUserLogin;
-    print "\n";
-    my $Success = $DBObject->Do(
-        SQL  => 'DELETE FROM customer_user WHERE login = ?',
-        Bind => [ \$CustomerUserLogin ],
-    );
-    $Self->True(
-        $Success,
-        "Removed customer user $CustomerUserLogin",
-    );
-}
-
-# clean up customer tickets
-
-for my $TicketID (@TicketIDs) {
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Success,
-        "Removed ticket $TicketID",
-    );
-}
+# cleanup is done by RestoreDatabase.
 
 1;

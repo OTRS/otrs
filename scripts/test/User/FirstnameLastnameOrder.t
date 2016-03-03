@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 $Kernel::OM->ObjectParamAdd(
@@ -22,21 +21,21 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
-# add users
-my $UserRand1 = 'example-user' . int( rand(1000000) );
+# add user
+my $UserRandom = 'user' . $Helper->GetRandomID();
 
 my $UserID = $UserObject->UserAdd(
     UserFirstname => 'John',
     UserLastname  => 'Doe',
-    UserLogin     => $UserRand1,
-    UserEmail     => $UserRand1 . '@example.com',
+    UserLogin     => $UserRandom,
+    UserEmail     => $UserRandom . '@example.com',
     ValidID       => 1,
     ChangeUserID  => 1,
 );
@@ -49,14 +48,13 @@ $Self->True(
 my %Tests = (
     0 => "John Doe",
     1 => "Doe, John",
-    2 => "John Doe ($UserRand1)",
-    3 => "Doe, John ($UserRand1)",
-    4 => "($UserRand1) John Doe",
-    5 => "($UserRand1) Doe, John",
+    2 => "John Doe ($UserRandom)",
+    3 => "Doe, John ($UserRandom)",
+    4 => "($UserRandom) John Doe",
+    5 => "($UserRandom) Doe, John",
     6 => "Doe John",
-    7 => "Doe John ($UserRand1)",
-    8 => "($UserRand1) Doe John",
-
+    7 => "Doe John ($UserRandom)",
+    8 => "($UserRandom) Doe John",
 );
 
 for my $Order ( sort keys %Tests ) {
@@ -70,5 +68,7 @@ for my $Order ( sort keys %Tests ) {
         "FirstnameLastnameOrder $Order",
     );
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

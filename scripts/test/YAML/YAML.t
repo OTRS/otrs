@@ -12,9 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $YAMLObject   = $Kernel::OM->Get('Kernel::System::YAML');
+# get YAML object
+my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
 my @Tests = (
     {
