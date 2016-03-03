@@ -1513,7 +1513,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     })
 
                     // Handle node deselection in tree list
-                    .on('deselect_node.jstree', function (Node, Selected) { //eslint-disable-line no-unused-vars
+                    .on('deselect_node.jstree', function () {
 
                         var SelectedNodesIDs,
                             HasEmptyElement = $SelectObj.find('option[value=""]').length === 0 ? false : true;
