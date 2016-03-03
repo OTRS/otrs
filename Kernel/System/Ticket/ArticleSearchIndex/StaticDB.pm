@@ -367,7 +367,9 @@ sub _ArticleIndexStringToWord {
     for my $Word ( split /\s+/, ${ $Param{String} } ) {
 
         # apply filters
+        FILTER:
         for my $Filter (@Filters) {
+            next FILTER if !$Word;
             $Word =~ s/$Filter//g;
         }
 
