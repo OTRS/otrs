@@ -184,7 +184,7 @@ sub Run {
 
     # check if ticket is normal or process ticket
     my $IsProcessTicket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckForProcessType(
-        'TicketID' => $Self->{TicketID}
+        TicketID => $Ticket{TicketID}
     );
 
     # overwrite display options for process ticket
@@ -198,7 +198,6 @@ sub Run {
         # get the DF where the AtivityEntityID is stored
         my $ActivityEntityIDField = 'DynamicField_'
             . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
-
 
         my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
             ProcessEntityID => $Ticket{$ProcessEntityIDField},
@@ -237,7 +236,7 @@ sub Run {
     my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # to store dynamic fields to be displayed in the process widget and in the sidebar
-    my ( @FieldsSidebar );
+    my (@FieldsSidebar);
 
     # cycle trough the activated Dynamic Fields for ticket object
     DYNAMICFIELD:

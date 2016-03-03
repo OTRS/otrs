@@ -19,10 +19,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get linked objects
-    my $LinkListWithData =
-        $Kernel::OM->Get('Kernel::System::LinkObject')->LinkListWithData(
+    my $LinkListWithData = $Kernel::OM->Get('Kernel::System::LinkObject')->LinkListWithData(
         Object           => 'Ticket',
-        Key              => $Self->{TicketID},
+        Key              => $Param{Ticket}->{TicketID},
         State            => 'Valid',
         UserID           => $Self->{UserID},
         ObjectParameters => {
@@ -30,7 +29,7 @@ sub Run {
                 IgnoreLinkedTicketStateTypes => 1,
             },
         },
-        );
+    );
 
     # get link table view mode
     my $LinkTableViewMode =
