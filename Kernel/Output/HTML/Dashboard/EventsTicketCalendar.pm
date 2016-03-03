@@ -173,7 +173,7 @@ sub Run {
                     # show a notification bar to indicate that the start and end time are set in a wrong way
                     $Content .= $LayoutObject->Notify(
                         Priority => 'Warning',
-                        Data     => 'The start time of a ticket has been set after the end time!',
+                        Info     => 'The start time of a ticket has been set after the end time!',
                         Link     => "index.pl?Action=AgentTicketZoom;TicketID=$TicketID",
                     );
                 }
