@@ -129,6 +129,7 @@ $Selenium->RunTest(
             # select the first test CustomerUserID as filter for TicketNew generic dashboard overview
             my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
             $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[0]->{CustomerUser} );
+            sleep 1;
 
             # wait for AJAX to finish
             $Selenium->WaitFor(
@@ -188,6 +189,7 @@ $Selenium->RunTest(
             # select test CustomerUserID as filter for TicketNew generic dashboard overview
             $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
             $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[1]->{CustomerUser} );
+            sleep 1;
 
             # wait for AJAX to finish
             $Selenium->WaitFor(
