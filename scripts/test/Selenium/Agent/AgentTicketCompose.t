@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Language;
+
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -136,11 +138,11 @@ $Selenium->RunTest(
             Lock     => 'unlock',
         );
         my $TicketID = $TicketObject->TicketCreate(
-            Title    => 'Selenium ticket',
-            QueueID  => 1,
-            Lock     => $TicketData{Lock},
-            Priority => $TicketData{Priority},
-            State    => $TicketData{State},
+            Title        => 'Selenium ticket',
+            QueueID      => 1,
+            Lock         => $TicketData{Lock},
+            Priority     => $TicketData{Priority},
+            State        => $TicketData{State},
             CustomerID   => 'SeleniumCustomer',
             CustomerUser => $TestCustomer,
             OwnerID      => 1,
@@ -298,7 +300,7 @@ $Selenium->RunTest(
             );
         }
 
-    }
+        }
 );
 
 1;
