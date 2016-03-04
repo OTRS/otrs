@@ -12,18 +12,12 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::Layout;
-
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    UserChallengeToken => 'TestToken',
-    UserID             => 1,
-    Lang               => 'de',
-    SessionID          => 123,
-);
+# get layout object
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 my @Tests = (
     {
-        Name => 'Simple test',
+        Name   => 'Simple test',
         Params => {
             Name => 'test',
             Data => {
@@ -36,7 +30,7 @@ my @Tests = (
 ',
     },
     {
-        Name => 'Special characters',
+        Name   => 'Special characters',
         Params => {
             Name => 'test',
             Data => {
@@ -52,7 +46,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Result = $LayoutObject->AgentQueueListOption(%{$Test->{Params}});
+    my $Result = $LayoutObject->AgentQueueListOption( %{ $Test->{Params} } );
     $Self->Is(
         $Result,
         $Test->{Result},

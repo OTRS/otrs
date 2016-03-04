@@ -12,20 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::Layout;
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    UserChallengeToken => 'TestToken',
-    UserID             => 1,
-    Lang               => 'de',
-    SessionID          => 123,
-);
-
-my $MaxCharacters = $ConfigObject->Get('Ticket::Frontend::TextAreaEmail');
+# get layout object
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 my @Tests = (
     {

@@ -12,17 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::Layout;
-
-# get needed objects
-my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    UserChallengeToken => 'TestToken',
-    UserID             => 1,
-    Lang               => 'de',
-    SessionID          => 123,
-);
+# get layout object
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 # check the function Ascii2Html
 my $TestString = << 'END_STRING';
@@ -113,7 +104,7 @@ lkj <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Lo
 lk<br/>
 END_RESULT
 
-# html quoting
+# HTML quoting
 my $ConvertedString = $LayoutObject->Ascii2Html(
     NewLine        => 90,
     Text           => $TestString,
@@ -128,7 +119,7 @@ $Self->Is(
     'Ascii2Html() - Check if the link feature works correct',
 );
 
-# html quoting 2
+# HTML quoting 2
 my @Tests = (
     {
         Name   => 'Ascii2Html() - #1',
@@ -303,7 +294,7 @@ for my $Test (@Tests) {
     );
 }
 
-# html quoting 3
+# HTML quoting 3
 @Tests = (
     {
         Name   => 'Ascii2Html() - Max check #1',
