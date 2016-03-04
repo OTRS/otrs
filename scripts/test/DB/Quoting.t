@@ -12,9 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+# get DB object
+my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # ------------------------------------------------------------ #
 # quoting tests
@@ -101,7 +100,13 @@ $Self->Is(
     'Quote() Number - -0.23',
 );
 
-if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
+if (
+    $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ||
+    $DBObject->GetDatabaseFunction('Type') eq 'oracle'     ||
+    $DBObject->GetDatabaseFunction('Type') eq 'db2'        ||
+    $DBObject->GetDatabaseFunction('Type') eq 'ingres'
+    )
+{
     $Self->Is(
         $DBObject->Quote("Test'l"),
         'Test\'\'l',
@@ -111,26 +116,7 @@ if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
     $Self->Is(
         $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
-        'Quote() String - Test\'l;',
-    );
-
-    $Self->Is(
-        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
-        'Block[12]Block[12]',
-        'Quote() Like-String - Block[12]Block[12]',
-    );
-}
-elsif ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
-    $Self->Is(
-        $DBObject->Quote("Test'l"),
-        'Test\'\'l',
-        'Quote() String - Test\'l',
-    );
-
-    $Self->Is(
-        $DBObject->Quote("Test'l;"),
-        'Test\'\'l;',
-        'Quote() String - Test\'l;',
+        "Quote() String - Test\'l;",
     );
 
     $Self->Is(
@@ -155,44 +141,6 @@ elsif ( $DBObject->GetDatabaseFunction('Type') eq 'mssql' ) {
     $Self->Is(
         $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[[]12]Block[[]12]',
-        'Quote() Like-String - Block[12]Block[12]',
-    );
-}
-elsif ( $DBObject->GetDatabaseFunction('Type') eq 'db2' ) {
-    $Self->Is(
-        $DBObject->Quote("Test'l"),
-        'Test\'\'l',
-        'Quote() String - Test\'l',
-    );
-
-    $Self->Is(
-        $DBObject->Quote("Test'l;"),
-        'Test\'\'l;',
-        'Quote() String - Test\'l;',
-    );
-
-    $Self->Is(
-        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
-        'Block[12]Block[12]',
-        'Quote() Like-String - Block[12]Block[12]',
-    );
-}
-elsif ( $DBObject->GetDatabaseFunction('Type') eq 'ingres' ) {
-    $Self->Is(
-        $DBObject->Quote("Test'l"),
-        'Test\'\'l',
-        'Quote() String - Test\'l',
-    );
-
-    $Self->Is(
-        $DBObject->Quote("Test'l;"),
-        'Test\'\'l;',
-        'Quote() String - Test\'l;',
-    );
-
-    $Self->Is(
-        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
-        'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }

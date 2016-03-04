@@ -12,9 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+# get DB object
+my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 =cut
 This test is supposed to verify the solution for bug#9092, which showed
@@ -96,7 +103,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my @XMLARRAY = $XMLObject->XMLParse( String => $Test );
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $Test );
     my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
 
@@ -107,5 +114,7 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;
