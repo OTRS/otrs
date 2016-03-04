@@ -516,6 +516,9 @@
             FullText  = $(this).text();
             $(this).text(FullText.substr(0, MaxLength) + '...');
 
+            // Repair string for correct displaying the overlay message - bug#11913
+            FullText = FullText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
             $(this)
                 .append('&nbsp;<a href="#" class="DescriptionOverlay">' + LinkText + '</a>')
                 .find('a.DescriptionOverlay')
