@@ -49,7 +49,7 @@ sub Run {
         my $Search = $ParamObject->GetParam( Param => 'Term' ) || '';
         my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
         my $IncludeUnknownTicketCustomers
-            = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
+            = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 1 );
 
         my $UnknownTicketCustomerList;
 
