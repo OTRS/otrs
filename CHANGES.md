@@ -1,6 +1,5 @@
 #5.0.8 2016-??-??
  - 2016-03-04 Fixed bug#[11913](http://bugs.otrs.org/show_bug.cgi?id=11913) - Description in SysConfig breakes when you click 'more'.
- - 2016-03-04 Follow-up fix for bug#[11810](http://bugs.otrs.org/show_bug.cgi?id=11810) - <OTRS_TICKET_State> not translated to spanish when answering from AgentTicketZoom screen.
  - 2016-03-04 Fixed bug#[11787](http://bugs.otrs.org/show_bug.cgi?id=11787) - No Ticket::StateAfterPending found with manual state update.
  - 2016-03-03 Fixed bug#[9441](http://bugs.otrs.org/show_bug.cgi?id=9441) - Display of seconds after attachment upload.
  - 2016-03-03 Fixed bug#[11912](http://bugs.otrs.org/show_bug.cgi?id=11912) - Answer to email-internal is preset to email-external.

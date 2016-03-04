@@ -38,7 +38,7 @@ sub Run {
 
     my $AutoCompleteConfig            = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
     my $MaxResults                    = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
-    my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
+    my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 1 );
     my $SearchTerm                    = $ParamObject->GetParam( Param => 'Term' ) || '';
 
     if ( $Self->{Subaction} eq 'SearchCustomerID' ) {
