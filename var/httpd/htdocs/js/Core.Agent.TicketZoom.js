@@ -183,6 +183,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 return false;
             });
 
+            // Initialize modernized input fields in article action menu
+            Core.UI.InputFields.Activate($('#ArticleItems'));
+
             // Add event bindings to new widget
             Core.UI.InitWidgetActionToggle();
 

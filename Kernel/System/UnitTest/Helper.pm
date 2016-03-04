@@ -67,7 +67,7 @@ sub new {
 
         $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
 
-        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
+        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration.' );
     }
 
     # set environment variable to skip SSL certificate verification if needed
@@ -85,7 +85,9 @@ sub new {
 
     if ( $Param{RestoreDatabase} ) {
         $Self->{RestoreDatabase} = 1;
-        $Self->BeginWork();
+        my $StartedTransaction = $Self->BeginWork();
+        $Self->{UnitTestObject}->True( $StartedTransaction, 'Started database transaction.' );
+
     }
 
     return $Self;
@@ -281,7 +283,7 @@ sub BeginWork {
     my ( $Self, %Param ) = @_;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
-    $DBObject->{dbh}->begin_work()
+    return $DBObject->{dbh}->begin_work();
 }
 
 =item Rollback()
@@ -294,12 +296,13 @@ Rolls back the current database transaction.
 
 sub Rollback {
     my ( $Self, %Param ) = @_;
-    my $Dbh = $Kernel::OM->Get('Kernel::System::DB')->{dbh};
+    my $DatabaseHandle = $Kernel::OM->Get('Kernel::System::DB')->{dbh};
 
     # if there is no database handle, there's nothing to rollback
-    if ($Dbh) {
-        $Dbh->rollback();
+    if ($DatabaseHandle) {
+        return $DatabaseHandle->rollback();
     }
+    return 1;
 }
 
 =item GetTestHTTPHostname()
@@ -453,9 +456,9 @@ sub DESTROY {
 
     # Restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
-        $Self->Rollback();
+        my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        $Self->{UnitTestObject}->True( 1, 'Rolled back all database changes and cleaned up the cache.' );
+        $Self->{UnitTestObject}->True( $RollbackSuccess, 'Rolled back all database changes and cleaned up the cache.' );
     }
 
     # disable email checks to create new user

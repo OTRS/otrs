@@ -3030,8 +3030,6 @@ write an article attachment to storage
         UserID             => 123,
     );
 
-You also can use "Force => 1" to not check if a filename already exists, it force to use the given file name. Otherwise a new file name like "oldfile-2.html" is used.
-
 =item ArticleAttachment()
 
 get article attachment (Content, ContentType, Filename and optional ContentID, ContentAlternative)
