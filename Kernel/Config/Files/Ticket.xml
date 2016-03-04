@@ -8233,8 +8233,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open Tickets</Description>
-                <Title>QueueView</Title>
+                <Description Translatable="1">Overview of all open Tickets</Description>
+                <Title Translatable="1">QueueView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets</Description>
@@ -8273,8 +8273,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open Tickets</Description>
-                <Title>ServiceView</Title>
+                <Description Translatable="1">Overview of all open Tickets</Description>
+                <Title Translatable="1">ServiceView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets</Description>
@@ -8302,8 +8302,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new phone ticket</Description>
-                <Title>New phone ticket</Title>
+                <Description Translatable="1">Create new phone ticket</Description>
+                <Title Translatable="1">New phone ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Create new phone ticket (inbound)</Description>
@@ -8329,8 +8329,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Phone Call</Description>
-                <Title>Phone-Ticket</Title>
+                <Description Translatable="1">Phone Call</Description>
+                <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8344,8 +8344,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Incoming Phone Call</Description>
-                <Title>Phone-Ticket</Title>
+                <Description Translatable="1">Incoming Phone Call</Description>
+                <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8359,8 +8359,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new email ticket</Description>
-                <Title>New email ticket</Title>
+                <Description Translatable="1">Create new email ticket</Description>
+                <Title Translatable="1">New email ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Create new email ticket and send this out (outbound)</Description>
@@ -8386,8 +8386,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Search Ticket</Description>
-                <Title>Search</Title>
+                <Description Translatable="1">Search Ticket</Description>
+                <Title Translatable="1">Search</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Search Tickets</Description>
@@ -8414,8 +8414,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Locked Tickets</Description>
-                <Title>Locked Tickets</Title>
+                <Description Translatable="1">Locked Tickets</Description>
+                <Title Translatable="1">Locked Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
@@ -8432,8 +8432,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Responsible Tickets</Description>
-                <Title>Responsible Tickets</Title>
+                <Description Translatable="1">Responsible Tickets</Description>
+                <Title Translatable="1">Responsible Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AllocationList.css</CSS>
@@ -8449,8 +8449,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Watched Tickets</Description>
-                <Title>Watched Tickets</Title>
+                <Description Translatable="1">Watched Tickets</Description>
+                <Title Translatable="1">Watched Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
@@ -8467,8 +8467,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>AgentCustomerSearch</Description>
-                <Title>AgentCustomerSearch</Title>
+                <Description Translatable="1">AgentCustomerSearch</Description>
+                <Title Translatable="1">AgentCustomerSearch</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8479,8 +8479,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>AgentUserSearch</Description>
-                <Title>AgentUserSearch</Title>
+                <Description Translatable="1">AgentUserSearch</Description>
+                <Title Translatable="1">AgentUserSearch</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8491,8 +8491,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all open tickets</Description>
-                <Title>Status view</Title>
+                <Description Translatable="1">Overview of all open tickets</Description>
+                <Title Translatable="1">Status view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets.</Description>
@@ -8519,8 +8519,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of all escalated tickets</Description>
-                <Title>Escalation view</Title>
+                <Description Translatable="1">Overview of all escalated tickets</Description>
+                <Title Translatable="1">Escalation view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview Escalated Tickets</Description>
@@ -8547,9 +8547,9 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>compat module for AgentZoom to AgentTicketZoom</Description>
+                <Description Translatable="1">compat module for AgentZoom to AgentTicketZoom</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title></Title>
+                <Title Translatable="1"></Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8559,8 +8559,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Zoom</Description>
-                <Title>Zoom</Title>
+                <Description Translatable="1">Ticket Zoom</Description>
+                <Title Translatable="1">Zoom</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
@@ -8578,9 +8578,9 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Title></Title>
+                <Title Translatable="1"></Title>
                 <NavBarName>Ticket</NavBarName>
-                <Description>To download attachments</Description>
+                <Description Translatable="1">To download attachments</Description>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8590,8 +8590,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket plain view of an email</Description>
-                <Title>Plain</Title>
+                <Description Translatable="1">Ticket plain view of an email</Description>
+                <Title Translatable="1">Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8602,8 +8602,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Note</Description>
-                <Title>Note</Title>
+                <Description Translatable="1">Ticket Note</Description>
+                <Title Translatable="1">Note</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8617,8 +8617,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Merge</Description>
-                <Title>Merge</Title>
+                <Description Translatable="1">Ticket Merge</Description>
+                <Title Translatable="1">Merge</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketMerge.js</JavaScript>
@@ -8632,8 +8632,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Pending</Description>
-                <Title>Pending</Title>
+                <Description Translatable="1">Ticket Pending</Description>
+                <Title Translatable="1">Pending</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8647,9 +8647,9 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>A TicketWatcher Module</Description>
+                <Description Translatable="1">A TicketWatcher Module</Description>
                 <NavBarName>Ticket-Watcher</NavBarName>
-                <Title>Ticket-Watcher</Title>
+                <Title Translatable="1">Ticket-Watcher</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8659,8 +8659,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Priority</Description>
-                <Title>Priority</Title>
+                <Description Translatable="1">Ticket Priority</Description>
+                <Title Translatable="1">Priority</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8674,8 +8674,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Lock</Description>
-                <Title>Lock</Title>
+                <Description Translatable="1">Ticket Lock</Description>
+                <Title Translatable="1">Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8686,8 +8686,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Move</Description>
-                <Title>Move</Title>
+                <Description Translatable="1">Ticket Move</Description>
+                <Title Translatable="1">Move</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8744,8 +8744,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket History</Description>
-                <Title>History</Title>
+                <Description Translatable="1">Ticket History</Description>
+                <Title Translatable="1">History</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8756,8 +8756,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Owner</Description>
-                <Title>Owner</Title>
+                <Description Translatable="1">Ticket Owner</Description>
+                <Title Translatable="1">Owner</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8771,8 +8771,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Responsible</Description>
-                <Title>Responsible</Title>
+                <Description Translatable="1">Ticket Responsible</Description>
+                <Title Translatable="1">Responsible</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8786,8 +8786,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose email Answer</Description>
-                <Title>Compose</Title>
+                <Description Translatable="1">Ticket Compose email Answer</Description>
+                <Title Translatable="1">Compose</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8802,8 +8802,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose Bounce Email</Description>
-                <Title>Bounce</Title>
+                <Description Translatable="1">Ticket Compose Bounce Email</Description>
+                <Title Translatable="1">Bounce</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8814,8 +8814,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Forward Email</Description>
-                <Title>Forward</Title>
+                <Description Translatable="1">Ticket Forward Email</Description>
+                <Title Translatable="1">Forward</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8830,8 +8830,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Outbound Email</Description>
-                <Title>Email Outbound</Title>
+                <Description Translatable="1">Ticket Outbound Email</Description>
+                <Title Translatable="1">Email Outbound</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8846,8 +8846,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Customer</Description>
-                <Title>Customer</Title>
+                <Description Translatable="1">Ticket Customer</Description>
+                <Title Translatable="1">Customer</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
@@ -8862,8 +8862,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Close</Description>
-                <Title>Close</Title>
+                <Description Translatable="1">Ticket Close</Description>
+                <Title Translatable="1">Close</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8877,8 +8877,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket FreeText</Description>
-                <Title>Free Fields</Title>
+                <Description Translatable="1">Ticket FreeText</Description>
+                <Title Translatable="1">Free Fields</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8892,8 +8892,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Print</Description>
-                <Title>Print</Title>
+                <Description Translatable="1">Ticket Print</Description>
+                <Title Translatable="1">Print</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8904,8 +8904,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket bulk module</Description>
-                <Title>Bulk-Action</Title>
+                <Description Translatable="1">Ticket bulk module</Description>
+                <Title Translatable="1">Bulk-Action</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8920,7 +8920,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Access Control Lists (ACL)</Title>
                 <NavBarName>Admin</NavBarName>
                 <Loader>
@@ -8944,7 +8944,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -8964,8 +8964,8 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
-                <Title>Templates</Title>
+                <Description Translatable="1">Admin</Description>
+                <Title Translatable="1">Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
@@ -8984,7 +8984,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Templates &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9004,7 +9004,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Auto Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9024,8 +9024,8 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
-                <Title>Auto Responses &lt;-&gt; Queues</Title>
+                <Description Translatable="1">Admin</Description>
+                <Title Translatable="1">Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
@@ -9044,7 +9044,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Attachments</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9064,7 +9064,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Attachments &lt;-&gt; Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9084,7 +9084,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Salutations</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9104,7 +9104,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Signatures</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9124,7 +9124,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Email Addresses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9144,7 +9144,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Ticket Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9168,7 +9168,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9188,7 +9188,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Service Level Agreements</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9208,7 +9208,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Types</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9228,7 +9228,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">States</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9248,7 +9248,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Priorities</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9268,7 +9268,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">GenericAgent</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9533,9 +9533,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Overview of customer tickets</Description>
+                <Description Translatable="1">Overview of customer tickets</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Overview</Title>
+                <Title Translatable="1">Overview</Title>
                 <NavBar>
                     <Description Translatable="1">Tickets</Description>
                     <Name Translatable="1">Tickets</Name>
@@ -9578,9 +9578,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create tickets</Description>
+                <Description Translatable="1">Create tickets</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>New Ticket</Title>
+                <Title Translatable="1">New Ticket</Title>
                 <NavBar>
                     <Description Translatable="1">Create new Ticket</Description>
                     <Name Translatable="1">New Ticket</Name>
@@ -9601,9 +9601,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket zoom view</Description>
+                <Description Translatable="1">Ticket zoom view</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Zoom</Title>
+                <Title Translatable="1">Zoom</Title>
                 <Loader>
                     <JavaScript>Core.Customer.TicketZoom.js</JavaScript>
                     <JavaScript>Core.UI.Popup.js</JavaScript>
@@ -9617,9 +9617,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer Ticket Print Module</Description>
+                <Description Translatable="1">Customer Ticket Print Module</Description>
                 <NavBarName></NavBarName>
-                <Title>Print</Title>
+                <Title Translatable="1">Print</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -9629,9 +9629,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To download attachments</Description>
+                <Description Translatable="1">To download attachments</Description>
                 <NavBarName></NavBarName>
-                <Title></Title>
+                <Title Translatable="1"></Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -9641,9 +9641,9 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Customer ticket search</Description>
+                <Description Translatable="1">Customer ticket search</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Search</Title>
+                <Title Translatable="1">Search</Title>
                 <NavBar>
                     <Description Translatable="1">Search</Description>
                     <Name Translatable="1">Search</Name>
@@ -10505,7 +10505,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields GUI</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -10556,7 +10556,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields Text Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10572,7 +10572,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields Checkbox Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10587,7 +10587,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields Drop-down Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10604,7 +10604,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields Date Time Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10622,7 +10622,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">Admin</Description>
                 <Title Translatable="1">Dynamic Fields Multiselect Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
