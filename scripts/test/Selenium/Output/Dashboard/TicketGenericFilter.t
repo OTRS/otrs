@@ -129,8 +129,16 @@ $Selenium->RunTest(
             # select the first test CustomerUserID as filter for TicketNew generic dashboard overview
             my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
             $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[0]->{CustomerUser} );
+
+            # wait for AJAX to finish
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+            );
+
+            # choose the value
             $Selenium->execute_script(
-                "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[0]->{CustomerUser}').trigger('redraw.InputField').trigger('change');"
+                "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[0]->{CustomerUser}').trigger('change');"
             );
 
             # wait for auto-complete action
@@ -180,8 +188,16 @@ $Selenium->RunTest(
             # select test CustomerUserID as filter for TicketNew generic dashboard overview
             $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
             $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[1]->{CustomerUser} );
+
+            # wait for AJAX to finish
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+            );
+
+            # choose the value
             $Selenium->execute_script(
-                "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[1]->{CustomerUser}').trigger('redraw.InputField').trigger('change');"
+                "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[1]->{CustomerUser}').trigger('change');"
             );
 
             # wait for auto-complete action
