@@ -8233,11 +8233,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Overview of all open Tickets</Description>
+                <Description Translatable="1">Overview of all open Tickets.</Description>
                 <Title Translatable="1">QueueView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Queue view</Name>
                     <Link>Action=AgentTicketQueue</Link>
                     <LinkOption></LinkOption>
@@ -8273,11 +8273,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Overview of all open Tickets</Description>
+                <Description Translatable="1">Overview of all open Tickets.</Description>
                 <Title Translatable="1">ServiceView</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Service view</Name>
                     <Link>Action=AgentTicketService</Link>
                     <LinkOption></LinkOption>
@@ -8302,7 +8302,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Create new phone ticket</Description>
+                <Description Translatable="1">Create new phone ticket.</Description>
                 <Title Translatable="1">New phone ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
@@ -8329,7 +8329,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Phone Call</Description>
+                <Description Translatable="1">Phone Call.</Description>
                 <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8344,7 +8344,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Incoming Phone Call</Description>
+                <Description Translatable="1">Incoming Phone Call.</Description>
                 <Title Translatable="1">Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8359,7 +8359,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Create new email ticket</Description>
+                <Description Translatable="1">Create new email ticket.</Description>
                 <Title Translatable="1">New email ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
@@ -8386,11 +8386,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Search Ticket</Description>
+                <Description Translatable="1">Search Ticket.</Description>
                 <Title Translatable="1">Search</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Search Tickets</Description>
+                    <Description Translatable="1">Search Tickets.</Description>
                     <Name Translatable="1">Search</Name>
                     <Link>Action=AgentTicketSearch</Link>
                     <!-- Use a timeout because otherwise the propagating click event would immediately close the dialog again. -->
@@ -8414,7 +8414,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Locked Tickets</Description>
+                <Description Translatable="1">Locked Tickets.</Description>
                 <Title Translatable="1">Locked Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8432,7 +8432,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Responsible Tickets</Description>
+                <Description Translatable="1">Responsible Tickets.</Description>
                 <Title Translatable="1">Responsible Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8449,7 +8449,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Watched Tickets</Description>
+                <Description Translatable="1">Watched Tickets.</Description>
                 <Title Translatable="1">Watched Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8467,7 +8467,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">AgentCustomerSearch</Description>
+                <Description Translatable="1">AgentCustomerSearch.</Description>
                 <Title Translatable="1">AgentCustomerSearch</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8479,7 +8479,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">AgentUserSearch</Description>
+                <Description Translatable="1">AgentUserSearch.</Description>
                 <Title Translatable="1">AgentUserSearch</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8491,7 +8491,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Overview of all open tickets</Description>
+                <Description Translatable="1">Overview of all open tickets.</Description>
                 <Title Translatable="1">Status view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
@@ -8519,11 +8519,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Overview of all escalated tickets</Description>
+                <Description Translatable="1">Overview of all escalated tickets.</Description>
                 <Title Translatable="1">Escalation view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Overview Escalated Tickets</Description>
+                    <Description Translatable="1">Overview Escalated Tickets.</Description>
                     <Name Translatable="1">Escalation view</Name>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <LinkOption></LinkOption>
@@ -8547,7 +8547,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">compat module for AgentZoom to AgentTicketZoom</Description>
+                <Description Translatable="1">Compat module for AgentZoom to AgentTicketZoom.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1"></Title>
             </FrontendModuleReg>
@@ -8559,7 +8559,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Zoom</Description>
+                <Description Translatable="1">Ticket Zoom.</Description>
                 <Title Translatable="1">Zoom</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8580,7 +8580,7 @@
             <FrontendModuleReg>
                 <Title Translatable="1"></Title>
                 <NavBarName>Ticket</NavBarName>
-                <Description Translatable="1">To download attachments</Description>
+                <Description Translatable="1">To download attachments.</Description>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8590,7 +8590,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket plain view of an email</Description>
+                <Description Translatable="1">Ticket plain view of an email.</Description>
                 <Title Translatable="1">Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8602,7 +8602,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Note</Description>
+                <Description Translatable="1">Ticket Note.</Description>
                 <Title Translatable="1">Note</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8617,7 +8617,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Merge</Description>
+                <Description Translatable="1">Ticket Merge.</Description>
                 <Title Translatable="1">Merge</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8632,7 +8632,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Pending</Description>
+                <Description Translatable="1">Ticket Pending.</Description>
                 <Title Translatable="1">Pending</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8647,7 +8647,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">A TicketWatcher Module</Description>
+                <Description Translatable="1">A TicketWatcher Module.</Description>
                 <NavBarName>Ticket-Watcher</NavBarName>
                 <Title Translatable="1">Ticket-Watcher</Title>
             </FrontendModuleReg>
@@ -8659,7 +8659,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Priority</Description>
+                <Description Translatable="1">Ticket Priority.</Description>
                 <Title Translatable="1">Priority</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8674,7 +8674,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Lock</Description>
+                <Description Translatable="1">Ticket Lock.</Description>
                 <Title Translatable="1">Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8686,7 +8686,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Move</Description>
+                <Description Translatable="1">Ticket Move.</Description>
                 <Title Translatable="1">Move</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8744,7 +8744,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket History</Description>
+                <Description Translatable="1">Ticket History.</Description>
                 <Title Translatable="1">History</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8756,7 +8756,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Owner</Description>
+                <Description Translatable="1">Ticket Owner.</Description>
                 <Title Translatable="1">Owner</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8771,7 +8771,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Responsible</Description>
+                <Description Translatable="1">Ticket Responsible.</Description>
                 <Title Translatable="1">Responsible</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8786,7 +8786,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Compose email Answer</Description>
+                <Description Translatable="1">Ticket Compose email Answer.</Description>
                 <Title Translatable="1">Compose</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8802,7 +8802,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Compose Bounce Email</Description>
+                <Description Translatable="1">Ticket Compose Bounce Email.</Description>
                 <Title Translatable="1">Bounce</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8814,7 +8814,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Forward Email</Description>
+                <Description Translatable="1">Ticket Forward Email.</Description>
                 <Title Translatable="1">Forward</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8830,7 +8830,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Outbound Email</Description>
+                <Description Translatable="1">Ticket Outbound Email.</Description>
                 <Title Translatable="1">Email Outbound</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8846,7 +8846,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Customer</Description>
+                <Description Translatable="1">Ticket Customer.</Description>
                 <Title Translatable="1">Customer</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8862,7 +8862,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Close</Description>
+                <Description Translatable="1">Ticket Close.</Description>
                 <Title Translatable="1">Close</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8877,7 +8877,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket FreeText</Description>
+                <Description Translatable="1">Ticket FreeText.</Description>
                 <Title Translatable="1">Free Fields</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8892,7 +8892,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket Print</Description>
+                <Description Translatable="1">Ticket Print.</Description>
                 <Title Translatable="1">Print</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -8904,7 +8904,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket bulk module</Description>
+                <Description Translatable="1">Ticket bulk module.</Description>
                 <Title Translatable="1">Bulk-Action</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
@@ -8920,7 +8920,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Access Control Lists (ACL)</Title>
                 <NavBarName>Admin</NavBarName>
                 <Loader>
@@ -8944,7 +8944,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -8964,7 +8964,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -8984,7 +8984,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Templates &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9004,7 +9004,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Auto Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9024,7 +9024,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9044,7 +9044,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Attachments</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9064,7 +9064,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Attachments &lt;-&gt; Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9084,7 +9084,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Salutations</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9104,7 +9104,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Signatures</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9124,7 +9124,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Email Addresses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9144,7 +9144,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Ticket Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9168,7 +9168,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9188,7 +9188,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Service Level Agreements</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9208,7 +9208,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Types</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9228,7 +9228,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">States</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9248,7 +9248,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Priorities</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9268,7 +9268,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">GenericAgent</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9533,11 +9533,11 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Overview of customer tickets</Description>
+                <Description Translatable="1">Overview of customer tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">Overview</Title>
                 <NavBar>
-                    <Description Translatable="1">Tickets</Description>
+                    <Description Translatable="1">Tickets.</Description>
                     <Name Translatable="1">Tickets</Name>
                     <Block></Block>
                     <Type>Menu</Type>
@@ -9548,7 +9548,7 @@
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1">My Tickets</Description>
+                    <Description Translatable="1">My Tickets.</Description>
                     <Name Translatable="1">My Tickets</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9559,7 +9559,7 @@
                     <Prio>110</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1">Company Tickets</Description>
+                    <Description Translatable="1">Company Tickets.</Description>
                     <Name Translatable="1">Company Tickets</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9578,11 +9578,11 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Create tickets</Description>
+                <Description Translatable="1">Create tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">New Ticket</Title>
                 <NavBar>
-                    <Description Translatable="1">Create new Ticket</Description>
+                    <Description Translatable="1">Create new Ticket.</Description>
                     <Name Translatable="1">New Ticket</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9601,7 +9601,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Ticket zoom view</Description>
+                <Description Translatable="1">Ticket zoom view.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">Zoom</Title>
                 <Loader>
@@ -9617,7 +9617,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Customer Ticket Print Module</Description>
+                <Description Translatable="1">Customer Ticket Print Module.</Description>
                 <NavBarName></NavBarName>
                 <Title Translatable="1">Print</Title>
             </FrontendModuleReg>
@@ -9629,7 +9629,7 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">To download attachments</Description>
+                <Description Translatable="1">To download attachments.</Description>
                 <NavBarName></NavBarName>
                 <Title Translatable="1"></Title>
             </FrontendModuleReg>
@@ -9641,11 +9641,11 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Customer ticket search</Description>
+                <Description Translatable="1">Customer ticket search.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">Search</Title>
                 <NavBar>
-                    <Description Translatable="1">Search</Description>
+                    <Description Translatable="1">Search.</Description>
                     <Name Translatable="1">Search</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -10505,7 +10505,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields GUI</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -10556,7 +10556,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Text Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10572,7 +10572,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Checkbox Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10587,7 +10587,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Drop-down Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10604,7 +10604,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Date Time Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10622,7 +10622,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description Translatable="1">Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Multiselect Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
