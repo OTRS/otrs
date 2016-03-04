@@ -12,15 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::Layout;
-
 # get needed objects
-my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-my $JSONObject  = $Kernel::OM->Get('Kernel::System::JSON');
+my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    Lang => 'de',
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Output::HTML::Layout' => {
+        Lang => 'de',
+    },
 );
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 # set JSON values
 my $JSONTrue  = $JSONObject->True();
@@ -751,7 +751,7 @@ my @Tests = (
         },
     },
     {
-        Name       => 'Missing Emements Tree 1 (Array)',
+        Name       => 'Missing Elements Tree 1 (Array)',
         Definition => {
             Data => [
                 'Object1',
@@ -863,7 +863,7 @@ my @Tests = (
         },
     },
     {
-        Name       => 'Missing Emements Tree 2 (Array)',
+        Name       => 'Missing Elements Tree 2 (Array)',
         Definition => {
             Data => [
                 'Object1',
@@ -1820,7 +1820,7 @@ for my $Test (@Tests) {
             ],
         );
 
-        # JSON ecode the expected data for easy compare
+        # JSON encode the expected data for easy compare
         my $JSONResponse = $JSONObject->Encode(
             Data => $Test->{JSONResponse},
         );

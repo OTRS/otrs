@@ -13,18 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
-local $ENV{TZ} = 'UTC';
-
-use Kernel::System::ObjectManager;
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::Output::HTML::Layout' => {
-        Lang => 'en',
-    },
-);
-
-# get helper object
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+# get needed objects
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
@@ -36,7 +26,7 @@ $ConfigObject->Set(
     Value => 'Option',
 );
 
-$HelperObject->FixedTimeSet();
+$Kernel::OM->Get('Kernel::System::UnitTest::Helper')->FixedTimeSet();
 
 # get time object
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -259,9 +249,6 @@ my @Tests = (
 <input type=\"text\" class=\"\" name=\"TestYear\" id=\"TestYear\" size=\"4\" maxlength=\"4\" title=\"Year\" value=\"$Year\" readonly=\"readonly\"/>",
     },
 );
-
-# get Layout object
-my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 TESTCASE:
 for my $Test (@Tests) {
