@@ -3090,9 +3090,6 @@ sub BuildDateSelection {
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
     }
 
-    # remove 'Second' because it is never used and bug #9441
-    delete $Param{ $Prefix . 'Second' };
-
     # year
     if ( $DateInputStyle eq 'Option' ) {
         my %Year;
@@ -3299,6 +3296,9 @@ sub BuildDateSelection {
             . ( $Param{Disabled} ? 'disabled="disabled"' : '' )
             . "/>&nbsp;";
     }
+
+    # remove 'Second' because it is never used and bug #9441
+    delete $Param{ $Prefix . 'Second' };
 
     # date format
     $Output .= $Self->{LanguageObject}->Time(
