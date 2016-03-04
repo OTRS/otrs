@@ -2933,9 +2933,10 @@ sub _ArticleMenu {
                     );
 
                     $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseIDAll' . $Article{ArticleID},
-                        Data => \@StandardResponseArrayReplyAll,
+                        Name  => 'ResponseID',
+                        ID    => 'ResponseIDAll' . $Article{ArticleID},
+                        Class => 'Modernize Small',
+                        Data  => \@StandardResponseArrayReplyAll,
                     );
 
                     push @MenuItems, {
