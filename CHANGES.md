@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-03-04 Fixed bug#[11913](http://bugs.otrs.org/show_bug.cgi?id=11913) - Description in SysConfig breakes when you click 'more'.
  - 2016-03-04 Fixed bug#[11791](http://bugs.otrs.org/show_bug.cgi?id=11791) - Can't use FullTextSearch with Russian words.
  - 2016-03-03 Fixed bug#[11754](http://bugs.otrs.org/show_bug.cgi?id=11754) - OwnerOnly is not respected in Dashboard Widget for Upcoming Events.
  - 2016-03-03 Fixed bug#[6795](http://bugs.otrs.org/show_bug.cgi?id=6795) - Useless/confusing message "ERROR: Need write permission in OTRS home"
