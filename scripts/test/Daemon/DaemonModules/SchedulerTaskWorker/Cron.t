@@ -11,9 +11,15 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::ObjectManager;
-
 use vars (qw($Self));
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # prevent mails send
 $Kernel::OM->Get('Kernel::Config')->Set(
@@ -208,5 +214,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - execution result",
     );
 }
+
+# cleanup cache is done by RestoreDatabase.
 
 1;
