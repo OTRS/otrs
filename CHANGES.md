@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-04 Fixed bug#[11787](http://bugs.otrs.org/show_bug.cgi?id=11787) - No Ticket::StateAfterPending found with manual state update.
  - 2016-03-03 Fixed bug#[9441](http://bugs.otrs.org/show_bug.cgi?id=9441) - Display of seconds after attachment upload.
  - 2016-03-03 Fixed bug#[11912](http://bugs.otrs.org/show_bug.cgi?id=11912) - Answer to email-internal is preset to email-external.
  - 2016-03-03 Fixed bug#[11791](http://bugs.otrs.org/show_bug.cgi?id=11791) - Can't use FullTextSearch with Russian words.
