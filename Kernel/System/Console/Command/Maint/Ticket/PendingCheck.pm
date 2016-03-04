@@ -67,12 +67,7 @@ sub Run {
             );
 
             next TICKETID if $Ticket{UntilTime} >= 1;
-
-            # error handling
-            if ( !$States{ $Ticket{State} } ) {
-                $Self->PrintError("No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!");
-                next TICKETID;
-            }
+            next TICKETID if !$States{ $Ticket{State} };
 
             $Self->Print(
                 " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'..."
