@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my @TestsMofifiers = (
