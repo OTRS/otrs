@@ -88,7 +88,20 @@ sub new {
             Data => $Preferences{ $Self->{PrefKeyColumns} },
         );
 
-        @ColumnsEnabled = @{$ColumnsEnabled};
+        # remove duplicate columns
+        my %UniqueColumns;
+        my @ColumnsEnabledAux;
+
+        for my $Column ( @{$ColumnsEnabled} ) {
+            if ( !$UniqueColumns{$Column} ) {
+                push @ColumnsEnabledAux, $Column;
+            }
+            $UniqueColumns{$Column} = 1;
+        }
+
+        # set filtered column list
+        @ColumnsEnabled = @ColumnsEnabledAux;
+
     }
 
     # always set TicketNumber
