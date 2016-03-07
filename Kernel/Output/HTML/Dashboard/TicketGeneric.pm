@@ -334,6 +334,20 @@ sub Preferences {
         if ( $ColumnsEnabled->{Order} && @{ $ColumnsEnabled->{Order} } ) {
             @ColumnsEnabled = @{ $ColumnsEnabled->{Order} };
         }
+
+        # remove duplicate columns
+        my %UniqueColumns;
+        my @ColumnsEnabledAux;
+
+        for my $Column (@ColumnsEnabled) {
+            if ( !$UniqueColumns{$Column} ) {
+                push @ColumnsEnabledAux, $Column;
+            }
+            $UniqueColumns{$Column} = 1;
+        }
+
+        # set filtered column list
+        @ColumnsEnabled = @ColumnsEnabledAux;
     }
 
     my %Columns;
@@ -1901,6 +1915,20 @@ sub _SearchParamsGet {
         if ( $PreferencesColumn->{Order} && @{ $PreferencesColumn->{Order} } ) {
             @Columns = @{ $PreferencesColumn->{Order} };
         }
+
+        # remove duplicate columns
+        my %UniqueColumns;
+        my @ColumnsEnabledAux;
+
+        for my $Column (@Columns) {
+            if ( !$UniqueColumns{$Column} ) {
+                push @ColumnsEnabledAux, $Column;
+            }
+            $UniqueColumns{$Column} = 1;
+        }
+
+        # set filtered column list
+        @Columns = @ColumnsEnabledAux;
     }
 
     # always set TicketNumber
@@ -2107,11 +2135,11 @@ sub _SearchParamsGet {
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
-            LockIDs      => $TicketSearch{LockIDs}  // undef,
+            LockIDs      => $TicketSearch{LockIDs} // undef,
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs        => $TicketSearch{LockIDs}  // undef,
+            LockIDs        => $TicketSearch{LockIDs}        // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
