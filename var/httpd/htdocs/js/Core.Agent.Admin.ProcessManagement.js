@@ -1152,9 +1152,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#Display').find('option[value=0]').remove();
             }
 
-            // redraw display field
-            $('#Display').trigger('redraw.InputField');
-
             // if there is a field config already the default settings from above are now overwritten
             if (typeof FieldConfig !== 'undefined') {
                 $('#DescShort').val(FieldConfig.DescriptionShort);
@@ -1176,8 +1173,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                         $('#TimeUnits').val(FieldConfig.Config.TimeUnits);
                     }
                 }
-
             }
+
+            // redraw display field
+            $('#Display').trigger('redraw.InputField');
 
             // some fields do not have a default value.
             // disable the input field
