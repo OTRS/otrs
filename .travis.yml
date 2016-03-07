@@ -53,7 +53,7 @@ install:
   - rm /tmp/OTRSCodePolicy/OTRSCodePolicy.sopm
   - cp -rf /tmp/OTRSCodePolicy/* .
   # install OTRS cpan dependencies
-  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql DBD::Pg Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
+  - cpanm --quiet --notest Code::TidyAll@0.40 Perl::Tidy Perl::Critic Plack DBD::mysql DBD::Pg Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
   # configure OTRS
   - scripts/tools/travis/setup.sh
   # start web server
