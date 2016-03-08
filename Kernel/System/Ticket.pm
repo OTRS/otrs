@@ -5356,7 +5356,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -5364,7 +5364,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -7209,55 +7209,6 @@ sub TicketCalendarGet {
 
     # use default calendar
     return '';
-}
-
-=item SearchUnknownTicketCustomers()
-
-search customer users that are not saved in any backend
-
-    my $UnknownTicketCustomerList = $TicketObject->SearchUnknownTicketCustomers(
-        SearchTerm => 'SomeSearchTerm',
-    );
-
-Returns:
-
-    %UnknownTicketCustomerList = (
-        {
-            CustomerID    => 'SomeCustomerID',
-            CustomerUser  => 'SomeCustomerUser',
-        },
-        {
-            CustomerID    => 'SomeCustomerID',
-            CustomerUser  => 'SomeCustomerUser',
-        },
-    );
-
-=cut
-
-sub SearchUnknownTicketCustomers {
-    my ( $Self, %Param ) = @_;
-
-    my $SearchTerm = $Param{SearchTerm} || '';
-
-    # get database object
-    my $DBObject         = $Kernel::OM->Get('Kernel::System::DB');
-    my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
-    my $QuotedSearch     = '%' . $DBObject->Quote( $SearchTerm, 'Like' ) . '%';
-
-    # db query
-    return if !$DBObject->Prepare(
-        SQL =>
-            "SELECT DISTINCT customer_user_id, customer_id FROM ticket WHERE customer_user_id LIKE ? $LikeEscapeString",
-        Bind => [ \$QuotedSearch ],
-    );
-    my $UnknownTicketCustomerList;
-
-    CUSTOMERUSER:
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $UnknownTicketCustomerList->{ $Row[0] } = $Row[1];
-    }
-
-    return $UnknownTicketCustomerList;
 }
 
 sub DESTROY {
