@@ -197,12 +197,6 @@ for my $Test (@MappingTests) {
         $Test->{Name} . ' (Data Structure).',
     );
 
-    $Self->Is(
-        $MappingResult->{Success},
-        $Test->{ResultSuccess},
-        $Test->{Name} . ' success status',
-    );
-
     if ( !$Test->{ResultSuccess} ) {
         $Self->True(
             $MappingResult->{ErrorMessage},

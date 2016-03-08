@@ -17,12 +17,19 @@ use Kernel::GenericInterface::Debugger;
 
 # get needed objects
 my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
 my $TimeObject       = $Kernel::OM->Get('Kernel::System::Time');
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -747,15 +754,6 @@ for my $Test (@MappingTests) {
     }
 }    # end tests
 
-# delete webservice
-my $Success = $WebserviceObject->WebserviceDelete(
-    ID     => $WebserviceID,
-    UserID => 1,
-);
-
-$Self->True(
-    $Success,
-    "WebserviceDelete()",
-);
+# cleanup is done by RestoreDatabase.
 
 1;

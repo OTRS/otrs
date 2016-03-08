@@ -12,10 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
+# get needed objects
 my $WebserviceObject      = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
-my $RandomNumber     = int rand 10000000;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomNumber     = $Helper->GetRandomNumber();
 my $CustomObjectType = "TestObject$RandomNumber";
 my $Success;
 
@@ -248,5 +257,7 @@ $Self->True(
     $Success,
     "WebserviceDelete()",
 );
+
+# cleanup is done by RestoreDatabase.
 
 1;

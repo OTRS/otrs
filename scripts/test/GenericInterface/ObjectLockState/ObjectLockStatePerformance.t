@@ -20,22 +20,30 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 =head1 ObjectLockState performance tests
 
 This test script will create 10000 records in the object lock table,
-and then perform SELECT and UDPATE queries on it to make sure that
+and then perform SELECT and UPDATE queries on it to make sure that
 they take not more than 0.5s (default config) each.
 
 =cut
 
-my $WebserviceObject      = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+# get object lock state object
 my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
-my $RandomNumber     = int rand 10000000;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomNumber     = $Helper->GetRandomNumber();
 my $CustomObjectType = "TestObject$RandomNumber";
 
 my $TimeLimit = $ConfigObject->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
 my $TestDataCount = 10_000;
 
 # add config
-my $WebserviceID = $WebserviceObject->WebserviceAdd(
+my $WebserviceID = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceAdd(
     Config => {
         Debugger => {
             DebugThreshold => 'debug',
@@ -177,15 +185,6 @@ $Self->Is(
     "ObjectLockStateList() for ObjectType",
 );
 
-# delete config
-$Success = $WebserviceObject->WebserviceDelete(
-    ID     => $WebserviceID,
-    UserID => 1,
-);
-
-$Self->True(
-    $Success,
-    "WebserviceDelete()",
-);
+# cleanup is done by RestoreDatabase.
 
 1;
