@@ -34,33 +34,18 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    my $AutoCompleteConfig            = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
-    my $MaxResults                    = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
-    my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 1 );
-    my $SearchTerm                    = $ParamObject->GetParam( Param => 'Term' ) || '';
+    my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
+    my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
     if ( $Self->{Subaction} eq 'SearchCustomerID' ) {
 
-        # build result list
-        my $UnknownTicketCustomerList;
-
-        if ($IncludeUnknownTicketCustomers) {
-
-            # add customers that are not saved in any backend
-            $UnknownTicketCustomerList = $TicketObject->SearchUnknownTicketCustomers(
-                SearchTerm => $SearchTerm,
-            );
-        }
+        my @CustomerIDs = $CustomerUserObject->CustomerIDList(
+            SearchTerm => $ParamObject->GetParam( Param => 'Term' ) || '',
+        );
 
         my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList(
-            Search => $SearchTerm,
-        );
-        map { $CustomerCompanyList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
-
-        my @CustomerIDs = $CustomerUserObject->CustomerIDList(
-            SearchTerm => $SearchTerm,
+            Search => $ParamObject->GetParam( Param => 'Term' ) || '',
         );
 
         # add CustomerIDs for which no CustomerCompany are registered
@@ -78,19 +63,16 @@ sub Run {
 
         }
 
+        # build result list
         my @Result;
-
         CUSTOMERID:
         for my $CustomerID ( sort keys %CustomerCompanyList ) {
-            if ( !( grep { $_->{Value} eq $CustomerID } @Result ) ) {
-                push @Result,
-                    {
-                    Label => $CustomerCompanyList{$CustomerID},
-                    Value => $CustomerID
-                    };
-            }
+            push @Result,
+                {
+                Label => $CustomerCompanyList{$CustomerID},
+                Value => $CustomerID
+                };
             last CUSTOMERID if scalar @Result >= $MaxResults;
-
         }
 
         my $JSON = $LayoutObject->JSONEncode(
@@ -106,37 +88,26 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'SearchCustomerUser' ) {
 
-        my $UnknownTicketCustomerList;
-
-        if ($IncludeUnknownTicketCustomers) {
-
-            # add customers that are not saved in any backend
-            $UnknownTicketCustomerList = $TicketObject->SearchUnknownTicketCustomers(
-                SearchTerm => $SearchTerm,
-            );
-        }
-
         my %CustomerList = $CustomerUserObject->CustomerSearch(
-            Search => $SearchTerm,
+            Search => $ParamObject->GetParam( Param => 'Term' ) || '',
         );
-        map { $CustomerList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
 
         my @Result;
+
+        my $Count = 1;
 
         CUSTOMERLOGIN:
         for my $CustomerLogin ( sort keys %CustomerList ) {
             my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
                 User => $CustomerLogin,
             );
-            if ( !( grep { $_->{Value} eq $CustomerData{UserCustomerID} } @Result ) ) {
-                push @Result,
-                    {
-                    Label => $CustomerList{$CustomerLogin},
-                    Value => $CustomerData{UserCustomerID}
-                    };
-            }
-            last CUSTOMERLOGIN if scalar @Result >= $MaxResults;
+            push @Result,
+                {
+                Label => $CustomerList{$CustomerLogin},
+                Value => $CustomerData{UserCustomerID}
+                };
 
+            last CUSTOMERLOGIN if $Count++ >= $MaxResults;
         }
 
         my $JSON = $LayoutObject->JSONEncode(
