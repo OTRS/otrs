@@ -19,7 +19,7 @@ use Kernel::GenericInterface::Requester;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -27,10 +27,10 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify              => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create a new user for current test
-my $UserLogin = $HelperObject->TestUserCreate(
+my $UserLogin = $Helper->TestUserCreate(
     Groups => ['users'],
 );
 my $Password = $UserLogin;
@@ -43,15 +43,15 @@ $Self->{UserID} = $UserObject->UserLookup(
 );
 
 # create a new user without permissions for current test
-my $UserLogin2 = $HelperObject->TestUserCreate();
+my $UserLogin2 = $Helper->TestUserCreate();
 my $Password2  = $UserLogin2;
 
 # create a customer where a ticket will use and will have permissions
-my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserLogin = $Helper->TestCustomerUserCreate();
 my $CustomerPassword  = $CustomerUserLogin;
 
 # create a customer that will not have permissions
-my $CustomerUserLogin2 = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserLogin2 = $Helper->TestCustomerUserCreate();
 my $CustomerPassword2  = $CustomerUserLogin2;
 
 # create ticket object
@@ -87,11 +87,8 @@ my %Ticket = $TicketObject->TicketGet(
 # remember ticket id
 push @TicketIDs, $TicketID1;
 
-#get a random id
-my $RandomID = int rand 1_000_000_000;
-
-# set web-service name
-my $WebserviceName = '-Test-' . $RandomID;
+# set webservice name
+my $WebserviceName = $Helper->GetRandomID();
 
 # create web-service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -126,7 +123,7 @@ $Self->True(
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get remote host with some precautions for certain unit test systems
-my $Host = $HelperObject->GetTestHTTPHostname();
+my $Host = $Helper->GetTestHTTPHostname();
 
 # prepare web-service config
 my $RemoteSystem =
@@ -502,9 +499,9 @@ for my $Test (@Tests) {
     }
 }
 
-# clean up
+# cleanup
 
-# clean up web-service
+# delete web-service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => $Self->{UserID},
@@ -514,10 +511,8 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
-# remove tickets
+# delete tickets
 for my $TicketID (@TicketIDs) {
-
-    # delete the ticket Three
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => $Self->{UserID},
@@ -529,5 +524,8 @@ for my $TicketID (@TicketIDs) {
         "TicketDelete() successful for Ticket ID $TicketID",
     );
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
