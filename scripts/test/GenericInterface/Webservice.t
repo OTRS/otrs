@@ -12,11 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get needed objects
 my $WebserviceObject        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 my @Tests = (
     {
@@ -1116,5 +1116,8 @@ for my $WebserviceID (@WebserviceIDs) {
         "WebserviceList() from cache did not find webservice $WebserviceID",
     );
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;

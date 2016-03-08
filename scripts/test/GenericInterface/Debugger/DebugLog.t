@@ -12,10 +12,18 @@ use utf8;
 
 use vars (qw($Self));
 
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get webservice object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -40,7 +48,6 @@ $Self->True(
 );
 
 # provide no objects
-
 my $DebugLogObject;
 
 # with just objects
@@ -60,7 +67,7 @@ my @Tests = (
         Name   => 'Without WebserviceID',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',       # 'Provider' or 'Requester'
             RemoteIP          => '192.168.0.1',    # optional
@@ -94,7 +101,7 @@ my @Tests = (
         Name   => 'Without CommunicationType',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             WebserviceID => $WebserviceID,
             RemoteIP     => '192.168.0.1',
@@ -112,7 +119,7 @@ my @Tests = (
         Name   => 'Without RemoteIP',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             WebserviceID      => $WebserviceID,
             CommunicationType => 'Provider',
@@ -131,7 +138,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -148,7 +155,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -167,7 +174,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '',
@@ -176,7 +183,7 @@ my @Tests = (
             Summary           => 'log Summary for DebugLevel - info',
         },
         ArrayData => {
-            Value1 => 'this shoud be a string',
+            Value1 => 'this should be a string',
             Value2 => 'later I will check this string',
         },
     },
@@ -185,7 +192,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '192.168.0.1',
@@ -203,7 +210,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . int( rand(1000000) ),
+                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '',
@@ -214,7 +221,7 @@ my @Tests = (
         ArrayData => {
             Entrie1 => 'something to write here',
             Entrie2 => '',
-            Entrie3 => 'a new entrie',
+            Entrie3 => 'a new entry',
             Entrie4 => 'more words for test',
             Entrie5 => 'maybe in another time',
             Entrie6 => 'sunny day',
@@ -513,15 +520,6 @@ for my $DebugLogID (@DebugLogIDs) {
     );
 }
 
-# delete webservice
-my $Success = $WebserviceObject->WebserviceDelete(
-    ID     => $WebserviceID,
-    UserID => 1,
-);
-
-$Self->True(
-    $Success,
-    "WebserviceDelete()",
-);
+# cleanup is done by RestoreDatabase.
 
 1;
