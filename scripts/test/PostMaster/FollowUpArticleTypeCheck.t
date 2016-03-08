@@ -15,13 +15,18 @@ use vars (qw($Self));
 use Kernel::System::PostMaster;
 
 # get needed objects
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
-my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
-my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-$HelperObject->FixedTimeSet();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$Helper->FixedTimeSet();
 
 my $AgentAddress    = 'agent@example.com';
 my $CustomerAddress = 'external@example.com';
@@ -57,7 +62,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'NewTicket',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
+    NoAgentNotify  => 1,
 );
 
 $Self->True(
@@ -77,7 +82,7 @@ $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'NewTicket',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
+    NoAgentNotify  => 1,
 );
 
 $Self->True(
@@ -217,7 +222,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - Follow up TicketID",
     );
 
-    # Get state of old articles after udpate
+    # Get state of old articles after update
     my @ArticleBoxUpdate = $TicketObject->ArticleGet(
         TicketID => $TicketID,
         Limit    => scalar @ArticleBoxOriginal,
@@ -245,14 +250,6 @@ for my $Test (@Tests) {
     }
 }
 
-# delete tickets
-my $Delete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Delete || 0,
-    "TicketDelete()",
-);
+# cleanup is done by RestoreDatabase.
 
 1;

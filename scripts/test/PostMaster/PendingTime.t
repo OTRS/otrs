@@ -13,16 +13,21 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::Ticket;
 
 # get needed objects
-my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject     = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject       = $Kernel::OM->Get('Kernel::System::Time');
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
-$HelperObject->FixedTimeSet();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$Helper->FixedTimeSet();
 
 my %NeededXHeaders = (
     'X-OTRS-PendingTime'          => 1,
@@ -285,9 +290,6 @@ Some Content in Body
 
     my $TicketID = $Return[1];
 
-    # new/clear ticket object
-    my $TicketObject = Kernel::System::Ticket->new();
-
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Return[1],
         DynamicFields => 1,
@@ -336,9 +338,6 @@ Some Content in Body
         "$Test->{Name} - Create follow up ticket (TicketID of original ticket)",
     );
 
-    # new/clear ticket object
-    $TicketObject = Kernel::System::Ticket->new();
-
     %Ticket = $TicketObject->TicketGet(
         TicketID      => $Return[1],
         DynamicFields => 1,
@@ -352,20 +351,12 @@ Some Content in Body
         );
     }
 
-    # delete ticket
-    my $Delete = $TicketObject->TicketDelete(
-        TicketID => $Return[1],
-        UserID   => 1,
-    );
-    $Self->True(
-        $Delete || 0,
-        "$Test->{Name} - TicketDelete()",
-    );
-
     $ConfigObject->Set(
         Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
         Value => undef,
     );
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

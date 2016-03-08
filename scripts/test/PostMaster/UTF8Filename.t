@@ -13,12 +13,19 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::Ticket;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 for my $Backend (qw(DB FS)) {
 
@@ -35,9 +42,6 @@ for my $Backend (qw(DB FS)) {
         Mode     => 'binmode',
         Result   => 'ARRAY',
     );
-
-    # new/clear ticket object
-    my $TicketObject = Kernel::System::Ticket->new();
 
     my $TicketID;
     {
@@ -79,16 +83,8 @@ for my $Backend (qw(DB FS)) {
         },
         "$Backend - Attachment filename",
     );
-
-    my $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "$Backend - TicketDelete - removed ticket $TicketID",
-    );
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;

@@ -22,7 +22,14 @@ my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set config
 $ConfigObject->Set(
@@ -254,15 +261,12 @@ for my $Test (@Tests) {
             UserID        => 1,
         );
 
-        # use ArticleCheck::PGP to decript the article
+        # use ArticleCheck::PGP to decrypt the article
         my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
             ArticleID => $ArticleIDs[0],
             UserID    => 1,
         );
         my @CheckResult = $CheckObject->Check( Article => \%RawArticle );
-
-        #use Data::Dumper;
-        #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
 
         # sanity destroy object
         $CheckObject = undef;
@@ -573,9 +577,6 @@ for my $Test (@TestVariations) {
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
 
-    #use Data::Dumper;
-    #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
-
     if ( $Test->{VerifySignature} ) {
         my $SignatureVerified =
             grep {
@@ -663,21 +664,6 @@ for my $Test (@TestVariations) {
     }
 }
 
-# delete the tickets
-for my $TicketID (@AddedTickets) {
-
-    my $TicketDelete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        $TicketDelete,
-        "TicketDelete() successful for Ticket ID $TicketID",
-    );
-}
-
 # delete PGP keys
 for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
@@ -711,5 +697,7 @@ for my $Count ( 1 .. 2 ) {
         "Key:$Count - KeySearch()",
     );
 }
+
+# cleanup is done by RestoreDatabase.
 
 1;
