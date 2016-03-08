@@ -36,6 +36,12 @@ $Selenium->RunTest(
             );
         }
 
+        # do not check email addresses
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # get test customer data
         my $RandomID     = $Helper->GetRandomID();
         my %CustomerData = (

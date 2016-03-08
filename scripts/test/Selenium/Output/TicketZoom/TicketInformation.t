@@ -38,16 +38,29 @@ $Selenium->RunTest(
             );
         }
 
+
         # enable ticket service, type, responsible
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'Ticket::Service',
+            Value => 1,
+        );
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1
         );
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'Ticket::Type',
+            Value => 1,
+        );
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 1
+        );
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'Ticket::Responsible',
+            Value => 1,
         );
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
