@@ -14,12 +14,15 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # This test checks if OTRS correctly detects that an email must not be auto-responded to.
-
 my @Tests = (
     {
         Name => 'Regular mail',
@@ -160,5 +163,7 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;
