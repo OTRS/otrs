@@ -839,7 +839,7 @@ sub Run {
         );
         my $Add = $UserObject->CustomerUserAdd(
             %GetParams,
-            Comment => $LayoutObject->{LayoutObject}->Translate( 'Added via Customer Panel (%s)', $Now ),
+            Comment => $LayoutObject->{LanguageObject}->Translate( 'Added via Customer Panel (%s)', $Now ),
             ValidID => 1,
             UserID  => $ConfigObject->Get('CustomerPanelUserID'),
         );
