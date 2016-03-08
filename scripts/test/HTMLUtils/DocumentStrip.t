@@ -12,8 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
+# get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 # DocumentStrip tests
