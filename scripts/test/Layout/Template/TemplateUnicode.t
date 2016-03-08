@@ -13,6 +13,14 @@ use vars (qw($Self));
 
 use File::Basename qw();
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 # call Output() once so that the TT objects are created.
@@ -38,5 +46,7 @@ for ( 1 .. 2 ) {
         'Template is considered UTF8',
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

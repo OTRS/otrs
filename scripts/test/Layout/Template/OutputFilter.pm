@@ -11,8 +11,6 @@ package scripts::test::Layout::Template::OutputFilter;    ## no critic
 use strict;
 use warnings;
 
-our @ObjectDependencies = ();
-
 sub new {
     my ( $Type, %Param ) = @_;
 
