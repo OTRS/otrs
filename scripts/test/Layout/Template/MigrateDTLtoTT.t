@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self %Param));
 
-use Kernel::System::ObjectManager;
-
 # get needed objects
 my $ProviderObject = $Kernel::OM->Get('Kernel::Output::Template::Provider');
 

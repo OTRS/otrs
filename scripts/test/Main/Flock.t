@@ -14,14 +14,12 @@ use vars (qw($Self));
 
 use Time::HiRes ();
 
-use Kernel::System::DB;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # this test only works in *nix
 if ( $^O =~ /^mswin/i ) {
@@ -151,7 +149,7 @@ my $FileWriteSleep = sub {
     if ( !$Param{Mode} || lc $Param{Mode} eq 'binmode' ) {
 
         # make sure, that no utf8 stamp exists (otherway perl will do auto convert to iso)
-        $EncodeObject->EncodeOutput( $Param{Content} );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Content} );
 
         # set file handle to binmode
         binmode $FH;
@@ -203,7 +201,7 @@ my $FileWriteSleep = sub {
 #
 
 # set test file to read and write
-my $File = $ConfigObject->Get('Home') . '/var/tmp/flock_' . rand(1000000);
+my $File = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp/flock_' . $Helper->GetRandomNumber();
 
 # delete test file if exists
 if ( -e $File ) {
@@ -283,11 +281,11 @@ my $PID = fork();
 
 # refresh DBObject in both parent and child (otherwise when child terinates DB handlers disconect
 # on both)
-$Self->{DBObject} = Kernel::System::DB->new();
+my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my $Who = !defined $PID || $PID != 0 ? 'Parent' : 'Child';
 $Self->Is(
-    ref $Self->{DBObject},
+    ref $DBObject,
     'Kernel::System::DB',
     "From $Who - DBObject correctly refreshed",
 );

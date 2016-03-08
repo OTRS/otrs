@@ -13,6 +13,14 @@ use vars (qw($Self));
 
 use File::Basename qw();
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my @Tests = (
     {
         Name       => 'Simple test, no hooks',
@@ -115,5 +123,7 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
+
+# cleanup cache is done by RestoreDatabase
 
 1;

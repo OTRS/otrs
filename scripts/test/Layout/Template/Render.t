@@ -422,7 +422,7 @@ EOF
 
 for my $Test (@Tests) {
 
-    # Make sure EnvRef is populated every time
+    # make sure EnvRef is populated every time
     delete $LayoutObject->{EnvRef};
     for my $Key ( sort keys %{ $Test->{Env} || {} } ) {
         $LayoutObject->{$Key} = $Test->{Env}->{$Key};
@@ -450,8 +450,8 @@ for my $Test (@Tests) {
     );
 }
 
-# Verify that the TemplateObject is correctly destroyed to make sure there
-#   are no ring references.
+# verify that the TemplateObject is correctly destroyed to make sure there
+# are no ring references.
 my $TemplateObject = $LayoutObject->{TemplateObject};
 
 Scalar::Util::weaken($TemplateObject);
