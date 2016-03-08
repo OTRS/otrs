@@ -304,63 +304,17 @@ sub Run {
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
 
                         # check if we need to format the date
-                        my $InfoValue = $TicketDetail{ 'DynamicField_' . $Item };
-                        if ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime' ) {
-                            $InfoValue = $LayoutObject->{LanguageObject}->FormatTimeString($InfoValue);
-                        }
-                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
-                            $InfoValue
-                                = $LayoutObject->{LanguageObject}->FormatTimeString( $InfoValue, 'DateFormatShort' );
-                        }
-                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Dropdown' ) {
-
-                            my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                                Name => $Item,
-                            );
-
-                            # get possible values
-                            my $PossibleValues
-                                = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
-                                DynamicFieldConfig => $DynamicFieldConfig,
-                                );
-
-                            $InfoValue = $PossibleValues->{$InfoValue} || $InfoValue;
-                        }
-                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Multiselect' ) {
-                            if ( IsArrayRefWithData($InfoValue) ) {
-
-                                my $DynamicFieldConfig
-                                    = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                                    Name => $Item,
-                                    );
-
-                                # get possible values
-                                my $PossibleValues
-                                    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->PossibleValuesGet(
-                                    DynamicFieldConfig => $DynamicFieldConfig,
-                                    );
-
-                                # include values for the selected keys
-                                my $DynamicFieldValues = [ map { $PossibleValues->{$_} } @{$InfoValue} ];
-
-                                # put all together in a single string
-                                $InfoValue = join ', ', @{$DynamicFieldValues};
-                            }
-                        }
-                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Checkbox' ) {
-                            if ($InfoValue) {
-                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Selected');
-                            }
-                            if ( defined $InfoValue && $InfoValue eq '0' ) {
-                                $InfoValue = $LayoutObject->{LanguageObject}->Get('Not selected');
-                            }
-                        }
+                        my $DisplayValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                            DynamicFieldConfig => $Self->{DynamicFieldLookup}->{$Item},
+                            Value              => $TicketDetail{ 'DynamicField_' . $Item },
+                            LayoutObject       => $LayoutObject,
+                        );
 
                         $LayoutObject->Block(
                             Name => 'CalendarEventInfoDynamicFieldElement',
                             Data => {
                                 InfoLabel => $Self->{DynamicFieldLookup}->{$Item}->{Label},
-                                InfoValue => $InfoValue,
+                                InfoValue => $DisplayValue->{Value},
                             },
                         );
                     }
