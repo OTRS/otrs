@@ -1,4 +1,5 @@
 #5.0.8 2016-??-??
+ - 2016-03-08 Fixed bug#[11914](http://bugs.otrs.org/show_bug.cgi?id=11914) - Modernized InputField Dropdowns not working after AJAX reload.
  - 2016-03-06 Fixed bug#[11899](http://bugs.otrs.org/show_bug.cgi?id=11899) - Columns are stored multiple times in preferences.
  - 2016-03-04 Fixed bug#[11913](http://bugs.otrs.org/show_bug.cgi?id=11913) - Description in SysConfig breakes when you click 'more'.
  - 2016-03-04 Fixed bug#[11787](http://bugs.otrs.org/show_bug.cgi?id=11787) - No Ticket::StateAfterPending found with manual state update.
