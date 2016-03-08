@@ -16,6 +16,17 @@ use vars (qw($Self));
 my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
 my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# define needed variable
+my $UID;
+
 # ------------------------------------------------------------ #
 # XML test 6 - default value test (create table)
 # ------------------------------------------------------------ #
@@ -115,11 +126,11 @@ my $DefaultTest = [
     },
 ];
 
-my $Counter2 = 1;
+my $Counter = 1;
 for my $Test ( @{$DefaultTest} ) {
 
     # create unique id
-    my $ID = int rand 30_000;
+    my $ID = $UID++;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
     my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
@@ -130,7 +141,7 @@ for my $Test ( @{$DefaultTest} ) {
 
     $Self->True(
         $DBObject->Do( SQL => $SQLInsert ) || 0,
-        "#6.$Counter2 Do() INSERT",
+        "#6.$Counter Do() INSERT",
     );
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
@@ -151,13 +162,12 @@ for my $Test ( @{$DefaultTest} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#6.$Counter2 SELECT check selected value of column '$Column':",
+                "#6.$Counter SELECT check selected value of column '$Column':",
             );
         }
     }
-}
-continue {
-    $Counter2++;
+
+    $Counter++;
 }
 
 $XML      = '<TableDrop Name="test_e"/>';
@@ -174,5 +184,7 @@ for my $SQL (@SQL) {
         "Do() DROP TABLE ($SQL)",
     );
 }
+
+# cleanup cache is done by RestoreDatabase.
 
 1;

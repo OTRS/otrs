@@ -16,6 +16,14 @@ use vars (qw($Self));
 my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
 my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # ------------------------------------------------------------ #
 # XML test 2 (XML:TableCreate, XML:TableAlter, XML:Insert (size check),
 # SQL:Insert (size check), SQL:Delete,  XML:TableDrop)
@@ -321,5 +329,7 @@ for my $SQL (@SQL) {
         "Do() DROP TABLE ($SQL)",
     );
 }
+
+# cleanup cache is done by RestoreDatabase.
 
 1;

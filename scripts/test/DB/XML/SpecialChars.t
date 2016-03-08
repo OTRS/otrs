@@ -19,6 +19,14 @@ my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # ------------------------------------------------------------ #
 # XML test 5 - INSERT special characters test
 # ------------------------------------------------------------ #
@@ -327,5 +335,7 @@ for my $SQL (@SQL) {
         "Do() DROP TABLE ($SQL)",
     );
 }
+
+# cleanup cache is done by RestoreDatabase.
 
 1;

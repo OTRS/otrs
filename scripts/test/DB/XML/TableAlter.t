@@ -16,6 +16,15 @@ use vars (qw($Self));
 my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
 my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# define needed variable
 my $UID;
 
 # ------------------------------------------------------------ #
@@ -104,7 +113,7 @@ my $DefaultTest2Insert = [
     },
 ];
 
-my $Counter3 = 1;
+my $Counter1 = 1;
 for my $Test ( @{$DefaultTest2Insert} ) {
 
     # create unique id
@@ -119,7 +128,7 @@ for my $Test ( @{$DefaultTest2Insert} ) {
 
     $Self->True(
         $DBObject->Do( SQL => $SQLInsert ) || 0,
-        "#7.$Counter3 Do() INSERT",
+        "#7.$Counter1 Do() INSERT",
     );
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
@@ -140,13 +149,13 @@ for my $Test ( @{$DefaultTest2Insert} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter3 SELECT check selected value of column '$Column':",
+                "#7.$Counter1 SELECT check selected value of column '$Column':",
             );
         }
     }
-}
-continue {
-    $Counter3++;
+
+    $Counter1++;
+
 }
 
 $XML = '
@@ -282,7 +291,7 @@ my $DefaultTest2Alter1 = [
     },
 ];
 
-my $Counter4 = 1;
+my $Counter2 = 1;
 for my $Test ( @{$DefaultTest2Alter1} ) {
 
     # create unique id
@@ -297,7 +306,7 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
 
     $Self->True(
         $DBObject->Do( SQL => $SQLInsert ) || 0,
-        "#7.$Counter4 Do() INSERT",
+        "#7.$Counter2 Do() INSERT",
     );
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
@@ -318,13 +327,13 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter4 SELECT check selected value of column '$Column':",
+                "#7.$Counter2 SELECT check selected value of column '$Column':",
             );
         }
     }
-}
-continue {
-    $Counter4++;
+
+    $Counter2++;
+
 }
 
 $XML = '
@@ -442,7 +451,7 @@ my $DefaultTest2Alter2 = [
     },
 ];
 
-my $Counter5 = 1;
+my $Counter3 = 1;
 for my $Test ( @{$DefaultTest2Alter2} ) {
 
     # create unique id
@@ -457,7 +466,7 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
 
     $Self->True(
         $DBObject->Do( SQL => $SQLInsert ) || 0,
-        "#7.$Counter5 Do() INSERT",
+        "#7.$Counter3 Do() INSERT",
     );
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
@@ -478,13 +487,13 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter5 SELECT check selected value of column '$Column':",
+                "#7.$Counter3 SELECT check selected value of column '$Column':",
             );
         }
     }
-}
-continue {
-    $Counter5++;
+
+    $Counter3++;
+
 }
 
 $XML      = '<TableDrop Name="test_f"/>';
@@ -632,5 +641,7 @@ for my $SQL (@SQL) {
         "Do() DROP TABLE ($SQL)",
     );
 }
+
+# cleanup cache is done by RestoreDatabase.
 
 1;
