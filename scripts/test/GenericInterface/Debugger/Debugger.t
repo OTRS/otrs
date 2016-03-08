@@ -14,10 +14,18 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
 
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get webservice object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-my $RandomID = $HelperObject->GetRandomID();
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -152,7 +160,7 @@ $Self->True(
     'DebuggerObject correct call',
 );
 
-# log with custom functions -debug level should be overwritten by function
+# log with custom functions - debug level should be overwritten by function
 $Result = $DebuggerObject->Error(
     Summary    => 'a correct entry',
     DebugLevel => 'notexistingbutshouldnotbeused',
@@ -250,9 +258,7 @@ my @Tests = (
 for my $Test (@Tests) {
     my $SuccessCounter = 0;
 
-    # create a Webservice
-    my $RandomID         = $HelperObject->GetRandomID();
-    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    $RandomID = $Helper->GetRandomID();
 
     my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Config => {
@@ -354,19 +360,8 @@ for my $Test (@Tests) {
         "$Test->{Name} - Compare entries from DB with expected data.",
     );
 
-    # delete config
-    my $Success = $WebserviceObject->WebserviceDelete(
-        ID     => $WebserviceID,
-        UserID => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "WebserviceDelete()",
-    );
-
 }
 
-# end tests
+# cleanup is done by RestoreDatabase.
 
 1;
