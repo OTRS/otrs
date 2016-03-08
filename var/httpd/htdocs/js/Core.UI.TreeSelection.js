@@ -33,17 +33,20 @@ Core.UI.TreeSelection = (function (TargetNS) {
      *      Gets all children of a(sub)tree.
      */
     function GetChildren(Elements, Index, Data) {
+        // Copy element structure to avoid call-by-reference problems
+        // when deleting entries while still looping over them
+        var NewElements = Elements;
         $.each(Elements, function(InnerIndex, InnerData) {
             if (typeof InnerData !== 'object') {
                 return false;
             }
             if (InnerData.ID === Data.ChildOf) {
-                Elements[InnerIndex].children.push(Data);
-                delete Elements[Index];
+                NewElements[InnerIndex].children.push(Data);
+                delete NewElements[Index];
             }
         });
 
-        return Elements;
+        return NewElements;
     }
 
     /**
@@ -58,18 +61,21 @@ Core.UI.TreeSelection = (function (TargetNS) {
      *      Collect all elements of a tree.
      */
     function CollectElements(Elements, Level) {
+        // Copy element structure to avoid call-by-reference problems
+        // when deleting entries while still looping over them
+        var NewElements = Elements;
         $.each(Elements, function(Index, Data) {
             if (typeof Data !== 'object') {
                 return false;
             }
             if (Data.Level === Level) {
                 if (Level > 0) {
-                    Elements = GetChildren(Elements, Index, Data);
+                    NewElements = GetChildren(NewElements, Index, Data);
                 }
             }
         });
 
-        return Elements;
+        return NewElements;
     }
 
     /**
