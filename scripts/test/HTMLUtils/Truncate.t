@@ -13,9 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# prevent use once warning
-use Kernel::System::ObjectManager;
-
 my @Tests = (
     {
         Name    => 'Empty',
@@ -328,6 +325,7 @@ my @Tests = (
 
 );
 
+# get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 TEST:

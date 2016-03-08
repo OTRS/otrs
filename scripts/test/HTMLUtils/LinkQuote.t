@@ -13,9 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
 # LinkQuote tests
@@ -328,8 +326,8 @@ for my $Test (@Tests) {
 #
 # Special performance test for a large amount of data
 #
-my $XML = $MainObject->FileRead(
-    Location => $ConfigObject->Get('Home')
+my $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    Location => $Kernel::OM->Get('Kernel::Config')->Get('Home')
         . '/scripts/test/sample/HTMLUtils/obstacles_upd2.xml',
 );
 $XML = ${$XML};
@@ -337,7 +335,7 @@ $XML = ${$XML};
 my $StartSeconds = $TimeObject->SystemTime();
 
 my $HTML = $HTMLUtilsObject->LinkQuote(
-    String => \$XML,
+    String => $XML,
 );
 
 my $EndSeconds = $TimeObject->SystemTime();
