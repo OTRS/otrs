@@ -17,29 +17,29 @@ use Socket;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
 
 # set user details
-my $UserLogin    = $HelperObject->TestUserCreate();
+my $UserLogin    = $Helper->TestUserCreate();
 my $UserPassword = $UserLogin;
 my $UserID       = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
 # set customer user details
-my $CustomerUserLogin    = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserLogin    = $Helper->TestCustomerUserCreate();
 my $CustomerUserPassword = $CustomerUserLogin;
 my $CustomerUserID       = $CustomerUserLogin;
 
@@ -75,7 +75,7 @@ $Self->True(
 );
 
 # get remote host with some precautions for certain unit test systems
-my $Host = $HelperObject->GetTestHTTPHostname();
+my $Host = $Helper->GetTestHTTPHostname();
 
 # prepare webservice config
 my $RemoteSystem =
@@ -403,7 +403,7 @@ for my $Test (@Tests) {
         $Self->IsNotDeeply(
             $LocalResult,
             $RequesterResult,
-            "$Test->{Name} - Local SessionID is different that Remote SessionID.",
+            "$Test->{Name} - Local SessionID is different than Remote SessionID.",
         );
     }
 

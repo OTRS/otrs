@@ -21,12 +21,8 @@ use Kernel::GenericInterface::Operation::Ticket::TicketGet;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
-# get a random id
-my $RandomID = int rand 1_000_000_000;
 
 # disable SessionCheckRemoteIP setting
 $ConfigObject->Set(
@@ -34,7 +30,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -42,11 +38,13 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify              => 1,
     },
 );
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# get a random number
+my $RandomID = $Helper->GetRandomNumber();
 
 # create a new user for current test
-my $UserLogin = $HelperObject->TestUserCreate(
+my $UserLogin = $Helper->TestUserCreate(
     Groups => ['users'],
 );
 my $Password = $UserLogin;
@@ -56,15 +54,15 @@ my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
 );
 
 # create a new user without permissions for current test
-my $UserLogin2 = $HelperObject->TestUserCreate();
+my $UserLogin2 = $Helper->TestUserCreate();
 my $Password2  = $UserLogin2;
 
 # create a customer where a ticket will use and will have permissions
-my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserLogin = $Helper->TestCustomerUserCreate();
 my $CustomerPassword  = $CustomerUserLogin;
 
 # create a customer that will not have permissions
-my $CustomerUserLogin2 = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserLogin2 = $Helper->TestCustomerUserCreate();
 my $CustomerPassword2  = $CustomerUserLogin2;
 
 my %SkipFields = (
@@ -80,128 +78,79 @@ my %SkipFields = (
     UpdateTimeWorkingTime     => 1,
 );
 
-# start DynamicFields
-my @TestDynamicFields;
+# create dynamic field properties
+my @DynamicFieldProperties = (
+    {
+        Name       => "DFT1$RandomID",
+        FieldOrder => 9991,
+        FieldType  => 'Text',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT2$RandomID",
+        FieldOrder => 9992,
+        FieldType  => 'Dropdown',
+        Config     => {
+            DefaultValue   => 'Default',
+            PossibleValues => {
+                ticket1_field2 => 'ticket1_field2',
+                ticket2_field2 => 'ticket2_field2',
+            },
+        },
+    },
+    {
+        Name       => "DFT3$RandomID",
+        FieldOrder => 9993,
+        FieldType  => 'DateTime',        # mandatory, selects the DF backend to use for this field
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT4$RandomID",
+        FieldOrder => 9993,
+        FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT5$RandomID",
+        FieldOrder => 9995,
+        FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
+        Config     => {
+            DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
+            PossibleValues => {
+                ticket1_field5 => 'ticket1_field51',
+                ticket2_field5 => 'ticket2_field52',
+                ticket3_field5 => 'ticket2_field53',
+                ticket4_field5 => 'ticket2_field54',
+                ticket5_field5 => 'ticket2_field55',
+            },
+        },
+    }
+);
 
+# create dynamic fields
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my @TestFieldConfig;
 
-# create a dynamic field
-my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT1$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
+for my $DynamicFieldProperty (@DynamicFieldProperties) {
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+        %{$DynamicFieldProperty},
+        Label      => 'Description',
+        ObjectType => 'Ticket',
+        ValidID    => 1,
+        UserID     => 1,
+        Reorder    => 0,
+    );
 
-push @TestDynamicFields, $FieldID1;
-
-my $Field1Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID1,
-);
-
-# create a dynamic field
-my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT2$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9992,
-    FieldType  => 'Dropdown',
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue   => 'Default',
-        PossibleValues => {
-            ticket1_field2 => 'ticket1_field2',
-            ticket2_field2 => 'ticket2_field2',
-        },
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID2,
-);
-
-push @TestDynamicFields, $FieldID2;
-
-# create a dynamic field
-my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT3$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9993,
-    FieldType  => 'DateTime',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID3,
-);
-
-push @TestDynamicFields, $FieldID3;
-
-# create a dynamic field
-my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT4$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9993,
-    FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID4,
-);
-
-push @TestDynamicFields, $FieldID4;
-
-# create a dynamic field
-my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT5$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9995,
-    FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
-        PossibleValues => {
-            ticket1_field5 => 'ticket1_field51',
-            ticket2_field5 => 'ticket2_field52',
-            ticket3_field5 => 'ticket2_field53',
-            ticket4_field5 => 'ticket2_field54',
-            ticket5_field5 => 'ticket2_field55',
-        },
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID5,
-);
-
-push @TestDynamicFields, $FieldID5;
-
-# finish DynamicFields
+    push @TestFieldConfig, $DynamicFieldObject->DynamicFieldGet(
+        ID => $FieldID,
+    );
+}
 
 # create ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -239,35 +188,35 @@ $Self->Is(
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field1Config,
+    DynamicFieldConfig => $TestFieldConfig[0],
     ObjectID           => $TicketID1,
     Value              => 'ticket1_field1',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field2Config,
+    DynamicFieldConfig => $TestFieldConfig[1],
     ObjectID           => $TicketID1,
     Value              => 'ticket1_field2',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field3Config,
+    DynamicFieldConfig => $TestFieldConfig[2],
     ObjectID           => $TicketID1,
     Value              => '2001-01-01 01:01:01',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field4Config,
+    DynamicFieldConfig => $TestFieldConfig[3],
     ObjectID           => $TicketID1,
     Value              => '0',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field5Config,
+    DynamicFieldConfig => $TestFieldConfig[4],
     ObjectID           => $TicketID1,
     Value              => [ 'ticket1_field51', 'ticket1_field52', 'ticket1_field53' ],
     UserID             => 1,
@@ -374,35 +323,35 @@ $Self->True(
 
 # set dynamic field values
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field1Config,
+    DynamicFieldConfig => $TestFieldConfig[0],
     ObjectID           => $TicketID2,
     Value              => 'ticket2_field1',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field2Config,
+    DynamicFieldConfig => $TestFieldConfig[1],
     ObjectID           => $TicketID2,
     Value              => 'ticket2_field2',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field3Config,
+    DynamicFieldConfig => $TestFieldConfig[2],
     ObjectID           => $TicketID2,
     Value              => '2011-11-11 11:11:11',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field4Config,
+    DynamicFieldConfig => $TestFieldConfig[3],
     ObjectID           => $TicketID2,
     Value              => '1',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => $Field5Config,
+    DynamicFieldConfig => $TestFieldConfig[4],
     ObjectID           => $TicketID2,
     Value              => [
         'ticket1_field5',
@@ -586,7 +535,7 @@ for my $File (qw(xls txt doc png pdf)) {
     my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
 
-    my $ContentRef = $MainObject->FileRead(
+    my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Type     => 'Local',
@@ -711,7 +660,7 @@ $Self->True(
 );
 
 # get remote host with some precautions for certain unit test systems
-my $Host = $HelperObject->GetTestHTTPHostname();
+my $Host = $Helper->GetTestHTTPHostname();
 
 # prepare web-service config
 my $RemoteSystem =
@@ -1429,9 +1378,9 @@ for my $Test (@Tests) {
 
 }    #end loop
 
-# clean up
+# cleanup
 
-# clean up web-service
+# delete webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => $UserID,
@@ -1441,9 +1390,8 @@ $Self->True(
     "Deleted Web Service $WebserviceID",
 );
 
+# delete tickets
 for my $TicketID (@TicketIDs) {
-
-    # delete the ticket Three
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => $UserID,
@@ -1456,11 +1404,12 @@ for my $TicketID (@TicketIDs) {
     );
 }
 
-for my $FieldID (@TestDynamicFields) {
+# delete the dynamic fields
+for my $TestFieldConfigItem (@TestFieldConfig) {
+    my $TestFieldConfigItemID = $TestFieldConfigItem->{ID};
 
-    # delete the dynamic field
     my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $FieldID,
+        ID      => $TestFieldConfigItemID,
         UserID  => 1,
         Reorder => 0,
     );
@@ -1468,8 +1417,11 @@ for my $FieldID (@TestDynamicFields) {
     # sanity check
     $Self->True(
         $DFDelete,
-        "DynamicFieldDelete() successful for Field ID $FieldID",
+        "DynamicFieldDelete() successful for Field ID $TestFieldConfigItemID",
     );
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
