@@ -507,7 +507,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // If first selection, we must shorten it in order to display it
                     if (i === 0) {
-                        while (OffsetLeft + $SelectionObj.outerWidth() >= MaxWidth) {
+                        while (MaxWidth > 0 && OffsetLeft + $SelectionObj.outerWidth() >= MaxWidth) {
                             $TextObj.text(
                                 $TextObj.text().substring(0, $TextObj.text().length - 4)
                                 + '...'
@@ -2127,6 +2127,12 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Handle custom redraw event on original select field
                 // to update values when changed via AJAX calls
                 $SelectObj.off('redraw.InputField').on('redraw.InputField', function () {
+
+                    // redraw event is critical on hidden elements because
+                    // e.g. chrome can't calculate the width of hidden elements correctly
+                    // so we skip it for hidden elements
+                    if (!$SearchObj.is(':visible')) return;
+
                     CloseOpenSelections();
                     if (Filterable) {
                         $SelectObj.data('original', $SelectObj.children());
