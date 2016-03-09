@@ -74,6 +74,9 @@ sub _SupportDataCollectorView {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
+
     if ( !$SupportData{Success} ) {
         $LayoutObject->Block(
             Name => 'SupportDataCollectionFailed',
@@ -81,7 +84,12 @@ sub _SupportDataCollectorView {
         );
     }
     else {
-        if (
+        if ($CloudServicesDisabled) {
+            $LayoutObject->Block(
+                Name => 'CloudServicesWarning',
+            );
+        }
+        elsif (
             $RegistrationState ne 'registered'
             || $SupportDataSending ne 'Yes'
             )
@@ -89,10 +97,16 @@ sub _SupportDataCollectorView {
             $LayoutObject->Block(
                 Name => 'NoteNotRegisteredNotSending',
             );
+            $LayoutObject->Block(
+                Name => 'NoteSupportBundle',
+            );
         }
         else {
             $LayoutObject->Block(
                 Name => 'NoteRegisteredSending',
+            );
+            $LayoutObject->Block(
+                Name => 'NoteSupportBundle',
             );
         }
 

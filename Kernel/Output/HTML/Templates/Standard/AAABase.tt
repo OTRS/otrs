@@ -426,3 +426,6 @@
 [% Translate('There was a problem during the upgrade of %s.') | html %]
 [% Translate('%s was correctly uninstalled.') | html %]
 [% Translate('There was a problem uninstalling %s.') | html %]
+
+# Cloud Services
+[% Translate('Enable cloud services to unleash all OTRS features!') | html %]

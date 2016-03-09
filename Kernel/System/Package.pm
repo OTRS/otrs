@@ -128,6 +128,9 @@ sub new {
     # reserve space for merged packages
     $Self->{MergedPackages} = {};
 
+    # check if cloud services are disabled
+    $Self->{CloudServicesDisabled} = $Self->{ConfigObject}->Get('CloudServices::Disabled') || 0;
+
     return $Self;
 }
 
@@ -895,8 +898,8 @@ sub PackageUpgrade {
             if ( !$UseInstalled ) {
 
                 if (
-                    $Part->{TagType}     eq 'End'
-                    && $Part->{Tag}      eq $NotUseTag
+                    $Part->{TagType} eq 'End'
+                    && $Part->{Tag} eq $NotUseTag
                     && $Part->{TagLevel} eq $NotUseTagLevel
                     )
                 {
@@ -993,7 +996,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -1547,7 +1550,10 @@ sub PackageOnlineGet {
     }
 
     #check if file might be retrieved from cloud
-    my $RepositoryCloudList = $Self->RepositoryCloudList();
+    my $RepositoryCloudList;
+    if ( !$Self->{CloudServicesDisabled} ) {
+        $RepositoryCloudList = $Self->RepositoryCloudList();
+    }
     if ( IsHashRefWithData($RepositoryCloudList) && $RepositoryCloudList->{ $Param{Source} } ) {
 
         my $PackageFromCloud;
@@ -1733,6 +1739,11 @@ sub PackageVerify {
         return;
     }
 
+    # return package as verified if cloud services are disabled
+    if ( $Self->{CloudServicesDisabled} ) {
+        return 'verified';
+    }
+
     # define package verification info
     my $PackageVerifyInfo = {
         Description =>
@@ -1907,6 +1918,7 @@ sub PackageVerifyAll {
     }
 
     return %Result if !@PackagesToVerify;
+    return %Result if $Self->{CloudServicesDisabled};
 
     my $CloudService = 'PackageManagement';
     my $Operation    = 'PackageVerify';
@@ -2233,7 +2245,7 @@ sub PackageBuild {
                         for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $Key    ne 'Tag'
+                                $Key ne 'Tag'
                                 && $Key ne 'Content'
                                 && $Key ne 'TagType'
                                 && $Key ne 'TagLevel'
@@ -3902,8 +3914,8 @@ sub _CheckDBMerged {
         if ( $Use eq 0 ) {
 
             if (
-                $Part->{TagType}     eq 'End'
-                && $Part->{Tag}      eq $NotUseTag
+                $Part->{TagType} eq 'End'
+                && $Part->{Tag} eq $NotUseTag
                 && $Part->{TagLevel} eq $NotUseTagLevel
                 )
             {
@@ -3999,6 +4011,8 @@ returns a file from cloud
 
 sub CloudFileGet {
     my ( $Self, %Param ) = @_;
+
+    return if $Self->{CloudServicesDisabled};
 
     # check needed stuff
     if ( !defined $Param{Operation} ) {

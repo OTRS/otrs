@@ -26,6 +26,24 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled') || 0;
+
+    if ($CloudServicesDisabled) {
+
+        my $Output = $LayoutObject->Header( Title => 'Error' );
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'CloudServicesDisabled',
+            Data         => \%Param
+        );
+        $Output .= $LayoutObject->Footer();
+        return $Output
+    }
+
     my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
         Key => 'Registration::State',
     ) || '';
@@ -41,10 +59,9 @@ sub Run {
         }
     }
 
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # get needed objects
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RegistrationObject = $Kernel::OM->Get('Kernel::System::Registration');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
     # ------------------------------------------------------------ #
     # Daemon not running screen

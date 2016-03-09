@@ -39,12 +39,27 @@ sub _ShowOverview {
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled') || 0;
+
+    if ($CloudServicesDisabled) {
+
+        my $Output = $LayoutObject->Header( Title => 'Error' );
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'CloudServicesDisabled',
+            Data         => \%Param
+        );
+        $Output .= $LayoutObject->Footer();
+        return $Output
+    }
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
     # get web services list
-    my %CloudServiceList = %{ $Kernel::OM->Get('Kernel::Config')->Get('CloudService::Admin::Module') || {} };
+    my %CloudServiceList = %{ $ConfigObject->Get('CloudService::Admin::Module') || {} };
 
     my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
         Key => 'Registration::State',

@@ -67,12 +67,18 @@ sub new {
 
     #$Self->{APIVersion} = 1;
 
+    # Get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # Get OTRSBusiness::ReleaseChannel from SysConfig (Stable = 1, Development = 0)
-    $Self->{OnlyStable} = $Kernel::OM->Get('Kernel::Config')->Get('OTRSBusiness::ReleaseChannel') // 1;
+    $Self->{OnlyStable} = $ConfigObject->Get('OTRSBusiness::ReleaseChannel') // 1;
 
     # Set cache params
     $Self->{CacheType} = 'OTRSBusiness';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 30;    # 30 days
+
+    # Check if cloud services are disabled
+    $Self->{CloudServicesDisabled} = $ConfigObject->Get('CloudServices::Disabled') || 0;
 
     return $Self;
 }
@@ -122,6 +128,8 @@ checks with cloud.otrs.com if OTRSBusiness is available for the current framewor
 
 sub OTRSBusinessIsAvailable {
     my ( $Self, %Param ) = @_;
+
+    return if $Self->{CloudServicesDisabled};
 
     my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
@@ -250,6 +258,8 @@ system_data table for offline usage.
 
 sub OTRSBusinessIsUpdateable {
     my ( $Self, %Param ) = @_;
+
+    return 0 if $Self->{CloudServicesDisabled};
 
     my $Package = $Self->_GetOTRSBusinessPackageFromRepository();
     return if !$Package;
@@ -384,6 +394,8 @@ Returns 1 if the cloud call was successful.
 
 sub OTRSBusinessEntitlementCheck {
     my ( $Self, %Param ) = @_;
+
+    return if $Self->{CloudServicesDisabled};
 
     my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
@@ -620,6 +632,8 @@ sub HandleBusinessVersionCheckCloudServiceResult {
 
 sub _OTRSBusinessFileGet {
     my ( $Self, %Param ) = @_;
+
+    return if $Self->{CloudServicesDisabled};
 
     my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
