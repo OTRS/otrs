@@ -241,7 +241,7 @@
                                 <input type="hidden" name="SysConfigGroup" value="CloudService"/>
                                 <input type="hidden" name="SysConfigSubGroup" value="Core"/>
                                 <fieldset>
-                                    <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" value="[% Translate("Enable Cloud Services") | html %]">
+                                    <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" value="[% Translate("Enable cloud services") | html %]">
                                         <span><i class="fa fa-cloud"></i> [% Translate("Enable cloud services") | html %]</span>
                                     </button>
                                 </fieldset>
