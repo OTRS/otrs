@@ -188,6 +188,14 @@ Returns:
 sub Request {
     my ( $Self, %Param ) = @_;
 
+    # create config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled');
+
+    return if $CloudServicesDisabled;
+
     # check needed stuff
     if ( !defined $Param{RequestData} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -302,9 +310,6 @@ sub Request {
             },
         );
     }
-
-    # create config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $RequestTimeout = $Param{Timeout} || $ConfigObject->Get('WebUserAgent::Timeout') || 15;
     my $RequestProxy   = $Param{Proxy}   || $ConfigObject->Get('WebUserAgent::Proxy')   || '';

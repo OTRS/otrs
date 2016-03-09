@@ -228,6 +228,27 @@
                                 </button>
                             </form>
                         </li>
+ [% RenderBlockStart("CloudServicesWarning") %]
+                        <li>
+                            <p class="FieldExplanation Error">
+                                [% Translate("Cloud services are currently disabled.") | html %]
+                                </br>
+                                [% Translate("OTRS Verify™ can not continue!") | html %]
+                            </p>
+                            <form action="[% Env("CGIHandle") %]" method="post">
+                                <input type="hidden" name="Action" value="AdminSysConfig"/>
+                                <input type="hidden" name="Subaction" value="Edit"/>
+                                <input type="hidden" name="SysConfigGroup" value="CloudService"/>
+                                <input type="hidden" name="SysConfigSubGroup" value="Core"/>
+                                <fieldset>
+                                    <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" value="[% Translate("Enable Cloud Services") | html %]">
+                                        <span><i class="fa fa-cloud"></i> [% Translate("Enable cloud services") | html %]</span>
+                                    </button>
+                                </fieldset>
+                            </form>
+                        </li>
+[% RenderBlockEnd("CloudServicesWarning") %]
+
                     </ul>
                 </div>
             </div>

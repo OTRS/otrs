@@ -50,6 +50,11 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled') || 0;
+
+    return '' if $CloudServicesDisabled;
+
     # get current
     my $Product = $ConfigObject->Get('Product');
     my $Version = $ConfigObject->Get('Version');

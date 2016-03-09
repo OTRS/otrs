@@ -24,6 +24,9 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # check if cloud services are disabled
+    $Self->{CloudServicesDisabled} = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
+
     return $Self;
 }
 
@@ -113,7 +116,7 @@ sub Run {
                     Location => $Location,
                     Name     => $Name,
                     Version  => $Version,
-                    Diff     => $LayoutObject->{LanguageObject}->Translate('No such file %s in package!', $LocalFile),
+                    Diff     => $LayoutObject->{LanguageObject}->Translate( 'No such file %s in package!', $LocalFile ),
                 },
             );
         }
@@ -124,7 +127,8 @@ sub Run {
                     Location => $Location,
                     Name     => $Name,
                     Version  => $Version,
-                    Diff     => $LayoutObject->{LanguageObject}->Translate('No such file %s in local file system!', $LocalFile),
+                    Diff     => $LayoutObject->{LanguageObject}
+                        ->Translate( 'No such file %s in local file system!', $LocalFile ),
                 },
             );
         }
@@ -153,7 +157,7 @@ sub Run {
                         Location => $Location,
                         Name     => $Name,
                         Version  => $Version,
-                        Diff     => $LayoutObject->{LanguageObject}->Translate('Can\'t read %s!', $LocalFile),
+                        Diff     => $LayoutObject->{LanguageObject}->Translate( 'Can\'t read %s!', $LocalFile ),
                     },
                 );
             }
@@ -1315,7 +1319,7 @@ sub Run {
     my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
         Key => 'Registration::State',
     ) || '';
-    if ( $RegistrationState eq 'registered' ) {
+    if ( $RegistrationState eq 'registered' && !$Self->{CloudServicesDisabled} ) {
 
         $RepositoryCloudList =
             $PackageObject->RepositoryCloudList( NoCache => 1 );
@@ -1462,6 +1466,7 @@ sub Run {
         if (
             $VerificationData{ $Package->{Name}->{Content} }
             && $VerificationData{ $Package->{Name}->{Content} } eq 'verified'
+            && !$Self->{CloudServicesDisabled}
             )
         {
             $LayoutObject->Block(
@@ -1596,7 +1601,11 @@ sub Run {
 
     # FeatureAddons
     if ( $ConfigObject->Get('Package::ShowFeatureAddons') ) {
-        my $FeatureAddonData = $Self->_GetFeatureAddonData();
+
+        my $FeatureAddonData;
+        if ( !$Self->{CloudServicesDisabled} ) {
+            $FeatureAddonData = $Self->_GetFeatureAddonData();
+        }
 
         if ( ref $FeatureAddonData eq 'ARRAY' && scalar @{$FeatureAddonData} > 0 ) {
             $LayoutObject->Block(
@@ -1610,6 +1619,12 @@ sub Run {
                 );
             }
         }
+    }
+
+    if ( $Self->{CloudServicesDisabled} ) {
+        $LayoutObject->Block(
+            Name => 'CloudServicesWarning',
+        );
     }
 
     my $Output = $LayoutObject->Header();
@@ -1649,17 +1664,20 @@ sub Run {
         );
     }
 
-    VERIFICATION:
-    for my $Package ( sort keys %UnknownVerficationPackages ) {
+    if ( !$Self->{CloudServicesDisabled} ) {
 
-        next VERIFICATION if !$Package;
-        next VERIFICATION if !$UnknownVerficationPackages{$Package};
+        VERIFICATION:
+        for my $Package ( sort keys %UnknownVerficationPackages ) {
 
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => "$Package $UnknownVerficationPackages{$Package} - "
-                . Translatable("Package not verified due a communication issue with verification server!"),
-        );
+            next VERIFICATION if !$Package;
+            next VERIFICATION if !$UnknownVerficationPackages{$Package};
+
+            $Output .= $LayoutObject->Notify(
+                Priority => 'Error',
+                Data     => "$Package $UnknownVerficationPackages{$Package} - "
+                    . Translatable("Package not verified due a communication issue with verification server!"),
+            );
+        }
     }
 
     $Output .= $LayoutObject->Output(
@@ -1863,11 +1881,13 @@ sub _InstallHandling {
     }
 
     # get cloud repositories
-    my $RepositoryCloudList =
-        $PackageObject->RepositoryCloudList();
+    my $RepositoryCloudList;
+    if ( !$Self->{CloudServicesDisabled} ) {
+        $RepositoryCloudList = $PackageObject->RepositoryCloudList();
+    }
 
     # in case Source is present on repository cloud list
-    # the package shold be retrieved using the CloudService backend
+    # the package should be retrieved using the CloudService backend
     my $FromCloud = 0;
     if ( $Param{Source} && $RepositoryCloudList->{ $Param{Source} } ) {
         $FromCloud = 1;
@@ -1888,7 +1908,7 @@ sub _InstallHandling {
             },
         );
 
-        if ( $Verified eq 'verified' ) {
+        if ( $Verified eq 'verified' && !$Self->{CloudServicesDisabled} ) {
             $LayoutObject->Block(
                 Name => 'OTRSVerifyLogo',
             );

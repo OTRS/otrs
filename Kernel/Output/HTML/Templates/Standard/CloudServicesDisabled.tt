@@ -1,0 +1,59 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain SpacingTopLarge">
+
+    <div class="W33pc CenterBox SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("This feature requires cloud services.") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="Spacing"></div>
+                <h4>[% Translate("Cloud services are currently disabled.") | html %]</h4>
+                <div class="Spacing"></div>
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="CloudService"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Core"/>
+                    <fieldset>
+                        <div class="Spacing"></div>
+                        [% Translate("You can") | html %]
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Enable cloud services") | html %]">
+                            <span><i class="fa fa-cloud"></i> [% Translate("Enable cloud services") | html %]</span>
+                        </button>
+                        [% Translate("or") | html %]
+                        <a href="#" id="GoBack">[% Translate("go back to the previous page") | html %]</a>.
+                    </fieldset>
+                </form>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#GoBack').bind('click', function (Event) {
+    // check if an older history entry is available
+    if (history.length > 1) {
+        history.back();
+        return false;
+    }
+
+    // if we're in a popup window, close it
+    if (Core.UI.Popup.CurrentIsPopupWindow()) {
+        Core.UI.Popup.ClosePopup();
+        return false;
+    }
+
+    // normal window, no history: no action possible
+    return false;
+});
+//]]></script>
+[% END %]
+            </div>
+        </div>
+    </div>
+</div>

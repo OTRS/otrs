@@ -49,6 +49,11 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled');
+
+    return '' if $CloudServicesDisabled;
+
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 

@@ -81,6 +81,9 @@ sub new {
     # timeout for the registration cloud service requests
     $Self->{TimeoutRequest} = 60;
 
+    # check if cloud services are disabled
+    $Self->{CloudServicesDisabled} = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
+
     return $Self;
 }
 
@@ -135,6 +138,8 @@ sub TokenGet {
     my %Result = (
         Success => 0,
     );
+
+    return %Result if $Self->{CloudServicesDisabled};
 
     my $CloudService = 'SystemRegistration';
     my $Operation    = 'TokenGet';
@@ -253,6 +258,8 @@ sub Register {
             return;
         }
     }
+
+    return if $Self->{CloudServicesDisabled};
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -582,6 +589,13 @@ or
 sub RegistrationUpdateSend {
     my ( $Self, %Param ) = @_;
 
+    if ( $Self->{CloudServicesDisabled} ) {
+        return (
+            Success => 0,
+            Reason  => 'Cloud services are disabled!',
+        );
+    }
+
     # get registration data
     my %RegistrationData = $Self->RegistrationDataGet();
 
@@ -871,6 +885,8 @@ sub Deregister {
             return;
         }
     }
+
+    return if $Self->{CloudServicesDisabled};
 
     my %RegistrationInfo = $Self->RegistrationDataGet();
 
