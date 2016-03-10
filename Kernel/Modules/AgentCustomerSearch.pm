@@ -35,6 +35,7 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get config for frontend
     $Self->{Config} = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
@@ -45,20 +46,29 @@ sub Run {
         # get needed params
         my $Search = $ParamObject->GetParam( Param => 'Term' ) || '';
         my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
+        my $IncludeUnknownTicketCustomers
+            = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
+
+        my $UnknownTicketCustomerList;
+
+        if ($IncludeUnknownTicketCustomers) {
+
+            # add customers that are not saved in any backend
+            $UnknownTicketCustomerList = $TicketObject->SearchUnknownTicketCustomers(
+                SearchTerm => $Search,
+            );
+        }
 
         # get customer list
         my %CustomerUserList = $CustomerUserObject->CustomerSearch(
             Search => $Search,
         );
+        map { $CustomerUserList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
 
         # build data
         my @Data;
-        my $MaxResultCount = $MaxResults;
         CUSTOMERUSERID:
-        for my $CustomerUserID (
-            sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} }
-            keys %CustomerUserList
-            )
+        for my $CustomerUserID ( sort keys %CustomerUserList )
         {
 
             my $CustomerValue = $CustomerUserList{$CustomerUserID};
@@ -67,13 +77,13 @@ sub Run {
             $CustomerValue =~ s/\n/ /gs;
             $CustomerValue =~ s/\r/ /gs;
 
-            push @Data, {
-                CustomerKey   => $CustomerUserID,
-                CustomerValue => $CustomerValue,
-            };
-
-            $MaxResultCount--;
-            last CUSTOMERUSERID if $MaxResultCount <= 0;
+            if ( !( grep { $_->{Value} eq $CustomerValue } @Data ) ) {
+                push @Data, {
+                    CustomerKey   => $CustomerUserID,
+                    CustomerValue => $CustomerValue,
+                };
+            }
+            last CUSTOMERUSERID if scalar @Data >= $MaxResults;
         }
 
         # build JSON output
@@ -145,7 +155,7 @@ sub Run {
 
         my @ViewableTickets;
         if (@CustomerIDs) {
-            @ViewableTickets = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+            @ViewableTickets = $TicketObject->TicketSearch(
                 Result        => 'ARRAY',
                 Limit         => 250,
                 SortBy        => [$SortBy],
