@@ -15,10 +15,10 @@
             </div>
             <div class="Content">
                 <h4>
-                    [% Translate("Error Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                    [% Translate("Error Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
                 </h4>
                 <p class="SpacingTop">
-                    [% Data.Comment | html %].
+                    [% Translate(Data.Comment) | html %].
                 </p>
 
                 <form action="http://bugs.otrs.org/enter_bug.cgi">

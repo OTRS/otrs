@@ -15,12 +15,11 @@
             </div>
             <div class="Content">
                 <h4>
-                    [% Translate("Message") | html %]: <span class="Error">[% Data.Message %]</span>
+                    [% Translate("Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
                 </h4>
 
                 <p class="SpacingTop">
-                    [% Data.Comment %]
-                </p>
+                    [% Translate(Data.Comment) | html %]
 
                 <p class="SpacingTop">
                     <a href="#" id="GoBack">[% Translate("Back to the previous page") | html %]</a>
