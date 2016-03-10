@@ -1,4 +1,6 @@
-#5.0.8 2016-??-??
+#5.0.9 2016-??-??
+
+#5.0.8 2016-03-15
  - 2016-03-09 Updated translations, thanks to all translators.
  - 2016-03-09 Fixed bug#[11560](http://bugs.otrs.org/show_bug.cgi?id=11560) - Error for connection to cloud on OTRS in a network which outbound access is blocked.
  - 2016-03-08 Fixed bug#[11893](http://bugs.otrs.org/show_bug.cgi?id=11893) - Pending reminder events not triggered if there are no valid pending auto states.
