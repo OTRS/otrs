@@ -164,7 +164,7 @@ $Self->True( !$Dummy2, 'ObjectsDiscard without arguments deleted Dummy2' );
 
 $Self->True(
     !$Kernel::OM->{Objects}{'scripts::test::ObjectManager::Dummy2'},
-    'ObjecstDiscard also discarded newly autovivified objects'
+    'ObjectsDiscard also discarded newly autovivified objects'
 );
 
 $Dummy = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy');
@@ -192,7 +192,7 @@ $Self->True(
     "Invalid object name causes an exception",
 );
 
-# Clean up
-$Kernel::OM->ObjectsDiscard();
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;

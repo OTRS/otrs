@@ -12,7 +12,7 @@ use vars (qw($Self));
 
 #
 # This test makes sure that object dependencies are only created when
-#   the object actively asks for them, not earlier
+# the object actively asks for them, not earlier.
 #
 
 use Kernel::System::ObjectManager;
@@ -28,12 +28,12 @@ $Self->True(
 
 $Self->False(
     exists $Kernel::OM->{Objects}->{'Kernel::System::Time'},
-    'Kernel::System::Time was not yet loaded',
+    'Kernel::System::Time was not loaded yet',
 );
 
 $Self->False(
     exists $Kernel::OM->{Objects}->{'Kernel::System::Log'},
-    'Kernel::System::Log was not yet loaded',
+    'Kernel::System::Log was not loaded yet',
 );
 
 $Kernel::OM->Get('Kernel::System::Time');
