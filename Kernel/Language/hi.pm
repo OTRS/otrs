@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.46890603722197;
+    $Self->{Completeness}        = 0.461744966442953;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -433,6 +433,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => '',
         '%s was correctly uninstalled.' => '',
         'There was a problem uninstalling %s.' => '',
+        'Enable cloud services to unleash all OTRS features!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -1698,6 +1699,9 @@ sub Data {
         'Install' => 'स्थापित',
         'Install Package' => 'संकुल स्थापित करें',
         'Update repository information' => 'कोष जानकारी अद्यतन करें',
+        'Cloud services are currently disabled.' => '',
+        'OTRS Verify™ can not continue!' => '',
+        'Enable cloud services' => '',
         'Online Repository' => 'ऑनलाइन कोष',
         'Module documentation' => 'मॉड्यूल दस्तावेज',
         'Upgrade' => 'उन्नयन',
@@ -2244,6 +2248,8 @@ sub Data {
         'State type' => 'स्थिति के प्रकार',
 
         # Template: AdminSupportDataCollector
+        'Sending support data to OTRS Group is not possible!' => '',
+        'Enable Cloud Services' => '',
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
             '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
@@ -2830,6 +2836,11 @@ sub Data {
         # Template: ChatStartForm
         'First message' => '',
 
+        # Template: CloudServicesDisabled
+        'This feature requires cloud services.' => '',
+        'You can' => 'आप कर सकते हैं',
+        'go back to the previous page' => 'पिछले पृष्ठ पर वापस जाने के लिए',
+
         # Template: CustomerError
         'Traceback' => 'ट्रेसबैक',
 
@@ -2966,9 +2977,7 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => '',
-        'You can' => 'आप कर सकते हैं',
         'Send a bugreport' => 'दोष रिपोर्ट भेजें',
-        'go back to the previous page' => 'पिछले पृष्ठ पर वापस जाने के लिए',
         'Error Details' => 'त्रुटि का विवरण',
 
         # Template: FooterJS
@@ -3618,6 +3627,9 @@ sub Data {
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
+        'The start time of a ticket has been set after the end time!' => '',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'This ticket has no title or subject' => '',
 
@@ -4055,6 +4067,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A TicketWatcher Module.' => '',
         'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
@@ -4118,6 +4131,10 @@ Thanks for your help!
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'AgentCustomerSearch' => '',
+        'AgentCustomerSearch.' => '',
+        'AgentUserSearch' => '',
+        'AgentUserSearch.' => '',
         'Agents <-> Groups' => 'प्रतिनिधि<->समूहों',
         'Agents <-> Roles' => 'प्रतिनिधि<->भूमिकाएँ',
         'All customer users of a CustomerID' => '',
@@ -4189,8 +4206,8 @@ Thanks for your help!
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'थोक कार्रवाई चुनने के बाद स्वचालित रूप से वर्तमान प्रतिनिधि के लिए लॉक और स्वामी निर्धारित करें।',
-        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
-            'स्वामी को स्वचालित रूप से टिकट के लिए उत्तरदायी बनायें(यदि टिकट की उत्तरदायी सुविधा सक्षम है)।',
+        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
+            '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'पहला स्वामी अद्यतन करने के बाद स्वचालित रूप से एक टिकट का उत्तरदायी(अगर यह अभी तक निर्धारित नहीं है)निर्धारित करें।',
         'Balanced white skin by Felix Niklas (slim version).' => '',
@@ -4203,6 +4220,7 @@ Thanks for your help!
         'Builds an article index right after the article\'s creation.' =>
             'अनुच्छेद बनने के ठीक बाद एक अनुच्छेद सूचकांक बनता है।',
         'Bulgarian' => '',
+        'Bulk-Action' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'CMD उदाहरण स्थापना,ईमेल पर ध्यान न दें जब बाहरी CMD STDOUT को कुछ उत्पादन देता है(ईमेल some.bin का stdin में पहुंचाया जाएगा)।',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
@@ -4265,8 +4283,10 @@ Thanks for your help!
         'Communication' => '',
         'Company Status' => '',
         'Company Tickets' => 'कंपनी के टिकट',
+        'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
+        'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4312,14 +4332,19 @@ Thanks for your help!
         'Create and manage ticket states.' => 'टिकट स्थितियों को बनाएँ और प्रबंधन करें।',
         'Create and manage ticket types.' => 'टिकट के प्रकारों को बनाएँ और प्रबंधन करें।',
         'Create and manage web services.' => '',
+        'Create new Ticket.' => '',
         'Create new email ticket and send this out (outbound)' => 'नया ईमेल टिकट बनाएँ और इस बाहर (आउटबाउंड) भेजें',
+        'Create new email ticket.' => '',
         'Create new phone ticket (inbound)' => 'नया फोन टिकट (इनबाउंड)बनाएँ',
+        'Create new phone ticket.' => '',
         'Create new process ticket' => '',
+        'Create tickets.' => '',
         'Croatian' => '',
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
+        'Customer Ticket Print Module.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
@@ -4330,6 +4355,7 @@ Thanks for your help!
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'ग्राहक वेब अनुरोध।',
+        'Customer ticket search.' => '',
         'Customer user search' => '',
         'CustomerID search' => '',
         'CustomerName' => '',
@@ -4813,6 +4839,8 @@ Thanks for your help!
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             'ग्राहक अंतरफलक में वर्तमान में सभी प्रवॆशित ग्राहकों को दिखाने वाले मॉड्यूल को परिभाषित करता है।',
         'Defines the module to authenticate customers.' => 'ग्राहकों को प्रमाणित करने वाले मॉड्यूल को परिभाषित करता है।',
+        'Defines the module to display a notification if cloud services are disabled.' =>
+            '',
         'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
             '',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>
@@ -4913,7 +4941,7 @@ Thanks for your help!
             '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
@@ -5025,6 +5053,8 @@ Thanks for your help!
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'एक टिकट के जिम्मेदार प्रतिनिधि को अनुस्मारक सूचनाएं भेजना निष्क्रिय करता है (टिकट:जिम्मेदार सक्रिय करने की जरूरत है)।',
+        'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -5110,6 +5140,7 @@ Thanks for your help!
         'E-Mail Outbound' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'ईमेल पते',
+        'Email Outbound' => '',
         'Email sent to "%s".' => 'जवाब भेजें "%s"।',
         'Email sent to customer.' => 'प्रतिनिधि ईमेल।',
         'Enable keep-alive connection header for SOAP responses.' => '',
@@ -5394,6 +5425,7 @@ Thanks for your help!
             '',
         'Includes article create times in the ticket search of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में अनुच्छेद बनाने समय शामिल हैं।',
+        'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
@@ -5451,6 +5483,7 @@ Thanks for your help!
         'List view' => '',
         'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
+        'Locked Tickets.' => '',
         'Locked ticket.' => 'लॉक।',
         'Log file for the ticket counter.' => 'टिकट काउंटर के लिए अभिलेख फ़ाइल।',
         'Loop-Protection! No auto-response sent to "%s".' => 'सुरक्षालूप "%s"।',
@@ -5537,6 +5570,7 @@ Thanks for your help!
         'Multiselect' => '',
         'My Services' => '',
         'My Tickets' => 'मेरे टिकट',
+        'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'अनुकूलित श्रेणी के नाम। अनुकूलित कतार एक कतार चयन है,आपकी वरीयता श्रेणीयों का और चयनित किया जा सकता है वरीयता व्यवस्थाओ में।',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -5579,9 +5613,12 @@ Thanks for your help!
         'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'अधिभार(पुनर्व्याख्या) मौजूदा कार्य Kernel::System::Ticket में। आसानी से अनुकूलन जोड़ने के लिए। ',
-        'Overview Escalated Tickets' => 'अवलोकन संवर्धित टिकट',
+        'Overview Escalated Tickets.' => '',
         'Overview Refresh Time' => '',
+        'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => 'सभी खुले टिकटों का ओवरव्यू',
+        'Overview of all open tickets.' => '',
+        'Overview of customer tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP कुंजी अपलोड',
         'Package event module file a scheduler task for update registration.' =>
@@ -5638,6 +5675,7 @@ Thanks for your help!
         'Permitted width for compose email windows.' => 'रचना ईमेल विंडोज़ के लिए अनुमति प्राप्त चौड़ाई।',
         'Permitted width for compose note windows.' => 'रचना टिप्पणी विंडोज़ के लिए अनुमति प्राप्त चौड़ाई।',
         'Persian' => '',
+        'Phone Call.' => '',
         'Picture-Upload' => '',
         'Polish' => '',
         'Portuguese' => '',
@@ -5701,6 +5739,8 @@ Thanks for your help!
             'प्रतिनिधि अंतरफलक में टिकट उत्तरदायी स्क्रीन का उपयोग करने के लिए आवश्यक अनुमतियां।',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'यदि अन्य कतार में स्थानांतरित होने के बाद टिकट के स्वामी को फिर से निर्धारित करता है और अनलॉक करता है।',
+        'Responsible Tickets' => '',
+        'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'संग्रह से टिकट पुनर्स्थापित करता है(केवल यदि घटना एक स्थिति परिवर्तन है,किसी भी खुले उपलब्ध स्थिति से बंद के लिए)।',
         'Retains all services in listings even if they are children of invalid elements.' =>
@@ -5725,9 +5765,12 @@ Thanks for your help!
         'Schedule a maintenance period.' => '',
         'Screen' => '',
         'Search Customer' => 'ग्राहक खोजें',
+        'Search Ticket.' => '',
+        'Search Tickets.' => '',
         'Search User' => '',
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
+        'Search.' => '',
         'Second Queue' => '',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
         'Selects the cache backend to use.' => '',
@@ -5752,6 +5795,7 @@ Thanks for your help!
         'Serbian Cyrillic' => '',
         'Serbian Latin' => '',
         'Service view' => '',
+        'ServiceView' => '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => 'इस प्रणाली के लिए प्रेषक ईमेल पते निर्धारित करें।',
@@ -6266,6 +6310,7 @@ Thanks for your help!
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'इस मॉड्यूल और उसके(PreRun) प्रकार्य में क्रियान्वित किया जाएगा,यदि परिभाषित हैं,प्रत्येक अनुरोध के लिए। यह मॉड्यूल उपयोगी है कुछ उपयोगकर्ता की जाँच विकल्प या नये अनुप्रयोगों के बारे में समाचार प्रदर्शित करने के लिए।',
+        'This module is part of the admin area of OTRS.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -6279,17 +6324,41 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send text messages via SMS.' => '',
+        'Ticket Close.' => '',
+        'Ticket Compose Bounce Email.' => '',
+        'Ticket Compose email Answer.' => '',
+        'Ticket Customer.' => '',
+        'Ticket Forward Email.' => '',
+        'Ticket FreeText.' => '',
+        'Ticket History.' => '',
+        'Ticket Lock.' => '',
+        'Ticket Merge.' => '',
+        'Ticket Move.' => '',
+        'Ticket Note.' => '',
         'Ticket Notifications' => '',
+        'Ticket Outbound Email.' => '',
+        'Ticket Owner.' => '',
+        'Ticket Pending.' => '',
+        'Ticket Print.' => '',
+        'Ticket Priority.' => '',
         'Ticket Queue Overview' => '',
+        'Ticket Responsible.' => '',
+        'Ticket Zoom.' => '',
+        'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => ' "%s" (%s) प्रस्तावित  "%s" (%s)।',
         'Ticket notifications' => '',
         'Ticket overview' => 'टिकट अवलोकन ',
+        'Ticket plain view of an email.' => '',
+        'Ticket zoom view.' => '',
+        'Ticket-Watcher' => '',
         'TicketNumber' => '',
+        'Tickets.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'यदि विचाराधीन स्तिथि निर्धारित कर रहे हैं जो समय सेकंड में हैं वास्तविक समय में जुड जाएगा(तयशुदा:86400=1 दिन)।',
         'Title updated: Old: "%s", New: "%s"' => '',
+        'To download attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6337,6 +6406,7 @@ Thanks for your help!
         'View performance benchmark results.' => 'प्रदर्शन बेंचमार्क परिणाम देखें।',
         'View system log messages.' => 'प्रणाली अभिलेख संदेशों को देखें।',
         'Watch this ticket' => '',
+        'Watched Tickets.' => '',
         'We are performing scheduled maintenance.' => '',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             '',
