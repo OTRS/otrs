@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.519518837948252;
+    $Self->{Completeness}        = 0.511856823266219;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -433,6 +433,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Problem uppstod under uppgraderingen av %s.',
         '%s was correctly uninstalled.' => '%s blev avinstallerat korrekt.',
         'There was a problem uninstalling %s.' => 'Det blev ett problem med att avinstallera %s.',
+        'Enable cloud services to unleash all OTRS features!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nyårsdagen',
@@ -1698,6 +1699,9 @@ sub Data {
         'Install' => 'Installera',
         'Install Package' => 'Installera paket',
         'Update repository information' => 'Uppdatera information om repo',
+        'Cloud services are currently disabled.' => '',
+        'OTRS Verify™ can not continue!' => '',
+        'Enable cloud services' => '',
         'Online Repository' => 'Online-repo',
         'Module documentation' => 'Moduldokumentation',
         'Upgrade' => 'Uppgradera',
@@ -2244,6 +2248,8 @@ sub Data {
         'State type' => 'Statustyp',
 
         # Template: AdminSupportDataCollector
+        'Sending support data to OTRS Group is not possible!' => '',
+        'Enable Cloud Services' => '',
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
             'Supportdata skickas regelbundet till OTRS Group. För att upphöra med det behöver du ändra registreringen av OTRS-installationen.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
@@ -2762,16 +2768,16 @@ sub Data {
         'Watcher' => 'Bevakare',
         'Article Create Time (before/after)' => 'Tid när artikel skapades (före/efter)',
         'Article Create Time (between)' => 'Tid när artikel skapades (mellan)',
-        'Ticket Create Time (before/after)' => 'Tid när äremde skapades (före/efter)',
+        'Ticket Create Time (before/after)' => 'Tid när ärende skapades (före/efter)',
         'Ticket Create Time (between)' => 'Tid när ärendet skapades (mellan)',
         'Ticket Change Time (before/after)' => 'Tid när ärende ändrades (före/efter)',
         'Ticket Change Time (between)' => 'Tid när ärendet ändrades (mellan)',
         'Ticket Last Change Time (before/after)' => 'Tid när ärende senast ändrades (före/efter)',
         'Ticket Last Change Time (between)' => 'Tid när ärendet senast ändrades (mellan)',
-        'Ticket Close Time (before/after)' => 'Tid när äremde stängdes (före/efter)',
-        'Ticket Close Time (between)' => 'Tid när äremdet stängdes (mellan)',
-        'Ticket Escalation Time (before/after)' => 'Tid när äremde eskalerades (före/efter)',
-        'Ticket Escalation Time (between)' => 'Tid när äremdet eskalerades (fmellan)',
+        'Ticket Close Time (before/after)' => 'Tid när ärende stängdes (före/efter)',
+        'Ticket Close Time (between)' => 'Tid när ärendet stängdes (mellan)',
+        'Ticket Escalation Time (before/after)' => 'Tid när ärende eskalerades (före/efter)',
+        'Ticket Escalation Time (between)' => 'Tid när ärendet eskalerades (fmellan)',
         'Archive Search' => 'Arkivsökning',
         'Run search' => 'Kör sökning',
 
@@ -2829,6 +2835,11 @@ sub Data {
 
         # Template: ChatStartForm
         'First message' => 'Första meddelandet',
+
+        # Template: CloudServicesDisabled
+        'This feature requires cloud services.' => '',
+        'You can' => 'Du kan',
+        'go back to the previous page' => 'Tillbaka till föregående sida',
 
         # Template: CustomerError
         'Traceback' => 'Återspårning',
@@ -2966,9 +2977,7 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => '',
-        'You can' => 'Du kan',
         'Send a bugreport' => 'Skicka en buggrapport',
-        'go back to the previous page' => 'Tillbaka till föregående sida',
         'Error Details' => 'Detaljer om felet',
 
         # Template: FooterJS
@@ -3618,6 +3627,9 @@ sub Data {
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
+        'The start time of a ticket has been set after the end time!' => '',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'This ticket has no title or subject' => 'Detta ärende har ingen rubrik eller ämne',
 
@@ -4055,6 +4067,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(Användarlogin) Förnamn efternamn',
         '(UserLogin) Lastname Firstname' => '(Användarlogin) Efternamn förnamn',
         '(UserLogin) Lastname, Firstname' => '(Användarlogin) Efternamn, förnamn',
+        'A TicketWatcher Module.' => '',
         'A Website' => 'Webbplatsen',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
@@ -4118,6 +4131,10 @@ Thanks for your help!
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'AgentCustomerSearch' => '',
+        'AgentCustomerSearch.' => '',
+        'AgentUserSearch' => '',
+        'AgentUserSearch.' => '',
         'Agents <-> Groups' => 'Handläggare <-> Grupper',
         'Agents <-> Roles' => 'Handläggare <-> Roller',
         'All customer users of a CustomerID' => 'Alla kundanvändare för kund-ID:t',
@@ -4189,7 +4206,7 @@ Thanks for your help!
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             '',
-        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
+        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
@@ -4203,6 +4220,7 @@ Thanks for your help!
         'Builds an article index right after the article\'s creation.' =>
             '',
         'Bulgarian' => 'Bulgariska',
+        'Bulk-Action' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             '',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
@@ -4265,8 +4283,10 @@ Thanks for your help!
         'Communication' => 'Kommunikation',
         'Company Status' => 'Organisationens status',
         'Company Tickets' => 'Organisationens ärenden',
+        'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Organisationens namn som kommer att sättas som en X-rubrik i utgående e-brev.',
+        'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4312,14 +4332,19 @@ Thanks for your help!
         'Create and manage ticket states.' => 'Skapa och hantera ärendestatusar.',
         'Create and manage ticket types.' => 'Skapa och hantera ärendetyper.',
         'Create and manage web services.' => 'Skapa och hantera webbtjänster.',
+        'Create new Ticket.' => '',
         'Create new email ticket and send this out (outbound)' => 'Skapa nytt e-postärende och skicka detta (utgående)',
+        'Create new email ticket.' => '',
         'Create new phone ticket (inbound)' => 'Skapa nytt telefonärende (inkommande)',
+        'Create new phone ticket.' => '',
         'Create new process ticket' => '',
+        'Create tickets.' => '',
         'Croatian' => '',
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => 'Kundadministration',
+        'Customer Ticket Print Module.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => 'Kundanvändare <-> Tjänster',
         'Customer User Administration' => 'Hantera kundanvändare',
@@ -4330,6 +4355,7 @@ Thanks for your help!
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Customer request via web.',
+        'Customer ticket search.' => '',
         'Customer user search' => 'Sök på kundanvändare',
         'CustomerID search' => 'Sök på kund-ID',
         'CustomerName' => 'Kundens namn',
@@ -4813,6 +4839,8 @@ Thanks for your help!
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
+        'Defines the module to display a notification if cloud services are disabled.' =>
+            '',
         'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
             '',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>
@@ -4913,7 +4941,7 @@ Thanks for your help!
             '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
@@ -5025,6 +5053,8 @@ Thanks for your help!
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
+        'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -5110,6 +5140,7 @@ Thanks for your help!
         'E-Mail Outbound' => 'E-post utgående',
         'Edit customer company' => 'Redigera organisationen',
         'Email Addresses' => 'E-postadresser',
+        'Email Outbound' => '',
         'Email sent to "%s".' => 'Email sent to "%s".',
         'Email sent to customer.' => 'E-brev skickat till kunden.',
         'Enable keep-alive connection header for SOAP responses.' => '',
@@ -5394,6 +5425,7 @@ Thanks for your help!
             'Inkludera ärenden från underköer som standard när du väljer en kö',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
+        'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
@@ -5451,6 +5483,7 @@ Thanks for your help!
         'List view' => '',
         'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
+        'Locked Tickets.' => '',
         'Locked ticket.' => 'Låst ärende.',
         'Log file for the ticket counter.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
@@ -5537,6 +5570,7 @@ Thanks for your help!
         'Multiselect' => '',
         'My Services' => 'Mina tjänster',
         'My Tickets' => 'Mina ärenden',
+        'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -5579,9 +5613,12 @@ Thanks for your help!
         'Out Of Office' => 'Frånvarande',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => 'Översikt av eskalerade ärenden',
+        'Overview Escalated Tickets.' => '',
         'Overview Refresh Time' => 'Automatisk uppdateringsintervall',
+        'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => 'Översikt över alla öppna ärenden',
+        'Overview of all open tickets.' => '',
+        'Overview of customer tickets.' => '',
         'PGP Key Management' => 'PGP-nyckelhantering',
         'PGP Key Upload' => 'PGP-nyckelimport',
         'Package event module file a scheduler task for update registration.' =>
@@ -5638,6 +5675,7 @@ Thanks for your help!
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => 'Persiska',
+        'Phone Call.' => '',
         'Picture-Upload' => '',
         'Polish' => 'Polska',
         'Portuguese' => 'Portugisiska',
@@ -5701,6 +5739,8 @@ Thanks for your help!
             '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
+        'Responsible Tickets' => '',
+        'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
@@ -5725,9 +5765,12 @@ Thanks for your help!
         'Schedule a maintenance period.' => '',
         'Screen' => '',
         'Search Customer' => 'Sök kund',
+        'Search Ticket.' => '',
+        'Search Tickets.' => '',
         'Search User' => 'Sök användare',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Search.' => '',
         'Second Queue' => '',
         'Select your frontend Theme.' => 'Välj stil-tema.',
         'Selects the cache backend to use.' => '',
@@ -5752,6 +5795,7 @@ Thanks for your help!
         'Serbian Cyrillic' => '',
         'Serbian Latin' => '',
         'Service view' => 'Tjänste-vy',
+        'ServiceView' => '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => '',
@@ -6266,6 +6310,7 @@ Thanks for your help!
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
+        'This module is part of the admin area of OTRS.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -6279,17 +6324,41 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send text messages via SMS.' => 'Aktiverar att systemet skickar SMS.',
+        'Ticket Close.' => '',
+        'Ticket Compose Bounce Email.' => '',
+        'Ticket Compose email Answer.' => '',
+        'Ticket Customer.' => '',
+        'Ticket Forward Email.' => '',
+        'Ticket FreeText.' => '',
+        'Ticket History.' => '',
+        'Ticket Lock.' => '',
+        'Ticket Merge.' => '',
+        'Ticket Move.' => '',
+        'Ticket Note.' => '',
         'Ticket Notifications' => 'Ärendemeddelanden',
+        'Ticket Outbound Email.' => '',
+        'Ticket Owner.' => '',
+        'Ticket Pending.' => '',
+        'Ticket Print.' => '',
+        'Ticket Priority.' => '',
         'Ticket Queue Overview' => 'Kö-översikt',
+        'Ticket Responsible.' => '',
+        'Ticket Zoom.' => '',
+        'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ärendet flyttat till kö "%s" (%s) från kö "%s" (%s).',
         'Ticket notifications' => 'Ärendemeddelanden',
         'Ticket overview' => 'Ärendeöversikt',
+        'Ticket plain view of an email.' => '',
+        'Ticket zoom view.' => '',
+        'Ticket-Watcher' => '',
         'TicketNumber' => 'Ärendenummer',
+        'Tickets.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'Title updated: Old: "%s", New: "%s"' => '',
+        'To download attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Växla visning av FeatureAddons i pakethanteraren.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6337,6 +6406,7 @@ Thanks for your help!
         'View performance benchmark results.' => '',
         'View system log messages.' => 'Visa systemlogg-meddelanden.',
         'Watch this ticket' => 'Bevaka detta ärende',
+        'Watched Tickets.' => '',
         'We are performing scheduled maintenance.' => 'Schemalagt underhåll pågår.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Schemalagt underhåll pågår. Inloggning kan inte ske under tiden.',

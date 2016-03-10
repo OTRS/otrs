@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.716068996822515;
+    $Self->{Completeness}        = 0.705816554809843;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -436,6 +436,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Hubo un problema durante la actualización de %s',
         '%s was correctly uninstalled.' => '%s fue correctamente desinstalado',
         'There was a problem uninstalling %s.' => 'Hubo un problema desinstalando %s',
+        'Enable cloud services to unleash all OTRS features!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -1701,6 +1702,9 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Paquete',
         'Update repository information' => 'Actualizar información de repositorio',
+        'Cloud services are currently disabled.' => '',
+        'OTRS Verify™ can not continue!' => '',
+        'Enable cloud services' => '',
         'Online Repository' => 'Repositorio en línea',
         'Module documentation' => 'Módulo de documentación',
         'Upgrade' => 'Actualizar',
@@ -2247,6 +2251,8 @@ sub Data {
         'State type' => 'Tipo de estado',
 
         # Template: AdminSupportDataCollector
+        'Sending support data to OTRS Group is not possible!' => '',
+        'Enable Cloud Services' => '',
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
             'Estos datos se envían a Grupo OTRS en una base regular. Para detener el envío de estos datos por favor actualice su registro del sistema.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
@@ -2833,6 +2839,11 @@ sub Data {
         # Template: ChatStartForm
         'First message' => 'Primer mensaje',
 
+        # Template: CloudServicesDisabled
+        'This feature requires cloud services.' => '',
+        'You can' => 'Puede',
+        'go back to the previous page' => 'retroceder a la página anterior',
+
         # Template: CustomerError
         'Traceback' => 'Traza inversa',
 
@@ -2969,9 +2980,7 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Ha ocurrido un error.',
-        'You can' => 'Puede',
         'Send a bugreport' => 'Enviar un informe de error',
-        'go back to the previous page' => 'retroceder a la página anterior',
         'Error Details' => 'Detalles del error',
 
         # Template: FooterJS
@@ -3238,7 +3247,7 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => '',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             '',
-        'This field is required' => '',
+        'This field is required' => 'Este campo es requerido.',
         'There was an error creating the ACL' => '',
         'Need ACLID!' => '',
         'Could not get data for ACLID %s' => '',
@@ -3440,7 +3449,7 @@ sub Data {
         'Could not get data for SystemMaintenanceID %s' => '',
         'System Maintenance was saved successfully!' => '',
         'Session has been killed!' => '',
-        'All sessions have been killed, except for your own.' => '',
+        'All sessions have been killed, except for your own.' => 'Todas las sesiones se han cerrado, excepto la suya propia.',
         'There was an error updating the System Maintenance' => '',
         'Was not possible to delete the SystemMaintenance entry: %s!' => '',
 
@@ -3620,6 +3629,9 @@ sub Data {
             'Error: Por favor, asegúrese de que su base de datos acepta paquetes de más de %s MB de tamaño (actualmente sólo acepta paquetes hasta %s MB). Por favor, adaptar el ajuste max_allowed_packet de su base de datos con el fin de evitar errores.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Error: Por favor, establezca el valor de innodb_log_file_size en su base de datos para al menos %s MB ( actual: %s MB, recomendado: %s MB). Para obtener más información, por favor, eche un vistazo a %s.',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
+        'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'This ticket has no title or subject' => 'Este ticket no tiene título o asunto',
@@ -4069,6 +4081,7 @@ Tu Equipo de Soporte
         '(UserLogin) Firstname Lastname' => '(LoginUsuario) Nombre Apellidos',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(LoginUsuario) Apellidos, Nombre ',
+        'A TicketWatcher Module.' => '',
         'A Website' => 'Un Sitio Web',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Una lista de los campos dinámicos que se fusionó con el ticket principal durante una operación de combinación. Sólo los campos dinámicos que están vacíos en el ticket principal se establecerán.',
@@ -4132,6 +4145,10 @@ Tu Equipo de Soporte
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'AgentCustomerSearch' => '',
+        'AgentCustomerSearch.' => '',
+        'AgentUserSearch' => '',
+        'AgentUserSearch.' => '',
         'Agents <-> Groups' => 'Agentes <-> Grupos',
         'Agents <-> Roles' => 'Agentes <-> Roles',
         'All customer users of a CustomerID' => 'Todos los clientes de un IDCliente',
@@ -4203,8 +4220,8 @@ Tu Equipo de Soporte
             'Automáticamente bloqueado y establecido propietario el Agente actual después de abrir la pantalla mover ticket de la interfaz de agente.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Automáticamente bloqueado y establecido propietario el Agente actual después de seleccionar una Acción Masiva.',
-        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
-            'Automáticamente establece al propietario de un ticket como responsable del mismo (si la función resopnsable de ticket está habilitada).',
+        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
+            '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automáticamente establece al responsable de un ticket (si no está establecido aún) después de la primera actualización de propietario.',
         'Balanced white skin by Felix Niklas (slim version).' => 'Apariencia blanca equilibrada por Felix Niklas (version slim).',
@@ -4217,6 +4234,7 @@ Tu Equipo de Soporte
         'Builds an article index right after the article\'s creation.' =>
             'Construye un índice de artículo justo después de la creación del artículo.',
         'Bulgarian' => 'Bulgaro',
+        'Bulk-Action' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'Configurar ejemplo CMD. Ignora emails donde una externa CMD devuelve alguna salida STDOUT ( el email será canalizado en STDIN de algún.bin).',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
@@ -4279,8 +4297,10 @@ Tu Equipo de Soporte
         'Communication' => 'Comunicación',
         'Company Status' => 'Estado Compañía',
         'Company Tickets' => 'Tickets de Compañía',
+        'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Nombre compañía la cual será incluida en los emails salientes como una X-Cabecera.',
+        'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Configure Processes.' => 'Configurar Procesos.',
         'Configure and manage ACLs.' => 'Configurar y administrar ACLs.',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4326,14 +4346,19 @@ Tu Equipo de Soporte
         'Create and manage ticket states.' => 'Crea y gestiona estado de los tickets.',
         'Create and manage ticket types.' => 'Crea y gestiona tipos de tickets.',
         'Create and manage web services.' => 'Crea y gestiona servicios web.',
+        'Create new Ticket.' => '',
         'Create new email ticket and send this out (outbound)' => 'Crear nuevo ticket por correo y enviarlo (saliente)',
+        'Create new email ticket.' => '',
         'Create new phone ticket (inbound)' => 'Crear nuevo ticket telefónico (entrante)',
+        'Create new phone ticket.' => '',
         'Create new process ticket' => 'Crea nuevo ticket de proceso',
+        'Create tickets.' => '',
         'Croatian' => 'Croata',
         'Custom RSS Feed' => 'RSS Feed Personalizado',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Texto personalizado para la página que se muestra a los clientes que no tienen tickets todavía ( si necesita esos textos traducidos añadadalos a un módulo de traducción personalizado).',
         'Customer Administration' => 'Administración de Clientes',
+        'Customer Ticket Print Module.' => '',
         'Customer User <-> Groups' => 'Usuario Cliente <-> Grupos',
         'Customer User <-> Services' => 'Usuario Cliente <-> Servicios',
         'Customer User Administration' => 'Administración de los usuarios cliente',
@@ -4344,6 +4369,7 @@ Tu Equipo de Soporte
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Elemento cliente (icono) el cual muestra los tickets abiertos para este cliente como un bloque de información. Estableciendo ClienteUsuarioLogin a 1 busca por tickets basándose en el nombre de login en vez de IDCliente.',
         'Customer request via web.' => 'Solicitud de cliente vía web.',
+        'Customer ticket search.' => '',
         'Customer user search' => 'Búsqueda de usuario cliente',
         'CustomerID search' => 'Búsqueda de ClienteID',
         'CustomerName' => 'NombreCliente',
@@ -4827,6 +4853,8 @@ Tu Equipo de Soporte
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
+        'Defines the module to display a notification if cloud services are disabled.' =>
+            '',
         'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
             '',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>
@@ -4927,7 +4955,7 @@ Tu Equipo de Soporte
             '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
-        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
@@ -5039,6 +5067,8 @@ Tu Equipo de Soporte
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
+        'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -5124,6 +5154,7 @@ Tu Equipo de Soporte
         'E-Mail Outbound' => 'E-Mail Saliente',
         'Edit customer company' => 'Editar Compañía de Cliente',
         'Email Addresses' => 'Direcciones de Correo',
+        'Email Outbound' => '',
         'Email sent to "%s".' => 'Correo enviado a «%s».',
         'Email sent to customer.' => 'Correo enviado al cliente.',
         'Enable keep-alive connection header for SOAP responses.' => '',
@@ -5408,6 +5439,7 @@ Tu Equipo de Soporte
             '',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
+        'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
@@ -5465,6 +5497,7 @@ Tu Equipo de Soporte
         'List view' => '',
         'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
+        'Locked Tickets.' => '',
         'Locked ticket.' => 'Ticket bloqueado.',
         'Log file for the ticket counter.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => '¡Protección contra bucles! No se envió respuesta automática a «%s».',
@@ -5551,6 +5584,7 @@ Tu Equipo de Soporte
         'Multiselect' => 'Selección múltiple',
         'My Services' => 'Mis Servicios',
         'My Tickets' => 'Mis Tickets',
+        'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -5593,9 +5627,12 @@ Tu Equipo de Soporte
         'Out Of Office' => 'Fuera de la Oficina',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => 'Vista general de los tickets escalados',
+        'Overview Escalated Tickets.' => '',
         'Overview Refresh Time' => 'Tiempo de actualización de la vista general',
+        'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => 'Vista general de todos los tickets abiertos.',
+        'Overview of all open tickets.' => '',
+        'Overview of customer tickets.' => '',
         'PGP Key Management' => 'Administración del Clave PGP',
         'PGP Key Upload' => 'Carga de Clave PGP',
         'Package event module file a scheduler task for update registration.' =>
@@ -5652,6 +5689,7 @@ Tu Equipo de Soporte
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => 'Persa',
+        'Phone Call.' => '',
         'Picture-Upload' => 'Carga de Foto',
         'Polish' => '',
         'Portuguese' => 'Portugués',
@@ -5715,6 +5753,8 @@ Tu Equipo de Soporte
             '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
+        'Responsible Tickets' => '',
+        'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
@@ -5739,9 +5779,12 @@ Tu Equipo de Soporte
         'Schedule a maintenance period.' => 'Programar un periodo de mantenimiento.',
         'Screen' => 'Pantalla',
         'Search Customer' => 'Búsqueda de un cliente',
+        'Search Ticket.' => '',
+        'Search Tickets.' => '',
         'Search User' => 'Buscar Usuario',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Search.' => '',
         'Second Queue' => 'Cola Secundaria',
         'Select your frontend Theme.' => 'Seleccione su tema',
         'Selects the cache backend to use.' => '',
@@ -5766,6 +5809,7 @@ Tu Equipo de Soporte
         'Serbian Cyrillic' => '',
         'Serbian Latin' => 'Serbio (Latino)',
         'Service view' => 'Vista de servicio',
+        'ServiceView' => '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => '',
@@ -6280,6 +6324,7 @@ Tu Equipo de Soporte
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
+        'This module is part of the admin area of OTRS.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -6293,17 +6338,41 @@ Tu Equipo de Soporte
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This will allow the system to send text messages via SMS.' => '',
+        'Ticket Close.' => '',
+        'Ticket Compose Bounce Email.' => '',
+        'Ticket Compose email Answer.' => '',
+        'Ticket Customer.' => '',
+        'Ticket Forward Email.' => '',
+        'Ticket FreeText.' => '',
+        'Ticket History.' => '',
+        'Ticket Lock.' => '',
+        'Ticket Merge.' => '',
+        'Ticket Move.' => '',
+        'Ticket Note.' => '',
         'Ticket Notifications' => 'Notificaciones del Ticket',
+        'Ticket Outbound Email.' => '',
+        'Ticket Owner.' => '',
+        'Ticket Pending.' => '',
+        'Ticket Print.' => '',
+        'Ticket Priority.' => '',
         'Ticket Queue Overview' => 'Resumen de Tickets por Cola',
+        'Ticket Responsible.' => '',
+        'Ticket Zoom.' => '',
+        'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket movido a la cola «%s» (%s) de la cola «%s» (%s).',
         'Ticket notifications' => 'Notificaciones del ticket',
         'Ticket overview' => 'Vista general de tickets',
+        'Ticket plain view of an email.' => '',
+        'Ticket zoom view.' => '',
+        'Ticket-Watcher' => '',
         'TicketNumber' => 'Número de Ticket',
+        'Tickets.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'Title updated: Old: "%s", New: "%s"' => 'Título actualizado: Antiguo: «%s», Nuevo: «%s»',
+        'To download attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6351,6 +6420,7 @@ Tu Equipo de Soporte
         'View performance benchmark results.' => 'Ver resultados de la prueba de desempeño.',
         'View system log messages.' => 'Muestra mensajes de log del sistema.',
         'Watch this ticket' => 'Vigilar este ticket',
+        'Watched Tickets.' => '',
         'We are performing scheduled maintenance.' => 'Estamos realizando un mantenimiento programado.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Estamos realizando un mantenimiento programado. Inicio de Sesión temporalmente no disponible.',

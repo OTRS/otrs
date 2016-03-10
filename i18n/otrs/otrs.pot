@@ -1522,6 +1522,10 @@ msgstr ""
 msgid "There was a problem uninstalling %s."
 msgstr ""
 
+#. Template: AAABase
+msgid "Enable cloud services to unleash all OTRS features!"
+msgstr ""
+
 #. Template: AAACalendar
 msgid "New Year's Day"
 msgstr ""
@@ -5623,6 +5627,18 @@ msgid "Update repository information"
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid "Cloud services are currently disabled."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "OTRS Verify™ can not continue!"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Enable cloud services"
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr ""
 
@@ -7268,6 +7284,14 @@ msgstr ""
 
 #. Template: AdminState
 msgid "State type"
+msgstr ""
+
+#. Template: AdminSupportDataCollector
+msgid "Sending support data to OTRS Group is not possible!"
+msgstr ""
+
+#. Template: AdminSupportDataCollector
+msgid "Enable Cloud Services"
 msgstr ""
 
 #. Template: AdminSupportDataCollector
@@ -8970,6 +8994,18 @@ msgstr ""
 msgid "First message"
 msgstr ""
 
+#. Template: CloudServicesDisabled
+msgid "This feature requires cloud services."
+msgstr ""
+
+#. Template: CloudServicesDisabled
+msgid "You can"
+msgstr ""
+
+#. Template: CloudServicesDisabled
+msgid "go back to the previous page"
+msgstr ""
+
 #. Template: CustomerError
 msgid "Traceback"
 msgstr ""
@@ -9383,15 +9419,7 @@ msgid "An error occurred."
 msgstr ""
 
 #. Template: Error
-msgid "You can"
-msgstr ""
-
-#. Template: Error
 msgid "Send a bugreport"
-msgstr ""
-
-#. Template: Error
-msgid "go back to the previous page"
 msgstr ""
 
 #. Template: Error
@@ -11082,6 +11110,10 @@ msgstr ""
 msgid "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
+msgid "The start time of a ticket has been set after the end time!"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
 msgstr ""
@@ -12110,6 +12142,10 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr ""
 
 #. SysConfig
+msgid "A TicketWatcher Module."
+msgstr ""
+
+#. SysConfig
 msgid "A Website"
 msgstr ""
 
@@ -12267,6 +12303,22 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid "AgentCustomerSearch"
+msgstr ""
+
+#. SysConfig
+msgid "AgentCustomerSearch."
+msgstr ""
+
+#. SysConfig
+msgid "AgentUserSearch"
+msgstr ""
+
+#. SysConfig
+msgid "AgentUserSearch."
 msgstr ""
 
 #. SysConfig
@@ -12438,7 +12490,7 @@ msgid "Automatically lock and set owner to current Agent after selecting for an 
 msgstr ""
 
 #. SysConfig
-msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled)."
+msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface."
 msgstr ""
 
 #. SysConfig
@@ -12471,6 +12523,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Bulgarian"
+msgstr ""
+
+#. SysConfig
+msgid "Bulk-Action"
 msgstr ""
 
 #. SysConfig
@@ -12650,7 +12706,15 @@ msgid "Company Tickets"
 msgstr ""
 
 #. SysConfig
+msgid "Company Tickets."
+msgstr ""
+
+#. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
+msgstr ""
+
+#. SysConfig
+msgid "Compat module for AgentZoom to AgentTicketZoom."
 msgstr ""
 
 #. SysConfig
@@ -12794,7 +12858,15 @@ msgid "Create and manage web services."
 msgstr ""
 
 #. SysConfig
+msgid "Create new Ticket."
+msgstr ""
+
+#. SysConfig
 msgid "Create new email ticket and send this out (outbound)"
+msgstr ""
+
+#. SysConfig
+msgid "Create new email ticket."
 msgstr ""
 
 #. SysConfig
@@ -12802,7 +12874,15 @@ msgid "Create new phone ticket (inbound)"
 msgstr ""
 
 #. SysConfig
+msgid "Create new phone ticket."
+msgstr ""
+
+#. SysConfig
 msgid "Create new process ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Create tickets."
 msgstr ""
 
 #. SysConfig
@@ -12819,6 +12899,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Administration"
+msgstr ""
+
+#. SysConfig
+msgid "Customer Ticket Print Module."
 msgstr ""
 
 #. SysConfig
@@ -12851,6 +12935,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer request via web."
+msgstr ""
+
+#. SysConfig
+msgid "Customer ticket search."
 msgstr ""
 
 #. SysConfig
@@ -13918,6 +14006,10 @@ msgid "Defines the module to authenticate customers."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification if cloud services are disabled."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™."
 msgstr ""
 
@@ -14130,7 +14222,7 @@ msgid "Defines the recipient target of the phone ticket and the sender of the em
 msgstr ""
 
 #. SysConfig
-msgid "Defines the recipient target of the tickets (\"Queue\" shows all queues, \"SystemAddress\" displays all system addresses) in the customer interface."
+msgid "Defines the recipient target of the tickets (\"Queue\" shows all queues, \"SystemAddress\" shows only the queues which are assigned to system addresses) in the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -14386,6 +14478,10 @@ msgid "Disables sending reminder notifications to the responsible agent of a tic
 msgstr ""
 
 #. SysConfig
+msgid "Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others."
+msgstr ""
+
+#. SysConfig
 msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to \"No\", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
@@ -14583,6 +14679,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Email Addresses"
+msgstr ""
+
+#. SysConfig
+msgid "Email Outbound"
 msgstr ""
 
 #. SysConfig
@@ -15078,7 +15178,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -15298,6 +15398,10 @@ msgid "Includes article create times in the ticket search of the agent interface
 msgstr ""
 
 #. SysConfig
+msgid "Incoming Phone Call."
+msgstr ""
+
+#. SysConfig
 msgid "IndexAccelerator: to choose your backend TicketViewAccelerator module. \"RuntimeDB\" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). \"StaticDB\" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command \"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index creation."
 msgstr ""
 
@@ -15467,6 +15571,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Locked Tickets."
 msgstr ""
 
 #. SysConfig
@@ -15702,6 +15810,10 @@ msgid "My Tickets"
 msgstr ""
 
 #. SysConfig
+msgid "My Tickets."
+msgstr ""
+
+#. SysConfig
 msgid "Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings."
 msgstr ""
 
@@ -15818,7 +15930,7 @@ msgid "Overloads (redefines) existing functions in Kernel::System::Ticket. Used 
 msgstr ""
 
 #. SysConfig
-msgid "Overview Escalated Tickets"
+msgid "Overview Escalated Tickets."
 msgstr ""
 
 #. SysConfig
@@ -15826,7 +15938,19 @@ msgid "Overview Refresh Time"
 msgstr ""
 
 #. SysConfig
+msgid "Overview of all escalated tickets."
+msgstr ""
+
+#. SysConfig
 msgid "Overview of all open Tickets."
+msgstr ""
+
+#. SysConfig
+msgid "Overview of all open tickets."
+msgstr ""
+
+#. SysConfig
+msgid "Overview of customer tickets."
 msgstr ""
 
 #. SysConfig
@@ -15959,6 +16083,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Persian"
+msgstr ""
+
+#. SysConfig
+msgid "Phone Call."
 msgstr ""
 
 #. SysConfig
@@ -16126,6 +16254,14 @@ msgid "Resets and unlocks the owner of a ticket if it was moved to another queue
 msgstr ""
 
 #. SysConfig
+msgid "Responsible Tickets"
+msgstr ""
+
+#. SysConfig
+msgid "Responsible Tickets."
+msgstr ""
+
+#. SysConfig
 msgid "Restores a ticket from the archive (only if the event is a state change, from closed to any open available state)."
 msgstr ""
 
@@ -16194,6 +16330,14 @@ msgid "Search Customer"
 msgstr ""
 
 #. SysConfig
+msgid "Search Ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Search Tickets."
+msgstr ""
+
+#. SysConfig
 msgid "Search User"
 msgstr ""
 
@@ -16203,6 +16347,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Search backend router."
+msgstr ""
+
+#. SysConfig
+msgid "Search."
 msgstr ""
 
 #. SysConfig
@@ -16271,6 +16419,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
+msgstr ""
+
+#. SysConfig
+msgid "ServiceView"
 msgstr ""
 
 #. SysConfig
@@ -17398,6 +17550,10 @@ msgid "This module and its PreRun() function will be executed, if defined, for e
 msgstr ""
 
 #. SysConfig
+msgid "This module is part of the admin area of OTRS."
+msgstr ""
+
+#. SysConfig
 msgid "This option defines the dynamic field in which a Process Management activity entity id is stored."
 msgstr ""
 
@@ -17434,11 +17590,87 @@ msgid "This will allow the system to send text messages via SMS."
 msgstr ""
 
 #. SysConfig
+msgid "Ticket Close."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Compose Bounce Email."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Compose email Answer."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Customer."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Forward Email."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket FreeText."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket History."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Lock."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Merge."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Move."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Note."
+msgstr ""
+
+#. SysConfig
 msgid "Ticket Notifications"
 msgstr ""
 
 #. SysConfig
+msgid "Ticket Outbound Email."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Owner."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Pending."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Print."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Priority."
+msgstr ""
+
+#. SysConfig
 msgid "Ticket Queue Overview"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Responsible."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Zoom."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket bulk module."
 msgstr ""
 
 #. SysConfig
@@ -17458,7 +17690,23 @@ msgid "Ticket overview"
 msgstr ""
 
 #. SysConfig
+msgid "Ticket plain view of an email."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket zoom view."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket-Watcher"
+msgstr ""
+
+#. SysConfig
 msgid "TicketNumber"
+msgstr ""
+
+#. SysConfig
+msgid "Tickets."
 msgstr ""
 
 #. SysConfig
@@ -17467,6 +17715,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
+msgstr ""
+
+#. SysConfig
+msgid "To download attachments."
 msgstr ""
 
 #. SysConfig
@@ -17603,6 +17855,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Watch this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Watched Tickets."
 msgstr ""
 
 #. SysConfig
