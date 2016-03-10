@@ -1,4 +1,5 @@
 #5.0.9 2016-??-??
+ - 2016-03-10 Fixed bug#[7301](http://bugs.otrs.org/show_bug.cgi?id=7301) - Customer can reply to merged tickets, wrong ticket will be reopened.
 
 #5.0.8 2016-03-15
  - 2016-03-09 Updated translations, thanks to all translators.
