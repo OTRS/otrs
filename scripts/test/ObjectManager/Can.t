@@ -14,9 +14,6 @@ use vars (qw($Self));
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Stats' => {
-        UserID => 1,
-    },
     'Kernel::System::PostMaster' => {
         Email => [],
     },
