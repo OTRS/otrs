@@ -12,22 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-use CGI ();
-use URI::Escape();
-use LWP::UserAgent;
-
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
     },
 );
-
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
@@ -193,7 +187,7 @@ my $CreateQueryString = sub {
         }
     }
 
-    $EncodeObject->EncodeOutput( \$QueryString );
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
     return $QueryString;
 };
 
@@ -391,15 +385,14 @@ for my $Test (@Tests) {
                     $Self->Is(
                         $Response->code(),
                         500,
-                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)"
-                        ,
+                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
                     );
                 }
             }
         }
     }
 
-    # delete config
+    # delete webservice
     my $Success = $WebserviceObject->WebserviceDelete(
         ID     => $WebserviceID,
         UserID => 1,
@@ -428,5 +421,8 @@ for my $RequestMethod (qw(get post)) {
         "Non existing Webservice real HTTP $RequestMethod request result error status ($URL)",
     );
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;

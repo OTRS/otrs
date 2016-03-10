@@ -12,21 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-use SOAP::Lite;
-
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create soap object to use the soap output recursion
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
@@ -296,7 +294,5 @@ for my $Test (@Tests) {
         "$Test->{Name} - Deserialize",
     );
 }
-
-# end tests
 
 1;

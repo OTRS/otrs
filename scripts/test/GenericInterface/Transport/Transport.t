@@ -12,23 +12,20 @@ use utf8;
 
 use vars (qw($Self));
 
-use CGI;
-use HTTP::Request::Common;
-
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 
-# get needed objects
+# get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -86,7 +83,7 @@ for my $Fail ( 0 .. 1 ) {
     $Self->Is(
         ref $TransportObject,
         'Kernel::GenericInterface::Transport',
-        'TransportObject instantiated with testing backend (Fail $Fail)',
+        "TransportObject instantiated with testing backend (Fail $Fail)",
     );
 
     #
