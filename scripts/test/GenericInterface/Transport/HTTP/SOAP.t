@@ -12,19 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-use Socket;
-
-# get needed objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# helper object
+# get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # add webservice to be used (empty config)
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -33,7 +31,7 @@ $Self->Is(
     ref $WebserviceObject,
     "Create webservice object",
 );
-my $WebserviceName = 'SOAPTest' . $HelperObject->GetRandomID();
+my $WebserviceName = 'SOAP' . $Helper->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     Name   => $WebserviceName,
     Config => {
@@ -55,7 +53,7 @@ $Self->True(
 );
 
 # get remote host with some precautions for certain unit test systems
-my $Host = $HelperObject->GetTestHTTPHostname();
+my $Host = $Helper->GetTestHTTPHostname();
 
 # prepare webservice config
 my $RemoteSystem =
@@ -2048,7 +2046,6 @@ for my $Test (@Tests) {
 
     # update webservice with real config
     my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-
         ID      => $WebserviceID,
         Name    => $WebserviceName,
         Config  => $Test->{WebserviceConfig},
@@ -2105,9 +2102,9 @@ for my $Test (@Tests) {
         "$Test->{Name} - Requester success status (needs configured and running webserver)",
     );
 
-}    #end loop
+}
 
-# clean up webservice
+# cleanup webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,

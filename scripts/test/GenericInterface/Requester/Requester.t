@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use CGI ();
-use URI::Escape();
-
 my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 my @Tests = (
@@ -250,5 +247,8 @@ $Self->False(
     $FunctionResult->{Success},
     "Non existing web service error status",
 );
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
