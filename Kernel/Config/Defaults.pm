@@ -1649,7 +1649,7 @@ via the Preferences button after logging in.
 
     # admin interface
     $Self->{'Frontend::Module'}->{Admin} = {
-        'Description' => 'Admin-Area',
+        'Description' => 'Admin Area.',
         'Group' => [
             'admin'
         ],
@@ -1725,7 +1725,7 @@ via the Preferences button after logging in.
         },
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
-        'Description' => 'Software Package Manager',
+        'Description' => 'Software Package Manager.',
         'Group' => [
             'admin'
         ],
