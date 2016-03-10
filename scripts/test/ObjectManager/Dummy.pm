@@ -11,8 +11,6 @@ package scripts::test::ObjectManager::Dummy;    ## no critic
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
-
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 our @ObjectDependencies = ();                   # we want to use an undeclared dependency for testing
 

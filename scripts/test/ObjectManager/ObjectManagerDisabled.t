@@ -10,8 +10,6 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Scalar::Util qw/weaken/;
-
 $Self->True(
     $Kernel::OM->Get('scripts::test::ObjectManager::Dummy'),
     "Can load custom object",
