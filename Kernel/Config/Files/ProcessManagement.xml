@@ -135,11 +135,11 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new process ticket</Description>
-                <Title>New process ticket</Title>
+                <Description Translatable="1">Create new process ticket.</Description>
+                <Title Translatable="1">New process ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create New process ticket</Description>
+                    <Description Translatable="1">Create New process ticket.</Description>
                     <Name Translatable="1">New process ticket</Name>
                     <Link>Action=AgentTicketProcess</Link>
                     <LinkOption></LinkOption>
@@ -273,11 +273,11 @@
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Process Ticket</Description>
+                <Description Translatable="1">Process Ticket.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Process ticket</Title>
+                <Title Translatable="1">Process ticket</Title>
                 <NavBar>
-                    <Description Translatable="1">Create new process ticket</Description>
+                    <Description Translatable="1">Create new process ticket.</Description>
                     <Name Translatable="1">New process ticket</Name>
                     <Link>Action=CustomerTicketProcess</Link>
                     <LinkOption></LinkOption>
@@ -388,10 +388,10 @@
         <SubGroup>Core::Transition</SubGroup>
         <Setting>
             <Option SelectedID="debug">
-                <Item Key="debug">Debug</Item>
-                <Item Key="info">Info</Item>
-                <Item Key="notice">Notice</Item>
-                <Item Key="error">Error</Item>
+                <Item Key="debug" Translatable="1">Debug</Item>
+                <Item Key="info" Translatable="1">Info</Item>
+                <Item Key="notice" Translatable="1">Notice</Item>
+                <Item Key="error" Translatable="1">Error</Item>
             </Option>
         </Setting>
     </ConfigItem>

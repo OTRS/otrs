@@ -3339,8 +3339,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="LinkType">ParentChild</Item>
-                <Item Key="Direction">Target</Item>
+                <Item Key="LinkType" Translatable="1">ParentChild</Item>
+                <Item Key="Direction" Translatable="1">Target</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8559,8 +8559,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Zoom.</Description>
-                <Title>Zoom</Title>
+                <Description Translatable="1">Ticket Zoom.</Description>
+                <Title Translatable="1">Zoom</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
@@ -8649,7 +8649,7 @@
             <FrontendModuleReg>
                 <Description Translatable="1">A TicketWatcher Module.</Description>
                 <NavBarName>Ticket-Watcher</NavBarName>
-                <Title Translatable="1">Ticket-Watcher</Title>
+                <Title Translatable="1">Ticket Watcher</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -8965,7 +8965,7 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Templates</Title>
+                <Title Translatable="1">Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
@@ -9025,7 +9025,7 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Auto Responses &lt;-&gt; Queues</Title>
+                <Title Translatable="1">Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
@@ -9461,7 +9461,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::Email</Item>
-                <Item Key="Name">Email</Item>
+                <Item Key="Name" Translatable="1">Email</Item>
                 <Item Key="Icon">fa fa-envelope</Item>
                 <Item Key="Prio">100</Item>
                 <Item Key="IsOTRSBusinessTransport">0</Item>
@@ -9476,7 +9476,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::NotificationView</Item>
-                <Item Key="Name">Web View</Item>
+                <Item Key="Name" Translatable="1">Web View</Item>
                 <Item Key="Icon">fa fa-th-list</Item>
                 <Item Key="Prio">110</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
@@ -9491,7 +9491,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::SMS</Item>
-                <Item Key="Name">SMS (Short Message Service)</Item>
+                <Item Key="Name" Translatable="1">SMS (Short Message Service)</Item>
                 <Item Key="Icon">fa fa-mobile</Item>
                 <Item Key="Prio">120</Item>
                 <Item Key="IsOTRSBusinessTransport">1</Item>
@@ -9535,9 +9535,9 @@
             <FrontendModuleReg>
                 <Description Translatable="1">Overview of customer tickets.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Overview</Title>
+                <Title Translatable="1">Overview</Title>
                 <NavBar>
-                    <Description Translatable="1">Tickets</Description>
+                    <Description Translatable="1">Tickets.</Description>
                     <Name Translatable="1">Tickets</Name>
                     <Block></Block>
                     <Type>Menu</Type>
@@ -9603,7 +9603,7 @@
             <FrontendModuleReg>
                 <Description Translatable="1">Ticket zoom view.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Zoom</Title>
+                <Title Translatable="1">Zoom</Title>
                 <Loader>
                     <JavaScript>Core.Customer.TicketZoom.js</JavaScript>
                     <JavaScript>Core.UI.Popup.js</JavaScript>
@@ -9619,7 +9619,7 @@
             <FrontendModuleReg>
                 <Description Translatable="1">Customer Ticket Print Module.</Description>
                 <NavBarName></NavBarName>
-                <Title>Print</Title>
+                <Title Translatable="1">Print</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -9643,9 +9643,9 @@
             <FrontendModuleReg>
                 <Description Translatable="1">Customer ticket search.</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Search</Title>
+                <Title Translatable="1">Search</Title>
                 <NavBar>
-                    <Description Translatable="1">Search</Description>
+                    <Description Translatable="1">Search.</Description>
                     <Name Translatable="1">Search</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9854,10 +9854,10 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Option SelectedID="debug">
-                <Item Key="debug">Debug</Item>
-                <Item Key="info">Info</Item>
-                <Item Key="notice">Notice</Item>
-                <Item Key="error">Error</Item>
+                <Item Key="debug" Translatable="1">Debug</Item>
+                <Item Key="info" Translatable="1">Info</Item>
+                <Item Key="notice" Translatable="1">Notice</Item>
+                <Item Key="error" Translatable="1">Error</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -10492,8 +10492,8 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Based on global RichText setting</Item>
-                <Item Key="1">Always show RichText if available</Item>
+                <Item Key="0" Translatable="1">Based on global RichText setting</Item>
+                <Item Key="1" Translatable="1">Always show RichText if available</Item>
             </Option>
         </Setting>
     </ConfigItem>
