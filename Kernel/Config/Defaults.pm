@@ -1644,7 +1644,7 @@ via the Preferences button after logging in.
 
     # admin interface
     $Self->{'Frontend::Module'}->{Admin} = {
-        'Description' => 'Admin-Area',
+        'Description' => 'Admin Area.',
         'Group' => [
             'admin'
         ],

@@ -4821,7 +4821,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin-Area</Description>
+                <Description Translatable="1">Admin Area.</Description>
                 <Title></Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
