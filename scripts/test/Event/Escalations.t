@@ -97,10 +97,7 @@ my %WorkingHours = (
 for my $Hours ( sort keys %WorkingHours ) {
 
     # An unique indentifier, so that data from different test runs won't be mixed up.
-    my $UniqueSignature = sprintf
-        'UnitTest-OTRSEscalationEvents-%010d-%06d',
-        time(),
-        int( rand 1_000_000 );
+    my $UniqueSignature = $HelperObject->GetRandomID();
     my $StartingSystemTime = $TimeObject->SystemTime();
     my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
