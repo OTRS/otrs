@@ -126,7 +126,7 @@ $Self->True(
 );
 
 # get a random id
-my $RandomID = int rand 1_000_000_000;
+my $RandomID = $Helper->GetRandomNumber();
 
 # get dynamic field object
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');

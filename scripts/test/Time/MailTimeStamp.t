@@ -107,7 +107,7 @@ for my $Test (@Tests) {
     # Set OTRS time zone to arbitrary value to make sure it is ignored.
     $ConfigObject->Set(
         Key   => 'TimeZone',
-        Value => int rand 20 - 10,
+        Value => -8,
     );
 
     $Kernel::OM->ObjectsDiscard(

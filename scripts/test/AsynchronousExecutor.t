@@ -13,6 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
@@ -107,7 +109,7 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my @FileRemember;
 for my $Test (@Tests) {
 
-    my $File = $Home . '/var/tmp/task_' . int rand 1000000;
+    my $File = $Home . '/var/tmp/task_' . $Helper->GetRandomNumber();
     if ( -e $File ) {
         unlink $File;
     }
