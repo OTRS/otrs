@@ -6,9 +6,49 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("S/MIME Management") | html %]: [% Translate(Data.Subtitle) | html %]</h1>
     <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Notice") | html %]</h2>
+            </div>
+            <div class="Content ActionList">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Crypt::SMIME"/>
+[% RenderBlockStart("Disabled") %]
+                    <h3><span class="Warning">[% Translate("This feature is disabled!") | html %]</span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("Use this feature if you want to work with SMIME keys.") | html %]
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable it here!") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("Disabled") %]
+[% RenderBlockStart("NotWorking") %]
+                    <h3><span class="Error">[% Translate("This feature is not working!") | html %]</span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("Use this feature if you want to work with SMIME keys.") | html %]
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Configure it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Configure it here!") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("NotWorking") %]
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
 
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
@@ -362,3 +402,4 @@
 [% RenderBlockEnd("SignerCertificates") %]
 </div>
 <div class="Clear"></div>
+[% RenderBlockEnd("Overview") %]
