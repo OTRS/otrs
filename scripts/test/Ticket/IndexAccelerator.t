@@ -303,9 +303,6 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
         for my $Index ( 1 .. 3 ) {
 
-            # generate a random number for the time units
-            my $RandomNumber = int( rand(100) ) + 1;
-
             my $ArticleID = $TicketObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
@@ -326,13 +323,13 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
                 $TicketObject->TicketAccountTime(
                     TicketID  => $TicketID,
                     ArticleID => $ArticleID,
-                    TimeUnit  => $RandomNumber,
+                    TimeUnit  => $Index,
                     UserID    => 1,
                 ),
                 "Add accounted time",
             );
 
-            $AccountedTimes[$Position] += $RandomNumber;
+            $AccountedTimes[$Position] += $Index;
         }
 
         # verify accounted time

@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get SystemAddress object
-my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
-
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -22,6 +19,8 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 my $QueueRand1 = $Helper->GetRandomID();
 my $QueueRand2 = $Helper->GetRandomID();
@@ -61,7 +60,7 @@ my $QueueID2   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
 );
 
 # add SystemAddress
-my $SystemAddressEmail    = 'example-SystemAddress' . $Helper->GetRandomID() . '@example.com';
+my $SystemAddressEmail    = $Helper->GetRandomID() . '@example.com';
 my $SystemAddressRealname = "OTRS-Team";
 
 my %SystemAddressData = (

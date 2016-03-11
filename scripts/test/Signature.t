@@ -15,7 +15,7 @@ use vars (qw($Self));
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase            => 1,
+        RestoreDatabase => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -24,7 +24,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
 # add signature
-my $SignatureName = 'signature' . $Helper->GetRandomID();
+my $SignatureName = $Helper->GetRandomID();
 my $SignatureText = "Your OTRS-Team
 
 <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>

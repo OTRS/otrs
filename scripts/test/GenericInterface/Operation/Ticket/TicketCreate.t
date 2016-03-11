@@ -333,7 +333,7 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 # create new dynamic field
 my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => 'TestDynamicFieldGI' . int rand(1000),
+    Name       => 'TestDynamicFieldGI' . $Helper->GetRandomNumber(),
     Label      => 'GI Test Field',
     FieldOrder => 9991,
     FieldType  => 'DateTime',
