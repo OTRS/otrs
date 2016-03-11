@@ -20,7 +20,7 @@ my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 # get OTRS Version
 my $OTRSVersion = $ConfigObject->Get('Version');
 
-# leave only mayor and minor level versions
+# leave only major and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 
 # add x as patch level version
@@ -209,7 +209,7 @@ $Self->True(
     'PackageInstall() - package installed with true',
 );
 
-# merged package shouldn't be installed any more
+# merged package shouldn't be installed anymore
 # check if the package is installed
 $PackageIsInstalled = $PackageObject->PackageIsInstalled(
     Name => 'MergeOne',
@@ -221,8 +221,8 @@ $Self->False(
     'PackageIsInstalled() - merged package should not be installed',
 );
 
-# check that the original files from the package does not exists anymore
-# this files are suppose to be old files that are not required any more by the merged package
+# check that the original files from the package don't exist anymore
+# these files are suppose to be old files that are not required anymore by the merged package
 for my $File (qw( Delete DeleteMe )) {
     my $RealFile = $Home . '/' . $File;
     $RealFile =~ s/\/\//\//g;
@@ -568,7 +568,7 @@ for my $Test (@Tests) {
 
     # ------- Check Results ------- #
 
-    # if everything is OK was possible to create test_package table
+    # if everything is OK, it was possible to create test_package table
     my $SQLResult = '';
     if ( $DBObject->Prepare( SQL => 'SELECT name_a FROM test_package' ) ) {
 
@@ -753,5 +753,8 @@ $Self->True(
 $PackageObject->PackageUninstall( String => $PackageFour );
 
 unlink $TmpDir . '/test1';
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
