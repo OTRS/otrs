@@ -12,14 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+# get package object
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
 # get OTRS Version
-my $OTRSVersion = $ConfigObject->Get('Version');
+my $OTRSVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 
-# leave only mayor and minor level versions
+# leave only major and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 
 # add x as patch level version
@@ -174,5 +173,8 @@ $Self->True(
     $PackageUninstall,
     'PackageUninstall() - Package TestSecond',
 );
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;

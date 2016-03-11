@@ -14,14 +14,12 @@ use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 # get OTRS Version
 my $OTRSVersion = $ConfigObject->Get('Version');
 
-# leave only mayor and minor level versions
+# leave only major and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 
 # add x as patch level version
@@ -82,7 +80,7 @@ if ( !$DeveloperSystem ) {
 
     # modify the installed package including one framework file, this will simulate that the
     # package was installed before feature merge into the framework, the idea is that the package
-    # will be uninstalled, the not framewrok files will be removed and the framework files will
+    # will be uninstalled, the not framework files will be removed and the framework files will
     # remain
     $String = '<?xml version="1.0" encoding="utf-8" ?>
     <otrs_package version="1.0">
@@ -108,8 +106,8 @@ if ( !$DeveloperSystem ) {
     my $PackageName = 'Test';
 
     # the modifications has to be at DB level, otherwise a .save file will be generated for the
-    # framework file, and we are trying to prvent it
-    $DBObject->Do(
+    # framework file, and we are trying to prevent it
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE package_repository
             SET content = ?
@@ -120,7 +118,7 @@ if ( !$DeveloperSystem ) {
     my $Content = 'Test 12345678';
 
     # now create an .save file for the framework file, content doesn't matter as it will be deleted
-    my $Write = $MainObject->FileWrite(
+    my $Write = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location   => $Home . '/bin/otrs.CheckSum.pl.save',
         Content    => \$Content,
         Mode       => 'binmode',
@@ -141,8 +139,8 @@ if ( !$DeveloperSystem ) {
         "_PackageUninstallMerged() - Executed with true",
     );
 
-    # check that the original files from the package does not exists anymore
-    # this files are supose to be old files that are not required any more by the merged package
+    # check that the original files from the package does not exist anymore
+    # these files are suppose to be old files that are not required anymore by the merged package
     for my $File (qw( Test var/Test bin/otrs.CheckSum.pl.save )) {
         my $RealFile = $Home . '/' . $File;
         $RealFile =~ s/\/\//\//g;
@@ -171,5 +169,8 @@ if ( !$DeveloperSystem ) {
         'PackageIsInstalled() - with false',
     );
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
