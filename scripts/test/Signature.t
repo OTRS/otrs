@@ -12,13 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get needed objects
 my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
 # add signature
-my $SignatureNameRand0 = 'example-signature' . int( rand(1000000) );
+my $SignatureNameRand0 = $Helper->GetRandomID();
 my $Signature          = "Your OTRS-Team
 
 <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>

@@ -25,9 +25,9 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# always random number with the same number of figure
-my $RandomID = 1_000_000 + int rand( 9_999_999 - 1_000_000 + 1 );
-
+# always random number with the same number of digits
+my $RandomID = $Helper->GetRandomNumber();
+$RandomID = substr($RandomID, -7, 7);
 my @FieldIDs;
 
 # create a dynamic field with short name length (21 characters)

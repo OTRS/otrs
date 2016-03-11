@@ -89,9 +89,10 @@ if ($IsDevelopmentSystem) {
         );
         my $Output;
         my $File = 'Kernel/Config.pm';
+        LINE:
         for my $Line ( @{$ArchiveContent} ) {
             if ( $Line =~ m(\A\w+::$File\n\z) ) {
-                $Line = int( rand(1000000) ) . "::$File\n";
+                next LINE;
             }
             $Output .= $Line;
         }
