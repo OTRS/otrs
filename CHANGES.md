@@ -22,6 +22,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.9 2016-??-??
+ - 2016-03-11 Fixed bug#[11822](http://bugs.otrs.org/show_bug.cgi?id=11822) - S/MIME support is disabled in Kernel::Config::SMIME.
  - 2016-03-10 Fixed bug#[10117](http://bugs.otrs.org/show_bug.cgi?id=10117) - Filter in queue view for customer userID shows only customers from given backend.
  - 2016-03-10 Fixed bug#[7301](http://bugs.otrs.org/show_bug.cgi?id=7301) - Customer can reply to merged tickets, wrong ticket will be reopened.
 

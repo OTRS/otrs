@@ -11,6 +11,8 @@ package Kernel::Modules::AdminSMIME;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 use Kernel::Language qw(Translatable);
@@ -31,15 +33,57 @@ sub Run {
     # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # ------------------------------------------------------------ #
     # check if feature is active
     # ------------------------------------------------------------ #
-    if ( !$ConfigObject->Get('SMIME') ) {
-        my $Output .= $LayoutObject->FatalError(
-            Message => Translatable('S/MIME support is disabled in Kernel::Config::SMIME.'),
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('SMIME') ) {
+
+        my $Output .= $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+
+        $LayoutObject->Block( Name => 'Overview' );
+        $LayoutObject->Block( Name => 'Disabled' );
+        $LayoutObject->Block( Name => 'OverviewResult' );
+        $LayoutObject->Block(
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
+
+        $Output .= $LayoutObject->Output( TemplateFile => 'AdminSMIME' );
+        $Output .= $LayoutObject->Footer();
+
+        return $Output;
+    }
+
+    # get SMIME objects
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+    if ( !$SMIMEObject ) {
+
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+
+        $Output .= $LayoutObject->Notify(
+            Priority => 'Error',
+            Data     => Translatable("S/MIME environment is not working. Please check log for more info!"),
+            Link     => $LayoutObject->{Baselink} . 'Action=AdminLog',
+        );
+
+        $LayoutObject->Block( Name => 'Overview' );
+        $LayoutObject->Block( Name => 'NotWorking' );
+        $LayoutObject->Block( Name => 'OverviewResult' );
+        $LayoutObject->Block(
+            Name => 'NoDataFoundMsg',
+            Data => {},
+        );
+
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'AdminSMIME',
+        );
+
+        $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -59,16 +103,6 @@ sub Run {
         Key       => 'SMIMESearch',
         Value     => $Param{Search},
     );
-
-    # get SMIME objects
-    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-
-    if ( !$SMIMEObject ) {
-        my $Output .= $LayoutObject->FatalError(
-            Message => Translatable('S/MIME environment is not working. Please check log for more info!'),
-        );
-        return $Output;
-    }
 
     # ------------------------------------------------------------ #
     # delete cert
@@ -546,15 +580,10 @@ sub _MaskAdd {
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    $LayoutObject->Block(
-        Name => 'ActionList',
-    );
-    $LayoutObject->Block(
-        Name => 'ActionList',
-    );
-    $LayoutObject->Block(
-        Name => 'ActionOverview',
-    );
+
+    $LayoutObject->Block( Name => 'Overview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
     # show the right tt block
     $LayoutObject->Block(
@@ -585,46 +614,8 @@ sub _Overview {
 
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $SMIMEObject  = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-    # check if SMIME is activated in the sysconfig first
-    if ( !$ConfigObject->Get('SMIME') ) {
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "SMIME" ),
-            Link =>
-                $LayoutObject->{Baselink}
-                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-        );
-    }
-
-    # check if SMIME Paths are writable
-    for my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
-        if ( !-w $ConfigObject->Get($PathKey) ) {
-            $Output .= $LayoutObject->Notify(
-                Priority => 'Error',
-                Data     => $LayoutObject->{LanguageObject}->Translate(
-                    "%s is not writable!",
-                    "$PathKey " . $ConfigObject->Get($PathKey),
-                ),
-                Link =>
-                    $LayoutObject->{Baselink}
-                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-            );
-        }
-    }
-
-    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-
-    if ( !$SMIMEObject && $ConfigObject->Get('SMIME') ) {
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
-            Link =>
-                $LayoutObject->{Baselink}
-                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-        );
-    }
     if ( $SMIMEObject && $SMIMEObject->Check() ) {
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
@@ -644,6 +635,7 @@ sub _Overview {
     if ($SMIMEObject) {
         @List = $SMIMEObject->Search();
     }
+    $LayoutObject->Block( Name => 'Overview' );
     $LayoutObject->Block(
         Name => 'OverviewResult',
     );
@@ -680,18 +672,11 @@ sub _Overview {
             Data => {},
         );
     }
-    $LayoutObject->Block(
-        Name => 'ActionList',
-    );
-    $LayoutObject->Block(
-        Name => 'ActionAdd',
-    );
-    $LayoutObject->Block(
-        Name => 'SMIMEFilter',
-    );
-    $LayoutObject->Block(
-        Name => 'OverviewHint',
-    );
+
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'SMIMEFilter' );
+    $LayoutObject->Block( Name => 'OverviewHint' );
 
     return $Output;
 }
@@ -740,15 +725,10 @@ sub _SignerCertificateOverview {
     @ShowCertList = grep ( !defined $RelatedCerts{ $_->{Fingerprint} }
             && $_->{Fingerprint} ne $Param{CertFingerprint}, @AvailableCerts );
 
-    $LayoutObject->Block(
-        Name => 'ActionList',
-    );
-    $LayoutObject->Block(
-        Name => 'ActionOverview',
-    );
-    $LayoutObject->Block(
-        Name => 'SignerCertHint',
-    );
+    $LayoutObject->Block( Name => 'Overview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'SignerCertHint' );
 
     $LayoutObject->Block(
         Name => 'SignerCertificates',
@@ -799,52 +779,6 @@ sub _SignerCertificateOverview {
         $Output .= $LayoutObject->Notify(
             Priority => $Message{Type},
             Info     => $Message{Message},
-        );
-    }
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # check if SMIME is activated in the sysconfig first
-    if ( !$ConfigObject->Get('SMIME') ) {
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "SMIME" ),
-            Link =>
-                $LayoutObject->{Baselink}
-                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-        );
-    }
-
-    # check if SMIME Paths are writable
-    for my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
-        if ( !-w $ConfigObject->Get($PathKey) ) {
-            $Output .= $LayoutObject->Notify(
-                Priority => 'Error',
-                Data     => $LayoutObject->{LanguageObject}->Translate(
-                    "%s is not writable!",
-                    "$PathKey " . $ConfigObject->Get($PathKey)
-                ),
-                ,
-                Link =>
-                    $LayoutObject->{Baselink}
-                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-            );
-        }
-    }
-    if ( !$SMIMEObject && $ConfigObject->Get('SMIME') ) {
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
-            Link =>
-                $LayoutObject->{Baselink}
-                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
-        );
-    }
-    if ( $SMIMEObject && $SMIMEObject->Check() ) {
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate("' . $SMIMEObject->Check() . '"),
         );
     }
 
