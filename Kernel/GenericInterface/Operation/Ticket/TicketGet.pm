@@ -305,17 +305,24 @@ sub Run {
         );
     }
 
-    my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
-    my $Extended          = $Param{Data}->{Extended}          || 0;
-    my $AllArticles       = $Param{Data}->{AllArticles}       || 0;
-    my $ArticleSenderType = $Param{Data}->{ArticleSenderType} || '';
-    my $ArticleOrder      = $Param{Data}->{ArticleOrder}      || 'ASC';
-    my $ArticleLimit      = $Param{Data}->{ArticleLimit}      || 0;
-    my $Attachments       = $Param{Data}->{Attachments}       || 0;
-    my $ReturnData        = {
+    my $DynamicFields = $Param{Data}->{DynamicFields} || 0;
+    my $Extended      = $Param{Data}->{Extended}      || 0;
+    my $AllArticles   = $Param{Data}->{AllArticles}   || 0;
+    my $ArticleOrder  = $Param{Data}->{ArticleOrder}  || 'ASC';
+    my $ArticleLimit  = $Param{Data}->{ArticleLimit}  || 0;
+    my $Attachments   = $Param{Data}->{Attachments}   || 0;
+    my $ReturnData    = {
         Success => 1,
     };
     my @Item;
+
+    my $ArticleSenderType = '';
+    if ( IsArrayRefWithData( $Param{Data}->{ArticleSenderType} ) ) {
+        $ArticleSenderType = $Param{Data}->{ArticleSenderType};
+    }
+    elsif ( IsStringWithData( $Param{Data}->{ArticleSenderType} ) ) {
+        $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ]
+    }
 
     # start ticket loop
     TICKET:
@@ -380,6 +387,7 @@ sub Run {
         if ( $UserType eq 'Customer' ) {
             $ArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
         }
+
         my @ArticleBoxRaw = $TicketObject->ArticleGet(
             TicketID          => $TicketID,
             ArticleSenderType => $ArticleSenderType,

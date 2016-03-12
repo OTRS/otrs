@@ -496,7 +496,27 @@ my $ArticleID41 = $TicketObject->ArticleCreate(
 my $ArticleID42 = $TicketObject->ArticleCreate(
     TicketID    => $TicketID4,
     ArticleType => 'phone',
-    SenderType  => 'agent',
+    SenderType  => 'customer',
+    From        => 'A not Real Agent <email@example.com>',
+    To          => 'Customer A <customer-a@example.com>',
+    Cc          => 'Customer B <customer-b@example.com>',
+    ReplyTo     => 'Customer B <customer-b@example.com>',
+    Subject     => 'second article',
+    Body        => 'A text for the body, not too long',
+    ContentType => 'text/plain; charset=ISO-8859-15',
+
+    #    Attachment     => \@Attachments,
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'second article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+# third article
+my $ArticleID43 = $TicketObject->ArticleCreate(
+    TicketID    => $TicketID4,
+    ArticleType => 'note-internal',
+    SenderType  => 'customer',
     From        => 'A not Real Agent <email@example.com>',
     To          => 'Customer A <customer-a@example.com>',
     Cc          => 'Customer B <customer-b@example.com>',
@@ -556,9 +576,28 @@ my @ArticleBox = $TicketObject->ArticleGet(
     UserID   => 1,
 );
 
+my $CustomerArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
+my @ArticleBoxTypeCustomer = $TicketObject->ArticleGet(
+    TicketID    => $TicketID4,
+    UserID      => 1,
+    ArticleType => $CustomerArticleTypes,
+);
+
+my @ArticleBoxSenderAgent = $TicketObject->ArticleGet(
+    TicketID          => $TicketID4,
+    ArticleSenderType => ['agent'],
+    UserID            => 1,
+);
+
+my @ArticleBoxSenderCustomer = $TicketObject->ArticleGet(
+    TicketID          => $TicketID4,
+    ArticleSenderType => ['customer'],
+    UserID            => 1,
+);
+
 # start article loop
 ARTICLE:
-for my $Article (@ArticleBox) {
+for my $Article ( @ArticleBox, @ArticleBoxTypeCustomer, @ArticleBoxSenderAgent, @ArticleBoxSenderCustomer ) {
 
     for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
@@ -1100,7 +1139,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBox,
+                    Article => \@ArticleBoxTypeCustomer,
                 },
             },
         },
@@ -1108,11 +1147,11 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
+                    {    ## no critic
                         (
                             %TicketEntryFour,
-                            Article => \@ArticleBox,
-                            )
+                            Article => \@ArticleBoxTypeCustomer,
+                        ),
                     },
                 ],
             },
@@ -1150,6 +1189,103 @@ my @Tests = (
                     }
             },
             Success => 1
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test Ticket 4 only agent sender articles',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID          => $TicketID4,
+            AllArticles       => 1,
+            ArticleSenderType => ['agent'],
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => $ArticleBoxSenderAgent[0],
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {    ## no critic
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBoxSenderAgent,
+                        ),
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test Ticket 4 only agent sender articles (string)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID          => $TicketID4,
+            AllArticles       => 1,
+            ArticleSenderType => 'agent',
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => $ArticleBoxSenderAgent[0],
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {    ## no critic
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBoxSenderAgent,
+                        ),
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test Ticket 4 only customer sender articles',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID          => $TicketID4,
+            AllArticles       => 1,
+            ArticleSenderType => ['customer'],
+            Attachments       => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBoxSenderCustomer,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {    ## no critic
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBoxSenderCustomer,
+                        ),
+                    },
+                ],
+            },
         },
         Operation => 'TicketGet',
     },
@@ -1328,16 +1464,34 @@ for my $Test (@Tests) {
 
                 # Articles
                 if ( defined $RequesterResult->{Data}->{Ticket}->{Article} ) {
-                    for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
-                        for my $Key ( sort keys %{$Article} ) {
-                            if ( !$Article->{$Key} ) {
-                                $Article->{$Key} = '';
+                    if ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'ARRAY' ) {
+                        for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
+                            for my $Key ( sort keys %{$Article} ) {
+                                if ( !$Article->{$Key} ) {
+                                    $Article->{$Key} = '';
+                                }
+                                if ( $SkipFields{$Key} ) {
+                                    delete $Article->{$Key};
+                                }
+                                if ( $Key eq 'Attachment' ) {
+                                    for my $Atm ( @{ $Article->{$Key} } ) {
+                                        $Atm->{ContentID}          = '';
+                                        $Atm->{ContentAlternative} = '';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    elsif ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'HASH' ) {
+                        for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
+                            if ( !$RequesterResult->{Data}->{Ticket}->{Article}->{$Key} ) {
+                                $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} = '';
                             }
                             if ( $SkipFields{$Key} ) {
-                                delete $Article->{$Key};
+                                delete $RequesterResult->{Data}->{Ticket}->{Article}->{$Key};
                             }
                             if ( $Key eq 'Attachment' ) {
-                                for my $Atm ( @{ $Article->{$Key} } ) {
+                                for my $Atm ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} } ) {
                                     $Atm->{ContentID}          = '';
                                     $Atm->{ContentAlternative} = '';
                                 }
@@ -1380,7 +1534,7 @@ for my $Test (@Tests) {
 
 # cleanup
 
-# delete webservice
+# delete web service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => $UserID,
