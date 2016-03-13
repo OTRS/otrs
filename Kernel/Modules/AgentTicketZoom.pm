@@ -2141,14 +2141,6 @@ sub _ArticleTree {
             if ( $Item->{ArticleID} ) {
                 $Item->{ArticleData} = $ArticlesByArticleID->{ $Item->{ArticleID} };
 
-                # security="restricted" may break SSO - disable this feature if requested
-                if ( $ConfigObject->Get('DisableMSIFrameSecurityRestricted') ) {
-                    $Item->{ArticleData}->{MSSecurityRestricted} = '';
-                }
-                else {
-                    $Item->{ArticleData}->{MSSecurityRestricted} = 'security="restricted"';
-                }
-
                 my %ArticleFlagsAll = $TicketObject->ArticleFlagGet(
                     ArticleID => $Item->{ArticleID},
                     UserID    => 1,
@@ -2756,14 +2748,6 @@ sub _ArticleItem {
             HTMLResultMode => 1,
             LinkFeature    => 1,
         );
-    }
-
-    # security="restricted" may break SSO - disable this feature if requested
-    if ( $ConfigObject->Get('DisableMSIFrameSecurityRestricted') ) {
-        $Article{MSSecurityRestricted} = '';
-    }
-    else {
-        $Article{MSSecurityRestricted} = 'security="restricted"';
     }
 
     # show body
