@@ -450,7 +450,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DisableMSIFrameSecurityRestricted" Required="0" Valid="1">
-        <Description Translatable="1">Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.</Description>
+        <Description Translatable="1">Disable restricted security for IFrames in IE. May be required for SSO to work in IE.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
