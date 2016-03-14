@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-03-14 Fixed bug#[11899](http://bugs.otrs.org/show_bug.cgi?id=11899) - Columns are stored multiple times in preferences.
  - 2016-03-11 Fixed bug#[11324](http://bugs.otrs.org/show_bug.cgi?id=11324) - OTRS webservices TicketGet operation returns always all articles.
  - 2016-03-08 Fixed bug#[11840](http://bugs.otrs.org/show_bug.cgi?id=11840) - Inline images not displayed after ticket create via ProcessManagement.
  - 2016-03-04 Fixed bug#[11913](http://bugs.otrs.org/show_bug.cgi?id=11913) - Description in SysConfig breakes when you click 'more'.
