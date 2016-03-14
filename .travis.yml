@@ -49,7 +49,7 @@ install:
   - perl bin/otrs.CheckSum.pl -a create
   # install OTRSCodePolicy, but skip the SOPM to avoid validation errors.
   - mkdir -p /tmp/OTRSCodePolicy
-  - git clone https://github.com/OTRS/otrscodepolicy.git /tmp/OTRSCodePolicy
+  - git clone --depth=1 https://github.com/OTRS/otrscodepolicy.git /tmp/OTRSCodePolicy
   - rm /tmp/OTRSCodePolicy/OTRSCodePolicy.sopm
   - cp -rf /tmp/OTRSCodePolicy/* .
   # install OTRS cpan dependencies
