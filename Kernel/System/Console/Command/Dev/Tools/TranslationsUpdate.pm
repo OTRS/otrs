@@ -204,6 +204,15 @@ sub HandleLanguage {
             Recursive => 1,
         );
 
+        if ($IsSubTranslation) {
+            my @CustomTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => "$ModuleDirectory/Custom/Kernel/Output/HTML/Templates/$DefaultTheme",
+                Filter    => '*.tt',
+                Recursive => 1,
+            );
+            push @TemplateList, @CustomTemplateList;
+        }
+
         for my $File (@TemplateList) {
 
             my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
@@ -251,6 +260,15 @@ sub HandleLanguage {
             Filter    => '*.pm',
             Recursive => 1,
         );
+
+        if ($IsSubTranslation) {
+            my @CustomPerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => "$ModuleDirectory/Custom/Kernel",
+                Filter    => '*.pm',
+                Recursive => 1,
+            );
+            push @PerlModuleList, @CustomPerlModuleList;
+        }
 
         FILE:
         for my $File (@PerlModuleList) {
