@@ -34,6 +34,10 @@
     overflow: hidden;
 }
 
+#Slider h2 {
+    margin-top: 2px;
+}
+
 #Login,
 #Reset,
 #Signup,
