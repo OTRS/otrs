@@ -128,6 +128,40 @@ sub new {
     return $Self;
 }
 
+#
+# Reuse Selenium session in subsequent tests. For this, we store the Selenium object in a global instance
+#   variable and take over the SessionID from it if a new one is created.
+#
+
+our $Instance;
+our $SessionRequests;
+
+sub _request_new_session {
+    my ( $Self, $args ) = @_;
+
+    # First time call, or session refresh needed?
+    if (!$Instance || $SessionRequests++ > 100) {
+        $Instance->quit() if $Instance;
+        $Self->SUPER::_request_new_session($args);
+        $SessionRequests = 1;
+    }
+    # Reuse session from previous Selenium object.
+    else {
+        $Self->session_id( $Instance->session_id() );
+    }
+
+    # Remember new instance.
+    $Instance = $Self;
+    $Self->auto_close(0);
+}
+
+END {
+    # Cleanup: close Selenium session.
+    if ($Instance) {
+        $Instance->SUPER::quit();
+    }
+}
+
 =item RunTest()
 
 runs a selenium test if Selenium testing is configured and performs proper
@@ -166,6 +200,9 @@ sub _execute_command {    ## no critic
     my ( $Self, $Res, $Params ) = @_;
 
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
+
+    # Skip the rest if we are in global destruction phase (Selenium scenario shutdown).
+    return $Result if !$Kernel::OM;
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
