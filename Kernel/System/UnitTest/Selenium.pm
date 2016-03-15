@@ -100,6 +100,18 @@ sub new {
 
     #$Self->debug_on();
 
+    # Cleanup any leftovers from a previous session
+    my ( $MainHandle, @AdditionalHandles ) = @{ $Self->get_window_handles() // [] };
+    if (@AdditionalHandles) {
+        for my $Handle (@AdditionalHandles) {
+            $Self->switch_to_window($Handle);
+            $Self->close();
+        }
+        $Self->switch_to_window($MainHandle);
+    }
+    $Self->delete_all_cookies();
+    $Self->SUPER::get('about:blank');
+
     # set screen size from config or use defauls
     my $Height = $SeleniumTestsConfig{window_height} || 1000;
     my $Width  = $SeleniumTestsConfig{window_width}  || 1200;
@@ -213,10 +225,9 @@ sub _execute_command {    ## no critic
         }
     );
 
-    $Self->{UnitTestObject}->True(
-        1,
-        $TestName
-    );
+    return if !$Self->{UnitTestObject};
+
+    $Self->{UnitTestObject}->True( 1, $TestName );
 
     return $Result;
 }
@@ -446,10 +457,10 @@ cleanup. Adds a unit test result to indicate the shutdown.
 sub DESTROY {
     my $Self = shift;
 
-    # Could be missing on early die.
-    if ( $Self->{UnitTestObject} ) {
-        $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario." );
-    }
+    # # Could be missing on early die.
+    # if ( $Self->{UnitTestObject} ) {
+    #     $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario." );
+    # }
 
     if ( $Self->{SeleniumTestsActive} ) {
         $Self->SUPER::DESTROY();
