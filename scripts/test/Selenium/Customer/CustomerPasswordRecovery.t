@@ -62,8 +62,10 @@ $Selenium->RunTest(
 
         # navigate to customer login screen
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?");
+        $Selenium->delete_all_cookies();
 
         # click on 'Forgot password?'
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?");
         $Selenium->find_element( "#ForgotPassword", 'css' )->VerifiedClick();
 
         # request new password

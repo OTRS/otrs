@@ -71,8 +71,10 @@ $Selenium->RunTest(
 
         # navigate to agent login screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
+        $Selenium->delete_all_cookies();
 
         # click on 'Lost your password?'
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
         $Selenium->find_element( "#LostPassword", 'css' )->VerifiedClick();
 
         # request new password
