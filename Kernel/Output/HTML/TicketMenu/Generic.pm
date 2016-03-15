@@ -92,7 +92,17 @@ sub Run {
         ITEM:
         for my $Item (@Items) {
 
-            my ( $Permission, $Name ) = split /:/, $Item;
+            # get index for first colon (:) into the item
+            my $IndexSeparator = index( $Item, ':' );
+
+            # take the part for the permission from string
+            my $Permission = substr( $Item, 0, $IndexSeparator );
+
+            # increase the index for skipping the seperator
+            $IndexSeparator++;
+
+            # get the Group name
+            my $Name = substr( $Item, $IndexSeparator );
 
             if ( !$Permission || !$Name ) {
                 $LogObject->Log(
