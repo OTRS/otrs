@@ -107,8 +107,9 @@ sub new {
             $Self->switch_to_window($Handle);
             $Self->close();
         }
-        $Self->switch_to_window($MainHandle);
     }
+    # make sure focus is correct
+    $Self->switch_to_window($MainHandle);
     eval {
         # just in case there are pending modal dialogs
         $Self->dismiss_alert();
