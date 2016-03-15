@@ -124,11 +124,11 @@ $Selenium->RunTest(
             # check test attachment in MIME-Viwer, WaitFor will be done after switch to window
             $Selenium->find_element("//a[contains(\@title, \'Viewer' )]")->click();
 
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
             # switch to link object window
             $Selenium->WaitFor( WindowCount => 2 );
+
+            my $Handles = $Selenium->get_window_handles();
+            $Selenium->switch_to_window( $Handles->[1] );
 
             # check expected values in PDF test attachment
             for my $ExpextedValue (qw(OTRS.org TEST)) {

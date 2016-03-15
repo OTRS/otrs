@@ -109,6 +109,10 @@ sub new {
         }
         $Self->switch_to_window($MainHandle);
     }
+    eval {
+        # just in case there are pending modal dialogs
+        $Self->dismiss_alert();
+    };
     $Self->delete_all_cookies();
     $Self->SUPER::get('about:blank');
 
