@@ -21,7 +21,31 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        my %DynamicFieldsOverviewPageShownSysConfig = $SysConfigObject->ConfigItemGet(
+            Name => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
+        );
+
+        %DynamicFieldsOverviewPageShownSysConfig = map { $_->{Key} => $_->{Content} } grep { defined $_->{Key} } @{ $DynamicFieldsOverviewPageShownSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
+
+        # show more dynamic fields per page as the default value
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
+            Value => {
+                %DynamicFieldsOverviewPageShownSysConfig,
+                DataSelected => 999,
+            },
+        );
 
         # create test user and login
         my $Language      = 'de';
