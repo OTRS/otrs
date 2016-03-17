@@ -735,7 +735,7 @@ thead .headerSortDown > a:before {
 
 .DataTable thead th.DashboardHeader .ColumnSettingsContainer,
 .TableSmall thead th.OverviewHeader .ColumnSettingsContainer {
-    position: absolute;
+    position: relative;
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsBox,
@@ -750,7 +750,7 @@ thead .headerSortDown > a:before {
     padding: 4px;
     position: absolute;
     right: 0px;
-    top: 0px;
+    top: 2px;
     width: 180px;
     z-index: 100;
 }
