@@ -8,6 +8,7 @@
 
 package Kernel::Output::HTML::ToolBar::TicketService;
 
+use Kernel::Language qw(Translatable);
 use base 'Kernel::Output::HTML::Base';
 
 use strict;
@@ -82,7 +83,7 @@ sub Run {
     if ($Count) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => 'Tickets in MyServices',
+            Description => Translatable('Tickets in My Services'),
             Count       => $Count,
             Class       => $Class,
             Icon        => $Icon,
