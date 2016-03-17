@@ -186,6 +186,8 @@ $Selenium->RunTest(
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
         # click on reply
         $Selenium->execute_script(
             "\$('#ResponseID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
@@ -196,8 +198,7 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait without jQuery because it might not be loaded yet
-        $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length' );
 
         # check AgentTicketCompose page
         for my $ID (
@@ -236,6 +237,9 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        sleep 2;
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
