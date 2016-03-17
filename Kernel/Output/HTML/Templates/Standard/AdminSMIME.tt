@@ -6,10 +6,51 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("S/MIME Management") | html %]: [% Translate(Data.Subtitle) | html %]</h1>
     <div class="SidebarColumn">
-
+[% RenderBlockStart("Notice") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Notice") | html %]</h2>
+            </div>
+            <div class="Content ActionList">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Crypt::SMIME"/>
+[% RenderBlockStart("Disabled") %]
+                    <h3><span class="Warning">[% Translate("SMIME support is disabled") | html %]<span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("To be able to use SMIME in OTRS, you have to enable it first.") | html %]
+                        </p>
+                        <div class="Field">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable SMIME support") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("Disabled") %]
+[% RenderBlockStart("NotWorking") %]
+                    <h3><span class="Error">[% Translate("Faulty SMIME configuration") | html %]<span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.") | html %]
+                        </p>
+                        <div class="Field">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Configure it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Check SMIME configuration") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("NotWorking") %]
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Notice") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
@@ -362,3 +403,4 @@
 [% RenderBlockEnd("SignerCertificates") %]
 </div>
 <div class="Clear"></div>
+[% RenderBlockEnd("Overview") %]
