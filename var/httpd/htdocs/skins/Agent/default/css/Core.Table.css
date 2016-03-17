@@ -755,6 +755,11 @@ thead .headerSortDown > a:before {
     z-index: 100;
 }
 
+.MainBox.Dashboard .DataTable thead th.DashboardHeader .ColumnSettingsBox,
+.MainBox.Dashboard .TableSmall thead th.OverviewHeader .ColumnSettingsBox {
+    top: -10px;
+}
+
 .DataTable thead th.DashboardHeader .ColumnSettingsBox select,
 .TableSmall thead th.OverviewHeader .ColumnSettingsBox select {
     margin-top: 0px;
