@@ -9,9 +9,8 @@
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("PGP Management") | html %]</h1>
-
     <div class="SidebarColumn">
-[% RenderBlockStart("Disabled") %]
+[% RenderBlockStart("Notice") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Notice") | html %]</h2>
@@ -22,23 +21,36 @@
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="Framework"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Crypt::PGP"/>
-                    <h3>[% Translate("This feature is disabled!") | html %]</h3>
+[% RenderBlockStart("Disabled") %]
+                    <h3><span class="Warning">[% Translate("PGP support is disabled") | html %]</span></h3>
                     <fieldset>
                         <p class="FieldExplanation">
-                            [% Translate("Use this feature if you want to work with PGP keys.") | html %]
+                            [% Translate("To be able to use PGP in OTRS, you have to enable it first.") | html %]
                         </p>
-                        <div class="Field SpacingTop">
+                        <div class="Field">
                             <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
-                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable it here!") | html %]</span>
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable PGP support") | html %]</span>
                             </button>
                         </div>
+[% RenderBlockEnd("Disabled") %]
+[% RenderBlockStart("NotWorking") %]
+                    <h3><span class="Error">[% Translate("Faulty PGP configuration") | html %]</span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.") | html %]
+                        </p>
+                        <div class="Field">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Configure it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Check PGP configuration") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("NotWorking") %]
                         <div class="Clear"></div>
                     </fieldset>
                 </form>
             </div>
         </div>
-[% RenderBlockEnd("Disabled") %]
-
+[% RenderBlockEnd("Notice") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header"><h2>[% Translate("Actions") | html %]</h2></div>
