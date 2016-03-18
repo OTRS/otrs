@@ -1044,10 +1044,20 @@ for my $Query (@Queries) {
             Some3 => 1,
         },
     },
+    {
+        Query  => 'InvalidQuery\\',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
 );
 
 # select's
 for my $Query (@Queries) {
+
+    # Without BindMode
     my $Condition = $DBObject->QueryCondition(
         Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
         Value        => $Query->{Query},
@@ -1065,7 +1075,30 @@ for my $Query (@Queries) {
         $Self->Is(
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
-            "#8 Do() SQL SELECT $Query->{Query} / $Check",
+            "#8 Do() SQL SELECT $Query->{Query} / $Check (BindMode 0)",
+        );
+    }
+
+    # With BindMode
+    my %Search = $DBObject->QueryCondition(
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
+        Value        => $Query->{Query},
+        SearchPrefix => '*',
+        SearchSuffix => '*',
+        BindMode     => 1,
+    );
+    $DBObject->Prepare(
+        SQL  => 'SELECT name_a FROM test_condition WHERE ' . $Search{SQL},
+        Bind => $Search{Values},
+    );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result{ $Row[0] } = 1;
+    }
+    for my $Check ( sort keys %{ $Query->{Result} } ) {
+        $Self->Is(
+            $Result{$Check} || 0,
+            $Query->{Result}->{$Check} || 0,
+            "#8 Do() SQL SELECT $Query->{Query} / $Check (BindMode 1)",
         );
     }
 }
@@ -1121,86 +1154,6 @@ for my $Query (@Queries) {
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
             "#8 Do() SQL SELECT $Query->{Query} / $Check",
-        );
-    }
-}
-
-# Query condition tests with BindMode
-@Queries = (
-    {
-        Query  => 'Some1',
-        Result => {
-            Some0  => 0,
-            Some1  => 1,
-            Some2  => 0,
-            Some3  => 0,
-            Some4  => 0,
-            Some5  => 0,
-            Some6  => 0,
-            Some7  => 0,
-            Some8  => 0,
-            Some9  => 0,
-            Some10 => 1,
-            Some11 => 1,
-        },
-    },
-    {
-        Query  => 'John Meier',
-        Result => {
-            Some2 => 1,
-        },
-    },
-    {
-        Query  => '\'test',
-        Result => {
-            Some11 => 1,
-        },
-    },
-    {
-        Query  => 'nothing+\'test\'',
-        Result => {
-            Some0  => 0,
-            Some1  => 0,
-            Some2  => 0,
-            Some3  => 0,
-            Some4  => 0,
-            Some5  => 0,
-            Some6  => 0,
-            Some7  => 0,
-            Some8  => 0,
-            Some9  => 0,
-            Some10 => 0,
-            Some11 => 0,
-        },
-    },
-    {
-        Query  => 'some11+\'test\'',
-        Result => {
-            Some11 => 1,
-        },
-    },
-);
-for my $Query (@Queries) {
-    my %Condition = $DBObject->QueryCondition(
-        Key          => [ 'name_a', 'name_b', ],
-        Value        => $Query->{Query},
-        SearchPrefix => '*',
-        SearchSuffix => '*',
-        BindMode     => 1,
-    );
-    $DBObject->Prepare(
-        SQL  => 'SELECT name_a FROM test_condition WHERE ' . $Condition{SQL},
-        Bind => $Condition{Values},
-    );
-    my %Result;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Result{ $Row[0] } = 1;
-    }
-    for my $Check ( sort keys %{ $Query->{Result} } ) {
-        $Self->Is(
-            $Result{$Check} || 0,
-            $Query->{Result}->{$Check} || 0,
-            "#8 Do() SQL BIND SELECT $Query->{Query} / $Check",
         );
     }
 }

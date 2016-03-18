@@ -1317,7 +1317,7 @@ sub QueryCondition {
             $Word =~ s/%%/%/g;
 
             # perform quoting depending on query type (only if not in bind mode)
-            if (!$BindMode) {
+            if ( !$BindMode ) {
                 if ( $Word =~ m/%/ ) {
                     $Word = $Self->Quote( $Word, 'Like' );
                 }
@@ -1505,6 +1505,12 @@ sub QueryCondition {
             Priority => 'notice',
             Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
         );
+        if ($BindMode) {
+            return (
+                'SQL'    => "1=0",
+                'Values' => [],
+            );
+        }
         return "1=0";
     }
 
