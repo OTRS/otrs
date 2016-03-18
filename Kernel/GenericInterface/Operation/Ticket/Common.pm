@@ -1130,7 +1130,7 @@ checks if the given dynamic field value is valid.
 
     my $Success = $CommonObject->ValidateDynamicFieldValue(
         Value => [                      # Only for fields that can handle multiple values like
-            'some value',               #   Miltiselect
+            'some value',               #   Multiselect
             'some other value',
         ],
     );
@@ -1145,7 +1145,11 @@ sub ValidateDynamicFieldValue {
 
     # check needed stuff
     return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
-    return if !IsStringWithData( $Param{Value} );
+
+    # possible structures are string and array, no data inside is needed
+    if ( !IsString( $Param{Value} ) && ref $Param{Value} ne 'ARRAY' ) {
+        return;
+    }
 
     # get dynamic field config
     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Param{Name} };
@@ -1226,13 +1230,21 @@ sub SetDynamicFieldValue {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(Value Name UserID)) {
-        if ( !IsStringWithData( $Param{$Needed} ) ) {
+    for my $Needed (qw(Name UserID)) {
+        if ( !IsString( $Param{$Needed} ) ) {
             return {
                 Success      => 0,
-                ErrorMessage => "SetDynamicFieldValue() Got no $Needed!"
+                ErrorMessage => "SetDynamicFieldValue() Invalid value for $Needed, just string is allowed!"
             };
         }
+    }
+
+    # check value structure
+    if ( !IsString( $Param{Value} ) && ref $Param{Value} ne 'ARRAY' ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "SetDynamicFieldValue() Invalid value for Value, just string and array are allowed!"
+        };
     }
 
     return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
