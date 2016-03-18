@@ -22,6 +22,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.9 2016-??-??
+ - 2016-01-15 Follow-up fix for bug#[11560](http://bugs.otrs.org/show_bug.cgi?id=11560) - Error for connection to cloud on OTRS in a network which outbound access is blocked.
  - 2016-03-18 Fixed bug#[11811](http://bugs.otrs.org/show_bug.cgi?id=11811) - Error processing mail with incorrectly encoded emoticons.
  - 2016-03-18 Fixed bug#[11939](http://bugs.otrs.org/show_bug.cgi?id=11939) - Ticket move permission problem.
  - 2016-03-18 Fixed bug#[11894](http://bugs.otrs.org/show_bug.cgi?id=11894) - Notification to agents with write permissions ignores user roles.
