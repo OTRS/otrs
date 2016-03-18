@@ -126,7 +126,7 @@
                         <span class="Marker">*</span>
                         [% Translate("Subject") | html %]:
                     </label>
-                    <input title="Subject" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate_Required [% Data.SubjectInvalid | html %]" />
+                    <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate_Required [% Data.SubjectInvalid | html %]" />
                     <div id="SubjectError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div id="SubjectServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.SubjectInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div class="Clear"></div>
@@ -146,7 +146,7 @@
                 </div>
                 <div>
                     <label for="Attachment">[% Translate("Attachment") | html %]:</label>
-                    <input name="file_upload" id="Attachment" title="Attachment" type="file" size="40" />
+                    <input name="file_upload" id="Attachment" title="[% Translate("Attachment") | html %]" type="file" size="40" />
                     <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

@@ -420,7 +420,7 @@ $('#UseSSL').on('change', function(){
                                 </ul>
                                 <div class="AddElement">
                                     [% Translate("Add new first level element") | html %]:
-                                    <input type="text" name="Element" title="Element" />
+                                    <input type="text" name="Element" title="[% Translate("Element") | html %]" />
                                     <button class="CallForAction"><span>[% Translate("Add") | html %]</span></button>
                                 </div>
                                 <p class="FieldExplanation">

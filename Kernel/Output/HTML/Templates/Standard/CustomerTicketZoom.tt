@@ -300,7 +300,7 @@
 [% RenderBlockEnd("ChatProtocol") %]
                         <div id="AttachmentHolder">
                             <label for="Attachment">[% Translate("Attachment") | html %]:</label>
-                            <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
+                            <input name="file_upload" title="[% Translate("Attachment") | html %]" id="Attachment" type="file" size="30" />
                             <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

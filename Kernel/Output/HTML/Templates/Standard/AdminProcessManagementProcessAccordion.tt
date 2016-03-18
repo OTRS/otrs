@@ -39,7 +39,7 @@
                 <li class="OneRow" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]">
                     <div class="AsBlock W80pc" title="[% Data.Name | html %] ([% Data.EntityID | html %])">[% Data.Name | html %]</div>
                     <span>
-                        <a href="#" title="Text{"Delete"}" class="DeleteEntity DeleteActivityDialog"><i class="fa fa-trash-o"></i></a>
+                        <a href="#" title="[% Translate("Delete") | html %]" class="DeleteEntity DeleteActivityDialog"><i class="fa fa-trash-o"></i></a>
                         <a href="[% Env("Baselink") %]Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %]" title="[% Translate("Edit") | html %]" class="AsPopup PopupType_ActivityDialog"><i class="fa fa-edit"></i></a>
                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
                     </span>
