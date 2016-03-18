@@ -142,12 +142,12 @@
                     <label for="NoTimeSet">[% Translate("All") | html %]</label>
                 </div>
                 <div>
-                    <input title="Specific date" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" [% Data.item("TimeSearchType::TimePoint") %] />
+                    <input title="[% Translate("Specific date") | html %]" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" [% Data.item("TimeSearchType::TimePoint") %] />
                     <label for="Date">[% Translate("Only tickets created") | html %]</label>
                     [% Data.TicketCreateTimePointStart %] [% Data.TicketCreateTimePoint %] [% Data.TicketCreateTimePointFormat %]
                 </div>
                 <div>
-                    <input title="Date range" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %] />
+                    <input title="[% Translate("Date range") | html %]" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %] />
                     <label for="DateRange">[% Translate("Only tickets created between") | html %]</label>
                     [% Data.TicketCreateTimeStart %] [% Translate("and") | html %] [% Data.TicketCreateTimeStop %]
                 </div>

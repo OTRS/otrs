@@ -23,6 +23,6 @@
         </div>
     </div>
     <div class="Footer">
-        <button class="CancelClosePopup" value="Close" type="button" title="Close" id="Close">[% Translate("Close") | html %]</button>
+        <button class="CancelClosePopup" value="Close" type="button" title="[% Translate("Close") | html %]" id="Close">[% Translate("Close") | html %]</button>
     </div>
 </div>

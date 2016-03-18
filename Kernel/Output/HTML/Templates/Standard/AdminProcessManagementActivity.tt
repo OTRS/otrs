@@ -87,7 +87,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 [% RenderBlockStart("AvailableActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" title="Name: [% Data.Name | html %] EntityID: [% Data.EntityID | html %]">
+                                <li data-id="[% Data.ID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
@@ -114,7 +114,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 [% RenderBlockStart("AssignedActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" title="Name: [% Data.Name | html %] EntityID: [% Data.EntityID | html %]">
+                                <li data-id="[% Data.ID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
