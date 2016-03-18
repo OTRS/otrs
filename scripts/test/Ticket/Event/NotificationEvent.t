@@ -125,6 +125,13 @@ my %UserData3 = $UserObject->GetUserData(
     User => $UserLogin3,
 );
 
+# create a new user with permissions via roles only
+my $UserLogin4 = $Helper->TestUserCreate();
+
+my %UserData4 = $UserObject->GetUserData(
+    User => $UserLogin4,
+);
+
 my $SetInvalid = $UserObject->UserUpdate(
     %UserData3,
     ValidID      => 2,
@@ -187,6 +194,26 @@ $Self->IsNot(
     "RoleAdd() should not be undef",
 );
 
+# add role to group
+$Success = $GroupObject->PermissionGroupRoleAdd(
+    GID        => $GID,
+    RID        => $RoleID,
+    Permission => {
+        ro        => 1,
+        move_into => 1,
+        create    => 1,
+        owner     => 1,
+        priority  => 1,
+        rw        => 1,
+    },
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "Added Role ID $RoleID to Group ID $GID",
+);
+
 $Success = $GroupObject->PermissionRoleUserAdd(
     RID    => $RoleID,
     UID    => $UserID,
@@ -197,6 +224,18 @@ $Success = $GroupObject->PermissionRoleUserAdd(
 $Self->True(
     $Success,
     "Added User ID $UserID to Role ID $RoleID",
+);
+
+$Success = $GroupObject->PermissionRoleUserAdd(
+    RID    => $RoleID,
+    UID    => $UserData4{UserID},
+    Active => 1,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "Added User ID $UserData4{UserID} to Role ID $RoleID",
 );
 
 # get queue object
@@ -639,6 +678,10 @@ my @Tests = (
                 ToArray => [ $UserData{UserEmail} ],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
+            {
+                ToArray => [ $UserData4{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
         ],
         Success => 1,
     },
@@ -772,6 +815,10 @@ my @Tests = (
                 ToArray => [ $UserData{UserEmail} ],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
+            {
+                ToArray => [ $UserData4{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
         ],
         Success => 1,
     },
@@ -794,6 +841,10 @@ my @Tests = (
         ExpectedResults => [
             {
                 ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => [ $UserData4{UserEmail} ],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],

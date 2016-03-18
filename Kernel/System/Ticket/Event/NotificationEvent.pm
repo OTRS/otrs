@@ -608,6 +608,17 @@ sub _RecipientsGet {
                         UserID  => $Param{UserID},
                     );
 
+                    my %RoleList = $GroupObject->PermissionGroupRoleGet(
+                        GroupID => $GroupID,
+                        Type    => 'rw',
+                    );
+                    for my $RoleID ( sort keys %RoleList ) {
+                        my %RoleUserList = $GroupObject->PermissionRoleUserGet(
+                            RoleID => $RoleID,
+                        );
+                        %UserList = ( %RoleUserList, %UserList );
+                    }
+
                     my @UserIDs = sort keys %UserList;
 
                     push @{ $Notification{Data}->{RecipientAgents} }, @UserIDs;
