@@ -413,7 +413,7 @@ sub Run {
 
         if ( !$CertFingerprint || !$CAFingerprint ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Needed CertFingerprint and CAFingerprint'),
+                Message => Translatable('Needed CertFingerprint and CAFingerprint!'),
             );
         }
 
@@ -456,7 +456,7 @@ sub Run {
             }
             else {
                 $Message{Priority} = 'Error';
-                $Message{Message}  = Translatable('Imposible to add relation!');
+                $Message{Message}  = Translatable('Impossible to add relation!');
             }
 
             $Output = $Self->_SignerCertificateOverview(
@@ -520,7 +520,7 @@ sub Run {
             }
             else {
                 $Message{Priority} = 'Error';
-                $Message{Message}  = Translatable('Imposible to delete relation!');
+                $Message{Message}  = Translatable('Impossible to delete relation!');
             }
 
             $Output = $Self->_SignerCertificateOverview(

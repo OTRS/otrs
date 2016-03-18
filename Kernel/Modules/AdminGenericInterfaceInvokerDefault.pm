@@ -45,7 +45,8 @@ sub Run {
 
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
         );
     }
 
@@ -139,7 +140,7 @@ sub _Add {
     }
     if ( !$Self->_InvokerTypeCheck( InvokerType => $InvokerType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Invoker %s is not registered', $InvokerType),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Invoker %s is not registered', $InvokerType ),
         );
     }
 
@@ -188,7 +189,8 @@ sub _AddAction {
     }
     if ( !$Self->_InvokerTypeCheck( InvokerType => $GetParam{InvokerType} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('InvokerType % is not registered', $GetParam{InvokerType}),
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'InvokerType %s is not registered', $GetParam{InvokerType} ),
         );
     }
 
@@ -279,7 +281,8 @@ sub _Change {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $Invoker),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $Invoker ),
         );
     }
 
@@ -317,7 +320,7 @@ sub _ChangeAction {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Need %s', $Needed),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
     }
@@ -332,7 +335,8 @@ sub _ChangeAction {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{OldInvoker}),
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not determine config for invoker %s', $GetParam{OldInvoker} ),
         );
     }
 
@@ -726,7 +730,8 @@ sub _AddEvent {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{Invoker}),
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not determine config for invoker %s', $GetParam{Invoker} ),
         );
     }
 
@@ -789,7 +794,7 @@ sub _DeleteEvent {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Need %s', $Needed),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
     }
@@ -804,7 +809,8 @@ sub _DeleteEvent {
         )
     {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not determine config for invoker %s', $GetParam{Invoker}),
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not determine config for invoker %s', $GetParam{Invoker} ),
         );
     }
 

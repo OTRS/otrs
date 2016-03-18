@@ -648,22 +648,27 @@ sub Run {
 
         if ( $NotificationImport->{AddedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => Translatable('The following Notifications have been added successfully: ')
-                    . $NotificationImport->{AddedNotifications},
+                Info => $LayoutObject->{LanguageObject}->Translate(
+                    'The following Notifications have been added successfully: %s',
+                    $NotificationImport->{AddedNotifications}
+                ),
             };
         }
         if ( $NotificationImport->{UpdatedNotifications} ) {
             push @{ $Param{NotifyData} }, {
-                Info => Translatable('The following Notifications have been updated successfully: ')
-                    . $NotificationImport->{UpdatedNotifications},
+                Info => $LayoutObject->{LanguageObject}->Translate(
+                    'The following Notifications have been updated successfully: %s',
+                    $NotificationImport->{UpdatedNotifications}
+                ),
             };
         }
         if ( $NotificationImport->{NotificationErrors} ) {
             push @{ $Param{NotifyData} }, {
                 Priority => 'Error',
-                Info     => Translatable('There where errors adding/updating the following Notifications: ')
-                    . $NotificationImport->{NotificationErrors}
-                    . Translatable('. Please check the log file for more information.'),
+                Info     => $LayoutObject->{LanguageObject}->Translate(
+                    'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.',
+                    $NotificationImport->{NotificationErrors}
+                ),
             };
         }
 

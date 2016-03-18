@@ -833,7 +833,7 @@ sub Run {
         # error page
         if ( !$ArticleTypeID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Can not determine the ArticleType.'),
+                Message => Translatable('Can not determine the ArticleType!'),
                 Comment => Translatable('Please contact the admin.'),
             );
         }

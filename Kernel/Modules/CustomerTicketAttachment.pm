@@ -60,7 +60,7 @@ sub Run {
     if ( !$Article{TicketID} ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => "No TicketID for ArticleID ($ArticleID)!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No TicketID for ArticleID (%s)!', $ArticleID ),
             Comment => Translatable('Please contact your administrator'),
         );
         $LogObject->Log(
@@ -90,7 +90,7 @@ sub Run {
     if ( !%Data ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => "No such attachment ($FileID)!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No such attachment (%s)!', $FileID ),
             Comment => Translatable('Please contact your administrator'),
         );
         $LogObject->Log(

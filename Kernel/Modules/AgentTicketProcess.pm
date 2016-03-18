@@ -411,7 +411,7 @@ sub Run {
         );
     }
     return $LayoutObject->ErrorScreen(
-        Message => Translatable('Subacion is invalid!'),
+        Message => Translatable('Subaction is invalid!'),
         Comment => Translatable('Please contact the admin.'),
     );
 }
@@ -1331,7 +1331,7 @@ sub _OutputActivityDialog {
     );
     if ( !$Activity ) {
         my $Message = $LayoutObject->{LanguageObject}->Translate(
-            'Can\'t get Activity configuration for ActivityEntityID %s!',
+            'Can\'t get Activity configuration for ActivityEntityID "%s"!',
             $ActivityActivityDialog->{Activity},
         );
 
@@ -4650,7 +4650,7 @@ sub _StoreActivityDialog {
             if ( !IsHashRefWithData( \%Ticket ) ) {
                 $LayoutObject->FatalError(
                     Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Could not Store ActivityDialog, invalid TicketID: %s!',
+                        'Could not store ActivityDialog, invalid TicketID: %s!',
                         $TicketID,
                     ),
                     Comment => Translatable('Please contact the admin.'),
@@ -4776,7 +4776,7 @@ sub _StoreActivityDialog {
         if ( !IsHashRefWithData( \%Ticket ) ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'Could not Store ActivityDialog, invalid TicketID: %s!',
+                    'Could not store ActivityDialog, invalid TicketID: %s!',
                     $TicketID,
                 ),
             );
