@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-03-18 Fixed bug#[11952](http://bugs.otrs.org/show_bug.cgi?id=11952) - Generic Interface - TicketUpdate operation - DynamicFields not possible empty value.
  - 2016-03-18 Fixed bug#[11811](http://bugs.otrs.org/show_bug.cgi?id=11811) - Error processing mail with incorrectly encoded emoticons.
  - 2016-03-18 Fixed bug#[11930](http://bugs.otrs.org/show_bug.cgi?id=11930) - Error 500 when searching string that ends with "\" in AdminCustomerUser.
  - 2016-03-14 Fixed bug#[11528](http://bugs.otrs.org/show_bug.cgi?id=11528) - Group Name like 'test::Support::1st Line' is not possible to use for group restrictions.
