@@ -242,6 +242,7 @@ sub Run {
     my %QueueList = $TicketObject->TicketMoveList(
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
+        Type     => 'move_into',
     );
     if ( $GetParam{DestQueueID} && !exists $QueueList{ $GetParam{DestQueueID} } ) {
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
