@@ -1,4 +1,5 @@
 #5.0.9 2016-??-??
+ - 2016-03-18 Fixed bug#[11939](http://bugs.otrs.org/show_bug.cgi?id=11939) - Ticket move permission problem.
  - 2016-03-18 Fixed bug#[11894](http://bugs.otrs.org/show_bug.cgi?id=11894) - Notification to agents with write permissions ignores user roles.
  - 2016-03-18 Fixed bug#[11930](http://bugs.otrs.org/show_bug.cgi?id=11930) - Error 500 when searching string that ends with "\" in AdminCustomerUser.
  - 2016-03-17 Fixed bug#[11937](http://bugs.otrs.org/show_bug.cgi?id=11937) - Error opening PackageManager.
