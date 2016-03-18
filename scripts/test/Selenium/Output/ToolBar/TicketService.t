@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ServiceIDUpdate", 'css' )->VerifiedClick();
 
         # click on tool bar AgentTicketService
-        $Selenium->find_element("//a[contains(\@title, \'Tickets in MyServices:\' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@title, \'Tickets in My Services:\' )]")->VerifiedClick();
 
         # verify that test is on the correct screen
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
