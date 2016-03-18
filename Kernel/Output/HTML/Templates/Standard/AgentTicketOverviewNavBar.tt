@@ -132,6 +132,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                             $ListContainer.append($FieldObj);
                         });
                     }
+
+                    // prevent multiple submits
+                    // fix for Safari: this "disable" comes to early after the submit, so that some fields are
+                    // disabled before submitting and therefor are not submitted
+                    window.setTimeout(function () {
+                        Core.Form.DisableForm();
+                    }, 0)
+
                     return true;
                 }
             }
