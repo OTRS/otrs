@@ -22,6 +22,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.9 2016-??-??
+ - 2016-03-21 Fixed bug#[11067](http://bugs.otrs.org/show_bug.cgi?id=11067) - Using a filter breaks the role - agent allocation in the admin interface.
  - 2016-03-18 Fixed bug#[11952](http://bugs.otrs.org/show_bug.cgi?id=11952) - Generic Interface - TicketUpdate operation - DynamicFields not possible empty value.
  - 2016-01-15 Follow-up fix for bug#[11560](http://bugs.otrs.org/show_bug.cgi?id=11560) - Error for connection to cloud on OTRS in a network which outbound access is blocked.
  - 2016-03-18 Fixed bug#[11811](http://bugs.otrs.org/show_bug.cgi?id=11811) - Error processing mail with incorrectly encoded emoticons.

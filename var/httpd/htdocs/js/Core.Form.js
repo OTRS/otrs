@@ -162,19 +162,26 @@ Core.Form = (function (TargetNS) {
     TargetNS.InitSelectAllCheckboxes = function ($Checkboxes, $SelectAllCheckbox) {
         if (isJQueryObject($Checkboxes, $SelectAllCheckbox)) {
             // Mark SelectAll checkbox if all depending checkboxes are already marked on initialization
-            if ($Checkboxes.filter('[id!=' + $SelectAllCheckbox.attr('id') + ']').length === $Checkboxes.filter(':checked').length) {
+            if ($Checkboxes.filter(':checked').length && ($Checkboxes.filter('[id!=' + $SelectAllCheckbox.attr('id') + ']').length === $Checkboxes.filter(':checked').length)) {
                 $SelectAllCheckbox.prop('checked', true);
             }
 
-            // Remove checkbox selection, if filter is used/changed
+            // Adjust  checkbox selection, if filter is used/changed
             Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container) {
+
+                var CountCheckboxesVisible = $Checkboxes.filter('[id!=' + $SelectAllCheckbox.attr('id') + ']:visible');
+
                 // Only continue, if the filter event is associated with the container we are working in
                 if (!$.contains($Container[0], $SelectAllCheckbox[0])) {
                     return;
                 }
 
-                $Checkboxes.prop('checked', false);
-                $SelectAllCheckbox.prop('checked', false);
+                if (CountCheckboxesVisible.length && (CountCheckboxesVisible.filter(':checked').length === CountCheckboxesVisible.length)) {
+                    $SelectAllCheckbox.prop('checked', true);
+                }
+                else {
+                    $SelectAllCheckbox.prop('checked', false);
+                }
             });
         }
     };
