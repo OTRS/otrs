@@ -65,10 +65,10 @@ $Selenium->RunTest(
         );
 
         # test if RSS plugin shows correct link
-        my $RSSLink = "http://www.otrs.com/release-notes-otrs";
+        my $RSSLink = "https://www.otrs.com/";
         $Self->True(
             index( $Selenium->get_page_source(), $RSSLink ) > -1,
-            "RSS dashboard plugin link - found",
+            "RSS dashboard plugin link ($RSSLink) - found",
         );
 
         # make sure cache is correct
