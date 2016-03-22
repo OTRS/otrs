@@ -22,6 +22,3 @@ if [ $DB = 'postgresql' ]; then
     psql -U otrs otrs < $TRAVIS_BUILD_DIR/scripts/database/otrs-schema-post.postgresql.sql > /dev/null
     psql -U postgres -c "ALTER ROLE otrs PASSWORD 'otrs'"
 fi
-
-mkdir -p $TRAVIS_BUILD_DIR/.ssl/certs
-mkdir -p $TRAVIS_BUILD_DIR/.ssl/private
