@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use File::Path();
+
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
