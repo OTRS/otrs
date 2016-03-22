@@ -1814,40 +1814,39 @@ sub _Mask {
             Data => \%Param,
         );
 
-        STATEID:
-        for my $StateID ( sort keys %StateList ) {
+        if ( IsArrayRefWithData( $Config->{StateType} ) ) {
 
-            next STATEID if !$StateID;
+            STATETYPE:
+            for my $StateType ( @{ $Config->{StateType} } ) {
 
-            # get state data
-            my %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet( ID => $StateID );
+                next STATETYPE if !$StateType;
+                next STATETYPE if $StateType !~ /pending/i;
 
-            next STATEID if $StateData{TypeName} !~ /pending/i;
+                # get used calendar
+                my $Calendar = $TicketObject->TicketCalendarGet(
+                    %Ticket,
+                );
 
-            # get used calendar
-            my $Calendar = $TicketObject->TicketCalendarGet(
-                %Ticket,
-            );
+                $Param{DateString} = $LayoutObject->BuildDateSelection(
+                    %Param,
+                    Format           => 'DateInputFormatLong',
+                    YearPeriodPast   => 0,
+                    YearPeriodFuture => 5,
+                    DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
+                        || 0,
+                    Class => $Param{DateInvalid} || ' ',
+                    Validate             => 1,
+                    ValidateDateInFuture => 1,
+                    Calendar             => $Calendar,
+                );
 
-            $Param{DateString} = $LayoutObject->BuildDateSelection(
-                %Param,
-                Format           => 'DateInputFormatLong',
-                YearPeriodPast   => 0,
-                YearPeriodFuture => 5,
-                DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
-                    || 0,
-                Class => $Param{DateInvalid} || ' ',
-                Validate             => 1,
-                ValidateDateInFuture => 1,
-                Calendar             => $Calendar,
-            );
+                $LayoutObject->Block(
+                    Name => 'StatePending',
+                    Data => \%Param,
+                );
 
-            $LayoutObject->Block(
-                Name => 'StatePending',
-                Data => \%Param,
-            );
-
-            last STATEID;
+                last STATETYPE;
+            }
         }
     }
 
