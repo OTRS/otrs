@@ -67,7 +67,8 @@ $Selenium->RunTest(
         # test if RSS plugin shows correct link
         my $RSSLink = "https://www.otrs.com/";
         $Self->True(
-            index( $Selenium->get_page_source(), $RSSLink ) > -1,
+            $Selenium->execute_script("return \$('#Dashboard0410-RSS').find(\"a.AsBlock[href*='$RSSLink']\").length;")
+                > 0,
             "RSS dashboard plugin link ($RSSLink) - found",
         );
 
