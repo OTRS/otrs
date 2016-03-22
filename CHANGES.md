@@ -22,6 +22,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.9 2016-??-??
+ - 2016-03-22 Fixed bug#[11954](http://bugs.otrs.org/show_bug.cgi?id=11954) - Can't handle double quotes as option value in modernized InputFields, thanks to Thorsten Eckel.
  - 2016-03-22 Fixed bug#[11944](http://bugs.otrs.org/show_bug.cgi?id=11944) - Inline images possible although image functionality is disabled.
  - 2016-03-21 Fixed bug#[11067](http://bugs.otrs.org/show_bug.cgi?id=11067) - Using a filter breaks the role - agent allocation in the admin interface.
  - 2016-03-18 Fixed bug#[11952](http://bugs.otrs.org/show_bug.cgi?id=11952) - Generic Interface - TicketUpdate operation - DynamicFields not possible empty value.

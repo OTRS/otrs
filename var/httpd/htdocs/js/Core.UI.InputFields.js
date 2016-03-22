@@ -442,7 +442,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     .data('value', Value);
 
                 // Textual representation of selected value
-                Text = $SelectObj.find('option[value="' + Value + '"]').first().text().trim();
+                Text = $SelectObj.find('option[value="' + Core.App.EscapeSelector(Value) + '"]').first().text().trim();
                 $TextObj = $('<div />').appendTo($SelectionObj);
                 $TextObj.addClass('Text')
                     .text(Text)
