@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
-use File::Path qw(mkpath rmtree);
+use File::Path ();
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -45,8 +45,10 @@ $Selenium->RunTest(
         # create directory for certificates and private keys
         my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
         my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
-        mkpath( [$CertPath],    0, 0770 );    ## no critic
-        mkpath( [$PrivatePath], 0, 0770 );    ## no critic
+        File::Path::rmtree( $CertPath );
+        File::Path::rmtree( $PrivatePath );
+        File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
+        File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
 
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
@@ -162,7 +164,7 @@ $Selenium->RunTest(
 
         # delete needed test directories
         for my $Directory ( $CertPath, $PrivatePath ) {
-            my $Success = rmtree( [$Directory] );
+            my $Success = File::Path::rmtree( [$Directory] );
             $Self->True(
                 $Success,
                 "Directory deleted - '$Directory'",
