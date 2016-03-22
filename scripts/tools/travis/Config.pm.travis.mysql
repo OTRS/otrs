@@ -24,8 +24,6 @@ sub Load {
     $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
     $Self->{Home} = dirname dirname __FILE__;
     $Self->{TestHTTPHostname} = 'localhost:5000';
-    $Self->{'SMIME::CertPath'} = '<OTRS_CONFIG_Home>/.ssl/certs';
-    $Self->{'SMIME::PrivatePath'} = '<OTRS_CONFIG_Home>/.ssl/private';
 }
 
 use base qw(Kernel::Config::Defaults);
