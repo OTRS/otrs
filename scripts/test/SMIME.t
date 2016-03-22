@@ -13,6 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use File::Path();
+
 use Kernel::System::Crypt;
 
 # get needed objects
