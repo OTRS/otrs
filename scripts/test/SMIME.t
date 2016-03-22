@@ -27,8 +27,15 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get configuration
 my $HomeDir     = $ConfigObject->Get('Home');
-my $CertPath    = $ConfigObject->Get('SMIME::CertPath');
-my $PrivatePath = $ConfigObject->Get('SMIME::PrivatePath');
+
+my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
+my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+File::Path::rmtree( $CertPath );
+File::Path::rmtree( $PrivatePath );
+File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
+File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
+$ConfigObject->Set(Key => 'SMIME::CertPath', Value => $CertPath);
+$ConfigObject->Set(Key => 'SMIME::PrivatePath', Value => $PrivatePath);
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
@@ -2763,6 +2770,9 @@ for my $Count ( 1 .. 3 ) {
         "#$Count Search()",
     );
 }
+
+File::Path::rmtree( $CertPath );
+File::Path::rmtree( $PrivatePath );
 
 # cleanup is done by RestoreDatabase
 
