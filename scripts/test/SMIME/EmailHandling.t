@@ -12,6 +12,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use File::Path;
 
 use Kernel::System::Crypt;
 use Kernel::Output::HTML::ArticleCheckSMIME;
@@ -23,8 +24,22 @@ my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 my $HomeDir     = $ConfigObject->Get('Home');
-my $CertPath    = $ConfigObject->Get('SMIME::CertPath');
-my $PrivatePath = $ConfigObject->Get('SMIME::PrivatePath');
+
+# create directory for certificates and private keys
+my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
+my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+mkpath( [$CertPath],    0, 0770 );    ## no critic
+mkpath( [$PrivatePath], 0, 0770 );    ## no critic
+
+# set SMIME paths
+$ConfigObject->Set(
+    Key   => 'SMIME::CertPath',
+    Value => $CertPath,
+);
+$ConfigObject->Set(
+    Key   => 'SMIME::PrivatePath',
+    Value => $PrivatePath,
+);
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
