@@ -85,12 +85,38 @@ $Selenium->RunTest(
 
         # wait for popup iframe to show
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.PopupIframe:visible').length == 1" );
+            JavaScript => "return typeof(\$) === 'function' && \$('.PopupIframe:visible').length == 1"
+        );
 
         # wait for the owner search in the iframe to show up
-        $Selenium->WaitFor( JavaScript =>
+        $Selenium->WaitFor(
+            JavaScript =>
                 "return typeof(\$) === 'function' && \$('#NewOwnerID_Search:visible', \$('.PopupIframe').contents()).length == 1"
         );
+
+        # as long as the overlay is opened, elements below it should not be usable, e.g. the mobile navigation toggle
+        my $Success;
+        eval {
+            $Success = $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
+        };
+
+        $Self->False(
+            $Success,
+            "Mobile navigation button should not be clickable.",
+        );
+
+        # clean up test data from the DB
+        $Success = $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Ticket is deleted - ID $TicketID"
+        );
+
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
 );
