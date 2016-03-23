@@ -108,14 +108,15 @@ sub new {
             $Self->close();
         }
     }
+
     # make sure focus is correct
     $Self->switch_to_window($MainHandle);
-    eval {
-        # just in case there are pending modal dialogs
-        $Self->dismiss_alert();
-    };
+
+    # just in case there are pending modal dialogs
+    eval { $Self->accept_alert(); };
     $Self->delete_all_cookies();
     $Self->SUPER::get('about:blank');
+    eval { $Self->accept_alert(); };
 
     # set screen size from config or use defauls
     my $Height = $SeleniumTestsConfig{window_height} || 1000;
