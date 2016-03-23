@@ -11,6 +11,8 @@ package Kernel::Modules::CustomerTicketAttachment;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -36,8 +38,8 @@ sub Run {
     if ( !$FileID || !$ArticleID ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => 'FileID and ArticleID are needed!',
-            Comment => 'Please contact your administrator'
+            Message => Translatable('FileID and ArticleID are needed!'),
+            Comment => Translatable('Please contact your administrator'),
         );
         $LogObject->Log(
             Message  => 'FileID and ArticleID are needed!',
@@ -58,8 +60,8 @@ sub Run {
     if ( !$Article{TicketID} ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => "No TicketID for ArticleID ($ArticleID)!",
-            Comment => 'Please contact your administrator'
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No TicketID for ArticleID (%s)!', $ArticleID ),
+            Comment => Translatable('Please contact your administrator'),
         );
         $LogObject->Log(
             Message  => "No TicketID for ArticleID ($ArticleID)!",
@@ -88,8 +90,8 @@ sub Run {
     if ( !%Data ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => "No such attachment ($FileID)!",
-            Comment => 'Please contact your administrator'
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No such attachment (%s)!', $FileID ),
+            Comment => Translatable('Please contact your administrator'),
         );
         $LogObject->Log(
             Message  => "No such attachment ($FileID)! May be an attack!!!",

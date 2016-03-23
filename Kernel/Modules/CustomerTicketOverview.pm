@@ -15,6 +15,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +50,9 @@ sub Run {
     # check needed CustomerID
     if ( !$Self->{UserCustomerID} ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
-        $Output .= $LayoutObject->CustomerError( Message => 'Need CustomerID!!!' );
+        $Output .= $LayoutObject->CustomerError(
+            Message => Translatable('Need CustomerID!'),
+        );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
@@ -156,7 +159,7 @@ sub Run {
     if ( !$Filters{ $Self->{Subaction} }->{$FilterCurrent} ) {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
-            Message => "Invalid Filter: $FilterCurrent!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid Filter: %s!', $FilterCurrent ),
         );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;

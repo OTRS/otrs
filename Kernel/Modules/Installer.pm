@@ -15,6 +15,7 @@ use warnings;
 
 use DBI;
 use Net::Domain qw(hostfqdn);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -40,14 +41,15 @@ sub Run {
     $Self->{Path} = $ConfigObject->Get('Home');
     if ( !-d $Self->{Path} ) {
         $LayoutObject->FatalError(
-            Message => "Directory '$Self->{Path}' doesn't exist!",
-            Comment => 'Configure Home in Kernel/Config.pm first!',
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
+            Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
         );
     }
     if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
         $LayoutObject->FatalError(
-            Message => "File '$Self->{Path}/Kernel/Config.pm' not found!",
-            Comment => 'Contact your Admin!',
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -55,8 +57,8 @@ sub Run {
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
         $LayoutObject->FatalError(
-            Message => "Directory '$DirOfSQLFiles' not found!",
-            Comment => 'Contact your Admin!',
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -202,9 +204,10 @@ sub Run {
                     . $LayoutObject->{LanguageObject}->Translate('Error')
                 );
             $Output .= $LayoutObject->Warning(
-                Message => "Kernel/Config.pm isn't writable!",
-                Comment => 'If you want to use the installer, set the '
-                    . 'Kernel/Config.pm writable for the webserver user! '
+                Message => Translatable('Kernel/Config.pm isn\'t writable!'),
+                Comment => Translatable(
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
+                ),
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -352,8 +355,8 @@ sub Run {
         }
         elsif ( $DBType eq 'mssql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
-                ? $LayoutObject->{LanguageObject}->Get('Enter the password for the administrative database user.')
-                : $LayoutObject->{LanguageObject}->Get('Enter the password for the database user.');
+                ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
+                : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
@@ -397,8 +400,8 @@ sub Run {
         }
         elsif ( $DBType eq 'postgresql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
-                ? $LayoutObject->{LanguageObject}->Get('Enter the password for the administrative database user.')
-                : $LayoutObject->{LanguageObject}->Get('Enter the password for the database user.');
+                ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
+                : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
@@ -465,8 +468,8 @@ sub Run {
 
         else {
             $LayoutObject->FatalError(
-                Message => "Unknown database type '$DBType'.",
-                Comment => 'Please go back',
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown database type "%s".', $DBType ),
+                Comment => Translatable('Please go back'),
             );
         }
     }
@@ -661,12 +664,13 @@ sub Run {
         if ($ReConfigure) {
             my $Output =
                 $LayoutObject->Header(
-                Title => 'Install OTRS - Error'
+                Title => Translatable('Install OTRS - Error')
                 );
             $Output .= $LayoutObject->Warning(
-                Message => "Kernel/Config.pm isn't writable!",
-                Comment => 'If you want to use the installer, set the '
-                    . 'Kernel/Config.pm writable for the webserver user!',
+                Message => Translatable('Kernel/Config.pm isn\'t writable!'),
+                Comment => Translatable(
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
+                ),
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -691,8 +695,9 @@ sub Run {
         for my $SchemaFile (qw(otrs-schema otrs-initial_insert)) {
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
-                    Message => "File '$DirOfSQLFiles/$SchemaFile.xml' not found!",
-                    Comment => 'Contact your Admin!',
+                    Message => $LayoutObject->{LanguageObject}
+                        ->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
+                    Comment => Translatable('Contact your Admin!'),
                 );
             }
 
@@ -913,7 +918,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'ConfigureMail',
             Data => {
-                Item             => 'Mail Configuration',
+                Item             => $LayoutObject->{LanguageObject}->Translate('Mail Configuration'),
                 Step             => $StepCounter,
                 InboundMailType  => $InboundMailTypeSelection,
                 OutboundMailType => $OutboundMailTypeSelection,
@@ -943,7 +948,7 @@ sub Run {
         );
         if ( !$Result ) {
             $LayoutObject->FatalError(
-                Message => "Can't write Config file!"
+                Message => Translatable('Can\'t write Config file!'),
             );
         }
 
@@ -1035,8 +1040,8 @@ sub Run {
 
     # else error!
     $LayoutObject->FatalError(
-        Message => "Unknown Subaction $Self->{Subaction}!",
-        Comment => 'Please contact your administrator',
+        Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Subaction %s!', $Self->{Subaction} ),
+        Comment => Translatable('Please contact your administrator'),
     );
 }
 
@@ -1165,10 +1170,11 @@ sub ConnectToDB {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'DBD::' . $Driver ) ) {
         return (
             Successful => 0,
-            Message    => "Can't connect to database, Perl module DBD::$Driver not installed!",
-            Comment    => "",
-            DB         => undef,
-            DBH        => undef,
+            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
+                ->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
+            Comment => "",
+            DB      => undef,
+            DBH     => undef,
         );
     }
 
@@ -1179,10 +1185,11 @@ sub ConnectToDB {
     if ( !$DBH ) {
         return (
             Successful => 0,
-            Message    => "Can't connect to database, read comment!",
-            Comment    => "$DBI::errstr",
-            DB         => undef,
-            DBH        => undef,
+            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
+                ->Translate("Can't connect to database, read comment!"),
+            Comment => "$DBI::errstr",
+            DB      => undef,
+            DBH     => undef,
         );
     }
 
