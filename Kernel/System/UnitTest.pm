@@ -867,6 +867,9 @@ sub _Print {
                 .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
+            if ( !$Self->{Verbose} ) {
+                print { $Self->{OriginalSTDOUT} } "\n";
+            }
             print { $Self->{OriginalSTDOUT} } " "
                 . $Self->_Color( 'red', "not ok" )
                 . " $Self->{TestCount} - $PrintName\n";
