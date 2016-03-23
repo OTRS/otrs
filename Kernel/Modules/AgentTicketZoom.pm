@@ -1703,6 +1703,8 @@ sub MaskAgentZoom {
     my $LinkTableStrg = $LayoutObject->LinkObjectTableCreate(
         LinkListWithData => $LinkListWithData,
         ViewMode         => $LinkTableViewMode,
+        Object           => 'Ticket',
+        Key              => $Self->{TicketID},
     );
 
     # output the simple link table
