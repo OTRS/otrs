@@ -114,7 +114,7 @@ sub new {
 
     # just in case there are pending modal dialogs
     eval { $Self->accept_alert(); };
-    $Self->delete_all_cookies();
+    eval { $Self->delete_all_cookies(); };
     $Self->SUPER::get('about:blank');
     eval { $Self->accept_alert(); };
 
