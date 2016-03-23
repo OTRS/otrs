@@ -41,6 +41,8 @@ sub Run {
     my $LinkTableStrg = $LayoutObject->LinkObjectTableCreate(
         LinkListWithData => $LinkListWithData,
         ViewMode         => $LinkTableViewMode,
+        Object           => 'Ticket',
+        Key              => $Param{Ticket}->{TicketID},
     );
     return if !$LinkTableStrg;
 
