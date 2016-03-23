@@ -254,6 +254,8 @@ sub Run {
             $Content =~ s/&/&amp;/g;
             $Content =~ s/</&lt;/g;
             $Content =~ s/>/&gt;/g;
+            # Replace characters that are invalid in XML (https://www.w3.org/TR/REC-xml/#charsets)
+            $Content =~ s/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/"\x{FFFD}"/eg;
             $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
         }
 
