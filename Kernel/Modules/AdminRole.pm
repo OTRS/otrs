@@ -11,6 +11,8 @@ package Kernel::Modules::AdminRole;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -87,7 +89,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Role updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Role updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminRole',
                     Data         => \%Param,
@@ -177,7 +179,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Role added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Role added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminRole',
                     Data         => \%Param,

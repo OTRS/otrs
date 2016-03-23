@@ -11,6 +11,8 @@ package Kernel::Modules::AdminAttachment;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -92,7 +94,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Attachment updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Attachment updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,
@@ -181,7 +183,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Attachment added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Attachment added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,

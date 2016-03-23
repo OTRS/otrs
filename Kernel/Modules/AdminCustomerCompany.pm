@@ -126,7 +126,7 @@ sub Run {
                 $Output .= $LayoutObject->NavigationBar(
                     Type => $NavigationBarType,
                 );
-                $Output .= $LayoutObject->Notify( Info => 'Customer company updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Customer company updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminCustomerCompany',
                     Data         => \%Param,

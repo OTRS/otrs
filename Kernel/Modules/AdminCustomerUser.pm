@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -339,7 +340,7 @@ sub Run {
                         Search => $Search,
                     );
                     my $Output = $NavBar . $Note;
-                    $Output .= $LayoutObject->Notify( Info => 'Customer updated!' );
+                    $Output .= $LayoutObject->Notify( Info => Translatable('Customer updated!') );
                     $Output .= $LayoutObject->Output(
                         TemplateFile => 'AdminCustomerUser',
                         Data         => \%Param,

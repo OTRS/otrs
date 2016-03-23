@@ -11,6 +11,8 @@ package Kernel::Modules::AdminMailAccount;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -130,7 +132,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Mail account added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Mail account added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
@@ -213,7 +215,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Mail account updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Mail account updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
@@ -250,7 +252,7 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         if ($Ok) {
-            $Output .= $LayoutObject->Notify( Info => 'Finished' );
+            $Output .= $LayoutObject->Notify( Info => Translatable('Finished') );
         }
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',

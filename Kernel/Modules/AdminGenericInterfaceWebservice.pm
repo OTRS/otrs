@@ -58,7 +58,8 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -95,7 +96,8 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -339,7 +341,8 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -413,7 +416,8 @@ sub Run {
         # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -496,7 +500,8 @@ sub Run {
         # display any YAML error message as a normal otrs error message
         if ( !IsHashRefWithData($ImportedConfig) ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('The imported file has not valid YAML content! Please check OTRS log for details'),
+                Message =>
+                    Translatable('The imported file has not valid YAML content! Please check OTRS log for details'),
             );
         }
 
@@ -928,7 +933,7 @@ sub _ShowEdit {
     # meta configuration for output blocks
     my %CommTypeConfig = (
         Provider => {
-            Title             => 'OTRS as provider',
+            Title             => $LayoutObject->{LanguageObject}->Translate('OTRS as provider'),
             SelectedTransport => $ProviderData->{Transport}->{Type},
             ActionType        => 'Operation',
             ActionsTitle      => 'Operations',
@@ -936,7 +941,7 @@ sub _ShowEdit {
             ControllerData    => \%GIOperations,
         },
         Requester => {
-            Title             => 'OTRS as requester',
+            Title             => $LayoutObject->{LanguageObject}->Translate('OTRS as requester'),
             SelectedTransport => $RequesterData->{Transport}->{Type},
             ActionType        => 'Invoker',
             ActionsTitle      => 'Invokers',

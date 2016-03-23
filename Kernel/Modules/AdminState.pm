@@ -11,6 +11,8 @@ package Kernel::Modules::AdminState;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -84,7 +86,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'State updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('State updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminState',
                     Data         => \%Param,
@@ -163,7 +165,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'State added!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('State added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminState',
                     Data         => \%Param,

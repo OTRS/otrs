@@ -12,6 +12,8 @@ package Kernel::Modules::AdminQueue;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -123,8 +125,8 @@ sub Run {
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Warning(
-                Message => 'Don\'t use :: in queue name!',
-                Comment => 'Click back and change it!',
+                Message => Translatable('Don\'t use :: in queue name!'),
+                Comment => Translatable('Click back and change it!'),
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -222,7 +224,7 @@ sub Run {
 
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => 'Queue updated!' );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Queue updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminQueue',
                     Data         => \%Param,
@@ -299,8 +301,8 @@ sub Run {
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Warning(
-                Message => 'Don\'t use :: in queue name!',
-                Comment => 'Click back and change it!',
+                Message => Translatable('Don\'t use :: in queue name!'),
+                Comment => Translatable('Click back and change it!'),
             );
             $Output .= $LayoutObject->Footer();
 

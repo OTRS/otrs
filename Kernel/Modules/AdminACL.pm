@@ -35,8 +35,9 @@ sub Run {
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
-    my $SynchronizeMessage
-        = 'ACL information from database is not in sync with the system configuration, please deploy all ACLs.';
+    my $SynchronizeMessage = Translatable(
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+    );
 
     my $SynchronizedMessageVisible = 0;
 
@@ -80,7 +81,8 @@ sub Run {
         if ( !$ACLImport->{Success} ) {
             my $Message = $ACLImport->{Message}
                 || Translatable(
-                'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information');
+                'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information'
+                );
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );

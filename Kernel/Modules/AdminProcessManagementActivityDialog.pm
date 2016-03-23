@@ -229,7 +229,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this ActivityDialog",
+                Message => Translatable("There was an error generating a new EntityID for this ActivityDialog"),
             );
         }
 
@@ -244,7 +244,7 @@ sub Run {
         # show error if can't create
         if ( !$ActivityDialogID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error creating the ActivityDialog",
+                Message => Translatable("There was an error creating the ActivityDialog"),
             );
         }
 
@@ -334,7 +334,7 @@ sub Run {
         # check for ActivityDialogID
         if ( !$ActivityDialogID ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need ActivityDialogID!",
+                Message => Translatable("Need ActivityDialogID!"),
             );
         }
 
@@ -498,7 +498,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "There was an error updating the ActivityDialog",
+                Message => Translatable("There was an error updating the ActivityDialog"),
             );
         }
 
@@ -596,7 +596,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This subaction is not valid",
+            Message => Translatable("This subaction is not valid"),
         );
     }
 }
