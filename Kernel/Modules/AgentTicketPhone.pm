@@ -195,7 +195,7 @@ sub Run {
     if ( $GetParam{FromChatID} ) {
         if ( !$ConfigObject->Get('ChatEngine::Active') ) {
             return $LayoutObject->FatalError(
-                Message => "Chat is not active.",
+                Message => Translatable('Chat is not active.'),
             );
         }
 
@@ -209,7 +209,7 @@ sub Run {
 
         if ( !%ChatParticipant ) {
             return $LayoutObject->FatalError(
-                Message => "No permission.",
+                Message => Translatable('No permission.'),
             );
         }
 
@@ -222,7 +222,8 @@ sub Run {
         # Check if observer
         if ( $PermissionLevel ne 'Owner' && $PermissionLevel ne 'Participant' ) {
             return $LayoutObject->FatalError(
-                Message => "No permission. $PermissionLevel",
+                Message => Translatable('No permission.'),
+                Comment => $PermissionLevel,
             );
         }
     }
@@ -1921,8 +1922,8 @@ sub Run {
     }
     else {
         return $LayoutObject->ErrorScreen(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your administrator',
+            Message => Translatable('No Subaction!'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 }

@@ -15,6 +15,7 @@ use warnings;
 use Mail::Address;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -792,8 +793,9 @@ sub Run {
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
                         Message =>
-                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                        Comment => 'Please contact the admin.',
+                            $LayoutObject->{LanguageObject}
+                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                        Comment => Translatable('Please contact the admin.'),
                     );
                 }
 
@@ -1803,8 +1805,8 @@ sub Run {
     }
     else {
         return $LayoutObject->ErrorScreen(
-            Message => 'No Subaction!',
-            Comment => 'Please contact your administrator',
+            Message => Translatable('No Subaction!'),
+            Comment => Translatable('Please contact your administrator'),
         );
     }
 }

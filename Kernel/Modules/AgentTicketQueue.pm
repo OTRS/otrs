@@ -233,7 +233,7 @@ sub Run {
 
     my %Filters = (
         All => {
-            Name   => 'All tickets',
+            Name   => Translatable('All tickets'),
             Prio   => 1000,
             Search => {
                 StateIDs => \@ViewableStateIDs,
@@ -245,7 +245,7 @@ sub Run {
             },
         },
         Unlocked => {
-            Name   => 'Available tickets',
+            Name   => Translatable('Available tickets'),
             Prio   => 1001,
             Search => {
                 LockIDs  => \@ViewableLockIDs,

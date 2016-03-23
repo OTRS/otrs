@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 use Mail::Address;
 
 our $ObjectManagerDisabled = 1;
@@ -344,8 +345,8 @@ sub Form {
     if ( !$Self->{TicketID} ) {
 
         return $LayoutObject->ErrorScreen(
-            Message => "Got no TicketID!",
-            Comment => 'System Error!',
+            Message => Translatable('Got no TicketID!'),
+            Comment => Translatable('System Error!'),
         );
     }
 
@@ -422,9 +423,8 @@ sub Form {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -465,7 +465,8 @@ sub Form {
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
 
             return $LayoutObject->ErrorScreen(
-                Message => "Article does not belong to ticket $Self->{TicketID}!",
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
             );
         }
     }
@@ -909,8 +910,9 @@ sub SendEmail {
 
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                Comment => 'Please contact the admin.',
+                    $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 
@@ -1173,7 +1175,7 @@ sub SendEmail {
     if ( !$ArticleID ) {
 
         return $LayoutObject->ErrorScreen(
-            Comment => 'Please contact the admin.',
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 

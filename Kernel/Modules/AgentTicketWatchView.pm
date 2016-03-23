@@ -465,7 +465,7 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName  => 'My Watched Tickets',
+        TitleName  => Translatable('My Watched Tickets'),
         TitleValue => $Filters{$Filter}->{Name},
         Bulk       => 1,
 

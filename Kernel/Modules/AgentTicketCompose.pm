@@ -47,8 +47,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -137,9 +137,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -835,7 +834,7 @@ sub Run {
         # error page
         if ( !$ArticleTypeID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Can not determine the ArticleType.'),
+                Message => Translatable('Can not determine the ArticleType!'),
                 Comment => Translatable('Please contact the admin.'),
             );
         }
@@ -1349,7 +1348,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $LayoutObject->Notify(
-                        Info => "Customer user automatically added in Cc.",
+                        Info => Translatable("Customer user automatically added in Cc."),
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};

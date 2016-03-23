@@ -39,8 +39,8 @@ sub Run {
 
         # error page
         return $LayoutObject->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 

@@ -60,7 +60,7 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message    => "You need move permissions!",
+            Message    => Translatable("You need move permissions!"),
             WithHeader => 'yes',
         );
     }
@@ -101,10 +101,8 @@ sub Run {
                 BodyClass => 'Popup',
             );
             $Output .= $LayoutObject->Warning(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
-                Comment =>
-                    $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
+                Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                Comment => Translatable('Please change the owner first.'),
             );
 
             # show back link
@@ -790,11 +788,8 @@ sub Run {
                         BodyClass => 'Popup',
                     );
                     $Output .= $LayoutObject->Warning(
-                        Message => $LayoutObject->{LanguageObject}->Translate(
-                            'Sorry, you need to be the ticket owner to perform this action.'
-                        ),
-                        Comment =>
-                            $LayoutObject->{LanguageObject}->Translate('Please change the owner first.'),
+                        Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                        Comment => Translatable('Please change the owner first.'),
                     );
 
                     # show back link

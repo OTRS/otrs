@@ -11,6 +11,8 @@ package Kernel::Modules::AgentLinkObject;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -47,8 +49,8 @@ sub Run {
     # check needed stuff
     if ( !$Form{SourceObject} || !$Form{SourceKey} ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need SourceObject and SourceKey!",
-            Comment => 'Please contact the admin.',
+            Message => Translatable('Need SourceObject and SourceKey!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -77,7 +79,7 @@ sub Run {
 
         if ( !$Permission ) {
             return $LayoutObject->NoPermission(
-                Message    => 'You need ro permission!',
+                Message    => Translatable('You need ro permission!'),
                 WithHeader => 'yes',
             );
         }
@@ -443,8 +445,9 @@ sub Run {
         # check needed stuff
         if ( !$TargetObjectStrg ) {
             return $LayoutObject->ErrorScreen(
-                Message => "The Object $Form{SourceObject} cannot link with other object!",
-                Comment => 'Please contact the admin.',
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'The object %s cannot link with other object!', $Form{SourceObject} ),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 

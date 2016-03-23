@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -36,8 +37,8 @@ sub Run {
 
         # error page
         return $LayoutObject->ErrorScreen(
-            Message => 'Can\'t show history, no TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('Can\'t show history, no TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 

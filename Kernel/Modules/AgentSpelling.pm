@@ -11,6 +11,8 @@ package Kernel::Modules::AgentSpelling;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -110,7 +112,7 @@ sub _Mask {
                     }
                 }
                 else {
-                    $ReplaceWords{''} = 'No suggestions';
+                    $ReplaceWords{''} = Translatable('No suggestions');
                 }
                 $Param{SpellCheckString} = $LayoutObject->BuildSelection(
                     Data => \%ReplaceWords,

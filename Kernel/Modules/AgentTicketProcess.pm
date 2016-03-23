@@ -157,9 +157,8 @@ sub Run {
                             Type => 'Small',
                         );
                         $Output .= $LayoutObject->Warning(
-                            Message =>
-                                'Sorry, you need to be the ticket owner to perform this action.',
-                            Comment => 'Please change the owner first.',
+                            Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                            Comment => Translatable('Please change the owner first.'),
                         );
                         $Output .= $LayoutObject->Footer(
                             Type => 'Small',
@@ -412,7 +411,7 @@ sub Run {
         );
     }
     return $LayoutObject->ErrorScreen(
-        Message => Translatable('Subacion is invalid!'),
+        Message => Translatable('Subaction is invalid!'),
         Comment => Translatable('Please contact the admin.'),
     );
 }
@@ -1332,7 +1331,7 @@ sub _OutputActivityDialog {
     );
     if ( !$Activity ) {
         my $Message = $LayoutObject->{LanguageObject}->Translate(
-            'Can\'t get Activity configuration for ActivityEntityID %s!',
+            'Can\'t get Activity configuration for ActivityEntityID "%s"!',
             $ActivityActivityDialog->{Activity},
         );
 
@@ -4652,7 +4651,7 @@ sub _StoreActivityDialog {
             if ( !IsHashRefWithData( \%Ticket ) ) {
                 $LayoutObject->FatalError(
                     Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Could not Store ActivityDialog, invalid TicketID: %s!',
+                        'Could not store ActivityDialog, invalid TicketID: %s!',
                         $TicketID,
                     ),
                     Comment => Translatable('Please contact the admin.'),
@@ -4778,7 +4777,7 @@ sub _StoreActivityDialog {
         if ( !IsHashRefWithData( \%Ticket ) ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'Could not Store ActivityDialog, invalid TicketID: %s!',
+                    'Could not store ActivityDialog, invalid TicketID: %s!',
                     $TicketID,
                 ),
             );

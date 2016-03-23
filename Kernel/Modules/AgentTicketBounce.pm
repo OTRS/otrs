@@ -126,9 +126,8 @@ sub Run {
                     BodyClass => 'Popup',
                 );
                 $Output .= $LayoutObject->Warning(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $LayoutObject->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
                 );
                 $Output .= $LayoutObject->Footer(
                     Type => 'Small',
@@ -455,8 +454,8 @@ $Param{Signature}";
         # error page
         if ( !$Bounce ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Can't bounce email!",
-                Comment => 'Please contact the admin.',
+                Message => Translatable('Can\'t bounce email!'),
+                Comment => Translatable('Please contact the admin.'),
             );
         }
 
@@ -498,8 +497,8 @@ $Param{Signature}";
             # error page
             if ( !$ArticleID ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "Can't send email!",
-                    Comment => 'Please contact the admin.',
+                    Message => Translatable('Can\'t send email!'),
+                    Comment => Translatable('Please contact the admin.'),
                 );
             }
         }
@@ -539,8 +538,8 @@ $Param{Signature}";
         );
     }
     return $LayoutObject->ErrorScreen(
-        Message => 'Wrong Subaction!!',
-        Comment => 'Please contact your administrator',
+        Message => Translatable('Wrong Subaction!'),
+        Comment => Translatable('Please contact your administrator'),
     );
 }
 

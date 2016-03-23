@@ -10,7 +10,9 @@ package Kernel::Modules::AgentTicketLock;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -33,8 +35,8 @@ sub Run {
     # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
-            Message => 'Can\'t lock Ticket, no TicketID is given!',
-            Comment => 'Please contact the admin.',
+            Message => Translatable('Can\'t lock Ticket, no TicketID is given!'),
+            Comment => Translatable('Please contact the admin.'),
         );
     }
 
@@ -93,8 +95,8 @@ sub Run {
                 Type  => 'Small',
             );
             $Output .= $LayoutObject->Warning(
-                Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please become the owner first.',
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Sorry, the current owner is %s!', $OwnerLogin ),
+                Comment => Translatable('Please become the owner first.'),
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -128,8 +130,9 @@ sub Run {
                 Type  => 'Small',
             );
             $Output .= $LayoutObject->Warning(
-                Message => "Ticket (ID=$Self->{TicketID}) is locked by $OwnerLogin!",
-                Comment => "Change the owner!",
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Ticket (ID=%s) is locked by %s!', $Self->{TicketID}, $OwnerLogin ),
+                Comment => Translatable('Change the owner!'),
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
