@@ -277,11 +277,12 @@ sub Run {
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
 
                         # check if we need to format the date
-                        my $DisplayValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                        my $DisplayValue
+                            = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
                             DynamicFieldConfig => $Self->{DynamicFieldLookup}->{$Item},
                             Value              => $TicketDetail{ 'DynamicField_' . $Item },
                             LayoutObject       => $LayoutObject,
-                        );
+                            );
 
                         $LayoutObject->Block(
                             Name => 'CalendarEventInfoDynamicFieldElement',

@@ -247,7 +247,7 @@ EOF
             $Success,
             "Deleted Customer $CustomerUserLogin",
         );
-        }
+    }
 );
 
 1;

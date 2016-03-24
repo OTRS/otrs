@@ -522,13 +522,13 @@ sub Run {
         # check if the skin is valid
         my $SkinValid = 0;
         if ($SkinSelected) {
-           $SkinValid = $Self->{LayoutObject}->SkinValidate(
+            $SkinValid = $Self->{LayoutObject}->SkinValidate(
                 SkinType => 'Agent',
-                Skin => $SkinSelected,
+                Skin     => $SkinSelected,
             );
         }
 
-        if (!$SkinValid) {
+        if ( !$SkinValid ) {
             $SkinSelected = $SkinSelectedHostBased
                 || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
                 || 'default';

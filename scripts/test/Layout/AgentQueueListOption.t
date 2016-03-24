@@ -23,7 +23,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name => 'Simple test',
+        Name   => 'Simple test',
         Params => {
             Name => 'test',
             Data => {
@@ -36,7 +36,7 @@ my @Tests = (
 ',
     },
     {
-        Name => 'Special characters',
+        Name   => 'Special characters',
         Params => {
             Name => 'test',
             Data => {
@@ -52,7 +52,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Result = $LayoutObject->AgentQueueListOption(%{$Test->{Params}});
+    my $Result = $LayoutObject->AgentQueueListOption( %{ $Test->{Params} } );
     $Self->Is(
         $Result,
         $Test->{Result},

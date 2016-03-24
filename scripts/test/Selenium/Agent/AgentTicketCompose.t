@@ -302,7 +302,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

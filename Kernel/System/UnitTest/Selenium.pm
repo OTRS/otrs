@@ -296,14 +296,14 @@ sub Login {
         # Now load it again to login
         $Self->VerifiedGet("${ScriptAlias}");
 
-        $Self->find_element( 'input#User', 'css' )->send_keys( $Param{User} );
+        $Self->find_element( 'input#User',     'css' )->send_keys( $Param{User} );
         $Self->find_element( 'input#Password', 'css' )->send_keys( $Param{Password} );
 
         # login
         $Self->find_element( 'input#User', 'css' )->VerifiedSubmit();
 
         # login successful?
-        $Self->find_element( 'a#LogoutButton', 'css' ); # dies if not found
+        $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
 
         $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
     };

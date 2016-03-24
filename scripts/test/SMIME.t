@@ -23,18 +23,24 @@ my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # get configuration
-my $HomeDir     = $ConfigObject->Get('Home');
+my $HomeDir = $ConfigObject->Get('Home');
 
 my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
 my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
 $CertPath =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
-File::Path::rmtree( $CertPath );
-File::Path::rmtree( $PrivatePath );
+File::Path::rmtree($CertPath);
+File::Path::rmtree($PrivatePath);
 File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
 File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
-$ConfigObject->Set(Key => 'SMIME::CertPath', Value => $CertPath);
-$ConfigObject->Set(Key => 'SMIME::PrivatePath', Value => $PrivatePath);
+$ConfigObject->Set(
+    Key   => 'SMIME::CertPath',
+    Value => $CertPath
+);
+$ConfigObject->Set(
+    Key   => 'SMIME::PrivatePath',
+    Value => $PrivatePath
+);
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
@@ -2772,7 +2778,7 @@ for my $Count ( 1 .. 3 ) {
     );
 }
 
-File::Path::rmtree( $CertPath );
-File::Path::rmtree( $PrivatePath );
+File::Path::rmtree($CertPath);
+File::Path::rmtree($PrivatePath);
 
 1;

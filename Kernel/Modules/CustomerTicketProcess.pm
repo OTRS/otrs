@@ -3171,6 +3171,7 @@ sub _StoreActivityDialog {
                     $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
                         || '';
                 }
+
                 # only validate visible fields
                 else {
                     # Check DynamicField Values
@@ -3569,7 +3570,9 @@ sub _StoreActivityDialog {
                     Body                      => $Param{GetParam}{Body},
                     Subject                   => $Param{GetParam}{Subject},
                     ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
-                    ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents} ? $Param{GetParam}{InformUserID} : [],
+                    ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
+                    ? $Param{GetParam}{InformUserID}
+                    : [],
                 );
                 if ( !$ArticleID ) {
                     return $Self->{LayoutObject}->CustomerErrorScreen();

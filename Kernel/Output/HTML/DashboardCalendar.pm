@@ -92,7 +92,7 @@ sub Run {
 
     if ( $Self->{Config}->{OwnerOnly} ) {
         $Map{Escalation}->[1]->{OwnerIDs} = [ $Self->{UserID} ];
-        $Map{Pending}->[1]->{OwnerIDs} = [ $Self->{UserID} ];
+        $Map{Pending}->[1]->{OwnerIDs}    = [ $Self->{UserID} ];
     }
 
     # get needed objects
