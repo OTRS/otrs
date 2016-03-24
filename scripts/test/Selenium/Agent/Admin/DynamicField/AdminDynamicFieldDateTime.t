@@ -33,7 +33,8 @@ $Selenium->RunTest(
             Name => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
         );
 
-        %DynamicFieldsOverviewPageShownSysConfig = map { $_->{Key} => $_->{Content} } grep { defined $_->{Key} } @{ $DynamicFieldsOverviewPageShownSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
+        %DynamicFieldsOverviewPageShownSysConfig = map { $_->{Key} => $_->{Content} }
+            grep { defined $_->{Key} } @{ $DynamicFieldsOverviewPageShownSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # show more dynamic fields per page as the default value
         $SysConfigObject->ConfigItemUpdate(

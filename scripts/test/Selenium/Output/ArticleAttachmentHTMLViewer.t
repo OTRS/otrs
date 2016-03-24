@@ -128,6 +128,7 @@ $Selenium->RunTest(
             );
         }
         $Selenium->close();
+
         #$Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test ticket

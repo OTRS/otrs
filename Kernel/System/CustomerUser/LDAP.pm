@@ -445,7 +445,6 @@ sub CustomerSearch {
     return %Users;
 }
 
-
 sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 

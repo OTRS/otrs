@@ -1034,7 +1034,7 @@ sub MaskAgentZoom {
                 Link  => '#',
                 Class => 'ClusterLink',
                 Items => $MenuClusters{$Cluster}->{Items},
-            },
+                },
         }
 
         # display all items

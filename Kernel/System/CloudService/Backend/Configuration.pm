@@ -97,7 +97,7 @@ sub CloudServiceAdd {
     }
 
     my %ExistingCloudServices = reverse %{ $Self->CloudServiceList( Valid => 0 ) };
-    if ($ExistingCloudServices{$Param{Name}}) {
+    if ( $ExistingCloudServices{ $Param{Name} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "A CloudService with the name $Param{Name} already exists.",
@@ -294,7 +294,7 @@ sub CloudServiceUpdate {
     }
 
     my %ExistingCloudServices = reverse %{ $Self->CloudServiceList( Valid => 0 ) };
-    if ( $ExistingCloudServices{$Param{Name}} != $Param{ID} ) {
+    if ( $ExistingCloudServices{ $Param{Name} } != $Param{ID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "A CloudService with the name $Param{Name} already exists.",

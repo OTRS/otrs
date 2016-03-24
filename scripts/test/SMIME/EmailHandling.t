@@ -29,7 +29,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $HomeDir     = $ConfigObject->Get('Home');
+my $HomeDir = $ConfigObject->Get('Home');
 
 # create directory for certificates and private keys
 my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";

@@ -527,13 +527,13 @@ sub Run {
         # check if the skin is valid
         my $SkinValid = 0;
         if ($SkinSelected) {
-           $SkinValid = $LayoutObject->SkinValidate(
+            $SkinValid = $LayoutObject->SkinValidate(
                 SkinType => 'Agent',
-                Skin => $SkinSelected,
+                Skin     => $SkinSelected,
             );
         }
 
-        if (!$SkinValid) {
+        if ( !$SkinValid ) {
             $SkinSelected = $SkinSelectedHostBased
                 || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
                 || 'default';
@@ -1086,10 +1086,10 @@ sub Run {
                 # show error if cant set
                 if ( !$Success ) {
                     $DeleteResult{Success} = $Success;
-                    $DeleteResult{Message}
-                        = $LayoutObject->{LanguageObject}
-                        ->Translate( 'There was an error setting the entity sync status for Process entity: %s',
-                        $CheckResult->{ProcessData}->{EntityID} );
+                    $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
+                        'There was an error setting the entity sync status for Process entity: %s',
+                        $CheckResult->{ProcessData}->{EntityID}
+                    );
                 }
             }
 
@@ -1274,10 +1274,10 @@ sub Run {
                     # show error if cant set
                     if ( !$Success ) {
                         $Success = 0;
-                        $Message
-                            = $LayoutObject->{LanguageObject}
-                            ->Translate( 'There was an error setting the entity sync status for %s entity: %s',
-                            $GetParam{EntityType}, $Entity->{EntityID} );
+                        $Message = $LayoutObject->{LanguageObject}->Translate(
+                            'There was an error setting the entity sync status for %s entity: %s',
+                            $GetParam{EntityType}, $Entity->{EntityID}
+                        );
                     }
                 }
 

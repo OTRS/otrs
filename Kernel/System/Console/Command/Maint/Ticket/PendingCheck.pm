@@ -35,7 +35,7 @@ sub Run {
     $Self->Print("<yellow>Process pending tickets...</yellow>\n");
 
     # get needed objects
-    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+    my $StateObject  = $Kernel::OM->Get('Kernel::System::State');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my @TicketIDs;
@@ -45,7 +45,7 @@ sub Run {
         Result => 'ID',
     );
 
-    if ( @PendingAutoStateIDs ) {
+    if (@PendingAutoStateIDs) {
 
         # do ticket auto jobs
         @TicketIDs = $TicketObject->TicketSearch(

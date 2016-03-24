@@ -60,7 +60,7 @@ sub Run {
     for my $Table ( @{ $XMLHash[1]->{database}->[1]->{Table} } ) {
         next TABLE if !$Table;
 
-        if ( !$ExistingTables{ lc($Table->{Name}) } ) {
+        if ( !$ExistingTables{ lc( $Table->{Name} ) } ) {
             push( @MissingTables, $Table->{Name} );
         }
     }

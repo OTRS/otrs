@@ -164,8 +164,9 @@ my @Tests = (
             Data     => {
                 Object   => 'Kernel::System::Ticket',
                 Function => 'TicketPriorityList',
+
                 # this will coerce into a hash, but we need to test that array params work
-                Params   => [
+                Params => [
                     'TicketID', 1,
                     'UserID',   1,
                 ],

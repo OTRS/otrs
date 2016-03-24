@@ -3403,7 +3403,12 @@ sub _CreateStaticResultCacheFilename {
         Type     => 'md5',
     );
 
-    return 'Stats' . $Param{StatID} . '-' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-' . $MD5Key . '.cache';
+    return
+          'Stats'
+        . $Param{StatID} . '-'
+        . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-'
+        . $MD5Key
+        . '.cache';
 }
 
 =item _SetResultCache()

@@ -186,7 +186,7 @@ sub Run {
                 $Self->{OutputBuffer} = '';
                 local *STDOUT = *STDOUT;
                 local *STDERR = *STDERR;
-                if (!$Param{Verbose}) {
+                if ( !$Param{Verbose} ) {
                     undef *STDOUT;
                     undef *STDERR;
                     open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
@@ -194,13 +194,15 @@ sub Run {
                 }
 
                 # HERE the actual tests are run!!!
-                if ( !eval ${$UnitTestFile} ) {    ## no critic
+                if ( !eval ${$UnitTestFile} ) {                       ## no critic
                     if ($@) {
                         $Self->True( 0, "ERROR: Error in $File: $@" );
+
                         #print STDERR "ERROR: Error in $File: $@\n";
                     }
                     else {
                         $Self->True( 0, "ERROR: $File did not return a true value." );
+
                         #print STDERR "ERROR: $File did not return a true value.\n";
                     }
                 }
@@ -254,6 +256,7 @@ sub Run {
             $Content =~ s/&/&amp;/g;
             $Content =~ s/</&lt;/g;
             $Content =~ s/>/&gt;/g;
+
             # Replace characters that are invalid in XML (https://www.w3.org/TR/REC-xml/#charsets)
             $Content =~ s/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/"\x{FFFD}"/eg;
             $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
@@ -832,7 +835,7 @@ sub _Print {
         $PrintName = substr( $PrintName, 0, 1000 ) . "...";
     }
 
-    if ($Self->{Output} eq 'ASCII' && ( $Self->{Verbose} || !$Test) ) {
+    if ( $Self->{Output} eq 'ASCII' && ( $Self->{Verbose} || !$Test ) ) {
         print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
     }
     $Self->{OutputBuffer} = '';
@@ -845,8 +848,10 @@ sub _Print {
                 .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
-            if ($Self->{Verbose}) {
-                print { $Self->{OriginalSTDOUT} } " " . $Self->_Color( 'green', "ok" ) . " $Self->{TestCount} - $PrintName\n";
+            if ( $Self->{Verbose} ) {
+                print { $Self->{OriginalSTDOUT} } " "
+                    . $Self->_Color( 'green', "ok" )
+                    . " $Self->{TestCount} - $PrintName\n";
             }
             else {
                 print { $Self->{OriginalSTDOUT} } $Self->_Color( 'green', "." );

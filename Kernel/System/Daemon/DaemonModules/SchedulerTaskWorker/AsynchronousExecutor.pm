@@ -129,7 +129,7 @@ sub Run {
         # redirect the standard error to a variable
         open STDERR, ">>", \$ErrorMessage;
 
-        if (ref $Param{Data}->{Params} eq 'ARRAY') {
+        if ( ref $Param{Data}->{Params} eq 'ARRAY' ) {
             $LocalObject->$Function(
                 @{ $Param{Data}->{Params} },
             );

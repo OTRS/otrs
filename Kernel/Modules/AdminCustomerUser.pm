@@ -286,9 +286,11 @@ sub Run {
         $GetParam{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
 
         # check email address
-        if (  !$UpdateOnlyPreferences
+        if (
+            !$UpdateOnlyPreferences
             && $GetParam{UserEmail}
-            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} ) )
+            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
@@ -1125,7 +1127,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data}   eq 'HASH'
+                                ref $ParamItem->{Data} eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

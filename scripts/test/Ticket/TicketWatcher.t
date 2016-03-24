@@ -119,11 +119,11 @@ my %Watch = $TicketObject->TicketWatchGet(
     TicketID => $TicketIDs[0],
 );
 $Self->True(
-    $Watch{$TestUserIDs[0]} || 0,
+    $Watch{ $TestUserIDs[0] } || 0,
     'TicketWatchGet - first user',
 );
 $Self->True(
-    $Watch{$TestUserIDs[1]},
+    $Watch{ $TestUserIDs[1] },
     'TicketWatchGet - second user',
 );
 
@@ -131,11 +131,11 @@ $Self->True(
     TicketID => $TicketIDs[1],
 );
 $Self->False(
-    $Watch{$TestUserIDs[0]} || 0,
+    $Watch{ $TestUserIDs[0] } || 0,
     'TicketWatchGet - first user',
 );
 $Self->True(
-    $Watch{$TestUserIDs[1]},
+    $Watch{ $TestUserIDs[1] },
     'TicketWatchGet - second user',
 );
 
@@ -155,11 +155,11 @@ $Self->True(
     TicketID => $TicketIDs[0],
 );
 $Self->True(
-    $Watch{$TestUserIDs[0]} || 0,
+    $Watch{ $TestUserIDs[0] } || 0,
     'TicketWatchGet - first user',
 );
 $Self->True(
-    $Watch{$TestUserIDs[1]} || 0,
+    $Watch{ $TestUserIDs[1] } || 0,
     'TicketWatchGet - second user',
 );
 
@@ -167,11 +167,11 @@ $Self->True(
     TicketID => $TicketIDs[1],
 );
 $Self->False(
-    $Watch{$TestUserIDs[0]} || 0,
+    $Watch{ $TestUserIDs[0] } || 0,
     'TicketWatchGet - first user',
 );
 $Self->False(
-    $Watch{$TestUserIDs[1]} || 0,
+    $Watch{ $TestUserIDs[1] } || 0,
     'TicketWatchGet - second user',
 );
 

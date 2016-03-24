@@ -95,7 +95,7 @@ my @Tests = (
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ],
-                }
+                    }
             },
         ],
         Params => {

@@ -597,9 +597,9 @@ sub WritePOTFile {
 
     $Kernel::OM->Get('Kernel::System::Main')->Require('Locale::PO') || die "Could not load Locale::PO";
 
-    my $Package      = $Param{Module} // 'OTRS';
+    my $Package = $Param{Module} // 'OTRS';
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
     my $CreationDate = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $TimeObject->SystemTime(),
     );

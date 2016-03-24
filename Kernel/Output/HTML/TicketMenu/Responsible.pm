@@ -13,7 +13,6 @@ use base 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::Config',

@@ -38,7 +38,6 @@ $Selenium->RunTest(
             );
         }
 
-
         # enable ticket service, type, responsible
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'Ticket::Service',

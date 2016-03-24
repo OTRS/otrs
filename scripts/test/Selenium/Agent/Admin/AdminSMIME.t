@@ -45,8 +45,8 @@ $Selenium->RunTest(
         # create directory for certificates and private keys
         my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
         my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
-        File::Path::rmtree( $CertPath );
-        File::Path::rmtree( $PrivatePath );
+        File::Path::rmtree($CertPath);
+        File::Path::rmtree($PrivatePath);
         File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
         File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
 

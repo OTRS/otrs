@@ -234,7 +234,8 @@ sub Form {
         # Check if article is from the same TicketID as we checked permissions for.
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Article does not belong to ticket %s!', $Self->{TicketID}),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
             );
         }
     }
@@ -758,7 +759,8 @@ sub SendEmail {
         if ( !IsHashRefWithData($ValidationResult) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}->Translate('Could not perform validation on field %s!', $DynamicFieldConfig->{Label}),
+                    $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                 Comment => Translatable('Please contact the admin.'),
             );
         }

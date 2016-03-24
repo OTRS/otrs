@@ -120,7 +120,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         $Self->False(
-            scalar $SessionObject->CheckSessionID(SessionID => $SessionID),
+            scalar $SessionObject->CheckSessionID( SessionID => $SessionID ),
             "CheckSessionID on empty session"
         );
 

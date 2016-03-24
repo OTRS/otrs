@@ -158,12 +158,13 @@ $Selenium->RunTest(
             $Merged,
             "Ticket state changed to 'merged'",
         );
+
         # refresh the page
         $Selenium->VerifiedRefresh();
 
         # check if reply button is missing in merged ticket (bug#7301)
         $Self->Is(
-            $Selenium->execute_script('return $("a#ReplyButton").length' ),
+            $Selenium->execute_script('return $("a#ReplyButton").length'),
             0,
             "Reply button not found",
         );
@@ -184,5 +185,5 @@ $Selenium->RunTest(
         # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
-        }
+    }
 );

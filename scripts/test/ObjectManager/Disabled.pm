@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 our $ObjectManagerDisabled = 1;
-our @ObjectDependencies = ();
+our @ObjectDependencies    = ();
 
 sub new {
     my ( $Class, %Param ) = @_;

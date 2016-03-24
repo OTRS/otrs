@@ -733,10 +733,10 @@ sub _GetParam {
             || !$ActivityActivityDialog->{Activity}
             )
         {
-            my $Message
-                = $LayoutObject->{LanguageObject}->Translate(
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
                 'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!',
-                $ProcessEntityID );
+                $ProcessEntityID
+            );
 
             # does not show header and footer again
             if ( $Self->{IsMainWindow} ) {
@@ -1071,10 +1071,10 @@ sub _OutputActivityDialog {
         );
 
         if ( !IsHashRefWithData($ActivityActivityDialog) ) {
-            my $Message
-                = $LayoutObject->{LanguageObject}
-                ->Translate( 'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!',
-                $Param{ProcessEntityID} );
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!',
+                $Param{ProcessEntityID}
+            );
 
             # does not show header and footer again
             if ( $Self->{IsMainWindow} ) {
@@ -1127,10 +1127,10 @@ sub _OutputActivityDialog {
         ActivityEntityID => $ActivityActivityDialog->{Activity}
     );
     if ( !$Activity ) {
-        my $Message
-            = $LayoutObject->{LanguageObject}
-            ->Translate( 'Can\'t get Activity configuration for ActivityEntityID "%s"!',
-            $ActivityActivityDialog->{Activity} );
+        my $Message = $LayoutObject->{LanguageObject}->Translate(
+            'Can\'t get Activity configuration for ActivityEntityID "%s"!',
+            $ActivityActivityDialog->{Activity}
+        );
 
         # does not show header and footer again
         if ( $Self->{IsMainWindow} ) {
@@ -1149,10 +1149,10 @@ sub _OutputActivityDialog {
         Interface              => 'CustomerInterface',
     );
     if ( !IsHashRefWithData($ActivityDialog) ) {
-        my $Message
-            = $LayoutObject->{LanguageObject}
-            ->Translate( 'Can\'t get ActivityDialog configuration for ActivityDialogEntityID "%s"!',
-            $ActivityActivityDialog->{ActivityDialog} );
+        my $Message = $LayoutObject->{LanguageObject}->Translate(
+            'Can\'t get ActivityDialog configuration for ActivityDialogEntityID "%s"!',
+            $ActivityActivityDialog->{ActivityDialog}
+        );
 
         # does not show header and footer again
         if ( $Self->{IsMainWindow} ) {
@@ -1355,9 +1355,10 @@ sub _OutputActivityDialog {
         next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
 
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}{$CurrentField} ) ) {
-            my $Message
-                = $LayoutObject->{LanguageObject}->Translate( 'Can\'t get data for Field "%s" of ActivityDialog "%s"!',
-                $CurrentField, $ActivityActivityDialog->{ActivityDialog} );
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                'Can\'t get data for Field "%s" of ActivityDialog "%s"!',
+                $CurrentField, $ActivityActivityDialog->{ActivityDialog}
+            );
 
             # does not show header and footer again
             if ( $Self->{IsMainWindow} ) {

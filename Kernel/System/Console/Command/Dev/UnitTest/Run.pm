@@ -80,7 +80,7 @@ sub Run {
         Directory => $Self->GetOption('directory')  || '',
         Product   => $Self->GetOption('product')    || '',
         SubmitURL => $Self->GetOption('submit-url') || '',
-        Verbose    => $Self->GetOption('verbose') || '',
+        Verbose   => $Self->GetOption('verbose')    || '',
     );
 
     if ($FunctionResult) {

@@ -56,7 +56,8 @@ sub Run {
     # check for valid action backend
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not get registered configuration for action type %s', $ActionType),
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not get registered configuration for action type %s', $ActionType ),
         );
     }
 
@@ -77,7 +78,8 @@ sub Run {
     # check for valid web service configuration
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not get data for WebserviceID %s', $WebserviceID),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
         );
     }
 
@@ -87,7 +89,8 @@ sub Run {
     # check for valid action backend
     if ( !$ActionBackend ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}->Translate('Could not get backend for %s %s', $ActionType, $Action),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get backend for %s %s', $ActionType, $Action ),
         );
     }
 
@@ -232,7 +235,8 @@ sub Run {
         # check for successful web service update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('Could not update configuration data for WebserviceID %s', $WebserviceID),
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
             );
         }
 

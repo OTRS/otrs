@@ -206,7 +206,8 @@ sub Run {
             $Output .= $LayoutObject->Warning(
                 Message => Translatable('Kernel/Config.pm isn\'t writable!'),
                 Comment => Translatable(
-                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'),
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
+                ),
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -668,7 +669,8 @@ sub Run {
             $Output .= $LayoutObject->Warning(
                 Message => Translatable('Kernel/Config.pm isn\'t writable!'),
                 Comment => Translatable(
-                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'),
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
+                ),
             );
             $Output .= $LayoutObject->Footer();
             return $Output;

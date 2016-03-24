@@ -164,7 +164,7 @@ my $CreateOrUpdateParams = {
     Article => {
         Subject     => 'some subject',
         Body        => 'some body',
-        ContentType  => 'text/plain; charset=utf8',
+        ContentType => 'text/plain; charset=utf8',
     },
 };
 

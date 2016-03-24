@@ -10,7 +10,6 @@ package Kernel::Output::HTML::ToolBar::TicketSearchFulltext;
 
 use base 'Kernel::Output::HTML::Base';
 
-
 use strict;
 use warnings;
 

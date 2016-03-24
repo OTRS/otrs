@@ -172,7 +172,7 @@ sub Run {
                     $StartTime = $NewStartTime;
                     $EndTime   = $NewEndTime;
 
-                    # we also need to turn the time in the tooltip around, otherwiese the time bar display would be wrong
+                   # we also need to turn the time in the tooltip around, otherwiese the time bar display would be wrong
                     $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField } = $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $StartTime,
                     );
@@ -304,11 +304,12 @@ sub Run {
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
 
                         # check if we need to format the date
-                        my $DisplayValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                        my $DisplayValue
+                            = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
                             DynamicFieldConfig => $Self->{DynamicFieldLookup}->{$Item},
                             Value              => $TicketDetail{ 'DynamicField_' . $Item },
                             LayoutObject       => $LayoutObject,
-                        );
+                            );
 
                         $LayoutObject->Block(
                             Name => 'CalendarEventInfoDynamicFieldElement',

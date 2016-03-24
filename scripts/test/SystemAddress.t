@@ -25,7 +25,7 @@ my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 my $QueueRand1 = $Helper->GetRandomID();
 my $QueueRand2 = $Helper->GetRandomID();
 
-my $QueueID1   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+my $QueueID1 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name                => $QueueRand1,
     ValidID             => 1,
     GroupID             => 1,
@@ -42,7 +42,7 @@ my $QueueID1   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Comment             => 'Some Comment',
 );
 
-my $QueueID2   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+my $QueueID2 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name                => $QueueRand2,
     ValidID             => 1,
     GroupID             => 1,
@@ -73,7 +73,7 @@ my %SystemAddressData = (
 
 my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
     %SystemAddressData,
-    UserID   => 1,
+    UserID => 1,
 );
 
 $Self->True(
@@ -83,7 +83,7 @@ $Self->True(
 
 my %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-for my $Key (sort keys %SystemAddressData) {
+for my $Key ( sort keys %SystemAddressData ) {
     $Self->Is(
         $SystemAddress{$Key},
         $SystemAddressData{$Key},
@@ -94,14 +94,13 @@ for my $Key (sort keys %SystemAddressData) {
 # caching
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-for my $Key (sort keys %SystemAddressData) {
+for my $Key ( sort keys %SystemAddressData ) {
     $Self->Is(
         $SystemAddress{$Key},
         $SystemAddressData{$Key},
         'SystemAddressGet() - $Key',
     );
 }
-
 
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
 $Self->True(
@@ -169,8 +168,8 @@ my %SystemAddressDataUpdate = (
 
 my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
     %SystemAddressDataUpdate,
-    ID       => $SystemAddressID,
-    UserID   => 1,
+    ID     => $SystemAddressID,
+    UserID => 1,
 );
 $Self->True(
     $SystemAddressUpdate,
@@ -179,7 +178,7 @@ $Self->True(
 
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
-for my $Key (sort keys %SystemAddressDataUpdate) {
+for my $Key ( sort keys %SystemAddressDataUpdate ) {
     $Self->Is(
         $SystemAddress{$Key},
         $SystemAddressDataUpdate{$Key},

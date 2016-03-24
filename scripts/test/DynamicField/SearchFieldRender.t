@@ -19,6 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 # my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
 # my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
 # my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
@@ -176,15 +177,15 @@ my %DynamicFieldConfigs = (
 );
 
 # execute tests
-for my $DynamicField (sort keys %DynamicFieldConfigs) {
+for my $DynamicField ( sort keys %DynamicFieldConfigs ) {
 
     # Right now we at least call the function to make sure it works (no perl error) and
     #   returns something.
     $Self->True(
         $DFBackendObject->SearchFieldRender(
             DynamicFieldConfig => $DynamicFieldConfigs{$DynamicField},
-            LayoutObject => $LayoutObject,
-            Profile => {},
+            LayoutObject       => $LayoutObject,
+            Profile            => {},
         ),
         "$DynamicField - SearchFieldRender",
     );
