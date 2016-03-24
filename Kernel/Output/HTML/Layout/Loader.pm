@@ -72,13 +72,13 @@ sub LoaderCreateAgentCSSCalls {
     # check if the skin is valid
     my $SkinValid = 0;
     if ($SkinSelected) {
-       $SkinValid = $Self->SkinValidate(
+        $SkinValid = $Self->SkinValidate(
             SkinType => 'Agent',
-            Skin => $SkinSelected,
+            Skin     => $SkinSelected,
         );
     }
 
-    if (!$SkinValid) {
+    if ( !$SkinValid ) {
         $SkinSelected = $SkinSelectedHostBased
             || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
             || 'default';

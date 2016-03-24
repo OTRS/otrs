@@ -113,6 +113,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $TypeRandomID
         );
+
         # Allow apache to pick up the changed SysConfig via Apache::Reload.
         sleep 1;
 
@@ -135,6 +136,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $DefaultTicketType
         );
+
         # Allow apache to pick up the changed SysConfig via Apache::Reload.
         sleep 1;
 

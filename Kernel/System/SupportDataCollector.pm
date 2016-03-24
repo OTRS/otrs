@@ -118,7 +118,7 @@ sub Collect {
     # Data must be collected in a web request context to be able to collect web server data.
     #   If called from CLI, make a web request to collect the data.
     if ( !$ENV{GATEWAY_INTERFACE} ) {
-        return $Self->CollectByWebRequest( %Param );
+        return $Self->CollectByWebRequest(%Param);
     }
 
     # Look for all plug-ins in the FS
@@ -218,7 +218,7 @@ sub CollectByWebRequest {
     my $Host = $Param{Hostname};
 
     # Determine hostname
-    if (!$Host) {
+    if ( !$Host ) {
         my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
 
         if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {

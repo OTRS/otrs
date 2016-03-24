@@ -32,7 +32,7 @@ my $RandomID = $HelperObject->GetRandomID();
 my $QueueName = 'Some::Queue' . $RandomID;
 
 # create new queue
-my $QueueID   = $QueueObject->QueueAdd(
+my $QueueID = $QueueObject->QueueAdd(
 
     Name            => $QueueName,
     ValidID         => 1,

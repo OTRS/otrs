@@ -186,7 +186,7 @@ sub Run {
                 $Self->{OutputBuffer} = '';
                 local *STDOUT = *STDOUT;
                 local *STDERR = *STDERR;
-                if (!$Param{Verbose}) {
+                if ( !$Param{Verbose} ) {
                     undef *STDOUT;
                     undef *STDERR;
                     open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
@@ -194,7 +194,7 @@ sub Run {
                 }
 
                 # HERE the actual tests are run!!!
-                if ( !eval ${$UnitTestFile} ) {                   ## no critic
+                if ( !eval ${$UnitTestFile} ) {                       ## no critic
                     if ($@) {
                         $Self->True( 0, "ERROR: Error in $File: $@" );
 
@@ -256,6 +256,7 @@ sub Run {
             $Content =~ s/&/&amp;/g;
             $Content =~ s/</&lt;/g;
             $Content =~ s/>/&gt;/g;
+
             # Replace characters that are invalid in XML (https://www.w3.org/TR/REC-xml/#charsets)
             $Content =~ s/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/"\x{FFFD}"/eg;
             $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;

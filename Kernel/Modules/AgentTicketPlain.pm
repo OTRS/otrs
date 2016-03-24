@@ -64,7 +64,8 @@ sub Run {
     if ( !$Plain ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable(
-                'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.'),
+                'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.'
+            ),
             Comment => Translatable('Please contact your administrator'),
         );
     }

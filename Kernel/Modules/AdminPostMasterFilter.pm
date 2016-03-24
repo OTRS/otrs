@@ -72,7 +72,7 @@ sub Run {
         my %Data = $PostMasterFilter->FilterGet( Name => $Name );
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}->Translate('No such filter: %s', $Name),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'No such filter: %s', $Name ),
             );
         }
         return $Self->_MaskUpdate(

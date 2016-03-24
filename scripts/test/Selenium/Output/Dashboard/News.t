@@ -66,7 +66,8 @@ $Selenium->RunTest(
         my $NewsLink = "https://www.otrs.com/";
         $Self->True(
             $Selenium->execute_script(
-                "return \$('#Dashboard0405-News').find(\"a.AsBlock[href*='$NewsLink']\").length;") > 0,
+                "return \$('#Dashboard0405-News').find(\"a.AsBlock[href*='$NewsLink']\").length;"
+                ) > 0,
             "News dashboard plugin link ($NewsLink) - found",
         );
     }

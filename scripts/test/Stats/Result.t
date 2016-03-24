@@ -1492,7 +1492,7 @@ TEST:
 for my $Test (@Tests) {
 
     # set the language for the test (for the translatable content)
-    if ($Test->{Language}) {
+    if ( $Test->{Language} ) {
 
         $Kernel::OM->ObjectsDiscard(
             Objects => ['Kernel::Language'],

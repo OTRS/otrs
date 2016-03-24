@@ -13,7 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 # get PID object
-my $PIDObject    = $Kernel::OM->Get('Kernel::System::PID');
+my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(

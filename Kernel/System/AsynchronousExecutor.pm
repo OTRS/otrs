@@ -104,7 +104,7 @@ sub AsyncCall {
         return;
     }
 
-    if ($Param{FunctionParams} && !ref $Param{FunctionParams}) {
+    if ( $Param{FunctionParams} && !ref $Param{FunctionParams} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "FunctionParams needs to be a hash or list reference.",

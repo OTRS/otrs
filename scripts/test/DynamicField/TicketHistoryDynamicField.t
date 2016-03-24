@@ -27,7 +27,7 @@ my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # always random number with the same number of digits
 my $RandomID = $Helper->GetRandomNumber();
-$RandomID = substr($RandomID, -7, 7);
+$RandomID = substr( $RandomID, -7, 7 );
 my @FieldIDs;
 
 # create a dynamic field with short name length (21 characters)

@@ -268,9 +268,9 @@ sub Run {
     # run stat...
     my @StatArray = @{
         $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-            StatID       => $Self->{StatID},
-            GetParam     => \%GetParam,
-            UserID       => 1,
+            StatID   => $Self->{StatID},
+            GetParam => \%GetParam,
+            UserID   => 1,
         ),
     };
 

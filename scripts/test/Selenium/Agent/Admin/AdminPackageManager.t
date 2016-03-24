@@ -144,9 +144,10 @@ $Selenium->RunTest(
             "Test package is uninstalled",
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager;Subaction=View;Name=NonexistingPackage;Version=0.0.1");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminPackageManager;Subaction=View;Name=NonexistingPackage;Version=0.0.1");
 
-        $Selenium->find_element("div.ErrorScreen", 'css');
+        $Selenium->find_element( "div.ErrorScreen", 'css' );
 
     }
 );

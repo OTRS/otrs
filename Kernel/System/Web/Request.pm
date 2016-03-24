@@ -220,6 +220,7 @@ sub GetArray {
 
         VALUE:
         for my $Value (@Values) {
+
             # don't validate CGI::File::Temp objects from file uploads
             next VALUE if !$Value || ref \$Value ne 'SCALAR';
 

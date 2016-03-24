@@ -404,7 +404,8 @@ sub _DynamicFieldOrderReset {
     # show error message if the order reset was not successful
     if ( !$ResetSuccess ) {
         return $LayoutObject->ErrorScreen(
-            Message => Translatable('Could not reset Dynamic Field order properly, please check the error log for more details.'),
+            Message => Translatable(
+                'Could not reset Dynamic Field order properly, please check the error log for more details.'),
         );
     }
 

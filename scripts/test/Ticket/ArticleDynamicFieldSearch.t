@@ -63,7 +63,7 @@ for my $Item ( 1 .. 2 ) {
         Name       => "DFTArticle$Item$RandomID",
         Label      => 'Description',
         FieldOrder => 9991,
-        FieldType  => 'Text',                                  # mandatory, selects the DF backend to use for this field
+        FieldType  => 'Text',                       # mandatory, selects the DF backend to use for this field
         ObjectType => 'Article',
         Config     => {
             DefaultValue => 'Default',
