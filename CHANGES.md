@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-03-29 Added possibility to configure default headers for outgoing emails (Sendmail::DefaultHeaders), thanks to Renée Bäcker.
  - 2016-03-04 Fixed bug#[11787](http://bugs.otrs.org/show_bug.cgi?id=11787) - No Ticket::StateAfterPending found with manual state update.
  - 2016-03-03 Fixed bug#[11872](http://bugs.otrs.org/show_bug.cgi?id=11872) - TicketGet function returns SolutionTime variable.
  - 2016-03-03 Fixed bug#[8631](http://bugs.otrs.org/show_bug.cgi?id=8631) - "ghost" tickets after merge.

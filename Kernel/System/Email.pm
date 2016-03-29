@@ -221,9 +221,18 @@ sub Send {
 
     # build header
     my %Header;
-    if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
-        %Header = %{ $Param{CustomHeaders} };
+
+    my $DefaultHeaders = $ConfigObject->Get('Sendmail::DefaultHeaders') || {};
+    if ( IsHashRefWithData($DefaultHeaders) ) {
+        %Header = %{$DefaultHeaders};
     }
+
+    if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
+        for my $HeaderName ( sort keys %{ $Param{CustomHeaders} } ) {
+            $Header{$HeaderName} = $Param{CustomHeaders}->{$HeaderName};
+        }
+    }
+
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject Charset Reply-To)) {
         next ATTRIBUTE if !$Param{$Attribute};
