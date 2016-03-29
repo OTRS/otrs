@@ -139,7 +139,7 @@
                 <Title Translatable="1">New process ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create New process ticket</Description>
+                    <Description Translatable="1">Create New process ticket.</Description>
                     <Name Translatable="1">New process ticket</Name>
                     <Link>Action=AgentTicketProcess</Link>
                     <LinkOption></LinkOption>
@@ -277,7 +277,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">Process ticket</Title>
                 <NavBar>
-                    <Description Translatable="1">Create new process ticket</Description>
+                    <Description Translatable="1">Create new process ticket.</Description>
                     <Name Translatable="1">New process ticket</Name>
                     <Link>Action=CustomerTicketProcess</Link>
                     <LinkOption></LinkOption>
@@ -414,7 +414,7 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Running Process Tickets</Item>
-                <Item Key="Description">All tickets with a reminder set where the reminder date has been reached</Item>
+                <Item Key="Description" Translatable="1">All tickets with a reminder set where the reminder date has been reached</Item>
                 <Item Key="Attributes">StateType=new;StateType=open;StateType=pending reminder;StateType=pending auto</Item>
                 <Item Key="Time">UntilTime</Item>
                 <Item Key="IsProcessWidget">1</Item>
