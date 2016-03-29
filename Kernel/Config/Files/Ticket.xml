@@ -2617,7 +2617,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###SearchInArchive" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
+        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen (AllTickets/ArchivedTickets/NotArchivedTickets).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
