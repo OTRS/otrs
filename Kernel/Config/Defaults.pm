@@ -30,8 +30,6 @@ use lib dirname($Bin) . '/Custom';
 use File::stat;
 use Digest::MD5;
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = ();
 
 sub LoadDefaults {
@@ -1813,6 +1811,8 @@ sub Set {
     }
     return 1;
 }
+
+## nofilter(TidyAll::Plugin::OTRS::Perl::Translatable)
 
 =item Translatable()
 
