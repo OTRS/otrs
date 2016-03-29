@@ -53,6 +53,12 @@ $Selenium->RunTest(
 
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
+            Key   => 'AgentSelfNotifyOnAction',
+            Value => 1,
+        );
+
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
             Key   => 'SendmailModule',
             Value => 'Kernel::System::Email::Test',
         );
