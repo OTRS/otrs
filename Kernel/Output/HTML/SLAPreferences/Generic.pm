@@ -11,6 +11,8 @@ package Kernel::Output::HTML::SLAPreferences::Generic;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::System::SLA',
@@ -69,7 +71,7 @@ sub Run {
             );
         }
     }
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 

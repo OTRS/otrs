@@ -11,6 +11,8 @@ package Kernel::Output::HTML::ToolBar::TicketResponsible;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -94,7 +96,7 @@ sub Run {
     if ($CountNew) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => 'Responsible Tickets New',
+            Description => Translatable('Responsible Tickets New'),
             Count       => $CountNew,
             Class       => $ClassNew,
             Icon        => $IconNew,
@@ -105,7 +107,7 @@ sub Run {
     if ($CountReached) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => 'Responsible Tickets Reminder Reached',
+            Description => Translatable('Responsible Tickets Reminder Reached'),
             Count       => $CountReached,
             Class       => $ClassReached,
             Icon        => $IconReached,
@@ -116,7 +118,7 @@ sub Run {
     if ($Count) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => 'Responsible Tickets Total',
+            Description => Translatable('Responsible Tickets Total'),
             Count       => $Count,
             Class       => $Class,
             Icon        => $Icon,

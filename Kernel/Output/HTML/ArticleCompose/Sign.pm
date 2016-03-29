@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Mail::Address;
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -82,7 +83,7 @@ sub Run {
         Name => 'Option',
         Data => {
             Name  => 'SignKeyID',
-            Key   => 'Sign',
+            Key   => Translatable('Sign'),
             Value => $List,
         },
     );
@@ -102,7 +103,7 @@ sub Data {
     my %KeyList;
 
     # add non signing option
-    $KeyList{''} = '-none-';
+    $KeyList{''} = Translatable('-none-');
 
     if ( $Param{From} ) {
 

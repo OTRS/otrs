@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Preferences::CustomQueue;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
@@ -133,7 +135,7 @@ sub Run {
         Key  => $CacheKey,
     );
 
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 

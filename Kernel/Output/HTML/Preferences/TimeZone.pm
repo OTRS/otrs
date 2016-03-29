@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Preferences::TimeZone;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Web::Request',
@@ -113,7 +115,7 @@ sub Run {
         }
     }
 
-    $Self->{Message} = 'Preferences updated successfully!';
+    $Self->{Message} = Translatable('Preferences updated successfully!');
     return 1;
 }
 

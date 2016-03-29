@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Notification::AgentTicketEscalation;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
@@ -197,7 +199,7 @@ sub Run {
     if ( $Count == $ShownMax ) {
         $Comment .= $LayoutObject->Notify(
             Priority => 'Error',
-            Info     => 'There are more escalated tickets!',
+            Info     => Translatable('There are more escalated tickets!'),
         );
     }
     my $Output = $ResponseTime . $UpdateTime . $SolutionTime . $Comment;

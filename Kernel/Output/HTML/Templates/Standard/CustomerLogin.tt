@@ -10,7 +10,7 @@
 <!-- start login -->
 <div id="MainBox" class="Login ARIARoleMain">
 [% RenderBlockStart("Message") %]
-    <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSE %]ErrorBox[% END %]"><span>[% Data.Message | html %]</span></div>
+    <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSE %]ErrorBox[% END %]"><span>[% Translate(Data.Message) | html %]</span></div>
 [% RenderBlockEnd("Message") %]
     <noscript>
     <div id="NoJavaScript">
@@ -115,7 +115,7 @@
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <div>
-                        <label for="Title">[% Translate("Title") | html %]</label>
+                        <label for="Title">[% Translate("Title or salutation") | html %]</label>
                         <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" maxlength="50" value="[% Data.UserTitle | html %]"/>
                     </div>
                     <div class="NewLine">

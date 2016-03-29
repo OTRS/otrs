@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -79,7 +80,7 @@ sub ActionRow {
             Name => 'DocumentActionRowBulk',
             Data => {
                 %Param,
-                Name => 'Bulk',
+                Name => Translatable('Bulk'),
             },
         );
     }
@@ -314,7 +315,7 @@ sub _Show {
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
         $LayoutObject->Block(
-            Name => 'Bulk',
+            Name => Translatable('Bulk'),
             Data => \%Param,
         );
     }
@@ -578,7 +579,7 @@ sub _Show {
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
         $LayoutObject->Block(
-            Name => 'Bulk',
+            Name => Translatable('Bulk'),
             Data => \%Param,
         );
     }
@@ -1152,7 +1153,7 @@ sub _Show {
                         Data => {
                             %{$ArticleItem},
                             StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => 'Reply',
+                            Name                  => Translatable('Reply'),
                             Class                 => 'AsPopup',
                             Action                => 'AgentTicketCompose',
                             FormID                => 'Reply' . $ArticleItem->{ArticleID},
@@ -1213,7 +1214,7 @@ sub _Show {
                             Data => {
                                 %{$ArticleItem},
                                 StandardResponsesStrg => $StandardResponsesStrg,
-                                Name                  => 'Reply All',
+                                Name                  => Translatable('Reply All'),
                                 Class                 => 'AsPopup',
                                 Action                => 'AgentTicketCompose',
                                 FormID                => 'ReplyAll' . $ArticleItem->{ArticleID},

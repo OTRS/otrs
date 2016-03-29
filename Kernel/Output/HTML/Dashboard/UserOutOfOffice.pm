@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Dashboard::UserOutOfOffice;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -49,7 +51,7 @@ sub Preferences {
 
     my @Params = (
         {
-            Desc  => 'Shown',
+            Desc  => Translatable('Shown'),
             Name  => $Self->{PrefKey},
             Block => 'Option',
             Data  => {

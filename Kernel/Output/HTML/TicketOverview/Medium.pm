@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
@@ -78,7 +79,7 @@ sub ActionRow {
             Name => 'DocumentActionRowBulk',
             Data => {
                 %Param,
-                Name => 'Bulk',
+                Name => Translatable('Bulk'),
             },
         );
     }
@@ -554,7 +555,7 @@ sub _Show {
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
         $LayoutObject->Block(
-            Name => 'Bulk',
+            Name => Translatable('Bulk'),
             Data => \%Param,
         );
     }

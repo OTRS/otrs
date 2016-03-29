@@ -254,7 +254,7 @@ $('#MergeTo').bind('blur', function() {
             </div>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+            <button class="Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Execute Bulk Action") | html %]">[% Translate("Execute Bulk Action") | html %]</button>
         </div>
     </div>
 </form>
