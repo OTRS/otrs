@@ -809,7 +809,10 @@ sub _ShowEdit {
             );
         }
 
-        $Param{Title} = "Edit Activity \"$ActivityData->{Name}\"";
+        $Param{Title} = $LayoutObject->{LanguageObject}->Translate(
+            'Edit Activity "%s"',
+            $ActivityData->{Name}
+        );
     }
     else {
 

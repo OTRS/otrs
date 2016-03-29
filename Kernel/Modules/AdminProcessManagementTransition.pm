@@ -455,7 +455,10 @@ sub _ShowEdit {
     }
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
-        $Param{Title} = "Edit Transition \"$TransitionData->{Name}\"";
+        $Param{Title} = $LayoutObject->{LanguageObject}->Translate(
+            'Edit Transition "%s"',
+            $TransitionData->{Name}
+        );
     }
     else {
         $Param{Title} = Translatable('Create New Transition');
@@ -467,7 +470,11 @@ sub _ShowEdit {
     );
 
     $Param{FreshConditionLinking} = $LayoutObject->BuildSelection(
-        Data        => [ 'and', 'or', 'xor' ],
+        Data => {
+            'and' => Translatable('and'),
+            'or'  => Translatable('or'),
+            'xor' => Translatable('xor')
+        },
         Name        => "ConditionLinking[_INDEX_]",
         Sort        => 'AlphanumericKey',
         Translation => 1,
@@ -476,14 +483,14 @@ sub _ShowEdit {
 
     $Param{FreshConditionFieldType} = $LayoutObject->BuildSelection(
         Data => {
-            'String' => 'String',
+            'String' => Translatable('String'),
 
           # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
           # TODO: implement a possibility to enter the data in a correct way in the GUI
           #'Hash'   => 'Hash',
           #'Array'  => 'Array',
-            'Regexp' => 'Regexp',
-            'Module' => 'Transition Validation Module'
+            'Regexp' => Translatable('Regular expression'),
+            'Module' => Translatable('Transition validation module')
         },
         SelectedID   => 'String',
         Name         => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
@@ -496,7 +503,11 @@ sub _ShowEdit {
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor')
+            },
             Name        => 'OverallConditionLinking',
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
@@ -512,7 +523,11 @@ sub _ShowEdit {
             my %ConditionData = %{ $TransitionData->{Config}->{Condition}->{$Condition} };
 
             my $ConditionLinking = $LayoutObject->BuildSelection(
-                Data        => [ 'and', 'or', 'xor' ],
+                Data => {
+                    'and' => Translatable('and'),
+                    'or'  => Translatable('or'),
+                    'xor' => Translatable('xor')
+                },
                 Name        => "ConditionLinking[$Condition]",
                 Sort        => 'AlphanumericKey',
                 Translation => 1,
@@ -534,14 +549,14 @@ sub _ShowEdit {
                 my %FieldData          = %{ $ConditionData{Fields}->{$Field} };
                 my $ConditionFieldType = $LayoutObject->BuildSelection(
                     Data => {
-                        'String' => 'String',
+                        'String' => Translatable('String'),
 
           # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
           # TODO: implement a possibility to enter the data in a correct way in the GUI
           #'Hash'   => 'Hash',
           #'Array'  => 'Array',
-                        'Regexp' => 'Regexp',
-                        'Module' => 'Transition Validation Module'
+                        'Regexp' => Translatable('Regular expression'),
+                        'Module' => Translatable('Transition validation module')
                     },
                     Name         => "ConditionFieldType[$Condition][$Field]",
                     Sort         => 'AlphanumericKey',
@@ -582,7 +597,11 @@ sub _ShowEdit {
     else {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor')
+            },
             Name        => 'OverallConditionLinking',
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
@@ -591,7 +610,11 @@ sub _ShowEdit {
         );
 
         $Param{ConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor')
+            },
             Name        => 'ConditionLinking[_INDEX_]',
             Sort        => 'AlphanumericKey',
             Translation => 1,
@@ -600,14 +623,14 @@ sub _ShowEdit {
 
         $Param{ConditionFieldType} = $LayoutObject->BuildSelection(
             Data => {
-                'String' => 'String',
+                'String' => Translatable('String'),
 
           # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
           # TODO: implement a possibility to enter the data in a correct way in the GUI
           #'Hash'   => 'Hash',
           #'Array'  => 'Array',
-                'Regexp' => 'Regexp',
-                'Module' => 'Transition Validation Module'
+                'Regexp' => Translatable('Regular expression'),
+                'Module' => Translatable('Transition validation module')
             },
             Name        => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
             Sort        => 'AlphanumericKey',
