@@ -1183,7 +1183,7 @@ sub EmbeddedImagesExtract {
     if ( ref $Param{AttachmentsRef} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need DocumentRef!"
+            Message  => "Need AttachmentsRef!"
         );
         return;
     }
