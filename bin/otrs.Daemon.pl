@@ -34,7 +34,7 @@ use Fcntl qw(:flock);
 
 use Kernel::System::ObjectManager;
 
-print STDOUT "otrs.Daemon.pl - the otrs daemon\n";
+print STDOUT "otrs.Daemon.pl - the OTRS daemon\n";
 print STDOUT "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n\n";
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
