@@ -18,6 +18,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CustomerUser',
+    'Kernel::System::CustomerCompany',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -55,6 +56,13 @@ sub Configure {
     $Self->AddOption(
         Name        => 'generate-customer-users',
         Description => "Specify how many customer users should be generated.",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^\d+$/smx,
+    );
+    $Self->AddOption(
+        Name        => 'generate-customer-companies',
+        Description => "Specify how many customer companies should be generated.",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
@@ -139,8 +147,14 @@ sub Run {
         @QueueIDs = QueueCreate( $Self->GetOption('generate-queues'), \@GroupIDs );
     }
 
+    # customer users
     if ( $Self->GetOption('generate-customer-users') ) {
         CustomerCreate( $Self->GetOption('generate-customer-users') );
+    }
+
+    # customer companies
+    if ( $Self->GetOption('generate-customer-companies') ) {
+        CompanyCreate( $Self->GetOption('generate-customer-companies') );
     }
 
     my $Counter = 1;
@@ -532,6 +546,30 @@ sub CustomerCreate {
             UserID         => 1,
         );
         print "CustomerUser '$Name' created.\n";
+    }
+}
+
+sub CompanyCreate {
+    my $Count = shift || return;
+
+    for ( 1 .. $Count ) {
+
+        my $Name      = 'fill-up-company' . int( rand(100_000_000) );
+        my $CustomerID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+            Source                  => 'CustomerCompany',            # CustomerCompany source config
+            CustomerID              => $Name . '_CustomerID',
+            CustomerCompanyName     => $Name,
+            CustomerCompanyStreet   => '5201 Blue Lagoon Drive',
+            CustomerCompanyZIP      => '33126',
+            CustomerCompanyCity     => 'Miami',
+            CustomerCompanyCountry  => 'USA',
+            CustomerCompanyURL      => 'http://www.example.org',
+            CustomerCompanyComment  => 'some comment',
+            ValidID                 => 1,
+            UserID                  => 1,
+        );
+
+        print "CustomerCompany '$Name' created.\n";
     }
 }
 
