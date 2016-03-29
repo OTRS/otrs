@@ -484,7 +484,10 @@ sub _ShowEdit {
     }
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
-        $Param{Title} = "Edit Transition Action \"$TransitionActionData->{Name}\"";
+        $Param{Title} = $LayoutObject->{LanguageObject}->Translate(
+            'Edit Transition Action "%s"',
+            $TransitionActionData->{Name}
+        );
     }
     else {
         $Param{Title} = Translatable('Create New Transition Action');

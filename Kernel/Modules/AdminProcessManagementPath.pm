@@ -322,7 +322,7 @@ sub _ShowEdit {
             },
         );
     }
-    $Param{Title} = "Edit Path";
+    $Param{Title} = Translatable('Edit Path');
 
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
