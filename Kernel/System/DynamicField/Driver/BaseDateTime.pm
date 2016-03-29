@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
@@ -608,10 +609,10 @@ EOF
 
         $HTMLString .= $Param{LayoutObject}->BuildSelection(
             Data => {
-                'Before' => 'more than ... ago',
-                'Last'   => 'within the last ...',
-                'Next'   => 'within the next ...',
-                'After'  => 'in more than ...',
+                'Before' => Translatable('more than ... ago'),
+                'Last'   => Translatable('within the last ...'),
+                'Next'   => Translatable('within the next ...'),
+                'After'  => Translatable('in more than ...'),
             },
             Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
@@ -625,12 +626,12 @@ EOF
         );
         $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
+                minute => Translatable('minute(s)'),
+                hour   => Translatable('hour(s)'),
+                day    => Translatable('day(s)'),
+                week   => Translatable('week(s)'),
+                month  => Translatable('month(s)'),
+                year   => Translatable('year(s)'),
             },
             Name       => $FieldName . 'Format',
             SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
@@ -638,7 +639,7 @@ EOF
 
         my $AdditionalText;
         if ( $Param{UseLabelHints} ) {
-            $AdditionalText = 'before/after';
+            $AdditionalText = Translatable('before/after');
         }
 
         # call EditLabelRender on the common backend
@@ -691,7 +692,7 @@ EOF
 
     my $AdditionalText;
     if ( $Param{UseLabelHints} ) {
-        $AdditionalText = 'between';
+        $AdditionalText = Translatable('between');
     }
 
     # call EditLabelRender on the common Driver
