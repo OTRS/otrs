@@ -5488,7 +5488,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
                 <Item Key="Title">Product News</Item>
                 <Item Key="Description">News about OTRS releases!</Item>
-                <Item Key="URL">http://otrs.org/product.xml</Item>
+                <Item Key="URL">http://www.otrs.com/product.xml</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
