@@ -158,7 +158,7 @@
                             <p class="Error SpacingTop">
                                 [% Translate("Currently this generic agent job will not run automatically.") | html %]
                                 <br/>
-                                [% Translate("To enable automatic execution select at least one value from minutes, hours or days!") | html %]
+                                [% Translate("To enable automatic execution select at least one value from minutes, hours and days!") | html %]
                             </p>
 [% RenderBlockEnd("JobScheduleWarning") %]
                         </div>
