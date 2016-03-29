@@ -315,7 +315,7 @@ sub Run {
 
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
-            $Self->{Profile} = 'last-search';
+            $Self->{Profile} = Translatable('last-search');
         }
 
         # save search profile (under last-search or real profile name)
@@ -1763,9 +1763,9 @@ sub Run {
 
             $Param{SearchInArchiveStrg} = $LayoutObject->BuildSelection(
                 Data => {
-                    ArchivedTickets    => 'Archived tickets',
-                    NotArchivedTickets => 'Unarchived tickets',
-                    AllTickets         => 'All tickets',
+                    ArchivedTickets    => Translatable('Archived tickets'),
+                    NotArchivedTickets => Translatable('Unarchived tickets'),
+                    AllTickets         => Translatable('All tickets'),
                 },
                 Name       => 'SearchInArchive',
                 SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',
@@ -1909,12 +1909,12 @@ sub Run {
         );
         $Param{TicketCreateTimePointFormat} = $LayoutObject->BuildSelection(
             Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
+                minute => Translatable('minute(s)'),
+                hour   => Translatable('hour(s)'),
+                day    => Translatable('day(s)'),
+                week   => Translatable('week(s)'),
+                month  => Translatable('month(s)'),
+                year   => Translatable('year(s)'),
             },
             Name       => 'TicketCreateTimePointFormat',
             SelectedID => $GetParam{TicketCreateTimePointFormat},

@@ -349,8 +349,8 @@ sub _MaskUpdateMailAccount {
 
     $Param{DispatchingOption} = $LayoutObject->BuildSelection(
         Data => {
-            From  => 'Dispatching by email To: field.',
-            Queue => 'Dispatching by selected Queue.',
+            From  => Translatable('Dispatching by email To: field.'),
+            Queue => Translatable('Dispatching by selected Queue.'),
         },
         Name       => 'DispatchingBy',
         SelectedID => $Param{DispatchingBy},
@@ -418,8 +418,8 @@ sub _MaskAddMailAccount {
 
     $Param{DispatchingOption} = $LayoutObject->BuildSelection(
         Data => {
-            From  => 'Dispatching by email To: field.',
-            Queue => 'Dispatching by selected Queue.',
+            From  => Translatable('Dispatching by email To: field.'),
+            Queue => Translatable('Dispatching by selected Queue.'),
         },
         Name       => 'DispatchingBy',
         SelectedID => $Param{DispatchingBy},

@@ -105,7 +105,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -186,7 +186,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        $Output .= $LayoutObject->Notify( Priority => Translatable('Error') );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

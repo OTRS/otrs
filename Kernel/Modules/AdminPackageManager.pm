@@ -527,7 +527,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version - "
-                    . $LayoutObject->{LanguageObject}->Translate(
+                    . Translatable(
                     "Package not verified by the OTRS Group! It is recommended not to use this package."
                     ),
             );
@@ -1660,9 +1660,7 @@ sub Run {
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
             Data     => "$Package $NotVerifiedPackages{$Package} - "
-                . $LayoutObject->{LanguageObject}->Translate(
-                "Package not verified by the OTRS Group! It is recommended not to use this package."
-                ),
+                . Translatable("Package not verified by the OTRS Group! It is recommended not to use this package."),
         );
     }
 
@@ -1677,9 +1675,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => "$Package $UnknownVerficationPackages{$Package} - "
-                    . $LayoutObject->{LanguageObject}->Translate(
-                    "Package not verified due a communication issue with verification server!"
-                    ),
+                    . Translatable("Package not verified due a communication issue with verification server!"),
             );
         }
     }

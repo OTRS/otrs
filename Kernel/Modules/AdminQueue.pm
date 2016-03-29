@@ -642,7 +642,7 @@ sub _Edit {
     }
     $Param{DefaultSignKeyOption} = $LayoutObject->BuildSelection(
         Data => {
-            '' => '-none-',
+            '' => Translatable('-none-'),
             %DefaultSignKeyList
         },
         Name       => 'DefaultSignKey',

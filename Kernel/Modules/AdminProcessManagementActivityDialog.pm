@@ -881,15 +881,15 @@ sub _ShowEdit {
     # create ArticleType selection
     $Param{ArticleTypeSelection} = $LayoutObject->BuildSelection(
         Data => [
-            'note-internal',
-            'note-external',
-            'note-report',
-            'phone',
-            'fax',
-            'sms',
-            'webrequest',
+            Translatable('note-internal'),
+            Translatable('note-external'),
+            Translatable('note-report'),
+            Translatable('phone'),
+            Translatable('fax'),
+            Translatable('sms'),
+            Translatable('webrequest'),
         ],
-        SelectedValue => 'note-internal',
+        SelectedValue => Translatable('note-internal'),
         Name          => 'ArticleType',
         ID            => 'ArticleType',
         Sort          => 'Alphanumeric',
