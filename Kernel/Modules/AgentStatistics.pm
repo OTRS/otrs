@@ -31,7 +31,7 @@ sub new {
     {
         if ( !$Param{$NeededData} ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Got no %s!', $NeededData ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing.', $NeededData ),
             );
         }
         $Self->{$NeededData} = $Param{$NeededData};
