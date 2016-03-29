@@ -814,11 +814,11 @@ sub Run {
             # get involved user list
             my @InvolvedUserID = $ParamObject->GetArray( Param => 'InvolvedUserID' );
 
-            if ( $Self->{Config}->{InformAgent} ) {
+            if ( $Config->{InformAgent} ) {
                 push @NotifyUserIDs, @InformUserID;
             }
 
-            if ( $Self->{Config}->{InvolvedAgent} ) {
+            if ( $Config->{InvolvedAgent} ) {
                 push @NotifyUserIDs, @InvolvedUserID;
             }
 
