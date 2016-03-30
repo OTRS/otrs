@@ -34,7 +34,7 @@
     <div class="ContentColumn">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Edit Config Settings") | html %] in [% Data.Group | html %] -&gt; [% Data.SubGroup %]</h2>
+                <h2>[% Translate("Edit Config Settings in %s → %s", Data.Group, Data.SubGroup) | html %]</h2>
             </div>
             <div class="Content">
 
