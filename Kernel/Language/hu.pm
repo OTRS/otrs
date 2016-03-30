@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.99957346982299;
+    $Self->{Completeness}        = 0.999360341151386;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5805,6 +5805,7 @@ Az Ön segélyszolgálat csapata
             'Automatikus válaszok maximalizálása a saját e-mail címre naponta (hurok védelem).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Levelek méretének maximalizálása Kbyte-ban, amelyeket POP3/POP3S/IMAP/IMAPS kapcsolaton keresztül lehet letölteni (Kbyte-ban).',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             'A dinamikus mező legnagyobb hossza (karakterben) a jegynagyítás nézet bejegyzésében.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>

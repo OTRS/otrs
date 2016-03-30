@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.885476647472809;
+    $Self->{Completeness}        = 0.885287846481876;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5806,6 +5806,7 @@ Vaša tehnička podrška
             'Mksimum automatskih imejl odgovora dnevno na sopstvenu adresu (Zaštita od petlje)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Maksimalna veličina u kilobajtima za imejlove koji mogu biti preuzeti preko „POP3/POP3S/IMAP/IMAPS (KBytes)”.',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             'Maksimalna dužina (u znacima) dinamičkog polja u članku na detaljnom pregledu tiketa.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>

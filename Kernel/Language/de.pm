@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.830454254638516;
+    $Self->{Completeness}        = 0.847334754797441;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1855,7 +1855,7 @@ sub Data {
             'Sie können diesem Aktivitäts-Dialog Felder zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
         'Filter available fields' => 'Verfügbare Felder filtern',
         'Available Fields' => 'Verfügbare Felder',
-        'Name: %s' => '',
+        'Name: %s' => 'Name: %s',
         'Assigned Fields' => 'Zugewiesene Felder',
         'ArticleType' => 'Artikeltyp',
         'Display' => 'Anzeige',
@@ -2014,9 +2014,9 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Zuordnung von Queues und automatischen Antworten verwalten',
         'This filter allow you to show queues without auto responses' => '',
-        'Queues without auto responses' => '',
+        'Queues without auto responses' => 'Warteschlangen ohne automatische Antworten',
         'This filter allow you to show all queues' => '',
-        'Show all queues' => '',
+        'Show all queues' => 'Alle Warteschlangen anzeigen',
         'Filter for Queues' => 'Filter für Queues',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
@@ -2164,14 +2164,14 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME-Verwaltung',
-        'SMIME support is disabled' => '',
+        'SMIME support is disabled' => 'SMIME-Unterstützung ist deaktiviert',
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
             '',
-        'Enable SMIME support' => '',
-        'Faulty SMIME configuration' => '',
+        'Enable SMIME support' => 'SMIME-Unterstützung aktivieren',
+        'Faulty SMIME configuration' => 'Fehlerhafte SMIME-Konfiguration',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Check SMIME configuration' => '',
+        'Check SMIME configuration' => 'SMIME-Konfiguration prüfen',
         'Add certificate' => 'Zertifikat hinzufügen',
         'Add private key' => 'Privaten Schlüssel hinzufügen',
         'Filter for certificates' => 'Filter für Zertifikate',
@@ -2315,7 +2315,7 @@ sub Data {
         'Elements' => 'Elemente',
 
         # Template: AdminSysConfigEdit
-        'Edit Config Settings in %s → %s' => '',
+        'Edit Config Settings in %s → %s' => 'Konfigurationseinstellungen in %s → %s bearbeiten',
         'This setting is read only.' => 'Dies Einstellungen sind nur lesbar.',
         'This config item is only available in a higher config level!' =>
             'Diese Einstellung ist nur in einem höheren Konfigurationslevel verfügbar!',
@@ -3276,12 +3276,12 @@ sub Data {
             '',
         'This field is required' => 'Dieses Feld wird benötigt',
         'There was an error creating the ACL' => '',
-        'Need ACLID!' => '',
+        'Need ACLID!' => 'ACLID benötigt!',
         'Could not get data for ACLID %s' => '',
         'There was an error updating the ACL' => '',
         'There was an error setting the entity sync status.' => '',
         'There was an error synchronizing the ACLs.' => '',
-        'ACL %s could not be deleted' => '',
+        'ACL %s could not be deleted' => 'ACL %s konnte nicht gelöscht werden',
         'There was an error getting data for ACL with ID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
@@ -3292,23 +3292,23 @@ sub Data {
         'New email ticket' => 'Neues E-Mail-Ticket',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
-        'Fields configuration is not valid' => '',
+        'Fields configuration is not valid' => 'Felderkonfiguration ist nicht gültig',
         'Objects configuration is not valid' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Undefined subaction.' => '',
-        'Need %s' => '',
+        'Undefined subaction.' => 'Unbestimmte Subaktion.',
+        'Need %s' => '%s benötigt',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
         'Need ValidID' => '',
         'Could not create the new field' => '',
-        'Need ID' => '',
+        'Need ID' => 'Kennung benötigt',
         'Could not get data for dynamic field %s' => '',
         'The name for this field should not change.' => '',
-        'Could not update the field %s' => '',
+        'Could not update the field %s' => 'Das Feld %s konnte nicht aktualisiert werden',
         'Currently' => 'Aktuell',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
@@ -3342,11 +3342,11 @@ sub Data {
         'Need OperationType' => '',
         'Operation %s is not registered' => '',
         'OperationType %s is not registered' => '',
-        'Need Operation' => '',
+        'Need Operation' => 'Operation benötigt',
         'Could not determine config for operation %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
-        'Need Subaction!' => '',
+        'Need Subaction!' => 'Subaktion benötigt!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => '',
@@ -3354,7 +3354,7 @@ sub Data {
         'Web service "%s" updated!' => 'Web Service "%s" aktualisiert!',
         'There was an error creating the web service.' => '',
         'Web service "%s" created!' => 'Web Service "%s" erstellt!',
-        'Need Name!' => '',
+        'Need Name!' => 'Name benötigt!',
         'Need a file to import!' => '',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '',
@@ -3364,11 +3364,11 @@ sub Data {
         'Got no WebserviceHistoryID!' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Notification updated!' => '',
-        'Notification added!' => '',
+        'Notification updated!' => 'Benachrichtigung aktualisiert!',
+        'Notification added!' => 'Benachrichtigung hinzugefügt!',
         'There was an error getting data for Notification with ID:%s!' =>
             '',
-        'Unknown Notification %s!' => '',
+        'Unknown Notification %s!' => 'Unbekannte Benachrichtigung %s!',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
@@ -3393,14 +3393,14 @@ sub Data {
         'PGP environment is not working. Please check log for more info!' =>
             '',
         'Need param Key to delete!' => '',
-        'Key %s deleted!' => '',
+        'Key %s deleted!' => 'Schlüssel %s gelöscht!',
         'Need param Key to download!' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otrs.Console.pl to install packages!' =>
             '',
-        'No such package!' => '',
-        'No such file %s in package!' => '',
+        'No such package!' => 'Kein solches Paket!',
+        'No such file %s in package!' => 'Keine solche Datei %s im Paket!',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
         'Package has locally modified files.' => '',
@@ -3410,13 +3410,13 @@ sub Data {
             'Paket nicht verifiziert aufgrund eines Kommunikationsproblems mit dem Verifikationsserver!',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
-        'No such filter: %s' => '',
+        'No such filter: %s' => 'Kein solcher Filter: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '',
         'Could not read %s!' => '',
         'Need ProcessID!' => '',
-        'Unknown Process %s!' => '',
+        'Unknown Process %s!' => 'Unbekannter Prozess %s!',
         'There was an error generating a new EntityID for this Process' =>
             '',
         'The StateEntityID for state Inactive does not exists' => '',
@@ -3433,7 +3433,7 @@ sub Data {
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
-        'Process: %s is not Inactive' => '',
+        'Process: %s is not Inactive' => 'Prozess: %s ist nicht aktiv',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
@@ -3445,13 +3445,13 @@ sub Data {
         'Could not get data for ActivityID %s' => '',
         'There was an error updating the Activity' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => '',
-        'Activity not found!' => '',
-        'ActivityDialog not found!' => '',
+        'Activity not found!' => 'Activität nicht gefunden!',
+        'ActivityDialog not found!' => 'AktivitätsDialog nicht gefunden!',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
             '',
         'Error while saving the Activity to the database!' => '',
         'This subaction is not valid' => '',
-        'Edit Activity "%s"' => '',
+        'Edit Activity "%s"' => 'Aktivität "%s" bearbeiten',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
@@ -3462,7 +3462,7 @@ sub Data {
         'Need ActivityDialogID!' => '',
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
-        'Edit Activity Dialog "%s"' => '',
+        'Edit Activity Dialog "%s"' => 'AktivitätsDialog "%s" bearbeiten',
         'Agent Interface' => 'Agenten-Oberfläche',
         'Customer Interface' => 'Kunden-Oberfläche',
         'Agent and Customer Interface' => 'Agenten- und Kunden-Oberfläche',
@@ -3531,8 +3531,8 @@ sub Data {
         'Salutation added!' => '',
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
-        'Import not allowed!' => '',
-        'Need File!' => '',
+        'Import not allowed!' => 'Import nicht erlaubt!',
+        'Need File!' => 'Datei benötigt!',
         'Can\'t write ConfigItem!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
@@ -3547,16 +3547,16 @@ sub Data {
         'Was not possible to delete the SystemMaintenance entry: %s!' => '',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '',
-        'Template added!' => '',
+        'Template updated!' => 'Vorlage aktualisiert!',
+        'Template added!' => 'Vorlage hinzugefügt!',
 
         # Perl Module: Kernel/Modules/AdminType.pm
-        'Need Type!' => '',
+        'Need Type!' => 'Typ benötigt!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'No such config for %s' => '',
+        'No such config for %s' => 'Keine solche Konfiguration für %s',
         'Statistic' => 'Statistik',
-        'No preferences for %s!' => '',
+        'No preferences for %s!' => 'Keine Einstellungen für %s!',
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
 
@@ -3573,8 +3573,8 @@ sub Data {
         'Param Group is required!' => '',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Parameter %s is missing.' => '',
-        'Invalid Subaction.' => '',
+        'Parameter %s is missing.' => 'Parameter %s fehlt.',
+        'Invalid Subaction.' => 'Ungültige Subaktion.',
         'Statistic could not be imported.' => 'Statistik konnte nicht importiert werden.',
         'Please upload a valid statistic file.' => 'Bitte laden Sie eine gültige Statistikdatei hoch.',
         'Export: Need StatID!' => '',
@@ -3592,7 +3592,7 @@ sub Data {
         'Previous Owner' => 'Vorheriger Besitzer',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
-        '%s is needed!' => '',
+        '%s is needed!' => '%s wird benötigt!',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3613,11 +3613,11 @@ sub Data {
         'Can not determine the ArticleType!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'No Subaction!' => '',
+        'No Subaction!' => 'Keine Subaktion!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
-        'System Error!' => '',
+        'System Error!' => 'Systemfehler!',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => '',
@@ -3637,7 +3637,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
         'Chat is not active.' => '',
-        'No permission.' => '',
+        'No permission.' => 'Keine Berechtigung.',
         '%s has left the chat.' => '%s hat den Chat verlassen.',
         'This chat has been closed and will be removed in %s hours.' => 'Dieser Chat wurde geschlossen und wird in %s Stunden entfernt.',
 
@@ -3653,10 +3653,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
-        'No Process configured!' => '',
-        'Process %s is invalid!' => '',
-        'Subaction is invalid!' => '',
-        'Parameter %s is missing in %s.' => '',
+        'No Process configured!' => 'Kein Prozess konfiguriert!',
+        'Process %s is invalid!' => 'Prozess %s ist ungültig!',
+        'Subaction is invalid!' => 'Subaktion ist ungültig!',
+        'Parameter %s is missing in %s.' => 'Parameter %s fehlt in %s.',
         'No ActivityDialog configured for %s in _RenderAjax!' => '',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
             '',
@@ -3710,23 +3710,23 @@ sub Data {
         'Default Config for Process::Default%s invalid!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'Invalid Filter: %s!' => '',
+        'Invalid Filter: %s!' => 'Ungültiger Filter: %s!',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Invalid Users' => 'Ungültige Benutzer',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => '',
+        'Feature not enabled!' => 'Funktion nicht akiviert!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '',
+        'Feature is not active' => 'Funktion ist nicht aktiv',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Ticket Created' => 'Ticket erstellt',
         'Note Added' => 'Notiz hinzugefügt',
         'Note Added (Customer)' => 'Notiz hinzugefügt (Kunde)',
         'Outgoing Email' => 'Ausgehende E-Mail',
-        'Outgoing Email (internal)' => '',
+        'Outgoing Email (internal)' => 'Ausgehende E-Mail (intern)',
         'Incoming Customer Email' => 'Eingehende E-Mail (Kunde)',
         'Dynamic Field Updated' => 'Dynamisches Feld aktualisiert',
         'Outgoing Phone Call' => 'Ausgehender Telefonanruf',
@@ -3798,10 +3798,10 @@ sub Data {
         'Unknown database type "%s".' => '',
         'Please go back' => '',
         'Install OTRS - Error' => '',
-        'File "%s/%s.xml" not found!' => '',
-        'Contact your Admin!' => '',
+        'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
+        'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
         'Can\'t write Config file!' => '',
-        'Unknown Subaction %s!' => '',
+        'Unknown Subaction %s!' => 'Unbekannte Subaktion %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
@@ -3828,10 +3828,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
-        'sorted ascending' => '',
-        'sorted descending' => '',
+        'filter not active' => 'Filter nicht aktiv',
+        'filter active' => 'Filter aktiv',
+        'sorted ascending' => 'aufsteigend sortiert',
+        'sorted descending' => 'absteigend sortiert',
         'This ticket has no title or subject' => 'Dieses Ticket hat keinen Titel oder Betreff',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -3844,11 +3844,11 @@ sub Data {
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
         ' You can take one of the next actions:' => 'Wählen Sie aus den folgenden Aktionen:',
-        'No Permission' => '',
+        'No Permission' => 'Keine Berechtigung',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
         'Linked as' => 'Verknüpft als',
-        'Search Result' => '',
+        'Search Result' => 'Suchergebnis',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
@@ -3911,7 +3911,7 @@ sub Data {
         'This setting can not be deactivated.' => 'Diese Einstellung kann nicht deaktiviert werden.',
 
         # Perl Module: Kernel/System/Package.pm
-        'not installed' => '',
+        'not installed' => 'nicht installiert',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4362,7 +4362,7 @@ Ihr Helpdesk-Team
             'Fügt die permanenten Ferien-Tage für den ausgewählten Kalender hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09).',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Fügt die permanenten Ferien-Tage hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09).',
-        'Admin Area.' => '',
+        'Admin Area.' => 'Administratorbereich.',
         'After' => 'nach',
         'Agent Preferences.' => '',
         'Agent called customer.' => 'Kunden angerufen.',
@@ -4543,7 +4543,7 @@ Ihr Helpdesk-Team
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Firmenname, welcher in ausgehenden E-Mails als X-Header gesetzt werden soll.',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
-        'Complex' => '',
+        'Complex' => 'Komplex',
         'Configure Processes.' => 'Prozesse verwalten.',
         'Configure and manage ACLs.' => 'ACLs konfigurieren und verwalten.',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4630,8 +4630,8 @@ Ihr Helpdesk-Team
         'Debug' => 'Fehlersuche',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'Debuggt die Übersetzungen. Wenn dies auf "Ja" gesetzt ist, werden alle nicht übersetzten Strings (Text), zur STDERR hinzugefügt. Dies kann hilfreich sein, wenn Sie eine eigene Übersetzung anlegen. Ansonsten sollte diese Option auf "Nein" gesetzt bleiben.',
-        'Default' => '',
-        'Default (Slim)' => '',
+        'Default' => 'Standard',
+        'Default (Slim)' => 'Standard (Schlank)',
         'Default ACL values for ticket actions.' => 'Standard ACL-Werte für Ticketaktionen.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, die automatisch generiert werden.',
@@ -5704,7 +5704,7 @@ Ihr Helpdesk-Team
         'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
-        'Incoming Phone Call.' => '',
+        'Incoming Phone Call.' => 'Eingehender Telefonanruf.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
@@ -5723,8 +5723,8 @@ Ihr Helpdesk-Team
         'Ivory (Slim)' => '',
         'Japanese' => 'Japanisch',
         'JavaScript function for the search frontend.' => '',
-        'Lastname Firstname' => '',
-        'Lastname Firstname (UserLogin)' => '',
+        'Lastname Firstname' => 'Nachname Vorname',
+        'Lastname Firstname (UserLogin)' => 'Nachname Vorname (BenutzerAnmeldung)',
         'Lastname, Firstname' => 'Nachname, Vorname',
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
         'Latvian' => 'Lettisch',
@@ -5765,7 +5765,7 @@ Ihr Helpdesk-Team
         'List view' => 'Listenansicht',
         'Lithuanian' => 'Litauisch',
         'Lock / unlock this ticket' => 'Sperrt / Entsperrt dieses Ticket.',
-        'Locked Tickets.' => '',
+        'Locked Tickets.' => 'Gesperrte Tickets.',
         'Locked ticket.' => 'Ticket gesperrt.',
         'Log file for the ticket counter.' => 'Log-Datei für den Ticket-Counter.',
         'Logout of customer panel.' => '',
@@ -5799,6 +5799,7 @@ Ihr Helpdesk-Team
             'Maximale Anzahl von automatischen E-Mailantworten zur eigenen E-Mailadresse pro Tag (Loop-Protection)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Maximale Größe in KBytes für E-Mails die via POP3/POP3S/IMAP/IMAPS empfangen werden (in KBytes).',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             'Maximale Länge (Buchstaben) von dynamischen Felder von Artikeln in der TicketZoom-Übersicht.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
@@ -5853,7 +5854,7 @@ Ihr Helpdesk-Team
         'Multiselect' => 'Mehrfachauswahl',
         'My Services' => 'Meine Services',
         'My Tickets' => 'Meine Tickets',
-        'My Tickets.' => '',
+        'My Tickets.' => 'Meine Tickets.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -5959,7 +5960,7 @@ Ihr Helpdesk-Team
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => 'Persisch',
-        'Phone Call.' => '',
+        'Phone Call.' => 'Telefonanruf.',
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => 'Bild-Hochladen',
@@ -6059,7 +6060,7 @@ Ihr Helpdesk-Team
         'Search User' => 'Benutzer suchen',
         'Search backend default router.' => '',
         'Search backend router.' => '',
-        'Search.' => '',
+        'Search.' => 'Suche.',
         'Second Queue' => 'Zweite Queue',
         'Select your frontend Theme.' => 'Wählen Sie Ihr Anzeigeschema aus.',
         'Selects the cache backend to use.' => 'Gibt das zu verwendende Cache Backend an.',
@@ -6463,11 +6464,11 @@ Ihr Helpdesk-Team
             '',
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
-        'Simple' => '',
+        'Simple' => 'Einfach',
         'Skin' => 'Skin',
         'Slovak' => 'Slowakisch',
         'Slovenian' => 'Slowenisch',
-        'Software Package Manager.' => '',
+        'Software Package Manager.' => 'Softwarepaketverwaltung.',
         'SolutionDiffInMin' => 'Lösungszeitdifferenz in Minuten',
         'SolutionInMin' => 'Lösungszeit in Minuten',
         'Some description!' => 'Eine Beschreibung!',
@@ -6476,7 +6477,7 @@ Ihr Helpdesk-Team
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
-        'Spam' => '',
+        'Spam' => 'Spam',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             'Spam Assassin Beispielsetup. Ignoriert E-Mail, die von Spam Assassin markiert wurden.',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
@@ -6535,7 +6536,7 @@ Ihr Helpdesk-Team
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Spell checker.' => '',
+        'Spell checker.' => 'Rechtschreibprüfung.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6552,7 +6553,7 @@ Ihr Helpdesk-Team
         'Swedish' => 'Schwedisch',
         'System Maintenance' => 'Systemwartung',
         'System Request (%s).' => 'Systemanfrage (%s).',
-        'Target' => '',
+        'Target' => 'Ziel',
         'Templates <-> Queues' => 'Vorlagen <-> Queues',
         'Textarea' => 'Textfeld',
         'Thai' => 'Thai',
@@ -6651,7 +6652,7 @@ Ihr Helpdesk-Team
         'Ticket plain view of an email.' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'Ticketnummer',
-        'Tickets.' => '',
+        'Tickets.' => 'Tickets.',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'Title updated: Old: "%s", New: "%s"' => 'Titel geändert: Alt: "%s", Neu: "%s"',
@@ -6708,7 +6709,7 @@ Ihr Helpdesk-Team
             'Wir führen eine geplante Wartung durch. Das Einloggen ist im Moment nicht möglich.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
-        'Web View' => '',
+        'Web View' => 'Webansicht',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

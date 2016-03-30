@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.893367455747494;
+    $Self->{Completeness}        = 0.89317697228145;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5802,6 +5802,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Tindak balas auto emel maksimum kepada alamat emel sendiri sehari (perlindungan pengulangan).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Saiz maksimum dalam KBytes untuk mel yang dapat diambil melalui POP3/POP3S/IMAP/IMAPS (KBytes).',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             'Panjang maksimum (dalam aksara) medan dinamik dalam artikel pada paparan zum tiket.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
