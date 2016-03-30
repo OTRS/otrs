@@ -42,21 +42,32 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
             );
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("p.result span.total").length;' );
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
+            );
 
-            $Selenium->find_element( "p.result span.failed", 'css' );
-            $Selenium->find_element( "p.result span.passed", 'css' );
-            $Selenium->find_element( "p.result span.total",  'css' );
+            my $Completed = $Selenium->execute_script(
+                "return \$('#qunit-testresult.complete').length"
+            );
+
+            $Self->True(
+                $Completed,
+                "$File - JavaScript unit tests completed"
+            );
+
+            $Selenium->find_element( "#qunit-testresult span.failed", 'css' );
+            $Selenium->find_element( "#qunit-testresult span.passed", 'css' );
+            $Selenium->find_element( "#qunit-testresult span.total",  'css' );
 
             my ( $Passed, $Failed, $Total );
             $Passed = $Selenium->execute_script(
-                "return \$('p.result span.passed').text()"
+                "return \$('#qunit-testresult span.passed').text()"
             );
             $Failed = $Selenium->execute_script(
-                "return \$('p.result span.failed').text()"
+                "return \$('#qunit-testresult span.failed').text()"
             );
             $Total = $Selenium->execute_script(
-                "return \$('p.result span.total').text()"
+                "return \$('#qunit-testresult span.total').text()"
             );
 
             $Self->True( $Passed, "$File - found passed tests" );
