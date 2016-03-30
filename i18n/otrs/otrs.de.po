@@ -28,9 +28,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-29 13:35+0000\n"
-"PO-Revision-Date: 2016-03-29 11:36+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-03-30 10:15+0000\n"
+"PO-Revision-Date: 2016-03-30 16:19+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3544,6 +3544,10 @@ msgstr "Wollen Sie dieses dynamische Feld wirklich löschen? Alle darin enthalte
 msgid "Delete field"
 msgstr "Feld löschen"
 
+#. Template: AdminDynamicField
+msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Dynamische Felder"
@@ -3893,8 +3897,8 @@ msgstr "Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt wer
 #. Template: AdminGenericAgent
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
-"or days!"
-msgstr ""
+"and days!"
+msgstr "Um ihn automatisch auszuführen, muss mindestens je ein Wert von Minuten, Stunden und Tagen ausgewählt werden!"
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
@@ -5589,11 +5593,11 @@ msgstr "Attribute des aktuellen Kundenbenutzer-Datensatzes"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr "Attribute der Nutzerdaten des aktuellen Ticket Besitzers"
+msgstr "Attribute der Nutzerdaten des aktuellen Ticket-Besitzers"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr "Attribute der Nutzerdaten des aktuellen Ticket Verantwortlichem"
+msgstr "Attribute der Nutzerdaten des aktuellen Ticket-Verantwortlichem"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
@@ -5827,33 +5831,33 @@ msgstr "PGP-Verwaltung"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "Unterstützung für PGP ist deaktiviert"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Um PGP in OTRS verwenden zu können, müssen Sie es zuerst aktivieren."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr ""
+msgstr "PGP-Unterstützung aktivieren"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "Fehlerhafte PGP-Konfiguration"
 
 #. Template: AdminPGP
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "PGP-Unterstützung ist aktiviert, aber die Konfiguration ist fehlerhaft. Bitte überprüfen Sie die Konfiguration mit dem untenstehenden Knopf."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Hier konfigurieren!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "PGP-Konfiguration überprüfen"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -6283,7 +6287,7 @@ msgstr "Möchten Sie von Prozessen profitieren, die von Experten erstellt wurden
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
-msgstr "Um einen neuen Prozess zu erstellen können Sie entweder einen Prozess aus einem anderen System importieren oder einen ganz neuen erstellen."
+msgstr "Um einen neuen Prozess zu erstellen, können Sie entweder einen Prozess aus einem anderen System importieren, oder einen ganz neuen erstellen."
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6378,7 +6382,7 @@ msgstr "Sobald sie den Knopf oder den Link verwenden, verlassen Sie dieses Fenst
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr "Veränderungen an diesem ActivityDialog werden sich auf folgende Activities auswirken"
+msgstr "Veränderungen an diesem Aktivitäts-Dialog werden sich auf folgende Aktivitäten auswirken"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -6421,7 +6425,7 @@ msgstr "Erforderliche Sperre"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr "Die ausgewählte Sperre existiert nicht"
+msgstr "Die ausgewählte Sperre existiert nicht."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
@@ -6521,7 +6525,7 @@ msgstr "Neue Aktivität erstellen"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr "Aktivitäts-Dialoge filtern"
+msgstr "Aktivitäts-Dialoge filtern..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
@@ -6529,7 +6533,7 @@ msgstr "Übergänge"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr "Übergänge filtern"
+msgstr "Übergänge filtern..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
@@ -6569,7 +6573,7 @@ msgstr "Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in d
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
-msgstr "Sie können Aktivitäten im Zeichenbereich platzieren, um diese Aktivitäten dem Prozess zuzuordnen"
+msgstr "Sie können Aktivitäten im Zeichenbereich platzieren, um diese Aktivitäten dem Prozess zuzuordnen."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6672,11 +6676,11 @@ msgstr "EntityIDs ausblenden"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Entity"
-msgstr "Entität löschen"
+msgstr "Eintrag löschen"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove Entity from canvas"
-msgstr "Entität entfernen"
+msgstr "Eintrag entfernen"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity is already used in the Process. You cannot add it twice!"
@@ -6811,7 +6815,7 @@ msgstr "Feld entfernen"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr "Und können nicht innerhalb der selben Abfrage verwendet werden."
+msgstr "Und können nicht innerhalb derselben Abfrage verwendet werden."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -7922,8 +7926,8 @@ msgid "Elements"
 msgstr "Elemente"
 
 #. Template: AdminSysConfigEdit
-msgid "Edit Config Settings"
-msgstr "Konfigurationseinstellungen bearbeiten"
+msgid "Edit Config Settings in %s → %s"
+msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
@@ -8291,7 +8295,7 @@ msgstr "Agent bearbeiten"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "Titel oder Anrede"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8951,7 +8955,7 @@ msgstr "Tickets entsperren"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "Sammelaktion ausführen"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
@@ -10387,7 +10391,7 @@ msgstr "Nachricht des Tages"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Das ist die Nachricht des Tages. Sie können diese in %s bearbeiten."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -10487,7 +10491,7 @@ msgstr ""
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
-msgstr ""
+msgstr "Zitat entfernen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -11230,27 +11234,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Agenten-Oberfläche"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Kunden-Oberfläche"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "Agenten- und Kunden-Oberfläche"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
-msgstr ""
+msgstr "Feld nicht anzeigen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field"
-msgstr ""
+msgstr "Feld anzeigen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field As Mandatory"
-msgstr ""
+msgstr "Als Pflichtfeld anzeigen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "fax"
@@ -11258,11 +11262,11 @@ msgstr "Fax"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Need %s!"
-msgstr ""
+msgstr "Benötige %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
-msgstr ""
+msgstr "Pfad bearbeiten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
@@ -11295,15 +11299,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
-msgstr ""
+msgstr "exklusives oder (xor)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
-msgstr ""
+msgstr "Zeichenkette"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Regulärer Ausdruck"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -14572,7 +14576,7 @@ msgstr "Kundenname"
 
 #. SysConfig
 msgid "CustomerUser"
-msgstr ""
+msgstr "CustomerUser"
 
 #. SysConfig
 msgid "Customers <-> Groups"
@@ -17078,7 +17082,7 @@ msgstr "Dynamische Felder die in der \"Ticket Zoom\" Ansicht in der Kunden-Oberf
 
 #. SysConfig
 msgid "DynamicField"
-msgstr ""
+msgstr "DynamicField"
 
 #. SysConfig
 msgid "DynamicField backend registration."
@@ -17742,7 +17746,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

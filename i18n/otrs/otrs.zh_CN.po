@@ -2,10 +2,12 @@
 # Translators:
 # bb16390 <bb16390@gmail.com>, 2014
 # bb16390 <bb16390@gmail.com>, 2014
+# Hotellook, 2014
 # 文浩坚 <never.min@gmail.com>, 2015
 # 文浩坚 <never.min@gmail.com>, 2015
 # shizhao <shizhao@gmail.com>, 2015
 # shizhao <shizhao@gmail.com>, 2015
+# Spiros Georgaras <sng@hellug.gr>, 2016
 # Stang . <Cosine02@outlook.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015-2016
 # 汇民 王 <whuim@163.com>, 2016
@@ -13,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2016-03-10 00:06+0000\n"
+"POT-Creation-Date: 2016-03-30 10:15+0000\n"
+"PO-Revision-Date: 2016-03-30 16:21+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1566,7 +1568,7 @@ msgstr "卸载 %s 时遇到了一个问题。"
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "启用云服务以激活OTRS的所有功能！"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2622,7 +2624,7 @@ msgstr "发送工单跟进通知"
 
 #. Template: AAATicket
 msgid "Ticket lock timeout notification"
-msgstr "工单锁定超通知"
+msgstr "工单锁定超时通知"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
@@ -3529,6 +3531,10 @@ msgstr "您真的想要删除这个动态字段吗? 所有关联的数据将丢�
 msgid "Delete field"
 msgstr "删除字段"
 
+#. Template: AdminDynamicField
+msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "动态字段"
@@ -3956,8 +3962,8 @@ msgid "(e. g. 234321)"
 msgstr "例如: 234321"
 
 #. Template: AdminGenericAgent
-msgid "Customer login"
-msgstr "客户登录"
+msgid "Customer user"
+msgstr "客户联系人"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4156,8 +4162,8 @@ msgid "Set new ticket lock"
 msgstr "工单锁定"
 
 #. Template: AdminGenericAgent
-msgid "New customer"
-msgstr "指定客户"
+msgid "New customer user"
+msgstr "指定客户联系人"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -4974,6 +4980,10 @@ msgstr "排序选项"
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
 msgstr "添加新的第一级元素"
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "Element"
+msgstr "元素"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5807,8 +5817,34 @@ msgid "PGP Management"
 msgstr "PGP管理"
 
 #. Template: AdminPGP
-msgid "Use this feature if you want to work with PGP keys."
-msgstr "该功能用于管理PGP密钥"
+msgid "PGP support is disabled"
+msgstr "PGP支持已禁用。"
+
+#. Template: AdminPGP
+msgid "To be able to use PGP in OTRS, you have to enable it first."
+msgstr "要在OTRS中使用PGP，你必须首先启用它。"
+
+#. Template: AdminPGP
+msgid "Enable PGP support"
+msgstr "启用PGP支持"
+
+#. Template: AdminPGP
+msgid "Faulty PGP configuration"
+msgstr "错误的PGP配置"
+
+#. Template: AdminPGP
+msgid ""
+"PGP support is enabled, but the relevant configuration contains errors. "
+"Please check the configuration using the button below."
+msgstr "已启用PGP支持，但是相关的配置包含有错误。请使用下面的按钮检查配置。"
+
+#. Template: AdminPGP
+msgid "Configure it here!"
+msgstr "在这里配置PGP！"
+
+#. Template: AdminPGP
+msgid "Check PGP configuration"
+msgstr "检查PGP配置"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -5901,15 +5937,15 @@ msgstr "更新软件仓库信息"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
-msgstr ""
+msgstr "云服务当前被禁用了。"
 
 #. Template: AdminPackageManager
 msgid "OTRS Verify™ can not continue!"
-msgstr ""
+msgstr "OTRS Verify™（OTRS验证）不能继续！"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "启用云服务"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -6125,7 +6161,7 @@ msgstr "器名称是必需项。"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
-msgstr "条件过滤器"
+msgstr "过滤器条件"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
@@ -6312,6 +6348,10 @@ msgid "Available Activity Dialogs"
 msgstr "可用的活动对话框"
 
 #. Template: AdminProcessManagementActivity
+msgid "Name: %s, EntityID: %s"
+msgstr "名称：%s， EntityID： %s"
+
+#. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
 msgstr "创建新的活动对话框"
 
@@ -6399,6 +6439,10 @@ msgstr "可用字段的过滤器"
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
 msgstr "可用的字段"
+
+#. Template: AdminProcessManagementActivityDialog
+msgid "Name: %s"
+msgstr "名称：%s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
@@ -7397,6 +7441,32 @@ msgid "S/MIME Management"
 msgstr "S/MIME管理"
 
 #. Template: AdminSMIME
+msgid "SMIME support is disabled"
+msgstr "已禁用SMIME支持。"
+
+#. Template: AdminSMIME
+msgid "To be able to use SMIME in OTRS, you have to enable it first."
+msgstr "要在OTRS中使用SMIME，你必须首先启用它。"
+
+#. Template: AdminSMIME
+msgid "Enable SMIME support"
+msgstr "启用SMIME支持"
+
+#. Template: AdminSMIME
+msgid "Faulty SMIME configuration"
+msgstr "错误的SMIME配置"
+
+#. Template: AdminSMIME
+msgid ""
+"SMIME support is enabled, but the relevant configuration contains errors. "
+"Please check the configuration using the button below."
+msgstr "已启用SMIME支持，但是相关的配置包含有错误。请使用下面的按钮检查配置。"
+
+#. Template: AdminSMIME
+msgid "Check SMIME configuration"
+msgstr "检查SMIME配置"
+
+#. Template: AdminSMIME
 msgid "Add certificate"
 msgstr "添加证书"
 
@@ -7676,11 +7746,11 @@ msgstr "工单状态类型"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
-msgstr ""
+msgstr "不能将支持数据发送给OTRS集团！"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
-msgstr ""
+msgstr "启用云服务"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7843,8 +7913,8 @@ msgid "Elements"
 msgstr "元素"
 
 #. Template: AdminSysConfigEdit
-msgid "Edit Config Settings"
-msgstr "编辑配置"
+msgid "Edit Config Settings in %s → %s"
+msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
@@ -8211,6 +8281,10 @@ msgid "Edit Agent"
 msgstr "编辑服务人员"
 
 #. Template: AdminUser
+msgid "Title or salutation"
+msgstr "标题或问候语"
+
+#. Template: AdminUser
 msgid "Firstname"
 msgstr "名"
 
@@ -8345,6 +8419,10 @@ msgstr "显示的字段(可通过拖放调整顺序)"
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "升级的工单"
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Customer login"
+msgstr "客户登录名"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
@@ -8750,7 +8828,7 @@ msgstr "请指定新的所有者！"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr "新的责任人"
+msgstr "新的负责人"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -8862,6 +8940,10 @@ msgstr "链接到上一级"
 msgid "Unlock tickets"
 msgstr "解锁工单"
 
+#. Template: AgentTicketBulk
+msgid "Execute Bulk Action"
+msgstr "执行批量操作"
+
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s"
 msgstr "编写工单%s%s的回复邮件"
@@ -8901,10 +8983,6 @@ msgstr "日期无效！"
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s"
 msgstr "变更工单%s%s的客户联系人"
-
-#. Template: AgentTicketCustomer
-msgid "Customer user"
-msgstr "客户联系人"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9432,7 +9510,7 @@ msgstr "请一句话描述您的需求"
 
 #. Template: CloudServicesDisabled
 msgid "This feature requires cloud services."
-msgstr ""
+msgstr "这个功能需要启用云服务。"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
@@ -9700,8 +9778,16 @@ msgid "No time settings"
 msgstr "没有设置时间"
 
 #. Template: CustomerTicketSearch
+msgid "Specific date"
+msgstr "指定日期"
+
+#. Template: CustomerTicketSearch
 msgid "Only tickets created"
 msgstr "仅工单创建时间"
+
+#. Template: CustomerTicketSearch
+msgid "Date range"
+msgstr "日期范围"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
@@ -10290,6 +10376,10 @@ msgstr "抱歉，当前的OTRS不能用于移动终端。如果你想在移动�
 msgid "Message of the Day"
 msgstr "今日消息"
 
+#. Template: Motd
+msgid "This is the message of the day. You can edit this in %s."
+msgstr "这是今日消息，你可以在文件%s中编辑它的内容。"
+
 #. Template: NoPermission
 msgid "Insufficient Rights"
 msgstr "没有足够的权限"
@@ -10373,6 +10463,18 @@ msgstr "通知服务人员"
 #. Template: PublicDefault
 msgid "Welcome"
 msgstr "欢迎"
+
+#. Template: PublicDefault
+msgid ""
+"This is the default public interface of OTRS! There was no action parameter "
+"given."
+msgstr "这是OTRS默认的公共界面！没有操作参数。"
+
+#. Template: PublicDefault
+msgid ""
+"You could install a custom public module (via the package manager), for "
+"example the FAQ module, which has a public interface."
+msgstr "你可以安装一个定制的有公共界面的公共模块（通过软件包管理器），例如FAQ知识库模块。"
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
@@ -10565,6 +10667,14 @@ msgstr "计数器"
 msgid "Go back to the previous page"
 msgstr "返回前一页"
 
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "View system log messages."
+msgstr "查看系统日志信息"
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Update and extend your system with software packages."
+msgstr "更新或安装系统的软件包或模块。"
+
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTRS logs "
@@ -10591,7 +10701,7 @@ msgstr "这个字段是必需的"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr "创建ACL时出现一个错误"
+msgstr "创建ACL时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
@@ -10603,15 +10713,15 @@ msgstr "不能获得ACLID为%s 的数据"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr "更新ACL时出现一个错误"
+msgstr "更新ACL时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr "设置条目同步状态时出现一个错误。"
+msgstr "设置条目同步状态时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr "同步ACL时出现一个错误。"
+msgstr "同步ACL时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
@@ -10619,7 +10729,7 @@ msgstr "不能删除ACL %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr "获得ID为%s 的ACL的数据时出现一个错误"
+msgstr "获得ID为%s 的ACL的数据时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10730,8 +10840,8 @@ msgid "Invoker %s is not registered"
 msgstr "调用程序%s 没有注册。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType % is not registered"
-msgstr "调用程序类型%s 没有注册。"
+msgid "InvokerType %s is not registered"
+msgstr "调用程序类型 %s 没有注册。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need Invoker"
@@ -10783,7 +10893,7 @@ msgstr "存在同名的另一WEB服务。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr "更新WEB服务时出现一个错误。"
+msgstr "更新WEB服务时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" updated!"
@@ -10791,7 +10901,7 @@ msgstr "Web服务“%s”已经更新！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr "创建WEB服务时出现一个错误。"
+msgstr "创建WEB服务时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
@@ -10818,6 +10928,46 @@ msgstr "Web服务“%s”已经删除！"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "没有 WebserviceHistoryID ！"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Notification updated!"
+msgstr "通知已更新！"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Notification added!"
+msgstr "通知已添加！"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "There was an error getting data for Notification with ID:%s!"
+msgstr "获取ID为%s的通知数据时出现了一个错误！"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Unknown Notification %s!"
+msgstr "未知通知 %s！"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "There was an error creating the Notification"
+msgstr "创建通知时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid ""
+"Notifications could not be Imported due to a unknown error, please check "
+"OTRS logs for more information"
+msgstr "由于一个未知错误不能导入通知，请检查OTRS日志以获取更多信息"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "The following Notifications have been added successfully: %s"
+msgstr "下列通知已成功添加：%s"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "The following Notifications have been updated successfully: %s"
+msgstr "下列通知已成功更新：%s"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid ""
+"There where errors adding/updating the following Notifications: %s. Please "
+"check the log file for more information."
+msgstr "添加/更新下列通知时出现错误：%s，请检查OTRS日志以获取更多信息。"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -10856,6 +11006,10 @@ msgid "Yes, but require at least one active notification method"
 msgstr "是的，但是需要至少一个激活的通知方法"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
+msgid "PGP environment is not working. Please check log for more info!"
+msgstr "PGP环境不能正常工作，请检查日志获取更多信息！"
+
+#. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
 msgstr "需要参数“密钥”才能删除！"
 
@@ -10871,8 +11025,8 @@ msgstr "需要参数“密钥”才能下载！"
 msgid ""
 "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache "
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you"
-" can use the commandline tool bin/otrs.Console.pl to install packages!"
-msgstr "抱歉，在Apache配置文件中需要Apache::Reload作为PerlModule和PerlInitHandler。参阅scripts/apache2-httpd.include.conf。您也可以使用命令行工具bin/otrs.Console.pl来安装软件包！"
+" can use the command line tool bin/otrs.Console.pl to install packages!"
+msgstr "抱歉，在Apache配置文件中需要Apache::Reload作为PerlModule和PerlInitHandler。另请查看scripts/apache2-httpd.include.conf。或者您也可以使用命令行工具bin/otrs.Console.pl来安装软件包！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
@@ -10907,18 +11061,91 @@ msgstr "不能验证软件包，因为与验证服务器无法正常通讯！"
 msgid "No such filter: %s"
 msgstr "没有这个过滤器：%s"
 
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Need ExampleProcesses!"
+msgstr "需要ExampleProcesses！"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not read %s!"
+msgstr "不能读取 %s！"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Need ProcessID!"
+msgstr "需要流程ID！"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Unknown Process %s!"
+msgstr "未知的流程 %s！"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error generating a new EntityID for this Process"
+msgstr "为这个流程生成新的实体ID时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "The StateEntityID for state Inactive does not exists"
+msgstr "状态为‘非活动的’的StateEntityID不存在"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error creating the Process"
+msgstr "创建该流程时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid ""
+"There was an error setting the entity sync status for Process entity: %s"
+msgstr "为流程实体：%s设置实体同步状态时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not get data for ProcessID %s"
+msgstr "不能获取ID为 %s的流程数据"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error updating the Process"
+msgstr "更新该流程时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s could not be deleted"
+msgstr "不能删除流程：%s "
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error synchronizing the processes."
+msgstr "同步该流程时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "The %s:%s is still in use"
+msgstr " %s:%s 仍在使用中"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "The %s:%s has a different EntityID"
+msgstr " %s:%s 有一个不同的EntityID"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not delete %s:%s"
+msgstr "不能删除 %s:%s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error setting the entity sync status for %s entity: %s"
+msgstr "为 %s 实体： %s 设置实体同步状态时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not get %s"
+msgstr "不能获取 %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s is not Inactive"
+msgstr "流程： %s 的状态不是‘非活动的’"
+
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr "为这个活动生成新的EntityID时出现一个错误。"
+msgstr "为这个活动生成新的EntityID时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr "创建活动时出现一个错误"
+msgstr "创建活动时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
-msgstr "设置活动实体： %s的同步状态时出现一个错误"
+msgstr "设置活动实体： %s的同步状态时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
@@ -10930,7 +11157,7 @@ msgstr "不能获得ActivityID %s的数据"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
-msgstr "更新活动时出现一个错误"
+msgstr "更新活动时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
@@ -10958,32 +11185,88 @@ msgstr "保存活动到数据库时出错！"
 msgid "This subaction is not valid"
 msgstr "这个子动作无效！"
 
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid "Edit Activity \"%s\""
+msgstr "编辑活动“%s”"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "There was an error generating a new EntityID for this ActivityDialog"
+msgstr "为这个活动对话框生成一个新EntityID时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "There was an error creating the ActivityDialog"
+msgstr "创建这个活动对话框时出现了一个错误"
+
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity:"
 " %s"
-msgstr "设置活动对话框实体的同步状态时出现一个错误"
+msgstr "设置活动对话框实体的同步状态时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Need ActivityDialogID!"
+msgstr "需要ActivityDialogID！"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
 msgstr "不能获得ActivityDialogID %s的数据"
 
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "There was an error updating the ActivityDialog"
+msgstr "更新活动对话框时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Edit Activity Dialog \"%s\""
+msgstr "编辑活动对话框“%s”"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Agent Interface"
+msgstr "服务人员界面"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Customer Interface"
+msgstr "客户界面"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Agent and Customer Interface"
+msgstr "服务人员和客户界面"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Do not show Field"
+msgstr "不显示字段"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Show Field"
+msgstr "显示字段"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "Show Field As Mandatory"
+msgstr "显示字段为必填"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "fax"
+msgstr "传真"
+
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Need %s!"
-msgstr "需要%s！"
+msgstr "需要 %s！"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
+msgid "Edit Path"
+msgstr "编辑路径"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
-msgstr "为这个转换生成新的EntityID时出现一个错误"
+msgstr "为这个转换生成新的EntityID时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr "创建转换时出现一个错误"
+msgstr "创建转换时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
-msgstr "设置转换实体的同步状态时出现一个错误"
+msgstr "设置转换实体的同步状态时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
@@ -10995,7 +11278,27 @@ msgstr "不能获得TransitionID %s的数据"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
-msgstr "更新转换时出现一个错误"
+msgstr "更新转换时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "Edit Transition \"%s\""
+msgstr "编辑转换“%s”"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "xor"
+msgstr "异或"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "String"
+msgstr "字符串"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "Regular expression"
+msgstr "正则表达式"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "Transition validation module"
+msgstr "转换验证模块"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
@@ -11003,17 +11306,17 @@ msgstr "至少需要一个有效的配置参数。"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
-msgstr "为这个转换动作生成一个新的EntityID时出现一个错误"
+msgstr "为这个转换动作生成一个新的EntityID时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
-msgstr "创建转换动作时出现一个错误"
+msgstr "创建转换动作时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
-msgstr "设置转换动作实体：%s的同步状态时出现一个错误"
+msgstr "设置转换动作实体：%s的同步状态时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
@@ -11025,19 +11328,27 @@ msgstr "不能获得TransitionActionID %s的数据"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
-msgstr "更新转换动作时出现一个错误"
+msgstr "更新转换动作时出现了一个错误"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+msgid "Edit Transition Action \"%s\""
+msgstr "编辑转换操作“%s”"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
 msgstr "错误：不是所有键都有值，或存在没有键的值。"
 
+#. Perl Module: Kernel/Modules/AdminQueue.pm
+msgid "Don't use :: in queue name!"
+msgstr "不要在队列名称中使用双冒号 ::"
+
+#. Perl Module: Kernel/Modules/AdminQueue.pm
+msgid "Click back and change it!"
+msgstr "点击返回并修改它！"
+
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "没有自动响应的队列"
-
-#. Perl Module: Kernel/Modules/AdminSMIME.pm
-msgid "S/MIME support is disabled in Kernel::Config::SMIME."
-msgstr "在Kernel::Config::SMIME中禁用了S/MIME支持功能。"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -11052,8 +11363,8 @@ msgid "Need param Filename to download!"
 msgstr "需要参数文件名才能下载！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
-msgid "Needed CertFingerprint and CAFingerprint"
-msgstr "需要证书指纹和认证机构指纹"
+msgid "Needed CertFingerprint and CAFingerprint!"
+msgstr "需要证书指纹和认证机构指纹！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
@@ -11068,12 +11379,8 @@ msgid "Relation added!"
 msgstr "关系已添加！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
-msgid "Imposible to add relation!"
-msgstr "不能添加关系！"
-
-#. Perl Module: Kernel/Modules/AdminSMIME.pm
-msgid "Needed CertFingerprint and CAFingerprint!"
-msgstr "需要证书指纹和认证机构指纹！"
+msgid "Impossible to add relation!"
+msgstr "不可能添加关系！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation doesn't exists"
@@ -11084,16 +11391,24 @@ msgid "Relation deleted!"
 msgstr "关系已删除！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
-msgid "Imposible to delete relation!"
-msgstr "不能删除关系！"
+msgid "Impossible to delete relation!"
+msgstr "不可能删除关系！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Certificate %s could not be read!"
-msgstr "不能读取！证书%s "
+msgstr "不能读取证书 %s ！"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed Fingerprint"
 msgstr "需要指纹"
+
+#. Perl Module: Kernel/Modules/AdminSalutation.pm
+msgid "Salutation updated!"
+msgstr "问候语已更新！"
+
+#. Perl Module: Kernel/Modules/AdminSalutation.pm
+msgid "Salutation added!"
+msgstr "问候语已添加！"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -11113,7 +11428,7 @@ msgstr "开始日期不能在结束日期之后！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr "创建系统维护时出现一个错误"
+msgstr "创建系统维护时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
@@ -11137,11 +11452,19 @@ msgstr "除了本会话外，所有会话都已经被kill掉！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
-msgstr "更新系统维护时出现一个错误"
+msgstr "更新系统维护时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
 msgstr "不能删除系统维护条目：%s！"
+
+#. Perl Module: Kernel/Modules/AdminTemplate.pm
+msgid "Template updated!"
+msgstr "模板已更新！"
+
+#. Perl Module: Kernel/Modules/AdminTemplate.pm
+msgid "Template added!"
+msgstr "模板已添加！"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
@@ -11168,6 +11491,18 @@ msgid "Can't get filter content data of %s!"
 msgstr "不能获得%s 的过滤器内容数据！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
+msgid "Need SourceObject and SourceKey!"
+msgstr "需要SourceObject（源对象）和SourceKey（源键）！"
+
+#. Perl Module: Kernel/Modules/AgentLinkObject.pm
+msgid "Please contact the admin."
+msgstr "请联系系统管理员。"
+
+#. Perl Module: Kernel/Modules/AgentLinkObject.pm
+msgid "You need ro permission!"
+msgstr "需要ro只读权限！"
+
+#. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
 msgstr "不能删除到%s的链接！"
 
@@ -11179,13 +11514,17 @@ msgstr "不能创建到%s的链接！"
 msgid "Object already linked as %s."
 msgstr "对象已经链接为%s。"
 
+#. Perl Module: Kernel/Modules/AgentLinkObject.pm
+msgid "The object %s cannot link with other object!"
+msgstr "对象 %s 不能被其它对象链接！"
+
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
 msgstr "参数“组”是必需的！"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
-msgid "Got no %s!"
-msgstr "没有获得%s！"
+msgid "Parameter %s is missing."
+msgstr "缺失参数“%s”。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
@@ -11224,8 +11563,16 @@ msgid "Run: Get no %s!"
 msgstr "运行：没有获得 %s！"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "No TicketID is given!"
+msgstr "没有指定TicketID 工单编号！"
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
 msgstr "需要%s 权限！"
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "Could not perform validation on field %s!"
+msgstr "不能验证字段%s ！"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
@@ -11247,33 +11594,103 @@ msgstr "信件 %s 的纯文本没有找到！"
 msgid "Article does not belong to ticket %s!"
 msgstr "信件不属于工单%s！"
 
+#. Perl Module: Kernel/Modules/AgentTicketBounce.pm
+msgid "Can't bounce email!"
+msgstr "不能退回邮件！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBounce.pm
+msgid "Can't send email!"
+msgstr "不能发送邮件！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBounce.pm
+msgid "Wrong Subaction!"
+msgstr "错误的子操作！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "Can't lock Tickets, no TicketIDs are given!"
+msgstr "不能锁定工单，没有指定工单编辑！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "Ticket (%s) is not unlocked!"
+msgstr "工单（%s）没有解锁！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "Bulk feature is not enabled!"
+msgstr "批量操作功能还没有启用！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "No selectable TicketID is given!"
+msgstr "没有指定可选择的工单编号！"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"You either selected no ticket or only tickets which are locked by other "
+"agents"
+msgstr "你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket"
+msgstr "你需要选择至少一个工单"
+
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
 msgstr "工单已被其他服务人员锁定，将被忽略！"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
-msgid "Could not perform validation on field %s!"
-msgstr "不能验证字段%s ！"
+msgid "Can not determine the ArticleType!"
+msgstr "不能确定信件类型！"
 
-#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
-msgid "Please contact the admin."
-msgstr "请联系系统管理员。"
+#. Perl Module: Kernel/Modules/AgentTicketEmail.pm
+msgid "No Subaction!"
+msgstr "没有子操作！"
 
-#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
-msgid "Can not determine the ArticleType."
-msgstr "不能确定信件类型。"
+#. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
+msgid "Got no TicketID!"
+msgstr "没有获得工单编号！"
 
-#. Perl Module: Kernel/Modules/AgentTicketMerge.pm
-msgid "No TicketID is given!"
-msgstr "没有指定TicketID 工单编号！"
+#. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
+msgid "System Error!"
+msgstr "系统错误！"
+
+#. Perl Module: Kernel/Modules/AgentTicketHistory.pm
+msgid "Can't show history, no TicketID is given!"
+msgstr "不能显示历史，没有指定工单编号！"
+
+#. Perl Module: Kernel/Modules/AgentTicketLock.pm
+msgid "Can't lock Ticket, no TicketID is given!"
+msgstr "不能锁定工单，没有指定工单编号！"
+
+#. Perl Module: Kernel/Modules/AgentTicketLock.pm
+msgid "Sorry, the current owner is %s!"
+msgstr "抱歉，当前所有者是：%s！"
+
+#. Perl Module: Kernel/Modules/AgentTicketLock.pm
+msgid "Please become the owner first."
+msgstr "请首先成为所有者。"
+
+#. Perl Module: Kernel/Modules/AgentTicketLock.pm
+msgid "Ticket (ID=%s) is locked by %s!"
+msgstr "工单（ID=%s）已被 %s 锁定！"
+
+#. Perl Module: Kernel/Modules/AgentTicketLock.pm
+msgid "Change the owner!"
+msgstr "变更所有者！"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
 msgstr "不能将工单合并到它自己！"
 
+#. Perl Module: Kernel/Modules/AgentTicketMove.pm
+msgid "You need move permissions!"
+msgstr "你需要转换权限！"
+
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
-msgid "You need ro permission!"
-msgstr "需要ro只读权限！"
+msgid "Chat is not active."
+msgstr "聊天不是活动的。"
+
+#. Perl Module: Kernel/Modules/AgentTicketPhone.pm
+msgid "No permission."
+msgstr "没有权限。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
@@ -11282,6 +11699,16 @@ msgstr "%s已经离开了聊天。"
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
 msgstr "这个聊天已经关闭，将在%s小时内删除。"
+
+#. Perl Module: Kernel/Modules/AgentTicketPlain.pm
+msgid "No ArticleID!"
+msgstr "没有ArticleID！"
+
+#. Perl Module: Kernel/Modules/AgentTicketPlain.pm
+msgid ""
+"Can't read plain article! Maybe there is no plain email in backend! Read "
+"backend message."
+msgstr "不能读取纯文本信件！可能在后端没有纯文件邮件！读取后端消息。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
@@ -11308,24 +11735,16 @@ msgid "Process %s is invalid!"
 msgstr "流程%s 无效！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Subacion is invalid!"
-msgstr "字动作无效！"
+msgid "Subaction is invalid!"
+msgstr "子操作无效！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderAjax!"
-msgstr "在函数_RenderAjax中没有获得%s ！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogEntityID in _RenderAjax!"
-msgstr "在函数_RenderAjax中没有获得ActivityDialogEntityID！"
+msgid "Parameter %s is missing in %s."
+msgstr "缺失参数“%s”，在“%s”。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
 msgstr "在函数_RenderAjax中 %s 没有配置活动对话框！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _GetParam!"
-msgstr "在函数 _GetParam 中没有获得 %s ！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -11371,8 +11790,8 @@ msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
 msgstr "不能获得工单“%s”的流程实体ID或活动实体ID！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Can't get Activity configuration for ActivityEntityID %s!"
-msgstr "不能获得活动实体ID “%s”的活动配置。"
+msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
+msgstr "不能获得活动实体ID “%s”的活动配置！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
@@ -11389,112 +11808,12 @@ msgid ""
 msgstr "挂起时间只能在同一个活动对话框配置了状态或状态ID时使用。活动对话框：%s！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderResponsible!"
-msgstr "在函数_RenderResponsible中没有获得“%s”！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderPendingTime!"
-msgstr "在函数_RenderPendingTime中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
 msgstr "挂起时间"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
 msgstr "针对各种挂起状态"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderDynamicField!"
-msgstr "在函数_RenderDynamicField中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderTitle!"
-msgstr "在函数_RenderTitle中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderTitle!"
-msgstr "在函数_RenderTitle中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderArticle!"
-msgstr "在函数_RenderArticle中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderArticle!"
-msgstr "在函数_RenderArticle中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderCustomer!"
-msgstr "在函数_RenderCustomer中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderResponsible!"
-msgstr "在函数_RenderResponsible中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderOwner!"
-msgstr "在函数_RenderOwner中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderOwner!"
-msgstr "在函数_RenderOwner中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderSLA!"
-msgstr "在函数_RenderSLA中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderSLA!"
-msgstr "在函数_RenderSLA中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderService!"
-msgstr "在函数_RenderService中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderService!"
-msgstr "在函数_RenderService中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderLock!"
-msgstr "在函数_RenderLock中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderLock!"
-msgstr "在函数_RenderLock中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderPriority!"
-msgstr "在函数_RenderPriority中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderPriority!"
-msgstr "在函数_RenderPriority中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderQueue!"
-msgstr "在函数_RenderQueue中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderQueue!"
-msgstr "在函数_RenderQueue中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderState!"
-msgstr "在函数_RenderState中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderState!"
-msgstr "在函数_RenderState中没有获得ActivityDialogField（活动对话框字段）！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no %s in _RenderType!"
-msgstr "在函数_RenderType中没有获得%s！"
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Got no ActivityDialogField in _RenderType!"
-msgstr "在函数_RenderType中没有获得ActivityDialogField（活动对话框字段）！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
@@ -11532,8 +11851,8 @@ msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
 msgstr "不能设置活动实体ID “%s”在工单ID “%s”中！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "Could not Store ActivityDialog, invalid TicketID: %s!"
-msgstr "不能储存活动对话框，无效的工单ID： “%s”！"
+msgid "Could not store ActivityDialog, invalid TicketID: %s!"
+msgstr "不能存储活动对话框，无效的工单ID： %s！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
@@ -11592,9 +11911,145 @@ msgstr "功能没有启用！"
 msgid "Feature is not active"
 msgstr "功能没有激活"
 
-#. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-msgid "Invalid subaction"
-msgstr "无效的子动作"
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Created"
+msgstr "工单已创建"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Note Added"
+msgstr "已增加备注"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Note Added (Customer)"
+msgstr "已增加备注-客户联系人"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr "外发邮件"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
+msgstr "外发邮件-内部"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Customer Email"
+msgstr "客户来信"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr "动态字段已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr "致电"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr "来电"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Answer"
+msgstr "答复"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr "SLA 已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Service Updated"
+msgstr "服务已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr "客户联系人已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "State Updated"
+msgstr "状态已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr "进入的跟进"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr "升级更新时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr "升级解决时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr "升级首次响应时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr "升级响应时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Added"
+msgstr "连接已增加"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "连接已删除"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr "工单已合并"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr "挂起时间设置"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr "工单已锁定"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Unlocked"
+msgstr "工单已解锁"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr "队列已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Priority Updated"
+msgstr "优先级已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr "主题已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr "类型已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Web Request"
+msgstr "进入的WEB请求"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
+msgstr "发送自动跟进"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr "发送自动回复"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Time Accounted"
+msgstr "所用时间"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "External Chat"
+msgstr "外部聊天"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr "内部聊天"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
@@ -11615,14 +12070,120 @@ msgid "Event type filter settings were saved."
 msgstr "事件类型过滤器设置已保存。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Need ArticleID!"
+msgstr "需要信件ID！"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Invalid ArticleID!"
+msgstr "无效的信件ID！"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr "没有分组的字段"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "View the source for this Article"
+msgstr "查看这个信件的源"
+
+#. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
+msgid "FileID and ArticleID are needed!"
+msgstr "需要文件ID和信件ID！"
+
+#. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
+msgid "No TicketID for ArticleID (%s)!"
+msgstr "信件ID (%s)没有工单ID！"
+
+#. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
+msgid "No such attachment (%s)!"
+msgstr "没有这个附件（%s）！"
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid "Check SysConfig setting for %s::QueueDefault."
+msgstr "检查系统配置 %s::QueueDefault 的设置。"
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid "Check SysConfig setting for %s::TicketTypeDefault."
+msgstr "检查系统配置 %s::TicketTypeDefault 的设置。"
+
+#. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
+msgid "Need CustomerID!"
+msgstr "需要客户联系人ID！"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the "
 "search:"
 msgstr "请移除以下不能用于搜索的词语："
+
+#. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
+msgid "Can't reopen ticket, not possible in this queue!"
+msgstr "不能重新处理工单，在这个队列不可能！"
+
+#. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
+msgid "Create a new ticket!"
+msgstr "创建一个新工单！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Directory \"%s\" doesn't exist!"
+msgstr "目录 “%s”不存在！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure \"Home\" in Kernel/Config.pm first!"
+msgstr "首先在文件Kernel/Config.pm中配置“Home”！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "File \"%s/Kernel/Config.pm\" not found!"
+msgstr "没有找到文件“%s/Kernel/Config.pm”！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Directory \"%s\" not found!"
+msgstr "没有找到目录“%s”！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Kernel/Config.pm isn't writable!"
+msgstr "文件Kernel/Config.pm不可写入！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to use the installer, set the Kernel/Config.pm writable for the "
+"webserver user!"
+msgstr "如果你要使用安装器，设置WEB服务器用户对文件Kernel/Config.pm有写权限！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Unknown database type \"%s\"."
+msgstr "未知的数据库类型“%s”。"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Please go back"
+msgstr "请返回"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Install OTRS - Error"
+msgstr "安装OTRS - 错误"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "File \"%s/%s.xml\" not found!"
+msgstr "没有找到文件“%s/%s.xml”！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Contact your Admin!"
+msgstr "联系你的系统管理员！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Can't write Config file!"
+msgstr "不能写入配置文件！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Unknown Subaction %s!"
+msgstr "未知的子操作 %s！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Can't connect to database, Perl module DBD::%s not installed!"
+msgstr "不能连接到数据库，没有安装Perl模块 DBD::%s！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Can't connect to database, read comment!"
+msgstr "不能连接到数据库，读取注释！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -11638,9 +12199,57 @@ msgid ""
 "please have a look at %s."
 msgstr "错误：请设置数据库参数innodb_log_file_size至少为%s MB（当前：%s MB，推荐：%s MB），请参阅 %s 获取更多信息。"
 
+#. Perl Module: Kernel/Modules/PublicRepository.pm
+msgid "Need config Package::RepositoryAccessRegExp"
+msgstr "需要配置 Package::RepositoryAccessRegExp"
+
+#. Perl Module: Kernel/Modules/PublicRepository.pm
+msgid "Authentication failed from %s!"
+msgstr "从 %s 身份认证失败！"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
+msgid "Sent message crypted to recipient!"
+msgstr "发送加密消息给收件人！"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
+msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
+msgstr "发现无效的“PGP签名消息”头标识！"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
+msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
+msgstr "发现无效的“S/MIME签名消息”头标识！"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
+msgid "Ticket decrypted before"
+msgstr "工单解密在……之前"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
+msgid "Impossible to decrypt: private key for email was not found!"
+msgstr "无法解密：没有找到邮件的私钥！"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
+msgid "Successful decryption"
+msgstr "成功解密"
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "工单开始时间被设置在结束时间之后！"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr "过滤器没有激活"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
+msgstr "过滤器是活动的"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "sorted ascending"
+msgstr "升序排序"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "sorted descending"
+msgstr "降序排序"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -11672,9 +12281,17 @@ msgstr "抱歉，工单当前状态下你没有权限访问了。"
 msgid " You can take one of the next actions:"
 msgstr "你可以做下面的一个操作："
 
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "No Permission"
+msgstr "没有权限"
+
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
 msgstr "链接为"
+
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Search Result"
+msgstr "搜索结果"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -11786,6 +12403,10 @@ msgstr "请移除以下不能用于工单限制的词语："
 msgid "Order by"
 msgstr "排序"
 
+#. Perl Module: Kernel/System/AuthSession/DB.pm
+msgid "Session per user limit reached!"
+msgstr "达到用户会话限制！"
+
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
 msgstr "配置选项参考手册"
@@ -11801,6 +12422,14 @@ msgstr "这个设置默认没有激活。"
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
 msgstr "不能使这个设置失效。"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "not installed"
+msgstr "没有安装"
+
+#. Perl Module: Kernel/System/Registration.pm
+msgid "Can't get Token from sever"
+msgstr "不能从服务器获取令牌"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -12329,6 +12958,16 @@ msgid ""
 msgstr "您已经超过60000个工单，应该使用后端静态数据库。请参阅管理员手册（性能调优部分）查阅更多信息。"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+msgid "Invalid Users with Locked Tickets"
+msgstr "有锁定的工单的无效用户"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+msgid "There are invalid users with locked tickets."
+msgstr "出现了有锁定的工单的无效用户。"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
 msgid "Open Tickets"
 msgstr "处理中的工单"
@@ -12524,13 +13163,39 @@ msgstr "好"
 msgid "Problem"
 msgstr "问题"
 
-#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "重围密码未成功，请联系您的系统管理员。"
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid ""
+"Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
+" the user is invalid."
+msgstr "Panic，用户已认证，但没有在OTRS数据库中找到用户数据！！可能是无效用户。"
 
-#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Can`t remove SessionID"
+msgstr "不能移除会话ID"
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
 msgstr "Panic!无效的会话！！！"
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "No Permission to use this frontend module!"
+msgstr "没有权限使用这个前端界面模块！"
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact your administrator"
+msgstr "重置密码未成功，请联系您的系统管理员。"
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Added via Customer Panel (%s)"
+msgstr "通过客户界面已添加（%s）"
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Customer user can't be added!"
+msgstr "不能添加客户联系人！"
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Can't send account info!"
+msgstr "不能发送帐户信息！"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -12723,20 +13388,40 @@ msgid "email-notification-int"
 msgstr "邮件通知-内部"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
-msgid "fax"
-msgstr "传真"
-
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
 msgstr "工单创建通知"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification each time a new ticket is created in one of "
+"your \"My Queues\" or \"My Services\"."
+msgstr "每当创建一个新的工单，且该工单所属队列或服务在你设置的“我的队列”或“我的服务”中时，你都将收到一个通知。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr "工单跟进通知（解锁）"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification if a customer sends a follow-up to an "
+"unlocked ticket which is in your \"My Queues\" or \"My Services\"."
+msgstr "如果一个客户联系人发送了一个跟进到一个解锁工单，且该工单所属队列或服务在你设置的“我的队列”或“我的服务”中时，你都将收到一个通知。"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr "工单跟进通知（锁定）"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification if a customer sends a follow-up to a locked "
+"ticket of which you are the ticket owner or responsible."
+msgstr "如果一个客户联系人发送了一个跟进到你是所有者或负责人的工单时，你都将收到一个通知。"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification as soon as a ticket owned by you is "
+"automatically unlocked."
+msgstr "你是所有者的工单一被自动解锁你就会收到一个通知。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
@@ -12753,6 +13438,12 @@ msgstr "工单添加备注通知"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr "工单队列更新通知"
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification if a ticket is moved into one of your \"My "
+"Queues\"."
+msgstr "如果一个工单被转移到了你设置的“我的队列”之一，你将收到一个通知。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
@@ -12774,6 +13465,12 @@ msgstr "工单升级警告通知"
 msgid "Ticket service update notification"
 msgstr "工单服务更新通知"
 
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid ""
+"You will receive a notification if a ticket's service is changed to one of "
+"your \"My Services\"."
+msgstr "如果一个工单的服务变更为你设置的“我的服务”之一，你将收到一个通知。"
+
 #. SysConfig
 msgid ""
 "\n"
@@ -12791,11 +13488,15 @@ msgstr "\n尊敬的客户，\n\n很不幸我们没有找到你主题中提到的
 
 #. SysConfig
 msgid " (work units)"
-msgstr "（work units）"
+msgstr "（工作时间）"
 
 #. SysConfig
 msgid "\"%s\" notification was sent to \"%s\" by \"%s\"."
 msgstr "“%s”条通知已发送给“%s”，发件人：“%s”。"
+
+#. SysConfig
+msgid "\"Slim\" skin which tries to save screen space for power users."
+msgstr "为高级用户节约窗口空间的“修身版”皮肤。"
 
 #. SysConfig
 msgid "%s"
@@ -12818,8 +13519,20 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr "（登录用户名）姓, 名"
 
 #. SysConfig
+msgid "100 (Expert)"
+msgstr "100（专家）"
+
+#. SysConfig
+msgid "200 (Advanced)"
+msgstr "200（高级）"
+
+#. SysConfig
+msgid "300 (Beginner)"
+msgstr "300（新手）"
+
+#. SysConfig
 msgid "A TicketWatcher Module."
-msgstr ""
+msgstr "工单关注者模块。"
 
 #. SysConfig
 msgid "A Website"
@@ -12924,6 +13637,10 @@ msgid "Added subscription for user \"%s\"."
 msgstr "用户“%s”添加关注。"
 
 #. SysConfig
+msgid "Address book of CustomerUser sources."
+msgstr "客户联系人通讯录。"
+
+#. SysConfig
 msgid ""
 "Adds a suffix with the actual year and month to the OTRS log file. A logfile"
 " for every month will be created."
@@ -12961,8 +13678,16 @@ msgid ""
 msgstr "添加固定假期，请使用从1到9的单数字模式（而不是01-09）。"
 
 #. SysConfig
+msgid "Admin Area."
+msgstr "系统管理区。"
+
+#. SysConfig
 msgid "After"
 msgstr "在...之后"
+
+#. SysConfig
+msgid "Agent Preferences."
+msgstr "服务人员偏好设置。"
 
 #. SysConfig
 msgid "Agent called customer."
@@ -13034,19 +13759,19 @@ msgstr "查看服务人员关注工单数的服务人员界面通知模块。可
 
 #. SysConfig
 msgid "AgentCustomerSearch"
-msgstr ""
+msgstr "服务人员搜索客户"
 
 #. SysConfig
 msgid "AgentCustomerSearch."
-msgstr ""
+msgstr "服务人员搜索客户。"
 
 #. SysConfig
 msgid "AgentUserSearch"
-msgstr ""
+msgstr "服务人员搜索客户联系人"
 
 #. SysConfig
 msgid "AgentUserSearch."
-msgstr ""
+msgstr "服务人员搜索客户联系人。"
 
 #. SysConfig
 msgid "Agents <-> Groups"
@@ -13178,7 +13903,7 @@ msgstr "允许在服务人员界面搜索工单时扩展搜索条件，通过这
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
-"interface. With this feature you can search w. g. with this kind of "
+"interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
 msgstr "允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。"
 
@@ -13215,6 +13940,10 @@ msgid ""
 "Allows to set a new ticket state in the move ticket screen of the agent "
 "interface."
 msgstr "在服务人员界面允许在转移工单界面设置新的工单状态。"
+
+#. SysConfig
+msgid "Always show RichText if available"
+msgstr "始终显示可用的富文本"
 
 #. SysConfig
 msgid "Arabic (Saudi Arabia)"
@@ -13270,7 +13999,7 @@ msgid ""
 "ticket responsible feature is enabled). This will only work by manually "
 "actions of the logged in user. It does not work for automated actions e.g. "
 "GenericAgent, Postmaster and GenericInterface."
-msgstr ""
+msgstr "如果启用了工单负责人功能，自动设置工单所有者为其负责人。这个选项只适用于登录用户的手动操作，不适用于自动操作如自动任务、邮箱管理员过滤和通用接口。"
 
 #. SysConfig
 msgid ""
@@ -13285,6 +14014,10 @@ msgstr "Felix Niklas的平衡白皮肤（修身版）"
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
 msgstr "Felix Niklas的平衡白皮肤"
+
+#. SysConfig
+msgid "Based on global RichText setting"
+msgstr "基于全局富文本设置"
 
 #. SysConfig
 msgid ""
@@ -13311,14 +14044,14 @@ msgid "Bulgarian"
 msgstr "保加利亚语"
 
 #. SysConfig
-msgid "Bulk-Action"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
 msgstr "命令行样例设置。忽略外部命令行返回在STDOUT（标准输出）上的一些输出的邮件（邮件将用管道输入到some.bin的STDIN标准输入）。"
+
+#. SysConfig
+msgid "CSV"
+msgstr "CSV"
 
 #. SysConfig
 msgid ""
@@ -13544,7 +14277,7 @@ msgstr "单位工单"
 
 #. SysConfig
 msgid "Company Tickets."
-msgstr ""
+msgstr "单位工单。"
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
@@ -13552,7 +14285,11 @@ msgstr "单位名称将作为X-Header包括在外出邮件中"
 
 #. SysConfig
 msgid "Compat module for AgentZoom to AgentTicketZoom."
-msgstr ""
+msgstr "服务人员工单详情视图中服务人员详情的兼容模块。"
+
+#. SysConfig
+msgid "Complex"
+msgstr "复杂"
 
 #. SysConfig
 msgid "Configure Processes."
@@ -13629,8 +14366,8 @@ msgid "Converts HTML mails into text messages."
 msgstr "将HTML邮件转换为文本信息。"
 
 #. SysConfig
-msgid "Create New process ticket"
-msgstr "创建流程工单"
+msgid "Create New process ticket."
+msgstr "创建新的流程工单。"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
@@ -13710,31 +14447,31 @@ msgstr "创建和管理Web服务。"
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "创建新工单。"
 
 #. SysConfig
-msgid "Create new email ticket and send this out (outbound)"
-msgstr "创建邮件工单并给客户邮件。"
+msgid "Create new email ticket and send this out (outbound)."
+msgstr "创建新的邮件工单并给客户发邮件（外发）。"
 
 #. SysConfig
 msgid "Create new email ticket."
-msgstr ""
+msgstr "创建新的邮件工单。"
 
 #. SysConfig
-msgid "Create new phone ticket (inbound)"
-msgstr "创建电话工单(接电话)。"
+msgid "Create new phone ticket (inbound)."
+msgstr "创建新的电话工单（来电）。"
 
 #. SysConfig
 msgid "Create new phone ticket."
-msgstr ""
+msgstr "创建新的电话工单。"
 
 #. SysConfig
-msgid "Create new process ticket"
-msgstr "创建流程工单"
+msgid "Create new process ticket."
+msgstr "创建新的流程工单。"
 
 #. SysConfig
 msgid "Create tickets."
-msgstr ""
+msgstr "创建工单。"
 
 #. SysConfig
 msgid "Croatian"
@@ -13755,8 +14492,16 @@ msgid "Customer Administration"
 msgstr "客户管理"
 
 #. SysConfig
+msgid "Customer Information Center Search."
+msgstr "客户信息中心搜索。"
+
+#. SysConfig
+msgid "Customer Information Center."
+msgstr "客户信息中心。"
+
+#. SysConfig
 msgid "Customer Ticket Print Module."
-msgstr ""
+msgstr "客户工单打印模块。"
 
 #. SysConfig
 msgid "Customer User <-> Groups"
@@ -13793,12 +14538,16 @@ msgid ""
 msgstr "显示处理中工单信息块的客户信息（图标）。设置参数CustomerUserLogin为1，则基于登录名而不是客户ID搜索工单。"
 
 #. SysConfig
+msgid "Customer preferences."
+msgstr "客户偏好设置。"
+
+#. SysConfig
 msgid "Customer request via web."
 msgstr "客户通过WEB提交的请求。"
 
 #. SysConfig
 msgid "Customer ticket search."
-msgstr ""
+msgstr "客户工单搜索。"
 
 #. SysConfig
 msgid "Customer user search"
@@ -13811,6 +14560,10 @@ msgstr "客户ID搜索"
 #. SysConfig
 msgid "CustomerName"
 msgstr "客户名称"
+
+#. SysConfig
+msgid "CustomerUser"
+msgstr "客户联系人"
 
 #. SysConfig
 msgid "Customers <-> Groups"
@@ -13839,12 +14592,24 @@ msgid "Date / Time"
 msgstr "日期 / 时间"
 
 #. SysConfig
+msgid "Debug"
+msgstr "调试"
+
+#. SysConfig
 msgid ""
 "Debugs the translation set. If this is set to \"Yes\" all strings (text) "
 "without translations are written to STDERR. This can be helpful when you are"
 " creating a new translation file. Otherwise, this option should remain set "
 "to \"No\"."
 msgstr "调试翻译设置。如果此处设置为“是”，所有没有翻译的字符串（文本）将被输出到STDERR（标准错误）。这对创建一个新的翻译文件有用，否则，这个选项应保持设置为“否”。"
+
+#. SysConfig
+msgid "Default"
+msgstr "默认"
+
+#. SysConfig
+msgid "Default (Slim)"
+msgstr "默认（修身版）"
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
@@ -14281,17 +15046,18 @@ msgstr "定义是否使用增加模式（可以使用表格、替换、下标、
 
 #. SysConfig
 msgid ""
-"Defines if the list for filters should be retrieve just from current tickets"
-" in system. Just for clarification, Customers list will always came from "
-"system's tickets."
-msgstr "定义是否返回当前系统中工单的过滤列表。只是为了澄清：客户列表总是来自于系统的工单。"
-
-#. SysConfig
-msgid ""
 "Defines if the previously valid token should be accepted for authentication."
 " This is slightly less secure but gives users 30 seconds more time to enter "
 "their one-time password."
-msgstr "定义在身份验证时是否接受先前有效的链接。这稍微降低了安全性但是给用户多了30秒时间来输入他们的一次性密码。"
+msgstr "定义在身份验证时是否接受先前有效的链接令牌。这稍微降低了安全性但是给用户多了30秒时间来输入他们的一次性密码。"
+
+#. SysConfig
+msgid ""
+"Defines if the values for filters should be retrieved from all available "
+"tickets. If set to \"Yes\", only values which are actually used in any "
+"ticket will be available for filtering. Please note: The list of customers "
+"will always be retrieved like this."
+msgstr "定义过滤器的值是否应从所有可用的工单中检索。如果设置为“是”，则只有实际用在工单中的值才能用于过滤。请注意：客户联系人列表将像这样始终被检索。"
 
 #. SysConfig
 msgid ""
@@ -14620,6 +15386,12 @@ msgid ""
 "Defines the default sender type for tickets in the ticket zoom screen of the"
 " customer interface."
 msgstr "定义服务人员界面工单详情窗口中工单默认的发送人类型。"
+
+#. SysConfig
+msgid ""
+"Defines the default shown ticket search attribute for ticket search screen "
+"(AllTickets/ArchivedTickets/NotArchivedTickets)."
+msgstr "定义工单搜索窗口中默认显示的工单搜索属性（所有工单/归档工单/未归档工单）。"
 
 #. SysConfig
 msgid ""
@@ -15348,7 +16120,7 @@ msgstr "定义客户身份验证的模块。"
 #. SysConfig
 msgid ""
 "Defines the module to display a notification if cloud services are disabled."
-msgstr ""
+msgstr "定义云服务被禁用时显示一个通知消息的模块。"
 
 #. SysConfig
 msgid ""
@@ -15668,7 +16440,7 @@ msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
-msgstr ""
+msgstr "定义客户界面工单收件人的目标（“Queue队列”显示所有的队列，“SystemAddress系统邮件地址”只显示分配到系统邮件地址的队列）。"
 
 #. SysConfig
 msgid ""
@@ -16017,8 +16789,8 @@ msgstr "禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTRS可以包�
 #. SysConfig
 msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
-"work in IE8."
-msgstr "禁用IE中IFrame框架的受限安全，可能在IE8的SSO（单点登录）中需要。"
+"work in IE."
+msgstr "禁用IE中IFrame框架的受限安全，可能在IE的SSO（单点登录）中需要。"
 
 #. SysConfig
 msgid ""
@@ -16033,7 +16805,7 @@ msgid ""
 "system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
-msgstr ""
+msgstr "禁用本系统到OTRS集团提供云服务的服务器的通讯。如果激活，某些功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业版）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -16060,7 +16832,7 @@ msgstr "在工单详情视图中显示所用工时。"
 
 #. SysConfig
 msgid "Dropdown"
-msgstr "下拉"
+msgstr "下拉选择框"
 
 #. SysConfig
 msgid ""
@@ -16296,6 +17068,10 @@ msgid ""
 msgstr "在客户界面工单详情窗口显示的动态字段。可能的设置：0 - 禁用，1 - 启用。"
 
 #. SysConfig
+msgid "DynamicField"
+msgstr "DynamicField（动态字段）"
+
+#. SysConfig
 msgid "DynamicField backend registration."
 msgstr "动态字段后端注册。"
 
@@ -16308,6 +17084,14 @@ msgid "E-Mail Outbound"
 msgstr "外发邮件"
 
 #. SysConfig
+msgid "Edit Customer Companies."
+msgstr "编辑客户单位。"
+
+#. SysConfig
+msgid "Edit Customer Users."
+msgstr "编辑客户联系人。"
+
+#. SysConfig
 msgid "Edit customer company"
 msgstr "编辑客户单位"
 
@@ -16317,7 +17101,7 @@ msgstr "邮件地址"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "外发邮件"
 
 #. SysConfig
 msgid "Email sent to \"%s\"."
@@ -16530,6 +17314,10 @@ msgid "Events Ticket Calendar"
 msgstr "事件日历"
 
 #. SysConfig
+msgid "Excel"
+msgstr "Excel"
+
+#. SysConfig
 msgid "Execute SQL statements."
 msgstr "执行SQL语句。"
 
@@ -16678,6 +17466,10 @@ msgid ""
 msgstr "全文索引的法语停止词，这些词将从搜索索引中移除。"
 
 #. SysConfig
+msgid "Frontend"
+msgstr "前端"
+
+#. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Serivice feature is not used)."
@@ -16741,8 +17533,12 @@ msgid "Generate dashboard statistics."
 msgstr "生成仪表板统计。"
 
 #. SysConfig
+msgid "Generic Info module."
+msgstr "通用信息模块。"
+
+#. SysConfig
 msgid "GenericAgent"
-msgstr "自动"
+msgstr "自动任务"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
@@ -16809,6 +17605,10 @@ msgid ""
 msgstr "给最终用户覆盖CSV文件中的分隔符的机会，在翻译文件中定义分隔符。"
 
 #. SysConfig
+msgid "Global Search Module."
+msgstr "全局搜索模块。"
+
+#. SysConfig
 msgid "Go back"
 msgstr "返回"
 
@@ -16817,8 +17617,28 @@ msgid "Google Authenticator"
 msgstr "谷歌身份验证器"
 
 #. SysConfig
+msgid "Graph: Bar Chart"
+msgstr "图形：条形图"
+
+#. SysConfig
+msgid "Graph: Line Chart"
+msgstr "图形：折线图"
+
+#. SysConfig
+msgid "Graph: Stacked Area Chart"
+msgstr "图形：堆叠面积图"
+
+#. SysConfig
 msgid "Greek"
 msgstr "希腊语"
+
+#. SysConfig
+msgid "HTML Reference"
+msgstr "HTML引用"
+
+#. SysConfig
+msgid "HTML Reference."
+msgstr "HTML引用。"
 
 #. SysConfig
 msgid "Hebrew"
@@ -16914,7 +17734,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -17238,13 +18058,17 @@ msgid "Include tickets of subqueues per default when selecting a queue."
 msgstr "选择队列的时候默认包括子队列的工单"
 
 #. SysConfig
+msgid "Include unknown customers in ticket filter."
+msgstr "在工单过滤器中包括未知客户联系人。"
+
+#. SysConfig
 msgid ""
 "Includes article create times in the ticket search of the agent interface."
 msgstr "服务人员界面工单搜索时包括工单创建时间。"
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "来电。"
 
 #. SysConfig
 msgid ""
@@ -17310,6 +18134,14 @@ msgid ""
 msgstr "全文索引的意大利语停止词，这些词将从搜索索引中移除。"
 
 #. SysConfig
+msgid "Ivory"
+msgstr "象牙白"
+
+#. SysConfig
+msgid "Ivory (Slim)"
+msgstr "象牙白（修身版）"
+
+#. SysConfig
 msgid "Japanese"
 msgstr "日语"
 
@@ -17340,6 +18172,10 @@ msgstr "拉脱维亚语"
 #. SysConfig
 msgid "Left"
 msgstr "左"
+
+#. SysConfig
+msgid "Link Object."
+msgstr "链接对象。"
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -17455,7 +18291,7 @@ msgstr "锁定/解锁这个工单"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "锁定的工单。"
 
 #. SysConfig
 msgid "Locked ticket."
@@ -17464,6 +18300,10 @@ msgstr "锁定的工单。"
 #. SysConfig
 msgid "Log file for the ticket counter."
 msgstr "工单计数器的日志文件。"
+
+#. SysConfig
+msgid "Logout of customer panel."
+msgstr "退出客户面板。"
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
@@ -17735,7 +18575,7 @@ msgstr "我的工单"
 
 #. SysConfig
 msgid "My Tickets."
-msgstr ""
+msgstr "我的工单。"
 
 #. SysConfig
 msgid ""
@@ -17882,7 +18722,7 @@ msgstr "重载（重定义）Kernel::System::Ticket中的函数，以便容易�
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "升级工单概览。"
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -17890,7 +18730,7 @@ msgstr "概览刷新间隔"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "所有升级了的工单的概览。"
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -17898,11 +18738,11 @@ msgstr "所有处理中的工单概览。"
 
 #. SysConfig
 msgid "Overview of all open tickets."
-msgstr ""
+msgstr "所有处理中的工单概览。"
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
+msgstr "客户工单概览。"
 
 #. SysConfig
 msgid "PGP Key Management"
@@ -18110,6 +18950,10 @@ msgid "Parameters of the example service attribute Comment2."
 msgstr "服务样例属性Comment2（注释2）的参数。"
 
 #. SysConfig
+msgid "ParentChild"
+msgstr "父子"
+
+#. SysConfig
 msgid ""
 "Path for the log file (it only applies if \"FS\" was selected for "
 "LoopProtectionModule and it is mandatory)."
@@ -18139,7 +18983,15 @@ msgstr "波斯语"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "电话。"
+
+#. SysConfig
+msgid "Picture Upload"
+msgstr "图片上传"
+
+#. SysConfig
+msgid "Picture upload module."
+msgstr "图片上传模块。"
 
 #. SysConfig
 msgid "Picture-Upload"
@@ -18186,8 +19038,16 @@ msgid "Process Management Transition GUI"
 msgstr "流程管理 转换的图形界面"
 
 #. SysConfig
+msgid "Process Ticket."
+msgstr "流程工单。"
+
+#. SysConfig
 msgid "Process pending tickets."
 msgstr "处理挂起的工单。"
+
+#. SysConfig
+msgid "Process ticket"
+msgstr "流程工单"
 
 #. SysConfig
 msgid "ProcessID"
@@ -18343,11 +19203,11 @@ msgstr "如果工单转移到另一个队列，重置并解锁工单所有者。
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "负责的工单"
 
 #. SysConfig
 msgid "Responsible Tickets."
-msgstr ""
+msgstr "负责的工单."
 
 #. SysConfig
 msgid ""
@@ -18413,6 +19273,10 @@ msgid "SMS"
 msgstr "短信"
 
 #. SysConfig
+msgid "SMS (Short Message Service)"
+msgstr "短信(短消息)"
+
+#. SysConfig
 msgid "Sample command output"
 msgstr "命令输出样例"
 
@@ -18440,11 +19304,11 @@ msgstr "搜索客户"
 
 #. SysConfig
 msgid "Search Ticket."
-msgstr ""
+msgstr "搜索工单。"
 
 #. SysConfig
 msgid "Search Tickets."
-msgstr ""
+msgstr "搜索工单。"
 
 #. SysConfig
 msgid "Search User"
@@ -18460,7 +19324,7 @@ msgstr "搜索的后端路由。"
 
 #. SysConfig
 msgid "Search."
-msgstr ""
+msgstr "搜索。"
 
 #. SysConfig
 msgid "Second Queue"
@@ -18555,7 +19419,7 @@ msgstr "服务视图"
 
 #. SysConfig
 msgid "ServiceView"
-msgstr ""
+msgstr "服务视图"
 
 #. SysConfig
 msgid ""
@@ -18854,8 +19718,8 @@ msgstr "设置在定义的会话活动时间内每个客户联系人最大的会
 
 #. SysConfig
 msgid ""
-"Sets the minimal ticket counter size (if \"AutoIncrement\" was selected as "
-"TicketNumberGenerator). Default is 5, this means the counter starts from "
+"Sets the minimal ticket counter size if \"AutoIncrement\" was selected as "
+"TicketNumberGenerator. Default is 5, this means the counter starts from "
 "10000."
 msgstr "设置最小的工单计数器大小（如果工单编号生成器选用“自动增量”）。默认是5（位数），意味着计数器从10000开始。"
 
@@ -19159,8 +20023,8 @@ msgid "Shared Secret"
 msgstr "共享密钥"
 
 #. SysConfig
-msgid "Should the cache data be help in memory?"
-msgstr "在内存中缓存数据有帮助吗?"
+msgid "Should the cache data be held in memory?"
+msgstr "缓存数据应该保留在内存吗？"
 
 #. SysConfig
 msgid "Should the cache data be stored in the selected cache backend?"
@@ -19782,6 +20646,10 @@ msgid ""
 msgstr "如果设置为“是”，则显示时间的完整描述（days-天，hours-小时，minutes-分钟）；如果设置为“否”，则只显示时间的首字母（d-天，h-时,m-分）。"
 
 #. SysConfig
+msgid "Simple"
+msgstr "简单"
+
+#. SysConfig
 msgid "Skin"
 msgstr "皮肤"
 
@@ -19792,6 +20660,10 @@ msgstr "斯洛伐克语"
 #. SysConfig
 msgid "Slovenian"
 msgstr "斯洛文尼亚语"
+
+#. SysConfig
+msgid "Software Package Manager."
+msgstr "软件包管理器。"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -19824,6 +20696,10 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the ServiceID for the key and 0 or 1 for value."
 msgstr "服务视图选择一个队列后按升序或降序排序工单（在工单以优先级排序之后）。值：0 = 升序（最老的在最上面，默认），1 = 降序（最近的在最上面），键为队列ID，值为0或1。"
+
+#. SysConfig
+msgid "Spam"
+msgstr "垃圾邮件"
 
 #. SysConfig
 msgid ""
@@ -20002,6 +20878,10 @@ msgid "Specify the username to authenticate for the first mirror database."
 msgstr "指定第一个镜像数据库的认证用户名。"
 
 #. SysConfig
+msgid "Spell checker."
+msgstr "拼写检查器。"
+
+#. SysConfig
 msgid ""
 "Standard available permissions for agents within the application. If more "
 "permissions are needed, they can be entered here. Permissions must be "
@@ -20057,6 +20937,10 @@ msgstr "系统维护"
 #. SysConfig
 msgid "System Request (%s)."
 msgstr "系统请求 (%s)。"
+
+#. SysConfig
+msgid "Target"
+msgstr "目标"
 
 #. SysConfig
 msgid "Templates <-> Queues"
@@ -20143,13 +21027,13 @@ msgstr "服务人员界面“ivory”皮肤显示在顶部的LOGO，查看“Age
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory-"
 "slim\". See \"AgentLogo\" for further description."
-msgstr "服务人员界面“ivory-slim”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。"
+msgstr "服务人员界面“象牙白-修身版”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。"
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
-msgstr "服务人员界面“slim”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。"
+msgstr "服务人员界面“修身版”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。"
 
 #. SysConfig
 msgid ""
@@ -20206,6 +21090,14 @@ msgid ""
 msgstr "这个事件模块存储客户联系人的属性为工单动态字段，如何配置这个映射请查看上面的设置。"
 
 #. SysConfig
+msgid "This is the default orange - black skin for the customer interface."
+msgstr "这是客户界面默认的橙色-黑色皮肤。"
+
+#. SysConfig
+msgid "This is the default orange - black skin."
+msgstr "这是默认的橙色-黑色皮肤。"
+
+#. SysConfig
 msgid ""
 "This module and its PreRun() function will be executed, if defined, for "
 "every request. This module is useful to check some user options or to "
@@ -20214,7 +21106,7 @@ msgstr "每次请求时这个模块和它的PreRun()函数（如果定义了）�
 
 #. SysConfig
 msgid "This module is part of the admin area of OTRS."
-msgstr ""
+msgstr "这个模块是OTRS系统管理的一部分。"
 
 #. SysConfig
 msgid ""
@@ -20263,47 +21155,47 @@ msgstr "这个选项允许系统通过短信发送文本消息。"
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "工单关闭。"
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
-msgstr ""
+msgstr "工单编写退回邮件。"
 
 #. SysConfig
 msgid "Ticket Compose email Answer."
-msgstr ""
+msgstr "工单编写邮件回复。"
 
 #. SysConfig
 msgid "Ticket Customer."
-msgstr ""
+msgstr "工单客户。"
 
 #. SysConfig
 msgid "Ticket Forward Email."
-msgstr ""
+msgstr "工单转发邮件。"
 
 #. SysConfig
 msgid "Ticket FreeText."
-msgstr ""
+msgstr "工单自定义字段。"
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "工单历史。"
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "工单锁定。"
 
 #. SysConfig
 msgid "Ticket Merge."
-msgstr ""
+msgstr "工单合并。"
 
 #. SysConfig
 msgid "Ticket Move."
-msgstr ""
+msgstr "工单转移（队列）。"
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "工单备注。"
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -20311,23 +21203,23 @@ msgstr "工单通知"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
-msgstr ""
+msgstr "工单外发邮件。"
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "工单所有者。"
 
 #. SysConfig
 msgid "Ticket Pending."
-msgstr ""
+msgstr "工单挂起。"
 
 #. SysConfig
 msgid "Ticket Print."
-msgstr ""
+msgstr "工单打印。"
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "工单优先级。"
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -20335,15 +21227,19 @@ msgstr "工单队列概览"
 
 #. SysConfig
 msgid "Ticket Responsible."
-msgstr ""
+msgstr "工单负责人。"
+
+#. SysConfig
+msgid "Ticket Watcher"
+msgstr "工单关注人"
 
 #. SysConfig
 msgid "Ticket Zoom."
-msgstr ""
+msgstr "工单详情。"
 
 #. SysConfig
 msgid "Ticket bulk module."
-msgstr ""
+msgstr "工单批量操作模块。"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -20363,15 +21259,11 @@ msgstr "工单概览"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
-msgstr ""
+msgstr "显示工单邮件的纯文本。"
 
 #. SysConfig
 msgid "Ticket zoom view."
-msgstr ""
-
-#. SysConfig
-msgid "Ticket-Watcher"
-msgstr ""
+msgstr "工单详情视图。"
 
 #. SysConfig
 msgid "TicketNumber"
@@ -20379,7 +21271,7 @@ msgstr "工单编号"
 
 #. SysConfig
 msgid "Tickets."
-msgstr ""
+msgstr "工单。"
 
 #. SysConfig
 msgid ""
@@ -20392,8 +21284,12 @@ msgid "Title updated: Old: \"%s\", New: \"%s\""
 msgstr "标题已更新，原为：“%s”，新标题：“%s”。"
 
 #. SysConfig
+msgid "To accept login information, such as an EULA or license."
+msgstr "接受登录信息，如EULA（最终用户许可协议）或许可。"
+
+#. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "下载附件。"
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -20470,10 +21366,6 @@ msgid ""
 msgstr "如果每个工单都已看过或创建了新的信件，更新工单“已看”标志"
 
 #. SysConfig
-msgid "Update and extend your system with software packages."
-msgstr "更新或安装系统的软件包或模块."
-
-#. SysConfig
 msgid "Updated SLA to %s (ID=%s)."
 msgstr "%s (ID=%s)已更新SLA。"
 
@@ -20547,16 +21439,12 @@ msgid "View performance benchmark results."
 msgstr "查看性能基准测试结果."
 
 #. SysConfig
-msgid "View system log messages."
-msgstr "查看系统日志信息"
-
-#. SysConfig
 msgid "Watch this ticket"
 msgstr "关注这个工单"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr ""
+msgstr "关注的工单。"
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
@@ -20571,6 +21459,10 @@ msgstr "我们正在执行系统维护，暂时无法登录。"
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
 msgstr "我们正在执行系统维护，很快就恢复正常使用。"
+
+#. SysConfig
+msgid "Web View"
+msgstr "WEB视图"
 
 #. SysConfig
 msgid ""
@@ -20614,3 +21506,27 @@ msgid ""
 "Your service selection of your favorite services. You also get notified "
 "about those services via email if enabled."
 msgstr "您收藏的服务，如果您设置了邮件通知，您将会得到该服务的状态通知。"
+
+#. SysConfig
+msgid "attachment"
+msgstr "附件"
+
+#. SysConfig
+msgid "debug"
+msgstr "调试"
+
+#. SysConfig
+msgid "error"
+msgstr "错误"
+
+#. SysConfig
+msgid "info"
+msgstr "信息"
+
+#. SysConfig
+msgid "inline"
+msgstr "内联"
+
+#. SysConfig
+msgid "notice"
+msgstr "注意"

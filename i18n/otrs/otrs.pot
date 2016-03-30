@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-29 13:36+0000\n"
+"POT-Creation-Date: 2016-03-30 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3418,6 +3418,10 @@ msgstr ""
 msgid "Delete field"
 msgstr ""
 
+#. Template: AdminDynamicField
+msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr ""
@@ -3747,7 +3751,7 @@ msgid "Currently this generic agent job will not run automatically."
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "To enable automatic execution select at least one value from minutes, hours or days!"
+msgid "To enable automatic execution select at least one value from minutes, hours and days!"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -7503,7 +7507,7 @@ msgid "Elements"
 msgstr ""
 
 #. Template: AdminSysConfigEdit
-msgid "Edit Config Settings"
+msgid "Edit Config Settings in %s → %s"
 msgstr ""
 
 #. Template: AdminSysConfigEdit
@@ -15954,7 +15958,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
