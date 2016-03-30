@@ -1188,12 +1188,18 @@ sub ListConfigItem {
                 $Default = $Option->{Item}->[$Index]->{Content};
             }
         }
+        my $Translate = 1;
+        if ( $Item->{Option}->[1]->{Location} ) {
+            # Entries coming from the file system should not be translated.
+            $Translate = 0;
+        }
         my $PulldownMenu = $LayoutObject->BuildSelection(
-            Data       => \%Hash,
-            SelectedID => $Option->{SelectedID},
-            Name       => $ItemHash{Name},
-            Disabled   => $ReadOnlyAttribute ? 1 : 0,
-            Class      => 'Modernize',
+            Data        => \%Hash,
+            SelectedID  => $Option->{SelectedID},
+            Name        => $ItemHash{Name},
+            Disabled    => $ReadOnlyAttribute ? 1 : 0,
+            Class       => 'Modernize',
+            Translation => $Translate,
         );
         $LayoutObject->Block(
             Name => 'ConfigElementSelect',
